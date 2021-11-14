@@ -1760,7 +1760,7 @@
           ]
         },
         {
-          "name": "模型Style样式示例",
+          "name": "样式及效果设置",
           "children": [
             {
               "name": "建筑物样式",
@@ -1781,7 +1781,13 @@
               "fileName": "g18_style_fc"
             },
             {
-              "name": "自定义BIM属性及样式",
+              "name": "自定义Shader",
+              "version": "3.1.12",
+              "thumbnail": "g18_customShader.jpg",
+              "fileName": "g18_customShader"
+            },
+            {
+              "name": "自定义BIM属性及样式 Demo",
               "version": "3.1.2",
               "thumbnail": "g18_style_custom.jpg",
               "fileName": "g18_style_custom"

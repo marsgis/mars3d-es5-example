@@ -100,8 +100,10 @@ function initLayerManager(graphicLayer) {
       let reader = new FileReader();
       reader.readAsText(file, "UTF-8");
       reader.onloadend = function (e) {
-        let json = this.result;
-        graphicLayer.loadGeoJSON(json, {
+        let geojson = this.result;
+        geojson = simplifyGeoJSON(geojson); //简化geojson的点
+
+        graphicLayer.loadGeoJSON(geojson, {
           flyTo: true,
         });
         clearSelectFile();
@@ -111,10 +113,11 @@ function initLayerManager(graphicLayer) {
       reader.readAsText(file, "UTF-8");
       reader.onloadend = function (e) {
         let strkml = this.result;
-        kgUtil.toGeoJSON(strkml).then((geojoson) => {
-          console.log("kml2geojson", geojoson);
+        kgUtil.toGeoJSON(strkml).then((geojson) => {
+          geojson = simplifyGeoJSON(geojson); //简化geojson的点
+          console.log("kml2geojson", geojson);
 
-          graphicLayer.loadGeoJSON(geojoson, {
+          graphicLayer.loadGeoJSON(geojson, {
             flyTo: true,
             // symbol: function (attr, style, featue) {
             //   let geoType = featue.geometry?.type
@@ -147,10 +150,11 @@ function initLayerManager(graphicLayer) {
       };
     } else if (fileType == "kmz") {
       //加载input文件控件的二进制流
-      kgUtil.toGeoJSON(file).then((geojoson) => {
-        console.log("kmz2geojson", geojoson);
+      kgUtil.toGeoJSON(file).then((geojson) => {
+        geojson = simplifyGeoJSON(geojson); //简化geojson的点
+        console.log("kmz2geojson", geojson);
 
-        graphicLayer.loadGeoJSON(geojoson, {
+        graphicLayer.loadGeoJSON(geojson, {
           flyTo: true,
         });
         clearSelectFile();
@@ -162,11 +166,21 @@ function initLayerManager(graphicLayer) {
   });
 }
 
+//简化geojson的坐标
+function simplifyGeoJSON(geojson) {
+  try {
+    geojson = turf.simplify(geojson, { tolerance: 0.000001, highQuality: true, mutate: true });
+  } catch (e) {
+    //
+  }
+  return geojson;
+}
+
 function bindLayerPopup(graphicLayer) {
   graphicLayer.bindPopup(function (event) {
     let attr = event.graphic?.attr || {};
     attr.test1 = "测试属性";
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+    // attr["视频"] = `<video src='//data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
 
     return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr });
   });

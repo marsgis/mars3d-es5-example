@@ -17,7 +17,7 @@
       content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
     />
 
-    <link rel="shortcut icon" type="image/x-icon" href="http://mars3d.cn/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="//mars3d.cn/favicon.ico" />
     <title>合肥市区（城市白模） | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
@@ -277,26 +277,10 @@
           tiles3dLayer.remove();
         }
 
-        tiles3dLayer = new mars3d.layer.TilesetLayer({
-          name: "合肥市建筑物",
-          url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
-          maximumScreenSpaceError: 1,
-          maximumMemoryUsage: 1024,
-          style: {
-            color: {
-              conditions: [["true", "rgba(16, 119, 209, 1)"]],
-            },
-          },
-          popup: "all",
-        });
-        map.addLayer(tiles3dLayer);
-
-        let fragmentShader = `
-            varying vec3 v_positionEC;
-            uniform vec4 u_baseColorFactor;
-
-            void main(void){
-                vec4 position = czm_inverseModelView * vec4(v_positionEC,1); // 位置
+        let fsShader = `
+              void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
+              {
+                vec4 position = czm_inverseModelView * vec4(fsInput.attributes.positionEC,1); // 位置
 
                 // 注意shader中写浮点数是，一定要带小数点，否则会报错，比如0需要写成0.0，1要写成1.0
                 float _baseHeight = 0.0; // 物体的基础高度，需要修改成一个合适的建筑基础高度
@@ -307,19 +291,29 @@
                 float mars_height = position.z - _baseHeight;
                 float mars_a11 = fract(czm_frameNumber / 120.0) * 3.14159265 * 2.0;
                 float mars_a12 = mars_height / _heightRange + sin(mars_a11) * 0.1;
-                gl_FragColor = u_baseColorFactor; // 颜色
-                gl_FragColor *= vec4(vec3(mars_a12), 1.0);// 渐变
+                material.diffuse = vec3(0.0, 0.0, 1.0); // 颜色
+                material.diffuse *= vec3(mars_a12);// 渐变
 
                 // 动态光环
                 float time = fract(czm_frameNumber / 360.0);
                 time = abs(time - 0.5) * 2.0;
                 float mars_h = clamp(mars_height / _glowRange, 0.0, 1.0);
                 float mars_diff = step(0.005, abs(mars_h - time));
-                gl_FragColor.rgb += gl_FragColor.rgb * (1.0 - mars_diff);
-            } `;
+                material.diffuse += material.diffuse * (1.0 - mars_diff);
+              } `;
 
-        //不改动cesium源码版本的建筑物样式
-        tiles3dLayer.setCustomShader(fragmentShader);
+        tiles3dLayer = new mars3d.layer.TilesetLayer({
+          name: "合肥市建筑物",
+          url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
+          maximumScreenSpaceError: 1,
+          maximumMemoryUsage: 1024,
+          customShader: new Cesium.CustomShader({
+            lightingModel: Cesium.LightingModel.UNLIT,
+            fragmentShaderText: fsShader,
+          }),
+          popup: "all",
+        });
+        map.addLayer(tiles3dLayer);
       }
     </script>
   </body>

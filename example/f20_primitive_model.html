@@ -17,7 +17,7 @@
       content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
     />
 
-    <link rel="shortcut icon" type="image/x-icon" href="http://mars3d.cn/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="//mars3d.cn/favicon.ico" />
     <title>ModelPrimitive对象|Mars3D|三维地图| 火星科技|合肥火星科技|合肥火星科技有限公司</title>
 
     <script
@@ -70,6 +70,7 @@
 
       var map;
       var graphicLayer;
+
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
@@ -82,7 +83,7 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        map.basemap = 2017; //蓝色底图
+        // map.basemap = 2017; //蓝色底图
 
         //固定光照，避免gltf模型随时间存在亮度不一致。
         map.fixedLight = true;
@@ -119,6 +120,7 @@
         addGraphic_a1(graphicLayer);
         addGraphic_a2(graphicLayer);
         addGraphic_a3(graphicLayer);
+        addGraphic_a4(graphicLayer);
       }
 
       function createModels(count) {
@@ -232,7 +234,7 @@
         primitive.on(mars3d.EventType.load, function (event) {
           let model = event.model;
 
-          //参考API: http://mars3d.cn/api/cesium/ModelAnimationCollection.html
+          //参考API: //mars3d.cn/api/cesium/ModelAnimationCollection.html
           model.activeAnimations.addAll({
             multiplier: 0.5, // Play at half-speed
             loop: Cesium.ModelAnimationLoop.REPEAT, // Loop the animations
@@ -273,6 +275,54 @@
           },
         });
         graphicLayer.addGraphic(primitive); //primitive.addTo(graphicLayer)  //另外一种写法
+      }
+
+      function addGraphic_a4(graphicLayer) {
+        var textureUniformShader = new Cesium.CustomShader({
+          uniforms: {
+            u_color: {
+              type: Cesium.UniformType.VEC4,
+              value: new Cesium.Color(1, 1, 0, 1),
+            },
+            u_time: {
+              type: Cesium.UniformType.FLOAT,
+              value: 0,
+            },
+            u_stripes: {
+              type: Cesium.UniformType.SAMPLER_2D,
+              value: new Cesium.TextureUniform({
+                url: "img/textures/fence.png",
+              }),
+            },
+          },
+          fragmentShaderText: `
+            void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
+            {
+                vec2 texCoord = fsInput.attributes.texCoord_0 + 0.3 * vec2(u_time, 0.0);
+                //material.diffuse *= texture2D(u_stripes, texCoord).rgb;
+
+                vec4 colorImage = texture2D(u_stripes, texCoord);
+                material.alpha = colorImage.a;
+                material.diffuse *= max(u_color.rgb * material.alpha * 3.0, u_color.rgb);
+            }`,
+        });
+
+        var primitive = new mars3d.graphic.ModelPrimitive({
+          position: [116.349096, 30.861465, 377.9],
+          style: {
+            url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
+            scale: 5,
+            minimumPixelSize: 50,
+            customShader: textureUniformShader,
+          },
+        });
+        graphicLayer.addGraphic(primitive);
+
+        var startTime = performance.now();
+        map.on(mars3d.EventType.postUpdate, function () {
+          var elapsedTimeSeconds = (performance.now() - startTime) / 1000;
+          textureUniformShader.setUniform("u_time", elapsedTimeSeconds);
+        });
       }
     </script>
   </body>
