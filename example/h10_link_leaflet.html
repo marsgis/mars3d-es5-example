@@ -85,7 +85,7 @@
 
   <body>
     <div id="centerDiv">
-      <div id="map" class="map"></div>
+      <div id="map2d" class="mars2d-container"></div>
     </div>
     <div id="centerDiv3D">
       <div id="mars3dContainer" class="mars3d-container"></div>
@@ -115,50 +115,31 @@
 
         haoutil.loading.show();
 
-        queryConfigData()
-          .then(function (config) {
-            mapManager.createMap2D("map", config.map);
+        //读取 config.json 配置文件
+        var configUrl = "http://mars2d.cn/example/config/config.json";
+        return mars2d.axios
+          .get(configUrl)
+          .then(function (response) {
+            //构建地图
+            mapManager.createMap2D("map2d", response.data.map);
             mapManager.bind3D(map3d);
             mapManager.viewTo23D(); //默认
             haoutil.loading.hide();
           })
-          .catch(function (XMLHttpRequest, textStatus, errorThrown) {
-            haoutil.loading.hide();
-            haoutil.alert("config 文件加载失败！");
+          .catch(function (error) {
+            console.log(error);
+            haoutil.alert(error && error.message, "出错了");
           });
-      }
-
-      function queryConfigData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "http://mars2d.cn/example/config/wgs84.json",
-            type: "get",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (config) {
-              resolve(config);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       //二三维地图联动控制
       var mapManager = {
         map2d: null, //leaflet map 对象
         map3d: null, //cesium map3d对象
-        createMap2D: function (id, jsondata) {
-          var that = this;
-          L.mars.createMap({
-            id: id,
-            data: jsondata,
-            success: function (map, gisdata, jsondata) {
-              that.map2d = map;
-              that.bind2dEvent(map);
-            },
-          });
+        createMap2D: function (id, mapOptions) {
+          //创建地图
+          this.map2d = new mars2d.Map(id, mapOptions);
+          this.bind2dEvent(this.map2d);
         },
         bind3D: function (map3d) {
           this.map3d = map3d;

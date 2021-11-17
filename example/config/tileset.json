@@ -195,14 +195,45 @@
     },
     {
       "pid": 2030,
-      "type": "3dtiles",
-      "name": "校园",
-      "url": "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
-      "position": {"alt": 15.8 },
-      "maximumScreenSpaceError": 1,
-      "maximumMemoryUsage": 1024,
-      "center": { "lat": 43.821193, "lng": 125.143124, "alt": 990, "heading": 342, "pitch": -50 }
+      "name": "校园(含单体)",
+      "type": "group",
+      "center": { "lat": 43.821193, "lng": 125.143124, "alt": 990, "heading": 342, "pitch": -50 },
+      "layers": [
+        {
+          "type": "geojson",
+          "name": "校园-单体化",
+          "url": "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json",
+          "symbol": {
+            "type": "polygonP",
+            "styleOptions": {
+              "color": "rgba(255, 255, 255, 0.01)",
+              "clampToGround": true,
+              "classification": true,
+              "buffer": 1,
+              "highlight": {
+                "type":"click",
+                "color": "rgba(255,255,0,0.4)"
+              }
+            }
+          },
+          "popup": [
+            { "field": "name", "name": "学校场所" },
+            { "field": "sfkf", "name": "是否开放" },
+            { "field": "remark", "name": "备注信息" }
+          ]
+        },
+        {
+          "pid": 2030,
+          "type": "3dtiles",
+          "name": "校园",
+          "url": "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
+          "position": {"alt": 15.8 },
+          "maximumScreenSpaceError": 1,
+          "maximumMemoryUsage": 1024
+        }
+      ]
     },
+
     {
       "pid": 2030,
       "type": "3dtiles",
@@ -243,38 +274,7 @@
     },
     {
       "pid": 2030,
-      "name": "河道边厂房(分层分户)",
-      "type": "group",
-      "center": { "lat": 31.56196, "lng": 120.848283, "alt": 92, "heading": 71, "pitch": -42 },
-      "layers": [
-        {
-          "type": "3dtiles",
-          "name": "河道边厂房-单体化",
-          "url": "//data.mars3d.cn/3dtiles/qx-xiaolou-dth/tileset.json",
-          "classificationType": 1,
-          "style": {
-            "color": "rgba(255, 255, 255, 0.01)"
-          },
-          "position": { "alt": 16.8 },
-          "maximumScreenSpaceError": 1,
-          "maximumMemoryUsage": 1024,
-          "highlight": { "color": "#00ff00", "opacity": 0.2 },
-          "popup": "all"
-        },
-        {
-          "type": "3dtiles",
-          "name": "河道边厂房",
-          "url": "//data.mars3d.cn/3dtiles/qx-xiaolou/tileset.json",
-          "position": { "alt": 10.1 },
-          "maximumScreenSpaceError": 1,
-          "maximumMemoryUsage": 1024,
-          "center": { "lat": 31.56196, "lng": 120.848283, "alt": 92, "heading": 71, "pitch": -42 }
-        }
-      ]
-    },
-    {
-      "pid": 2030,
-      "name": "文庙(分栋单体)",
+      "name": "文庙(含单体)",
       "type": "group",
       "center": { "lat": 33.589536, "lng": 119.032216, "alt": 145.08, "heading": 3.1, "pitch": -22.9 },
       "layers": [
@@ -290,7 +290,7 @@
               "classification": true,
               "buffer": 1,
               "highlight": {
-                "color": "rgba(255,255,0,0.5)"
+                "color": "rgba(255,255,0,0.4)"
               }
             }
           },

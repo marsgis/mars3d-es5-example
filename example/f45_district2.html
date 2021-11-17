@@ -152,6 +152,18 @@
               materialType: mars3d.MaterialType.Image2,
               image: "./img/textures/grawall.png",
               color: "rgba(0,255,255,0.6)",
+              renderState: Cesium.RenderState.fromCache({
+                blending: Cesium.BlendingState.ALPHA_BLEND,
+                depthTest: {
+                  enabled: true,
+                  func: Cesium.DepthFunction.LESS,
+                },
+                cull: {
+                  enabled: true,
+                  face: Cesium.CullFace.BACK,
+                },
+                depthMask: true,
+              }),
             },
           },
         });
@@ -202,8 +214,8 @@
           position: point,
           style: {
             html: `<div class="marsBlackPanel">
-                <div class="marsBlackPanel-text">示范城市</div>
-            </div>`,
+                  <div class="marsBlackPanel-text">示范城市</div>
+              </div>`,
             horizontalOrigin: Cesium.HorizontalOrigin.LEFT, //横向定位
             verticalOrigin: Cesium.VerticalOrigin.CENTER, //垂直定位
           },
