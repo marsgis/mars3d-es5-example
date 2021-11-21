@@ -159,6 +159,7 @@
         addGraphic_04(graphicLayer);
         addGraphic_05(graphicLayer);
         addGraphic_06(graphicLayer);
+        addGraphic_07(graphicLayer);
       }
 
       //
@@ -301,6 +302,31 @@
           hasEdit: false, //不允许编辑
         });
         graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_07(graphicLayer) {
+        let lastPosition;
+        let lastHeight = 0;
+
+        var circleEntity = new mars3d.graphic.CircleEntity({
+          position: new Cesium.CallbackProperty(function (time) {
+            let center = map.getCenter();
+            if (center) {
+              lastHeight = center.alt + 10;
+              lastPosition = center.toCartesian();
+            }
+            return lastPosition;
+          }, false),
+          height: new Cesium.CallbackProperty(function (time) {
+            return lastHeight;
+          }, false),
+          style: {
+            material: "img/tietu/bagua.png",
+            radius: 500,
+            clampToGround: true,
+          },
+        });
+        graphicLayer.addGraphic(circleEntity);
       }
     </script>
   </body>

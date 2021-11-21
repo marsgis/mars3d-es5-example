@@ -157,6 +157,7 @@
         addGraphic_03(graphicLayer);
         addGraphic_04(graphicLayer);
         addGraphic_05(graphicLayer);
+        addGraphic_a10(graphicLayer);
       }
 
       function addGraphic_01(graphicLayer) {
@@ -281,6 +282,49 @@
             //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
             highlight: {
               color: "#ff0000",
+            },
+          },
+        });
+        graphicLayer.addGraphic(primitive); //primitive.addTo(graphicLayer)  //另外一种写法
+      }
+
+      function addGraphic_a10(graphicLayer) {
+        var primitive = new mars3d.graphic.PolygonEntity({
+          positions: [
+            [
+              //外环
+              [117.226813, 31.898341, 19.2],
+              [117.244443, 31.901634, 19.7],
+              [117.247865, 31.886796, 50.6],
+              [117.237865, 31.882734, 5.7],
+              [117.225566, 31.890033, 10.7],
+            ],
+            [
+              //内环
+              [117.232939, 31.894797, 14.3],
+              [117.240673, 31.895844, 23.7],
+              [117.242342, 31.888046, 39.8],
+              [117.234787, 31.887473, 21.1],
+            ],
+          ],
+          style: {
+            color: "#00ffff",
+            opacity: 0.5,
+            outline: true,
+            outlineWidth: 5,
+            outlineStyle: {
+              materialType: mars3d.MaterialType.PolylineDash,
+              color: Cesium.Color.BLUE,
+              gapColor: Cesium.Color.YELLOW,
+              dashPattern: parseInt("1111000000", 2),
+            },
+            label: {
+              text: "我是火星科技",
+              font_size: 18,
+              color: "#ffffff",
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 500000,
+              distanceDisplayCondition_near: 0,
             },
           },
         });

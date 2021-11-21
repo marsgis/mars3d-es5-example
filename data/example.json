@@ -93,13 +93,13 @@
             },
             {
               "name": "蒙板遮盖",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "d20_maskDiv.jpg",
               "fileName": "d20_maskDiv"
             },
             {
               "name": "离线数据",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "a20_offline.jpg",
               "fileName": "a20_offline"
             }
@@ -296,7 +296,7 @@
             },
             {
               "name": "瓦片底图的参数调试",
-              "version": "3.1.1",
+              "version": "3.1",
               "thumbnail": "c20_tileLayer_edit.jpg",
               "fileName": "c20_tileLayer_edit"
             },
@@ -463,7 +463,7 @@
             },
             {
               "name": "POI兴趣点搜索",
-              "version": "3.1.5",
+              "version": "3.1",
               "thumbnail": "d20_poiQuerybar.jpg",
               "fileName": "d20_poiQuerybar"
             }
@@ -669,7 +669,7 @@
             },
             {
               "name": "Canvas图片点",
-              "version": "3.1.1",
+              "version": "3.1",
               "thumbnail": "f10_entity_billboard_canvas.jpg",
               "fileName": "f10_entity_billboard_canvas"
             },
@@ -885,7 +885,7 @@
             },
             {
               "name": "点对象动态位置",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "f20_primitive_dynamic.gif",
               "fileName": "f20_primitive_dynamic"
             },
@@ -981,7 +981,7 @@
             },
             {
               "name": "PolylineCombine 大量线",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "f27_primitive_polylineCombine.jpg",
               "fileName": "f27_primitive_polylineCombine"
             },
@@ -1188,7 +1188,7 @@
             },
             {
               "name": "行政区数据统计图",
-              "version": "3.1.8",
+              "version": "3.1",
               "thumbnail": "f45_quyuNum.jpg",
               "fileName": "f45_quyuNum"
             },
@@ -1200,7 +1200,7 @@
             },
             {
               "name": "行政区突出展示2",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "f45_district2.jpg",
               "fileName": "f45_district2"
             },
@@ -1224,13 +1224,13 @@
             },
             {
               "name": "智慧社区",
-              "version": "3.1.7",
+              "version": "3.1",
               "thumbnail": "f45_community.jpg",
               "fileName": "f45_community"
             },
             {
               "name": "数字城市",
-              "version": "3.1.5",
+              "version": "3.1",
               "thumbnail": "f45_digitalCity.jpg",
               "fileName": "f45_digitalCity"
             }
@@ -1496,7 +1496,7 @@
             },
             {
               "name": "ArcGIS Server面的查询统计分析",
-              "version": "3.1.3",
+              "version": "3.1",
               "thumbnail": "f70_query_arcgis_polygon.jpg",
               "fileName": "f70_query_arcgis_polygon"
             },
@@ -1638,7 +1638,7 @@
             },
             {
               "name": "模型管理(楼栋分层控制)",
-              "version": "3.1.9",
+              "version": "3.1",
               "thumbnail": "g05_floorGraphic.gif",
               "fileName": "g05_floorGraphic"
             }
@@ -1852,7 +1852,7 @@
             },
             {
               "name": "街景联动",
-              "version": "3.1.0",
+              "version": "3.1",
               "thumbnail": "h10_streetview.jpg",
               "fileName": "h10_streetview"
             }
@@ -2004,7 +2004,7 @@
             },
             {
               "name": "对象描边",
-              "version": "3.1.3",
+              "version": "3.1",
               "thumbnail": "h30_outlineEffect.jpg",
               "fileName": "h30_outlineEffect"
             },
@@ -2427,7 +2427,7 @@
           "children": [
             {
               "name": "饼形图标记",
-              "version": "3.1.3",
+              "version": "3.1",
               "thumbnail": "m30_divGraphic_pie.jpg",
               "fileName": "m30_divGraphic_pie"
             },

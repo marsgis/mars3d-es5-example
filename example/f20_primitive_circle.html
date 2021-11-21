@@ -89,6 +89,7 @@
         addGraphic_a5(graphicLayer);
         addGraphic_a6(graphicLayer);
         addGraphic_a7(graphicLayer);
+        addGraphic_a8(graphicLayer);
       }
 
       function addGraphic_a1(graphicLayer) {
@@ -99,11 +100,11 @@
             color: "#00FFFF",
             opacity: 0.4,
             clampToGround: true,
-
             label: { text: "鼠标移入会高亮", pixelOffsetY: -30 },
             //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
             highlight: {
               opacity: 0.8,
+              outlineWidth: 8,
             },
           },
         });
@@ -201,6 +202,23 @@
           },
         });
         graphicLayer.addGraphic(primitive); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_a8(graphicLayer) {
+        var primitive = new mars3d.graphic.CirclePrimitive({
+          position: [116.31094, 30.928762, 440],
+          style: {
+            radius: 1000.0,
+            color: "#00FF00",
+            opacity: 0.4,
+            clampToGround: true,
+
+            outline: true,
+            outlineWidth: 4,
+            outlineColor: "#ffffff",
+          },
+        });
+        graphicLayer.addGraphic(primitive);
       }
     </script>
   </body>

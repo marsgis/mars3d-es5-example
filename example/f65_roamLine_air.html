@@ -163,6 +163,9 @@
         //开始漫游
         roamLine.start();
 
+        // 导出数据 测试;
+        console.log(JSON.stringify(roamLine.toJSON()));
+
         addDivPoint(roamLine.property);
 
         //显示基本信息，名称、总长、总时间

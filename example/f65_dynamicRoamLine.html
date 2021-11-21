@@ -77,7 +77,8 @@
           .then(function (res) {
             showCarList(res.data);
           })
-          .catch(function () {
+          .catch(function (e) {
+            console.log("queryCarListApiData失败",e);
             haoutil.msg("查询信息失败");
           });
       }
