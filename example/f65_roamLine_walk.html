@@ -208,6 +208,12 @@
         roamLine = new mars3d.graphic.RoamLine(flydata);
         graphicLayer.addGraphic(roamLine);
 
+        // roamLine.addShading({
+        //   type: "polyline",
+        //   color: "#ffff00",
+        //   width: 1,
+        // });
+
         roamLine.on(mars3d.EventType.endItem, function (event) {
           console.log("已漫游过点：" + event.index, event);
         });

@@ -44,7 +44,7 @@
       "use script"; //开发环境建议开启严格模式
 
       var tileLayer;
-      var wmsLayer;
+
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
@@ -61,16 +61,44 @@
         //创建三维地球场景
         var map = new mars3d.Map("mars3dContainer", mapOptions);
 
+        map.on(mars3d.EventType.tileLoadProgress, function (count) {
+          console.log(`tileLoadProgressEvent 正在加载瓦片: ${count}`);
+          if (count == 0) {
+            console.log(`tileLoadProgressEvent 地图当前批次瓦片加载完成`);
+          }
+        });
+
         //添加图层
-        tileLayer = new mars3d.layer.TdtLayer({
+        var tileLayer = new mars3d.layer.TdtLayer({
           name: "天地图影像",
           layer: "img_d",
           order: 1,
         });
         map.addLayer(tileLayer);
 
+        //   var count = 0;
+        //   //添加单个瓦片，开始加载瓦片（请求前）
+        //   tileLayer.on(mars3d.EventType.addTile, function (event) {
+        //     count++;
+        //     console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
+        //   });
+        //   //添加单个瓦片 加载瓦片完成
+        //   tileLayer.on(mars3d.EventType.addTileSuccess, function (event) {
+        //     count--;
+        //     console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
+        //   });
+        //   //添加单个瓦片 加载瓦片出错
+        //   tileLayer.on(mars3d.EventType.addTileError, function (event) {
+        //     count--;
+        //     console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
+        //   });
+        //   //卸载移除了瓦片
+        //   tileLayer.on(mars3d.EventType.removeTile, function (event) {
+        //     console.log(`卸载移除了瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
+        //   });
+
         //wms、arcgis等矢量发布类型图层支持click事件
-        wmsLayer = new mars3d.layer.WmsLayer({
+        var wmsLayer = new mars3d.layer.WmsLayer({
           url: "//server.mars3d.cn/geoserver/mars/wms",
           layers: "mars:hf",
           crs: "EPSG:4326",
@@ -84,32 +112,6 @@
           popup: "all",
         });
         map.addLayer(wmsLayer);
-
-        addTileStatus();
-      }
-
-      function addTileStatus() {
-        var count = 0;
-        //添加单个瓦片，开始加载瓦片（请求前）
-        tileLayer.on(mars3d.EventType.addTile, function (event) {
-          count++;
-          console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
-        });
-        //添加单个瓦片 加载瓦片完成
-        tileLayer.on(mars3d.EventType.addTileSuccess, function (event) {
-          count--;
-          console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
-        });
-        //添加单个瓦片 加载瓦片出错
-        tileLayer.on(mars3d.EventType.addTileError, function (event) {
-          count--;
-          console.log(`${count},开始请求加载瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
-        });
-
-        //卸载移除了瓦片
-        tileLayer.on(mars3d.EventType.removeTile, function (event) {
-          console.log(`卸载移除了瓦片: L:${event.level},X:${event.x},Y:${event.y}`);
-        });
 
         //单击事件
         wmsLayer.on(mars3d.EventType.click, function (event) {
