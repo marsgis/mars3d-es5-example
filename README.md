@@ -25,10 +25,10 @@
 
 ## 项目介绍
 
- 这是一个基于 原生JS 开发的 mars3d 示例项目。
+ 这是一个基于 原生JS 开发的 mars3d 功能示例项目。
 
  > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：
- [功能示例Vue版教程](/guide/start/example.html) 、
+ [功能示例Vue版教程](http://mars3d.cn/dev/guide/start/example.html) 、
  [mars3d-vue-example代码](https://gitee.com/marsgis/mars3d-vue-example) 
 
 
