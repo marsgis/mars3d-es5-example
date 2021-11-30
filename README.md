@@ -40,14 +40,14 @@
  
  - 如果本地没有git软件，可以浏览器输入[https://github.com/marsgis/mars3d-es5-example](https://github.com/marsgis/mars3d-es5-example)地址后，按下图下载zip包。
 
- ![image](/dev/img/guide/start-example-down.jpg)
+ ![image](http://mars3d.cn/dev/img/guide/start-example-down.jpg)
 
  - 如果本地有git软件，可以输入下面命令，拉取代码
 ```sh
 git clone https://github.com/marsgis/mars3d-es5-example.git
 ```
 
- ![image](/dev/img/guide/start-example-git.jpg) 
+ ![image](http://mars3d.cn/dev/img/guide/start-example-git.jpg) 
 
 
 
@@ -62,7 +62,7 @@ git clone https://github.com/marsgis/mars3d-es5-example.git
 
  参考下图通过Live Server访问各页面
 
- ![image](/dev/img/guide/start-example-run.jpg) 
+ ![image](http://mars3d.cn/dev/img/guide/start-example-run.jpg) 
 
 
 
@@ -70,7 +70,7 @@ git clone https://github.com/marsgis/mars3d-es5-example.git
 ### 运行效果  
 运行后示例列表与在mars3d官网看到的功能示例是相同的。
 
- ![image](/dev/img/guide/start-example-yulan.jpg) 
+ ![image](http://mars3d.cn/dev/img/guide/start-example-yulan.jpg) 
 
 
 
@@ -109,7 +109,7 @@ mars3d-es5-example
 
 我们当前原生JS版本`功能示例`页面，第三方类库及我们的sdk类库都存放在lib目录下，每个目录均有`README.md`文件说明该类库的github地址、官网和用途等信息。
 
- ![image](/dev/img/guide/start-includeLib-ml.jpg) 
+ ![image](http://mars3d.cn/dev/img/guide/start-includeLib-ml.jpg) 
 
 为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](http://mars3d.cn/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
