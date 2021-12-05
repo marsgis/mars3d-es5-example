@@ -159,6 +159,25 @@
                 },
               ],
             },
+
+            {
+              name: "天地图影像(英文)",
+              icon: "img/basemaps/tdt_img.png",
+              type: "group",
+              layers: [
+                { name: "底图", type: "tdt", layer: "img_d", key: mars3d.Token.tiandituArr },
+                { name: "底图", type: "tdt", layer: "img_e", key: mars3d.Token.tiandituArr },
+              ],
+            },
+            {
+              name: "天地图电子(英文)",
+              icon: "img/basemaps/tdt_vec.png",
+              type: "group",
+              layers: [
+                { name: "底图", type: "tdt", layer: "vec_d", key: mars3d.Token.tiandituArr },
+                { name: "底图", type: "tdt", layer: "vec_e", key: mars3d.Token.tiandituArr },
+              ],
+            },
           ],
         });
 

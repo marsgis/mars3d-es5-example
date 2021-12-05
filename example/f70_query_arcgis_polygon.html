@@ -281,6 +281,7 @@
         }
         var queryVal = $.trim($("#queryText").val());
         queryMapserver.query({
+          column:"用地名称",
           text: queryVal,
           graphic: drawGraphic,
           page: false,

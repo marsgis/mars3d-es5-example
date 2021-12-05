@@ -18,14 +18,14 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="//mars3d.cn/favicon.ico" />
-    <title>放大缩小工具栏按钮 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>功能示例 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
     <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
-      include="jquery,bootstrap,layer,haoutil,turf,mars3d"
+      include="jquery,layer,haoutil,mars3d"
     ></script>
 
     <link href="css/style.css" rel="stylesheet" />
@@ -37,6 +37,9 @@
 
     <div id="mars3dContainer" class="mars3d-container"></div>
 
+    <!-- 面板 -->
+    <!-- <div class="infoview"> </div> -->
+
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
@@ -46,22 +49,24 @@
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            center: { lat: 31.744627, lng: 117.228537, alt: 18677, heading: 0, pitch: -63 },
+          },
           control: {
-            homeButton: true, //回到默认视域按钮
-            navigationHelpButton: false, //是否显示帮助信息控件
-            fullscreenButton: false, //右下角全屏按钮
-            geocoder: false,
-            sceneModePicker: false,
+            timeline: true,
+            clockAnimate: false,
+            distanceLegend: { left: "100px", bottom: "27px" },
           },
         });
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var zoom = new mars3d.control.Zoom({
-          insertIndex: 1, //插入的位置顺序
+        //时钟控制（可替代cesium本身的animation）
+        var clockAnimate = new mars3d.control.ClockAnimate({
+          format: "yyyy-MM-dd HH:mm:ss",
         });
-        map.addControl(zoom);
+        map.addControl(clockAnimate);
       }
     </script>
   </body>

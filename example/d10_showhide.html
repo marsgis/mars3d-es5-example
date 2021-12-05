@@ -122,7 +122,7 @@
             fullscreenButton: true,
             geocoder: true,
             baseLayerPicker: true,
-            animation: true, //是否创建动画小器件，左下角仪表
+            clockAnimate: { format: "yyyy-MM-dd HH:mm:ss" }, //时钟动画控制
             timeline: true, //是否显示时间线控件
           },
         });
@@ -133,17 +133,7 @@
         //显示clock
         $("#showClock").change(function () {
           var show = $(this).is(":checked");
-          map.viewer.animation.container.style.display = show ? "block" : "none";
-
-          if (show) {
-            map.controls.locationBar.setStyle({
-              left: "170px",
-            });
-          } else {
-            map.controls.locationBar.setStyle({
-              left: "0px",
-            });
-          }
+          map.controls.clockAnimate.show = show;
         });
 
         //显示刻度线

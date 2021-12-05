@@ -426,6 +426,12 @@
               "fileName": "d20_locationBar"
             },
             {
+              "name": "时钟控制",
+              "version": "3.0",
+              "thumbnail": "d20_clockAnimate.jpg",
+              "fileName": "d20_clockAnimate"
+            },
+            {
               "name": "自定义工具栏按钮",
               "version": "3.0",
               "thumbnail": "d20_toolButton.jpg",

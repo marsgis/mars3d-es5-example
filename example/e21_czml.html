@@ -67,12 +67,9 @@
         var mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 360, pitch: -48 },
-            // cameraController: {
-            //   maximumZoomDistance: 500000000,
-            // },
           },
           control: {
-            animation: true,
+            clockAnimate: true, //时钟动画控制(左下角)
             timeline: true,
           },
         });
