@@ -14,7 +14,7 @@ $(document).ready(function () {
   //记录url传入参数
   let request = haoutil.system.getRequest();
 
-  fetch(request.json|| window.exampleConfig || "../data/example.json")
+  fetch(request.json || window.exampleConfig || "../data/example.json")
     .then(function (response) {
       if (!response.ok) {
         let error = new Error(response.statusText);
@@ -169,7 +169,6 @@ function createGalleryCharts(examples) {
 
 function createGalleryChart(example) {
   let _path = window.examplePath || "example/";
-  let _widgetpath = window.widgetPath || "//mars3d.cn/project/zhts/map.html";
 
   let target = _path + "editor.html",
     title = example.name,
@@ -179,14 +178,6 @@ function createGalleryChart(example) {
   let isWidget = false;
   if (example.params) {
     target += "?" + (window.autoShowCode ? "code=true&" : "") + example.params;
-
-    if (example.params.indexOf("widget=") != -1) {
-      if (!window.showWidget) {
-        return false;
-      }
-      isWidget = true;
-      target = _widgetpath + "?onlyStart=true&name=" + title + "&" + example.params;
-    }
   } else {
     target += "?" + (window.autoShowCode ? "code=true&" : "");
   }
