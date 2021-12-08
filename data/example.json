@@ -333,7 +333,7 @@
       "icon": "fa-briefcase",
       "children": [
         {
-          "name": "初始化控件",
+          "name": "Cesium内置控件",
           "details": "Cesium内置的控件，构造地图时按需传参配置",
           "children": [
             {
@@ -363,7 +363,7 @@
           ]
         },
         {
-          "name": "内置控件",
+          "name": "Mars3D内置控件",
           "details": "Mars3D内置的控件，直接按需调用即可",
           "children": [
             {

@@ -141,6 +141,29 @@
         addGraphic_11(graphicLayer);
       }
 
+      // function addGraphicByGeoJSON() {
+      //   let geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+      //     url: "//data.mars3d.cn/file/geojson/xxxx.json",
+      //     //自定义解析数据
+      //     onCreateGraphic: (options) => {
+      //       var graphic = new mars3d.graphic.DivGraphic({
+      //         position: options.position,
+      //         attr: options.attr,
+      //         style: {
+      //           html: `<div class="marsBlackPanel  animation-spaceInDown">
+      //               <div class="marsBlackPanel-text">大湖名城,创新高地</div>
+      //           </div>`,
+      //           horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+      //           verticalOrigin: Cesium.VerticalOrigin.CENTER,
+      //           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 400000), //按视距距离显示
+      //         },
+      //       });
+      //       geoJsonLayer.addGraphic(graphic);
+      //     },
+      //   });
+      //   map.addLayer(geoJsonLayer);
+      // }
+
       //一个黑色面板，指向左下角黄色连线
       function addGraphic_01(graphicLayer) {
         var graphic = new mars3d.graphic.DivGraphic({
