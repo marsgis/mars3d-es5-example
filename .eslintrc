@@ -29,8 +29,6 @@
     "THREE": false,
     "map":false,
     "echarts":false,
-    "initLayerManager":false,
-    "initGraphicManager":false,
     "localforage":false,
     "JB":false,
     "Ammo":false

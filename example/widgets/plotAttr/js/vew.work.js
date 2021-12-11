@@ -133,9 +133,6 @@ var plotEdit = {
           if (
             attrName == "fill" || //不能取消填充。
             attrName == "height" || //没有高度
-            attrName == "distanceDisplayCondition" ||
-            attrName == "distanceDisplayCondition_far" ||
-            attrName == "distanceDisplayCondition_near" ||
             attrName == "outline" ||
             attrName == "outlineWidth" ||
             attrName == "outlineColor" ||
@@ -514,7 +511,9 @@ var plotEdit = {
             if (thisSel) {
               that.changeViewByAttr(parname, thisSel.impact, true);
             }
-
+            if (edit.valType == "number") {
+              attrVal = Number(attrVal);
+            }
             that.updateAttr(parname, attrName, attrVal);
           });
 

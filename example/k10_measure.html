@@ -108,15 +108,15 @@
           console.log("完成异步分析", e);
           haoutil.loading.hide();
 
-          if (e.graphic?.type === mars3d.graphic.AreaSurfaceMeasure.type && e.list) {
-            showInterResult(e.list); //在js/showPolygonInter.js
-          }
+          // if (e.graphic?.type === mars3d.graphic.AreaSurfaceMeasure.type && e.list) {
+          //   showInterResult(e.list); //在js/showPolygonInter.js
+          // }
         });
 
         // 任意一个矢量数据被移出，贴地面积中的插值计算点都会被移除
-        measure.on(mars3d.EventType.remove, function (e) {
-          clearInterResult(); //在js/showPolygonInter.js
-        });
+        // measure.on(mars3d.EventType.remove, function (e) {
+        //   clearInterResult(); //在js/showPolygonInter.js
+        // });
 
         $("#chk_onlyPickModelPosition").change(function () {
           var val = $(this).is(":checked");
@@ -133,7 +133,7 @@
 
       function removeAll() {
         measure.clear();
-        clearInterResult(); //在js/showPolygonInter.js
+        // clearInterResult(); //在js/showPolygonInter.js
       }
       // 空间距离
       function measureLength() {

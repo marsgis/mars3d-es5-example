@@ -115,7 +115,7 @@ mars3d-es5-example
 ```html
 <!--第三方lib-->
 <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
-    include="font-awesome,turf,mars3d"></script>
+    include="font-awesome,mars3d"></script>
 ```
 该方式等价于（如不习惯include-lib.js，也可以改为下面演示的直接引入方式）： 
 

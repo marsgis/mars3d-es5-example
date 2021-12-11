@@ -133,6 +133,7 @@
         "name": "horizontalOrigin",
         "label": "横向对齐",
         "type": "combobox",
+        "valType":"number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -144,6 +145,7 @@
         "name": "verticalOrigin",
         "label": "垂直对齐",
         "type": "combobox",
+        "valType":"number",
         "defval": 1,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -187,6 +189,7 @@
         "name": "horizontalOrigin",
         "label": "横向定位",
         "type": "combobox",
+        "valType":"number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -198,6 +201,7 @@
         "name": "verticalOrigin",
         "label": "垂直定位",
         "type": "combobox",
+        "valType":"number",
         "defval": 0,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -244,6 +248,7 @@
         "name": "horizontalOrigin",
         "label": "横向对齐",
         "type": "combobox",
+        "valType":"number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -255,6 +260,7 @@
         "name": "verticalOrigin",
         "label": "垂直对齐",
         "type": "combobox",
+        "valType":"number",
         "defval": 1,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -879,11 +885,12 @@
         "name": "cornerType",
         "label": "顶点样式",
         "type": "combobox",
-        "defval": "ROUNDED",
+        "valType":"number",
+        "defval": 0,
         "data": [
-          { "text": "圆滑", "value": "ROUNDED" },
-          { "text": "斜接", "value": "MITERED" },
-          { "text": "斜切", "value": "BEVELED" }
+          { "text": "圆滑", "value": 0 },
+          { "text": "斜接", "value":1},
+          { "text": "斜切", "value": 2 }
         ]
       },
 
