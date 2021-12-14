@@ -312,9 +312,11 @@
           center: { lat: 31.795311, lng: 117.206139, alt: 1833, heading: 29, pitch: -26 },
           highlight: {
             type: mars3d.EventType.click, //单击高亮
-            outlineEffect: true, //采用OutlineEffect方式来高亮
-            color: "#FFFF00",
-            width: 4,
+            //支持回调的颜色设置
+            color: function (event) {
+              // let attr = event.graphic.attr;
+              return "#00ff00";
+            },
           },
           flyTo: true,
         });
@@ -323,6 +325,10 @@
         //单击事件
         tiles3dLayer.on(mars3d.EventType.click, function (event) {
           console.log("单击了3dtiles图层", event);
+        });
+
+        tiles3dLayer.on(mars3d.EventType.highlightOpen, function (event) {
+          console.log("显示了高亮", event);
         });
       }
 

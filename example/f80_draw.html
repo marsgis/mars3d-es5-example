@@ -190,6 +190,10 @@
           console.log("编辑修改了点", e);
           startEditing(e.graphic);
         });
+        graphicLayer.on(mars3d.EventType.editAddPoint, function (e) {
+          console.log("编辑新增了点", e);
+          startEditing(e.graphic);
+        });
         graphicLayer.on(mars3d.EventType.editRemovePoint, function (e) {
           console.log("编辑删除了点", e);
 
