@@ -1,6 +1,6 @@
  
 <p align="center">
-<img src="https://mars3d.cn/logo.png" width="300px" />
+<img src="https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars3d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于传统JS技术栈的 Mars3D🌎功能示例</p>
@@ -111,7 +111,7 @@ mars3d-es5-example
 
  ![image](http://mars3d.cn/dev/img/guide/start-includeLib-ml.jpg) 
 
-为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](http://mars3d.cn/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
+为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](https://cdn.jsdelivr.net/gh/marsgis/mars3d-es5-example/lib//include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
 <!--第三方lib-->
 <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
