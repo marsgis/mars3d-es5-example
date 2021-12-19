@@ -149,6 +149,9 @@
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
+          secen: {
+            center: { lat: 31.828527, lng: 117.222857, alt: 432, heading: 341, pitch: -28 },
+          },
           control: {
             clockAnimate: true, //时钟动画控制(左下角)
             timeline: true, //是否显示时间线控件
@@ -202,7 +205,7 @@
             radius: 300,
           },
           clockRange: Cesium.ClockRange.CLAMPED, //CLAMPED到达终点后停止
-          pauseTime: 0.5,
+          pauseTime: 0.5, //每个点的停留时长（单位：秒）也支持回调方法。
         };
 
         roamLine = new mars3d.graphic.RoamLine(flydata);
