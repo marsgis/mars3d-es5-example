@@ -101,6 +101,7 @@
       }
 
       function setStyle1() {
+        Cesium.ExperimentalFeatures.enableModelExperimental = false;
         osmBuildingsTileset.customShader = undefined;
         osmBuildingsTileset.style = undefined;
       }
