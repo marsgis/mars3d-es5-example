@@ -1,6 +1,6 @@
  
 <p align="center">
-<img src="https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars3d.cn/logo.png" width="300px" />
+<img src="https://muyao1987.gitee.io/cdn/mars3d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于传统JS技术栈的 Mars3D🌎功能示例</p>
@@ -19,7 +19,7 @@
 </p>
 
 
- 基于原生JS开发的功能示例。 
+ 基于原生JS开发的功能示例。
  
  
 
@@ -53,7 +53,7 @@ git clone https://github.com/marsgis/mars3d-es5-example.git
 
 ### 运行环境
 
-在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`examples.html`或对应示例页面即可 ，
+在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`index.html`或对应示例页面即可 ，
 
 建议使用VScode工具打开代码目录（请参考上一章节安装好VScode 及 Live Server插件）。
 
@@ -99,7 +99,7 @@ mars3d-es5-example
 │───lib                 示例依赖资源
 │   └─include-lib.js    lib资源统一配置文件
 │───static              列表页、编辑页对应js、css
-└───examples.html       列表页
+└───index.html       列表页
 ```
 
 与示例相关的2个主要目录是：`example`、`lib`。
