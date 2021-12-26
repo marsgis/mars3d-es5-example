@@ -317,6 +317,9 @@
 
           localforage.getItem("g20_3dtiles_edit").then(function (item) {
             console.log("加载显示历史数据", item);
+            if (!item.url) {
+              return
+            }
             $("#txtModel").val(item.url);
             $("#txt_luminanceAtZenith").val(item.luminanceAtZenith || 0.2);
             $("#txt_maximumScreenSpaceError").val(item.maximumScreenSpaceError || 16);

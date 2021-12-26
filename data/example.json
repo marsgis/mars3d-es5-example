@@ -727,6 +727,8 @@
               "thumbnail": "f16_coneTrack.jpg",
               "fileName": "f16_coneTrack"
             },
+
+
             {
               "name": "Ellipsoid 球、半球、椭球",
               "version": "1.5",
@@ -864,6 +866,12 @@
               "version": "3.0",
               "thumbnail": "f20_primitive_cylinder.jpg",
               "fileName": "f20_primitive_cylinder"
+            },
+            {
+              "name": "圆锥追踪体",
+              "version": "3.0",
+              "thumbnail": "f21_coneTrackP.jpg",
+              "fileName": "f21_coneTrackP"
             },
             {
               "name": "Frustum 四棱锥体",

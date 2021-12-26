@@ -85,6 +85,7 @@
             timeline: true, //是否显示时间线控件
 
             defaultContextMenu: true, //涉及到多语言的模块：右键菜单
+            zoom: { insertIndex: 1 },
             compass: { top: "10px", right: "5px" },
             distanceLegend: { left: "180px", bottom: "30px" },
             locationBar: {
@@ -98,13 +99,6 @@
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        var zoom = new mars3d.control.Zoom({
-          insertIndex: 1, //插入的位置顺序
-          zoomInClass: "fa fa-plus",
-          zoomOutClass: "fa fa-minus",
-        });
-        map.addControl(zoom);
 
         //涉及到多语言的模块：标绘提示
         drawLayer = new mars3d.layer.GraphicLayer({

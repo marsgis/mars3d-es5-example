@@ -53,3 +53,4 @@ Thumbs.db
 
 # 本地测试
 /example-test
+package-lock.json
