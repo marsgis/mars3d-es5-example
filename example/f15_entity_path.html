@@ -484,6 +484,7 @@
 
       function addGraphic_a1(graphicLayer) {
         var property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
         var tempTime;
 
         //起点

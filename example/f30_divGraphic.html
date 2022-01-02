@@ -527,6 +527,7 @@
 
         //动画移动
         var property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
         var time = 20; //移动的时长 ，秒
         var tempTime;
 

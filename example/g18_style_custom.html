@@ -64,7 +64,19 @@
           position: { lng: 117.077158, lat: 31.659116, alt: 24.6 },
           maximumScreenSpaceError: 1,
           maximumMemoryUsage: 1024,
-          highlight: { type: "click", outlineEffect: true, width: 8, color: "#FFFF00" },
+          highlight: {
+            type: "click",
+            outlineEffect: true,
+            width: 8,
+            color: "#FFFF00",
+            filter: function (event) {
+              let attr = event.graphic?.attr;
+              if (attr.id == "8e98d81f8217304975ccb23337bb5761") {
+                return false; //排除高亮地面
+              }
+              return true;
+            },
+          },
           popup: "all",
         });
         map.addLayer(tilesetLayer);

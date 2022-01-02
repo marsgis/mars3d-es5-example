@@ -208,7 +208,14 @@
             name: item.name,
             model: {
               clampToGround: true,
+              silhouette: false,
               show: true,
+              highlight: {
+                // type: "click",
+                silhouette: true,
+                silhouetteColor: "#00ffff",
+                silhouetteSize: 3,
+              },
               ...modelParam,
             },
             shadow: [

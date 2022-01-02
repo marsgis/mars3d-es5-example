@@ -359,6 +359,13 @@
             outlineEffect: true, //采用OutlineEffect方式来高亮
             color: "#00FF00",
             width: 6,
+            filter: function (event) {
+              let attr = event.graphic?.attr;
+              if (attr.id == "8e98d81f8217304975ccb23337bb5761") {
+                return false; //排除高亮地面
+              }
+              return true;
+            },
           },
           center: { lat: 31.653047, lng: 117.084439, alt: 354, heading: 319, pitch: -23 },
           flyTo: true,

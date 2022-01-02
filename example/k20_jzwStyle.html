@@ -245,7 +245,14 @@
           float mars_height = marsJzwHeight - _baseHeight;
           float mars_a11 = fract(czm_frameNumber / 120.0) * 3.14159265 * 2.0;
           float mars_a12 = mars_height / _heightRange + sin(mars_a11) * 0.1;
-          gl_FragColor *= vec4(vec3(mars_a12), 1.0);// 渐变
+
+          // 底楼 亮度太暗了，那么把20%以内的底楼，都不再变暗
+          if(mars_height/ 100.0 < 0.2) {
+            gl_FragColor *= vec4(vec3(mars_height / 100.0 * 2.0), 1.0);
+          }else{
+            gl_FragColor *= vec4(vec3(mars_a12), 1.0);// 渐变
+          }
+
 
           // 动态光环
           float time = fract(czm_frameNumber / 360.0);

@@ -649,6 +649,7 @@
       //计算演示的SampledPositionProperty轨迹
       function getSampledPositionProperty(points) {
         let property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
 
         let start = map.clock.currentTime;
         let positions = mars3d.LatLngArray.toCartesians(points);

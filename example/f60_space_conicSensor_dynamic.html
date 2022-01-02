@@ -128,6 +128,8 @@
         ];
 
         var property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
+
         for (var z = 0; z < wxkjx.length; z++) {
           var item = wxkjx[z];
 

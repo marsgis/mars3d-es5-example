@@ -482,7 +482,7 @@
       "icon": "fa-server",
       "children": [
         {
-          "name": "矢量数据图层",
+          "name": "基础矢量图层",
           "children": [
             {
               "name": "graphic 数据图层",
@@ -495,12 +495,7 @@
               "version": "1.7",
               "thumbnail": "f30_divGraphic.jpg",
               "fileName": "f30_divGraphic"
-            }
-          ]
-        },
-        {
-          "name": "三维模型图层",
-          "children": [
+            },
             {
               "name": "glTF 小模型图层",
               "version": "3.0",
@@ -516,25 +511,13 @@
           ]
         },
         {
-          "name": "标准格式文件",
+          "name": "GeoJson矢量图层",
           "children": [
             {
               "name": "GeoJson图层",
               "version": "3.0",
               "thumbnail": "e20_geojson.jpg",
               "fileName": "e20_geojson"
-            },
-            {
-              "name": "立体建筑物GeoJson图层",
-              "version": "3.0",
-              "thumbnail": "e20_geojson_buildings.jpg",
-              "fileName": "e20_geojson_buildings"
-            },
-            {
-              "name": "水域GeoJson图层",
-              "version": "3.0",
-              "thumbnail": "e20_geojson_water.gif",
-              "fileName": "e20_geojson_water"
             },
             {
               "name": "KML/KMZ解析加载(转GeoJson方式)",
@@ -549,40 +532,47 @@
               "fileName": "e22_wkt"
             },
             {
-              "name": "矢量瓦片方式加载GeoJson",
-              "version": "1.5",
-              "thumbnail": "e22_weiVectorTile_geojson.jpg",
-              "fileName": "e22_weiVectorTile_geojson"
-            },
-            {
-              "name": "矢量瓦片方式加载Shp",
-              "version": "1.5",
-              "thumbnail": "e22_weiVectorTile_shp.jpg",
-              "fileName": "e22_weiVectorTile_shp"
-            },
-            {
-              "name": "CZML图层",
+              "name": "光晕线",
               "version": "1.2",
-              "thumbnail": "e21_czml.jpg",
-              "fileName": "e21_czml"
+              "thumbnail": "f45_glowline.jpg",
+              "fileName": "f45_glowline"
             },
             {
-              "name": "CzmGeoJson图层(Cesium原生加载)",
-              "version": "2.0",
-              "thumbnail": "e21_czmGeojson.jpg",
-              "fileName": "e21_czmGeojson"
+              "name": "水域GeoJson图层",
+              "version": "3.0",
+              "thumbnail": "e20_geojson_water.gif",
+              "fileName": "e20_geojson_water"
             },
             {
-              "name": "KML图层(Cesium原生加载)",
-              "version": "1.2",
-              "thumbnail": "e21_kml.jpg",
-              "fileName": "e21_kml"
+              "name": "立体建筑物GeoJson图层",
+              "version": "3.0",
+              "thumbnail": "e20_geojson_buildings.jpg",
+              "fileName": "e20_geojson_buildings"
+            },
+            {
+              "name": "渐变区域",
+              "version": "3.0",
+              "thumbnail": "f45_polyGradient.jpg",
+              "fileName": "f45_polyGradient"
+            },
+
+            {
+              "name": "立体户型图",
+              "version": "3.0",
+              "thumbnail": "f45_huxing.jpg",
+              "fileName": "f45_huxing"
             }
           ]
         },
         {
-          "name": "WFS矢量服务",
+          "name": "WFS矢量数据服务",
           "children": [
+            {
+              "name": "矢量数据Lod加载",
+              "version": "1.7",
+              "thumbnail": "e30_lodGraphicLayer.jpg",
+              "fileName": "e30_lodGraphicLayer"
+            },
             {
               "name": "WFS图层",
               "version": "3.0",
@@ -606,23 +596,24 @@
               "version": "3.0",
               "thumbnail": "e25_arcgis_wfs_surface.jpg",
               "fileName": "e25_arcgis_wfs_surface"
-            }
-          ]
-        },
-        {
-          "name": "其他矢量图层",
-          "children": [
-            {
-              "name": "矢量数据Lod加载",
-              "version": "1.7",
-              "thumbnail": "e30_lodGraphicLayer.jpg",
-              "fileName": "e30_lodGraphicLayer"
             },
             {
               "name": "高德POI图层",
               "version": "3.0",
               "thumbnail": "e30_gaode_poi.jpg",
               "fileName": "e30_gaode_poi"
+            }
+          ]
+        },
+
+        {
+          "name": "其他矢量图层",
+          "children": [
+            {
+              "name": "经纬网图层",
+              "version": "3.0",
+              "thumbnail": "e30_graticuleLayer.jpg",
+              "fileName": "e30_graticuleLayer"
             },
             {
               "name": "三维地名服务",
@@ -632,10 +623,34 @@
               "plugins": "tdt"
             },
             {
-              "name": "经纬网图层",
-              "version": "3.0",
-              "thumbnail": "e30_graticuleLayer.jpg",
-              "fileName": "e30_graticuleLayer"
+              "name": "矢量瓦片方式加载GeoJson",
+              "version": "1.5",
+              "thumbnail": "e22_weiVectorTile_geojson.jpg",
+              "fileName": "e22_weiVectorTile_geojson"
+            },
+            {
+              "name": "矢量瓦片方式加载Shp",
+              "version": "1.5",
+              "thumbnail": "e22_weiVectorTile_shp.jpg",
+              "fileName": "e22_weiVectorTile_shp"
+            },
+            {
+              "name": "KML图层(Cesium原生加载)",
+              "version": "1.2",
+              "thumbnail": "e21_kml.jpg",
+              "fileName": "e21_kml"
+            },
+            {
+              "name": "CZML图层",
+              "version": "1.2",
+              "thumbnail": "e21_czml.jpg",
+              "fileName": "e21_czml"
+            },
+            {
+              "name": "CzmGeoJson图层(Cesium原生加载)",
+              "version": "2.0",
+              "thumbnail": "e21_czmGeojson.jpg",
+              "fileName": "e21_czmGeojson"
             }
           ]
         }
@@ -672,6 +687,12 @@
               "version": "1.5",
               "thumbnail": "f10_entity_billboard.jpg",
               "fileName": "f10_entity_billboard"
+            },
+            {
+              "name": "图标点+文字(entity方式含聚合)",
+              "version": "1.4",
+              "thumbnail": "f40_billboardEntity.jpg",
+              "fileName": "f40_billboardEntity"
             },
             {
               "name": "Canvas图片点",
@@ -727,8 +748,6 @@
               "thumbnail": "f16_coneTrack.jpg",
               "fileName": "f16_coneTrack"
             },
-
-
             {
               "name": "Ellipsoid 球、半球、椭球",
               "version": "1.5",
@@ -747,17 +766,24 @@
               "thumbnail": "f10_entity_model.jpg",
               "fileName": "f10_entity_model"
             },
-            {
-              "name": "点对象动态位置",
-              "version": "3.0",
-              "thumbnail": "f10_entity_dynamic.gif",
-              "fileName": "f10_entity_dynamic"
-            },
+
             {
               "name": "Path 轨迹",
               "version": "3.0",
               "thumbnail": "f15_entity_path.jpg",
               "fileName": "f15_entity_path"
+            },
+            {
+              "name": "无人机航拍过程",
+              "version": "2.0",
+              "thumbnail": "m35_wrjhp.gif",
+              "fileName": "m35_wrjhp"
+            },
+            {
+              "name": "飞机绕圈巡航",
+              "version": "1.6",
+              "thumbnail": "f45_flypath2.gif",
+              "fileName": "f45_flypath2"
             },
             {
               "name": "Polyline 线",
@@ -812,6 +838,12 @@
               "version": "3.0",
               "thumbnail": "f16_polygon_sector.jpg",
               "fileName": "f16_polygon_sector"
+            },
+            {
+              "name": "Property属性机制演示",
+              "version": "3.0",
+              "thumbnail": "f80_property.jpg",
+              "fileName": "f80_property"
             }
           ]
         },
@@ -838,10 +870,29 @@
               "fileName": "f20_primitive_point"
             },
             {
+              "name": "危化品扩散效果",
+              "version": "2.0",
+              "thumbnail": "f40_diffusion.jpg",
+              "fileName": "f40_diffusion"
+            },
+
+            {
               "name": "Billboard 图标点(支持大数据)",
               "version": "3.0",
               "thumbnail": "f20_primitive_billboard.jpg",
               "fileName": "f20_primitive_billboard"
+            },
+            {
+              "name": "AQI空气质量指数",
+              "version": "1.5",
+              "thumbnail": "f40_worker_aqi.jpg",
+              "fileName": "f40_worker_aqi"
+            },
+            {
+              "name": "图标点+文字(primitive方式)",
+              "version": "1.8",
+              "thumbnail": "f40_billboardPrimitive.jpg",
+              "fileName": "f40_billboardPrimitive"
             },
             {
               "name": "Plane 平面",
@@ -866,6 +917,18 @@
               "version": "3.0",
               "thumbnail": "f20_primitive_cylinder.jpg",
               "fileName": "f20_primitive_cylinder"
+            },
+            {
+              "name": "统计柱状图",
+              "version": "1.7",
+              "thumbnail": "f40_cylinder_gdp.jpg",
+              "fileName": "f40_cylinder_gdp"
+            },
+            {
+              "name": "卫星正摄动画",
+              "version": "3.0",
+              "thumbnail": "f40_weixin.gif",
+              "fileName": "f40_weixin"
             },
             {
               "name": "圆锥追踪体",
@@ -899,6 +962,12 @@
             },
             {
               "name": "点对象动态位置",
+              "version": "3.0",
+              "thumbnail": "f10_entity_dynamic.gif",
+              "fileName": "f10_entity_dynamic"
+            },
+            {
+              "name": "点对象动态位置",
               "version": "3.1",
               "thumbnail": "f20_primitive_dynamic.gif",
               "fileName": "f20_primitive_dynamic"
@@ -908,6 +977,60 @@
               "version": "3.0",
               "thumbnail": "f25_primitive_polyline.jpg",
               "fileName": "f25_primitive_polyline"
+            },
+            {
+              "name": "公交线",
+              "version": "3.0",
+              "thumbnail": "f45_busLine.jpg",
+              "fileName": "f45_busLine"
+            },
+            {
+              "name": "一带一路",
+              "version": "2.2",
+              "thumbnail": "f45_oneBeltOneRoad.jpg",
+              "fileName": "f45_oneBeltOneRoad"
+            },
+            {
+              "name": "城市拓扑连线",
+              "version": "3.0",
+              "thumbnail": "f45_line_city.jpg",
+              "fileName": "f45_line_city"
+            },
+            {
+              "name": "迁徙效果",
+              "version": "1.7",
+              "thumbnail": "f45_line_qx.gif",
+              "fileName": "f45_line_qx"
+            },
+            {
+              "name": "柱状线",
+              "version": "1.2",
+              "thumbnail": "f45_vline.jpg",
+              "fileName": "f45_vline"
+            },
+            {
+              "name": "竖直飞线",
+              "version": "3.0",
+              "thumbnail": "f45_vline_flow.gif",
+              "fileName": "f45_vline_flow"
+            },
+            {
+              "name": "北京公交线(OD线)",
+              "version": "2.2",
+              "thumbnail": "f45_odline.gif",
+              "fileName": "f45_odline"
+            },
+            {
+              "name": "民航航线(OD线)",
+              "version": "3.0",
+              "thumbnail": "f45_odline_flights.jpg",
+              "fileName": "f45_odline_flights"
+            },
+            {
+              "name": "高压电线(自动计算线)",
+              "version": "1.5",
+              "thumbnail": "f45_tower.jpg",
+              "fileName": "f45_tower"
             },
             {
               "name": "PolylineVolume 管道线",
@@ -974,6 +1097,12 @@
               "version": "3.0",
               "thumbnail": "f35_pit.jpg",
               "fileName": "f35_pit"
+            },
+            {
+              "name": "矿区岩层效果",
+              "version": "2.0",
+              "thumbnail": "f45_kuangqu.jpg",
+              "fileName": "f45_kuangqu"
             }
           ]
         },
@@ -1000,6 +1129,12 @@
               "fileName": "f27_primitive_polylineCombine"
             },
             {
+              "name": "气象流动线",
+              "version": "2.1",
+              "thumbnail": "f45_line_wind.gif",
+              "fileName": "f45_line_wind"
+            },
+            {
               "name": "PolygonCombine 大量面",
               "version": "3.0",
               "thumbnail": "f27_primitive_polygonCombine.jpg",
@@ -1014,42 +1149,13 @@
           ]
         },
         {
-          "name": "其他矢量对象",
+          "name": "DIV矢量对象",
           "children": [
             {
               "name": "DIV文本点",
               "version": "1.7",
               "thumbnail": "f30_divGraphic.jpg",
               "fileName": "f30_divGraphic"
-            },
-            {
-              "name": "粒子效果",
-              "version": "3.0",
-              "thumbnail": "f30_particleSystem.jpg",
-              "fileName": "f30_particleSystem"
-            }
-          ]
-        },
-        {
-          "name": "点状对象案例",
-          "children": [
-            {
-              "name": "图标点+文字(entity方式含聚合)",
-              "version": "1.4",
-              "thumbnail": "f40_billboardEntity.jpg",
-              "fileName": "f40_billboardEntity"
-            },
-            {
-              "name": "图标点+文字(primitive方式)",
-              "version": "1.8",
-              "thumbnail": "f40_billboardPrimitive.jpg",
-              "fileName": "f40_billboardPrimitive"
-            },
-            {
-              "name": "AQI空气质量指数",
-              "version": "1.5",
-              "thumbnail": "f40_worker_aqi.jpg",
-              "fileName": "f40_worker_aqi"
             },
             {
               "name": "动态效果点",
@@ -1064,10 +1170,10 @@
               "fileName": "f40_divGraphic_hg"
             },
             {
-              "name": "浮动监控点",
-              "version": "3.0",
-              "thumbnail": "f40_divGraphic_camera.jpg",
-              "fileName": "f40_divGraphic_camera"
+              "name": "饼形图标记",
+              "version": "3.1",
+              "thumbnail": "m30_divGraphic_pie.jpg",
+              "fileName": "m30_divGraphic_pie"
             },
             {
               "name": "动态水球点",
@@ -1076,177 +1182,27 @@
               "fileName": "f40_liquidfill"
             },
             {
-              "name": "统计柱状图",
-              "version": "1.7",
-              "thumbnail": "f40_cylinder_gdp.jpg",
-              "fileName": "f40_cylinder_gdp"
+              "name": "浮动监控点",
+              "version": "3.0",
+              "thumbnail": "f40_divGraphic_camera.jpg",
+              "fileName": "f40_divGraphic_camera"
+            }
+          ]
+        },
+        {
+          "name": "粒子效果对象",
+          "children": [
+            {
+              "name": "粒子效果",
+              "version": "3.0",
+              "thumbnail": "f30_particleSystem.jpg",
+              "fileName": "f30_particleSystem"
             },
             {
               "name": "水闸放水效果",
               "version": "1.9",
               "thumbnail": "f40_particleSystem_water.gif",
               "fileName": "f40_particleSystem_water"
-            },
-            {
-              "name": "卫星正摄动画",
-              "version": "3.0",
-              "thumbnail": "f40_weixin.gif",
-              "fileName": "f40_weixin"
-            },
-            {
-              "name": "危化品扩散效果",
-              "version": "2.0",
-              "thumbnail": "f40_diffusion.jpg",
-              "fileName": "f40_diffusion"
-            },
-            {
-              "name": "扫描效果",
-              "version": "3.0",
-              "thumbnail": "f40_scanCircle.gif",
-              "fileName": "f40_scanCircle"
-            }
-          ]
-        },
-        {
-          "name": "线面状对象案例",
-          "children": [
-            {
-              "name": "公交线",
-              "version": "3.0",
-              "thumbnail": "f45_busLine.jpg",
-              "fileName": "f45_busLine"
-            },
-            {
-              "name": "光晕线",
-              "version": "1.2",
-              "thumbnail": "f45_glowline.jpg",
-              "fileName": "f45_glowline"
-            },
-            {
-              "name": "柱状线",
-              "version": "1.2",
-              "thumbnail": "f45_vline.jpg",
-              "fileName": "f45_vline"
-            },
-            {
-              "name": "竖直飞线",
-              "version": "3.0",
-              "thumbnail": "f45_vline_flow.gif",
-              "fileName": "f45_vline_flow"
-            },
-            {
-              "name": "一带一路",
-              "version": "2.2",
-              "thumbnail": "f45_oneBeltOneRoad.jpg",
-              "fileName": "f45_oneBeltOneRoad"
-            },
-            {
-              "name": "城市拓扑连线",
-              "version": "3.0",
-              "thumbnail": "f45_line_city.jpg",
-              "fileName": "f45_line_city"
-            },
-            {
-              "name": "迁徙效果",
-              "version": "1.7",
-              "thumbnail": "f45_line_qx.gif",
-              "fileName": "f45_line_qx"
-            },
-            {
-              "name": "气象流动线",
-              "version": "2.1",
-              "thumbnail": "f45_line_wind.gif",
-              "fileName": "f45_line_wind"
-            },
-            {
-              "name": "北京公交线(OD线)",
-              "version": "2.2",
-              "thumbnail": "f45_odline.gif",
-              "fileName": "f45_odline"
-            },
-            {
-              "name": "民航航线(OD线)",
-              "version": "3.0",
-              "thumbnail": "f45_odline_flights.jpg",
-              "fileName": "f45_odline_flights"
-            },
-            {
-              "name": "高压电线(自动计算线)",
-              "version": "1.5",
-              "thumbnail": "f45_tower.jpg",
-              "fileName": "f45_tower"
-            },
-            {
-              "name": "动态轨迹路线",
-              "version": "1.6",
-              "thumbnail": "f45_flypath.gif",
-              "fileName": "f45_flypath"
-            },
-            {
-              "name": "飞机绕圈巡航",
-              "version": "1.6",
-              "thumbnail": "f45_flypath2.gif",
-              "fileName": "f45_flypath2"
-            },
-            {
-              "name": "卫星成像过程",
-              "version": "1.6",
-              "thumbnail": "f45_satellite_foot.gif",
-              "fileName": "f45_satellite_foot"
-            },
-            {
-              "name": "渐变区域",
-              "version": "3.0",
-              "thumbnail": "f45_polyGradient.jpg",
-              "fileName": "f45_polyGradient"
-            },
-            {
-              "name": "行政区数据统计图",
-              "version": "3.1",
-              "thumbnail": "f45_quyuNum.jpg",
-              "fileName": "f45_quyuNum"
-            },
-            {
-              "name": "行政区突出展示",
-              "version": "3.0",
-              "thumbnail": "f45_district.jpg",
-              "fileName": "f45_district"
-            },
-            {
-              "name": "行政区突出展示2",
-              "version": "3.1",
-              "thumbnail": "f45_district2.jpg",
-              "fileName": "f45_district2"
-            },
-            {
-              "name": "矿区岩层效果",
-              "version": "2.0",
-              "thumbnail": "f45_kuangqu.jpg",
-              "fileName": "f45_kuangqu"
-            },
-            {
-              "name": "立体户型图",
-              "version": "3.0",
-              "thumbnail": "f45_huxing.jpg",
-              "fileName": "f45_huxing"
-            },
-            {
-              "name": "台风轨迹(综合案例)",
-              "version": "3.0",
-              "thumbnail": "f45_typhoon.jpg",
-              "fileName": "f45_typhoon"
-            },
-            {
-              "name": "智慧社区",
-              "version": "3.1",
-              "thumbnail": "f45_community.jpg",
-              "fileName": "f45_community"
-            },
-            {
-              "name": "数字城市",
-              "version": "3.1",
-              "thumbnail": "f45_digitalCity.jpg",
-              "fileName": "f45_digitalCity"
             }
           ]
         },
@@ -1441,7 +1397,7 @@
           ]
         },
         {
-          "name": "飞行漫游路线",
+          "name": "漫游路线对象",
           "children": [
             {
               "name": "空中漫游",
@@ -1499,6 +1455,62 @@
             }
           ]
         },
+
+        {
+          "name": "综合应用案例",
+          "children": [
+            {
+              "name": "扫描效果",
+              "version": "3.0",
+              "thumbnail": "f40_scanCircle.gif",
+              "fileName": "f40_scanCircle"
+            },
+            {
+              "name": "卫星成像过程",
+              "version": "1.6",
+              "thumbnail": "f45_satellite_foot.gif",
+              "fileName": "f45_satellite_foot"
+            },
+            {
+              "name": "行政区数据统计图",
+              "version": "3.1",
+              "thumbnail": "f45_quyuNum.jpg",
+              "fileName": "f45_quyuNum"
+            },
+            {
+              "name": "行政区突出展示",
+              "version": "3.0",
+              "thumbnail": "f45_district.jpg",
+              "fileName": "f45_district"
+            },
+            {
+              "name": "行政区突出展示2",
+              "version": "3.1",
+              "thumbnail": "f45_district2.jpg",
+              "fileName": "f45_district2"
+            },
+            {
+              "name": "台风轨迹(综合案例)",
+              "version": "3.0",
+              "thumbnail": "f45_typhoon.jpg",
+              "fileName": "f45_typhoon"
+            },
+            {
+              "name": "智慧社区",
+              "version": "3.1",
+              "thumbnail": "f45_community.jpg",
+              "fileName": "f45_community"
+            },
+            {
+              "name": "数字城市",
+              "version": "3.1",
+              "thumbnail": "f45_digitalCity.jpg",
+              "fileName": "f45_digitalCity"
+            }
+          ]
+        },
+
+
         {
           "name": "服务数据查询",
           "children": [
@@ -1568,12 +1580,7 @@
               "thumbnail": "f80_isInPoly.jpg",
               "fileName": "f80_isInPoly"
             },
-            {
-              "name": "Property属性机制演示",
-              "version": "3.0",
-              "thumbnail": "f80_property.jpg",
-              "fileName": "f80_property"
-            },
+
             {
               "name": "线面内插值计算",
               "version": "2.0",
@@ -2439,12 +2446,7 @@
         {
           "name": "ECharts支持",
           "children": [
-            {
-              "name": "饼形图标记",
-              "version": "3.1",
-              "thumbnail": "m30_divGraphic_pie.jpg",
-              "fileName": "m30_divGraphic_pie"
-            },
+
             {
               "name": "散点图 全省经济指标",
               "version": "1.6",
@@ -2570,7 +2572,6 @@
             }
           ]
         },
-
         {
           "name": "虚拟仿真",
           "children": [
@@ -2580,12 +2581,7 @@
               "thumbnail": "m35_dhjb.jpg",
               "fileName": "m35_dhjb"
             },
-            {
-              "name": "无人机航拍过程",
-              "version": "2.0",
-              "thumbnail": "m35_wrjhp.gif",
-              "fileName": "m35_wrjhp"
-            },
+
             {
               "name": "铁路仿真",
               "version": "2.0",

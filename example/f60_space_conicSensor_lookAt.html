@@ -175,6 +175,8 @@
         var arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(map.clock.currentTime), 2 * 60);
 
         var property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
+
         for (var i = 0; i < arr.length; i++) {
           var item = arr[i];
 

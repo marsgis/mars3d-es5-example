@@ -86,7 +86,7 @@
           radius: 500000,
           count: 60, //共返回count*4个点
         });
-        linePositions = mars3d.PointUtil.setPositionsHeight(linePositions, 100000);
+        linePositions = mars3d.PointUtil.setPositionsHeight(linePositions, 20000);
         linePositions.push(linePositions[0]); //闭合圆
 
         //圆圈线
@@ -104,6 +104,7 @@
 
         //飞机path路径
         var property = new Cesium.SampledPositionProperty();
+
         var start = map.clock.currentTime;
         var alltimes = 0;
         for (var i = 0, len = linePositions.length; i < len; i++) {
@@ -165,8 +166,9 @@
           //侧视图
           map.trackedEntity = graphicPath.entity;
           graphicPath.flyToPoint({
-            radius: 50000,
+            radius: 5000,
             heading: 0,
+            duration: 0,
           });
         });
 
@@ -174,8 +176,9 @@
           //主视图
           map.trackedEntity = graphicPath.entity;
           graphicPath.flyToPoint({
-            radius: 50000,
+            radius: 5000,
             heading: 90,
+            duration: 0,
           });
         });
       }

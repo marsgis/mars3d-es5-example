@@ -51,6 +51,13 @@
     <div id="viewContorUi" class="infoview">
       <table class="mars-table">
         <tr>
+          <td>名称</td>
+          <td>
+            <input id="txtName" class="form-control" type="text" />
+          </td>
+        </tr>
+
+        <tr>
           <td>系列卫星</td>
           <td>
             <select id="selXilie" class="selectpicker form-control">
@@ -247,7 +254,7 @@
             cameraController: {
               zoomFactor: 3.0,
               minimumZoomDistance: 1,
-              maximumZoomDistance: 500000000,
+              maximumZoomDistance: 5000000000,
               constrainedAxis: false, //解除在南北极区域鼠标操作限制
             },
             clock: {
@@ -506,6 +513,10 @@
       var GEOSYNCHRONOUS_ORBIT = 35786;
 
       function initUI() {
+        $("#txtName").change(function () {
+          selectSatellites();
+        });
+
         $("#selXilie").change(function () {
           selectSatellites();
         });
@@ -658,6 +669,7 @@
         graphicLayer.eachGraphic(function (graphic) {
           if (graphic.selected) {
             graphic.setStyle({
+              pixelSize: 5,
               color: "rgba(0,255,0,0.6)",
               outlineColor: "#000000",
             });
@@ -690,6 +702,7 @@
         if (!graphicLayer) {
           return;
         }
+        var name = $("#txtName").val();
 
         var xilie = $("#selXilie").val(); //系列卫星
         var country = $("#selCountry").val(); //所属国家
@@ -717,12 +730,14 @@
         var max6 = $("#slider-rcs").slider("getAttribute", "max");
 
         let selCount = 0;
+        let lastGraphic;
 
         //循环所有卫星
         graphicLayer.eachGraphic(function (graphic) {
           //先将所有样式还原
           if (graphic.selected) {
             graphic.setStyle({
+              pixelSize: 5,
               color: "rgba(0,255,0,0.6)",
               outlineColor: "#000000",
             });
@@ -730,6 +745,15 @@
           }
 
           let attr = graphic.attr; //卫星的属性
+
+          //名称
+          if (name) {
+            if ((attr.name && attr.name.indexOf(name) !== -1) || (attr.id && attr.id == name) || (attr.cospar && attr.cospar.indexOf(name) !== -1)) {
+              //
+            } else {
+              return;
+            }
+          }
 
           //系列卫星时
           if (xilie) {
@@ -842,12 +866,18 @@
           if (!graphic.selected) {
             graphic.selected = true;
             graphic.setStyle({
+              pixelSize: 8,
               color: "rgba(255,0,0,1.0)",
               outlineColor: "#FFFFFF",
             });
+            lastGraphic = graphic;
           }
           selCount++;
         });
+
+        if (selCount == 1) {
+          highlightSatellite(lastGraphic);
+        }
 
         haoutil.msg(`${allCount}个对象中，有 ${selCount} 个符合条件`);
       }

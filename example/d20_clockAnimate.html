@@ -21,12 +21,7 @@
     <title>功能示例 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
-    <script
-      type="text/javascript"
-      src="../lib/include-lib.js"
-      libpath="../lib/"
-      include="jquery,layer,haoutil,mars3d"
-    ></script>
+    <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/" include="jquery,layer,haoutil,mars3d"></script>
 
     <link href="css/style.css" rel="stylesheet" />
   </head>
@@ -67,6 +62,12 @@
           format: "yyyy-MM-dd HH:mm:ss",
         });
         map.addControl(clockAnimate);
+
+        clockAnimate.on(mars3d.EventType.click, function (event) {
+          if (event.targetType == "label") {
+            console.log("单击了时间文本区域", event);
+          }
+        });
       }
     </script>
   </body>
