@@ -79,12 +79,175 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
-    <script type="text/javascript">
-      //entity示例中的图层通用js
 
-      //在图层级处理一些事物
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      let map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            center: { lat: 31.56238, lng: 117.215326, alt: 32419, heading: 2, pitch: -49 },
+          },
+        });
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        //创建矢量数据图层
+        let graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        //新增绘制
+        $("#btnStartDraw").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "sector",
+            style: {
+              color: "#29cf34",
+              opacity: 0.5,
+              outline: true,
+              outlineWidth: 3,
+              outlineColor: "#ffffff",
+              label: {
+                text: "我是火星科技",
+                font_size: 18,
+                color: "#ffffff",
+                distanceDisplayCondition: true,
+                distanceDisplayCondition_far: 500000,
+                distanceDisplayCondition_near: 0,
+              },
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+        $("#btnStartDrawExtruded").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "sector",
+            style: {
+              color: "#00ff00",
+              opacity: 0.5,
+              diffHeight: 300,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+      }
+
+      function addGraphic_01(graphicLayer) {
+        let graphic = new mars3d.graphic.Sector({
+          positions: [
+            [117.151322, 31.863556, 34.3],
+            // [117.18186, 31.869359, 29.8],
+            // [117.17505, 31.84342, 105.7],
+          ],
+          style: {
+            radius: 5000,
+            startAngle: 0, //开始角度(正东方向为0,顺时针到360度)
+            endAngle: 90,
+
+            color: "#3388ff",
+            opacity: 0.5,
+            outline: true,
+            outlineWidth: 3,
+            outlineColor: "#ffffff",
+            label: {
+              text: "我是火星科技",
+              font_size: 18,
+              color: "#ffffff",
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 500000,
+              distanceDisplayCondition_near: 0,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+
+        //演示个性化处理graphic
+        // initGraphicManager(graphic)
+      }
+
+      function addGraphic_02(graphicLayer) {
+        let graphic = new mars3d.graphic.Sector({
+          position: [117.257699, 31.861722, 24.8],
+          style: {
+            radius: 4000,
+            startAngle: 45, //开始角度(正东方向为0,顺时针到360度)
+            endAngle: 170,
+            clampToGround: true,
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Image, {
+              image: "img/textures/excavate_bottom_min.jpg",
+              color: Cesium.Color.WHITE.withAlpha(0.8), //透明度处理
+            }),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_03(graphicLayer) {
+        let graphic = new mars3d.graphic.Sector({
+          position: [117.152749, 31.77278, 24.1],
+          style: {
+            radius: 3000,
+            startAngle: 90, //开始角度(正东方向为0,顺时针到360度)
+            endAngle: 20,
+
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Water, {
+              normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
+              frequency: 8000.0, // 控制波数的数字。
+              animationSpeed: 0.02, // 控制水的动画速度的数字。
+              amplitude: 5.0, // 控制水波振幅的数字。
+              specularIntensity: 0.8, // 控制镜面反射强度的数字。
+              baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
+              blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
+            }),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_04(graphicLayer) {
+        let graphic = new mars3d.graphic.Sector({
+          position: [117.272405, 31.798676, 21.2],
+          style: {
+            radius: 3000,
+            startAngle: 0, //开始角度(正东方向为0,顺时针到360度)
+            endAngle: 60,
+
+            diffHeight: 2000.0,
+            color: Cesium.Color.YELLOW,
+            opacity: 0.5,
+            closeTop: false,
+            closeBottom: false,
+
+            label: { text: "鼠标移入会高亮" },
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              opacity: 0.9,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+//在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -428,14 +591,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -472,174 +635,6 @@
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
       }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      let map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars3d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.56238, lng: 117.215326, alt: 32419, heading: 2, pitch: -49 },
-          },
-        });
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        //创建矢量数据图层
-        let graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        //新增绘制
-        $("#btnStartDraw").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "sector",
-            style: {
-              color: "#29cf34",
-              opacity: 0.5,
-              outline: true,
-              outlineWidth: 3,
-              outlineColor: "#ffffff",
-              label: {
-                text: "我是火星科技",
-                font_size: 18,
-                color: "#ffffff",
-                distanceDisplayCondition: true,
-                distanceDisplayCondition_far: 500000,
-                distanceDisplayCondition_near: 0,
-              },
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-        $("#btnStartDrawExtruded").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "sector",
-            style: {
-              color: "#00ff00",
-              opacity: 0.5,
-              diffHeight: 300,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-        addGraphic_02(graphicLayer);
-        addGraphic_03(graphicLayer);
-        addGraphic_04(graphicLayer);
-      }
-
-      function addGraphic_01(graphicLayer) {
-        let graphic = new mars3d.graphic.Sector({
-          positions: [
-            [117.151322, 31.863556, 34.3],
-            // [117.18186, 31.869359, 29.8],
-            // [117.17505, 31.84342, 105.7],
-          ],
-          style: {
-            radius: 5000,
-            startAngle: 0, //开始角度(正东方向为0,顺时针到360度)
-            endAngle: 90,
-
-            color: "#3388ff",
-            opacity: 0.5,
-            outline: true,
-            outlineWidth: 3,
-            outlineColor: "#ffffff",
-            label: {
-              text: "我是火星科技",
-              font_size: 18,
-              color: "#ffffff",
-              distanceDisplayCondition: true,
-              distanceDisplayCondition_far: 500000,
-              distanceDisplayCondition_near: 0,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-
-        //演示个性化处理graphic
-        // initGraphicManager(graphic)
-      }
-
-      function addGraphic_02(graphicLayer) {
-        let graphic = new mars3d.graphic.Sector({
-          position: [117.257699, 31.861722, 24.8],
-          style: {
-            radius: 4000,
-            startAngle: 45, //开始角度(正东方向为0,顺时针到360度)
-            endAngle: 170,
-            clampToGround: true,
-            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Image, {
-              image: "img/textures/excavate_bottom_min.jpg",
-              color: Cesium.Color.WHITE.withAlpha(0.8), //透明度处理
-            }),
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      function addGraphic_03(graphicLayer) {
-        let graphic = new mars3d.graphic.Sector({
-          position: [117.152749, 31.77278, 24.1],
-          style: {
-            radius: 3000,
-            startAngle: 90, //开始角度(正东方向为0,顺时针到360度)
-            endAngle: 20,
-
-            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Water, {
-              normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
-              frequency: 8000.0, // 控制波数的数字。
-              animationSpeed: 0.02, // 控制水的动画速度的数字。
-              amplitude: 5.0, // 控制水波振幅的数字。
-              specularIntensity: 0.8, // 控制镜面反射强度的数字。
-              baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
-              blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
-            }),
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      function addGraphic_04(graphicLayer) {
-        let graphic = new mars3d.graphic.Sector({
-          position: [117.272405, 31.798676, 21.2],
-          style: {
-            radius: 3000,
-            startAngle: 0, //开始角度(正东方向为0,顺时针到360度)
-            endAngle: 60,
-
-            diffHeight: 2000.0,
-            color: Cesium.Color.YELLOW,
-            opacity: 0.5,
-            closeTop: false,
-            closeBottom: false,
-
-            label: { text: "鼠标移入会高亮" },
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              opacity: 0.9,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-    </script>
+        </script>
   </body>
 </html>

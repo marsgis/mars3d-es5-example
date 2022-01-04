@@ -140,12 +140,175 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
-    <script type="text/javascript">
-      //entity示例中的图层通用js
 
-      //在图层级处理一些事物
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            fxaa: true,
+            center: { lat: 30.834006, lng: 118.779512, alt: 306743, heading: 313, pitch: -58 },
+            cameraController: {
+              constrainedAxis: false,
+            },
+          },
+          control: {
+            sceneModePicker: false,
+          },
+        });
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        //创建矢量数据图层
+        var graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        $("#btnStartDraw").click(function () {
+          //参数
+          var heading = Number($("#model_heading").val());
+          var pitch = Number($("#model_pitch").val());
+          var roll = Number($("#model_roll").val());
+          var radius = Number($("#model_radius").val());
+          var xHalfAngle = Number($("#model_angle1").val());
+          var yHalfAngle = Number($("#model_angle2").val());
+          var showScanPlane = $("#chkShowScanPlane").is(":checked");
+
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "rectangularSensor",
+            style: {
+              heading: heading,
+              pitch: pitch,
+              roll: roll,
+
+              radius: radius, //传感器的半径
+              xHalfAngleDegree: xHalfAngle, //传感器水平半角
+              yHalfAngleDegree: yHalfAngle, //传感器垂直半角
+
+              color: "#00ffff",
+              opacity: 0.4,
+              lineColor: "#ffffff", //线的颜色
+
+              showScanPlane: true, //是否显示扫描面
+              scanPlaneColor: "#00ffff",
+              scanPlaneOpacity: 0.9,
+              scanPlaneMode: "vertical", // 扫描面模式 垂直vertical/水平horizontal
+              scanPlaneRate: 3, //扫描速率,
+              depthTest: true,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+      }
+
+      function addGraphic_01(graphicLayer) {
+        //===========绑定一些事件更新属性================
+        //先设置滑动轨，才能获取到值
+        $("#model_heading")
+          .slider({ min: 0, max: 360, step: 0.01, value: 90 })
+          .on("change", (e) => {
+            if (e && e.value) {
+              rectangularSensor.heading = e.value.newValue;
+            }
+          });
+        $("#model_pitch")
+          .slider({ min: 0, max: 360, step: 0.01, value: 0 })
+          .on("change", (e) => {
+            if (e && e.value) {
+              rectangularSensor.pitch = e.value.newValue;
+            }
+          });
+        $("#model_roll")
+          .slider({ min: 0, max: 360, step: 0.01, value: 0 })
+          .on("change", (e) => {
+            if (e && e.value) {
+              rectangularSensor.roll = e.value.newValue;
+            }
+          });
+
+        $("#model_radius").change(function () {
+          rectangularSensor.radius = Number($(this).val());
+        });
+
+        $("#model_angle1")
+          .slider({ min: 0, max: 89, step: 0.01, value: 50 })
+          .on("change", (e) => {
+            if (e && e.value) {
+              //传感器水平半角
+              if (e && e.value) {
+                rectangularSensor.style = { xHalfAngleDegree: e.value.newValue };
+              }
+            }
+          });
+        $("#model_angle2")
+          .slider({ min: 0, max: 89, step: 0.01, value: 50 })
+          .on("change", (e) => {
+            if (e && e.value) {
+              //传感器垂直半角
+              if (e && e.value) {
+                rectangularSensor.style = { yHalfAngleDegree: e.value.newValue };
+              }
+            }
+          });
+
+        $("#chkShowScanPlane").change(function () {
+          var showScanPlane = $("#chkShowScanPlane").is(":checked");
+          rectangularSensor.style = { showScanPlane: showScanPlane }; //是否显示扫描面
+        });
+
+        //===========参数================
+        var heading = Number($("#model_heading").val());
+        var pitch = Number($("#model_pitch").val());
+        var roll = Number($("#model_roll").val());
+        var radius = Number($("#model_radius").val());
+        var xHalfAngle = Number($("#model_angle1").val());
+        var yHalfAngle = Number($("#model_angle2").val());
+        var showScanPlane = $("#chkShowScanPlane").is(":checked");
+        var value = $("#model_heading").slider("getValue");
+
+        var rectangularSensor = new mars3d.graphic.RectangularSensor({
+          position: [117.218875, 31.817812, 138],
+          style: {
+            heading: heading,
+            pitch: pitch,
+            roll: roll,
+
+            radius: radius, //传感器的半径
+            xHalfAngleDegree: xHalfAngle, //传感器水平半角
+            yHalfAngleDegree: yHalfAngle, //传感器垂直半角
+
+            color: "#00ffff",
+            opacity: 0.4,
+            lineColor: "#ffffff", //线的颜色
+
+            showScanPlane: true, //是否显示扫描面
+            scanPlaneColor: "#00ffff",
+            scanPlaneOpacity: 0.9,
+            scanPlaneMode: "vertical", // 扫描面模式 垂直vertical/水平horizontal
+            scanPlaneRate: 3, //扫描速率,
+            depthTest: true,
+          },
+        });
+
+        graphicLayer.addGraphic(rectangularSensor);
+      }
+
+//在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -489,14 +652,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -533,173 +696,6 @@
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
       }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
-          scene: {
-            fxaa: true,
-            center: { lat: 30.834006, lng: 118.779512, alt: 306743, heading: 313, pitch: -58 },
-            cameraController: {
-              constrainedAxis: false,
-            },
-          },
-          control: {
-            sceneModePicker: false,
-          },
-        });
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        $("#btnStartDraw").click(function () {
-          //参数
-          var heading = Number($("#model_heading").val());
-          var pitch = Number($("#model_pitch").val());
-          var roll = Number($("#model_roll").val());
-          var radius = Number($("#model_radius").val());
-          var xHalfAngle = Number($("#model_angle1").val());
-          var yHalfAngle = Number($("#model_angle2").val());
-          var showScanPlane = $("#chkShowScanPlane").is(":checked");
-
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "rectangularSensor",
-            style: {
-              heading: heading,
-              pitch: pitch,
-              roll: roll,
-
-              radius: radius, //传感器的半径
-              xHalfAngleDegree: xHalfAngle, //传感器水平半角
-              yHalfAngleDegree: yHalfAngle, //传感器垂直半角
-
-              color: "#00ffff",
-              opacity: 0.4,
-              lineColor: "#ffffff", //线的颜色
-
-              showScanPlane: true, //是否显示扫描面
-              scanPlaneColor: "#00ffff",
-              scanPlaneOpacity: 0.9,
-              scanPlaneMode: "vertical", // 扫描面模式 垂直vertical/水平horizontal
-              scanPlaneRate: 3, //扫描速率,
-              depthTest: true,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-      }
-
-      function addGraphic_01(graphicLayer) {
-        //===========绑定一些事件更新属性================
-        //先设置滑动轨，才能获取到值
-        $("#model_heading")
-          .slider({ min: 0, max: 360, step: 0.01, value: 90 })
-          .on("change", (e) => {
-            if (e && e.value) {
-              rectangularSensor.heading = e.value.newValue;
-            }
-          });
-        $("#model_pitch")
-          .slider({ min: 0, max: 360, step: 0.01, value: 0 })
-          .on("change", (e) => {
-            if (e && e.value) {
-              rectangularSensor.pitch = e.value.newValue;
-            }
-          });
-        $("#model_roll")
-          .slider({ min: 0, max: 360, step: 0.01, value: 0 })
-          .on("change", (e) => {
-            if (e && e.value) {
-              rectangularSensor.roll = e.value.newValue;
-            }
-          });
-
-        $("#model_radius").change(function () {
-          rectangularSensor.radius = Number($(this).val());
-        });
-
-        $("#model_angle1")
-          .slider({ min: 0, max: 89, step: 0.01, value: 50 })
-          .on("change", (e) => {
-            if (e && e.value) {
-              //传感器水平半角
-              if (e && e.value) {
-                rectangularSensor.style = { xHalfAngleDegree: e.value.newValue };
-              }
-            }
-          });
-        $("#model_angle2")
-          .slider({ min: 0, max: 89, step: 0.01, value: 50 })
-          .on("change", (e) => {
-            if (e && e.value) {
-              //传感器垂直半角
-              if (e && e.value) {
-                rectangularSensor.style = { yHalfAngleDegree: e.value.newValue };
-              }
-            }
-          });
-
-        $("#chkShowScanPlane").change(function () {
-          var showScanPlane = $("#chkShowScanPlane").is(":checked");
-          rectangularSensor.style = { showScanPlane: showScanPlane }; //是否显示扫描面
-        });
-
-        //===========参数================
-        var heading = Number($("#model_heading").val());
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
-        var radius = Number($("#model_radius").val());
-        var xHalfAngle = Number($("#model_angle1").val());
-        var yHalfAngle = Number($("#model_angle2").val());
-        var showScanPlane = $("#chkShowScanPlane").is(":checked");
-        var value = $("#model_heading").slider("getValue");
-
-        var rectangularSensor = new mars3d.graphic.RectangularSensor({
-          position: [117.218875, 31.817812, 138],
-          style: {
-            heading: heading,
-            pitch: pitch,
-            roll: roll,
-
-            radius: radius, //传感器的半径
-            xHalfAngleDegree: xHalfAngle, //传感器水平半角
-            yHalfAngleDegree: yHalfAngle, //传感器垂直半角
-
-            color: "#00ffff",
-            opacity: 0.4,
-            lineColor: "#ffffff", //线的颜色
-
-            showScanPlane: true, //是否显示扫描面
-            scanPlaneColor: "#00ffff",
-            scanPlaneOpacity: 0.9,
-            scanPlaneMode: "vertical", // 扫描面模式 垂直vertical/水平horizontal
-            scanPlaneRate: 3, //扫描速率,
-            depthTest: true,
-          },
-        });
-
-        graphicLayer.addGraphic(rectangularSensor);
-      }
-    </script>
+        </script>
   </body>
 </html>

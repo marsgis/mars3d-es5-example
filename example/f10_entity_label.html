@@ -85,10 +85,164 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      //entity示例中的图层通用js
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+      var graphicLayer;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {});
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        //创建矢量数据图层
+        graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        //新增绘制
+        $("#btnStartDraw").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "label",
+            style: {
+              text: "火星科技Mars3D平台",
+              color: "#0081c2",
+              font_size: 27,
+              outline: true,
+              outlineColor: "#ffffff",
+              outlineWidth: 2,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        $("#btnStartBounce").click(function () {
+          graphicLayer.eachGraphic((graphic) => {
+            if (graphic.startBounce) {
+              graphic.startBounce();
+            }
+          });
+        });
+        $("#btnStartBounce2").click(function () {
+          graphicLayer.eachGraphic((graphic) => {
+            if (graphic.startBounce) {
+              graphic.startBounce({
+                autoStop: true,
+                step: 2,
+                maxHeight: 90,
+              });
+            }
+          });
+        });
+        $("#btnStopBounce").click(function () {
+          graphicLayer.eachGraphic((graphic) => {
+            if (graphic.stopBounce) {
+              graphic.stopBounce();
+            }
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+      }
+
+      function addGraphic_01(graphicLayer) {
+        var graphic = new mars3d.graphic.LabelEntity({
+          position: new mars3d.LatLngPoint(116.308659, 30.914005, 429.94),
+          style: {
+            text: "合肥火星科技有限公司",
+            font_size: 25,
+            font_family: "楷体",
+            color: "#003da6",
+            outline: true,
+            outlineColor: "#bfbfbf",
+            outlineWidth: 2,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            visibleDepth: false,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        //graphic转geojson
+        var geojson = graphic.toGeoJSON();
+        console.log("转换后的geojson", geojson);
+        addGeoJson(geojson, graphicLayer);
+      }
+
+      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
+      function addGeoJson(geojson, graphicLayer) {
+        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        delete graphicCopy.attr;
+        //新的坐标
+        graphicCopy.position = [116.18869, 30.95041, 525.84];
+        graphicCopy.style.label = graphicCopy.style.label || {};
+        graphicCopy.style.text = "MarsGIS-我是转换后生成的";
+        graphicLayer.addGraphic(graphicCopy);
+      }
+
+      function addGraphic_02(graphicLayer) {
+        var graphic = new mars3d.graphic.LabelEntity({
+          name: "贴地文字",
+          position: new mars3d.LatLngPoint(116.241728, 30.879732),
+          style: {
+            text: "Mars3D",
+            font_size: 25,
+            color: "#ffff00",
+            clampToGround: true,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      function addGraphic_03(graphicLayer) {
+        var graphic = new mars3d.graphic.LabelEntity({
+          name: "根据视距缩放文字",
+          position: new mars3d.LatLngPoint(116.340026, 30.873948, 383.31),
+          style: {
+            text: "中国安徽合肥",
+            color: "#00ff00",
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1),
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      function addGraphic_04(graphicLayer) {
+        var graphic = new mars3d.graphic.LabelEntity({
+          name: "根据视距显示文字",
+          position: new mars3d.LatLngPoint(116.329102, 30.977955, 1548.6),
+          style: {
+            text: "火星科技Mars3D平台",
+            font_size: 25,
+            font_family: "楷体",
+            color: "#0081c2",
+            outline: true,
+            outlineColor: "#ffffff",
+            outlineWidth: 2,
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000),
+
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              font_size: 30,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
 
       //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
@@ -434,14 +588,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -477,166 +631,6 @@
         var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
-      }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-      var graphicLayer;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        //创建矢量数据图层
-        graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        //新增绘制
-        $("#btnStartDraw").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "label",
-            style: {
-              text: "火星科技Mars3D平台",
-              color: "#0081c2",
-              font_size: 27,
-              outline: true,
-              outlineColor: "#ffffff",
-              outlineWidth: 2,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        $("#btnStartBounce").click(function () {
-          graphicLayer.eachGraphic((graphic) => {
-            if (graphic.startBounce) {
-              graphic.startBounce();
-            }
-          });
-        });
-        $("#btnStartBounce2").click(function () {
-          graphicLayer.eachGraphic((graphic) => {
-            if (graphic.startBounce) {
-              graphic.startBounce({
-                autoStop: true,
-                step: 2,
-                maxHeight: 90,
-              });
-            }
-          });
-        });
-        $("#btnStopBounce").click(function () {
-          graphicLayer.eachGraphic((graphic) => {
-            if (graphic.stopBounce) {
-              graphic.stopBounce();
-            }
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-        addGraphic_02(graphicLayer);
-        addGraphic_03(graphicLayer);
-        addGraphic_04(graphicLayer);
-      }
-
-      function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.LabelEntity({
-          position: new mars3d.LatLngPoint(116.308659, 30.914005, 429.94),
-          style: {
-            text: "合肥火星科技有限公司",
-            font_size: 25,
-            font_family: "楷体",
-            color: "#003da6",
-            outline: true,
-            outlineColor: "#bfbfbf",
-            outlineWidth: 2,
-            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            visibleDepth: false,
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-
-        //graphic转geojson
-        var geojson = graphic.toGeoJSON();
-        console.log("转换后的geojson", geojson);
-        addGeoJson(geojson, graphicLayer);
-      }
-
-      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
-      function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
-        delete graphicCopy.attr;
-        //新的坐标
-        graphicCopy.position = [116.18869, 30.95041, 525.84];
-        graphicCopy.style.label = graphicCopy.style.label || {};
-        graphicCopy.style.text = "MarsGIS-我是转换后生成的";
-        graphicLayer.addGraphic(graphicCopy);
-      }
-
-      function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.LabelEntity({
-          name: "贴地文字",
-          position: new mars3d.LatLngPoint(116.241728, 30.879732),
-          style: {
-            text: "Mars3D",
-            font_size: 25,
-            color: "#ffff00",
-            clampToGround: true,
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-      }
-
-      function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.LabelEntity({
-          name: "根据视距缩放文字",
-          position: new mars3d.LatLngPoint(116.340026, 30.873948, 383.31),
-          style: {
-            text: "中国安徽合肥",
-            color: "#00ff00",
-            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-            scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1),
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-      }
-
-      function addGraphic_04(graphicLayer) {
-        var graphic = new mars3d.graphic.LabelEntity({
-          name: "根据视距显示文字",
-          position: new mars3d.LatLngPoint(116.329102, 30.977955, 1548.6),
-          style: {
-            text: "火星科技Mars3D平台",
-            font_size: 25,
-            font_family: "楷体",
-            color: "#0081c2",
-            outline: true,
-            outlineColor: "#ffffff",
-            outlineWidth: 2,
-            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000),
-
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              font_size: 30,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic);
       }
     </script>
   </body>

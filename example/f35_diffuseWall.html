@@ -54,12 +54,87 @@
       </div>
     </div>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
-    <script type="text/javascript">
-      //entity示例中的图层通用js
 
-      //在图层级处理一些事物
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            center: { lat: 31.188596, lng: 121.474422, alt: 4541, heading: 15, pitch: -40 },
+          },
+        });
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+        map.basemap = 2017; //蓝色底图
+
+        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+          name: "上海市建筑物",
+          url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
+          maximumScreenSpaceError: 8,
+          maximumMemoryUsage: 1024,
+          marsJzwStyle: true,
+          style: {
+            color: {
+              conditions: [["true", "rgb(3, 104, 255)"]],
+            },
+          },
+          popup: "all",
+        });
+        map.addLayer(tiles3dLayer);
+
+        //创建Graphic图层
+        var graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        //加一些演示数据
+
+        //立体围墙扩散效果,面状
+        var diffuseWallGlow = new mars3d.graphic.DiffuseWall({
+          positions: [
+            [121.475616, 31.255374, 5.87],
+            [121.482578, 31.248681, 10.85],
+            [121.479447, 31.240235, 14.25],
+            [121.470002, 31.240496, 12.92],
+            [121.46538, 31.249206, 9.53],
+            [121.475616, 31.255374, 5.87],
+          ],
+          style: {
+            color: "#ffff00",
+            diffHeight: 2000, //高度
+            speed: 10, //速度
+
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              color: "#ff0000",
+            },
+          },
+        });
+        graphicLayer.addGraphic(diffuseWallGlow);
+
+        //立体围墙扩散效果,圆状
+        var circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
+          position: Cesium.Cartesian3.fromDegrees(121.504242, 31.23805, 27.88), //圆中心点
+          style: {
+            diffHeight: 2000, //高度
+            radius: 600, //半径
+            color: "#ff0000",
+            speed: 10, //速度
+          },
+        });
+        graphicLayer.addGraphic(circleDiffuseWallGlow);
+      }
+
+//在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -403,14 +478,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -447,85 +522,6 @@
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
       }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.188596, lng: 121.474422, alt: 4541, heading: 15, pitch: -40 },
-          },
-        });
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-        map.basemap = 2017; //蓝色底图
-
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
-          name: "上海市建筑物",
-          url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
-          maximumScreenSpaceError: 8,
-          maximumMemoryUsage: 1024,
-          marsJzwStyle: true,
-          style: {
-            color: {
-              conditions: [["true", "rgb(3, 104, 255)"]],
-            },
-          },
-          popup: "all",
-        });
-        map.addLayer(tiles3dLayer);
-
-        //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        //加一些演示数据
-
-        //立体围墙扩散效果,面状
-        var diffuseWallGlow = new mars3d.graphic.DiffuseWall({
-          positions: [
-            [121.475616, 31.255374, 5.87],
-            [121.482578, 31.248681, 10.85],
-            [121.479447, 31.240235, 14.25],
-            [121.470002, 31.240496, 12.92],
-            [121.46538, 31.249206, 9.53],
-            [121.475616, 31.255374, 5.87],
-          ],
-          style: {
-            color: "#ffff00",
-            diffHeight: 2000, //高度
-            speed: 10, //速度
-
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              color: "#ff0000",
-            },
-          },
-        });
-        graphicLayer.addGraphic(diffuseWallGlow);
-
-        //立体围墙扩散效果,圆状
-        var circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
-          position: Cesium.Cartesian3.fromDegrees(121.504242, 31.23805, 27.88), //圆中心点
-          style: {
-            diffHeight: 2000, //高度
-            radius: 600, //半径
-            color: "#ff0000",
-            speed: 10, //速度
-          },
-        });
-        graphicLayer.addGraphic(circleDiffuseWallGlow);
-      }
-    </script>
+        </script>
   </body>
 </html>

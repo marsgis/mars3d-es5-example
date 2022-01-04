@@ -79,10 +79,188 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      //entity示例中的图层通用js
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {});
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        //创建矢量数据图层
+        var graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        $("#btnStartDraw").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "ellipse",
+            style: {
+              color: "#ffff00",
+              opacity: 0.6,
+              clampToGround: false,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+        $("#btnStartDrawExtruded").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "ellipse",
+            style: {
+              color: "#ff0000",
+              opacity: 0.6,
+              diffHeight: 600,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+        addGraphic_05(graphicLayer);
+      }
+
+      //
+      function addGraphic_01(graphicLayer) {
+        var graphic = new mars3d.graphic.EllipseEntity({
+          position: [116.282587, 30.859197, 544.31],
+          style: {
+            semiMajorAxis: 800, //长半轴 半径
+            semiMinorAxis: 600, // 短半轴 半径
+            color: "#00ff00",
+            opacity: 0.3,
+            outline: true,
+            outlineWidth: 3,
+            outlineColor: "#ffffff",
+            clampToGround: true,
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+
+        //演示个性化处理graphic
+        initGraphicManager(graphic);
+      }
+
+      //
+      function addGraphic_02(graphicLayer) {
+        var graphic = new mars3d.graphic.EllipseEntity({
+          position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
+          style: {
+            semiMajorAxis: 1500, //长半轴 半径
+            semiMinorAxis: 900, // 短半轴 半径
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
+              color: "#ff0000",
+              count: 1, //单个圆圈
+              speed: 40,
+            }),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      //
+      function addGraphic_03(graphicLayer) {
+        var _rotation = Math.random();
+
+        var graphic = new mars3d.graphic.EllipseEntity({
+          position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
+          style: {
+            semiMajorAxis: 1500, //长半轴 半径
+            semiMinorAxis: 900, // 短半轴 半径
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
+              image: "img/textures/circleScan.png",
+              color: "#5fc4ee",
+            }),
+            stRotation: new Cesium.CallbackProperty(function (e) {
+              _rotation -= 0.1;
+              return _rotation;
+            }, false),
+            classificationType: Cesium.ClassificationType.BOTH,
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      //
+      function addGraphic_04(graphicLayer) {
+        var graphic = new mars3d.graphic.EllipseEntity({
+          position: [116.244399, 30.920459],
+          style: {
+            semiMinorAxis: 1100, // 短半轴 半径
+            semiMajorAxis: 2000, //长半轴 半径
+            height: 200,
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
+              color: "#ffff00",
+              count: 2,
+              speed: 20,
+            }),
+            label: {
+              text: "我是原始的",
+              font_size: 18,
+              color: "#ffffff",
+              pixelOffsetY: -10,
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 500000,
+              distanceDisplayCondition_near: 0,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+
+        //graphic转geojson
+        var geojson = graphic.toGeoJSON();
+        console.log("转换后的geojson", geojson);
+        addGeoJson(geojson, graphicLayer);
+      }
+
+      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
+      function addGeoJson(geojson, graphicLayer) {
+        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        delete graphicCopy.attr;
+        //新的坐标
+        graphicCopy.position = [116.301991, 30.933872, 624.03];
+        graphicCopy.style.label = graphicCopy.style.label || {};
+        graphicCopy.style.label.text = "我是转换后生成的";
+        graphicLayer.addGraphic(graphicCopy);
+      }
+
+      function addGraphic_05(graphicLayer) {
+        var graphic = new mars3d.graphic.EllipseEntity({
+          position: new mars3d.LatLngPoint(116.37617, 30.847384, 396.12),
+          style: {
+            semiMajorAxis: 1500, //长半轴 半径
+            semiMinorAxis: 900, // 短半轴 半径
+            diffHeight: 1000.0,
+            color: "#00ff00",
+            opacity: 0.3,
+            rotationDegree: 45,
+
+            label: { text: "鼠标移入会高亮", pixelOffsetY: -30 },
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              color: "#00ff00",
+              opacity: 0.7,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
 
       //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
@@ -428,14 +606,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -471,190 +649,6 @@
         var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
-      }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        $("#btnStartDraw").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "ellipse",
-            style: {
-              color: "#ffff00",
-              opacity: 0.6,
-              clampToGround: false,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-        $("#btnStartDrawExtruded").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "ellipse",
-            style: {
-              color: "#ff0000",
-              opacity: 0.6,
-              diffHeight: 600,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-        addGraphic_02(graphicLayer);
-        addGraphic_03(graphicLayer);
-        addGraphic_04(graphicLayer);
-        addGraphic_05(graphicLayer);
-      }
-
-      //
-      function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipseEntity({
-          position: [116.282587, 30.859197, 544.31],
-          style: {
-            semiMajorAxis: 800, //长半轴 半径
-            semiMinorAxis: 600, // 短半轴 半径
-            color: "#00ff00",
-            opacity: 0.3,
-            outline: true,
-            outlineWidth: 3,
-            outlineColor: "#ffffff",
-            clampToGround: true,
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-
-        //演示个性化处理graphic
-        initGraphicManager(graphic);
-      }
-
-      //
-      function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipseEntity({
-          position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
-          style: {
-            semiMajorAxis: 1500, //长半轴 半径
-            semiMinorAxis: 900, // 短半轴 半径
-            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
-              color: "#ff0000",
-              count: 1, //单个圆圈
-              speed: 40,
-            }),
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      //
-      function addGraphic_03(graphicLayer) {
-        var _rotation = Math.random();
-
-        var graphic = new mars3d.graphic.EllipseEntity({
-          position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
-          style: {
-            semiMajorAxis: 1500, //长半轴 半径
-            semiMinorAxis: 900, // 短半轴 半径
-            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
-              image: "img/textures/circleScan.png",
-              color: "#5fc4ee",
-            }),
-            stRotation: new Cesium.CallbackProperty(function (e) {
-              _rotation -= 0.1;
-              return _rotation;
-            }, false),
-            classificationType: Cesium.ClassificationType.BOTH,
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      //
-      function addGraphic_04(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipseEntity({
-          position: [116.244399, 30.920459],
-          style: {
-            semiMinorAxis: 1100, // 短半轴 半径
-            semiMajorAxis: 2000, //长半轴 半径
-            height: 200,
-            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
-              color: "#ffff00",
-              count: 2,
-              speed: 20,
-            }),
-            label: {
-              text: "我是原始的",
-              font_size: 18,
-              color: "#ffffff",
-              pixelOffsetY: -10,
-              distanceDisplayCondition: true,
-              distanceDisplayCondition_far: 500000,
-              distanceDisplayCondition_near: 0,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-
-        //graphic转geojson
-        var geojson = graphic.toGeoJSON();
-        console.log("转换后的geojson", geojson);
-        addGeoJson(geojson, graphicLayer);
-      }
-
-      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
-      function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
-        delete graphicCopy.attr;
-        //新的坐标
-        graphicCopy.position = [116.301991, 30.933872, 624.03];
-        graphicCopy.style.label = graphicCopy.style.label || {};
-        graphicCopy.style.label.text = "我是转换后生成的";
-        graphicLayer.addGraphic(graphicCopy);
-      }
-
-      function addGraphic_05(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipseEntity({
-          position: new mars3d.LatLngPoint(116.37617, 30.847384, 396.12),
-          style: {
-            semiMajorAxis: 1500, //长半轴 半径
-            semiMinorAxis: 900, // 短半轴 半径
-            diffHeight: 1000.0,
-            color: "#00ff00",
-            opacity: 0.3,
-            rotationDegree: 45,
-
-            label: { text: "鼠标移入会高亮", pixelOffsetY: -30 },
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              color: "#00ff00",
-              opacity: 0.7,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
       }
     </script>
   </body>

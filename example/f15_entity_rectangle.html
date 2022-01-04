@@ -79,12 +79,185 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
-    <script type="text/javascript">
-      //entity示例中的图层通用js
 
-      //在图层级处理一些事物
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            center: { lat: 31.516143, lng: 117.282937, alt: 46242, heading: 2, pitch: -49 },
+          },
+        });
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        //创建矢量数据图层
+        var graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        //新增绘制
+        $("#btnStartDraw").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "rectangle",
+            style: {
+              color: "#ffff00",
+              opacity: 0.6,
+              outline: true,
+              outlineWidth: 3,
+              outlineColor: "#ffffff",
+              label: {
+                text: "我是火星科技",
+                font_size: 18,
+                color: "#ffffff",
+                distanceDisplayCondition: true,
+                distanceDisplayCondition_far: 500000,
+                distanceDisplayCondition_near: 0,
+              },
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        $("#btnStartDrawExtruded").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "rectangle",
+            style: {
+              color: "#00ff00",
+              opacity: 0.5,
+              diffHeight: 600,
+            },
+            success: function (graphic) {
+              console.log("绘制完成", graphic);
+            },
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+      }
+
+      function addGraphic_01(graphicLayer) {
+        var graphic = new mars3d.graphic.RectangleEntity({
+          positions: [
+            [117.220337, 31.786107],
+            [117.278695, 31.832987],
+          ],
+          style: {
+            color: "#3388ff",
+            opacity: 0.4,
+            outline: true,
+            outlineWidth: 3,
+            outlineColor: "#ffffff",
+
+            label: { text: "鼠标移入会高亮", pixelOffsetY: -30 },
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              opacity: 0.8,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+
+        //演示个性化处理graphic
+        initGraphicManager(graphic);
+      }
+
+      function addGraphic_02(graphicLayer) {
+        var graphic = new mars3d.graphic.RectangleEntity({
+          positions: [
+            [117.337109, 31.881802],
+            [117.377109, 31.941802],
+          ],
+          style: {
+            color: "rgba(255,0,0,0.5)",
+            rotationDegree: 45,
+            diffHeight: 1000.0,
+            height: 100.0,
+            outline: true, // height must be set for outline to display
+            outlineColor: Cesium.Color.BLACK,
+
+            label: {
+              text: "我是火星科技",
+              font_size: 18,
+              color: "#ffffff",
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 500000,
+              distanceDisplayCondition_near: 0,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_03(graphicLayer) {
+        var rotation = Cesium.Math.toRadians(30);
+        function getRotationValue() {
+          rotation += 0.005;
+          return rotation;
+        }
+
+        var graphic = new mars3d.graphic.RectangleEntity({
+          positions: [
+            [117.172852, 31.872736, 33.69],
+            [117.251461, 31.956011, 26.44],
+          ],
+          style: {
+            height: 100,
+            image: "img/tietu/gugong.jpg",
+            rotation: new Cesium.CallbackProperty(getRotationValue, false),
+            stRotation: new Cesium.CallbackProperty(getRotationValue, false),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_04(graphicLayer) {
+        var graphicZP = new mars3d.graphic.RectangleEntity({
+          positions: [
+            [117.371661, 31.826814],
+            [117.408131, 31.799931],
+          ],
+          style: {
+            image: "img/tietu/hangpai.png",
+            clampToGround: true,
+          },
+        });
+        graphicLayer.addGraphic(graphicZP);
+      }
+
+      // function addGraphic_04(graphicLayer) {
+      //   var graphicZP = new mars3d.graphic.RectangleEntity({
+      //     positions: [
+      //       [112.577227713512, 37.9962695328675],
+      //       [112.580763278004, 37.9987875232216],
+      //     ],
+      //     style: {
+      //       color: '#00ff00',
+      //       clampToGround: true,
+      //     },
+      //   })
+      //   graphicLayer.addGraphic(graphicZP)
+
+      //   map.setCameraView({ lat: 37.996782, lng: 112.579535, alt: 1609, heading: 6, pitch: -83 })
+      // }
+
+//在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -428,14 +601,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -472,184 +645,7 @@
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
       }
-    </script>
+        </script>
 
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.516143, lng: 117.282937, alt: 46242, heading: 2, pitch: -49 },
-          },
-        });
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        //新增绘制
-        $("#btnStartDraw").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "rectangle",
-            style: {
-              color: "#ffff00",
-              opacity: 0.6,
-              outline: true,
-              outlineWidth: 3,
-              outlineColor: "#ffffff",
-              label: {
-                text: "我是火星科技",
-                font_size: 18,
-                color: "#ffffff",
-                distanceDisplayCondition: true,
-                distanceDisplayCondition_far: 500000,
-                distanceDisplayCondition_near: 0,
-              },
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        $("#btnStartDrawExtruded").click(function () {
-          //开始绘制
-          graphicLayer.startDraw({
-            type: "rectangle",
-            style: {
-              color: "#00ff00",
-              opacity: 0.5,
-              diffHeight: 600,
-            },
-            success: function (graphic) {
-              console.log("绘制完成", graphic);
-            },
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-        addGraphic_02(graphicLayer);
-        addGraphic_03(graphicLayer);
-        addGraphic_04(graphicLayer);
-      }
-
-      function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.RectangleEntity({
-          positions: [
-            [117.220337, 31.786107],
-            [117.278695, 31.832987],
-          ],
-          style: {
-            color: "#3388ff",
-            opacity: 0.4,
-            outline: true,
-            outlineWidth: 3,
-            outlineColor: "#ffffff",
-
-            label: { text: "鼠标移入会高亮", pixelOffsetY: -30 },
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              opacity: 0.8,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-
-        //演示个性化处理graphic
-        initGraphicManager(graphic);
-      }
-
-      function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.RectangleEntity({
-          positions: [
-            [117.337109, 31.881802],
-            [117.377109, 31.941802],
-          ],
-          style: {
-            color: "rgba(255,0,0,0.5)",
-            rotationDegree: 45,
-            diffHeight: 1000.0,
-            height: 100.0,
-            outline: true, // height must be set for outline to display
-            outlineColor: Cesium.Color.BLACK,
-
-            label: {
-              text: "我是火星科技",
-              font_size: 18,
-              color: "#ffffff",
-              distanceDisplayCondition: true,
-              distanceDisplayCondition_far: 500000,
-              distanceDisplayCondition_near: 0,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      function addGraphic_03(graphicLayer) {
-        var rotation = Cesium.Math.toRadians(30);
-        function getRotationValue() {
-          rotation += 0.005;
-          return rotation;
-        }
-
-        var graphic = new mars3d.graphic.RectangleEntity({
-          positions: [
-            [117.172852, 31.872736, 33.69],
-            [117.251461, 31.956011, 26.44],
-          ],
-          style: {
-            height: 100,
-            image: "img/tietu/gugong.jpg",
-            rotation: new Cesium.CallbackProperty(getRotationValue, false),
-            stRotation: new Cesium.CallbackProperty(getRotationValue, false),
-          },
-        });
-        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
-      }
-
-      function addGraphic_04(graphicLayer) {
-        var graphicZP = new mars3d.graphic.RectangleEntity({
-          positions: [
-            [117.371661, 31.826814],
-            [117.408131, 31.799931],
-          ],
-          style: {
-            image: "img/tietu/hangpai.png",
-            clampToGround: true,
-          },
-        });
-        graphicLayer.addGraphic(graphicZP);
-      }
-
-      // function addGraphic_04(graphicLayer) {
-      //   var graphicZP = new mars3d.graphic.RectangleEntity({
-      //     positions: [
-      //       [112.577227713512, 37.9962695328675],
-      //       [112.580763278004, 37.9987875232216],
-      //     ],
-      //     style: {
-      //       color: '#00ff00',
-      //       clampToGround: true,
-      //     },
-      //   })
-      //   graphicLayer.addGraphic(graphicZP)
-
-      //   map.setCameraView({ lat: 37.996782, lng: 112.579535, alt: 1609, heading: 6, pitch: -83 })
-      // }
-    </script>
   </body>
 </html>

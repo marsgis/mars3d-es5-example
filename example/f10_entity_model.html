@@ -78,10 +78,206 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <!-- 图层管理相关处理js -->
-        <!-- 图层管理相关处理js -->
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      //entity示例中的图层通用js
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars3d.Util.merge(options, {
+          scene: {
+            fxaa: true,
+            center: { lat: 30.851105, lng: 116.352067, alt: 1116, heading: 349, pitch: -27 },
+          },
+        });
+
+        //创建三维地球场景
+        map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        map.basemap = 2017; //蓝色底图
+
+        //固定光照，避免gltf模型随时间存在亮度不一致。
+        map.fixedLight = true;
+
+        //创建矢量数据图层
+        var graphicLayer = new mars3d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理
+        initLayerManager(graphicLayer);
+
+        $("#btnStartDraw").click(function () {
+          graphicLayer.startDraw({
+            type: "model",
+            style: {
+              scale: 10,
+              url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangche.gltf",
+              label: {
+                //不需要文字时，去掉label配置即可
+                text: "可以同时支持文字",
+                font_size: 20,
+                color: "#ffffff",
+                outline: true,
+                outlineColor: "#000000",
+                pixelOffsetY: -20,
+              },
+            },
+          });
+        });
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+      }
+
+      function addGraphic_01(graphicLayer) {
+        var graphic = new mars3d.graphic.ModelEntity({
+          name: "消防员",
+          position: [116.346929, 30.861947, 401.34],
+          style: {
+            url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
+            scale: 20,
+            minimumPixelSize: 50,
+            heading: 90,
+
+            distanceDisplayCondition: true,
+            distanceDisplayCondition_near: 0,
+            distanceDisplayCondition_far: 10000,
+            distanceDisplayPoint: {
+              //当视角距离超过 10000米(distanceDisplayCondition_far定义的) 后显示为点对象的样式
+              color: "#00ff00",
+              pixelSize: 8,
+            },
+
+            label: {
+              text: "我是原始的",
+              font_size: 18,
+              color: "#ffffff",
+              pixelOffsetY: -50,
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 10000,
+              distanceDisplayCondition_near: 0,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        //演示个性化处理graphic
+        initGraphicManager(graphic);
+
+        //graphic转geojson
+        var geojson = graphic.toGeoJSON();
+        console.log("转换后的geojson", geojson);
+        addGeoJson(geojson, graphicLayer);
+      }
+
+      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
+      function addGeoJson(geojson, graphicLayer) {
+        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        delete graphicCopy.attr;
+        //新的坐标
+        graphicCopy.position = [116.348587, 30.859472, 373.8];
+        graphicCopy.style.label = graphicCopy.style.label || {};
+        graphicCopy.style.label.text = "我是转换后生成的";
+        graphicLayer.addGraphic(graphicCopy);
+      }
+
+      function addGraphic_02(graphicLayer) {
+        var graphic = new mars3d.graphic.ModelEntity({
+          name: "风机",
+          position: [116.35104, 30.86225, 374.4],
+          style: {
+            url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
+            heading: 270,
+            scale: 30,
+            minimumPixelSize: 100,
+            silhouette: false,
+
+            distanceDisplayCondition: true,
+            distanceDisplayCondition_near: 0,
+            distanceDisplayCondition_far: 9000,
+            distanceDisplayBillboard: {
+              //当视角距离超过 9000米(distanceDisplayCondition_far定义的) 后显示为图标对象的样式
+              image: "img/marker/303.png",
+              scale: 1,
+            },
+
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              silhouette: true,
+              silhouetteColor: "#00ffff",
+              silhouetteSize: 3,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      function addGraphic_03(graphicLayer) {
+        var graphic = new mars3d.graphic.ModelEntity({
+          name: "汽车",
+          position: [116.349194, 30.864603, 376.58],
+          style: {
+            url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
+            scale: 0.5,
+            minimumPixelSize: 50,
+            silhouette: false,
+
+            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+            highlight: {
+              silhouette: true,
+              silhouetteColor: "#ff0000",
+              silhouetteSize: 4,
+            },
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      function addGraphic_04(graphicLayer) {
+        let propertyFJ = getSampledPositionProperty([
+          [116.341348, 30.875522, 500],
+          [116.341432, 30.871815, 500],
+          [116.347965, 30.866654, 500],
+          [116.352154, 30.855531, 500],
+          [116.341181, 30.85326, 500],
+          [116.334609, 30.856601, 500],
+          [116.337695, 30.866505, 500],
+          [116.345018, 30.870448, 500],
+          [116.345028, 30.870436, 500],
+        ]);
+
+        //飞机
+        var graphicModel = new mars3d.graphic.ModelEntity({
+          position: propertyFJ,
+          orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
+          style: {
+            url: "//data.mars3d.cn/gltf/mars/wrj.glb",
+            scale: 0.1,
+            minimumPixelSize: 20,
+          },
+        });
+        graphicLayer.addGraphic(graphicModel);
+      }
+
+      //计算演示的SampledPositionProperty轨迹
+      function getSampledPositionProperty(points) {
+        let property = new Cesium.SampledPositionProperty();
+        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
+
+        let start = map.clock.currentTime;
+        let positions = mars3d.LatLngArray.toCartesians(points);
+        for (let i = 0; i < positions.length; i++) {
+          let time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate());
+          let position = positions[i];
+          property.addSample(time, position);
+        }
+        return property;
+      }
 
       //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
@@ -427,14 +623,14 @@
         //绑定Popup
 
         var inthtml = `<table style="width: auto;">
-            <tr>
-              <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-            </tr>
-            <tr>
-              <td>提示：</td>
-              <td>这只是测试信息，可以任意html</td>
-            </tr>
-          </table>`;
+                <tr>
+                  <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
+                </tr>
+                <tr>
+                  <td>提示：</td>
+                  <td>这只是测试信息，可以任意html</td>
+                </tr>
+              </table>`;
         graphic.bindPopup(inthtml).openPopup();
 
         //绑定右键菜单
@@ -470,208 +666,6 @@
         var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
         var height = haoutil.math.random(1000, 9000);
         return new mars3d.LatLngPoint(jd, wd, height);
-      }
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
-
-      var map;
-
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
-          scene: {
-            fxaa: true,
-            center: { lat: 30.851105, lng: 116.352067, alt: 1116, heading: 349, pitch: -27 },
-          },
-        });
-
-        //创建三维地球场景
-        map = new mars3d.Map("mars3dContainer", mapOptions);
-
-        map.basemap = 2017; //蓝色底图
-
-        //固定光照，避免gltf模型随时间存在亮度不一致。
-        map.fixedLight = true;
-
-        //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
-
-        //图层管理的相关处理
-        initLayerManager(graphicLayer);
-
-        $("#btnStartDraw").click(function () {
-          graphicLayer.startDraw({
-            type: "model",
-            style: {
-              scale: 10,
-              url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangche.gltf",
-              label: {
-                //不需要文字时，去掉label配置即可
-                text: "可以同时支持文字",
-                font_size: 20,
-                color: "#ffffff",
-                outline: true,
-                outlineColor: "#000000",
-                pixelOffsetY: -20,
-              },
-            },
-          });
-        });
-
-        //加一些演示数据
-        addGraphic_01(graphicLayer);
-        addGraphic_02(graphicLayer);
-        addGraphic_03(graphicLayer);
-        addGraphic_04(graphicLayer);
-      }
-
-      function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
-          name: "消防员",
-          position: [116.346929, 30.861947, 401.34],
-          style: {
-            url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
-            scale: 20,
-            minimumPixelSize: 50,
-            heading: 90,
-
-            distanceDisplayCondition: true,
-            distanceDisplayCondition_near: 0,
-            distanceDisplayCondition_far: 10000,
-            distanceDisplayPoint: {
-              //当视角距离超过 10000米(distanceDisplayCondition_far定义的) 后显示为点对象的样式
-              color: "#00ff00",
-              pixelSize: 8,
-            },
-
-            label: {
-              text: "我是原始的",
-              font_size: 18,
-              color: "#ffffff",
-              pixelOffsetY: -50,
-              distanceDisplayCondition: true,
-              distanceDisplayCondition_far: 10000,
-              distanceDisplayCondition_near: 0,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-
-        //演示个性化处理graphic
-        initGraphicManager(graphic);
-
-        //graphic转geojson
-        var geojson = graphic.toGeoJSON();
-        console.log("转换后的geojson", geojson);
-        addGeoJson(geojson, graphicLayer);
-      }
-
-      //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
-      function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
-        delete graphicCopy.attr;
-        //新的坐标
-        graphicCopy.position = [116.348587, 30.859472, 373.8];
-        graphicCopy.style.label = graphicCopy.style.label || {};
-        graphicCopy.style.label.text = "我是转换后生成的";
-        graphicLayer.addGraphic(graphicCopy);
-      }
-
-      function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
-          name: "风机",
-          position: [116.35104, 30.86225, 374.4],
-          style: {
-            url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
-            heading: 270,
-            scale: 30,
-            minimumPixelSize: 100,
-            silhouette: false,
-
-            distanceDisplayCondition: true,
-            distanceDisplayCondition_near: 0,
-            distanceDisplayCondition_far: 9000,
-            distanceDisplayBillboard: {
-              //当视角距离超过 9000米(distanceDisplayCondition_far定义的) 后显示为图标对象的样式
-              image: "img/marker/303.png",
-              scale: 1,
-            },
-
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              silhouette: true,
-              silhouetteColor: "#00ffff",
-              silhouetteSize: 3,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-      }
-
-      function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
-          name: "汽车",
-          position: [116.349194, 30.864603, 376.58],
-          style: {
-            url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
-            scale: 0.5,
-            minimumPixelSize: 50,
-            silhouette: false,
-
-            //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-            highlight: {
-              silhouette: true,
-              silhouetteColor: "#ff0000",
-              silhouetteSize: 4,
-            },
-          },
-        });
-        graphicLayer.addGraphic(graphic);
-      }
-
-      function addGraphic_04(graphicLayer) {
-        let propertyFJ = getSampledPositionProperty([
-          [116.341348, 30.875522, 500],
-          [116.341432, 30.871815, 500],
-          [116.347965, 30.866654, 500],
-          [116.352154, 30.855531, 500],
-          [116.341181, 30.85326, 500],
-          [116.334609, 30.856601, 500],
-          [116.337695, 30.866505, 500],
-          [116.345018, 30.870448, 500],
-          [116.345028, 30.870436, 500],
-        ]);
-
-        //飞机
-        var graphicModel = new mars3d.graphic.ModelEntity({
-          position: propertyFJ,
-          orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
-          style: {
-            url: "//data.mars3d.cn/gltf/mars/wrj.glb",
-            scale: 0.1,
-            minimumPixelSize: 20,
-          },
-        });
-        graphicLayer.addGraphic(graphicModel);
-      }
-
-      //计算演示的SampledPositionProperty轨迹
-      function getSampledPositionProperty(points) {
-        let property = new Cesium.SampledPositionProperty();
-        property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
-
-        let start = map.clock.currentTime;
-        let positions = mars3d.LatLngArray.toCartesians(points);
-        for (let i = 0; i < positions.length; i++) {
-          let time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate());
-          let position = positions[i];
-          property.addSample(time, position);
-        }
-        return property;
       }
     </script>
   </body>

@@ -31,7 +31,7 @@
     "echarts":false,
     "localforage":false,
     "JB":false,
-    "Ammo":false
+    "kgUtil":false
   },
   // ""0""表示忽略问题，等同于"off";
   // ""1""表示给出警告，等同于"warn";
