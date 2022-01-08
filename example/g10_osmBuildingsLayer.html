@@ -72,8 +72,6 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        Cesium.ExperimentalFeatures.enableModelExperimental = true;
-
         osmBuildingsTileset = new mars3d.layer.OsmBuildingsLayer({
           highlight: {
             type: "click",
@@ -101,7 +99,6 @@
       }
 
       function setStyle1() {
-        Cesium.ExperimentalFeatures.enableModelExperimental = false;
         osmBuildingsTileset.customShader = undefined;
         osmBuildingsTileset.style = undefined;
       }

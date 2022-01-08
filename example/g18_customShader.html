@@ -57,8 +57,6 @@
           },
         });
 
-        Cesium.ExperimentalFeatures.enableModelExperimental = true;
-
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
         map.basemap = 2017; //蓝色底图
@@ -75,6 +73,7 @@
 
       function setStyleDef() {
         tiles3dLayer.customShader = undefined;
+        tiles3dLayer.reload();
       }
 
       function setStyle1() {
@@ -89,6 +88,7 @@
               material.diffuse.g = -fsInput.attributes.positionEC.z / 1.0e4;
             } `,
         });
+        tiles3dLayer.reload();
       }
 
       function setStyle2() {
@@ -121,6 +121,7 @@
               material.diffuse += material.diffuse * (1.0 - mars_diff);
             } `,
         });
+        tiles3dLayer.reload();
       }
     </script>
   </body>
