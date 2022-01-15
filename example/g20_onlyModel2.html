@@ -95,14 +95,25 @@
               maximumZoomDistance: 200000,
             },
           },
+          control: {
+            baseLayerPicker: false,
+            sceneModePicker: false,
+            locationBar: {
+              fps: true,
+              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div><div>方向：{heading}°</div> <div>俯仰角：{pitch}°</div>",
+            },
+          },
         });
-        delete mapOptions.control;
         delete mapOptions.terrain;
         delete mapOptions.basemaps;
         delete mapOptions.layers;
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        map.on(mars3d.EventType.click, function (event) {
+          console.log("单击了地图", event);
+        });
 
         //历史记录模型地址
         localforage.getItem("g20_onlyModel2").then(function (lasturl) {
@@ -141,6 +152,10 @@
 
           //自动贴地处理
           tiles3dLayer.clampToGround(10);
+        });
+
+        tiles3dLayer.on(mars3d.EventType.click, function (event) {
+          console.log("单击了模型", event);
         });
       }
 

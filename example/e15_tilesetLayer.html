@@ -47,6 +47,7 @@
         <input type="button" class="btn btn-primary" value="倾斜摄影(某县城)" onclick="showQxShequDemo()" />
         <input type="button" class="btn btn-primary" value="倾斜摄影(某景区)" onclick="showQxSimiaoDemo()" />
         <input type="button" class="btn btn-primary" value="城市白膜(合肥)" onclick="showJzwHefeiDemo()" />
+        <input type="button" class="btn btn-primary" value="高压线塔杆(点云)" onclick="showPntsGantaDemo()" />
         <input type="button" class="btn btn-primary" value="人工建模(石化工厂)" onclick="showMaxShihuaDemo()" />
         <input type="button" class="btn btn-primary" value="BIM(桥梁)" onclick="showBimQiaoliangDemo()" />
         <input type="button" class="btn btn-primary" value="BIM(地铁站)" onclick="showBimDitiezhanDemo()" />
@@ -190,6 +191,9 @@
           case "bim-ditiezhan":
             showBimDitiezhanDemo();
             break;
+          case "pnts-ganta":
+            showPntsGantaDemo();
+            break;
         }
       }
 
@@ -329,6 +333,39 @@
 
         tiles3dLayer.on(mars3d.EventType.highlightOpen, function (event) {
           console.log("显示了高亮", event);
+        });
+      }
+
+      //示例：点云数据 塔杆
+      function showPntsGantaDemo() {
+        removeLayer();
+
+        tiles3dLayer = new mars3d.layer.TilesetLayer({
+          name: "高压线塔杆",
+          url: "//data.mars3d.cn/3dtiles/pnts-ganta/tileset.json",
+          maximumScreenSpaceError: 1,
+          position: { alt: 31 },
+          style: {
+            color: {
+              conditions: [
+                ["(${Classification} >= 4) && (${Classification} < 5) ", "color('#DC143C')"],
+                ["(${Classification} >= 7) && (${Classification} < 8)  ", "color('#7B68EE')"],
+                ["(${Classification} >= 16) && (${Classification} < 17)  ", "color('#00CED1')"],
+                ["(${Classification} >= 17) && (${Classification} < 18)  ", "color('#3CB371')"],
+                ["(${Classification} >= 18) && (${Classification} < 19)  ", "color('#FFFF00')"],
+                ["(${Classification} >= 19) && (${Classification} < 20)  ", "color('#FFA500')"],
+                ["(${Classification} >= 20) && (${Classification} < 21)  ", "color('#FF6347')"],
+              ],
+            },
+          },
+          popup: "all",
+          flyTo: true,
+        });
+        map.addLayer(tiles3dLayer);
+
+        //单击事件
+        tiles3dLayer.on(mars3d.EventType.click, function (event) {
+          console.log("单击了3dtiles图层", event);
         });
       }
 

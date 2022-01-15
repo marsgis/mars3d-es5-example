@@ -157,6 +157,8 @@
         addGraphic_05(graphicLayer);
         addGraphic_06(graphicLayer);
         addGraphic_07(graphicLayer);
+        addGraphic_08(graphicLayer);
+        addGraphic_09(graphicLayer);
       }
 
       //
@@ -302,6 +304,86 @@
       }
 
       function addGraphic_07(graphicLayer) {
+        let currentRadius = 1;
+        let duration = 5000; //毫秒
+        let maxRadius = 2000; //米
+
+        var graphic = new mars3d.graphic.CircleEntity({
+          position: new mars3d.LatLngPoint(116.271298, 30.831822, 634),
+          style: {
+            semiMajorAxis: new Cesium.CallbackProperty(function (event) {
+              currentRadius += (1000 / duration) * 50;
+              if (currentRadius > maxRadius) {
+                currentRadius = 1;
+              }
+              return currentRadius;
+            }, false),
+            semiMinorAxis: new Cesium.CallbackProperty(function (event) {
+              return currentRadius;
+            }, false),
+            //扫描材质
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleScan, {
+              image: "img/textures/hexagon.png",
+              color: "#ff0000",
+              opacity: 1.0,
+            }),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_08(graphicLayer) {
+        let canvasCollection = document.createElement("canvas");
+        canvasCollection.setAttribute("width", "800px");
+        canvasCollection.setAttribute("height", "800px");
+
+        let rotation = 0;
+        let step = -0.02;
+
+        var graphic = new mars3d.graphic.CircleEntity({
+          position: new mars3d.LatLngPoint(116.326672, 30.811903, 605),
+          style: {
+            radius: 2000,
+            rotation: new Cesium.CallbackProperty(() => {
+              rotation -= step;
+              return rotation;
+            }, false),
+            stRotation: new Cesium.CallbackProperty(() => {
+              rotation -= step;
+              return rotation;
+            }, false),
+            material: new Cesium.ImageMaterialProperty({
+              image: new Cesium.CallbackProperty(() => {
+                let context = canvasCollection.getContext("2d");
+                context.clearRect(0, 0, canvasCollection.width, canvasCollection.height); // 清空画布
+
+                let scanColor0 = "rgba(0,255,255,1)";
+                let scanColorTmp = scanColor0.split(",");
+                scanColorTmp[3] = "0)";
+                let scanColor1 = scanColorTmp.join();
+
+                let grd = context.createLinearGradient(175, 100, canvasCollection.width, canvasCollection.height / 2);
+                grd.addColorStop(0, scanColor0);
+                grd.addColorStop(1, scanColor1);
+                context.fillStyle = grd;
+                context.beginPath();
+                context.moveTo(400, 400);
+                context.arc(400, 400, 400, (-30 / 180) * Math.PI, (0 / 180) * Math.PI);
+                context.fill();
+
+                let newImg = new Image(canvasCollection.width, canvasCollection.height);
+                newImg.src = canvasCollection.toDataURL("image/png");
+
+                return newImg;
+              }, false),
+              transparent: true,
+            }),
+          },
+        });
+        graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
+      }
+
+      function addGraphic_09(graphicLayer) {
         let lastPosition;
         let lastHeight = 0;
 

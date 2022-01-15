@@ -1111,22 +1111,23 @@
           "details": "适用于大数据的加载场景。Primitive合并渲染是支持大数据的加载方式。",
           "children": [
             {
-              "name": "ModelCombine 大量模型",
-              "version": "3.0",
-              "thumbnail": "f26_primitive_modelCombine.jpg",
-              "fileName": "f26_primitive_modelCombine"
-            },
-            {
               "name": "FlatBillboard 平面图标",
               "version": "2.1",
-              "thumbnail": "f26_flatBillboard.jpg",
-              "fileName": "f26_flatBillboard"
+              "thumbnail": "f27_flatBillboard.jpg",
+              "fileName": "f27_flatBillboard"
             },
             {
-              "name": "PolylineCombine 大量线",
+              "name": "ModelCombine 大量模型",
+              "version": "3.2",
+              "thumbnail": "f27_primitiveC_model.jpg",
+              "fileName": "f27_primitiveC_model"
+            },
+
+            {
+              "name": "PolylineCombine 线",
               "version": "3.1",
-              "thumbnail": "f27_primitive_polylineCombine.jpg",
-              "fileName": "f27_primitive_polylineCombine"
+              "thumbnail": "f28_primitiveC_polyline.jpg",
+              "fileName": "f28_primitiveC_polyline"
             },
             {
               "name": "气象流动线",
@@ -1135,16 +1136,16 @@
               "fileName": "f45_line_wind"
             },
             {
-              "name": "PolygonCombine 大量面",
+              "name": "PolygonCombine 面",
               "version": "3.0",
-              "thumbnail": "f27_primitive_polygonCombine.jpg",
-              "fileName": "f27_primitive_polygonCombine"
+              "thumbnail": "f28_primitiveC_polygon.jpg",
+              "fileName": "f28_primitiveC_polygon"
             },
             {
-              "name": "WaterCombine 大量水面",
+              "name": "WaterCombine 水面",
               "version": "3.1",
-              "thumbnail": "f27_primitive_waterCombine.jpg",
-              "fileName": "f27_primitive_waterCombine"
+              "thumbnail": "f28_primitiveC_water.jpg",
+              "fileName": "f28_primitiveC_water"
             }
           ]
         },
@@ -1619,8 +1620,8 @@
             {
               "name": "ModelCombine对象(大数据+合并渲染)",
               "version": "3.0",
-              "thumbnail": "f26_primitive_modelCombine.jpg",
-              "fileName": "f26_primitive_modelCombine"
+              "thumbnail": "f27_primitiveC_model.jpg",
+              "fileName": "f27_primitiveC_model"
             },
             {
               "name": "ModelLayer图层对象",
@@ -1693,6 +1694,13 @@
               "thumbnail": "e15_tilesetLayer_simiao.jpg",
               "fileName": "e15_tilesetLayer",
               "params": "data=qx-simiao"
+            },
+            {
+              "name": "高压线塔杆（点云）",
+              "version": "1.5",
+              "thumbnail": "e15_tilesetLayer_ganta.jpg",
+              "fileName": "e15_tilesetLayer",
+              "params": "pnts-ganta"
             },
             {
               "name": "桥梁(BIM建模)",

@@ -93,6 +93,15 @@
               zoomFactor: 1.5,
               minimumZoomDistance: 0.1,
               maximumZoomDistance: 200000,
+              enableCollisionDetection: false,
+            },
+          },
+          control: {
+            baseLayerPicker: false,
+            sceneModePicker: false,
+            locationBar: {
+              fps: true,
+              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div><div>方向：{heading}°</div> <div>俯仰角：{pitch}°</div>",
             },
           },
           layers: [
@@ -106,7 +115,6 @@
             },
           ],
         });
-        delete mapOptions.control;
         delete mapOptions.terrain;
         delete mapOptions.basemaps;
 
@@ -167,7 +175,12 @@
           map.scene.screenSpaceCameraController.maximumZoomDistance = tiles3dLayer.boundingSphere.radius * 5;
 
           //自动贴地处理
-          tiles3dLayer.clampToGround(10);
+          tiles3dLayer.clampToGround(20);
+        });
+
+        //
+        tiles3dLayer.on(mars3d.EventType.click, function (event) {
+          console.log("单击了模型", event);
         });
       }
 

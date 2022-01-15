@@ -62,6 +62,8 @@
       var map;
       var tiles3dLayer;
 
+      let selectedCeng;
+
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
@@ -83,7 +85,26 @@
           maximumMemoryUsage: 1024,
           highlight: {
             type: mars3d.EventType.click, //默认为鼠标移入高亮，也可以指定click单击高亮
-            color: "#00FF00",
+            color: "rgba(0,255,0,1)",
+          },
+          //是否允许鼠标穿透拾取
+          allowDrillPick: function (event) {
+            let alpha = event?.pickedObject?.color?.alpha;
+            if (Cesium.defined(alpha) && alpha !== 1) {
+              //根据颜色判断 透明的鼠标穿透拾取
+              return true;
+            }
+            return false;
+
+            // if (!selectedCeng) {
+            //   return false;
+            // }
+            // let attr = event.graphic?.attr;
+            // if (attr["标高"] == selectedCeng || attr["底部约束"] == selectedCeng) {
+            //   return false;
+            // } else {
+            //   return true;
+            // }
           },
           flyTo: true,
         });
@@ -92,6 +113,7 @@
         showCengByStyle("F5");
 
         $("#btnShowAll").click(function () {
+          selectedCeng = null;
           tiles3dLayer.style = undefined;
         });
 
@@ -122,6 +144,8 @@
       //说明：https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling
 
       function showCengByStyle(ceng) {
+        selectedCeng = ceng;
+
         tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
           color: {
             conditions: [

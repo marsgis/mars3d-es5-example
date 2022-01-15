@@ -575,7 +575,7 @@ var plotEdit = {
       case "slider":
         inHtml = '<input id="' + parname + attrName + '"  type="text" value="' + attrVal * 100 + '"   data-value="' + attrVal + '" />';
         fun = function (parname, attrName, attrVal, edit) {
-          let _width = $(".mp_tab_card").width() * 0.7 - 30;
+          let _width = $(".mp_tab_card").width() * 0.6 - 30;
           $("#" + parname + attrName).progress(_width); //绑定样式
           $("#" + parname + attrName).change(function () {
             let attrVal = Number($(this).val()) / 100;
