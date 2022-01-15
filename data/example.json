@@ -1700,7 +1700,7 @@
               "version": "1.5",
               "thumbnail": "e15_tilesetLayer_ganta.jpg",
               "fileName": "e15_tilesetLayer",
-              "params": "pnts-ganta"
+              "params": "data=pnts-ganta"
             },
             {
               "name": "桥梁(BIM建模)",
