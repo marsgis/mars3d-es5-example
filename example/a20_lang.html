@@ -53,11 +53,11 @@
 
       <div>
         Measurement:
-        <input type="button" class="btn btn-primary" value="distance" onclick=" measure.distance()" />
-        <input type="button" class="btn btn-primary" value="area" onclick=" measure.area()" />
-        <input type="button" class="btn btn-primary" value="height" onclick="measure.heightTriangle()" />
-        <input type="button" class="btn btn-primary" value="coordinate" onclick="measure.point()" />
-        <input type="button" class="btn btn-primary" value="angle" onclick="measure.angle()" />
+        <input type="button" class="btn btn-primary" value="distance" onclick="measureDistance()" />
+        <input type="button" class="btn btn-primary" value="area" onclick="measureArea()" />
+        <input type="button" class="btn btn-primary" value="height" onclick="measureHeightTriangle()" />
+        <input type="button" class="btn btn-primary" value="coordinate" onclick="measurePoint()" />
+        <input type="button" class="btn btn-primary" value="angle" onclick="measureAngle()" />
       </div>
     </div>
 
@@ -146,7 +146,32 @@
         map.addThing(measure);
       }
 
+      function layerStopDraw() {
+        drawLayer.stopDraw()
+      }
+      function measureDistance() {
+        layerStopDraw()
+        measure.distance()
+      }
+      function measureArea() {
+        layerStopDraw()
+        measure.area()
+      }
+      function measureHeightTriangle() {
+        layerStopDraw()
+        measure.heightTriangle()
+      }
+      function measurePoint() {
+        layerStopDraw()
+        measure.point()
+      }
+      function measureAngle() {
+        layerStopDraw()
+        measure.angle()
+      }
+
       function startDraw(type) {
+        measure.stopDraw()
         drawLayer.startDraw({
           type: type,
           style: {

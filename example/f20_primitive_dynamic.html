@@ -98,6 +98,14 @@
               scale: 0.5,
               minimumPixelSize: 20,
 
+              distanceDisplayCondition: true,
+              distanceDisplayCondition_far: 5000,
+              distanceDisplayCondition_near: 0,
+              distanceDisplayPoint: {
+                color: "#ff0000",
+                pixelSize: 5,
+              },
+
               //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
               highlight: {
                 type: mars3d.EventType.click,

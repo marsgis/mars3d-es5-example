@@ -68,8 +68,8 @@
           <tr>
             <td class="nametd">高动态渲染</td>
             <td>
-              <input type="radio" name="high" checked onclick="setSceneOptions('highDynamicRange',true)" />是
-              <input type="radio" name="high" onclick="setSceneOptions('highDynamicRange',false)" />否
+              <input type="radio" name="high" onclick="setSceneOptions('highDynamicRange',true)" />是
+              <input type="radio" name="high" checked  onclick="setSceneOptions('highDynamicRange',false)" />否
             </td>
           </tr>
           <tr>
@@ -155,8 +155,8 @@
           <tr>
             <td class="nametd">显示底图</td>
             <td>
-              <input type="radio" name="depthTest" checked onclick="map.basemap=2021" />是
-              <input type="radio" name="depthTest" onclick="map.basemap=undefined" />否
+              <input type="radio" checked onclick="map.basemap=2021" />是
+              <input type="radio" onclick="map.basemap=undefined" />否
             </td>
           </tr>
           <tr title="请关闭底图后看效果">
@@ -201,8 +201,8 @@
           <tr>
             <td class="nametd">可操作南北极</td>
             <td>
-              <input type="radio" name="axis" onclick="setSceneCameraControllerOptions('constrainedAxis',true)" />是
-              <input type="radio" name="axis" checked onclick="setSceneCameraControllerOptions('constrainedAxis',false)" />否
+              <input type="radio" name="axis" onclick="setSceneCameraControllerOptions('constrainedAxis',false)" />是
+              <input type="radio" name="axis" checked onclick="setSceneCameraControllerOptions('constrainedAxis',true)" />否
             </td>
           </tr>
 
