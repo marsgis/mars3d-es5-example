@@ -1,6 +1,6 @@
 {
   "name": "mars3d-es5-example",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Mars3D平台,原生JS版本功能示例",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,7 @@
     "gulp-utf8-convert": "0.0.7",
     "gulp-util": "^3.0.8",
     "imagemin-pngquant": "^8.0.0",
-    "mars3d": "^3.1.23",
+    "mars3d": "^3.2.0",
     "prettier": "^2.2.1",
     "uglify-js": "^3.6.0"
   },
