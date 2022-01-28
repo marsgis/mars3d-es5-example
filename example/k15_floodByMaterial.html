@@ -121,6 +121,7 @@
         // 基于地球材质，可以多个区域
         floodByMaterial = new mars3d.thing.FloodByMaterial({
           speed: speed,
+          color: new Cesium.Color(0.15, 0.7, 0.95, 0.5), //淹没颜色
         });
         map.addThing(floodByMaterial);
 
