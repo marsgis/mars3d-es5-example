@@ -24,47 +24,51 @@
  
 
 ## 项目介绍
+ 
+ 这是一个基于`原生JS`开发的 Mars3D 功能示例 演示项目。
 
- 这是一个基于 原生JS 开发的 mars3d 功能示例项目。
+ > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：[功能示例Vue版教程](http://mars3d.cn/dev/guide/start/example.html)
 
- > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：
- [功能示例Vue版教程](http://mars3d.cn/dev/guide/start/example.html) 、
- [mars3d-vue-example代码](https://gitee.com/marsgis/mars3d-vue-example) 
+ ## 项目特性 
+- **独立页面**：每一个页面是一个单独的示例，依赖少，独立运行。
+- **适合不同技术栈**: 原生JS开发, 适合不同技术栈用户理解
 
 
 
 ## 下载运行项目
  
 ### 下载代码
- 下面我们已[Github地址](https://github.com/marsgis/mars3d-es5-example)为例， [Gitee地址(国内)](https://gitee.com/marsgis/mars3d-es5-example) 操作类同。
- 
- - 如果本地没有git软件，可以浏览器输入[https://github.com/marsgis/mars3d-es5-example](https://github.com/marsgis/mars3d-es5-example)地址后，按下图下载zip包。
+- [Github](https://github.com/marsgis/mars3d-es5-example)
+
+```
+git clone git@github.com:marsgis/mars3d-es5-example.git
+```
+
+- [Gitee](https://gitee.com/marsgis/mars3d-es5-example)：国内码云，下载速度快些。
+
+```
+git clone git@gitee.com:marsgis/mars3d-es5-example.git
+``` 
+
+- 如果本地没有git软件，可以浏览器输入[https://github.com/marsgis/mars3d-es5-example](https://github.com/marsgis/mars3d-es5-example)地址后，按下图下载zip包。
 
  ![image](http://mars3d.cn/dev/img/guide/start-example-down.jpg)
 
- - 如果本地有git软件，可以输入下面命令，拉取代码
-```sh
-git clone https://github.com/marsgis/mars3d-es5-example.git
-```
-
- ![image](http://mars3d.cn/dev/img/guide/start-example-git.jpg) 
-
-
+  
+### 运行环境
+运行前建议从[http://mars3d.cn/download.html](http://mars3d.cn/download.html)下载最新mars3d类库后覆盖至`lib/`目录下，更新mars3d为最新版本。
 
 ### 运行方式1：使用vscode及其插件
+ 
+在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`index.html`或example目录下各对应示例页面即可。
 
-在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`index.html`或对应示例页面即可 ，
-
-建议使用VScode工具打开代码目录（请参考上一章节安装好VScode 及 Live Server插件）。
-
-- 推荐使用 vscode，安装参考[开发环境搭建教程](guide/start/env.html)
-- 安装 vscode 插件，推荐安装 Live Server
-
- 参考下图通过Live Server访问各页面
+建议使用VScode工具打开代码目录（请参考[开发环境搭建教程](/guide/start/env.html)安装好VScode 及 Live Server插件）。
+ 
+ 参考下图通过Live Server访问各页面 
 
  ![image](http://mars3d.cn/dev/img/guide/start-example-run.jpg) 
 
-
+  
 ### 运行方式2：运行npm命令
 
 #### 首次运行前安装依赖
@@ -85,16 +89,18 @@ npm run serve
 npm run build //编译后生成在dist目录，拷贝出去发布即可
 npm run serve:dist  //测试dist运行状态
 ```
+
  
 
 
 ### 运行效果   
  [在线体验](http://marsgis.gitee.io/mars3d-es5-example/)  
 
- ![image](http://mars3d.cn/dev/img/guide/start-example-yulan.jpg) 
+ ![image](http://mars3d.cn/dev/img/guide/start-example-es5.jpg) 
 
 
  
+
 
 ## 如何反馈问题？
 - 发现您发现项目中存在的问题或者需要优化的地方；
@@ -128,7 +134,7 @@ mars3d-es5-example
 
  ![image](http://mars3d.cn/dev/img/guide/start-includeLib-ml.jpg) 
 
-为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](https://unpkg.com/marsgis-lib/lib//include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
+为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](http://mars3d.cn/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
 <!--第三方lib-->
 <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
