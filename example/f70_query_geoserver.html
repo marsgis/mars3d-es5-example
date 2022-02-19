@@ -273,6 +273,8 @@
 
         var queryVal = $.trim($("#queryText").val());
 
+        //也可以用queryBySql方法传入cql_filter `columnName like "%${queryVal}%"`,
+
         queryMapserver.query({
           column: "项目名称",
           text: queryVal,
