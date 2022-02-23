@@ -1,15 +1,16 @@
+<!-- 2017-12-4 14:24:10 | 修改 木遥（微信:  http://marsgis.cn/weixin.html ） -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
-    <meta name="author" content="火星科技 http://mars3d.cn " />
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="x5-fullscreen" content="true" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
     <!-- 标题及搜索关键字 -->
     <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
     <meta
@@ -18,9 +19,8 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="https://muyao1987.gitee.io/cdn/marsgis.cn/favicon/favicon.ico" />
-    <title>功能示例 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>EPSG3857坐标系 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
-    <!--第三方lib-->
     <script
       type="text/javascript"
       src="../lib/include-lib.js"
@@ -32,13 +32,7 @@
   </head>
 
   <body class="dark">
-    <!--加载前进行操作提示，优化用户体验-->
-    <div id="mask" class="signmask" onclick="removeMask()"></div>
-
     <div id="mars3dContainer" class="mars3d-container"></div>
-
-    <!-- 面板 -->
-    <!-- <div class="infoview"> </div> -->
 
     <script src="./js/common.js"></script>
     <script type="text/javascript">
@@ -50,12 +44,28 @@
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars3d.Util.merge(options, {
           scene: {
-            center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
+            center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 },
+          },
+          control: {
+            sceneModePicker: false,
           },
         });
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
+
+        // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
+        let tileLayer = new mars3d.layer.XyzLayer({
+          url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+          crs: "EPSG:3857", // 标识为Web墨卡托投影坐标系，也是默认值
+          minimumLevel: 0,
+          maximumLevel: 10,
+          rectangle: { xmin: 69.706929, xmax: 136.560941, ymin: 15.831038, ymax: 52.558005 },
+          opacity: 0.7,
+          center: { lat: 22.43392, lng: 113.23887, alt: 8157553, heading: 354, pitch: -82 },
+          flyTo: true,
+        });
+        map.addLayer(tileLayer);
       }
     </script>
   </body>

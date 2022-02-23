@@ -17,7 +17,7 @@ $(document).ready(function () {
   $.ajax({
     type: "get",
     dataType: "json",
-    url: request.json || window.exampleConfig || "../config/example-es5.json",
+    url: request.json || window.exampleConfig || "../config/example.json",
     success: function (result) {
       exConfig = result;
       //赋值id
@@ -154,6 +154,9 @@ function createGalleryCharts(examples) {
   let chartsDiv = $("<div class='box-body'></div>");
   let len = examples && examples.length ? examples.length : 0;
   for (let i = 0; i < len; i++) {
+    if (examples[i].hidden) {
+      continue;
+    }
     let html = createGalleryChart(examples[i]);
     if (html) {
       html.appendTo(chartsDiv);
@@ -181,19 +184,14 @@ function createGalleryChart(example) {
   let chart = $('<div class="chart"></div>');
   let link = $("<a class='chart-link' target='_blank' href='" + editorUrl + "'></a>");
   let chartTitle = $("<h5 class='chart-title'  title='" + msg + "' >" + title + "</h5>");
-  let thumbnail = (window.exampleIconPath || "../data/exampleIcon/") + (example.thumbnail || "");
+  let thumbnail = (window.exampleIconPath || "../config/thumbnail/") + (example.thumbnail || example.main_es5 + ".jpg");
   let thumb = $("<img class='chart-area' src='" + thumbnail + "' style='display: inline'>");
 
-  if (example.plugins) {
-    msg += "\n该功能属于独立" + example.plugins + "插件功能，在额外的js中。";
+  let plugins = getPluginNameByLibs(example.libs);
+  if (plugins) {
+    msg += "\n该功能属于独立" + plugins + "插件功能，在额外的js中。";
     chartTitle = $(
-      "<h5 class='chart-title' title='" +
-        msg +
-        "'  >" +
-        title +
-        "<span style='color:rgba(0, 147, 255, 0.7)'>[" +
-        example.plugins +
-        "插件]</span></h5>"
+      "<h5 class='chart-title' title='" + msg + "'  >" + title + "<span style='color:rgba(0, 147, 255, 0.7)'>[" + plugins + "插件]</span></h5>"
     );
   }
 
@@ -206,6 +204,20 @@ function createGalleryChart(example) {
 
   return chartDiv;
 }
+
+function getPluginNameByLibs(libs) {
+  if (!libs) {
+    return false;
+  }
+  for (let index = 0; index < libs.length; index++) {
+    const element = libs[index];
+    if (element.startsWith("mars3d-")) {
+      return element;
+    }
+  }
+  return false;
+}
+
 function imgerrorfun() {
   let img = event.srcElement;
   img.src = "img/mapicon.jpg";
