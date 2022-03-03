@@ -67,12 +67,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
             center: { lat: 30.857163, lng: 116.345129, alt: 926, heading: 33, pitch: -34 },
@@ -100,16 +100,16 @@
           map.setCameraView({ lat: 30.648084, lng: 116.747173, alt: 29041, heading: 317, pitch: -32 });
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val());
+          let count = Number($("#txtCount").val());
 
           createModels(count);
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -123,10 +123,10 @@
       }
 
       function createModels(count) {
-        for (var j = 0; j < count; ++j) {
-          var position = randomPoint();
+        for (let j = 0; j < count; ++j) {
+          let position = randomPoint();
 
-          var primitive = new mars3d.graphic.ModelPrimitive({
+          let primitive = new mars3d.graphic.ModelPrimitive({
             position: position,
             style: {
               url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -149,7 +149,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.ModelPrimitive({
+        let primitive = new mars3d.graphic.ModelPrimitive({
           position: [116.346929, 30.861947, 401.34],
           style: {
             url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
@@ -183,14 +183,14 @@
         initGraphicManager(primitive);
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.position = [116.348587, 30.859472, 373.8];
@@ -200,7 +200,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.ModelPrimitive({
+        let primitive = new mars3d.graphic.ModelPrimitive({
           position: [116.35104, 30.86225, 374.4],
           style: {
             url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
@@ -258,7 +258,7 @@
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.ModelPrimitive({
+        let primitive = new mars3d.graphic.ModelPrimitive({
           position: [116.349194, 30.864603, 376.58],
           style: {
             url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
@@ -277,7 +277,7 @@
       }
 
       function addGraphic_a4(graphicLayer) {
-        var textureUniformShader = new Cesium.CustomShader({
+        let textureUniformShader = new Cesium.CustomShader({
           uniforms: {
             u_color: {
               type: Cesium.UniformType.VEC4,
@@ -306,7 +306,7 @@
             }`,
         });
 
-        var primitive = new mars3d.graphic.ModelPrimitive({
+        let primitive = new mars3d.graphic.ModelPrimitive({
           position: [116.349096, 30.861465, 377.9],
           style: {
             url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
@@ -317,9 +317,9 @@
         });
         graphicLayer.addGraphic(primitive);
 
-        var startTime = performance.now();
+        let startTime = performance.now();
         map.on(mars3d.EventType.postUpdate, function () {
-          var elapsedTimeSeconds = (performance.now() - startTime) / 1000;
+          let elapsedTimeSeconds = (performance.now() - startTime) / 1000;
           textureUniformShader.setUniform("u_time", elapsedTimeSeconds);
         });
       }
@@ -667,7 +667,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -707,9 +707,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

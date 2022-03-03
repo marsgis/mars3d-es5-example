@@ -59,14 +59,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var tiles3dLayer;
+      let map;
+      let tiles3dLayer;
 
       let selectedCeng;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.842449, lng: 117.251173, alt: 144, heading: 4, pitch: -35 },
           },

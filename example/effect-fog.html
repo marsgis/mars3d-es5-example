@@ -73,11 +73,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.251138, lng: 121.463588, alt: 1730, heading: 111, pitch: -25 },
           },
@@ -98,7 +98,7 @@
         map.addLayer(gltfLayer);
 
         //雾效果
-        var fogEffect = new mars3d.effect.FogEffect({
+        let fogEffect = new mars3d.effect.FogEffect({
           maxHeight: 20000, //大于此高度后不显示
           fogByDistance: new Cesium.Cartesian4(100, 0.0, 9000, 0.9),
           color: Cesium.Color.WHITE,
@@ -106,7 +106,7 @@
         map.addEffect(fogEffect);
 
         $("#chkShowEffect").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           fogEffect.enabled = val;
         });

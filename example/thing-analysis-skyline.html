@@ -44,11 +44,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },
             globe: {
@@ -61,7 +61,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //加个模型，观看效果更佳
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           type: "3dtiles",
           name: "县城社区",
           url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
@@ -72,16 +72,16 @@
         });
         map.addLayer(tiles3dLayer);
 
-        var skyline = new mars3d.thing.Skyline();
+        let skyline = new mars3d.thing.Skyline();
         map.addThing(skyline);
 
         $("#chkSkyline").change(function () {
-          var value = $(this).is(":checked");
+          let value = $(this).is(":checked");
           skyline.enabled = value;
         });
 
         $("#lineWidth").change(function () {
-          var val = Number($(this).val());
+          let val = Number($(this).val());
           skyline.width = val;
         });
 

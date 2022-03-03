@@ -104,11 +104,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.784488, lng: 117.16699, alt: 9030, heading: 1, pitch: -57 },
             cameraController: {
@@ -124,11 +124,11 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //加个模型
-        var graphic = new mars3d.graphic.ModelEntity({
+        let graphic = new mars3d.graphic.ModelEntity({
           name: "地面站模型",
           position: [117.170264, 31.840312, 258],
           style: {
@@ -192,8 +192,8 @@
             }
           });
 
-        var style = getViewConfig();
-        var camberRadar = new mars3d.graphic.CamberRadar({
+        let style = getViewConfig();
+        let camberRadar = new mars3d.graphic.CamberRadar({
           position: [117.170264, 31.840312, 363],
           style: {
             color: "#ff0000",
@@ -219,18 +219,18 @@
       }
 
       function getViewConfig() {
-        var heading = Number($("#model_heading").val());
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
+        let heading = Number($("#model_heading").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
 
-        var radius = Number($("#model_radius").val());
-        var startRadius = Number($("#model_startRadius").val());
+        let radius = Number($("#model_radius").val());
+        let startRadius = Number($("#model_startRadius").val());
 
-        var startFovH = Number($("#model_startFovH").val());
-        var endFovH = Number($("#model_endFovH").val());
+        let startFovH = Number($("#model_startFovH").val());
+        let endFovH = Number($("#model_endFovH").val());
 
-        var startFovV = Number($("#model_startFovV").val());
-        var endFovV = Number($("#model_endFovV").val());
+        let startFovV = Number($("#model_startFovV").val());
+        let endFovV = Number($("#model_endFovV").val());
 
         return {
           radius: radius,

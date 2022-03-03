@@ -48,11 +48,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 20.803452, lng: 116.629014, alt: 1734203, heading: 3, pitch: -57 },
           },
@@ -66,7 +66,7 @@
         map.addLayer(graphicLayer);
 
         //半球
-        var graphicQiu = new mars3d.graphic.EllipsoidEntity({
+        let graphicQiu = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(117.276726, 31.864175, -10000.0),
           style: {
             radii: new Cesium.Cartesian3(200000.0, 200000.0, 200000.0),
@@ -81,7 +81,7 @@
         graphicLayer.addGraphic(graphicQiu);
 
         //计算圆圈线
-        var linePositions = mars3d.PolyUtil.getEllipseOuterPositions({
+        let linePositions = mars3d.PolyUtil.getEllipseOuterPositions({
           position: Cesium.Cartesian3.fromDegrees(117.276726, 31.864175),
           radius: 500000,
           count: 60, //共返回count*4个点
@@ -103,11 +103,11 @@
         // graphicLayer.addGraphic(graphicLine);
 
         //飞机path路径
-        var property = new Cesium.SampledPositionProperty();
+        let property = new Cesium.SampledPositionProperty();
 
-        var start = map.clock.currentTime;
-        var alltimes = 0;
-        for (var i = 0, len = linePositions.length; i < len; i++) {
+        let start = map.clock.currentTime;
+        let alltimes = 0;
+        for (let i = 0, len = linePositions.length; i < len; i++) {
           alltimes += 1;
           let time = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate());
           property.addSample(time, linePositions[i]);
@@ -120,7 +120,7 @@
           interpolationAlgorithm: Cesium.LagrangePolynomialApproximation,
         });
 
-        var graphicPath = new mars3d.graphic.PathEntity({
+        let graphicPath = new mars3d.graphic.PathEntity({
           position: property,
           orientation: new Cesium.VelocityOrientationProperty(property),
           style: {

@@ -42,12 +42,12 @@
 
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
-      var map;
+      let map;
       let threeLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.980053, lng: 117.375049, alt: 110976, heading: 357, pitch: -50 },
           },
@@ -56,6 +56,7 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
+        // eslint-disable-next-line no-undef
         threeLayer = new ThreeLayer();
         map.addLayer(threeLayer);
 
@@ -73,7 +74,7 @@
         // translate "up" in Three.js space so the "bottom" of the mesh is the handle
         sphere.scale.set(5000, 5000, 5000);
         sphere.uuid = "sphere";
-        var sphereYup = new THREE.Group();
+        let sphereYup = new THREE.Group();
         sphereYup.add(sphere);
         threeLayer.scene.add(sphereYup); // don’t forget to add it to the Three.js scene manually
         sphereYup.position.set(ce.x, ce.y, ce.z);
@@ -94,7 +95,7 @@
         dodecahedronMesh.rotation.x = Math.PI / 2; // rotate mesh for Cesium's Y-up system
         dodecahedronMesh.uuid = "12面体";
 
-        var dodecahedronMeshYup = new THREE.Group();
+        let dodecahedronMeshYup = new THREE.Group();
         dodecahedronMeshYup.add(dodecahedronMesh);
         threeLayer.scene.add(dodecahedronMeshYup); // don’t forget to add it to the Three.js scene manually
         dodecahedronMeshYup.position.set(ce.x, ce.y, ce.z);
@@ -107,17 +108,17 @@
 
         //添加灯光
         //添加点光源
-        var spotLight = new THREE.SpotLight(0xffffff);
+        let spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(0, 0, 50000);
         spotLight.castShadow = true; //设置光源投射阴影
         spotLight.intensity = 1;
         sphereYup.add(spotLight);
 
         //添加环境光
-        var hemiLight = new THREE.HemisphereLight(0xff0000, 0xff0000, 1);
+        let hemiLight = new THREE.HemisphereLight(0xff0000, 0xff0000, 1);
         sphereYup.add(hemiLight);
 
-        var cartToVec = function (cart) {
+        let cartToVec = function (cart) {
           return new THREE.Vector3(cart.x, cart.y, cart.z);
         };
 
@@ -126,15 +127,15 @@
           minWGS84 = _3Dobjects[id].minWGS84;
           maxWGS84 = _3Dobjects[id].maxWGS84;
           // convert lat/long center position to Cartesian3
-          var center = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2);
+          let center = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2);
 
           // get forward direction for orienting model
-          var centerHigh = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2, 1);
+          let centerHigh = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2, 1);
 
           // use direction from bottom left to top left as up-vector
-          var bottomLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], minWGS84[1]));
-          var topLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], maxWGS84[1]));
-          var latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize();
+          let bottomLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], minWGS84[1]));
+          let topLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], maxWGS84[1]));
+          let latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize();
 
           // configure entity position and orientation
           _3Dobjects[id].threeMesh.position.copy(center);

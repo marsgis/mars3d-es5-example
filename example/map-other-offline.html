@@ -42,8 +42,8 @@
       1) 包括全国12.5米地形(当前页面效果)<br/>
       2) 包括0-12级影像底图(当前页面效果)<br/>
       3) 包括所有模型数据：
-      <a href="editor.html#g10_3dtiles_layers" target="_blank" class="btn btn-default">3dtiles模型</a>
-      <a href="editor.html#g05_gltfList" target="_blank" class="btn btn-default">gltf模型</a>
+      <a href="editor.html#layer3d-type-list" target="_blank" class="btn btn-default">3dtiles模型</a>
+      <a href="editor.html#layerg-draw-draw-model-list" target="_blank" class="btn btn-default">gltf模型</a>
       <br/>
       4) 包括其他所有示例的json等文件
     </div>
@@ -53,11 +53,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 14.741847, lng: 108.420914, alt: 10003793, heading: 356, pitch: -83 },
           },

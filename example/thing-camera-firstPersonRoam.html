@@ -58,11 +58,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 30.929546, lng: 116.172289, alt: 559, heading: 168, pitch: -11 },
@@ -78,7 +78,7 @@
         firstPersonRoam.startAutoForward();
 
         $("#chkSkyline").change(function () {
-          var value = $(this).is(":checked");
+          let value = $(this).is(":checked");
           firstPersonRoam.enabled = value;
         });
 

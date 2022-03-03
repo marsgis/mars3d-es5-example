@@ -66,13 +66,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
-      var center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46); //事发点
+      let center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46); //事发点
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.805861, lng: 117.158491, alt: 1311, heading: 53, pitch: -45 },
           },
@@ -82,7 +82,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //半球范围圈
@@ -101,10 +101,10 @@
 
         // haoutil.msg('加载数据44万条，请耐心等待~')
 
-        var degree = 45; //角度
+        let degree = 45; //角度
         let hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0);
 
-        var resource = new Cesium.Resource({
+        let resource = new Cesium.Resource({
           url: "//data.mars3d.cn/file/apidemo/diffusion.json",
         });
         resource
@@ -112,15 +112,15 @@
           .then(function (rs) {
             console.log("加载数据" + rs.length + "条");
 
-            for (var i = 1; i < rs.length; i++) {
-              var item = rs[i];
+            for (let i = 1; i < rs.length; i++) {
+              let item = rs[i];
 
-              var val = item[3];
+              let val = item[3];
 
-              var par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr);
+              let par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr);
 
               //加point点
-              var primitive = new mars3d.graphic.PointPrimitive({
+              let primitive = new mars3d.graphic.PointPrimitive({
                 position: par1Position,
                 style: {
                   pixelSize: 5,
@@ -140,8 +140,8 @@
 
       //半球范围圈
       function createEllipsoid(graphicLayer) {
-        var radiu = 200;
-        var redSphere = new mars3d.graphic.EllipsoidEntity({
+        let radiu = 200;
+        let redSphere = new mars3d.graphic.EllipsoidEntity({
           name: "危险圈",
           position: center,
           style: {
@@ -157,12 +157,12 @@
         graphicLayer.addGraphic(redSphere);
 
         $("#chk_redSphere").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           redSphere.show = val;
         });
 
         radiu = 400;
-        var yellowSphere = new mars3d.graphic.EllipsoidEntity({
+        let yellowSphere = new mars3d.graphic.EllipsoidEntity({
           name: "警告圈",
           position: center,
           style: {
@@ -179,14 +179,14 @@
         graphicLayer.addGraphic(yellowSphere);
 
         $("#chk_yellowSphere").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           yellowSphere.show = val;
         });
       }
 
       //添加火焰粒子效果
       function createParticle(graphicLayer) {
-        var particleSystem = new mars3d.graphic.ParticleSystem({
+        let particleSystem = new mars3d.graphic.ParticleSystem({
           position: center, //位置
           style: {
             image: "img/particle/fire.png",
@@ -230,21 +230,21 @@
       }
 
       //颜色处理
-      var clr = {
+      let clr = {
         span: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07],
         colors: ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"],
         init: function () {
-          for (var k = 0, length = this.colors.length; k < length; k++) {
+          for (let k = 0, length = this.colors.length; k < length; k++) {
             this.colors[k] = Cesium.Color.fromCssColorString(this.colors[k]).withAlpha(0.6);
           }
         },
         getColor: function (num) {
-          var length = this.span.length + 1;
+          let length = this.span.length + 1;
           if (length > this.colors.length) {
             length = this.colors.length;
           }
 
-          for (var k = 0; k < length; k++) {
+          for (let k = 0; k < length; k++) {
             if (num < this.span[k]) {
               return this.colors[k];
             }

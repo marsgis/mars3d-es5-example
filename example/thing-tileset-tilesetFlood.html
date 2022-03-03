@@ -106,11 +106,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 },
           },
@@ -123,7 +123,7 @@
         map.fixedLight = true;
 
         //加模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
           maximumScreenSpaceError: 6,
           maximumMemoryUsage: 2048,
@@ -137,7 +137,7 @@
         });
 
         //模型淹没处理类
-        var tilesetFlood = new mars3d.thing.TilesetFlood({
+        let tilesetFlood = new mars3d.thing.TilesetFlood({
           layer: tilesetLayer,
           floodAll: false,
         });
@@ -175,7 +175,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               tilesetFlood.addArea(positions);
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
@@ -196,7 +196,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               tilesetFlood.addArea(positions);
             },
           });
@@ -209,9 +209,9 @@
           }
           map.graphicLayer.clear();
 
-          var minValue = Number($("#minHeight").val());
-          var maxValue = Number($("#maxHeight").val());
-          var speed = Number($("#speed").val());
+          let minValue = Number($("#minHeight").val());
+          let maxValue = Number($("#maxHeight").val());
+          let speed = Number($("#speed").val());
           if (minValue <= 1800) {
             toastr.info("最低海拔过低，请耐心等候几秒");
           }

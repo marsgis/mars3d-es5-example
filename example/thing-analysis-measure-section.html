@@ -67,12 +67,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var measureObj;
+      let map;
+      let measureObj;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 },
           },
@@ -133,9 +133,9 @@
         });
       }
 
-      var tipGraphic;
+      let tipGraphic;
       function showTipMarker(point, z, inthtml) {
-        var _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z);
+        let _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z);
 
         if (!tipGraphic) {
           tipGraphic = new mars3d.graphic.BillboardEntity({
@@ -164,7 +164,7 @@
       }
 
       //图表
-      var myChart1;
+      let myChart1;
 
       //剖面分析 图表
       function setEchartsData(data) {
@@ -172,14 +172,14 @@
           return;
         }
 
-        var arrPoint = data.arrPoint;
+        let arrPoint = data.arrPoint;
 
         $("#sectionChars").show();
         if (myChart1 == null) {
           myChart1 = echarts.init(document.getElementById("echartsView1"), "dark");
         }
 
-        var option = {
+        let option = {
           grid: {
             left: 10,
             right: 10,
@@ -198,16 +198,16 @@
             //    return [10, 20];
             //},
             formatter: function (params) {
-              var inhtml = "";
+              let inhtml = "";
               if (params.length === 0) {
                 hideTipMarker();
                 return inhtml;
               }
 
-              var hbgd = params[0].value; //海拔高度
-              var point = arrPoint[params[0].dataIndex]; //所在经纬度
-              var len = haoutil.str.formatLength(Number(params[0].axisValue));
-              var hbgdStr = haoutil.str.formatLength(Number(params[0].value));
+              let hbgd = params[0].value; //海拔高度
+              let point = arrPoint[params[0].dataIndex]; //所在经纬度
+              let len = haoutil.str.formatLength(Number(params[0].axisValue));
+              let hbgdStr = haoutil.str.formatLength(Number(params[0].value));
 
               inhtml = `当前位置<br />
                             距起点：${len}<br />
@@ -280,13 +280,13 @@
       }
 
       function getMinZ(arr) {
-        var minz = "dataMin";
+        let minz = "dataMin";
         if (arr == null || arr.length === 0) {
           return minz;
         }
 
         minz = arr[0].alt;
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
           if (arr[i].alt < minz) {
             minz = arr[i].alt;
           }

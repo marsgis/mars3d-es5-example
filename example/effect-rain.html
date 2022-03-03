@@ -74,11 +74,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.789209, lng: 117.214049, alt: 603, heading: 10, pitch: -11 },
           },
@@ -96,7 +96,7 @@
         map.scene.fog.minimumBrightness = 0.8;
 
         //雨效果
-        var rainEffect = new mars3d.effect.RainEffect({
+        let rainEffect = new mars3d.effect.RainEffect({
           speed: 10,
           size: 20,
           direction: -30,
@@ -104,7 +104,7 @@
         map.addEffect(rainEffect);
 
         $("#chkShowEffect").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           rainEffect.enabled = val;
         });

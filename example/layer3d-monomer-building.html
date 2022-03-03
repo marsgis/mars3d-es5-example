@@ -51,11 +51,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 43.821193, lng: 125.143124, alt: 990, heading: 342, pitch: -50 },
           },
@@ -65,7 +65,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //三维模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           type: "3dtiles",
           name: "校园",
           url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
@@ -76,7 +76,7 @@
         map.addLayer(tilesetLayer);
 
         //单体化图层
-        var geoJsonLayerDTH = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayerDTH = new mars3d.layer.GeoJsonLayer({
           name: "学校-单体化",
           url: "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json",
           symbol: {

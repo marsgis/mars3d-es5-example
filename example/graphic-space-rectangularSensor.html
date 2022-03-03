@@ -146,11 +146,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
             center: { lat: 30.834006, lng: 118.779512, alt: 306743, heading: 313, pitch: -58 },
@@ -167,7 +167,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -175,13 +175,13 @@
 
         $("#btnStartDraw").click(function () {
           //参数
-          var heading = Number($("#model_heading").val());
-          var pitch = Number($("#model_pitch").val());
-          var roll = Number($("#model_roll").val());
-          var radius = Number($("#model_radius").val());
-          var xHalfAngle = Number($("#model_angle1").val());
-          var yHalfAngle = Number($("#model_angle2").val());
-          var showScanPlane = $("#chkShowScanPlane").is(":checked");
+          let heading = Number($("#model_heading").val());
+          let pitch = Number($("#model_pitch").val());
+          let roll = Number($("#model_roll").val());
+          let radius = Number($("#model_radius").val());
+          let xHalfAngle = Number($("#model_angle1").val());
+          let yHalfAngle = Number($("#model_angle2").val());
+          let showScanPlane = $("#chkShowScanPlane").is(":checked");
 
           //开始绘制
           graphicLayer.startDraw({
@@ -267,21 +267,21 @@
           });
 
         $("#chkShowScanPlane").change(function () {
-          var showScanPlane = $("#chkShowScanPlane").is(":checked");
+          let showScanPlane = $("#chkShowScanPlane").is(":checked");
           rectangularSensor.style = { showScanPlane: showScanPlane }; //是否显示扫描面
         });
 
         //===========参数================
-        var heading = Number($("#model_heading").val());
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
-        var radius = Number($("#model_radius").val());
-        var xHalfAngle = Number($("#model_angle1").val());
-        var yHalfAngle = Number($("#model_angle2").val());
-        var showScanPlane = $("#chkShowScanPlane").is(":checked");
-        var value = $("#model_heading").slider("getValue");
+        let heading = Number($("#model_heading").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
+        let radius = Number($("#model_radius").val());
+        let xHalfAngle = Number($("#model_angle1").val());
+        let yHalfAngle = Number($("#model_angle2").val());
+        let showScanPlane = $("#chkShowScanPlane").is(":checked");
+        let value = $("#model_heading").slider("getValue");
 
-        var rectangularSensor = new mars3d.graphic.RectangularSensor({
+        let rectangularSensor = new mars3d.graphic.RectangularSensor({
           position: [117.218875, 31.817812, 138],
           style: {
             heading: heading,
@@ -651,7 +651,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -691,9 +691,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

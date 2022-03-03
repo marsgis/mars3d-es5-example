@@ -127,14 +127,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var queryMapserver;
-      var drawGraphic;
-      var geoJsonLayer;
+      let map;
+      let queryMapserver;
+      let drawGraphic;
+      let geoJsonLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 },
           },
@@ -247,19 +247,19 @@
 
       //table栏切换Ui
       function initUI() {
-        var tab_list = document.querySelector(".tab_list");
-        var lis = tab_list.querySelectorAll("li");
-        var item = document.querySelectorAll(".item");
+        let tab_list = document.querySelector(".tab_list");
+        let lis = tab_list.querySelectorAll("li");
+        let item = document.querySelectorAll(".item");
 
-        for (var i = 0; i < lis.length; i++) {
+        for (let i = 0; i < lis.length; i++) {
           lis[i].setAttribute("index", i);
           lis[i].onclick = function () {
-            for (var i = 0; i < lis.length; i++) {
+            for (let i = 0; i < lis.length; i++) {
               lis[i].className = "";
             }
             this.className = "current";
-            var index = this.getAttribute("index");
-            for (var j = 0; j < item.length; j++) {
+            let index = this.getAttribute("index");
+            for (let j = 0; j < item.length; j++) {
               item[j].style.display = "none";
             }
             item[index].style.display = "block";
@@ -279,7 +279,7 @@
           haoutil.msg("请绘制查询区域！");
           return;
         }
-        var queryVal = $.trim($("#queryText").val());
+        let queryVal = $.trim($("#queryText").val());
         queryMapserver.query({
           column: "用地名称",
           text: queryVal,
@@ -294,9 +294,9 @@
 
             let drawGeoJSON = drawGraphic.toGeoJSON({ outline: true });
 
-            var arrArea = [];
+            let arrArea = [];
             let arrFeatures = result.geojson.features;
-            for (var i = 0; i < arrFeatures.length; i++) {
+            for (let i = 0; i < arrFeatures.length; i++) {
               let feature = arrFeatures[i];
 
               try {
@@ -310,7 +310,7 @@
                 clearAll();
               }
 
-              var area = turf.area(feature) || feature.properties.Shape_Area || 0;
+              let area = turf.area(feature) || feature.properties.Shape_Area || 0;
               feature.properties.muArea = mars3d.Util.formatNum(area * 0.0015, 2); // 平方米转亩
 
               //需要统计的数据
@@ -337,7 +337,7 @@
         console.log("计算前数据", arr);
 
         let objTemp = {};
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
           let item = arr[i];
 
           if (!objTemp[item.type]) {
@@ -347,12 +347,12 @@
           objTemp[item.type].area += item.area;
           objTemp[item.type].count++;
         }
-        var arrTable = []; //表格: 名称+面积+数量
+        let arrTable = []; //表格: 名称+面积+数量
 
-        var arrPie = []; //饼状图:名称+面积
+        let arrPie = []; //饼状图:名称+面积
 
-        var arrType = []; //柱状图:名称
-        var arrArea = []; //柱状图:面积
+        let arrType = []; //柱状图:名称
+        let arrArea = []; //柱状图:面积
 
         for (let type in objTemp) {
           let area = mars3d.Util.formatNum(objTemp[type].area, 2);
@@ -406,8 +406,8 @@
         });
 
         //echarts饼状图
-        var pieEcharts = echarts.init(document.getElementById("pieChart"));
-        var option = {
+        let pieEcharts = echarts.init(document.getElementById("pieChart"));
+        let option = {
           title: {
             text: "饼状图",
             left: "center",
@@ -445,8 +445,8 @@
         pieEcharts.setOption(option);
 
         //echarts柱状图
-        var histogramECharts = echarts.init(document.getElementById("histogram"));
-        var histogramOption = {
+        let histogramECharts = echarts.init(document.getElementById("histogram"));
+        let histogramOption = {
           tooltip: {
             trigger: "item",
             backgroundColor: "rgba(63, 72, 84, 0.7)",
@@ -504,7 +504,7 @@
       }
 
       //规划面着色配置
-      var styleFieldOptions = {
+      let styleFieldOptions = {
         A1: {
           // 行政办公用地
           color: "rgba(255,127,159,0.9)",

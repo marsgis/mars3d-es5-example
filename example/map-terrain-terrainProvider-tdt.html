@@ -51,7 +51,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           terrain: false,
           //方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
           // terrain: {
@@ -64,7 +64,7 @@
         });
 
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", mapOptions);
+        let map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //方式2：在创建地球后更新terrainProvider
         map.terrainProvider = new mars3d.provider.TdtTerrainProvider({
@@ -74,7 +74,7 @@
         });
 
         $("#chkWireframe").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //三角网
           map.scene.globe._surface.tileProvider._debug.wireframe = val;

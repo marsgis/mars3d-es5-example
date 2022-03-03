@@ -47,7 +47,7 @@
 
       function initMap() {
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", {
+        let map = new mars3d.Map("mars3dContainer", {
           scene: {
             center: { lat: 30.054604, lng: 108.885436, alt: 17036414, heading: 0, pitch: -90 },
             showSun: true,
@@ -94,7 +94,7 @@
         });
 
         //cesium对应的原始地球对象
-        var viewer = map.viewer;
+        let viewer = map.viewer;
 
         window.map = map;
       }

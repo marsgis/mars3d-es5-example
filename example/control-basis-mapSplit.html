@@ -38,7 +38,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(mapOptions) {
         //方便演示，移除默认配置的control
@@ -51,7 +51,7 @@
         let _alllayers = this.map.getTileLayers();
 
         console.log(_alllayers);
-        var mapSplit = new mars3d.control.MapSplit({
+        let mapSplit = new mars3d.control.MapSplit({
           rightLayer: _alllayers[0],
           leftLayer: _alllayers[1],
         });

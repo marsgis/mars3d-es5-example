@@ -50,11 +50,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.760749, lng: 117.247058, alt: 3824, heading: 359, pitch: -33 },
           },
@@ -101,16 +101,16 @@
           graphicLayer.clear();
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val());
+          let count = Number($("#txtCount").val());
 
           createCollection(count);
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -121,8 +121,8 @@
 
       //合并渲染
       function createCollection(count) {
-        var arrData = [];
-        for (var j = 0; j < count; ++j) {
+        let arrData = [];
+        for (let j = 0; j < count; ++j) {
           arrData.push({
             position: randomPoint(),
             style: {
@@ -135,7 +135,7 @@
           });
         }
 
-        var modelCombine = new mars3d.graphic.ModelCombine({
+        let modelCombine = new mars3d.graphic.ModelCombine({
           url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
           instances: arrData,
         });
@@ -144,8 +144,8 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(117.184644 * 1000, 117.307163 * 1000) / 1000;
-        var wd = haoutil.math.random(31.783595 * 1000, 31.87024 * 1000) / 1000;
+        let jd = haoutil.math.random(117.184644 * 1000, 117.307163 * 1000) / 1000;
+        let wd = haoutil.math.random(31.783595 * 1000, 31.87024 * 1000) / 1000;
         return new mars3d.LngLatPoint(jd, wd, 50);
       }
     </script>

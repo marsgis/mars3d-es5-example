@@ -104,17 +104,17 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           name: "教学楼",
           url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
           position: { lng: 117.251229, lat: 31.844015, alt: 31.2 },
@@ -126,7 +126,7 @@
         });
         map.addLayer(tilesetLayer);
 
-        var tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
+        let tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
           layer: tilesetLayer,
           clipOutSide: false,
           edgeColor: Cesium.Color.GREY,
@@ -152,13 +152,13 @@
           .slider({ min: -20, max: 20, step: 1.0, value: 0 })
           .on("change", (e) => {
             if (e?.value) {
-              var value = e.value.newValue;
+              let value = e.value.newValue;
               $("#txtDistance").val(value.toFixed(1));
               tilesetPlanClip.distance = value;
             }
           });
         $("#txtDistance").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           tilesetPlanClip.distance = value;
         });
 
@@ -166,7 +166,7 @@
           .slider({ min: -10, max: 10, step: 0.1, value: 0 })
           .on("change", (e) => {
             if (e?.value) {
-              var value = e.value.newValue;
+              let value = e.value.newValue;
               tilesetPlanClip.normalZ = value;
             }
           });
@@ -202,7 +202,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               tilesetPlanClip.positions = positions;
@@ -222,7 +222,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               tilesetPlanClip.positions = positions;
@@ -242,7 +242,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               tilesetPlanClip.clipOutSide = true;
@@ -264,7 +264,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               tilesetPlanClip.positions = positions;

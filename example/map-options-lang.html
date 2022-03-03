@@ -65,13 +65,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var drawLayer;
-      var measure;
+      let map;
+      let drawLayer;
+      let measure;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           control: {
             homeButton: true,
             sceneModePicker: true,
@@ -147,31 +147,31 @@
       }
 
       function layerStopDraw() {
-        drawLayer.stopDraw()
+        drawLayer.stopDraw();
       }
       function measureDistance() {
-        layerStopDraw()
-        measure.distance()
+        layerStopDraw();
+        measure.distance();
       }
       function measureArea() {
-        layerStopDraw()
-        measure.area()
+        layerStopDraw();
+        measure.area();
       }
       function measureHeightTriangle() {
-        layerStopDraw()
-        measure.heightTriangle()
+        layerStopDraw();
+        measure.heightTriangle();
       }
       function measurePoint() {
-        layerStopDraw()
-        measure.point()
+        layerStopDraw();
+        measure.point();
       }
       function measureAngle() {
-        layerStopDraw()
-        measure.angle()
+        layerStopDraw();
+        measure.angle();
       }
 
       function startDraw(type) {
-        measure.stopDraw()
+        measure.stopDraw();
         drawLayer.startDraw({
           type: type,
           style: {

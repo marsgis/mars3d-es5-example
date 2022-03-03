@@ -87,11 +87,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.825314, lng: 117.242517, alt: 3195, heading: 29, pitch: -39 },
           },
@@ -141,7 +141,7 @@
         map.basemap = 2017; //切换至蓝色底图
 
         //添加参考三维模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           name: "合肥市建筑物",
           url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
           maximumScreenSpaceError: 1,
@@ -157,11 +157,11 @@
         map.addLayer(tiles3dLayer);
 
         //构造效果
-        var bloomEffect = new mars3d.effect.BloomEffect();
+        let bloomEffect = new mars3d.effect.BloomEffect();
         map.addEffect(bloomEffect);
 
         $("#chkShowEffect").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           bloomEffect.enabled = val;
         });

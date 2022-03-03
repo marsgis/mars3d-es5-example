@@ -86,11 +86,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.468743, lng: 116.499464, alt: 67446, heading: 0, pitch: -45 },
           },
@@ -100,7 +100,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建DIV数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.on(mars3d.EventType.editStart, function (e) {
@@ -174,7 +174,7 @@
 
       //一个黑色面板，指向左下角黄色连线
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.741611, 31.408068, 75.5],
           style: {
             html: `<div class="marsBlackPanel  animation-spaceInDown">
@@ -196,7 +196,7 @@
 
       //一个渐变的文本面板,中间竖直连线
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.510732, 31.403786, 176.4],
           style: {
             html: `<div class="marsBlueGradientPnl">
@@ -219,7 +219,7 @@
 
       //
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.960075, 31.19609, 237.4],
           style: {
             html: `<div class="marsGreenGradientPnl" >安徽欢迎您</div>`,
@@ -238,7 +238,7 @@
 
       //添加GIF图标，DIV方式
       function addGraphic_04(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.79013, 31.164872, 289],
           style: {
             html: '<img src="img/marker/tf.gif" style="width:50px;height:50px;" ></img>',
@@ -253,7 +253,7 @@
 
       //加css动画的扩散点 DivLightPoint
       function addGraphic_05(graphicLayer) {
-        var graphic = new mars3d.graphic.DivLightPoint({
+        let graphic = new mars3d.graphic.DivLightPoint({
           position: [116.630276, 31.213813],
           style: {
             color: "#f33349",
@@ -267,7 +267,7 @@
 
       //内置扩展的动态文本 DivBoderLabel
       function addGraphic_06(graphicLayer) {
-        var graphic = new mars3d.graphic.DivBoderLabel({
+        let graphic = new mars3d.graphic.DivBoderLabel({
           position: [116.460722, 31.140888, 781],
           style: {
             text: "火星科技Mars3D平台",
@@ -282,7 +282,7 @@
 
       //内置扩展的竖立文本 DivBoderLabel
       function addGraphic_07(graphicLayer) {
-        var graphic = new mars3d.graphic.DivUpLabel({
+        let graphic = new mars3d.graphic.DivUpLabel({
           position: [116.327136, 30.99723, 914.6],
           style: {
             text: "我是竖立的文本",
@@ -299,7 +299,7 @@
 
       //类似popup/toolitp的自定义html
       function addGraphic_08(graphicLayer) {
-        var graphic = new mars3d.graphic.Popup({
+        let graphic = new mars3d.graphic.Popup({
           position: [116.146461, 31.380152, 395.1],
           style: {
             html: `这里可以放入任意html代码<br /> Popup和Tooltip也是继承自DivGraphic`,
@@ -320,7 +320,7 @@
 
       //倾斜指向左下角的面板样式
       function addGraphic_09(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.138686, 31.101009, 1230],
           style: {
             html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
@@ -410,7 +410,7 @@
 
       //倾斜指向左下角的面板样式
       function addGraphic_10(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: [116.228043, 30.882207],
           style: {
             html: `<div class="marsTiltPanel marsTiltPanel-theme-green">
@@ -473,7 +473,7 @@
 
       //倾斜指向左下角的面板样式
       function addGraphic_11(graphicLayer) {
-        var graphic = new mars3d.graphic.DivGraphic({
+        let graphic = new mars3d.graphic.DivGraphic({
           position: Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5),
           style: {
             html: `<div class="marsTiltPanel marsTiltPanel-theme-blue">
@@ -526,28 +526,28 @@
         map.clock.shouldAnimate = true;
 
         //动画移动
-        var property = new Cesium.SampledPositionProperty();
+        let property = new Cesium.SampledPositionProperty();
         property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
-        var time = 20; //移动的时长 ，秒
-        var tempTime;
+        let time = 20; //移动的时长 ，秒
+        let tempTime;
 
         //起点
-        var startPoint = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5);
+        let startPoint = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5);
         tempTime = map.clock.currentTime; //飞行开始时间
         property.addSample(tempTime, startPoint);
 
         //移动到的第1个目标点
-        var point1 = Cesium.Cartesian3.fromDegrees(116.311439, 30.76485, 423.7);
+        let point1 = Cesium.Cartesian3.fromDegrees(116.311439, 30.76485, 423.7);
         tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate());
         property.addSample(tempTime, point1);
 
         //移动到的第2个目标点
-        var point2 = Cesium.Cartesian3.fromDegrees(116.63081, 30.786585, 85);
+        let point2 = Cesium.Cartesian3.fromDegrees(116.63081, 30.786585, 85);
         tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate());
         property.addSample(tempTime, point2);
 
         //移动到的第3个目标点
-        var point3 = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5);
+        let point3 = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5);
         tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate());
         property.addSample(tempTime, point3);
 
@@ -825,7 +825,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>

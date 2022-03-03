@@ -66,11 +66,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.842658, lng: 117.251492, alt: 249, heading: 358, pitch: -59 },
             globe: {
@@ -111,7 +111,7 @@
         });
 
         //模型裁剪
-        var tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
+        let tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
           layer: layerWorkBIM,
           type: mars3d.thing.TilesetPlanClip.Type.ZR,
           distance: 100,
@@ -122,7 +122,7 @@
         map.addThing(tilesetPlanClip);
 
         //挖地区域---负一楼
-        var terrainPlanClip = new mars3d.thing.TerrainPlanClip({
+        let terrainPlanClip = new mars3d.thing.TerrainPlanClip({
           positions: [
             [117.251176, 31.843707, 28.24],
             [117.251877, 31.843707, 28.24],

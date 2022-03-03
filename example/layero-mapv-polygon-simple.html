@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.771164, lng: 117.242438, alt: 9736, heading: 0, pitch: -56 },
           },
@@ -79,7 +79,7 @@
       }
       //创建mapv图层
       function createMapvLayer(geojson) {
-        var options = {
+        let options = {
           fillStyle: "rgba(255, 80, 53, 0.8)",
           strokeStyle: "rgba(250, 255, 53, 0.8)",
           size: 3,
@@ -87,10 +87,10 @@
           draw: "simple",
           depthTest: false, //是否进行计算深度（大数据时，需要关闭）
         };
-        var dataSet = new this.mapv.DataSet(geojson);
+        let dataSet = new this.mapv.DataSet(geojson);
 
         //创建MapV图层
-        var mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
+        let mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
         map.addLayer(mapVLayer);
       }
     </script>

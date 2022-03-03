@@ -42,11 +42,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.205394, lng: 106.530809, alt: 32195, heading: 2, pitch: -44 },
           },
@@ -67,7 +67,7 @@
         map.scene.skyAtmosphere.show = false;
 
         //geojson图层
-        var geoJsonLayer1 = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayer1 = new mars3d.layer.GeoJsonLayer({
           url: "//data.mars3d.cn/file/geojson/wuhan-line1.json",
           symbol: {
             // type: 'polyline',
@@ -84,7 +84,7 @@
         });
         map.addLayer(geoJsonLayer1);
 
-        var geoJsonLayer2 = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayer2 = new mars3d.layer.GeoJsonLayer({
           url: "//data.mars3d.cn/file/geojson/wuhan-line2.json",
           symbol: {
             styleOptions: {
@@ -100,7 +100,7 @@
         });
         map.addLayer(geoJsonLayer2);
 
-        var geoJsonLayer3 = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayer3 = new mars3d.layer.GeoJsonLayer({
           url: "//data.mars3d.cn/file/geojson/wuhan-line3.json",
           symbol: {
             styleOptions: {

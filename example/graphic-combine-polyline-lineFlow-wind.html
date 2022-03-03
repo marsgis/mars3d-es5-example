@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.851048, lng: 117.477098, alt: 1294279, heading: 358, pitch: -87 },
           },
@@ -84,7 +84,7 @@
       //流场线
       function showWindLine(arr) {
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.bindTooltip(function (event) {
@@ -95,9 +95,9 @@
           return mars3d.Util.getTemplateHtml({ title: "线", template: "all", attr: attr });
         });
 
-        var arrData = [];
-        var radius = 12000;
-        var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+        let arrData = [];
+        let radius = 12000;
+        let lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
           image: "img/textures/ArrowOpacity.png",
           color: "#00ff00",
           speed: 30,
@@ -105,10 +105,10 @@
         for (let i = 0, len = arr.length; i < len; i++) {
           const item = arr[i];
 
-          var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, 0);
-          var angle = 180 - item.dir;
+          let position = Cesium.Cartesian3.fromDegrees(item.x, item.y, 0);
+          let angle = 180 - item.dir;
 
-          var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, angle, radius);
+          let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, angle, radius);
           pt1 = mars3d.PointUtil.setPositionsHeight(pt1, 0);
 
           arrData.push({
@@ -122,7 +122,7 @@
         }
 
         //多个线对象的合并渲染。
-        var primitive = new mars3d.graphic.PolylineCombine({
+        let primitive = new mars3d.graphic.PolylineCombine({
           instances: arrData,
         });
         graphicLayer.addGraphic(primitive);

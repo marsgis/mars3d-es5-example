@@ -48,11 +48,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.806147, lng: 117.236965, alt: 3307, heading: 359, pitch: -54 },
           },
@@ -65,7 +65,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //在layer上绑定监听事件
@@ -90,15 +90,15 @@
           graphicLayer.clear();
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val()) * 10000;
+          let count = Number($("#txtCount").val()) * 10000;
 
-          var arrData = [];
-          for (var j = 0; j < count; ++j) {
-            var position = randomPoint();
-            var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500);
-            var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500);
+          let arrData = [];
+          for (let j = 0; j < count; ++j) {
+            let position = randomPoint();
+            let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500);
+            let pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500);
 
             arrData.push({
               positions: [pt1, position, pt3],
@@ -115,7 +115,7 @@
           }
 
           //多个线对象的合并渲染。
-          var primitive = new mars3d.graphic.CorridorCombine({
+          let primitive = new mars3d.graphic.CorridorCombine({
             instances: arrData,
 
             //高亮时的样式
@@ -127,9 +127,9 @@
           graphicLayer.addGraphic(primitive);
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -162,7 +162,7 @@
             haoutil.msg("共加载" + arr.length + "个线");
 
             //多个线对象的合并渲染。
-            var primitive = new mars3d.graphic.CorridorCombine({
+            let primitive = new mars3d.graphic.CorridorCombine({
               instances: arr,
 
               //高亮时的样式
@@ -180,8 +180,8 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(115.955684 * 1000, 117.474003 * 1000) / 1000;
-        var wd = haoutil.math.random(30.7576 * 1000, 32.008782 * 1000) / 1000;
+        let jd = haoutil.math.random(115.955684 * 1000, 117.474003 * 1000) / 1000;
+        let wd = haoutil.math.random(30.7576 * 1000, 32.008782 * 1000) / 1000;
         return Cesium.Cartesian3.fromDegrees(jd, wd);
       }
     </script>

@@ -41,10 +41,10 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 22.126801, lng: 119.173814, alt: 4100099, heading: 351, pitch: -74 },
           },
@@ -74,10 +74,10 @@
       }
       //创建mapv图层
       function createMapvLayer(geojson) {
-        var geojsonDataSet = this.mapv.geojson.getDataSet(geojson);
+        let geojsonDataSet = this.mapv.geojson.getDataSet(geojson);
 
-        var to = "北京";
-        var qianxi = new this.mapv.DataSet([
+        let to = "北京";
+        let qianxi = new this.mapv.DataSet([
           {
             from: "河北",
             count: 354551,
@@ -130,17 +130,17 @@
           },
         ]);
 
-        var lineData = [];
-        var pointData = [];
-        var textData = [];
-        var timeData = [];
+        let lineData = [];
+        let pointData = [];
+        let textData = [];
+        let timeData = [];
 
-        var citys = {};
+        let citys = {};
 
-        var qianxiData = qianxi.get();
+        let qianxiData = qianxi.get();
         for (let i = 0; i < qianxiData.length; i++) {
-          var fromCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from);
-          var toCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to);
+          let fromCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from);
+          let toCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to);
           if (!fromCenter || !toCenter) {
             continue;
           }
@@ -173,7 +173,7 @@
             text: qianxiData[i].to,
           });
 
-          var curve = this.mapv.utilCurve.getPoints([fromCenter, toCenter]);
+          let curve = this.mapv.utilCurve.getPoints([fromCenter, toCenter]);
 
           for (let j = 0; j < curve.length; j++) {
             timeData.push({
@@ -196,7 +196,7 @@
           });
         }
 
-        var data = geojsonDataSet.get({
+        let data = geojsonDataSet.get({
           filter: function (item) {
             if (!citys[item.name]) {
               return false;
@@ -208,7 +208,7 @@
         });
         geojsonDataSet = new this.mapv.DataSet(data);
 
-        var geojsonOptions = {
+        let geojsonOptions = {
           gradient: {
             0: "rgba(55, 50, 250, 0.4)",
             1: "rgba(55, 50, 250, 1)",
@@ -219,11 +219,11 @@
         };
 
         //创建MapV图层
-        var mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions, geojsonDataSet);
+        let mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions, geojsonDataSet);
         map.addLayer(mapVLayer);
 
-        var textDataSet = new this.mapv.DataSet(textData);
-        var textOptions = {
+        let textDataSet = new this.mapv.DataSet(textData);
+        let textOptions = {
           draw: "text",
           font: "14px Arial",
           fillStyle: "white",
@@ -233,10 +233,10 @@
           shadowBlur: 10,
         };
         //创建MapV图层
-        var textmapVLayer = new mars3d.layer.MapVLayer(textOptions, textDataSet);
+        let textmapVLayer = new mars3d.layer.MapVLayer(textOptions, textDataSet);
         map.addLayer(textmapVLayer);
 
-        var lineOptions = {
+        let lineOptions = {
           strokeStyle: "rgba(255, 250, 50, 0.8)",
           shadowColor: "rgba(255, 250, 50, 1)",
           shadowBlur: 20,
@@ -244,12 +244,12 @@
           zIndex: 100,
           draw: "simple",
         };
-        var lineDataSet = new this.mapv.DataSet(lineData);
+        let lineDataSet = new this.mapv.DataSet(lineData);
         //创建MapV图层
-        var linemapVLayer = new mars3d.layer.MapVLayer(lineOptions, lineDataSet);
+        let linemapVLayer = new mars3d.layer.MapVLayer(lineOptions, lineDataSet);
         map.addLayer(linemapVLayer);
 
-        var pointOptions = {
+        let pointOptions = {
           fillStyle: "rgba(254,175,3,0.7)",
           shadowColor: "rgba(55, 50, 250, 0.5)",
           shadowBlur: 10,
@@ -257,13 +257,13 @@
           zIndex: 10,
           draw: "simple",
         };
-        var pointDataSet = new this.mapv.DataSet(pointData);
+        let pointDataSet = new this.mapv.DataSet(pointData);
         //创建MapV图层
-        var pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions, pointDataSet);
+        let pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions, pointDataSet);
         map.addLayer(pointmapVLayer);
 
-        var timeDataSet = new this.mapv.DataSet(timeData);
-        var timeOptions = {
+        let timeDataSet = new this.mapv.DataSet(timeData);
+        let timeOptions = {
           fillStyle: "rgba(255, 250, 250, 0.5)",
           zIndex: 200,
           size: 2.5,
@@ -280,7 +280,7 @@
         };
 
         //创建MapV图层
-        var timemapVLayer = new mars3d.layer.MapVLayer(timeOptions, timeDataSet);
+        let timemapVLayer = new mars3d.layer.MapVLayer(timeOptions, timeDataSet);
         map.addLayer(timemapVLayer);
       }
     </script>

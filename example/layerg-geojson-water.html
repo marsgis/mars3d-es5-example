@@ -59,12 +59,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphic;
-      var waterLayer;
+      let map;
+      let graphic;
+      let waterLayer;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.791718, lng: 121.479859, alt: 29, heading: 187, pitch: -14 },
           },
@@ -146,8 +146,8 @@
         map.graphicLayer.addGraphic(graphic);
       }
 
-      var minHeight = 16;
-      var timeInv;
+      let minHeight = 16;
+      let timeInv;
 
       //高度更新
       function updateHeight(height) {
@@ -183,14 +183,14 @@
           return;
         }
 
-        var time = Number($("#txt_zmmiao").val());
-        var mi = Number($("#txt_zmmi").val());
+        let time = Number($("#txt_zmmiao").val());
+        let mi = Number($("#txt_zmmi").val());
 
-        var thisHeight = minHeight; //当前高度
-        var endHeight = mi + minHeight; //结束高度
+        let thisHeight = minHeight; //当前高度
+        let endHeight = mi + minHeight; //结束高度
 
-        var step = time / 0.1; //步长
-        var stepHeight = (endHeight - thisHeight) / step; //每次阀门、水面上移高度
+        let step = time / 0.1; //步长
+        let stepHeight = (endHeight - thisHeight) / step; //每次阀门、水面上移高度
 
         //再次点击"开启"时从当前位置开启
         updateHeight(thisHeight);
@@ -213,14 +213,14 @@
           return; //return 之后就会直接结束这个函数，不会在往下走
         }
 
-        var time = Number($("#txt_zmmiao").val());
-        var mi = Number($("#txt_zmmi").val());
+        let time = Number($("#txt_zmmiao").val());
+        let mi = Number($("#txt_zmmi").val());
 
-        var thisHeight = mi + minHeight;
-        var endHeight = minHeight;
+        let thisHeight = mi + minHeight;
+        let endHeight = minHeight;
 
-        var step = time / 0.1;
-        var stepHeight = (endHeight - thisHeight) / step;
+        let step = time / 0.1;
+        let stepHeight = (endHeight - thisHeight) / step;
 
         updateHeight(thisHeight);
 

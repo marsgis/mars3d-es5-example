@@ -40,10 +40,10 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 20.71756, lng: 111.57217, alt: 5902792, heading: 354, pitch: -78 },
           },
@@ -57,13 +57,13 @@
       }
 
       function createEchartsLayer() {
-        var options = getEchartsOption();
-        var echartsLayer = new mars3d.layer.EchartsLayer(options);
+        let options = getEchartsOption();
+        let echartsLayer = new mars3d.layer.EchartsLayer(options);
         map.addLayer(echartsLayer);
       }
 
       function getEchartsOption() {
-        var geoCoordMap = {
+        let geoCoordMap = {
           海门: [121.15, 31.89],
           鄂尔多斯: [109.781327, 39.608266],
           招远: [120.38, 37.35],
@@ -256,7 +256,7 @@
           大庆: [125.03, 46.58],
         };
 
-        var datapoint = [
+        let datapoint = [
           {
             name: "海门",
             value: 9,
@@ -1019,10 +1019,10 @@
           },
         ];
 
-        var convertData = function (data) {
-          var res = [];
-          for (var i = 0; i < data.length; i++) {
-            var geoCoord = geoCoordMap[data[i].name];
+        let convertData = function (data) {
+          let res = [];
+          for (let i = 0; i < data.length; i++) {
+            let geoCoord = geoCoordMap[data[i].name];
             if (geoCoord) {
               res.push({
                 name: data[i].name,
@@ -1033,7 +1033,7 @@
           return res;
         };
 
-        var option = {
+        let option = {
           animation: false,
           backgroundColor: "rgba(17, 19, 42, 0.4)",
           title: {

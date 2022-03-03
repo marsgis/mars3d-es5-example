@@ -74,11 +74,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 31.808563, lng: 117.187762, alt: 234, heading: 95, pitch: -15 },
@@ -89,7 +89,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //2.在layer上绑定监听事件
@@ -115,7 +115,7 @@
             text: "删除对象",
             iconCls: "fa fa-trash-o",
             callback: function (e) {
-              var primitive = e.graphic;
+              let primitive = e.graphic;
               if (primitive) {
                 graphicLayer.removeGraphic(primitive);
               }
@@ -125,7 +125,7 @@
 
         //加一些演示数据
 
-        var road = new mars3d.graphic.Road({
+        let road = new mars3d.graphic.Road({
           positions: [
             [117.181132, 31.814245, 45.95],
             [117.185542, 31.8125, 43.23],
@@ -150,14 +150,14 @@
           if (!road) {
             return;
           }
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           road.width = value;
         });
         $("#txtHeight").change(function (e) {
           if (!road) {
             return;
           }
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           road.height = value;
         });
 
@@ -183,13 +183,13 @@
               width: 3,
             },
             success: (graphic) => {
-              var points = graphic.points;
+              let points = graphic.points;
 
               graphic.remove(); //删除绘制的线
 
-              var width = Number($("#txtWidth").val());
-              var height = Number($("#txtHeight").val());
-              var opacity = Number($("#txtAlpha").val());
+              let width = Number($("#txtWidth").val());
+              let height = Number($("#txtHeight").val());
+              let opacity = Number($("#txtAlpha").val());
 
               road = new mars3d.graphic.Road({
                 positions: points,

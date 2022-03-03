@@ -84,11 +84,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.649617, lng: 117.081721, alt: 444, heading: 348, pitch: -25 },
           },
@@ -109,7 +109,7 @@
         map.addLayer(tiles3dLayer);
 
         //创建DIV数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -140,7 +140,7 @@
       }
 
       function addGraphic(graphicLayer, position) {
-        var graphicImg = new mars3d.graphic.DivGraphic({
+        let graphicImg = new mars3d.graphic.DivGraphic({
           position: position,
           style: {
             html: ` <div class="mars3d-camera-content">
@@ -167,13 +167,13 @@
         graphicLayer.addGraphic(graphicImg);
 
         // var hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
-        var hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8";
+        let hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8";
 
         graphicImg.on(mars3d.EventType.popupOpen, function (event) {
           let videoElement = event.container.querySelector("#videoHLS"); //popup对应的DOM
 
           if (window.Hls.isSupported()) {
-            var hls = new window.Hls();
+            let hls = new window.Hls();
             hls.loadSource(hlsUrl);
             hls.attachMedia(videoElement);
             hls.on(window.Hls.Events.MANIFEST_PARSED, function () {

@@ -137,12 +137,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           control: {
             infoBox: false,
           },
@@ -211,7 +211,7 @@
         });
 
         $("#chk_onlyPickModelPosition").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //控制鼠标只取模型上的点，忽略地形上的点的拾取
           map.onlyPickModelPosition = val;
@@ -222,7 +222,7 @@
             window.layer.msg("当前没有标注任何数据，无需保存！");
             return;
           }
-          var strResult = toKML();
+          let strResult = toKML();
           haoutil.file.downloadFile("我的标注.kml", strResult);
         });
 
@@ -231,7 +231,7 @@
             window.layer.msg("当前没有标注任何数据，无需保存！");
             return;
           }
-          var strResult = toWKT();
+          let strResult = toWKT();
           haoutil.file.downloadFile("我的标注wkt.txt", JSON.stringify(strResult));
         });
 
@@ -495,14 +495,14 @@
       }
 
       function toKML() {
-        var geojsonObject = graphicLayer.toGeoJSON();
+        let geojsonObject = graphicLayer.toGeoJSON();
         if (geojsonObject == null) {
           return null;
         }
 
         geojsonObject = haoutil.system.clone(geojsonObject);
 
-        var kml = kgUtil.toKml(geojsonObject, {
+        let kml = kgUtil.toKml(geojsonObject, {
           name: "Mars3D标绘数据",
           documentName: "Mars3D标绘数据文件",
           documentDescription: "标绘数据 by mars3d.cn",
@@ -513,19 +513,19 @@
       }
 
       function toWKT() {
-        var geojsonObject = graphicLayer.toGeoJSON();
+        let geojsonObject = graphicLayer.toGeoJSON();
         if (geojsonObject == null) {
           return null;
         }
         geojsonObject = haoutil.system.clone(geojsonObject);
 
-        var arrWKT = [];
-        var index = 0;
+        let arrWKT = [];
+        let index = 0;
         geojsonObject.features.forEach((feature) => {
-          var attr = feature.properties;
-          var style = feature.properties.style;
+          let attr = feature.properties;
+          let style = feature.properties.style;
 
-          var wkt = Terraformer.WKT.convert(feature.geometry); //geojson转换WKT格式 ,terraformer库
+          let wkt = Terraformer.WKT.convert(feature.geometry); //geojson转换WKT格式 ,terraformer库
           arrWKT.push({
             id: ++index,
             name: attr.name || "",
@@ -880,7 +880,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -920,19 +920,19 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
 
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      var timeTik;
+      let timeTik;
 
       function startEditing(graphic) {
         clearTimeout(timeTik);
 
-        var plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
+        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
         if (plotAttr && plotAttr.isActivate) {
           plotAttr.startEditing(graphic, graphic.coordinates);
         } else {

@@ -82,11 +82,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 36.045934, lng: 113.942816, alt: 1663, heading: 2, pitch: -25 },
           },
@@ -97,7 +97,8 @@
 
         initUI();
 
-        initEditorJS();
+        // eslint-disable-next-line no-undef
+        initEditorJS(map);
       }
 
       //UI界面相关
@@ -145,12 +146,12 @@
       }
 
       //数据处理，及自动播放
-      var dataWork = {
+      let dataWork = {
         alltimes: 0,
         arrNode: [],
         analysisData: function (arr) {
-          for (var i = 0; i < arr.length; i++) {
-            var item = arr[i];
+          for (let i = 0; i < arr.length; i++) {
+            let item = arr[i];
             // item.state = { disabled: true }; //前端播放时禁用单击
 
             if (item.widget) {
@@ -193,7 +194,7 @@
           });
 
           $("#treeOverlays").on("changed.jstree", (e, data) => {
-            var node = data.node.original;
+            let node = data.node.original;
             if (node && node.widget) {
               this.start(node);
             }
@@ -241,9 +242,9 @@
 
           map.clock.shouldAnimate = true;
 
-          var node = this.selectdNode;
+          let node = this.selectdNode;
           if (node) {
-            var that = this;
+            let that = this;
 
             this.steptimes = 0;
             node.widget.disable();
@@ -290,7 +291,7 @@
 
           // $("#treeOverlays").jstree().close_all(); //收起树
 
-          var that = this;
+          let that = this;
           this.timeIdx = setTimeout(function () {
             node.widget.disable();
             that.activateNextNode(node.index);
@@ -303,16 +304,16 @@
             this.selectdNode = null;
             return;
           }
-          var node = this.arrNode[index];
+          let node = this.arrNode[index];
           this.activateNode(node);
         },
       };
 
       //通用方法 脚本列表
-      var JB = {
+      let JB = {
         showPanel(html) {
           $("#viewResult").remove();
-          var innerHTML = `<div id="viewResult" class="infoview viewResult" >
+          let innerHTML = `<div id="viewResult" class="infoview viewResult" >
             ${html}
         </div>`;
           $("body").append(innerHTML);
@@ -321,7 +322,7 @@
           $("#viewResult").remove();
         },
         playMP3(src) {
-          var mp3 = new Audio(src);
+          let mp3 = new Audio(src);
           mp3.play(); //播放 mp3这个音频对象
           return mp3;
         },

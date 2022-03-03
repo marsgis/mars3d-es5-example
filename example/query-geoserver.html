@@ -71,16 +71,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var queryMapserver;
-      var geoJsonLayer;
+      let map;
+      let queryMapserver;
+      let geoJsonLayer;
 
-      var drawGraphic;
-      var $table;
+      let drawGraphic;
+      let $table;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 },
           },
@@ -239,7 +239,7 @@
             },
           ],
           onClickRow: function (item, $element, field) {
-            var graphic = item.graphic;
+            let graphic = item.graphic;
             if (graphic == null) {
               toastr.warning(item.name + " 无经纬度坐标信息！");
               return;
@@ -271,7 +271,7 @@
       function queryData() {
         clearAll(true);
 
-        var queryVal = $.trim($("#queryText").val());
+        let queryVal = $.trim($("#queryText").val());
 
         //也可以用queryBySql方法传入cql_filter `columnName like "%${queryVal}%"`,
 

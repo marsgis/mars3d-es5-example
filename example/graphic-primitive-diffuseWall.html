@@ -60,11 +60,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.779398, lng: 117.314306, alt: 5949, heading: 340, pitch: -39 },
           },
@@ -75,7 +75,7 @@
         map.basemap = 2017; //蓝色底图
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -89,7 +89,7 @@
 
       function addGraphic_a1(graphicLayer) {
         //走马灯围墙效果
-        var scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.ScrollWall({
           positions: [
             [117.268479, 31.836646, 25.53],
             [117.282362, 31.827581, 34.28],
@@ -115,7 +115,7 @@
 
       function addGraphic_a2(graphicLayer) {
         //走马灯围墙效果
-        var scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.ScrollWall({
           positions: [
             [117.269712, 31.883547, 22.12],
             [117.303505, 31.881174, 16.89],
@@ -135,7 +135,7 @@
 
       function addGraphic_a3(graphicLayer) {
         //走马灯围墙效果
-        var scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.ScrollWall({
           positions: [
             [117.319966, 31.842082, 12.29],
             [117.330034, 31.835286, 11.07],
@@ -497,7 +497,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -537,9 +537,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

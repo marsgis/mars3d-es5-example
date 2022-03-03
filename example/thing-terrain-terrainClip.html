@@ -99,12 +99,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var terrainClip;
+      let map;
+      let terrainClip;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 360, pitch: -56 },
           },
@@ -113,7 +113,7 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var height = Number($("#txtHeight").val());
+        let height = Number($("#txtHeight").val());
 
         terrainClip = new mars3d.thing.TerrainClip({
           diffHeight: height, //井的深度
@@ -152,21 +152,21 @@
         addTableItem(areaItem2);
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
         });
 
         $("#chkClippingPlanes").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           terrainClip.enabled = val;
         });
         $("#chkUnionClippingRegions").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           terrainClip.clipOutSide = val;
         });
 
         $("#txtHeight").change(function () {
-          var num = Number($(this).val());
+          let num = Number($(this).val());
           terrainClip.diffHeight = num;
         });
 
@@ -177,7 +177,7 @@
           $("#chkClippingPlanes").prop("checked", true);
 
           // 清除表格
-          var tbody = document.getElementById("tbPoly");
+          let tbody = document.getElementById("tbPoly");
           tbody.innerHTML = "";
         });
 
@@ -191,7 +191,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
@@ -211,7 +211,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
@@ -227,8 +227,8 @@
       // 区域表格添加一行记录
       function addTableItem(item) {
         // 增加tr和td表格
-        var tbody = document.getElementById("tbPoly");
-        var tr = document.createElement("tr");
+        let tbody = document.getElementById("tbPoly");
+        let tr = document.createElement("tr");
         tr.innerHTML = `
           <tr>
             <td>开挖区${item.id}</td>

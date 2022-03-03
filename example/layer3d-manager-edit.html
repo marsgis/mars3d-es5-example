@@ -217,14 +217,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let tiles3dLayer;
 
-      var tilesEditor;
+      let tilesEditor;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
@@ -237,6 +237,7 @@
         map.fixedLight = true;
 
         //鼠标拖拽编辑，定义在js/TilesEditor.js
+        // eslint-disable-next-line no-undef
         tilesEditor = new TilesEditor({
           map: map,
           moveImg: "img/edit/move.png",
@@ -244,15 +245,15 @@
         });
         tilesEditor.on(mars3d.EventType.change, function (event) {
           if (Cesium.defined(event.position)) {
-            var pos = event.position;
-            var thisZ = Number($("#txt_z").val());
-            var position = mars3d.PointUtil.setPositionsHeight(pos, thisZ);
+            let pos = event.position;
+            let thisZ = Number($("#txt_z").val());
+            let position = mars3d.PointUtil.setPositionsHeight(pos, thisZ);
 
             tilesEditor.position = position;
 
             tiles3dLayer.center = position;
 
-            var point = mars3d.LngLatPoint.fromCartesian(position);
+            let point = mars3d.LngLatPoint.fromCartesian(position);
             $("#txt_x").val(point.lng);
             $("#txt_y").val(point.lat);
             $("#txt_z").val(point.alt);
@@ -268,7 +269,7 @@
         });
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
           if (val) {
             toastr.info("深度监测打开后，您将无法看到地下或被地形遮挡的对象。");
@@ -277,7 +278,7 @@
 
         $("#chkIsEditng").change(function () {
           //鼠标拖拽
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           tilesEditor.enabled = val;
         });
 
@@ -308,7 +309,7 @@
         initSceneTree();
 
         //加载数据
-        var url = haoutil.system.getRequestByName("url");
+        let url = haoutil.system.getRequestByName("url");
         if (url) {
           //加载url传入模型地址
           $("#txtModel").val(url);
@@ -318,7 +319,7 @@
           localforage.getItem("g20_3dtiles_edit").then(function (item) {
             console.log("加载显示历史数据", item);
             if (!item.url) {
-              return
+              return;
             }
             $("#txtModel").val(item.url);
             $("#txt_luminanceAtZenith").val(item.luminanceAtZenith || 0.2);
@@ -358,7 +359,7 @@
         removeLayer();
 
         //获取参数
-        var params = getConfig();
+        let params = getConfig();
         delete params.center;
 
         if (!params.url) {
@@ -386,7 +387,7 @@
           let tileset = event.tileset;
 
           //取模型中心点信息
-          var locParams = tiles3dLayer.center;
+          let locParams = tiles3dLayer.center;
           if (locParams.alt < -1000 || locParams.alt > 10000) {
             locParams.alt = 0; //高度异常数据，自动赋值高度为0
           }
@@ -424,7 +425,7 @@
                     return;
                   }
 
-                  var offsetZ = Math.ceil(newHeight - tiles3dLayer.orginCenterPoint.alt + 1);
+                  let offsetZ = Math.ceil(newHeight - tiles3dLayer.orginCenterPoint.alt + 1);
                   console.log("地面海拔：" + newHeight.toFixed(2) + ",需要偏移" + offsetZ);
 
                   $("#txt_z").val(offsetZ);
@@ -438,7 +439,7 @@
 
       function updateModel() {
         //获取参数
-        var params = getConfig();
+        let params = getConfig();
         params.rotation = params.rotation || {};
         params.rotation.x = params.rotation.x || 0;
         params.rotation.y = params.rotation.y || 0;
@@ -453,10 +454,10 @@
 
       //获取所有参数配置
       function getConfig() {
-        var url = $("#txtModel").val();
-        var maximumScreenSpaceError = mars3d.Util.formatNum($("#txt_maximumScreenSpaceError").val(), 1);
+        let url = $("#txtModel").val();
+        let maximumScreenSpaceError = mars3d.Util.formatNum($("#txt_maximumScreenSpaceError").val(), 1);
 
-        var params = {
+        let params = {
           name: "模型名称",
           type: "3dtiles",
           url: url,
@@ -466,56 +467,56 @@
           show: true,
         };
 
-        var x = mars3d.Util.formatNum($("#txt_x").val(), 6);
+        let x = mars3d.Util.formatNum($("#txt_x").val(), 6);
         if (x) {
           params.position = params.position || {};
           params.position.lng = x;
         }
 
-        var y = mars3d.Util.formatNum($("#txt_y").val(), 6);
+        let y = mars3d.Util.formatNum($("#txt_y").val(), 6);
         if (y) {
           params.position = params.position || {};
           params.position.lat = y;
         }
 
-        var z = mars3d.Util.formatNum($("#txt_z").val(), 6);
+        let z = mars3d.Util.formatNum($("#txt_z").val(), 6);
         if (z) {
           params.position = params.position || {};
           params.position.alt = z;
         }
 
-        var rotation_x = mars3d.Util.formatNum($("#txt_rotation_x").val(), 1);
+        let rotation_x = mars3d.Util.formatNum($("#txt_rotation_x").val(), 1);
         if (rotation_x) {
           params.rotation = params.rotation || {};
           params.rotation.x = rotation_x;
         }
 
-        var rotation_y = mars3d.Util.formatNum($("#txt_rotation_y").val(), 1);
+        let rotation_y = mars3d.Util.formatNum($("#txt_rotation_y").val(), 1);
         if (rotation_y) {
           params.rotation = params.rotation || {};
           params.rotation.y = rotation_y;
         }
 
-        var rotation_z = mars3d.Util.formatNum($("#txt_rotation_z").val(), 1);
+        let rotation_z = mars3d.Util.formatNum($("#txt_rotation_z").val(), 1);
         if (rotation_z) {
           params.rotation = params.rotation || {};
           params.rotation.z = rotation_z;
         }
 
-        var luminanceAtZenith = mars3d.Util.formatNum($("#txt_luminanceAtZenith").val(), 1);
+        let luminanceAtZenith = mars3d.Util.formatNum($("#txt_luminanceAtZenith").val(), 1);
         if (luminanceAtZenith != 0.2) {
           params.luminanceAtZenith = luminanceAtZenith;
         }
 
-        var scale = mars3d.Util.formatNum(Number($("#txt_scale").val()) || 1, 1);
+        let scale = mars3d.Util.formatNum(Number($("#txt_scale").val()) || 1, 1);
         if (scale > 0) {
           params.scale = scale;
         }
 
-        var axis = $("#txt_axis").val();
+        let axis = $("#txt_axis").val();
         params.axis = axis;
 
-        var isProxy = $("#chkProxy").is(":checked");
+        let isProxy = $("#chkProxy").is(":checked");
         if (isProxy) {
           params.proxy = "//server.mars3d.cn/proxy/";
         }
@@ -542,7 +543,7 @@
       }
 
       function saveBookmark() {
-        var params = getConfig();
+        let params = getConfig();
         if (params.axis == "") {
           delete params.axis;
         }
@@ -573,7 +574,7 @@
           $("#viewReset").hide();
         });
         $("#treeOverlays").on("changed.jstree", function (e, data) {
-          var node = data.node.original;
+          let node = data.node.original;
           if (node && node.sphere) {
             locateNode(node.eleid, node.sphere);
 
@@ -584,7 +585,7 @@
 
       function updateSceneTree() {
         $("#viewReset").hide();
-        var url = $("#txtModel").val();
+        let url = $("#txtModel").val();
 
         querySceneTreeData(url).then(function (data) {
           $("#treeOverlays").data("jstree", false).empty();
@@ -609,13 +610,13 @@
         }
 
         //构件节点位置
-        var center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2]);
+        let center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2]);
 
         //获取构件节点位置，现对于原始矩阵变化后的新位置
         center = tiles3dLayer.getPositionByOrginMatrix(center);
 
         //飞行过去
-        var sphere = new Cesium.BoundingSphere(center, nodesphere[3]);
+        let sphere = new Cesium.BoundingSphere(center, nodesphere[3]);
         map.camera.flyToBoundingSphere(sphere, {
           offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, nodesphere[3] * 1.5),
           duration: 0.5,
@@ -646,23 +647,23 @@
           }
 
           if (o.children) {
-            for (var i = 0; i < o.children.length; i++) {
+            for (let i = 0; i < o.children.length; i++) {
               name2text(o.children[i]);
             }
           }
         }
 
-        var scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json";
+        let scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json";
         return new Promise(function (resolve, reject) {
           $.ajax({
             url: scenetree,
             type: "get",
             dataType: "json",
             success: function (scene) {
-              var data = [];
+              let data = [];
               if (scene.scenes) {
-                for (var i = 0; i < scene.scenes.length; i++) {
-                  var node = scene.scenes[i];
+                for (let i = 0; i < scene.scenes.length; i++) {
+                  let node = scene.scenes[i];
                   name2text(node);
                   data.push(node);
                 }

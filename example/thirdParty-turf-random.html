@@ -49,12 +49,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 },
           },
@@ -71,10 +71,10 @@
       }
 
       //颜色
-      var index = 0;
-      var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
+      let index = 0;
+      let colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
       function getColor() {
-        var i = index++ % colors.length;
+        let i = index++ % colors.length;
         return colors[i];
       }
 
@@ -83,7 +83,7 @@
       function randomPoints() {
         graphicLayer.clear();
 
-        var points = turf.randomPoint(100, { bbox: bbox });
+        let points = turf.randomPoint(100, { bbox: bbox });
 
         points.features.forEach((e, index) => {
           let position = e.geometry.coordinates;
@@ -109,7 +109,7 @@
         let num_vertices = parseInt(Math.random() * 10);
         num_vertices = num_vertices < 3 ? 3 : num_vertices;
 
-        var polylines = turf.randomLineString(100, {
+        let polylines = turf.randomLineString(100, {
           bbox: bbox,
           num_vertices: num_vertices, //每个 LineString 将包含多少个坐标。
           max_length: 0.01, //大小
@@ -138,7 +138,7 @@
         let num_vertices = parseInt(Math.random() * 10);
         num_vertices = num_vertices < 3 ? 3 : num_vertices;
 
-        var polygons = turf.randomPolygon(100, {
+        let polygons = turf.randomPolygon(100, {
           bbox: bbox,
           num_vertices: num_vertices, //坐标个数,必须多于或等于四个
           max_radial_length: 0.01, //大小

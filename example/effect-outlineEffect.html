@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.653633, lng: 117.075814, alt: 310, heading: 33, pitch: -29 },
           },
@@ -66,11 +66,11 @@
         map.addLayer(tiles3dLayer);
 
         //矢量图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //加gltf模型
-        var graphicModel = new mars3d.graphic.ModelPrimitive({
+        let graphicModel = new mars3d.graphic.ModelPrimitive({
           name: "汽车",
           position: Cesium.Cartesian3.fromDegrees(117.074035, 31.660459, 40),
           style: {
@@ -82,7 +82,7 @@
         graphicLayer.addGraphic(graphicModel);
 
         //加矢量数据
-        var graphicBox1 = new mars3d.graphic.BoxPrimitive({
+        let graphicBox1 = new mars3d.graphic.BoxPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.071033, 31.663258, 31.3),
           style: {
             dimensions: new Cesium.Cartesian3(100.0, 100.0, 100.0),
@@ -91,7 +91,7 @@
         });
         graphicLayer.addGraphic(graphicBox1);
 
-        var graphic1 = new mars3d.graphic.EllipsoidPrimitive({
+        let graphic1 = new mars3d.graphic.EllipsoidPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.071423, 31.664305, 30.8),
           style: {
             radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
@@ -100,7 +100,7 @@
         });
         graphicLayer.addGraphic(graphic1);
 
-        var graphicBox2 = new mars3d.graphic.BoxPrimitive({
+        let graphicBox2 = new mars3d.graphic.BoxPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.074033, 31.663258, 31.3),
           style: {
             dimensions: new Cesium.Cartesian3(100.0, 100.0, 100.0),
@@ -109,7 +109,7 @@
         });
         graphicLayer.addGraphic(graphicBox2);
 
-        var graphic2 = new mars3d.graphic.EllipsoidPrimitive({
+        let graphic2 = new mars3d.graphic.EllipsoidPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.074423, 31.664305, 30.8),
           style: {
             radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
@@ -118,7 +118,7 @@
         });
         graphicLayer.addGraphic(graphic2);
 
-        var graphicBox3 = new mars3d.graphic.BoxPrimitive({
+        let graphicBox3 = new mars3d.graphic.BoxPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.076033, 31.663258, 31.3),
           style: {
             dimensions: new Cesium.Cartesian3(100.0, 100.0, 100.0),
@@ -127,7 +127,7 @@
         });
         graphicLayer.addGraphic(graphicBox3);
 
-        var graphic3 = new mars3d.graphic.EllipsoidPrimitive({
+        let graphic3 = new mars3d.graphic.EllipsoidPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.076423, 31.664305, 30.8),
           style: {
             radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
@@ -136,7 +136,7 @@
         });
         graphicLayer.addGraphic(graphic3);
 
-        var graphicBox4 = new mars3d.graphic.BoxPrimitive({
+        let graphicBox4 = new mars3d.graphic.BoxPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.078033, 31.663258, 31.3),
           style: {
             dimensions: new Cesium.Cartesian3(100.0, 100.0, 100.0),
@@ -145,7 +145,7 @@
         });
         graphicLayer.addGraphic(graphicBox4);
 
-        var graphic4 = new mars3d.graphic.EllipsoidPrimitive({
+        let graphic4 = new mars3d.graphic.EllipsoidPrimitive({
           position: Cesium.Cartesian3.fromDegrees(117.078423, 31.664305, 30.8),
           style: {
             radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
@@ -157,7 +157,7 @@
         //////////////////////////////////////////////////
 
         //添加特效
-        var outlineEffect = new mars3d.effect.OutlineEffect({
+        let outlineEffect = new mars3d.effect.OutlineEffect({
           color: "#FFFF00",
           width: 4,
           eventType: mars3d.EventType.click,

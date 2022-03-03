@@ -45,10 +45,10 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", mapOptions);
+        let map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //on绑定事件
         map.on(mars3d.EventType.cameraChanged, this.map_cameraChangedHandler, this);
@@ -59,10 +59,10 @@
         // map.off(mars3d.EventType.cameraChanged, this.map_cameraChangedHandler, this)
       }
 
-      var clickTimeId; //双击会触发两次单击事件的解决
+      let clickTimeId; //双击会触发两次单击事件的解决
 
       function map_clickHandler(event) {
-        var point = mars3d.LngLatPoint.fromCartesian(event.cartesian); //转换为地理坐标(经纬度)
+        let point = mars3d.LngLatPoint.fromCartesian(event.cartesian); //转换为地理坐标(经纬度)
 
         clearTimeout(clickTimeId);
         clickTimeId = setTimeout(function () {

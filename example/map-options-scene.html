@@ -248,7 +248,7 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
+    let map;
 
     $(document).ready(function () {
       if (!mars3d.Util.webglreport()) {
@@ -267,7 +267,7 @@
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars3d.Util.merge(options, {
+      let mapOptions = mars3d.Util.merge(options, {
         scene: {
           center: { lat: 43.260076, lng: 59.511019, alt: 28590990, heading: 0, pitch: -90 },
         },
@@ -379,19 +379,19 @@
     }
 
     function setSceneOptions(name, value) {
-      var options = {};
+      let options = {};
       options[name] = value;
       map.setSceneOptions(options);
     }
 
     function setSceneGlobeOptions(name, value) {
-      var options = { globe: {} };
+      let options = { globe: {} };
       options.globe[name] = value;
       map.setSceneOptions(options);
     }
 
     function setSceneCameraControllerOptions(name, value) {
-      var options = { cameraController: {} };
+      let options = { cameraController: {} };
       options.cameraController[name] = value;
       map.setSceneOptions(options);
     }

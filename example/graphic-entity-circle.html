@@ -83,11 +83,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.740724, lng: 116.363055, alt: 23499, heading: 351, pitch: -54 },
           },
@@ -97,7 +97,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -163,7 +163,7 @@
 
       //
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: [116.253946, 30.865476, 881.9],
           style: {
             radius: 800.0,
@@ -183,7 +183,7 @@
 
       //
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: [116.244399, 30.920459],
           style: {
             radius: 2000,
@@ -207,14 +207,14 @@
         graphicLayer.addGraphic(graphic); //还可以另外一种写法: graphic.addTo(graphicLayer)
 
         //graphic转geojson
-        var geojson = graphic.toGeoJSON();
+        let geojson = graphic.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.position = [116.301991, 30.933872, 624.03];
@@ -224,7 +224,7 @@
       }
 
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
           style: {
             radius: 1500.0,
@@ -244,7 +244,7 @@
       }
 
       function addGraphic_04(graphicLayer) {
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
           style: {
             radius: 1500.0,
@@ -259,9 +259,9 @@
       }
 
       function addGraphic_05(graphicLayer) {
-        var _rotation = Math.random();
+        let _rotation = Math.random();
 
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.37617, 30.847384, 396.12),
           style: {
             radius: 1500.0,
@@ -283,8 +283,8 @@
       }
 
       function addGraphic_06(graphicLayer) {
-        var _rotation = Math.random();
-        var graphic = new mars3d.graphic.CircleEntity({
+        let _rotation = Math.random();
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.326329, 30.84786, 421.7),
           style: {
             radius: 1000.0,
@@ -308,7 +308,7 @@
         let duration = 5000; //毫秒
         let maxRadius = 2000; //米
 
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.271298, 30.831822, 634),
           style: {
             semiMajorAxis: new Cesium.CallbackProperty(function (event) {
@@ -340,7 +340,7 @@
         let rotation = 0;
         let step = -0.02;
 
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           position: new mars3d.LngLatPoint(116.326672, 30.811903, 605),
           style: {
             radius: 2000,
@@ -387,7 +387,7 @@
         let lastPosition;
         let lastHeight = 0;
 
-        var circleEntity = new mars3d.graphic.CircleEntity({
+        let circleEntity = new mars3d.graphic.CircleEntity({
           position: new Cesium.CallbackProperty(function (time) {
             let center = map.getCenter();
             if (center) {
@@ -751,7 +751,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -791,9 +791,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
     </script>

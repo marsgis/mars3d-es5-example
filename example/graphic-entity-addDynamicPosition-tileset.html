@@ -65,11 +65,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
             center: { lat: 33.588603, lng: 119.03174, alt: 406, heading: 3, pitch: -44 },
@@ -92,7 +92,7 @@
         map.addLayer(tiles3dLayer);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -120,7 +120,7 @@
               },
             },
             clampToTileset: true, //贴模型，但效率不高，车多就卡
-            frameRate: 30, //控制贴模型的效率，多少帧计算一次
+            frameRateHeight: 30, //控制贴模型的效率，多少帧计算一次
           });
           graphicLayer.addGraphic(graphic);
         }
@@ -143,8 +143,8 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(119.028631 * 1000, 119.034843 * 1000) / 1000;
-        var wd = haoutil.math.random(33.589624 * 1000, 33.594783 * 1000) / 1000;
+        let jd = haoutil.math.random(119.028631 * 1000, 119.034843 * 1000) / 1000;
+        let wd = haoutil.math.random(33.589624 * 1000, 33.594783 * 1000) / 1000;
         return Cesium.Cartesian3.fromDegrees(jd, wd, 0);
       }
 
@@ -491,7 +491,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>

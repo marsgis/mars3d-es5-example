@@ -113,13 +113,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       function initMap(options) {
         //Echart图表 f45_vline.js
+        // eslint-disable-next-line no-undef
         initEcharts();
 
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 3.74685, lng: 103.588387, alt: 14532035, heading: 0, pitch: -86 },
           },

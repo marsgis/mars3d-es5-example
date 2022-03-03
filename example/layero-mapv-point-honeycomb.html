@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: -24.347273, lng: 140.716348, alt: 5849790, heading: 337, pitch: -64 },
           },
@@ -60,12 +60,12 @@
 
       function createMapvLayer() {
         // 构造数据
-        var positions = [];
-        var geojson = [];
-        var randomCount = 300;
+        let positions = [];
+        let geojson = [];
+        let randomCount = 300;
         while (randomCount--) {
           //取区域内的随机点
-          var point = [haoutil.math.random(113 * 1000, 119 * 1000) / 1000, haoutil.math.random(28 * 1000, 35 * 1000) / 1000];
+          let point = [haoutil.math.random(113 * 1000, 119 * 1000) / 1000, haoutil.math.random(28 * 1000, 35 * 1000) / 1000];
           positions.push(Cesium.Cartesian3.fromDegrees(point[0], point[1]));
 
           geojson.push({
@@ -81,7 +81,7 @@
         });
 
         //mapv图层参数
-        var options = {
+        let options = {
           fillStyle: "rgba(55, 50, 250, 0.8)",
           shadowColor: "rgba(255, 250, 50, 1)",
           shadowBlur: 20,
@@ -100,10 +100,10 @@
           },
           draw: "honeycomb",
         };
-        var dataSet = new this.mapv.DataSet(geojson);
+        let dataSet = new this.mapv.DataSet(geojson);
 
         //创建MapV图层
-        var mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
+        let mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
         map.addLayer(mapVLayer);
       }
     </script>

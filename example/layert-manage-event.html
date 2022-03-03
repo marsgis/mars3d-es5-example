@@ -43,11 +43,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var tileLayer;
+      let tileLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 28.268322, lng: 117.426104, alt: 1052215, heading: 0, pitch: -69 },
           },
@@ -59,7 +59,7 @@
         });
 
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", mapOptions);
+        let map = new mars3d.Map("mars3dContainer", mapOptions);
 
         map.on(mars3d.EventType.tileLoadProgress, function (count) {
           console.log(`tileLoadProgressEvent 正在加载瓦片: ${count}`);
@@ -69,7 +69,7 @@
         });
 
         //添加图层
-        var tileLayer = new mars3d.layer.TdtLayer({
+        let tileLayer = new mars3d.layer.TdtLayer({
           name: "天地图影像",
           layer: "img_d",
           order: 1,
@@ -98,7 +98,7 @@
         //   });
 
         //wms、arcgis等矢量发布类型图层支持click事件
-        var wmsLayer = new mars3d.layer.WmsLayer({
+        let wmsLayer = new mars3d.layer.WmsLayer({
           url: "//server.mars3d.cn/geoserver/mars/wms",
           layers: "mars:hf",
           crs: "EPSG:4326",

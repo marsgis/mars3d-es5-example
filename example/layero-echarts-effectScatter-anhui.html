@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 28.348014, lng: 118.789746, alt: 840941, heading: 350, pitch: -66 },
           },
@@ -58,14 +58,14 @@
       }
 
       function createEchartsLayer() {
-        var options = getEchartsOption();
+        let options = getEchartsOption();
         options.clampToGround = true; //计算贴地高度
-        var echartsLayer = new mars3d.layer.EchartsLayer(options);
+        let echartsLayer = new mars3d.layer.EchartsLayer(options);
         map.addLayer(echartsLayer);
       }
 
       function getEchartsOption() {
-        var data = [
+        let data = [
           {
             name: "六安市",
             value: 112,
@@ -180,8 +180,8 @@
           }
         }
 
-        var sum = 0;
-        var dataVals = [];
+        let sum = 0;
+        let dataVals = [];
         for (let i = 0; i < data.length; i++) {
           sum += data[i].value;
 
@@ -191,7 +191,7 @@
           });
         }
 
-        var option = {
+        let option = {
           animation: false,
           backgroundColor: "rgba(0, 0, 0, 0.4)",
 
@@ -208,7 +208,7 @@
                   return 8;
                 }
 
-                var num = (val[2] / sum) * 150;
+                let num = (val[2] / sum) * 150;
                 return Math.max(num, 8);
               },
               showEffectOn: "render",

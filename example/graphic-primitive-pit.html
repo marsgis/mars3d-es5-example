@@ -75,11 +75,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.78828, lng: 117.219198, alt: 6885, heading: 346, pitch: -62 },
           },
@@ -89,14 +89,14 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
         initLayerManager(graphicLayer);
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
           if (val) {
             toastr.info("深度监测打开后，您将无法看到地下或被地形遮挡的对象。");
@@ -104,7 +104,7 @@
         });
 
         $("#txtHeight").change(function () {
-          var num = Number($(this).val());
+          let num = Number($(this).val());
           graphicLayer.eachGraphic((graphic) => {
             graphic.diffHeight = num;
           });
@@ -123,7 +123,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               //构造井对象
@@ -141,7 +141,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               //构造井对象
@@ -159,9 +159,9 @@
       function addPit(graphicLayer, positions) {
         console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
 
-        var height = Number($("#txtHeight").val());
+        let height = Number($("#txtHeight").val());
 
-        var primitive = new mars3d.graphic.Pit({
+        let primitive = new mars3d.graphic.Pit({
           positions: positions,
           style: {
             diffHeight: height, //井的深度
@@ -174,7 +174,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.Pit({
+        let primitive = new mars3d.graphic.Pit({
           positions: [
             [117.216544, 31.835278, 40],
             [117.225898, 31.834257, 40],
@@ -203,7 +203,7 @@
 
       //图片材质
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.Pit({
+        let primitive = new mars3d.graphic.Pit({
           positions: [
             [117.187572, 31.823074, 45.53],
             [117.195377, 31.82418, 43.36],
@@ -221,12 +221,12 @@
         graphicLayer.addGraphic(primitive); //primitive.addTo(graphicLayer)  //另外一种写法
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log(geojson);
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.Pit({
+        let primitive = new mars3d.graphic.Pit({
           positions: [
             [117.216386, 31.815376, 35.16],
             [117.222533, 31.81729, 29.21],
@@ -589,7 +589,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -629,9 +629,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

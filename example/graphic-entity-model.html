@@ -82,11 +82,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
             center: { lat: 30.851105, lng: 116.352067, alt: 1116, heading: 349, pitch: -27 },
@@ -102,7 +102,7 @@
         map.fixedLight = true;
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -135,7 +135,7 @@
       }
 
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
+        let graphic = new mars3d.graphic.ModelEntity({
           name: "消防员",
           position: [116.346929, 30.861947, 401.34],
           style: {
@@ -170,14 +170,14 @@
         initGraphicManager(graphic);
 
         //graphic转geojson
-        var geojson = graphic.toGeoJSON();
+        let geojson = graphic.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.position = [116.348587, 30.859472, 373.8];
@@ -187,7 +187,7 @@
       }
 
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
+        let graphic = new mars3d.graphic.ModelEntity({
           name: "风机",
           position: [116.35104, 30.86225, 374.4],
           style: {
@@ -218,7 +218,7 @@
       }
 
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.ModelEntity({
+        let graphic = new mars3d.graphic.ModelEntity({
           name: "汽车",
           position: [116.349194, 30.864603, 376.58],
           style: {
@@ -252,7 +252,7 @@
         ]);
 
         //飞机
-        var graphicModel = new mars3d.graphic.ModelEntity({
+        let graphicModel = new mars3d.graphic.ModelEntity({
           position: propertyFJ,
           orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
           style: {
@@ -622,7 +622,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -662,9 +662,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
     </script>

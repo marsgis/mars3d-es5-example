@@ -84,11 +84,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.653865, lng: 116.262622, alt: 54556, heading: 360, pitch: -60 },
           },
@@ -98,7 +98,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -133,7 +133,7 @@
 
       //
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: [116.1, 31.0, 1000],
           style: {
             radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
@@ -167,7 +167,7 @@
 
       //
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(116.2, 31.0, 1000),
           style: {
             radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
@@ -190,7 +190,7 @@
       }
 
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(116.307258, 30.999546, 1239.2),
           style: {
             radii: 2500,
@@ -207,7 +207,7 @@
 
       //
       function addGraphic_04(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: [116.4, 31.0, 1000],
           style: {
             radii: 2500,
@@ -224,7 +224,7 @@
 
       //
       function addGraphic_05(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: [116.1, 30.9, 1000],
           style: {
             radii: 2500,
@@ -252,7 +252,7 @@
 
       //半圆顶球体
       function addGraphic_06(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(116.2, 30.9, 1000),
           style: {
             radii: 2500,
@@ -278,7 +278,7 @@
 
       //含内半径 半圆顶球体
       function addGraphic_07(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
           style: {
             radii: 2500,
@@ -301,7 +301,7 @@
 
       //被切开的含内半径 半圆顶球体
       function addGraphic_08(graphicLayer) {
-        var graphic = new mars3d.graphic.EllipsoidEntity({
+        let graphic = new mars3d.graphic.EllipsoidEntity({
           position: new mars3d.LngLatPoint(116.4, 30.9, 1000),
           style: {
             radii: 2500,
@@ -666,7 +666,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -706,9 +706,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

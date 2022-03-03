@@ -46,11 +46,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.466724, lng: 119.306582, alt: 182294, heading: 359, pitch: -68 },
           },
@@ -60,8 +60,8 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         queryWindyuvApiData().then(function (data) {
-          var arrPoints = [];
-          for (var i = 0; i < data.Data.length; i++) {
+          let arrPoints = [];
+          for (let i = 0; i < data.Data.length; i++) {
             let item = data.Data[i];
             arrPoints.push({ lng: item.X, lat: item.Y, value: item.Count });
           }
@@ -88,7 +88,7 @@
 
       function showHeatMap(arrPoints) {
         //热力图 图层
-        var heatLayer = new mars3d.layer.HeatLayer({
+        let heatLayer = new mars3d.layer.HeatLayer({
           positions: arrPoints,
           //以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
           heatStyle: {

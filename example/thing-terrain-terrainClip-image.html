@@ -43,11 +43,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 31.401401, lng: 117.014981, alt: 12825, heading: 316, pitch: -53 },
@@ -57,7 +57,7 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var terrainClip = new mars3d.thing.TerrainClip({
+        let terrainClip = new mars3d.thing.TerrainClip({
           positions: [
             [116.919224, 31.460461],
             [116.901819, 31.459734],

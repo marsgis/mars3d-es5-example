@@ -53,11 +53,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 17.372658, lng: 109.327197, alt: 3459173, heading: 12, pitch: -69 },
             fxaa: true,
@@ -79,7 +79,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //一线以上城市地理位置
-        var arrStart = [
+        let arrStart = [
           { name: "北京", position: [116.395645038, 39.9299857781] },
           { name: "上海", position: [121.487899486, 31.24916171] },
           { name: "广州", position: [113.307649675, 23.1200491021] },
@@ -103,22 +103,22 @@
         ];
 
         //  连接点地理位置
-        var arrEnd = [
+        let arrEnd = [
           { name: "西安", position: [108.953098279, 34.2777998978] },
           { name: "南京", position: [118.778074408, 32.0572355018] },
           { name: "武汉", position: [114.316200103, 30.5810841269] },
         ];
 
         //创建矢量数据
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        for (var i = 0; i < arrStart.length; i++) {
+        for (let i = 0; i < arrStart.length; i++) {
           let item = arrStart[i];
-          var position = item.position;
+          let position = item.position;
 
           //城市名字
-          var graphic = new mars3d.graphic.DivGraphic({
+          let graphic = new mars3d.graphic.DivGraphic({
             position: position,
             style: {
               html: `<div class ="textName">${item.name}</div>`,
@@ -129,12 +129,12 @@
           graphicLayer.addGraphic(graphic);
         }
 
-        for (var i = 0; i < arrEnd.length; i++) {
+        for (let i = 0; i < arrEnd.length; i++) {
           let item = arrEnd[i];
-          var endPoint = item.position;
+          let endPoint = item.position;
 
           //城市名字
-          var graphic = new mars3d.graphic.DivGraphic({
+          let graphic = new mars3d.graphic.DivGraphic({
             position: endPoint,
             style: {
               html: `<div class ="textName">${item.name}</div>`,
@@ -144,12 +144,12 @@
           });
           graphicLayer.addGraphic(graphic);
 
-          for (var j = 0; j < arrStart.length; j++) {
+          for (let j = 0; j < arrStart.length; j++) {
             let item = arrStart[j];
-            var startPoint = item.position;
+            let startPoint = item.position;
 
             //连线
-            var line = new mars3d.graphic.PolylinePrimitive({
+            let line = new mars3d.graphic.PolylinePrimitive({
               positions: [startPoint, endPoint],
               style: {
                 width: 2,

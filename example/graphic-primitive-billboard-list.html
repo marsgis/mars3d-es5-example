@@ -42,11 +42,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 20.126986, lng: 115.78076, alt: 4758203, heading: 351, pitch: -77 },
           },
@@ -56,7 +56,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         queryMudiAllApiData().then(function (res) {
@@ -87,7 +87,7 @@
           if (!item) {
             return false;
           }
-          var inthtml = `<table style="width: auto;">
+          let inthtml = `<table style="width: auto;">
                   <tr>
                     <th scope="col" colspan="2" style="text-align:center;font-size:15px;">${item.text} </th>
                   </tr>
@@ -120,8 +120,8 @@
           console.log("你单击了", event);
 
           if (map.camera.positionCartographic.height > 90000) {
-            var graphic = event.graphic;
-            var position = graphic.position;
+            let graphic = event.graphic;
+            let position = graphic.position;
             map.flyToPoint(position, {
               radius: 5000, //距离目标点的距离
               duration: 4,
@@ -132,11 +132,11 @@
           }
         });
 
-        for (var i = 0, len = arr.length; i < len; i++) {
-          var item = arr[i];
-          var position = Cesium.Cartesian3.fromDegrees(+item.lng, +item.lat, item.z || 0);
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i];
+          let position = Cesium.Cartesian3.fromDegrees(+item.lng, +item.lat, item.z || 0);
 
-          var primitive = new mars3d.graphic.BillboardPrimitive({
+          let primitive = new mars3d.graphic.BillboardPrimitive({
             position: position,
             style: {
               image: "img/marker/mark3.png",

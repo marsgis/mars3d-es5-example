@@ -43,10 +43,10 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
-      var arrData = [
+      let arrData = [
         { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
         { name: "油罐二", position: [117.095206, 31.814878, 47.3] },
         { name: "油罐三", position: [117.094653, 31.814428, 47.3] },
@@ -58,7 +58,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 },
           },
@@ -88,7 +88,7 @@
         for (let i = 0; i < arrData.length; i++) {
           let item = arrData[i];
 
-          var graphic = new mars3d.graphic.CanvasBillboard({
+          let graphic = new mars3d.graphic.CanvasBillboard({
             position: item.position,
             style: {
               text: 18,

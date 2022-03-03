@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 18.188973, lng: 112.70603, alt: 5647407, heading: 352, pitch: -76 },
           },
@@ -59,25 +59,25 @@
       }
 
       function createEchartsLayer() {
-        var options = getEchartsOption();
-        var echartsLayer = new mars3d.layer.EchartsLayer(options);
+        let options = getEchartsOption();
+        let echartsLayer = new mars3d.layer.EchartsLayer(options);
         map.addLayer(echartsLayer);
       }
 
       function getEchartsOption(data) {
-        var beijinCoord = [116.407395, 39.904211];
+        let beijinCoord = [116.407395, 39.904211];
 
-        var geoCoorddata = {
+        let geoCoorddata = {
           合肥: [117.399043, 31.741401],
           深圳: [114.057865, 22.543096],
           乌鲁木齐: [87.405386, 41.779595],
         };
 
-        var symbolPoint = "image://img/marker/symbol1.png";
-        var linePoint = "image://img/marker/linePoint1.png";
+        let symbolPoint = "image://img/marker/symbol1.png";
+        let linePoint = "image://img/marker/linePoint1.png";
 
-        var pointArr = [];
-        for (var key in geoCoorddata) {
+        let pointArr = [];
+        for (let key in geoCoorddata) {
           pointArr.push({
             name: key,
             value: geoCoorddata[key],
@@ -85,7 +85,7 @@
           });
         }
 
-        var option = {
+        let option = {
           animation: false,
 
           series: [

@@ -67,17 +67,17 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -87,14 +87,14 @@
           graphicLayer.clear();
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val()) * 10000;
+          let count = Number($("#txtCount").val()) * 10000;
 
-          for (var j = 0; j < count; ++j) {
-            var position = randomPoint(); //在图层处理graphicManager.js中
+          for (let j = 0; j < count; ++j) {
+            let position = randomPoint(); //在图层处理graphicManager.js中
 
-            var primitive = new mars3d.graphic.BillboardPrimitive({
+            let primitive = new mars3d.graphic.BillboardPrimitive({
               position: position,
               style: {
                 image: "img/marker/303.png",
@@ -105,9 +105,9 @@
           }
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -120,7 +120,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.BillboardPrimitive({
+        let primitive = new mars3d.graphic.BillboardPrimitive({
           position: [116.244399, 30.920459, 573.6],
           style: {
             image: "img/marker/mark3.png",
@@ -145,14 +145,14 @@
         initGraphicManager(primitive);
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.position = [116.225027, 30.883235, 1034.6];
@@ -162,7 +162,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.BillboardPrimitive({
+        let primitive = new mars3d.graphic.BillboardPrimitive({
           position: [116.39224, 30.902853],
           style: {
             image: "img/marker/di3.png",
@@ -182,7 +182,7 @@
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.BillboardPrimitive({
+        let primitive = new mars3d.graphic.BillboardPrimitive({
           position: [116.340443, 30.882935, 389.88],
           style: {
             image: "img/marker/symbol1.png",
@@ -195,7 +195,7 @@
       }
 
       function addGraphic_a4(graphicLayer) {
-        var primitive = new mars3d.graphic.BillboardPrimitive({
+        let primitive = new mars3d.graphic.BillboardPrimitive({
           position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
           style: {
             image: "img/marker/mark3.png",
@@ -548,7 +548,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -588,9 +588,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

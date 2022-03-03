@@ -60,11 +60,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.832568, lng: 116.296753, alt: 20208, heading: 7, pitch: -72 },
           },
@@ -74,7 +74,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -87,7 +87,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.PlanePrimitive({
+        let primitive = new mars3d.graphic.PlanePrimitive({
           position: [116.236158, 30.891965, 856.12],
           style: {
             plane_normal: Cesium.Cartesian3.UNIT_X,
@@ -102,12 +102,12 @@
         initGraphicManager(primitive);
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log(geojson);
       }
 
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.PlanePrimitive({
+        let primitive = new mars3d.graphic.PlanePrimitive({
           position: new mars3d.LngLatPoint(116.294498, 30.892548, 432.93),
           style: {
             plane_normal: Cesium.Cartesian3.UNIT_Y,
@@ -121,7 +121,7 @@
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.PlanePrimitive({
+        let primitive = new mars3d.graphic.PlanePrimitive({
           position: [116.355196, 30.889309, 437.02],
           style: {
             plane_normal: Cesium.Cartesian3.UNIT_Z,
@@ -483,7 +483,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -523,9 +523,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

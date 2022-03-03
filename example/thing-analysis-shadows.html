@@ -55,11 +55,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
             center: { lat: 33.596051, lng: 119.031383, alt: 359, heading: 180, pitch: -43 },
@@ -77,7 +77,7 @@
         // imageryLayer.nightAlpha = 1.0 //夜晚图层透明值
 
         //加个模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
           position: { alt: 80.6 },
           maximumScreenSpaceError: 1,
@@ -87,7 +87,7 @@
         map.addLayer(tilesetLayer);
 
         //绑定UI控件相关默认值及事件
-        var today = new Date().format("yyyy-MM-dd");
+        let today = new Date().format("yyyy-MM-dd");
         $("#txt_rzfx_Date").val(today);
 
         // 日期控件
@@ -99,7 +99,7 @@
         //滑动条
         $("#range_ksy_currTime").range({
           onChange: function (value, bfb) {
-            var dateTime = getCurrTime();
+            let dateTime = getCurrTime();
             shadows.time = dateTime;
             $("#btn_rzfx_btn_rzfx_pause").val("播放");
           },
@@ -110,11 +110,11 @@
             shadows.pause();
             $("#btn_rzfx_btn_rzfx_pause").val("播放");
           } else {
-            var _date = $("#txt_rzfx_Date").val();
+            let _date = $("#txt_rzfx_Date").val();
 
-            var currentTime = getCurrTime();
-            var startDate = new Date(_date + " 00:00:00");
-            var endDate = new Date(_date + " 23:59:59");
+            let currentTime = getCurrTime();
+            let startDate = new Date(_date + " 00:00:00");
+            let endDate = new Date(_date + " 23:59:59");
             if (currentTime >= endDate) {
               haoutil.msg("开始时间必须小于结束时间！");
               return;
@@ -139,20 +139,20 @@
       }
 
       function getCurrTime() {
-        var value = Number($("#range_ksy_currTime").val());
+        let value = Number($("#range_ksy_currTime").val());
 
-        var date = $("#txt_rzfx_Date").val();
-        var hours = Number.parseInt(value / 60);
-        var minutes = Number.parseInt(value % 60);
-        var strDateTime = `${date} ${hours}:${minutes}:00`;
-        var dateTime = new Date(strDateTime);
+        let date = $("#txt_rzfx_Date").val();
+        let hours = Number.parseInt(value / 60);
+        let minutes = Number.parseInt(value % 60);
+        let strDateTime = `${date} ${hours}:${minutes}:00`;
+        let dateTime = new Date(strDateTime);
         $("#lbl_rzfx_nowTime").html(dateTime.format("MM月dd日 HH:mm"));
 
         return dateTime;
       }
 
       function setRZFXNowTime(date) {
-        var currTime = date.getHours() * 60 + date.getMinutes();
+        let currTime = date.getHours() * 60 + date.getMinutes();
         $("#range_ksy_currTime").val(currTime).change();
 
         $("#lbl_rzfx_nowTime").html(date.format("MM月dd日 HH:mm"));

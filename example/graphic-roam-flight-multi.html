@@ -40,11 +40,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 31.688428, lng: 117.118323, alt: 10375, heading: 29, pitch: -30 },
@@ -61,7 +61,7 @@
         map.clock.multiplier = 1;
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         // 绑定点击事件
@@ -69,7 +69,7 @@
           console.log("单击了漫游路线", event);
         });
 
-        var arrLine = [
+        let arrLine = [
           {
             id: "1",
             name: "A01",
@@ -426,8 +426,8 @@
           },
         ];
 
-        for (var i = 0, len = arrLine.length; i < len; i++) {
-          var flydata = arrLine[i];
+        for (let i = 0, len = arrLine.length; i < len; i++) {
+          let flydata = arrLine[i];
 
           flydata.label = {
             show: true,
@@ -457,7 +457,7 @@
           };
           // flydata.forwardExtrapolationType = Cesium.ExtrapolationType.NONE;
 
-          var roamLine = new mars3d.graphic.RoamLine(flydata);
+          let roamLine = new mars3d.graphic.RoamLine(flydata);
           graphicLayer.addGraphic(roamLine);
 
           //启动漫游

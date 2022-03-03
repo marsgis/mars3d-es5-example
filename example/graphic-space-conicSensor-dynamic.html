@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 53.285266, lng: 142.68078, alt: 17309707, heading: 45, pitch: -83 },
             mapMode2D: Cesium.MapMode2D.ROTATE, //二三维场景切换黑影
@@ -68,13 +68,13 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        var property = getDynamicProperty(); //取数据
+        let property = getDynamicProperty(); //取数据
 
         //视锥体 展示
-        var conicSensor = new mars3d.graphic.ConicSensor({
+        let conicSensor = new mars3d.graphic.ConicSensor({
           position: property,
           style: {
             angle: 15,
@@ -88,7 +88,7 @@
 
       function getDynamicProperty() {
         //该数据是由后端计算返回的轨道信息
-        var wxkjx = [
+        let wxkjx = [
           {
             time: "2021-01-01T12:08:20Z",
             x: -143.774623333805,
@@ -127,14 +127,14 @@
           },
         ];
 
-        var property = new Cesium.SampledPositionProperty();
+        let property = new Cesium.SampledPositionProperty();
         property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
 
-        for (var z = 0; z < wxkjx.length; z++) {
-          var item = wxkjx[z];
+        for (let z = 0; z < wxkjx.length; z++) {
+          let item = wxkjx[z];
 
-          var thisTime = Cesium.JulianDate.fromIso8601(item.time);
-          var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z);
+          let thisTime = Cesium.JulianDate.fromIso8601(item.time);
+          let position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z);
 
           // 添加每一个链接点的信息，到达的时间以及坐标位置
           property.addSample(thisTime, position);

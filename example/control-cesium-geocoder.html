@@ -49,7 +49,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(mapOptions) {
         //方式1：按basemaps配置自动生成
@@ -65,7 +65,7 @@
 
         //查询结果回调方法
         map.viewer.geocoder.viewModel.complete.addEventListener(function (e) {
-          var arrdata = map.viewer.geocoder.viewModel.suggestions;
+          let arrdata = map.viewer.geocoder.viewModel.suggestions;
           console.log(arrdata);
         });
       }

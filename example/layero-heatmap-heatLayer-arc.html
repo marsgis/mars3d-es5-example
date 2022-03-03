@@ -54,11 +54,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.794428, lng: 117.235343, alt: 2351.9, heading: 1.6, pitch: -28.8, roll: 0 },
           },
@@ -70,7 +70,7 @@
         map.basemap = 2017; //蓝色底图
 
         // 加载城市模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
           maximumScreenSpaceError: 1,
           maximumMemoryUsage: 1024,
@@ -87,19 +87,19 @@
         ]);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         $("#chkUnderground").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           graphicLayer.show = val;
         });
 
         //测试点数据，实际开发时换掉
-        var arrPoints = getRandomPoints(1000);
+        let arrPoints = getRandomPoints(1000);
 
         //热力图 图层
-        var heatLayer = new mars3d.layer.HeatLayer({
+        let heatLayer = new mars3d.layer.HeatLayer({
           positions: arrPoints,
           //以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
           heatStyle: {
@@ -116,11 +116,11 @@
         map.addLayer(heatLayer);
 
         //显示地面对应的点，测试渲染结果的正确性
-        var arrEntity = [];
-        for (var i = 0; i < arrPoints.length; i++) {
-          var item = arrPoints[i];
+        let arrEntity = [];
+        for (let i = 0; i < arrPoints.length; i++) {
+          let item = arrPoints[i];
 
-          var primitive = new mars3d.graphic.PointPrimitive({
+          let primitive = new mars3d.graphic.PointPrimitive({
             position: [item.lng, item.lat, 90],
             style: {
               color: "#ffff00",
@@ -134,15 +134,15 @@
 
       //获取bbox矩形区域内的count个随机点
       function getRandomPoints(count) {
-        var xmin = 117.226189,
+        let xmin = 117.226189,
           xmax = 117.245831,
           ymin = 31.828858,
           ymax = 31.842967;
-        var arr = [];
-        var arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features; //随机点
-        for (var i = 0; i < arrPoint.length; i++) {
-          var item = arrPoint[i].geometry.coordinates;
-          var val = Math.floor(Math.random() * 100); //热力值
+        let arr = [];
+        let arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features; //随机点
+        for (let i = 0; i < arrPoint.length; i++) {
+          let item = arrPoint[i].geometry.coordinates;
+          let val = Math.floor(Math.random() * 100); //热力值
           arr.push({ lng: item[0], lat: item[1], value: val });
         }
         return arr;

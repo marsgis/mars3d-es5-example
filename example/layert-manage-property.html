@@ -113,7 +113,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.601462, lng: 117.246888, alt: 56825, heading: 359, pitch: -69 },
           },
@@ -133,10 +133,10 @@
         });
 
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", mapOptions);
+        let map = new mars3d.Map("mars3dContainer", mapOptions);
 
         // The viewModel tracks the state of our mini application.
-        var viewModel = {
+        let viewModel = {
           brightness: 1, //亮度
           contrast: 1, //对比度
           hue: 0.1, //色彩
@@ -146,7 +146,7 @@
         };
 
         //添加图层
-        var tileLayer = new mars3d.layer.GaodeLayer({
+        let tileLayer = new mars3d.layer.GaodeLayer({
           layer: "vec",
           ...viewModel,
         });
@@ -154,7 +154,7 @@
 
         // Convert the viewModel members into knockout observables.
         Cesium.knockout.track(viewModel);
-        var toolbar = document.getElementById("toolbar");
+        let toolbar = document.getElementById("toolbar");
         Cesium.knockout.applyBindings(viewModel, toolbar);
 
         // Make the active imagery layer a subscriber of the viewModel.

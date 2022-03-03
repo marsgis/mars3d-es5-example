@@ -103,11 +103,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
             fxaa: true,
@@ -121,11 +121,11 @@
         map.fixedLight = true;
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //加模型
-        var graphic = new mars3d.graphic.ModelPrimitive({
+        let graphic = new mars3d.graphic.ModelPrimitive({
           position: [117.150365, 31.841954, 50.26],
           style: {
             url: "//data.mars3d.cn/gltf/mars/dikuai/d1.gltf",
@@ -134,7 +134,7 @@
         });
         graphicLayer.addGraphic(graphic);
 
-        var modelPlanClip = new mars3d.thing.ModelPlanClip({
+        let modelPlanClip = new mars3d.thing.ModelPlanClip({
           graphic: graphic,
           height: 1, //开挖的深度
           clipOutSide: false,
@@ -151,13 +151,13 @@
           .slider({ min: -100, max: 100, step: 1.0, value: 0 })
           .on("change", (e) => {
             if (e?.value) {
-              var value = e.value.newValue;
+              let value = e.value.newValue;
               $("#txtDistance").val(value.toFixed(1));
               modelPlanClip.distance = value;
             }
           });
         $("#txtDistance").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           modelPlanClip.distance = value;
         });
 
@@ -165,7 +165,7 @@
           .slider({ min: -10, max: 10, step: 0.1, value: 0 })
           .on("change", (e) => {
             if (e?.value) {
-              var value = e.value.newValue;
+              let value = e.value.newValue;
               modelPlanClip.normalZ = value;
             }
           });
@@ -200,7 +200,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               modelPlanClip.positions = positions;
@@ -220,7 +220,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               modelPlanClip.positions = positions;
@@ -240,7 +240,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               modelPlanClip.clipOutSide = true;
@@ -262,7 +262,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               modelPlanClip.positions = positions;

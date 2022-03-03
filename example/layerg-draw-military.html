@@ -201,7 +201,7 @@
         });
       }
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      var timeTik;
+      let timeTik;
 
       function startEditing(graphic) {
         if (!graphic) {
@@ -209,7 +209,7 @@
         }
         clearTimeout(timeTik);
 
-        var plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
+        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
         if (plotAttr && plotAttr.isActivate) {
           plotAttr.startEditing(graphic, graphic.coordinates);
         } else {
@@ -573,7 +573,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -613,9 +613,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

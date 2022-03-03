@@ -88,16 +88,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var sightline;
+      let map;
+      let sightline;
 
-      var positionSXT;
-      var positionDM;
-      var positionJD; //与地面的交点
+      let positionSXT;
+      let positionDM;
+      let positionJD; //与地面的交点
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 30.841574, lng: 116.18792, alt: 6828, heading: 215, pitch: -28 },
@@ -117,7 +117,7 @@
         //测试数据
         positionSXT = Cesium.Cartesian3.fromDegrees(116.144409, 30.744228, 1045);
 
-        var graphicSXT = new mars3d.graphic.PointEntity({
+        let graphicSXT = new mars3d.graphic.PointEntity({
           position: positionSXT,
           style: {
             color: "#ffff00",
@@ -145,7 +145,7 @@
             }
           });
         $("#model_heading_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_heading").slider("setValue", value);
           updateModel();
         });
@@ -159,7 +159,7 @@
             }
           });
         $("#model_pitch_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_pitch").slider("setValue", value);
           updateModel();
         });
@@ -173,13 +173,13 @@
             }
           });
         $("#model_roll_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_roll").slider("setValue", value);
           updateModel();
         });
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
           if (val) {
             haoutil.msg("深度监测打开后，您将无法看到地下或被地形遮挡的对象。");
@@ -187,11 +187,11 @@
         });
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //地面点
-        var graphic = new mars3d.graphic.PointEntity({
+        let graphic = new mars3d.graphic.PointEntity({
           position: new Cesium.CallbackProperty(function (time) {
             return positionDM;
           }, false),
@@ -213,7 +213,7 @@
         });
         graphicLayer.addGraphic(graphic);
 
-        var graphicJD = new mars3d.graphic.PointEntity({
+        let graphicJD = new mars3d.graphic.PointEntity({
           position: new Cesium.CallbackProperty(function (time) {
             return positionJD;
           }, false),
@@ -283,11 +283,11 @@
           return;
         }
 
-        var heading = Cesium.Math.toRadians(Number($("#model_heading").val()));
-        var pitch = Cesium.Math.toRadians(Number($("#model_pitch").val()));
-        var roll = Cesium.Math.toRadians(Number($("#model_roll").val()));
+        let heading = Cesium.Math.toRadians(Number($("#model_heading").val()));
+        let pitch = Cesium.Math.toRadians(Number($("#model_pitch").val()));
+        let roll = Cesium.Math.toRadians(Number($("#model_roll").val()));
 
-        var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+        let hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
         positionDM = mars3d.PointUtil.getRayEarthPosition(positionSXT, hpr, true, map.scene.globe.ellipsoid);
 
         if (!positionDM) {

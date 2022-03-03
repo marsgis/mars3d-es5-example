@@ -60,11 +60,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 360, pitch: -48 },
           },
@@ -78,7 +78,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //url传入模型地址
-        var type = haoutil.system.getRequestByName("data");
+        let type = haoutil.system.getRequestByName("data");
         switch (type) {
           default:
             showFeijiDemo();
@@ -98,7 +98,7 @@
         }
       }
 
-      var czmlLayer;
+      let czmlLayer;
 
       function removeLayer() {
         map.trackedEntity = null;
@@ -288,11 +288,11 @@
       }
 
       //===========================树控件处理============================
-      var layersObj = {};
+      let layersObj = {};
 
       function initTree(arr, nameColum = "name") {
         //初始化树
-        var setting = {
+        let setting = {
           check: {
             enable: true,
           },
@@ -307,8 +307,8 @@
           },
         };
 
-        var zNodes = [];
-        var pnode = {
+        let zNodes = [];
+        let pnode = {
           id: -1,
           name: "全部",
           type: "group",
@@ -318,11 +318,11 @@
         };
         zNodes.push(pnode);
 
-        for (var i = 0, len = arr.length; i < len; i++) {
-          var item = arr[i];
-          var name = item[nameColum] || "未命名";
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i];
+          let name = item[nameColum] || "未命名";
 
-          var node = {
+          let node = {
             id: i,
             pId: pnode.id,
             name: name,
@@ -339,14 +339,14 @@
       }
 
       function treeOverlays_onCheck(e, treeId) {
-        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        let zTree = $.fn.zTree.getZTreeObj(treeId);
 
         //获得所有改变check状态的节点
-        var changedNodes = zTree.getChangeCheckedNodes();
-        for (var i = 0; i < changedNodes.length; i++) {
-          var treeNode = changedNodes[i];
+        let changedNodes = zTree.getChangeCheckedNodes();
+        for (let i = 0; i < changedNodes.length; i++) {
+          let treeNode = changedNodes[i];
           treeNode.checkedOld = treeNode.checked;
-          var entity = layersObj[treeNode.id];
+          let entity = layersObj[treeNode.id];
           if (entity == null) {
             continue;
           }
@@ -360,7 +360,7 @@
       }
 
       function treeOverlays_onClick(event, treeId, treeNode) {
-        var entity = layersObj[treeNode.id];
+        let entity = layersObj[treeNode.id];
         if (entity == null) {
           return;
         }

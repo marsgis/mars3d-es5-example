@@ -49,12 +49,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var geoJsonLayerDTH;
+      let map;
+      let geoJsonLayerDTH;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 },
           },
@@ -64,7 +64,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           pid: 2030,
           type: "3dtiles",
           name: "校园",
@@ -115,13 +115,13 @@
 
       //添加单体化矢量对象
       function createDthGraphic(options) {
-        var points = options.positions; //各顶点的坐标
-        var attr = options.attr; //楼层层高配置信息
+        let points = options.positions; //各顶点的坐标
+        let attr = options.attr; //楼层层高配置信息
 
-        var minHight = attr.bottomHeight; //当前层的 底部海拔高度
-        var maxHight = attr.topHeight; //当前层的 顶部海拔高度
+        let minHight = attr.bottomHeight; //当前层的 底部海拔高度
+        let maxHight = attr.topHeight; //当前层的 顶部海拔高度
 
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: points,
           style: {
             height: minHight,
@@ -143,10 +143,10 @@
       }
 
       //颜色
-      var index = 0;
-      var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
+      let index = 0;
+      let colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
       function getColor() {
-        var i = index++ % colors.length;
+        let i = index++ % colors.length;
         return colors[i];
       }
     </script>

@@ -113,11 +113,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 32.432745, lng: 115.601935, alt: 131, heading: 237, pitch: -31 },
           },
@@ -127,7 +127,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //显示水域
-        var waterLayer = new mars3d.layer.GeoJsonLayer({
+        let waterLayer = new mars3d.layer.GeoJsonLayer({
           url: "//data.mars3d.cn/file/geojson/wangjiaba.json",
           symbol: {
             type: "waterCombine",
@@ -146,7 +146,7 @@
         map.addLayer(waterLayer);
 
         //水柱位置
-        var posArr = [
+        let posArr = [
           [115.600031, 32.43217, 38],
           [115.600104, 32.432121, 38],
           [115.600163, 32.432059, 38],
@@ -163,14 +163,14 @@
         ];
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        for (var i = 0, len = posArr.length; i < len; i++) {
-          var pos = posArr[i];
-          var position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2]);
+        for (let i = 0, len = posArr.length; i < len; i++) {
+          let pos = posArr[i];
+          let position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2]);
 
-          var particleSystem = new mars3d.graphic.ParticleSystem({
+          let particleSystem = new mars3d.graphic.ParticleSystem({
             id: i + 1,
             position: position, //位置
             style: {
@@ -199,17 +199,17 @@
         }
 
         $(".chkZMKZ").change(function (e) {
-          var show = $(this).is(":checked");
-          var id = Number($(this).attr("data-id"));
+          let show = $(this).is(":checked");
+          let id = Number($(this).attr("data-id"));
 
-          var particleSystem = graphicLayer.getGraphicById(id);
+          let particleSystem = graphicLayer.getGraphicById(id);
           if (particleSystem) {
             particleSystem.show = show;
           }
         });
 
         $("#selecteAll").change(function (e) {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           $(".chkZMKZ").prop("checked", show);
 
           graphicLayer.eachGraphic((graphic) => {

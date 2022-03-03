@@ -77,16 +77,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
-      var tleArr;
-      var drawGraphic;
-      var $table;
+      let tleArr;
+      let drawGraphic;
+      let $table;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 21.105826, lng: 108.202174, alt: 4426845, heading: 356, pitch: -77 },
             cameraController: {
@@ -104,7 +104,7 @@
 
         //加载示例数据
         // eslint-disable-next-line prettier/prettier
-        // var hostiryData = {"startDate":"2021-05-31 19:56:18","endDate":"2021-05-31 20:56:18","geojson":{"type":"Feature","properties":{"id":"M-676224DB-E1C7-492B-BD4F-11245263E921","type":"rectangle","style":{"color":"#ffff00","opacity":0.2,"outline":true,"outlineColor":"#ffffff","materialType":"Color","clampToGround":false,"height":-1253.05}},"geometry":{"type":"Polygon","coordinates":[[[76.021252,46.81116,-1253.1],[152.705424,1.598719,-7200.1]]]}}}
+        // let hostiryData = {"startDate":"2021-05-31 19:56:18","endDate":"2021-05-31 20:56:18","geojson":{"type":"Feature","properties":{"id":"M-676224DB-E1C7-492B-BD4F-11245263E921","type":"rectangle","style":{"color":"#ffff00","opacity":0.2,"outline":true,"outlineColor":"#ffffff","materialType":"Color","clampToGround":false,"height":-1253.05}},"geometry":{"type":"Polygon","coordinates":[[[76.021252,46.81116,-1253.1],[152.705424,1.598719,-7200.1]]]}}}
         // $('#txtStartTime').val(hostiryData.startDate) //开始时间
         // $('#txtEndTime').val(hostiryData.endDate) //结束时间
         // drawGraphic = map.graphicLayer.loadGeoJSON(hostiryData.geojson)[0]
@@ -158,7 +158,7 @@
           zIndex: 20210825,
         });
 
-        var now = Cesium.JulianDate.toDate(map.clock.currentTime);
+        let now = Cesium.JulianDate.toDate(map.clock.currentTime);
         $("#txtStartTime").val(now.format("yyyy-MM-dd HH:mm:ss"));
 
         now.setMinutes(now.getMinutes() + 60);
@@ -262,7 +262,7 @@
             },
           ],
           onClickRow: function (item, $element, field) {
-            var graphic = item._graphic;
+            let graphic = item._graphic;
             if (graphic == null) {
               // eslint-disable-next-line no-undef
               toastr.warning(item.name + " 无经纬度坐标信息！");
@@ -282,7 +282,7 @@
       //================卫星过境===================================
 
       //颜色
-      var pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7);
+      let pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7);
 
       function startFX() {
         clearResult();
@@ -292,11 +292,11 @@
           return;
         }
 
-        var startDate = new Date($("#txtStartTime").val()); //开始时间
-        var endDate = new Date($("#txtEndTime").val()); //结束时间
+        let startDate = new Date($("#txtStartTime").val()); //开始时间
+        let endDate = new Date($("#txtEndTime").val()); //结束时间
 
-        var startTimes = startDate.getTime();
-        var endTimes = endDate.getTime();
+        let startTimes = startDate.getTime();
+        let endTimes = endDate.getTime();
 
         //记录参数值
         console.log(
@@ -308,17 +308,17 @@
         );
 
         //范围相关信息
-        var options = {
+        let options = {
           startTimes: startTimes,
           endTimes: endTimes,
           graphic: drawGraphic,
         };
 
         //分析卫星位置
-        var newSatelliteArr = []; //存储飞过指定范围的卫星的数据
-        for (var ind = 0; ind < tleArr.length; ind++) {
-          var item = tleArr[ind];
-          var arr = fxOneSatellite(item, options);
+        let newSatelliteArr = []; //存储飞过指定范围的卫星的数据
+        for (let ind = 0; ind < tleArr.length; ind++) {
+          let item = tleArr[ind];
+          let arr = fxOneSatellite(item, options);
 
           if (arr.length == 0) {
             continue;
@@ -332,16 +332,16 @@
       }
 
       function fxOneSatellite(item, options) {
-        var inAreaPath = [];
-        var lastObj = null;
+        let inAreaPath = [];
+        let lastObj = null;
 
-        var graphic = options.graphic;
-        var startTimes = options.startTimes;
-        var endTimes = options.endTimes;
-        var step = 10 * 1000; //插值数
+        let graphic = options.graphic;
+        let startTimes = options.startTimes;
+        let endTimes = options.endTimes;
+        let step = 10 * 1000; //插值数
 
-        var nowTime = startTimes;
-        var position;
+        let nowTime = startTimes;
+        let position;
         while (nowTime <= endTimes) {
           //根据时间计算卫星的位置
           let position = mars3d.Tle.getEcfPosition(item.tle1, item.tle2, nowTime);
@@ -350,8 +350,8 @@
           }
 
           //显示点[参考比较结果是否正确]
-          var timeStr = new Date(nowTime).format("yyyy-MM-dd HH:mm:ss");
-          var primitive = new mars3d.graphic.PointPrimitive({
+          let timeStr = new Date(nowTime).format("yyyy-MM-dd HH:mm:ss");
+          let primitive = new mars3d.graphic.PointPrimitive({
             position: position,
             style: {
               color: pointClr,
@@ -363,7 +363,7 @@
           graphicLayer.addGraphic(primitive);
 
           //判断是卫星否在缓冲区内
-          var isInPoly = graphic.isInPoly(position);
+          let isInPoly = graphic.isInPoly(position);
 
           // console.log(`${item.name},时间：${timeStr},结果：${isInPoly}`);
 
@@ -416,28 +416,28 @@
 
       function showResult(newSatelliteArr) {
         //显示卫星条带
-        var tableList = [];
+        let tableList = [];
 
-        for (var ind = 0; ind < newSatelliteArr.length; ind++) {
-          var item = newSatelliteArr[ind];
-          var inAreaPath = item.inAreaPath;
+        for (let ind = 0; ind < newSatelliteArr.length; ind++) {
+          let item = newSatelliteArr[ind];
+          let inAreaPath = item.inAreaPath;
           if (inAreaPath.length < 2) {
             continue;
           }
 
-          var index = 0;
+          let index = 0;
           if (inAreaPath[0].inOrOut == "out") {
             //保证从进入 开始计算
             index = 1;
           }
 
-          for (var i = index; i < inAreaPath.length; i = i + 2) {
-            var positions = [];
-            var inTime;
-            var outTime;
+          for (let i = index; i < inAreaPath.length; i = i + 2) {
+            let positions = [];
+            let inTime;
+            let outTime;
             if (inAreaPath[i].inOrOut == "in" && inAreaPath[i + 1].inOrOut == "out") {
-              var inAttr = inAreaPath[i];
-              var outAttr = inAreaPath[i + 1];
+              let inAttr = inAreaPath[i];
+              let outAttr = inAreaPath[i + 1];
               if (inAttr?.lastPosition) {
                 inTime = new Date(inAttr.lastTime).format("yyyy-M-d HH:mm:ss");
                 positions.push(inAttr.lastPosition);
@@ -447,7 +447,7 @@
                 outTime = new Date(outAttr.time).format("yyyy-M-d HH:mm:ss");
               }
               if (positions.length > 1) {
-                var data = {
+                let data = {
                   positions: positions,
                   name: item.name,
                   inTime: inTime,
@@ -466,10 +466,10 @@
         haoutil.msg("分析完成，共" + tableList.length + "条过境记录");
       }
 
-      var corridor = [];
+      let corridor = [];
 
       function showCorridor(data) {
-        var primitive = new mars3d.graphic.CorridorPrimitive({
+        let primitive = new mars3d.graphic.CorridorPrimitive({
           positions: data.positions,
           style: {
             width: 6000,
@@ -479,7 +479,7 @@
         });
         graphicLayer.addGraphic(primitive);
 
-        var inthtml =
+        let inthtml =
           '<table style="width:280px;">' +
           '<tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">信息</th></tr>' +
           "<tr><td >卫星名称：</td><td >" +

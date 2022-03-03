@@ -48,11 +48,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.808137, lng: 116.411699, alt: 23221, heading: 347, pitch: -40 },
             clock: {
@@ -65,7 +65,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //在layer上绑定监听事件
@@ -91,7 +91,7 @@
 
       //静态的位置
       function addGraphic_01(graphicLayer) {
-        var coneTrack = new mars3d.graphic.ConeTrack({
+        let coneTrack = new mars3d.graphic.ConeTrack({
           position: [116.327881, 31.018378, 5000],
           targetPosition: [116.311135, 30.998408, 1264.9], //可选
           style: {
@@ -115,7 +115,7 @@
       function addGraphic_02(graphicLayer) {
         let position = [116.28782, 30.971557, 5000];
         //加个飞机
-        var primitive = new mars3d.graphic.ModelPrimitive({
+        let primitive = new mars3d.graphic.ModelPrimitive({
           position: position,
           style: {
             url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -126,7 +126,7 @@
         graphicLayer.addGraphic(primitive);
 
         //圆锥追踪体
-        var coneTrack = new mars3d.graphic.ConeTrack({
+        let coneTrack = new mars3d.graphic.ConeTrack({
           position: position,
           // targetPosition: [116.317411, 30.972581, 1439.7], //可选
           style: {
@@ -148,7 +148,7 @@
               color: "#ffff00",
             },
             success: function (graphic) {
-              var position = graphic.positionShow;
+              let position = graphic.positionShow;
               map.graphicLayer.clear();
 
               coneTrack.targetPosition = position;
@@ -169,7 +169,7 @@
         ]);
 
         //飞机
-        var graphicModel = new mars3d.graphic.ModelEntity({
+        let graphicModel = new mars3d.graphic.ModelEntity({
           position: propertyFJ,
           orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
           style: {
@@ -189,7 +189,7 @@
           [116.412254, 31.021635, 1224.1],
           [116.432328, 31.045508, 804.3],
         ]);
-        var graphicQC = new mars3d.graphic.PathEntity({
+        let graphicQC = new mars3d.graphic.PathEntity({
           position: propertyQC,
           orientation: new Cesium.VelocityOrientationProperty(propertyQC),
           style: {
@@ -207,7 +207,7 @@
         graphicLayer.addGraphic(graphicQC);
 
         //圆锥追踪体（动态position=>动态targetPosition）
-        var coneTrack = new mars3d.graphic.ConeTrack({
+        let coneTrack = new mars3d.graphic.ConeTrack({
           position: propertyFJ,
           targetPosition: propertyQC,
           style: {
@@ -243,7 +243,7 @@
 
       //
       function addGraphic_04(graphicLayer) {
-        var model = new mars3d.graphic.ModelEntity({
+        let model = new mars3d.graphic.ModelEntity({
           name: "地面站模型",
           position: [117.170264, 31.840312, 258],
           style: {
@@ -256,7 +256,7 @@
         graphicLayer.addGraphic(model);
 
         //卫星
-        var weixin = new mars3d.graphic.Satellite({
+        let weixin = new mars3d.graphic.Satellite({
           name: "GAOFEN 1",
           tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
           tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -271,7 +271,7 @@
         });
         graphicLayer.addGraphic(weixin);
 
-        var coneTrack = new mars3d.graphic.ConeTrack({
+        let coneTrack = new mars3d.graphic.ConeTrack({
           position: model.position,
           targetPosition: weixin.property,
           style: {

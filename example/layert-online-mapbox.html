@@ -52,7 +52,7 @@
 
       //mapbox的styleId申请，参考：https://docs.mapbox.com/api/maps/#request-embeddable-html
 
-      var map;
+      let map;
       function initMap() {
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", {
@@ -121,7 +121,7 @@
       }
 
       //叠加的图层
-      var tileLayer;
+      let tileLayer;
 
       function addLayer() {
         removeLayer();

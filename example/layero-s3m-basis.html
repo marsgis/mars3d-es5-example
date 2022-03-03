@@ -142,7 +142,7 @@
 
           let layers = s3mLayer.layer;
 
-          var overGroundLayer = layers[25];
+          let overGroundLayer = layers[25];
           overGroundLayer.style3D.fillForeColor.alpha = 0.5;
 
           // for (var i = 0; i < layers.length; i++) {
@@ -187,7 +187,7 @@
           console.log("s3m模型加载完成", s3mLayer);
 
           let layers = s3mLayer.layer;
-          for (var layer of layers) {
+          for (let layer of layers) {
             //设置边框线
             layer.style3D.lineWidth = 0.5;
             layer.style3D.lineColor = new Cesium.Color(60 / 255, 60 / 255, 60 / 255, 1);

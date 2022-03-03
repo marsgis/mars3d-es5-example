@@ -73,11 +73,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.61982, lng: 117.230607, alt: 22746, heading: 2, pitch: -49 },
           },
@@ -87,7 +87,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -97,18 +97,18 @@
           graphicLayer.clear();
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val()) * 10000;
+          let count = Number($("#txtCount").val()) * 10000;
 
-          for (var j = 0; j < count; ++j) {
-            var position = randomPoint();
-            var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500);
-            var pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500);
-            var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500);
-            var pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500);
+          for (let j = 0; j < count; ++j) {
+            let position = randomPoint();
+            let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500);
+            let pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500);
+            let pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500);
+            let pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500);
 
-            var primitive = new mars3d.graphic.PolygonPrimitive({
+            let primitive = new mars3d.graphic.PolygonPrimitive({
               positions: [pt1, pt2, pt3, pt4, pt1],
               style: {
                 height: haoutil.math.random(30, 4000),
@@ -120,9 +120,9 @@
           }
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -143,13 +143,13 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.955684 * 1000, 117.474003 * 1000) / 1000;
-        var wd = haoutil.math.random(31.7576 * 1000, 32.008782 * 1000) / 1000;
+        let jd = haoutil.math.random(116.955684 * 1000, 117.474003 * 1000) / 1000;
+        let wd = haoutil.math.random(31.7576 * 1000, 32.008782 * 1000) / 1000;
         return Cesium.Cartesian3.fromDegrees(jd, wd);
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.218662, 31.800226, 37.68],
             [117.227836, 31.800388, 32.98],
@@ -179,7 +179,7 @@
 
       //图片材质
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.187572, 31.823074, 45.53],
             [117.195377, 31.82418, 43.36],
@@ -203,12 +203,12 @@
         graphicLayer.addGraphic(primitive); //primitive.addTo(graphicLayer)  //另外一种写法
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log(geojson);
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.216386, 31.815376, 35.16],
             [117.222533, 31.81729, 29.21],
@@ -235,7 +235,7 @@
 
       //面状：草地面效果
       function addGraphic_a4(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.319966, 31.842082, 12.29],
             [117.330034, 31.835286, 11.07],
@@ -256,7 +256,7 @@
 
       //面状：木材面效果
       function addGraphic_a5(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.271662, 31.870639, 21.49],
             [117.290605, 31.871517, 19.47],
@@ -279,7 +279,7 @@
 
       //面状：混合效果
       function addGraphic_a6(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.154815, 31.853495],
             [117.181255, 31.854257],
@@ -308,7 +308,7 @@
 
       //面状： 柏油路面效果
       function addGraphic_a7(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.208302, 31.85757],
             [117.234234, 31.858263],
@@ -329,7 +329,7 @@
 
       //面状：碎石面效果
       function addGraphic_a8(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.268479, 31.836646, 25.53],
             [117.282362, 31.827581, 34.28],
@@ -350,7 +350,7 @@
       }
 
       function addGraphic_a9(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [117.261476, 31.799865, 20.8],
             [117.270864, 31.804957, 26],
@@ -378,7 +378,7 @@
       }
 
       function addGraphic_a10(graphicLayer) {
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: [
             [
               //外环
@@ -763,7 +763,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>

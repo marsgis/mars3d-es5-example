@@ -83,20 +83,20 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var routeLayer;
-      var gaodeRoute;
+      let map;
+      let routeLayer;
+      let gaodeRoute;
 
       //当前页面业务相关
-      var startGraphic;
-      var endPointArr;
-      var poiLayer;
+      let startGraphic;
+      let endPointArr;
+      let poiLayer;
 
-      var $table;
+      let $table;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 },
           },
@@ -173,7 +173,7 @@
             success: function (graphic) {
               startGraphic = graphic;
 
-              var point = graphic.point;
+              let point = graphic.point;
               point.format();
 
               $("#startIpt").val(point.lng + "," + point.lat);
@@ -181,7 +181,7 @@
           });
         });
 
-        var queryGaodePOI = new mars3d.query.GaodePOI({
+        let queryGaodePOI = new mars3d.query.GaodePOI({
           // key: ['ae29a37307840c7ae4a785ac905927e0'],
         });
 
@@ -190,22 +190,22 @@
         map.addLayer(poiLayer);
 
         poiLayer.bindPopup(function (event) {
-          var item = event.graphic.attr;
+          let item = event.graphic.attr;
 
-          var inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >';
-          var type = $.trim(item.type);
+          let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >';
+          let type = $.trim(item.type);
           if (type != "") {
             inHtml += "<div><label>类别</label>" + type + "</div>";
           }
-          var xzqh = $.trim(item.xzqh);
+          let xzqh = $.trim(item.xzqh);
           if (xzqh != "") {
             inHtml += "<div><label>区域</label>" + xzqh + "</div>";
           }
-          var tel = $.trim(item.tel);
+          let tel = $.trim(item.tel);
           if (tel != "") {
             inHtml += "<div><label>电话</label>" + tel + "</div>";
           }
-          var address = $.trim(item.address);
+          let address = $.trim(item.address);
           if (address != "") {
             inHtml += "<div><label>地址</label>" + address + "</div>";
           }
@@ -215,7 +215,7 @@
 
         $("#endPoint").click(function () {
           haoutil.loading.show();
-          var extent = map.getExtent(); //当前视域内
+          let extent = map.getExtent(); //当前视域内
 
           queryGaodePOI.queryPolygon({
             text: "企业",
@@ -254,11 +254,11 @@
         haoutil.loading.show();
         $("#resultView").hide();
 
-        var type = Number($("#queryType").val()); //GaodeRouteType枚举类型
-        var startPoint = startGraphic.coordinate;
-        var arr = [];
-        for (var i = 0; i < endPointArr.length; i++) {
-          var item = endPointArr[i];
+        let type = Number($("#queryType").val()); //GaodeRouteType枚举类型
+        let startPoint = startGraphic.coordinate;
+        let arr = [];
+        for (let i = 0; i < endPointArr.length; i++) {
+          let item = endPointArr[i];
           arr.push([startPoint, [item.x, item.y]]);
         }
 
@@ -282,10 +282,10 @@
 
         endPointArr = arr;
 
-        for (var i = 0; i < arr.length; i++) {
-          var item = arr[i];
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i];
 
-          var graphic = new mars3d.graphic.BillboardEntity({
+          let graphic = new mars3d.graphic.BillboardEntity({
             position: Cesium.Cartesian3.fromDegrees(item.x, item.y),
             style: {
               image: "img/marker/end.png",
@@ -314,23 +314,23 @@
       function showRouteResult(data) {
         $("#resultView").show();
 
-        var arrTable = [];
-        for (var i = 0; i < data.length; i++) {
-          var item = data[i];
+        let arrTable = [];
+        for (let i = 0; i < data.length; i++) {
+          let item = data[i];
           if (!item) {
             continue;
           }
 
-          var lnglats = item.points;
+          let lnglats = item.points;
           if (!lnglats || lnglats.length < 1) {
             continue;
           }
 
-          var name = endPointArr[i].name;
+          let name = endPointArr[i].name;
 
-          var time = haoutil.str.formatTime(item.allDuration);
-          var distance = haoutil.str.formatLength(item.allDistance);
-          var html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + "";
+          let time = haoutil.str.formatTime(item.allDuration);
+          let distance = haoutil.str.formatLength(item.allDistance);
+          let html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + "";
 
           let graphic = new mars3d.graphic.PolylineEntity({
             positions: lnglats,
@@ -359,7 +359,7 @@
         $table.bootstrapTable("load", arrTable);
       }
 
-      var lastRoute;
+      let lastRoute;
 
       function centerAtRoute(graphic) {
         if (lastRoute) {

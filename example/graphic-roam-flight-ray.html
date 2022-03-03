@@ -292,12 +292,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var roamLine;
+      let map;
+      let roamLine;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.344715, lng: 115.783073, alt: 10056, heading: 158, pitch: -55 },
             globe: {
@@ -312,11 +312,11 @@
         map.hasTerrain = false;
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //该数据可以从 基础项目 飞行漫游功能界面操作后保存JSON
-        var flydata = {
+        let flydata = {
           speed: 200,
           positions: [
             [115.833866, 31.311451, 4000],
@@ -375,7 +375,7 @@
         //模型方向
         // $(".jiaodu_2_angele").hide();
         $('input:radio[name="jiaodu"]').change(function () {
-          var isAuto = $(this).val() === "1";
+          let isAuto = $(this).val() === "1";
           if (isAuto) {
             $(".jiaodu_2_angele").hide();
           } else {
@@ -400,8 +400,8 @@
       }
 
       function updateModel(isAuto) {
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
 
         roamLine.updateAngle(isAuto, {
           pitch: pitch,
@@ -415,7 +415,7 @@
           return;
         }
 
-        var val = Math.ceil((params.time * 100) / roamLine.alltimes);
+        let val = Math.ceil((params.time * 100) / roamLine.alltimes);
         if (val < 1) {
           val = 1;
         }
@@ -448,13 +448,13 @@
         }
       }
 
-      var groundLayer; //地面投影图层
+      let groundLayer; //地面投影图层
 
       function testShading() {
         //卫星朝向的中线地面点
         let line1 = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var pt1 = roamLine.position,
+            let pt1 = roamLine.position,
               pt2 = centerPosion;
             if (!pt1 || !pt2) {
               return [];
@@ -473,7 +473,7 @@
         //卫星边线2点
         let graphicTriangle = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var positions = getFourShadingPosition({
+            let positions = getFourShadingPosition({
               angle: 2.4,
               angle2: 1.4,
             });
@@ -504,50 +504,50 @@
       }
 
       //获取地面的四棱台投影面
-      var thisPositions;
-      var centerPosion;
+      let thisPositions;
+      let centerPosion;
 
       function getFourShadingPosition(opts) {
         //位置
-        var pt1 = roamLine.position;
+        let pt1 = roamLine.position;
         if (!pt1) {
           return;
         }
 
-        var ellipsoid = map.scene.globe.ellipsoid;
+        let ellipsoid = map.scene.globe.ellipsoid;
 
         //张角
-        var angle1 = Cesium.Math.toRadians(opts.angle) / 2;
+        let angle1 = Cesium.Math.toRadians(opts.angle) / 2;
 
-        var heading = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.heading));
-        var pitch = Cesium.Math.toRadians(Cesium.defaultValue(opts.pitch, roamLine.pitch));
-        var roll = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.roll));
+        let heading = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.heading));
+        let pitch = Cesium.Math.toRadians(Cesium.defaultValue(opts.pitch, roamLine.pitch));
+        let roll = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.roll));
 
         //张角
-        var angle2 = Cesium.Math.toRadians(opts.angle2) / 2;
+        let angle2 = Cesium.Math.toRadians(opts.angle2) / 2;
 
-        var ptLeft1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll + angle1), true, ellipsoid);
+        let ptLeft1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll + angle1), true, ellipsoid);
         if (!ptLeft1) {
           return;
         }
 
-        var ptRight1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll - angle1), true, ellipsoid);
+        let ptRight1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll - angle1), true, ellipsoid);
         if (!ptRight1) {
           return;
         }
 
-        var ptRight2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll - angle1), true, ellipsoid);
+        let ptRight2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll - angle1), true, ellipsoid);
         if (!ptRight2) {
           return;
         }
 
-        var ptLeft2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll + angle1), true, ellipsoid);
+        let ptLeft2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll + angle1), true, ellipsoid);
         if (!ptLeft2) {
           return;
         }
 
-        var ptLeft = Cesium.Cartesian3.midpoint(ptLeft1, ptLeft2, new Cesium.Cartesian3());
-        var ptRight = Cesium.Cartesian3.midpoint(ptRight1, ptRight2, new Cesium.Cartesian3());
+        let ptLeft = Cesium.Cartesian3.midpoint(ptLeft1, ptLeft2, new Cesium.Cartesian3());
+        let ptRight = Cesium.Cartesian3.midpoint(ptRight1, ptRight2, new Cesium.Cartesian3());
         thisPositions = [ptLeft, ptRight];
 
         centerPosion = Cesium.Cartesian3.midpoint(ptLeft, ptRight, new Cesium.Cartesian3());
@@ -555,17 +555,17 @@
         return [ptLeft1, ptRight1, ptRight2, ptLeft2, ptLeft1];
       }
 
-      var lastPositions;
+      let lastPositions;
 
       function addPolygon() {
         if (lastPositions == null) {
           lastPositions = thisPositions;
           return;
         }
-        var positions = [lastPositions[0], lastPositions[1], thisPositions[1], thisPositions[0]];
+        let positions = [lastPositions[0], lastPositions[1], thisPositions[1], thisPositions[0]];
         lastPositions = thisPositions;
 
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        let primitive = new mars3d.graphic.PolygonPrimitive({
           positions: positions,
           style: {
             color: "#ff0000",

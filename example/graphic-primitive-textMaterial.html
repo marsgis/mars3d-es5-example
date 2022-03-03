@@ -68,11 +68,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.792193, lng: 121.48008, alt: 122, heading: 198, pitch: -54 },
           },
@@ -82,7 +82,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //加个模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           name: "水利闸门",
           url: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
           position: { alt: 15.2 },
@@ -92,7 +92,7 @@
         map.addLayer(tiles3dLayer);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer({
+        let graphicLayer = new mars3d.layer.GraphicLayer({
           hasEdit: true,
         });
         map.addLayer(graphicLayer);
@@ -106,15 +106,15 @@
           map.centerAt({ lat: 29.81612, lng: 121.476177, alt: 945, heading: 179, pitch: -22 });
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val());
+          let count = Number($("#txtCount").val());
 
           //取区域内的随机图标
 
           function randomPoint(j) {
-            var jd = haoutil.math.random(121.460727 * 1000, 121.494659 * 1000) / 1000;
-            var wd = haoutil.math.random(29.778576 * 1000, 29.806463 * 1000) / 1000;
+            let jd = haoutil.math.random(121.460727 * 1000, 121.494659 * 1000) / 1000;
+            let wd = haoutil.math.random(29.778576 * 1000, 29.806463 * 1000) / 1000;
             return Cesium.Cartesian3.fromDegrees(jd, wd, 20);
           }
 
@@ -123,11 +123,11 @@
 
           //多个面对象的合并渲染。
           const instances = [];
-          for (var j = 0; j < count; ++j) {
-            var position = randomPoint(j);
-            var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 160, txtWidth);
+          for (let j = 0; j < count; ++j) {
+            let position = randomPoint(j);
+            let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 160, txtWidth);
 
-            var primitive = new mars3d.graphic.WallPrimitive({
+            let primitive = new mars3d.graphic.WallPrimitive({
               positions: [position, pt1],
               style: {
                 diffHeight: txtHeight,
@@ -142,9 +142,9 @@
           }
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -159,7 +159,7 @@
 
       //  wall文字  primitive方式添加
       function addGraphic_01(graphicLayer) {
-        var primitive = new mars3d.graphic.WallPrimitive({
+        let primitive = new mars3d.graphic.WallPrimitive({
           positions: [
             [121.479914, 29.791249, 32],
             [121.479694, 29.791303, 32],
@@ -177,7 +177,7 @@
 
       //  wall文字  primitive方式添加
       function addGraphic_02(graphicLayer) {
-        var primitive = new mars3d.graphic.WallPrimitive({
+        let primitive = new mars3d.graphic.WallPrimitive({
           positions: [
             [121.479343, 29.791419, 35],
             [121.479197, 29.791474, 35],
@@ -197,7 +197,7 @@
 
       //rectangle贴地矩形  3dtiles路面文字
       function addGraphic_03(graphicLayer) {
-        var rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
+        let rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
           name: "路面文字",
           positions: [
             [121.479989, 29.791162],
@@ -230,7 +230,7 @@
       }
 
       function addGraphic_04(graphicLayer) {
-        var rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
+        let rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
           positions: [
             [121.479593, 29.791632, 13],
             [121.480136, 29.79169, 13],
@@ -595,7 +595,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -635,9 +635,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

@@ -43,11 +43,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.820474, lng: 117.178655, alt: 326, heading: 24, pitch: -45 },
           },
@@ -57,6 +57,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //HuxingLayer类定义在./js/HuxingLayer.js
+        // eslint-disable-next-line no-undef
         let layer = new HuxingLayer({
           url: "//data.mars3d.cn/file/geojson/huxing.json",
         });

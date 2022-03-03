@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
@@ -86,7 +86,7 @@
         //解除已绑定的右键菜单
         map.unbindContextMenu();
 
-        var mapContextmenuItems = [
+        let mapContextmenuItems = [
           {
             text: "显示此处经纬度",
             iconCls: "fa fa-info-circle",
@@ -94,7 +94,7 @@
               return Cesium.defined(e.cartesian);
             },
             callback: function (e) {
-              var mpt = mars3d.LngLatPoint.fromCartesian(e.cartesian);
+              let mpt = mars3d.LngLatPoint.fromCartesian(e.cartesian);
               haoutil.alert(mpt.toString(), "位置信息");
             },
           },
@@ -153,7 +153,7 @@
 
       //2.在layer图层上绑定右键菜单
       function bindLayerDemo() {
-        var graphicLayer = new mars3d.layer.GeoJsonLayer({
+        let graphicLayer = new mars3d.layer.GeoJsonLayer({
           name: "标绘示例数据",
           url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
         });

@@ -108,11 +108,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           control: {
             homeButton: true,
             sceneModePicker: true,
@@ -132,13 +132,13 @@
 
         //显示clock
         $("#showClock").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.clockAnimate.show = show;
         });
 
         //显示刻度线
         $("#showTimeLine").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.timeline.container.style.display = show ? "block" : "none";
 
           if (show) {
@@ -154,38 +154,38 @@
 
         //位置信息状态栏
         $("#showLocation").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
 
           map.controls.locationBar.show = show;
         });
 
         //导航球
         $("#showNav").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
 
           map.controls.compass.show = show;
         });
 
         //比例尺
         $("#showLegend").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.distanceLegend.show = show;
         });
         //显示位置搜索
         $("#showLocationSearch").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.geocoder.container.style.display = show ? "block" : "none";
         });
 
         //显示回主页
         $("#showGoHome").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.homeButton._element.style.display = show ? "block" : "none";
         });
 
         //显示三维视图切换
         $("#showSceneModePicker").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
 
           if (show) {
             $(".cesium-sceneModePicker-wrapper").show();
@@ -196,25 +196,25 @@
 
         //显示基础图层切换
         $("#showBaseLayerPicker").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.baseLayerPicker._element.style.display = show ? "block" : "none";
         });
 
         //显示帮助
         $("#showFullScreen").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.fullscreenButton.container.style.display = show ? "block" : "none";
         });
 
         //VR
         $("#showVR").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.viewer.vrButton.container.style.display = show ? "block" : "none";
         });
 
         //显示帮助
         $("#showHelpButton").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           document.getElementsByClassName("cesium-navigationHelpButton-wrapper")[0].style.display = show ? "block" : "none";
         });
       }

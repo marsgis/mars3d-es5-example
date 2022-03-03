@@ -74,18 +74,16 @@
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
     <script type="text/javascript" src="js/center_terrain_3dtiles.js"></script>
 
-    <script src="js/showPolygonInter.js"></script>
-
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var measure;
+      let map;
+      let measure;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
@@ -107,19 +105,10 @@
         measure.on(mars3d.EventType.end, function (e) {
           console.log("完成异步分析", e);
           haoutil.loading.hide();
-
-          // if (e.graphic?.type === mars3d.graphic.AreaSurfaceMeasure.type && e.list) {
-          //   showInterResult(e.list); //在js/showPolygonInter.js
-          // }
         });
 
-        // 任意一个矢量数据被移出，贴地面积中的插值计算点都会被移除
-        // measure.on(mars3d.EventType.remove, function (e) {
-        //   clearInterResult(); //在js/showPolygonInter.js
-        // });
-
         $("#chk_onlyPickModelPosition").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //控制鼠标只取模型上的点，忽略地形上的点的拾取
           map.onlyPickModelPosition = val;
@@ -133,7 +122,6 @@
 
       function removeAll() {
         measure.clear();
-        // clearInterResult(); //在js/showPolygonInter.js
       }
       // 空间距离
       function measureLength() {

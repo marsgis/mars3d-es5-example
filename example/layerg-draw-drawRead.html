@@ -49,11 +49,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.609076, lng: 117.292797, alt: 17106, heading: 350, pitch: -51 },
           },
@@ -62,14 +62,14 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayer = new mars3d.layer.GeoJsonLayer({
           name: "马拉松",
           url: "//data.mars3d.cn/file/geojson/hefei-marathon.json",
           onCreateGraphic: function (e) {
-            let typeP = e.type + "P";
+            let typeP = e.type + "P"; // 修改type为primitive类型展示
             if (mars3d.GraphicType[typeP]) {
               e.type = typeP;
-      } // 修改type为primitive类型展示
+            }
 
             geoJsonLayer.addGraphic(e);
           },

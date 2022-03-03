@@ -67,13 +67,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var slope;
-      var contourLine;
+      let map;
+      let slope;
+      let contourLine;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
@@ -127,14 +127,14 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
 
               contourLine.positions = positions;
 
-              var splitNum = Number($("#txtSplitNum").val());
+              let splitNum = Number($("#txtSplitNum").val());
               slope.add(positions, {
                 splitNum: splitNum, //splitNum插值分割的个数
                 radius: 1, //缓冲半径（影响坡度坡向的精度）
@@ -157,14 +157,14 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
 
               contourLine.positions = positions;
 
-              var splitNum = Number($("#txtSplitNum").val());
+              let splitNum = Number($("#txtSplitNum").val());
               slope.add(positions, {
                 splitNum: splitNum, //splitNum插值分割的个数
                 radius: 1, //缓冲半径（影响坡度坡向的精度）
@@ -182,7 +182,7 @@
               color: "#ffff00",
             },
             success: function (graphic) {
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               slope.add(positions);

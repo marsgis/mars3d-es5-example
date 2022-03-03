@@ -41,7 +41,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(mapOptions) {
         //方式1：按basemaps配置自动生成
@@ -62,8 +62,8 @@
 
       //获取自定义底图切换
       function getImageryProviderArr() {
-        var providerViewModels = [];
-        var imgModel;
+        let providerViewModels = [];
+        let imgModel;
 
         imgModel = new Cesium.ProviderViewModel({
           name: "本地图片",

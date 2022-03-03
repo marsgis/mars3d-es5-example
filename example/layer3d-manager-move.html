@@ -95,11 +95,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
@@ -108,12 +108,12 @@
         map.fixedLight = true;
 
         $("#chkHasTerrain").change(function () {
-          var isStkTerrain = $(this).is(":checked");
+          let isStkTerrain = $(this).is(":checked");
           map.hasTerrain = isStkTerrain;
         });
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
         });
         $(".benStep").click(function () {
@@ -124,7 +124,7 @@
         });
 
         //url传入模型地址
-        var url = haoutil.system.getRequestByName("url");
+        let url = haoutil.system.getRequestByName("url");
         if (url) {
           $("#txtModel").val(url);
         } else {
@@ -136,10 +136,10 @@
         setTimeout(showModel, 1000);
       }
 
-      var x = 0;
-      var y = 0;
-      var z = 0;
-      var step = 1;
+      let x = 0;
+      let y = 0;
+      let z = 0;
+      let step = 1;
       let tiles3dLayer;
 
       function removeLayer() {
@@ -155,7 +155,7 @@
       function showModel() {
         removeLayer();
 
-        var _url = $("#txtModel").val();
+        let _url = $("#txtModel").val();
         localforage.setItem("g20_3dtiles_move", _url);
 
         tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -203,7 +203,7 @@
         $("#lbl-result").html("x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1));
 
         //创建平移矩阵方法二
-        var translation = Cesium.Cartesian3.fromArray([x, y, z]);
+        let translation = Cesium.Cartesian3.fromArray([x, y, z]);
         tiles3dLayer.tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
       }
     </script>

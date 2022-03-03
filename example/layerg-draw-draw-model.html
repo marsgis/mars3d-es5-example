@@ -67,12 +67,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.83351, lng: 116.354467, alt: 2743, heading: 359, pitch: -52 },
             clock: {
@@ -93,34 +93,34 @@
         });
         map.addLayer(graphicLayer);
 
-        var url = haoutil.system.getRequestByName("url");
+        let url = haoutil.system.getRequestByName("url");
         if (url) {
           //url传入模型地址
           $("#txtModel").val(url);
         } else {
           //显示历史数据
           localforage.getItem("g05_draw_gltf").then(function (value) {
-            if(value){
+            if (value) {
               $("#txtModel").val(value);
             }
           });
         }
 
-        var globe = map.scene.globe;
+        let globe = map.scene.globe;
 
         $("#chkHasTerrain").change(function () {
-          var isStkTerrain = $(this).is(":checked");
+          let isStkTerrain = $(this).is(":checked");
           map.hasTerrain = isStkTerrain;
         });
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
           if (val) {
             toastr.info("深度监测打开后，您将无法看到地下或被地形遮挡的对象。");
           }
         });
         $("#chk_onlyPickModelPosition").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //控制鼠标只取模型上的点，忽略地形上的点的拾取
           map.onlyPickModelPosition = val;
@@ -128,7 +128,7 @@
 
         //创建完成，事件监听
         graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-          var graphic = e.graphic;
+          let graphic = e.graphic;
           if (!graphicLayer.isContinued) {
             startEditing(graphic);
           }
@@ -138,7 +138,7 @@
         graphicLayer.on(
           [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
           function (e) {
-            var graphic = e.graphic;
+            let graphic = e.graphic;
             startEditing(graphic);
           }
         );
@@ -149,7 +149,7 @@
         });
 
         $("#btnSave").click(function () {
-          var strResult = graphicLayer.toGeoJSON();
+          let strResult = graphicLayer.toGeoJSON();
           if (strResult == null) {
             layer.msg("当前没有标注任何数据，无需保存！");
             return;
@@ -158,10 +158,10 @@
         });
 
         $("#input_plot_file").change(function (e) {
-          var file = this.files[0];
+          let file = this.files[0];
 
-          var fileName = file.name;
-          var fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+          let fileName = file.name;
+          let fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
           if (fileType != "json") {
             layer.msg("文件类型不合法,请选择json格式标注文件！");
             clearSelectFile();
@@ -169,10 +169,10 @@
           }
 
           if (window.FileReader) {
-            var reader = new FileReader();
+            let reader = new FileReader();
             reader.readAsText(file, "UTF-8");
             reader.onloadend = function (e) {
-              var json = this.result;
+              let json = this.result;
               graphicLayer.loadGeoJSON(json, {
                 clear: true,
                 flyTo: true,
@@ -201,10 +201,10 @@
       }
 
       function drawModel() {
-        var url = $("#txtModel").val();
+        let url = $("#txtModel").val();
         localforage.setItem("g05_draw_gltf", url);
 
-        var isProxy = $("#chkProxy").is(":checked");
+        let isProxy = $("#chkProxy").is(":checked");
         if (isProxy) {
           url = "//server.mars3d.cn/proxy/" + url;
         }
@@ -221,12 +221,12 @@
       }
 
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      var timeTik;
+      let timeTik;
 
       function startEditing(graphic) {
         clearTimeout(timeTik);
 
-        var plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
+        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js");
         if (plotAttr && plotAttr.isActivate) {
           plotAttr.startEditing(graphic, graphic.coordinates);
         } else {

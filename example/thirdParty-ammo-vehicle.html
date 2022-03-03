@@ -42,11 +42,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.835256, lng: 117.219292, alt: 128, heading: 120, pitch: -41 },
             fxaa: true,
@@ -56,10 +56,10 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50);
-        var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
+        let center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50);
+        let modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
 
-        var meshVisualizer = new Cesium.MeshVisualizer({
+        let meshVisualizer = new Cesium.MeshVisualizer({
           modelMatrix: modelMatrix,
           up: { y: 1 },
           referenceAxisParameter: {
@@ -86,29 +86,29 @@
 
         Ammo().then(function () {
           // - Global variables -
-          var DISABLE_DEACTIVATION = 4;
-          var TRANSFORM_AUX = new Ammo.btTransform();
-          var ZERO_QUATERNION = new Cesium.Quaternion(0, 0, 0, 1);
+          let DISABLE_DEACTIVATION = 4;
+          let TRANSFORM_AUX = new Ammo.btTransform();
+          let ZERO_QUATERNION = new Cesium.Quaternion(0, 0, 0, 1);
 
           // Graphics variables
-          var materialDynamic, materialStatic, materialInteractive;
+          let materialDynamic, materialStatic, materialInteractive;
 
           // Physics variables
-          var collisionConfiguration;
-          var dispatcher;
-          var broadphase;
-          var solver;
-          var physicsWorld;
+          let collisionConfiguration;
+          let dispatcher;
+          let broadphase;
+          let solver;
+          let physicsWorld;
 
-          var syncList = [];
-          var time = 0;
-          var objectTimePeriod = 3;
-          var timeNextSpawn = time + objectTimePeriod;
-          var maxNumObjects = 30;
+          let syncList = [];
+          let time = 0;
+          let objectTimePeriod = 3;
+          let timeNextSpawn = time + objectTimePeriod;
+          let maxNumObjects = 30;
 
           // Keybord actions
-          var actions = {};
-          var keysActions = {
+          let actions = {};
+          let keysActions = {
             KeyW: "acceleration",
             KeyS: "braking",
             KeyA: "left",
@@ -137,7 +137,7 @@
           }
 
           function updatePhysics(deltTime) {
-            for (var i = 0; i < syncList.length; i++) {
+            for (let i = 0; i < syncList.length; i++) {
               syncList[i](deltTime);
             }
             physicsWorld.stepSimulation(deltTime, 10);
@@ -162,8 +162,8 @@
           }
 
           function createBox(pos, quat, w, l, h, mass, friction) {
-            var material = createMaterial(); //= mass > 0 ? materialDynamic : materialStatic;
-            var shape = Cesium.BoxGeometry.fromDimensions({
+            let material = createMaterial(); //= mass > 0 ? materialDynamic : materialStatic;
+            let shape = Cesium.BoxGeometry.fromDimensions({
               dimensions: new Cesium.Cartesian3(w, l, h),
               vertexFormat: new Cesium.VertexFormat({
                 position: true,
@@ -171,7 +171,7 @@
               }),
             });
 
-            var geometry = new Ammo.btBoxShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 0.5));
+            let geometry = new Ammo.btBoxShape(new Ammo.btVector3(w * 0.5, l * 0.5, h * 0.5));
 
             if (!mass) {
               mass = 0;
@@ -180,22 +180,22 @@
               friction = 1;
             }
 
-            var mesh = new Cesium.Mesh(shape, material);
+            let mesh = new Cesium.Mesh(shape, material);
             Cesium.Cartesian3.clone(pos, mesh.position);
             mesh.quaternion = new Cesium.Quaternion(quat.x, quat.y, quat.z, quat.w);
             meshVisualizer.add(mesh);
 
-            var transform = new Ammo.btTransform();
+            let transform = new Ammo.btTransform();
             transform.setIdentity();
             transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
             transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-            var motionState = new Ammo.btDefaultMotionState(transform);
+            let motionState = new Ammo.btDefaultMotionState(transform);
 
-            var localInertia = new Ammo.btVector3(0, 0, 0);
+            let localInertia = new Ammo.btVector3(0, 0, 0);
             geometry.calculateLocalInertia(mass, localInertia);
 
-            var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, geometry, localInertia);
-            var body = new Ammo.btRigidBody(rbInfo);
+            let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, geometry, localInertia);
+            let body = new Ammo.btRigidBody(rbInfo);
 
             body.setFriction(friction);
             //body.setRestitution(.9);
@@ -208,11 +208,11 @@
               // Sync physics and graphics
               // eslint-disable-next-line no-inner-declarations
               function sync(dt) {
-                var ms = body.getMotionState();
+                let ms = body.getMotionState();
                 if (ms) {
                   ms.getWorldTransform(TRANSFORM_AUX);
-                  var p = TRANSFORM_AUX.getOrigin();
-                  var q = TRANSFORM_AUX.getRotation();
+                  let p = TRANSFORM_AUX.getOrigin();
+                  let q = TRANSFORM_AUX.getRotation();
                   mesh.position.set(p.x(), p.y(), p.z());
                   mesh.quaternion.set(q.x(), q.y(), q.z(), q.w());
                   mesh.modelMatrixNeedsUpdate = true;
@@ -224,7 +224,7 @@
           }
 
           function createWheelMesh(radius, width) {
-            var t = new Cesium.CylinderGeometry({
+            let t = new Cesium.CylinderGeometry({
               length: width,
               topRadius: radius,
               bottomRadius: radius,
@@ -232,18 +232,18 @@
             });
             //var t = new THREE.CylinderGeometry(radius, radius, width, 24, 1);
 
-            var mesh = new Cesium.Mesh(t, materialInteractive);
+            let mesh = new Cesium.Mesh(t, materialInteractive);
             Cesium.GeometryUtils.rotateY(mesh.geometry, Math.PI / 2);
             mesh.quaternion = new Cesium.Quaternion(); // Cesium.Quaternion.fromAxisAngle(new Cesium.Cartesian3(0, 0, 1), Math.PI / 2);
 
-            var shape = Cesium.BoxGeometry.fromDimensions({
+            let shape = Cesium.BoxGeometry.fromDimensions({
               dimensions: new Cesium.Cartesian3(width * 1.5, radius * 1.75, radius * 0.25),
               vertexFormat: new Cesium.VertexFormat({
                 position: true,
                 normal: true,
               }),
             });
-            var meshShape = new Cesium.Mesh(shape, materialInteractive);
+            let meshShape = new Cesium.Mesh(shape, materialInteractive);
 
             meshShape.quaternion = new Cesium.Quaternion(); //.fromAxisAngle(new Cesium.Cartesian3(0, 0, 1), 0);
             mesh.add(meshShape);
@@ -252,7 +252,7 @@
           }
 
           function createChassisMesh(w, l, h) {
-            var shape = Cesium.BoxGeometry.fromDimensions({
+            let shape = Cesium.BoxGeometry.fromDimensions({
               dimensions: new Cesium.Cartesian3(w, l, h),
               vertexFormat: new Cesium.VertexFormat({
                 position: true,
@@ -260,7 +260,7 @@
               }),
             });
 
-            var mesh = new Cesium.Mesh(shape, materialInteractive);
+            let mesh = new Cesium.Mesh(shape, materialInteractive);
             mesh.quaternion = new Cesium.Quaternion(0, 0, 0, 1);
             meshVisualizer.add(mesh);
             return mesh;
@@ -269,70 +269,70 @@
           function createVehicle(pos, quat) {
             // Vehicle contants
 
-            var chassisWidth = 1.8;
-            var chassisHeight = 0.6;
-            var chassisLength = 4;
-            var massVehicle = 800;
+            let chassisWidth = 1.8;
+            let chassisHeight = 0.6;
+            let chassisLength = 4;
+            let massVehicle = 800;
 
-            var wheelAxisPositionBack = -1;
-            var wheelRadiusBack = 0.4;
-            var wheelWidthBack = 0.3;
-            var wheelHalfTrackBack = 1;
-            var wheelAxisHeightBack = 0.3;
+            let wheelAxisPositionBack = -1;
+            let wheelRadiusBack = 0.4;
+            let wheelWidthBack = 0.3;
+            let wheelHalfTrackBack = 1;
+            let wheelAxisHeightBack = 0.3;
 
-            var wheelAxisFrontPosition = 1.7;
-            var wheelHalfTrackFront = 1;
-            var wheelAxisHeightFront = 0.3;
-            var wheelRadiusFront = 0.35;
-            var wheelWidthFront = 0.2;
+            let wheelAxisFrontPosition = 1.7;
+            let wheelHalfTrackFront = 1;
+            let wheelAxisHeightFront = 0.3;
+            let wheelRadiusFront = 0.35;
+            let wheelWidthFront = 0.2;
 
-            var friction = 1000;
-            var suspensionStiffness = 20.0;
-            var suspensionDamping = 2.3;
-            var suspensionCompression = 4.4;
-            var suspensionRestLength = 0.6;
-            var rollInfluence = 0.2;
+            let friction = 1000;
+            let suspensionStiffness = 20.0;
+            let suspensionDamping = 2.3;
+            let suspensionCompression = 4.4;
+            let suspensionRestLength = 0.6;
+            let rollInfluence = 0.2;
 
-            var steeringIncrement = 0.04;
-            var steeringClamp = 0.5;
-            var maxEngineForce = 2000;
-            var maxBreakingForce = 100;
+            let steeringIncrement = 0.04;
+            let steeringClamp = 0.5;
+            let maxEngineForce = 2000;
+            let maxBreakingForce = 100;
 
             // Chassis
-            var geometry = new Ammo.btBoxShape(new Ammo.btVector3(chassisWidth * 0.5, chassisHeight * 0.5, chassisLength * 0.5));
-            var transform = new Ammo.btTransform();
+            let geometry = new Ammo.btBoxShape(new Ammo.btVector3(chassisWidth * 0.5, chassisHeight * 0.5, chassisLength * 0.5));
+            let transform = new Ammo.btTransform();
             transform.setIdentity();
             transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
             transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-            var motionState = new Ammo.btDefaultMotionState(transform);
-            var localInertia = new Ammo.btVector3(0, 0, 0);
+            let motionState = new Ammo.btDefaultMotionState(transform);
+            let localInertia = new Ammo.btVector3(0, 0, 0);
             geometry.calculateLocalInertia(massVehicle, localInertia);
-            var body = new Ammo.btRigidBody(new Ammo.btRigidBodyConstructionInfo(massVehicle, motionState, geometry, localInertia));
+            let body = new Ammo.btRigidBody(new Ammo.btRigidBodyConstructionInfo(massVehicle, motionState, geometry, localInertia));
             body.setActivationState(DISABLE_DEACTIVATION);
             physicsWorld.addRigidBody(body);
-            var chassisMesh = createChassisMesh(chassisWidth, chassisHeight, chassisLength);
+            let chassisMesh = createChassisMesh(chassisWidth, chassisHeight, chassisLength);
 
             // Raycast Vehicle
-            var engineForce = 0;
-            var vehicleSteering = 0;
-            var breakingForce = 0;
-            var tuning = new Ammo.btVehicleTuning();
-            var rayCaster = new Ammo.btDefaultVehicleRaycaster(physicsWorld);
-            var vehicle = new Ammo.btRaycastVehicle(tuning, body, rayCaster);
+            let engineForce = 0;
+            let vehicleSteering = 0;
+            let breakingForce = 0;
+            let tuning = new Ammo.btVehicleTuning();
+            let rayCaster = new Ammo.btDefaultVehicleRaycaster(physicsWorld);
+            let vehicle = new Ammo.btRaycastVehicle(tuning, body, rayCaster);
             vehicle.setCoordinateSystem(0, 1, 2);
             physicsWorld.addAction(vehicle);
 
             // Wheels
-            var FRONT_LEFT = 0;
-            var FRONT_RIGHT = 1;
-            var BACK_LEFT = 2;
-            var BACK_RIGHT = 3;
-            var wheelMeshes = [];
-            var wheelDirectionCS0 = new Ammo.btVector3(0, -1, 0);
-            var wheelAxleCS = new Ammo.btVector3(-1, 0, 0);
+            let FRONT_LEFT = 0;
+            let FRONT_RIGHT = 1;
+            let BACK_LEFT = 2;
+            let BACK_RIGHT = 3;
+            let wheelMeshes = [];
+            let wheelDirectionCS0 = new Ammo.btVector3(0, -1, 0);
+            let wheelAxleCS = new Ammo.btVector3(-1, 0, 0);
 
             function addWheel(isFront, pos, radius, width, index) {
-              var wheelInfo = vehicle.addWheel(pos, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, radius, tuning, isFront);
+              let wheelInfo = vehicle.addWheel(pos, wheelDirectionCS0, wheelAxleCS, suspensionRestLength, radius, tuning, isFront);
 
               wheelInfo.set_m_suspensionStiffness(suspensionStiffness);
               wheelInfo.set_m_wheelsDampingRelaxation(suspensionDamping);
@@ -374,7 +374,7 @@
 
             // Sync keybord actions and physics and graphics
             function sync(dt) {
-              var speed = vehicle.getCurrentSpeedKmHour();
+              let speed = vehicle.getCurrentSpeedKmHour();
               //console.log((speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h')
               //speedometer.innerHTML = (speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h';
 
@@ -428,8 +428,8 @@
               vehicle.setSteeringValue(vehicleSteering, FRONT_LEFT);
               vehicle.setSteeringValue(vehicleSteering, FRONT_RIGHT);
 
-              var tm, p, q, i;
-              var n = vehicle.getNumWheels();
+              let tm, p, q, i;
+              let n = vehicle.getNumWheels();
               for (i = 0; i < n; i++) {
                 vehicle.updateWheelTransform(i, true);
                 tm = vehicle.getWheelTransformWS(i);
@@ -455,15 +455,15 @@
           function createObjects() {
             createBox(new Cesium.Cartesian3(0, -0.5, 0), ZERO_QUATERNION, 75, 1, 75, 0, 2);
 
-            var quaternion = new Cesium.Quaternion(0, 0, 0, 1);
+            let quaternion = new Cesium.Quaternion(0, 0, 0, 1);
             Cesium.Quaternion.fromAxisAngle(new Cesium.Cartesian3(1, 0, 0), -Math.PI / 18, quaternion);
             createBox(new Cesium.Cartesian3(0, -1.5, 0), quaternion, 8, 4, 10, 0);
 
-            var size = 0.75;
-            var nw = 8;
-            var nh = 6;
-            for (var j = 0; j < nw; j++) {
-              for (var i = 0; i < nh; i++) {
+            let size = 0.75;
+            let nw = 8;
+            let nh = 6;
+            for (let j = 0; j < nw; j++) {
+              for (let i = 0; i < nh; i++) {
                 createBox(new Cesium.Cartesian3(size * j - (size * (nw - 1)) / 2, size * i, 10), ZERO_QUATERNION, size, size, size, 10);
               }
             }
@@ -471,11 +471,11 @@
             createVehicle(new Cesium.Cartesian3(0, 4, -20), ZERO_QUATERNION);
           }
 
-          var start = false;
-          var init = false;
-          var startTime = new Date();
+          let start = false;
+          let init = false;
+          let startTime = new Date();
           function update(frameState) {
-            var deltaTime = (new Date() - startTime) / 1000.0;
+            let deltaTime = (new Date() - startTime) / 1000.0;
             updatePhysics(deltaTime);
             startTime = new Date();
           }

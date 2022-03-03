@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 38.452188, lng: 116.445231, alt: 187956, heading: 0, pitch: -49 },
           },
@@ -57,30 +57,30 @@
         map.basemap = "黑色底图";
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         Cesium.Resource.fetchJson("//data.mars3d.cn/file/apidemo/bjgj.json").then(function (data) {
-          var timeDuration = 10.0;
-          var moveBaseDuration = 4.0;
+          let timeDuration = 10.0;
+          let moveBaseDuration = 4.0;
 
-          var hStep = 300 / (data.length - 1);
+          let hStep = 300 / (data.length - 1);
 
           // var busLines = [].concat.apply([], data.map(function (busLine, idx) {
-          var busLines = [];
+          let busLines = [];
           data.map(function (busLine, idx) {
-            var prevPt;
-            var points = [];
-            for (var i = 0; i < busLine.length; i += 2) {
-              var pt = [busLine[i], busLine[i + 1]];
+            let prevPt;
+            let points = [];
+            for (let i = 0; i < busLine.length; i += 2) {
+              let pt = [busLine[i], busLine[i + 1]];
               if (i > 0) {
                 pt = [prevPt[0] + pt[0], prevPt[1] + pt[1]];
               }
               prevPt = pt;
 
-              var longitude = pt[0] / 1e4;
-              var latitude = pt[1] / 1e4;
-              var cart = Cesium.Cartesian3.fromDegrees(longitude, latitude, 100.0);
+              let longitude = pt[0] / 1e4;
+              let latitude = pt[1] / 1e4;
+              let cart = Cesium.Cartesian3.fromDegrees(longitude, latitude, 100.0);
               points.push(cart);
             }
 
@@ -90,7 +90,7 @@
           });
 
           busLines.forEach(function (busLine) {
-            var primitive = new mars3d.graphic.PolylinePrimitive({
+            let primitive = new mars3d.graphic.PolylinePrimitive({
               positions: busLine.positions,
               style: {
                 width: 2.0,

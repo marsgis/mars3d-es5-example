@@ -49,11 +49,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.791477, lng: 116.348231, alt: 6351, heading: 10, pitch: -36 },
           },
@@ -63,7 +63,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -73,13 +73,13 @@
           graphicLayer.clear();
 
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var count = Number($("#txtCount").val());
-          var scaleX, scaleY, aspectRatio, cloudHeight, depth;
+          let count = Number($("#txtCount").val());
+          let scaleX, scaleY, aspectRatio, cloudHeight, depth;
 
-          for (var j = 0; j < count; ++j) {
-            var position = randomPoint();
+          for (let j = 0; j < count; ++j) {
+            let position = randomPoint();
 
             scaleX = getRandomNumberInRange(500, 2000);
             scaleY = scaleX / 2.0 - getRandomNumberInRange(0, scaleX / 4.0);
@@ -88,7 +88,7 @@
             aspectRatio = getRandomNumberInRange(1.5, 2.1);
             cloudHeight = getRandomNumberInRange(5, 20);
 
-            var primitive = new mars3d.graphic.CloudPrimitive({
+            let primitive = new mars3d.graphic.CloudPrimitive({
               position: position,
               style: {
                 scale: new Cesium.Cartesian2(scaleX, scaleY),
@@ -100,9 +100,9 @@
           }
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -116,7 +116,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.CloudPrimitive({
+        let primitive = new mars3d.graphic.CloudPrimitive({
           position: [116.353072, 30.859836, 2000],
           style: {
             scale: new Cesium.Cartesian2(5500, 1000),
@@ -137,7 +137,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.CloudPrimitive({
+        let primitive = new mars3d.graphic.CloudPrimitive({
           position: [116.332891, 30.856537, 1500],
           style: {
             scale: new Cesium.Cartesian2(3500, 800),
@@ -149,7 +149,7 @@
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.CloudPrimitive({
+        let primitive = new mars3d.graphic.CloudPrimitive({
           position: [116.371649, 30.851072, 1389],
           style: {
             scale: new Cesium.Cartesian2(5000, 1000),
@@ -161,7 +161,7 @@
       }
 
       function addGraphic_a4(graphicLayer) {
-        var primitive = new mars3d.graphic.CloudPrimitive({
+        let primitive = new mars3d.graphic.CloudPrimitive({
           position: new mars3d.LngLatPoint(116.350075, 30.848636, 1500),
           style: {
             scale: new Cesium.Cartesian2(2300, 900),
@@ -178,9 +178,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = getRandomNumberInRange(116.29 * 1000, 116.39 * 1000) / 1000;
-        var wd = getRandomNumberInRange(30.8 * 1000, 30.88 * 1000) / 1000;
-        var height = getRandomNumberInRange(2000, 4000);
+        let jd = getRandomNumberInRange(116.29 * 1000, 116.39 * 1000) / 1000;
+        let wd = getRandomNumberInRange(30.8 * 1000, 30.88 * 1000) / 1000;
+        let height = getRandomNumberInRange(2000, 4000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
 
@@ -527,7 +527,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>

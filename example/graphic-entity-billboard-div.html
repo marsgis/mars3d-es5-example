@@ -87,17 +87,17 @@
       "use script"; //开发环境建议开启严格模式
 
       //更多字体样式，可以前往生成：https://www.iconfont.cn
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -124,7 +124,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var graphic = new mars3d.graphic.DivBillboardEntity({
+        let graphic = new mars3d.graphic.DivBillboardEntity({
           position: new mars3d.LngLatPoint(116.301798, 30.835848, 915),
           style: {
             html: `<div class="marsImgPanel2">
@@ -142,14 +142,14 @@
         initGraphicManager(graphic);
 
         //graphic转geojson
-        var geojson = graphic.toGeoJSON();
+        let geojson = graphic.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.position = [116.33493, 30.822064, 644.43];
@@ -159,7 +159,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var graphic = new mars3d.graphic.DivBillboardEntity({
+        let graphic = new mars3d.graphic.DivBillboardEntity({
           position: [116.39224, 30.902853],
           style: {
             html: '<div class="marsImgPanel1"><div class="title">M a r s G I S</div></div>',
@@ -178,7 +178,7 @@
       }
 
       function addGraphic_a3(graphicLayer) {
-        var graphic = new mars3d.graphic.DivBillboardEntity({
+        let graphic = new mars3d.graphic.DivBillboardEntity({
           position: [116.340443, 30.882935, 389.88],
           style: {
             html: '<div class="marsImgPanel1"><div class="title">火 星 科 技</div></div>',
@@ -533,7 +533,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -573,9 +573,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
     </script>

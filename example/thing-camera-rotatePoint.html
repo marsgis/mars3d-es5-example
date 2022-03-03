@@ -48,12 +48,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var rotatePoint;
+      let map;
+      let rotatePoint;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.851782, lng: 116.350493, alt: 7944, heading: 348, pitch: -31 },
           },
@@ -74,7 +74,7 @@
 
         $("#btnStart").click(function () {
           // 获取当前视角
-          var point = map.getCenter();
+          let point = map.getCenter();
           rotatePoint.start(point); //可以传指定的中心点坐标
         });
 

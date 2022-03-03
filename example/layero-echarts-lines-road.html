@@ -40,11 +40,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.589203, lng: 120.732051, alt: 18446, heading: 2, pitch: -49 },
           },
@@ -69,15 +69,15 @@
       }
 
       function createEchartsLayer(data) {
-        var options = getEchartsOption(data);
+        let options = getEchartsOption(data);
         options.depthTest = false; //是否进行计算深度（大数据时，需要关闭）
 
-        var echartsLayer = new mars3d.layer.EchartsLayer(options);
+        let echartsLayer = new mars3d.layer.EchartsLayer(options);
         map.addLayer(echartsLayer);
       }
 
       function getEchartsOption(data) {
-        var option = {
+        let option = {
           animation: false,
 
           visualMap: {

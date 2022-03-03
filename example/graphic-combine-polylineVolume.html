@@ -48,11 +48,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.353044, lng: 117.230763, alt: 58544, heading: 1, pitch: -51 },
           },
@@ -65,7 +65,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //在layer上绑定监听事件
@@ -98,22 +98,22 @@
         graphicLayer.clear();
 
         haoutil.loading.show();
-        var startTime = new Date().getTime();
+        let startTime = new Date().getTime();
 
-        var count = Number($("#txtCount").val());
+        let count = Number($("#txtCount").val());
 
         let gridSize = 45 / Math.sqrt(count);
 
         let bbox = [116.984788, 31.625909, 117.484068, 32.021504];
-        var geojson = turf.pointGrid(bbox, gridSize, { units: "kilometers" });
+        let geojson = turf.pointGrid(bbox, gridSize, { units: "kilometers" });
         let arrData = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
 
         let radius = (gridSize * 1000) / 2;
 
-        for (var j = 0; j < arrData.length; ++j) {
+        for (let j = 0; j < arrData.length; ++j) {
           let position = mars3d.LngLatPoint.toCartesian(arrData[j].position);
-          var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, radius);
-          var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, radius);
+          let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, radius);
+          let pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, radius);
 
           arrData[j] = {
             positions: [pt1, position, pt3],
@@ -129,7 +129,7 @@
         }
 
         //多个面对象的合并渲染。
-        var primitive = new mars3d.graphic.PolylineVolumeCombine({
+        let primitive = new mars3d.graphic.PolylineVolumeCombine({
           instances: arrData,
           // style: {
           //   outline: true,
@@ -145,9 +145,9 @@
         graphicLayer.addGraphic(primitive);
 
         haoutil.loading.close();
-        var endTime = new Date().getTime();
+        let endTime = new Date().getTime();
         // 两个时间戳相差的毫秒数
-        var usedTime = (endTime - startTime) / 1000;
+        let usedTime = (endTime - startTime) / 1000;
         // console.log(usedTime);
 
         haoutil.msg("生成" + arrData.length + "条数据，共耗时" + usedTime.toFixed(2) + "秒");

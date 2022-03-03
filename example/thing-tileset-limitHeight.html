@@ -62,11 +62,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 25.092295, lng: 102.64431, alt: 2815, heading: 104, pitch: -32 },
           },
@@ -79,7 +79,7 @@
         map.fixedLight = true;
 
         //加模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
           maximumScreenSpaceError: 6,
           maximumMemoryUsage: 2048,
@@ -87,7 +87,7 @@
         map.addLayer(tilesetLayer);
 
         //限高分析类
-        var limitHeight = new mars3d.thing.LimitHeight({
+        let limitHeight = new mars3d.thing.LimitHeight({
           color: "rgba(255,0,0,0.5)",
           height: 80, //限高
           bottomHeight: 1865, //模型地面的海拔高度（单位：米）
@@ -116,7 +116,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               limitHeight.positions = positions;
 
               map.graphicLayer.clear();
@@ -136,7 +136,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               limitHeight.positions = positions;
 
               map.graphicLayer.clear();
@@ -149,7 +149,7 @@
           .slider({ min: 0, max: 180, step: 0.1, value: 80 })
           .on("change", (e) => {
             if (e?.value) {
-              var value = e.value.newValue;
+              let value = e.value.newValue;
               limitHeight.height = value;
               $("#lbl_nowHeight").html(value.toFixed(1));
             }

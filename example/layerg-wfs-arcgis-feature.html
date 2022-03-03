@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.810597, lng: 117.220617, alt: 1038, heading: 13, pitch: -30 },
           },
@@ -96,10 +96,10 @@
 
       //方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
       function addArcGisWFSLayer1() {
-        var changeLevel = 15;
+        let changeLevel = 15;
 
         //瓦片图，对比参考用
-        var tileLayer = new mars3d.layer.ArcGisLayer({
+        let tileLayer = new mars3d.layer.ArcGisLayer({
           name: "瓦片图层",
           url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer",
           layers: "37",
@@ -110,7 +110,7 @@
         map.addLayer(tileLayer);
 
         //动态矢量图
-        var wfsLayer = new mars3d.layer.ArcGisWfsLayer({
+        let wfsLayer = new mars3d.layer.ArcGisWfsLayer({
           name: "建筑物面矢量图层",
           url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37",
           where: " NAME like '%合肥%' ",
@@ -150,7 +150,7 @@
       //适合少于1000条的少量数据，一次性请求加载
       function addArcGisWFSLayer2() {
         //一次性加载的wfs图层
-        var wfsLayer = new mars3d.layer.ArcGisWfsSingleLayer({
+        let wfsLayer = new mars3d.layer.ArcGisWfsSingleLayer({
           name: "合肥边界线",
           url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/41",
           symbol: {

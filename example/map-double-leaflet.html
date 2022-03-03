@@ -104,11 +104,11 @@
 
       //最佳的二三维联动是：https://github.com/openlayers/ol-cesium
 
-      var map3d;
+      let map3d;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map3d = new mars3d.Map("mars3dContainer", mapOptions);
@@ -116,7 +116,7 @@
         haoutil.loading.show();
 
         //读取 config.json 配置文件
-        var configUrl = "http://mars2d.cn/config/config.json";
+        let configUrl = "http://mars2d.cn/config/config.json";
         return mars2d.Util.fetchJson({ url: configUrl })
           .then(function (data) {
             //构建地图
@@ -132,7 +132,7 @@
       }
 
       //二三维地图联动控制
-      var mapManager = {
+      let mapManager = {
         map2d: null, //leaflet map 对象
         map3d: null, //cesium map3d对象
         createMap2D: function (id, mapOptions) {
@@ -173,8 +173,8 @@
           this.map2d.off("zoomend", this._map_extentChangeHandler, this);
         },
         _map_extentChangeHandler: function (e) {
-          var bounds = this.map2d.getBounds();
-          var extent = {
+          let bounds = this.map2d.getBounds();
+          let extent = {
             xmin: bounds.getWest(),
             xmax: bounds.getEast(),
             ymin: bounds.getSouth(),
@@ -197,8 +197,8 @@
         },
         camera_moveEndHandler: function (e) {
           // 范围对象
-          var point = this.map3d.getCenter();
-          var level = this.map3d.level;
+          let point = this.map3d.getCenter();
+          let level = this.map3d.level;
           console.log(`'三维地图变化了，位置： ${point.toString()},层级 ${level} `);
 
           this.unbind2dEvent();

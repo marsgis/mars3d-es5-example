@@ -45,11 +45,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       //时间控制参数
-      var args = {
+      let args = {
         space: 100,
         time: 5,
         martTimeInter: null,
@@ -58,7 +58,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: {
               lat: 31.799613,
@@ -83,7 +83,7 @@
         map.addLayer(graphicLayer);
 
         //合肥高铁
-        var coors = [
+        let coors = [
           [117.277697, 31.800233, 45],
           [117.262022, 31.798983, 45],
           [117.229506, 31.793351, 45],
@@ -96,10 +96,10 @@
           [117.091144, 31.787516, 45],
         ];
 
-        var positions = mars3d.PointTrans.lonlats2cartesians(coors);
+        let positions = mars3d.PointTrans.lonlats2cartesians(coors);
 
         //插值求新路线（按固定间隔米数插值） positions输入的值需为笛卡尔空间xyz坐标数组
-        var positionsNew = mars3d.PolyUtil.interLine(positions, {
+        let positionsNew = mars3d.PolyUtil.interLine(positions, {
           minDistance: 20, //间隔20米
         });
 
@@ -118,9 +118,9 @@
 
       //构造动态高铁   positions:设计的路线    positionsTD地面的贴地路线（用于比较）
       function inintRoad(positionsSJ, positionsTD) {
-        var heightArray = [];
-        var heightTDArray = [];
-        var mpoints = [];
+        let heightArray = [];
+        let heightTDArray = [];
+        let mpoints = [];
         for (let i = 0; i < positionsSJ.length; i++) {
           let position = positionsSJ[i];
           let carto = Cesium.Cartographic.fromCartesian(position);
@@ -136,8 +136,8 @@
         }
 
         // 距离数组
-        var positionsLineFirst = positionsTD[0];
-        var distanceArray = positionsTD.map(function (data) {
+        let positionsLineFirst = positionsTD[0];
+        let distanceArray = positionsTD.map(function (data) {
           return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)); //计算两点之间的距离,返回距离
         });
 
@@ -145,7 +145,7 @@
         drawHeightToDistanceEcharts(heightArray, heightTDArray, distanceArray);
 
         // 画线
-        var primitive = new mars3d.graphic.PolylinePrimitive({
+        let primitive = new mars3d.graphic.PolylinePrimitive({
           id: "设计路线",
           positions: positionsSJ,
           style: {
@@ -157,7 +157,7 @@
         });
         graphicLayer.addGraphic(primitive);
 
-        var primitiveTD = new mars3d.graphic.PolylinePrimitive({
+        let primitiveTD = new mars3d.graphic.PolylinePrimitive({
           id: "贴地路线",
           positions: positionsTD,
           style: {
@@ -168,11 +168,11 @@
         graphicLayer.addGraphic(primitiveTD);
 
         //=================计算路线====================
-        var start = map.clock.currentTime.clone();
+        let start = map.clock.currentTime.clone();
 
-        var counts = mpoints.length;
+        let counts = mpoints.length;
 
-        var arrProperty = [];
+        let arrProperty = [];
 
         //16组车身+头尾2个车头 共18组
         for (let j = 0; j < 18; j++) {
@@ -254,7 +254,7 @@
 
       //添加车头
       function addTrainHead(position, availability, rotatePI) {
-        var graphicModel = new mars3d.graphic.ModelEntity({
+        let graphicModel = new mars3d.graphic.ModelEntity({
           name: "和谐号车头",
           position: position,
           orientation: new Cesium.VelocityOrientationProperty(position),
@@ -272,7 +272,7 @@
 
       //添加车身
       function addTrainBody(position, availability) {
-        var graphicModel = new mars3d.graphic.ModelEntity({
+        let graphicModel = new mars3d.graphic.ModelEntity({
           name: "和谐号车身",
           position: position,
           orientation: new Cesium.VelocityOrientationProperty(position),
@@ -434,7 +434,7 @@
       }
 
       //图表
-      var myChart;
+      let myChart;
 
       //生成echarts图表
       function drawHeightToDistanceEcharts(heightArray, heightTDArray, distanceArray) {
@@ -442,7 +442,7 @@
           myChart = echarts.init(document.getElementById("section"), "dark");
         }
 
-        var option = {
+        let option = {
           title: {
             text: "断面图",
           },
@@ -540,7 +540,7 @@
           return;
         }
 
-        var markPoint = {
+        let markPoint = {
           data: [
             {
               name: "车",

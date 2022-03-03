@@ -64,12 +64,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var viewer;
+      let map;
+      let viewer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 27.375302, lng: 115.43395, alt: 631709, heading: 26, pitch: -49 },
           },
@@ -79,14 +79,14 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
         initLayerManager(graphicLayer);
 
         //合肥市
-        var lightCone = new mars3d.graphic.LightCone({
+        let lightCone = new mars3d.graphic.LightCone({
           position: Cesium.Cartesian3.fromDegrees(117.29, 32.0581, 117.8),
           style: {
             color: "rgba(255,0,0,0.9)",
@@ -100,7 +100,7 @@
         //演示个性化处理graphic
         initGraphicManager(lightCone);
 
-        var cities = [
+        let cities = [
           { name: "六安市", lon: 116.3123, lat: 31.8329 },
           { name: "安庆市", lon: 116.7517, lat: 30.5255 },
           { name: "滁州市", lon: 118.1909, lat: 32.536 },
@@ -118,10 +118,10 @@
           { name: "马鞍山市", lon: 118.6304, lat: 31.5363 },
           { name: "铜陵市", lon: 117.9382, lat: 30.9375 },
         ];
-        for (var i = 0; i < cities.length; i++) {
-          var item = cities[i];
+        for (let i = 0; i < cities.length; i++) {
+          let item = cities[i];
 
-          var coneGlow2 = new mars3d.graphic.LightCone({
+          let coneGlow2 = new mars3d.graphic.LightCone({
             position: Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 0),
             style: {
               radius: 5000,
@@ -483,7 +483,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -523,9 +523,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

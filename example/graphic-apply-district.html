@@ -90,11 +90,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 24.890314, lng: 118.165162, alt: 831420, heading: 355, pitch: -48 },
             fxaa: false,
@@ -105,7 +105,7 @@
         map.basemap = 2017; //蓝色底图
 
         // 添加矢量图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //添加对象
@@ -119,7 +119,7 @@
       //添加安徽省底图和墙
       function addAnhui(graphicLayer) {
         //安徽省卫星底图
-        var anhuiImg = new mars3d.graphic.RectanglePrimitive({
+        let anhuiImg = new mars3d.graphic.RectanglePrimitive({
           positions: [
             [114.877478595, 29.395624614],
             [119.644266263, 34.655111865],
@@ -134,7 +134,7 @@
         graphicLayer.addGraphic(anhuiImg);
 
         // 安徽省边界线墙
-        var anhuiWall = new mars3d.layer.GeoJsonLayer({
+        let anhuiWall = new mars3d.layer.GeoJsonLayer({
           name: "安徽省边界墙",
           url: "//data.mars3d.cn/file/geojson/areas/340000.json",
           symbol: {
@@ -161,7 +161,7 @@
         map.addLayer(anhuiWall);
 
         //安徽各市边界线和名称
-        var shiLayer = new mars3d.layer.GeoJsonLayer({
+        let shiLayer = new mars3d.layer.GeoJsonLayer({
           name: "安徽各市边界线",
           url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
           symbol: {
@@ -202,7 +202,7 @@
         let point = [117.234218, 31.814155, diffHeight + 500];
 
         // divgraphic标注
-        var divgraphic = new mars3d.graphic.DivGraphic({
+        let divgraphic = new mars3d.graphic.DivGraphic({
           position: point,
           style: {
             html: `<div class="marsBlackPanel">
@@ -215,7 +215,7 @@
         graphicLayer.addGraphic(divgraphic);
 
         // 圆形动态扩散图
-        var cicle = new mars3d.graphic.CirclePrimitive({
+        let cicle = new mars3d.graphic.CirclePrimitive({
           position: point,
           style: {
             radius: 16000,
@@ -231,7 +231,7 @@
 
       //添加周边的圆圈刻度尺等对象
       function addOutCircle(graphicLayer) {
-        var arrImg = [
+        let arrImg = [
           {
             //刻度
             image: "./img/icon/calib.png",
@@ -259,8 +259,8 @@
         ];
 
         for (let i = 0; i < arrImg.length; i++) {
-          var item = arrImg[i];
-          var primitive = new mars3d.graphic.RectanglePrimitive({
+          let item = arrImg[i];
+          let primitive = new mars3d.graphic.RectanglePrimitive({
             positions: item.positions,
             style: {
               materialType: mars3d.MaterialType.Image2,
@@ -272,12 +272,12 @@
         }
 
         //自转的半椭圆
-        var rotation = Cesium.Math.toRadians(50);
+        let rotation = Cesium.Math.toRadians(50);
         function getRotationValue() {
           rotation += 0.005;
           return rotation;
         }
-        var primitive1 = new mars3d.graphic.RectangleEntity({
+        let primitive1 = new mars3d.graphic.RectangleEntity({
           positions: [
             [114.642444, 34.789658],
             [119.814361, 29.425181],

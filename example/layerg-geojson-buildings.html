@@ -112,11 +112,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.747855, lng: 117.250137, alt: 4401, heading: 360, pitch: -31 },
           },
@@ -128,12 +128,13 @@
 
         map.basemap = 2017; //蓝色底图
 
+        // eslint-disable-next-line no-undef
         initEcharts();
 
         window.toastr.info("文件数据较大，正在加载数据，请稍等片刻……");
         haoutil.loading.show();
 
-        var colorHash = {
+        let colorHash = {
           10: "#FFEDA0",
           15: "#FED976",
           20: "#FEB24C",
@@ -144,7 +145,7 @@
           450000: "#800026",
         };
 
-        var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+        let geoJsonLayer = new mars3d.layer.GeoJsonLayer({
           name: "建筑物面",
           url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
           symbol: {
@@ -155,9 +156,9 @@
               outline: false,
             },
             callback: function (attr, styleOpt) {
-              var floor = Number(attr.floor || 1);
-              var diffHeight = floor * 5;
-              for (var key in colorHash) {
+              let floor = Number(attr.floor || 1);
+              let diffHeight = floor * 5;
+              for (let key in colorHash) {
                 if (floor <= parseInt(key)) {
                   return { height: 0, diffHeight: diffHeight, color: colorHash[key] };
                 }

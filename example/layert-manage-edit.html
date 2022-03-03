@@ -24,7 +24,7 @@
 
   <!--第三方lib-->
   <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
-    include="jquery,font-awesome,jquery.minicolors,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,font-awesome,localforage">
+    include="jquery,font-awesome,ztree,jquery.minicolors,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,font-awesome,localforage">
     </script>
 
   <link href="css/style.css" rel="stylesheet" />
@@ -203,13 +203,13 @@
   <script>
     "use script"; //开发环境建议开启严格模式
 
-    var map;
-    var tileLayer;
+    let map;
+    let tileLayer;
 
     // 初始化加载
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars3d.Util.merge(options, {
+      let mapOptions = mars3d.Util.merge(options, {
         scene: {
           center: { lat: 24.336939, lng: 108.949729, alt: 14990362, heading: 0, pitch: -90 },
         },
@@ -271,7 +271,7 @@
           value: [0, 21],
         })
         .on("slide", function () {
-          var lodLevel = $("#slider_lodLevel").slider("getValue");
+          let lodLevel = $("#slider_lodLevel").slider("getValue");
           $("#slider_showLevel").slider("setValue", lodLevel);
         });
 
@@ -322,7 +322,7 @@
           outlineColor: "#ff0000",
         },
         success: function (graphic) {
-          var rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw);
+          let rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw);
           $("#txtRectangle").val(JSON.stringify(rectangle));
           dataUpdate();
         },
@@ -479,7 +479,7 @@
 
     //保存ui中所有的参数
     function saveBookmark() {
-      var params = getLayerOptions();
+      let params = getLayerOptions();
       params.center = map.getCameraView();
 
       haoutil.file.downloadFile("瓦片图层参数.json", JSON.stringify(params));
@@ -502,7 +502,7 @@
       if (item.rectangle) {
         $("#txtRectangle").val(JSON.stringify(item.rectangle));
 
-        var graphic = new mars3d.graphic.RectangleEntity({
+        let graphic = new mars3d.graphic.RectangleEntity({
           rectangle: Cesium.Rectangle.fromDegrees(item.rectangle.xmin, item.rectangle.ymin, item.rectangle.xmax, item.rectangle.ymax),
           style: {
             fill: false,

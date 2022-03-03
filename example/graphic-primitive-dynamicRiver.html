@@ -76,11 +76,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.422407, lng: 115.820222, alt: 3498, heading: 67, pitch: -32 },
             globe: {
@@ -93,7 +93,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //2.在layer上绑定监听事件
@@ -119,7 +119,7 @@
             text: "删除对象",
             iconCls: "fa fa-trash-o",
             callback: function (e) {
-              var primitive = e.graphic;
+              let primitive = e.graphic;
               if (primitive) {
                 graphicLayer.removeGraphic(primitive);
               }
@@ -128,7 +128,7 @@
         ]);
 
         //加一些演示数据
-        var dynamicRiver = new mars3d.graphic.DynamicRiver({
+        let dynamicRiver = new mars3d.graphic.DynamicRiver({
           positions: [
             [115.906607, 30.441582, 555.9],
             [115.899964, 30.438543, 467.3],
@@ -152,7 +152,7 @@
           if (!dynamicRiver) {
             return;
           }
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           dynamicRiver.width = value;
         });
 
@@ -160,7 +160,7 @@
           if (!dynamicRiver) {
             return;
           }
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           dynamicRiver.height = value;
         });
 
@@ -200,15 +200,15 @@
               width: 3,
             },
             success: (graphic) => {
-              var points = graphic.points;
+              let points = graphic.points;
 
               console.log(JSON.stringify(graphic.coordinates)); //打印下边界
 
               graphic.remove(); //删除绘制的线
 
-              var width = Number($("#txtWidth").val());
-              var height = Number($("#txtHeight").val());
-              var speed = Number($("#txtSpeed").val());
+              let width = Number($("#txtWidth").val());
+              let height = Number($("#txtHeight").val());
+              let speed = Number($("#txtSpeed").val());
 
               dynamicRiver = new mars3d.graphic.DynamicRiver({
                 positions: points,

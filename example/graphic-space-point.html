@@ -242,13 +242,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var allCount;
+      let map;
+      let graphicLayer;
+      let allCount;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.646563, lng: 96.25028, alt: 150004581, heading: 352, pitch: -90 },
             cameraController: {
@@ -360,7 +360,7 @@
             delete item.info;
           }
 
-          var primitive = new mars3d.graphic.PointPrimitive({
+          let primitive = new mars3d.graphic.PointPrimitive({
             id: item.id,
             style: style,
             attr: item,
@@ -372,7 +372,7 @@
       }
 
       //采用多线程来计算卫星位置
-      var worker;
+      let worker;
       function initWorker(arr) {
         worker = new Worker("./js/tleWorker.js");
         worker.onmessage = function (event) {
@@ -380,7 +380,7 @@
           let positionObj = event.data.positionObj;
           // console.log('接收到数据', positionObj)
 
-          for (var id in positionObj) {
+          for (let id in positionObj) {
             let item = positionObj[id];
             if (!item) {
               continue;
@@ -411,7 +411,7 @@
         });
       }
 
-      var lastSelectWX;
+      let lastSelectWX;
       function highlightSatellite(satelliteObj) {
         if (lastSelectWX) {
           $("#pointInfo").hide();
@@ -426,7 +426,7 @@
           showInfo(item);
 
           //高亮选中的轨道样式
-          var weixin = new mars3d.graphic.Satellite({
+          let weixin = new mars3d.graphic.Satellite({
             tle1: item.tle1,
             tle2: item.tle2,
             model: {
@@ -507,8 +507,8 @@
       }
 
       // Orbital altitude definitions.
-      var LOW_ORBIT = 2000;
-      var GEOSYNCHRONOUS_ORBIT = 35786;
+      let LOW_ORBIT = 2000;
+      let GEOSYNCHRONOUS_ORBIT = 35786;
 
       function initUI() {
         $("#txtName").change(function () {
@@ -519,7 +519,7 @@
           selectSatellites();
         });
         $("#selGuidao").change(function () {
-          var val = $(this).val();
+          let val = $(this).val();
           switch (val) {
             default:
               $("#slider-apogee").slider("setValue", [
@@ -681,51 +681,51 @@
       }
 
       // Well known satellite constellations.
-      var GPS = [
+      let GPS = [
         // eslint-disable-next-line prettier/prettier
         20959, 22877, 23953, 24876, 25933, 26360, 26407, 26605, 26690, 27663, 27704, 28129, 28190, 28361, 28474, 28874, 29486, 29601, 32260, 32384,
-        32711, 35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534,
+        32711, 35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534
       ];
-      var GLONASS = [
+      let GLONASS = [
         // eslint-disable-next-line prettier/prettier
         28915, 29672, 29670, 29671, 32276, 32275, 32393, 32395, 36111, 36112, 36113, 36400, 36402, 36401, 37139, 37138, 37137, 37829, 37869, 37867,
-        37868, 39155, 39620, 40001,
+        37868, 39155, 39620, 40001
       ];
-      var INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476];
-      var LANDSAT = [25682, 39084];
-      var DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115];
+      let INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476];
+      let LANDSAT = [25682, 39084];
+      let DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115];
 
       // 判断卫星数据
       function selectSatellites(options = {}) {
         if (!graphicLayer) {
           return;
         }
-        var name = $("#txtName").val();
+        let name = $("#txtName").val();
 
-        var xilie = $("#selXilie").val(); //系列卫星
-        var country = $("#selCountry").val(); //所属国家
-        var type = $("#selType").val(); //对象类型
+        let xilie = $("#selXilie").val(); //系列卫星
+        let country = $("#selCountry").val(); //所属国家
+        let type = $("#selType").val(); //对象类型
 
-        var val1 = $("#slider-launchdate").slider("getValue");
-        var val2 = $("#slider-period").slider("getValue");
-        var val3 = $("#slider-inclination").slider("getValue");
-        var val4 = $("#slider-apogee").slider("getValue");
-        var val5 = $("#slider-perigee").slider("getValue");
-        var val6 = $("#slider-rcs").slider("getValue");
+        let val1 = $("#slider-launchdate").slider("getValue");
+        let val2 = $("#slider-period").slider("getValue");
+        let val3 = $("#slider-inclination").slider("getValue");
+        let val4 = $("#slider-apogee").slider("getValue");
+        let val5 = $("#slider-perigee").slider("getValue");
+        let val6 = $("#slider-rcs").slider("getValue");
 
-        var min1 = $("#slider-launchdate").slider("getAttribute", "min");
-        var min2 = $("#slider-period").slider("getAttribute", "min");
-        var min3 = $("#slider-inclination").slider("getAttribute", "min");
-        var min4 = $("#slider-apogee").slider("getAttribute", "min");
-        var min5 = $("#slider-perigee").slider("getAttribute", "min");
-        var min6 = $("#slider-rcs").slider("getAttribute", "min");
+        let min1 = $("#slider-launchdate").slider("getAttribute", "min");
+        let min2 = $("#slider-period").slider("getAttribute", "min");
+        let min3 = $("#slider-inclination").slider("getAttribute", "min");
+        let min4 = $("#slider-apogee").slider("getAttribute", "min");
+        let min5 = $("#slider-perigee").slider("getAttribute", "min");
+        let min6 = $("#slider-rcs").slider("getAttribute", "min");
 
-        var max1 = $("#slider-launchdate").slider("getAttribute", "max");
-        var max2 = $("#slider-period").slider("getAttribute", "max");
-        var max3 = $("#slider-inclination").slider("getAttribute", "max");
-        var max4 = $("#slider-apogee").slider("getAttribute", "max");
-        var max5 = $("#slider-perigee").slider("getAttribute", "max");
-        var max6 = $("#slider-rcs").slider("getAttribute", "max");
+        let max1 = $("#slider-launchdate").slider("getAttribute", "max");
+        let max2 = $("#slider-period").slider("getAttribute", "max");
+        let max3 = $("#slider-inclination").slider("getAttribute", "max");
+        let max4 = $("#slider-apogee").slider("getAttribute", "max");
+        let max5 = $("#slider-perigee").slider("getAttribute", "max");
+        let max6 = $("#slider-rcs").slider("getAttribute", "max");
 
         let selCount = 0;
         let lastGraphic;
@@ -804,7 +804,7 @@
               return;
             }
 
-            var y = attr.launchDate.getFullYear();
+            let y = attr.launchDate.getFullYear();
             if (y <= val1[0] || y >= val1[1]) {
               return;
             }

@@ -56,16 +56,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var cameraHistory = new mars3d.thing.CameraHistory({
+        let cameraHistory = new mars3d.thing.CameraHistory({
           limit: {
             //限定视角范围
             position: Cesium.Cartesian3.fromDegrees(117.27462, 31.864196, 34.85),
@@ -81,7 +81,7 @@
         });
 
         $("#chkUnderground").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           cameraHistory.debugExtent = val;
         });
       }

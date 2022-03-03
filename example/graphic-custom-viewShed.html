@@ -119,13 +119,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var selectedView;
+      let map;
+      let graphicLayer;
+      let selectedView;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 28.440007, lng: 119.48322, alt: 424, heading: 282, pitch: -56 },
             fxaa: true, //不开启抗锯齿，可视域会闪烁
@@ -139,7 +139,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //添加参考三维模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
           position: { alt: 11.5 },
           maximumScreenSpaceError: 1,
@@ -162,7 +162,7 @@
       }
 
       function addGraphic_01() {
-        var viewShed = new mars3d.graphic.ViewShed({
+        let viewShed = new mars3d.graphic.ViewShed({
           position: [119.480878, 28.440286, 149],
           style: {
             angle: 60,
@@ -257,7 +257,7 @@
             return;
           }
 
-          var showFrustum = $(this).is(":checked");
+          let showFrustum = $(this).is(":checked");
           selectedView.showFrustum = showFrustum;
         });
 
@@ -269,7 +269,7 @@
           map.graphicLayer.startDraw({
             type: "point",
             success: (graphic) => {
-              var point = graphic.point;
+              let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
               selectedView.position = point;
@@ -285,7 +285,7 @@
           map.graphicLayer.startDraw({
             type: "point",
             success: (graphic) => {
-              var point = graphic.point;
+              let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
               selectedView.targetPosition = point;

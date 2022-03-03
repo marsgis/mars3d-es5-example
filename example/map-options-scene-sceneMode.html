@@ -48,11 +48,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             sceneMode: Cesium.SceneMode.SCENE3D,
             cameraController: {
@@ -66,7 +66,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //切换场景
-        var lastCameraView;
+        let lastCameraView;
         //切换场景前事件
         map.on(mars3d.EventType.morphStart, function (event) {
           lastCameraView = map.getCameraView();

@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             shadows: true,
             center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
@@ -86,7 +86,7 @@
       }
 
       //地面站图层
-      var dmzLayer;
+      let dmzLayer;
 
       //创建地面站
       function creatreDmzList(arr) {
@@ -94,11 +94,11 @@
         dmzLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(dmzLayer);
 
-        for (var i = 0; i < arr.length; i++) {
-          var item = arr[i];
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i];
 
           //地面站gltf模型
-          var graphic = new mars3d.graphic.ModelEntity({
+          let graphic = new mars3d.graphic.ModelEntity({
             name: "地面站模型",
             position: item.point,
             style: {
@@ -132,7 +132,7 @@
       //创建卫星列表
       function createSatelliteList(arr) {
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //单击地图空白处
@@ -150,8 +150,8 @@
           processInArea(event.graphic);
         });
 
-        for (var i = 0; i < arr.length; i++) {
-          var item = arr[i];
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i];
 
           //属性处理
           item.model = {
@@ -189,13 +189,13 @@
           item.popup = `名称：${item.name}<br/>英文名：${item.name_en || ""}<br/>类型：${item.type}`;
           //属性处理  END
 
-          var satelliteObj = new mars3d.graphic.Satellite(item);
+          let satelliteObj = new mars3d.graphic.Satellite(item);
           graphicLayer.addGraphic(satelliteObj);
         }
         console.log("当前卫星数量: " + arr.length);
       }
 
-      var lastSelectWX;
+      let lastSelectWX;
 
       function highlightSatellite(satelliteObj) {
         if (lastSelectWX) {
@@ -227,7 +227,7 @@
 
       //判断卫星是否在面内
       function processInArea(weixin) {
-        var position = weixin?.position;
+        let position = weixin?.position;
         if (!position) {
           return;
         }
@@ -241,7 +241,7 @@
 
           let lastState = dmzGraphic._lastInPoly[weixin.uuid];
 
-          var thisIsInPoly = dmzGraphic.isInPoly(position);
+          let thisIsInPoly = dmzGraphic.isInPoly(position);
           if (thisIsInPoly !== lastState.state) {
             if (thisIsInPoly) {
               //开始进入区域内
@@ -249,7 +249,7 @@
 
               let line = new mars3d.graphic.PolylineEntity({
                 positions: new Cesium.CallbackProperty(function (time) {
-                  var pots = weixin.position;
+                  let pots = weixin.position;
                   if (!pots) {
                     return [];
                   }

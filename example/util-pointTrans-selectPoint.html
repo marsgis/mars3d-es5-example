@@ -151,7 +151,7 @@
     <script>
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       //全局中间变量
       let currJD;
@@ -160,7 +160,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.728284, lng: 117.274164, alt: 25061, heading: 358, pitch: -69 },
             fxaa: true,
@@ -171,7 +171,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //默认显示地图中心点坐标
-        var point = map.getCenter();
+        let point = map.getCenter();
         point.format();
         currJD = point.lng;
         currWD = point.lat;
@@ -179,7 +179,7 @@
         updateTen();
 
         $('input:radio[name="rdoType"]').change(function () {
-          var selectType = $(this).val();
+          let selectType = $(this).val();
 
           switch (selectType) {
             default:
@@ -206,7 +206,7 @@
         });
 
         $('input:radio[name="rdoGkType"]').change(function () {
-          var selectType2 = $(this).val();
+          let selectType2 = $(this).val();
           switch (selectType2) {
             default:
               $(".viewGk3").show();
@@ -269,7 +269,7 @@
         let jd = Number($("#txtGk3X").val()); //获取
         let wd = Number($("#txtGk3Y").val());
 
-        var gk3 = mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_3, mars3d.CRS.EPSG4326);
+        let gk3 = mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_3, mars3d.CRS.EPSG4326);
         currJD = gk3[0];
         currWD = gk3[1];
 
@@ -277,7 +277,7 @@
       }
       //更新：2000平面坐标三分度
       function updata3GKZone() {
-        var zone3 = mars3d.PointTrans.proj4Trans([currJD, currWD], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_3); //十进制转2000平面三分度
+        let zone3 = mars3d.PointTrans.proj4Trans([currJD, currWD], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_3); //十进制转2000平面三分度
         $("#txtGk3X").val(mars3d.Util.formatNum(zone3[0], 1));
         $("#txtGk3Y").val(mars3d.Util.formatNum(zone3[1], 1));
         $("#txtGk3Alt").val(currGD);
@@ -287,7 +287,7 @@
       function change6GKZone() {
         let jd = Number($("#txtGk6X").val()); //获取
         let wd = Number($("#txtGk6Y").val());
-        var gk6 = mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_6, mars3d.CRS.EPSG4326);
+        let gk6 = mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_6, mars3d.CRS.EPSG4326);
 
         currJD = gk6[0];
         currWD = gk6[1];
@@ -295,7 +295,7 @@
       }
       //更新：2000平面坐标六分度
       function updata6GKZone() {
-        var zoon6 = mars3d.PointTrans.proj4Trans([currJD, currWD], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_6); //十进制转2000平面六分度
+        let zoon6 = mars3d.PointTrans.proj4Trans([currJD, currWD], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_6); //十进制转2000平面六分度
         $("#txtGk6X").val(mars3d.Util.formatNum(zoon6[0], 1));
         $("#txtGk6Y").val(mars3d.Util.formatNum(zoon6[1], 1));
         $("#txtGk6Alt").val(currGD);
@@ -306,8 +306,8 @@
         map.setCursor(true);
         map.once(mars3d.EventType.click, function (event) {
           map.setCursor(false);
-          var cartesian = event.cartesian;
-          var point = mars3d.LngLatPoint.fromCartesian(cartesian);
+          let cartesian = event.cartesian;
+          let point = mars3d.LngLatPoint.fromCartesian(cartesian);
           point.format(); //经度、纬度、高度
 
           currJD = point.lng;
@@ -325,11 +325,13 @@
               updataDfm();
               break;
             case "3": //CGCS2000
-              var selectType2 = $('input:radio[name="rdoGkType"]:checked').val();
-              if (selectType2 == "2") {
-                updata6GKZone();
-              } else {
-                updata3GKZone();
+              {
+                let selectType2 = $('input:radio[name="rdoGkType"]:checked').val();
+                if (selectType2 == "2") {
+                  updata6GKZone();
+                } else {
+                  updata3GKZone();
+                }
               }
               break;
           }
@@ -351,9 +353,9 @@
         updateMarker(true); //更新点
       }
 
-      var pointEntity;
+      let pointEntity;
       function updateMarker(hasCenter) {
-        var position = [currJD, currWD, currGD];
+        let position = [currJD, currWD, currGD];
         if (pointEntity == null) {
           pointEntity = new mars3d.graphic.PointEntity({
             position: position,

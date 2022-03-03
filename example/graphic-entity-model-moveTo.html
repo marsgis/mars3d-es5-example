@@ -65,12 +65,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var floorGraphic;
+      let map;
+      let floorGraphic;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.832215, lng: 117.219965, alt: 195, heading: 31, pitch: -36 },
           },
@@ -80,10 +80,11 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //该对象代码定义在：js/FloorGraphic.js
+        // eslint-disable-next-line no-undef
         floorGraphic = new FloorGraphic({
           position: [117.220897, 31.833569, 41.1], //楼栋位置
           style: {
@@ -100,7 +101,7 @@
 
       // 展开
       function openFloorModel() {
-        var height = 5; //展开的每层间隔高度，单位：米
+        let height = 5; //展开的每层间隔高度，单位：米
         floorGraphic.openAll(height);
       }
 

@@ -63,11 +63,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.756263, lng: 117.209077, alt: 7696, heading: 5, pitch: -33 },
           },
@@ -77,7 +77,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -89,9 +89,9 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var property = new Cesium.SampledPositionProperty();
+        let property = new Cesium.SampledPositionProperty();
         property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
-        var tempTime;
+        let tempTime;
 
         //起点
         tempTime = map.clock.currentTime; //飞行开始时间
@@ -108,7 +108,7 @@
         tempTime = Cesium.JulianDate.addSeconds(tempTime, 600, new Cesium.JulianDate());
         property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.160215, 31.890639, 50));
 
-        var graphic = new mars3d.graphic.PathEntity({
+        let graphic = new mars3d.graphic.PathEntity({
           position: property,
           style: {
             width: 2,
@@ -143,7 +143,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var graphic = new mars3d.graphic.PathEntity({
+        let graphic = new mars3d.graphic.PathEntity({
           style: {
             width: 2,
             color: "#00ffff",
@@ -187,8 +187,8 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(117.207666 * 1000, 117.287241 * 1000) / 1000;
-        var wd = haoutil.math.random(31.817099 * 1000, 31.876848 * 1000) / 1000;
+        let jd = haoutil.math.random(117.207666 * 1000, 117.287241 * 1000) / 1000;
+        let wd = haoutil.math.random(31.817099 * 1000, 31.876848 * 1000) / 1000;
         return Cesium.Cartesian3.fromDegrees(jd, wd, 30);
       }
 
@@ -535,7 +535,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>

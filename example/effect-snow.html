@@ -68,11 +68,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 33.591015, lng: 119.032697, alt: 73, heading: 343, pitch: -21 },
             globe: {
@@ -89,7 +89,7 @@
         map.scene.fog.minimumBrightness = 0.8;
 
         //添加参考三维模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
           position: { alt: 80.6 },
           maximumScreenSpaceError: 1,
@@ -100,13 +100,13 @@
         map.addLayer(tiles3dLayer);
 
         //====================下雪效果=====================
-        var snowEffect = new mars3d.effect.SnowEffect({
+        let snowEffect = new mars3d.effect.SnowEffect({
           speed: 20,
         });
         map.addEffect(snowEffect);
 
         $("#chkSnow").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           snowEffect.enabled = val;
         });
 
@@ -119,14 +119,14 @@
           });
 
         //====================地面积雪效果=====================
-        var snowCover = new mars3d.effect.SnowCoverEffect({
+        let snowCover = new mars3d.effect.SnowCoverEffect({
           maxHeight: 8000, //大于此高度后不显示
           alpha: Number($("#alpha").val()),
         });
         map.addEffect(snowCover);
 
         $("#chkSnowCover").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           snowCover.enabled = val;
         });
 

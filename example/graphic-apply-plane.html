@@ -41,12 +41,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: {
               lat: 31.30003,
@@ -97,7 +97,7 @@
       }
 
       //功能4
-      var work4HP = {
+      let work4HP = {
         flySpeed: 600, //飞行速度
         psNum: 400, //投射间隔路程
         frameNum: 0,
@@ -177,12 +177,12 @@
           this.frameNum++;
 
           //当前的路线中的点位
-          var currIndex = this.roamLine.currIndex; //当前飞行的线路,共五条线，从零开始
+          let currIndex = this.roamLine.currIndex; //当前飞行的线路,共五条线，从零开始
 
           if (currIndex % 2 == 0) {
             if (this.frameNum % this.stepNum == 0) {
               //计算方向
-              var p1, p2;
+              let p1, p2;
               if (currIndex == 0 || !currIndex) {
                 p1 = this.roamLine.positions[0];
                 p2 = this.roamLine.positions[1];
@@ -194,12 +194,12 @@
                 return;
               }
               // 获取起点坐标到终点坐标的 Heading Pitch Roll方向角度值
-              var hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2);
+              let hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2);
               // 将弧度转换为度
-              var heading = Cesium.Math.toDegrees(hpr.heading);
+              let heading = Cesium.Math.toDegrees(hpr.heading);
 
               //添加四棱锥体线
-              var graphicFrustum = new mars3d.graphic.FrustumPrimitive({
+              let graphicFrustum = new mars3d.graphic.FrustumPrimitive({
                 position: this.roamLine.position,
                 style: {
                   angle: 15,
@@ -234,7 +234,7 @@
               //地面的4个顶点坐标
               let positions = graphicFrustum.getRayEarthPositions();
               //添加地面矩形
-              var primitive = new mars3d.graphic.PolygonPrimitive({
+              let primitive = new mars3d.graphic.PolygonPrimitive({
                 positions: positions,
                 style: {
                   color: this.arrColor[graphicLayer.length % this.arrColor.length],

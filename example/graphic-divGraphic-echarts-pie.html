@@ -41,12 +41,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 32.246011, lng: 119.666969, alt: 317736, heading: 360, pitch: -90 },
           },
@@ -131,7 +131,7 @@
       }
 
       function showDivGraphic(arr) {
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
           let deepUnUsed = arr[i].DeepUnUsedLength; //国道
           let deepUsed = arr[i].DeepUsedLength; //县道
           let total = arr[i].TotalLength; //中间显示
@@ -140,11 +140,11 @@
           let cityName = arr[i].PortName; //城市名字
           let points = [arr[i].X, arr[i].Y]; //位置
 
-          var point = mars3d.LngLatPoint.fromCartesian(points); //经纬度坐标
-          var divPostion = point._position;
+          let point = mars3d.LngLatPoint.fromCartesian(points); //经纬度坐标
+          let divPostion = point._position;
 
           //白色背景
-          var backGroundGraphic = new mars3d.graphic.DivGraphic({
+          let backGroundGraphic = new mars3d.graphic.DivGraphic({
             position: divPostion,
             style: {
               html: `<div style="width:60px;height:60px;border-radius: 50%;background-color: #ffffff; position: relative;"></div>`,
@@ -155,7 +155,7 @@
           graphicLayer.addGraphic(backGroundGraphic);
 
           //div
-          var graphic = new mars3d.graphic.DivGraphic({
+          let graphic = new mars3d.graphic.DivGraphic({
             position: divPostion,
             style: {
               html: `<div style="width: 100px;height:100px;"></div>`,
@@ -170,7 +170,7 @@
 
             let chartChart = echarts.init(dom);
 
-            var option = {
+            let option = {
               tooltip: {
                 trigger: "item",
                 formatter: "{a} <br/>{b} : {c}km </br>占比 : {d}%",

@@ -46,11 +46,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.623553, lng: 117.322405, alt: 123536, heading: 359, pitch: -81 },
           },
@@ -66,12 +66,12 @@
       }
 
       //===========================树控件处理============================
-      var layers = [];
-      var layersObj = {};
+      let layers = [];
+      let layersObj = {};
 
       function initTree() {
         //初始化树
-        var setting = {
+        let setting = {
           check: {
             enable: true,
           },
@@ -86,15 +86,15 @@
           },
         };
 
-        var zNodes = [];
+        let zNodes = [];
         layers = map.getLayers({
           basemaps: true, //是否取config.json中的basempas
           layers: true, //是否取config.json中的layers
         });
 
         //遍历出config.json中所有的basempas和layers
-        for (var i = layers.length - 1; i >= 0; i--) {
-          var node = _getNodeConfig(layers[i]);
+        for (let i = layers.length - 1; i >= 0; i--) {
+          let node = _getNodeConfig(layers[i]);
           if (node) {
             zNodes.push(node);
           }
@@ -109,13 +109,13 @@
           return;
         }
 
-        var item = layer.options;
+        let item = layer.options;
 
         if (item.name == "未命名") {
           return;
         }
 
-        var node = {
+        let node = {
           id: layer.id,
           pId: layer.pid,
           name: layer.name,
@@ -145,15 +145,15 @@
         return node;
       }
       function treeOverlays_onCheck(e, treeId, chktreeNode) {
-        var treeObj = $.fn.zTree.getZTreeObj(treeId);
+        let treeObj = $.fn.zTree.getZTreeObj(treeId);
         //获得所有改变check状态的节点
-        var changedNodes = treeObj.getChangeCheckedNodes();
+        let changedNodes = treeObj.getChangeCheckedNodes();
 
         haoutil.array.remove(changedNodes, chktreeNode);
         changedNodes.push(chktreeNode);
 
-        for (var i = changedNodes.length - 1; i >= 0; i--) {
-          var treeNode = changedNodes[i];
+        for (let i = changedNodes.length - 1; i >= 0; i--) {
+          let treeNode = changedNodes[i];
           treeNode.checkedOld = treeNode.checked;
 
           if (treeNode.check_Child_State == 1) {
@@ -161,7 +161,7 @@
             continue;
           }
 
-          var layer = layersObj[treeNode.uuid];
+          let layer = layersObj[treeNode.uuid];
           if (layer == null) {
             continue;
           }
@@ -196,7 +196,7 @@
         if (treeNode == null || treeNode.uuid == null) {
           return;
         }
-        var layer = layersObj[treeNode.uuid];
+        let layer = layersObj[treeNode.uuid];
         if (layer == null) {
           return;
         }

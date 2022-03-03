@@ -84,12 +84,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var canvasWindLayer;
+      let map;
+      let canvasWindLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 17.262069, lng: 118.610529, alt: 21466323, heading: 359, pitch: -89 },
           },
@@ -153,7 +153,7 @@
       }
 
       //加载全球数据
-      var earthWindData;
+      let earthWindData;
 
       function loadEarthData() {
         map.flyHome();
@@ -172,7 +172,7 @@
       }
 
       //加载气象
-      var dongnanWindData;
+      let dongnanWindData;
 
       // 访问windyuv.json后端接口，取数据
       function queryWindyuvApiData() {
@@ -240,13 +240,13 @@
 
       //将数据转换为需要的格式:风向转UV
       function convertWindData(arr) {
-        var arrU = [];
-        var arrV = [];
+        let arrU = [];
+        let arrV = [];
 
-        var xmin = arr[0].x;
-        var xmax = arr[0].x;
-        var ymin = arr[0].y;
-        var ymax = arr[0].y;
+        let xmin = arr[0].x;
+        let xmax = arr[0].x;
+        let ymin = arr[0].y;
+        let ymax = arr[0].y;
 
         // 风向是以y轴正方向为零度顺时针转，0度表示北风。90度表示东风。
         // u表示经度方向上的风，u为正，表示西风，从西边吹来的风。
@@ -267,15 +267,15 @@
             ymax = item.y;
           }
 
-          var u = mars3d.WindUtil.getU(item.speed, item.dir);
+          let u = mars3d.WindUtil.getU(item.speed, item.dir);
           arrU.push(u);
 
-          var v = mars3d.WindUtil.getV(item.speed, item.dir);
+          let v = mars3d.WindUtil.getV(item.speed, item.dir);
           arrV.push(v);
         }
 
-        var rows = getKeyNumCount(arr, "y"); //计算 行数
-        var cols = getKeyNumCount(arr, "x"); //计算 列数
+        let rows = getKeyNumCount(arr, "y"); //计算 行数
+        let cols = getKeyNumCount(arr, "x"); //计算 列数
 
         return {
           xmin: xmin,
@@ -290,12 +290,12 @@
       }
 
       function getKeyNumCount(arr, key) {
-        var obj = {};
+        let obj = {};
         arr.forEach((item) => {
           obj[item[key]] = true;
         });
 
-        var count = 0;
+        let count = 0;
         for (let col in obj) {
           count++;
         }

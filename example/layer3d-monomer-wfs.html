@@ -42,12 +42,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var viewer;
+      let map;
+      let viewer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 31.838348, lng: 117.206494, alt: 752, heading: 359, pitch: -54 },
@@ -60,7 +60,7 @@
         viewer = map.viewer;
 
         //三维模型【目前没有全合肥的模型，下面模型为了测试下】
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           type: "3dtiles",
           name: "合肥国家大学科技园",
           url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
@@ -72,7 +72,7 @@
         map.addLayer(tilesetLayer);
 
         //单体化图层【支持geoserver的wfs服务配置dth属性】
-        var wfsLayer = new mars3d.layer.WfsLayer({
+        let wfsLayer = new mars3d.layer.WfsLayer({
           name: "建筑物面",
           url: "//server.mars3d.cn/geoserver/mars/wfs",
           layer: "mars:hfjzw",

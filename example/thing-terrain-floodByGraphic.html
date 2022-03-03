@@ -88,17 +88,17 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var floodByGraphic;
+      let map;
+      let floodByGraphic;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var speed = Number($("#speed").val());
+        let speed = Number($("#speed").val());
 
         // 基于polygon矢量面抬高模拟，只支持单个区域
         floodByGraphic = new mars3d.thing.FloodByGraphic({
@@ -136,13 +136,13 @@
               outline: false,
             },
             success: function (graphic) {
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
 
               drawPotions = positions;
 
               //求最大、最小高度值
               haoutil.loading.show();
-              var result = mars3d.PolyUtil.getHeightRange(positions, map.scene);
+              let result = mars3d.PolyUtil.getHeightRange(positions, map.scene);
               $("#minHeight").val(Math.ceil(result.minHeight));
               $("#maxHeight").val(Math.floor(result.maxHeight));
 
@@ -164,14 +164,14 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
 
               //区域
               drawPotions = positions;
 
               //求最大、最小高度值
               haoutil.loading.show();
-              var result = mars3d.PolyUtil.getHeightRange(positions, map.scene);
+              let result = mars3d.PolyUtil.getHeightRange(positions, map.scene);
               $("#minHeight").val(Math.ceil(result.minHeight));
               $("#maxHeight").val(Math.floor(result.maxHeight));
 
@@ -188,9 +188,9 @@
           map.graphicLayer.clear();
           floodByGraphic.positions = drawPotions;
 
-          var minValue = Number($("#minHeight").val());
-          var maxValue = Number($("#maxHeight").val());
-          var speed = Number($("#speed").val());
+          let minValue = Number($("#minHeight").val());
+          let maxValue = Number($("#maxHeight").val());
+          let speed = Number($("#speed").val());
 
           floodByGraphic.setOptions({
             minHeight: minValue,

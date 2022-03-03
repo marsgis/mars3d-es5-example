@@ -243,12 +243,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var roamLine;
+      let map;
+      let roamLine;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.859616, lng: 116.296235, alt: 445, heading: 258, pitch: -29 },
           },
@@ -262,11 +262,11 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //该数据可以从 基础项目 飞行漫游功能界面操作后保存JSON
-        var flydata = {
+        let flydata = {
           name: "飞机航线",
           speed: 100,
           showStop: true,
@@ -458,7 +458,7 @@
           $("#tr_followedX").hide();
           $("#tr_followedZ").hide();
 
-          var attrVal = $(this).attr("data-value");
+          let attrVal = $(this).attr("data-value");
           switch (attrVal) {
             default:
               break;
@@ -477,11 +477,13 @@
 
               break;
             case "sd": //锁定上帝视角
-              $("#tr_followedZ").show();
+              {
+                $("#tr_followedZ").show();
 
-              var followedZ = Number($("#followedZ").val());
-              if (followedZ < 500) {
-                $("#followedZ").val(500);
+                let followedZ = Number($("#followedZ").val());
+                if (followedZ < 500) {
+                  $("#followedZ").val(500);
+                }
               }
               break;
           }
@@ -509,7 +511,7 @@
         //模型方向
         $(".jiaodu_2_angele").hide();
         $('input:radio[name="jiaodu"]').change(function () {
-          var isAuto = $(this).val() === "1";
+          let isAuto = $(this).val() === "1";
           if (isAuto) {
             $(".jiaodu_2_angele").hide();
           } else {
@@ -532,8 +534,8 @@
       }
 
       function updateModel(isAuto) {
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
 
         roamLine.updateAngle(isAuto, {
           pitch: pitch,
@@ -543,12 +545,12 @@
 
       //改变视角模式
       function updateCameraSetting() {
-        var cameraType = $("#cameraType").attr("data-value");
-        var followedX = Number($("#followedX").val());
-        var followedZ = Number($("#followedZ").val());
-        var offsetZ = Number($("#offsetZ").val());
-        var offsetY = Number($("#offsetY").val());
-        var offsetX = Number($("#offsetX").val());
+        let cameraType = $("#cameraType").attr("data-value");
+        let followedX = Number($("#followedX").val());
+        let followedZ = Number($("#followedZ").val());
+        let offsetZ = Number($("#offsetZ").val());
+        let offsetY = Number($("#offsetY").val());
+        let offsetX = Number($("#offsetX").val());
 
         roamLine.setCameraOptions({
           type: cameraType,
@@ -562,7 +564,7 @@
       }
 
       //显示基本信息，名称、总长、总时间
-      var _alltime = 100;
+      let _alltime = 100;
 
       function showAllInfo(params) {
         _alltime = params.alltime;
@@ -577,7 +579,7 @@
           return;
         }
 
-        var val = Math.ceil((params.time * 100) / _alltime);
+        let val = Math.ceil((params.time * 100) / _alltime);
         if (val < 1) {
           val = 1;
         }

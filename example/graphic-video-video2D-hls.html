@@ -131,15 +131,15 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var selectedView;
+      let map;
+      let graphicLayer;
+      let selectedView;
 
       let videoElement;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.844146, lng: 117.20555, alt: 125, heading: 184, pitch: -17 },
           },
@@ -149,7 +149,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //添加参考三维模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           name: "合肥国家大学科技园",
           url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
           position: { alt: -24 },
@@ -177,7 +177,7 @@
             text: "删除对象",
             iconCls: "fa fa-trash-o",
             callback: function (e) {
-              var graphic = e.graphic;
+              let graphic = e.graphic;
               if (graphic) {
                 graphicLayer.removeGraphic(graphic);
               }
@@ -187,11 +187,11 @@
 
         videoElement = document.getElementById("trailer");
 
-        var hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8";
+        let hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8";
         // var hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
 
         if (window.Hls.isSupported()) {
-          var hls = new window.Hls();
+          let hls = new window.Hls();
           hls.loadSource(hlsUrl);
           hls.attachMedia(videoElement);
           hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
@@ -213,7 +213,7 @@
 
       // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
       function addGraphic_01() {
-        var video2D = new mars3d.graphic.Video2D({
+        let video2D = new mars3d.graphic.Video2D({
           position: [117.205459, 31.842988, 64.3],
           style: {
             container: videoElement,
@@ -260,20 +260,20 @@
 
         $("#btnThisCamera").click(function () {
           //取屏幕中心点
-          var targetPosition = map.getCenter({ format: false });
+          let targetPosition = map.getCenter({ format: false });
           if (!targetPosition) {
             return;
           }
 
-          var cameraPosition = Cesium.clone(map.camera.position);
-          var showFrustum = $("#chkDebugFrustum").is(":checked");
-          var opacity = Number($("#txtMixNum").val());
+          let cameraPosition = Cesium.clone(map.camera.position);
+          let showFrustum = $("#chkDebugFrustum").is(":checked");
+          let opacity = Number($("#txtMixNum").val());
 
           let fov = Cesium.Math.toDegrees(map.camera.frustum.fov) / 2; //相机水平张角
           let aspectRatio = map.scene.canvas.clientWidth / map.scene.canvas.clientHeight; //获取canvas宽高
 
           //构造投射体
-          var video2D = new mars3d.graphic.Video2D({
+          let video2D = new mars3d.graphic.Video2D({
             position: cameraPosition,
             targetPosition: targetPosition,
             style: {
@@ -342,7 +342,7 @@
             return;
           }
 
-          var showFrustum = $(this).is(":checked");
+          let showFrustum = $(this).is(":checked");
           selectedView.showFrustum = showFrustum;
         });
 
@@ -354,7 +354,7 @@
           map.graphicLayer.startDraw({
             type: "point",
             success: (graphic) => {
-              var point = graphic.point;
+              let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
               selectedView.position = point;
@@ -370,7 +370,7 @@
           map.graphicLayer.startDraw({
             type: "point",
             success: (graphic) => {
-              var point = graphic.point;
+              let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
               selectedView.targetPosition = point;
@@ -392,7 +392,7 @@
             return;
           }
 
-          var params = JSON.stringify(selectedView.toJSON());
+          let params = JSON.stringify(selectedView.toJSON());
           console.log(params);
           haoutil.msg(params);
         });

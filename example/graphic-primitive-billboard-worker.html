@@ -43,23 +43,23 @@
 
       //AQI来源：https://aqicn.org
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
-      var imgData = null;
-      var lastExtent = null;
-      var bWorking = false;
-      var currentData;
+      let imgData = null;
+      let lastExtent = null;
+      let bWorking = false;
+      let currentData;
 
-      var startTimestamp, endTimestamp;
-      var timeout = 1000;
-      var worker;
+      let startTimestamp, endTimestamp;
+      let timeout = 1000;
+      let worker;
 
       function initMap(options) {
         imgData = getImageData();
 
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 26.762661, lng: 118.413045, alt: 972170, heading: 348, pitch: -60 },
           },
@@ -98,8 +98,8 @@
       function onMap_clockTick() {
         endTimestamp = new Date().getTime();
         if (bWorking == false) {
-          var extent = map.getExtent();
-          var bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax;
+          let extent = map.getExtent();
+          let bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax;
           if (bbox != lastExtent) {
             console.log(bbox);
 
@@ -126,7 +126,7 @@
         worker.onmessage = function (event) {
           //Worker返回的结果。
           currentData = event.data.entityTable;
-          var currTime = event.data.currTime;
+          let currTime = event.data.currTime;
           if (currentData.length != 0 && currTime > startTimestamp) {
             createGraphics(currentData);
           }
@@ -140,10 +140,10 @@
         graphicLayer.clear();
         console.log("加载数据", currentData);
 
-        for (var i = currentData.length - 1; i >= 0; i--) {
+        for (let i = currentData.length - 1; i >= 0; i--) {
           let item = currentData[i];
 
-          var primitive = new mars3d.graphic.BillboardPrimitive({
+          let primitive = new mars3d.graphic.BillboardPrimitive({
             id: item.x,
             name: item.city,
             position: [item.lon, item.lat],
@@ -165,8 +165,8 @@
 
       //获取色带
       function getImageData() {
-        var nWidth = 500;
-        var canvas, ctx;
+        let nWidth = 500;
+        let canvas, ctx;
 
         canvas = document.createElement("canvas");
         canvas.width = nWidth;
@@ -174,7 +174,7 @@
         ctx = canvas.getContext("2d");
         ctx.beginPath();
         /* 指定渐变区域 */
-        var grad = ctx.createLinearGradient(0, 0, nWidth, 0);
+        let grad = ctx.createLinearGradient(0, 0, nWidth, 0);
         /* 指定几个颜色 */
         grad.addColorStop(0.05, "rgb(0, 228, 0)"); // green
         grad.addColorStop(0.15, "rgb(256, 256, 0)"); // yellow

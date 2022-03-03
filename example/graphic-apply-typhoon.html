@@ -178,11 +178,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 8.560501, lng: 111.849127, alt: 10725692, heading: 358, pitch: -87 },
           },
@@ -268,6 +268,7 @@
       function startTyphoon() {
         $("#btnPlay").html('<span class="fa fa-stop" aria-hidden="true"></span> 停止');
 
+        // eslint-disable-next-line no-undef
         selectTF.playTyphoon = selectTF.playTyphoon || new PlayTyphoon(selectTF.options, map);
         selectTF.playTyphoon.start();
         selectTF.show = false;
@@ -310,6 +311,7 @@
           showPathTable(typhoon); //已有的，直接展示
         } else {
           queryTyphoonItem(row.id).then(function (newData) {
+            // eslint-disable-next-line no-undef
             let typhoon = new Typhoon({ ...row, ...newData }, map);
             typhoon.flyTo();
             showPathTable(typhoon);
@@ -380,7 +382,7 @@
       function queryTyphoonList() {
         return new Promise(function (resolve, reject) {
           function typhoon_jsons_list_default(data) {
-            var arr = [];
+            let arr = [];
             data.typhoonList.forEach((item) => {
               arr.push({
                 id: item[0],
@@ -417,7 +419,7 @@
       function queryTyphoonItem(id) {
         return new Promise(function (resolve, reject) {
           function typhoon_jsons_view(res) {
-            var newData = conversionPathData(res.typhoon); //在Typhoon.js中
+            let newData = conversionPathData(res.typhoon); //在Typhoon.js中
             // console.log('台风数据==>', newData)
             resolve(newData);
           }
@@ -443,7 +445,7 @@
 
       //转换数据,将后端接口数据转换为需要的格式
       function conversionPathData(oldData) {
-        var path = [];
+        let path = [];
         oldData[8].forEach((message) => {
           let circle7;
           let circle10;
@@ -619,7 +621,7 @@
         map.graphicLayer.addGraphic(lineWarning24);
 
         //注记文本
-        var textWarning24 = new mars3d.graphic.RectangleEntity({
+        let textWarning24 = new mars3d.graphic.RectangleEntity({
           positions: [
             [128.129019, 29.104287],
             [125.850451, 28.424599],
@@ -657,7 +659,7 @@
         map.graphicLayer.addGraphic(lineWarning48);
 
         //注记文本
-        var textWarning48 = new mars3d.graphic.RectangleEntity({
+        let textWarning48 = new mars3d.graphic.RectangleEntity({
           positions: [
             [130.502492, 25.959716],
             [133.423638, 26.772991],

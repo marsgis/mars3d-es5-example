@@ -56,13 +56,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var pointsLayer;
+      let map;
+      let graphicLayer;
+      let pointsLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 },
           },
@@ -98,7 +98,7 @@
       function randomPoints() {
         clearlayer();
 
-        var points = turf.randomPoint(50, { bbox: bbox }); //50个随机点
+        let points = turf.randomPoint(50, { bbox: bbox }); //50个随机点
 
         points.features.forEach((e, index) => {
           let position = e.geometry.coordinates;
@@ -124,11 +124,11 @@
 
         let points = pointsLayer.toGeoJSON();
 
-        var hull = turf.convex(points);
+        let hull = turf.convex(points);
 
-        var convexPoints = hull.geometry.coordinates;
+        let convexPoints = hull.geometry.coordinates;
         // 外包围面;
-        var polygonGraphic = new mars3d.graphic.PolygonEntity({
+        let polygonGraphic = new mars3d.graphic.PolygonEntity({
           positions: convexPoints,
           style: {
             color: "#00ffff",
@@ -145,10 +145,10 @@
 
         let points = pointsLayer.toGeoJSON();
 
-        var options = {
+        let options = {
           bbox: bbox,
         };
-        var voronoiPolygons = turf.voronoi(points, options);
+        let voronoiPolygons = turf.voronoi(points, options);
 
         voronoiPolygons.features.forEach((e, index) => {
           let position = e.geometry.coordinates;
@@ -171,10 +171,10 @@
         graphicLayer.clear();
 
         let points = pointsLayer.toGeoJSON();
-        for (var i = 0; i < points.features.length; i++) {
+        for (let i = 0; i < points.features.length; i++) {
           points.features[i].properties.z = ~~(Math.random() * 9);
         }
-        var tin = turf.tin(points, "z");
+        let tin = turf.tin(points, "z");
 
         tin.features.forEach((e, index) => {
           let position = e.geometry.coordinates;

@@ -68,14 +68,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let tiles3dLayer;
 
       function initMap(options) {
-        var color = $("#txtColor").val();
+        let color = $("#txtColor").val();
 
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
             showSun: false,
@@ -125,7 +125,7 @@
           position: "bottom left",
           control: "saturation",
           change: function (color) {
-            var clr = Cesium.Color.fromCssColorString(color);
+            let clr = Cesium.Color.fromCssColorString(color);
             map.scene.backgroundColor = clr; //空间背景色
             map.scene.globe.baseColor = clr; //地表背景色
 
@@ -157,7 +157,7 @@
       //当前页面业务相关
       function showModel() {
         removeLayer();
-        var _url = $("#txtModel").val();
+        let _url = $("#txtModel").val();
         localforage.setItem("g20_onlyModel", _url);
 
         tiles3dLayer = new mars3d.layer.TilesetLayer({

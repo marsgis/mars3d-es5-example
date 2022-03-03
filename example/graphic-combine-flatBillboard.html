@@ -51,12 +51,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var flatBillboard;
+      let map;
+      let flatBillboard;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 28.18408, lng: 116.160667, alt: 1138597, heading: 1, pitch: -78 },
             globe: {
@@ -92,13 +92,13 @@
         map.basemap = undefined;
 
         //移除2.5D视图
-        var arr = $(".cesium-sceneModePicker-wrapper").children();
+        let arr = $(".cesium-sceneModePicker-wrapper").children();
         if (arr.length > 3) {
           arr[3].remove();
         }
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //在layer上绑定监听事件
@@ -143,22 +143,22 @@
         clearData();
 
         haoutil.loading.show();
-        var startTime = new Date().getTime();
+        let startTime = new Date().getTime();
 
-        var numPoints = Number($("#txtCount").val());
+        let numPoints = Number($("#txtCount").val());
 
         // 创建等值线区域
-        var extent = [112.287256, 27.408204, 120.695453, 34.659583];
-        var pointGrid = turf.pointGrid(extent, numPoints, {
+        let extent = [112.287256, 27.408204, 120.695453, 34.659583];
+        let pointGrid = turf.pointGrid(extent, numPoints, {
           units: "miles",
         });
-        var arr = [];
-        for (var i = 0; i < pointGrid.features.length; i++) {
-          var coor = pointGrid.features[i].geometry.coordinates;
-          var position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000);
+        let arr = [];
+        for (let i = 0; i < pointGrid.features.length; i++) {
+          let coor = pointGrid.features[i].geometry.coordinates;
+          let position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000);
 
-          var angle = haoutil.math.random(0, 360); //随机方向
-          var speed = haoutil.math.random(0, 60); //随机数值
+          let angle = haoutil.math.random(0, 360); //随机方向
+          let speed = haoutil.math.random(0, 60); //随机数值
 
           arr.push({
             position: position,
@@ -174,9 +174,9 @@
         flatBillboard.instances = arr;
 
         haoutil.loading.close();
-        var endTime = new Date().getTime();
+        let endTime = new Date().getTime();
         // 两个时间戳相差的毫秒数
-        var usedTime = (endTime - startTime) / 1000;
+        let usedTime = (endTime - startTime) / 1000;
         // console.log(usedTime);
 
         haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -197,7 +197,7 @@
       }
 
       //访问后端接口，取数据
-      var arrWind;
+      let arrWind;
       function queryWindPointApiData() {
         return new Promise(function (resolve, reject) {
           if (arrWind) {
@@ -221,7 +221,7 @@
 
       function showWindPoint(arr) {
         clearData();
-        var arrPoint = [];
+        let arrPoint = [];
         for (let i = 0, len = arr.length; i < len; i++) {
           const item = arr[i];
           arrPoint.push({
@@ -238,7 +238,7 @@
       }
 
       function getImageBySpeed(speed) {
-        var windVaneUrl = "img/windVane/01.svg";
+        let windVaneUrl = "img/windVane/01.svg";
         if (speed >= 0 && speed <= 2) {
           windVaneUrl = "img/windVane/01.svg";
         } else if (speed > 2 && speed <= 4) {

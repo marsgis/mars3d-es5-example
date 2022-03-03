@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 },
           },
@@ -77,10 +77,10 @@
       }
 
       function createMapvLayer(rs) {
-        var data1 = [];
-        var data2 = [];
-        var data3 = [];
-        var data4 = [];
+        let data1 = [];
+        let data2 = [];
+        let data3 = [];
+        let data4 = [];
         for (let i = 0; i < rs[0].length; i++) {
           let geoCoord = rs[0][i].geoCoord;
           data1.push({
@@ -112,7 +112,7 @@
           });
         }
 
-        var animation = {
+        let animation = {
           animation: {
             stepsRange: {
               start: 0,
@@ -129,7 +129,7 @@
       }
 
       function addMapvLayer(data, color, size, animation) {
-        var options1 = {
+        let options1 = {
           fillStyle: color,
           bigData: "Point",
           size: size,
@@ -137,9 +137,9 @@
           depthTest: false,
           ...animation,
         };
-        var dataSet = new this.mapv.DataSet(data);
+        let dataSet = new this.mapv.DataSet(data);
         //创建MapV图层
-        var mapVLayer = new mars3d.layer.MapVLayer(options1, dataSet);
+        let mapVLayer = new mars3d.layer.MapVLayer(options1, dataSet);
         map.addLayer(mapVLayer);
       }
     </script>

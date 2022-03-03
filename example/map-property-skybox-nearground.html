@@ -50,9 +50,9 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
-      var qingtianSkybox = new mars3d.GroundSkyBox({
+      let qingtianSkybox = new mars3d.GroundSkyBox({
         sources: {
           positiveX: "img/skybox_near/qingtian/rightav9.jpg",
           negativeX: "img/skybox_near/qingtian/leftav9.jpg",
@@ -63,7 +63,7 @@
         },
       });
 
-      var wanxiaSkybox = new mars3d.GroundSkyBox({
+      let wanxiaSkybox = new mars3d.GroundSkyBox({
         sources: {
           positiveX: "img/skybox_near/wanxia/SunSetRight.png",
           negativeX: "img/skybox_near/wanxia/SunSetLeft.png",
@@ -74,7 +74,7 @@
         },
       });
 
-      var lantianSkybox = new mars3d.GroundSkyBox({
+      let lantianSkybox = new mars3d.GroundSkyBox({
         sources: {
           positiveX: "img/skybox_near/lantian/Right.jpg",
           negativeX: "img/skybox_near/lantian/Left.jpg",
@@ -85,12 +85,12 @@
         },
       });
 
-      var currSkyBox;
-      var defaultSkybox; //cesium自带的Skybox
+      let currSkyBox;
+      let defaultSkybox; //cesium自带的Skybox
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.830035, lng: 117.159801, alt: 409, heading: 41, pitch: 0 },
           },
@@ -103,8 +103,8 @@
         currSkyBox = qingtianSkybox;
 
         map.on(mars3d.EventType.postRender, function () {
-          var position = map.camera.position;
-          var height = Cesium.Cartographic.fromCartesian(position).height;
+          let position = map.camera.position;
+          let height = Cesium.Cartographic.fromCartesian(position).height;
           if (height < 230000) {
             if (currSkyBox) {
               map.scene.skyBox = currSkyBox;

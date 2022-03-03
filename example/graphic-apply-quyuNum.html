@@ -58,12 +58,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
 
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.053342, lng: 117.677104, alt: 187118, heading: 350, pitch: -50 },
             // orderIndependentTranslucency: true,
@@ -90,7 +90,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         // 合肥市边界墙
-        var borderWall = new mars3d.layer.GeoJsonLayer({
+        let borderWall = new mars3d.layer.GeoJsonLayer({
           name: "合肥市边界墙",
           url: "//data.mars3d.cn/file/geojson/areas/340100.json",
           symbol: {
@@ -107,7 +107,7 @@
         map.addLayer(borderWall);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         queryAreasData().then(function (geojson) {
@@ -117,7 +117,7 @@
             let item = arr[i];
 
             //polygon面
-            var polygonEntity = new mars3d.graphic.PolygonEntity({
+            let polygonEntity = new mars3d.graphic.PolygonEntity({
               positions: item.positions,
               style: {
                 fill: true,
@@ -140,7 +140,7 @@
             graphicLayer.addGraphic(polygonEntity);
 
             //PolylineEntity线
-            var graphicLine = new mars3d.graphic.PolylineEntity({
+            let graphicLine = new mars3d.graphic.PolylineEntity({
               positions: item.positions,
               style: {
                 color: "rgba(255,255,255,0.5)",
@@ -150,10 +150,10 @@
             graphicLayer.addGraphic(graphicLine);
 
             //中心点
-            var center = item.attr.centroid;
+            let center = item.attr.centroid;
 
             //光锥体
-            var coneGlow = new mars3d.graphic.LightCone({
+            let coneGlow = new mars3d.graphic.LightCone({
               position: center,
               style: {
                 radius: 1500,
@@ -163,8 +163,8 @@
             graphicLayer.addGraphic(coneGlow);
 
             //LED数字显示
-            var number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
-            var graphic = new mars3d.graphic.DivGraphic({
+            let number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
+            let graphic = new mars3d.graphic.DivGraphic({
               position: [center[0], center[1], 12000],
               style: {
                 html: `<div class ="coneNum">${number}`,

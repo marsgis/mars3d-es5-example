@@ -173,13 +173,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var particleGraphic;
-      var particlePosition;
+      let map;
+      let particleGraphic;
+      let particlePosition;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 31.806029, lng: 117.222082, alt: 275, heading: 1, pitch: -12 },
@@ -190,7 +190,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //2.在layer上绑定监听事件
@@ -216,7 +216,7 @@
             text: "删除对象",
             iconCls: "fa fa-trash-o",
             callback: function (e) {
-              var primitive = e.graphic;
+              let primitive = e.graphic;
               if (primitive) {
                 graphicLayer.removeGraphic(primitive);
               }
@@ -267,7 +267,7 @@
             type: "point",
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               particlePosition = positions[0];
               map.graphicLayer.clear();
 
@@ -279,7 +279,7 @@
 
       //UI绑定数据 处理
       function initParamView() {
-        var viewModel = {
+        let viewModel = {
           particleSize: 20.0,
           startScale: 1.0,
           endScale: 3.0,
@@ -292,7 +292,7 @@
         };
 
         Cesium.knockout.track(viewModel);
-        var toolbar = document.getElementById("toolbar");
+        let toolbar = document.getElementById("toolbar");
         Cesium.knockout.applyBindings(viewModel, toolbar);
 
         //绑定事件
@@ -325,24 +325,24 @@
         });
 
         Cesium.knockout.getObservable(viewModel, "particleSize").subscribe(function (newValue) {
-          var particleSize = parseFloat(newValue);
+          let particleSize = parseFloat(newValue);
           particleGraphic.particleSize = particleSize;
         });
 
         Cesium.knockout.getObservable(viewModel, "gravity").subscribe(function (newValue) {
-          var gravity = parseFloat(newValue);
+          let gravity = parseFloat(newValue);
           particleGraphic.gravity = gravity;
         });
       }
 
-      var targetPosition;
+      let targetPosition;
 
       function drawPint() {
         map.graphicLayer.startDraw({
           type: "point",
           success: function (graphic) {
             //绘制成功后回调
-            var positions = graphic.positionsShow;
+            let positions = graphic.positionsShow;
             targetPosition = positions[0];
             map.graphicLayer.clear();
 
@@ -352,10 +352,10 @@
       }
 
       function updateTarget(position) {
-        var addHeight = Number($("#txtTargetHeight").val());
+        let addHeight = Number($("#txtTargetHeight").val());
         position = mars3d.PointUtil.addPositionsHeight(position, addHeight);
 
-        var target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3());
+        let target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3());
         Cesium.Cartesian3.multiplyByScalar(target, 0.01, target);
 
         console.log(`${target.x},${target.y},${target.z}`);

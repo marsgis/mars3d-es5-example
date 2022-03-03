@@ -104,12 +104,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 6.148021, lng: 58.982029, alt: 42278441, heading: 220, pitch: -85 },
@@ -134,28 +134,28 @@
         map.addLayer(graphicLayer);
 
         graphicLayer.bindPopup(function (event) {
-          var points = event.graphic?.attr?.points;
+          let points = event.graphic?.attr?.points;
           if (!points) {
             return;
           }
           //单击轨迹连线上的点后，求该点对应的时间
-          var positionDM = event.cartesian;
-          var val1 = points[0];
-          var val2 = points[points.length - 1];
+          let positionDM = event.cartesian;
+          let val1 = points[0];
+          let val2 = points[points.length - 1];
 
-          var startTime = Cesium.JulianDate.toDate(val1.time);
-          var endTime = Cesium.JulianDate.toDate(val2.time);
+          let startTime = Cesium.JulianDate.toDate(val1.time);
+          let endTime = Cesium.JulianDate.toDate(val2.time);
 
-          var len1 = Math.abs(Cesium.Cartesian3.distance(positionDM, val1.position));
-          var len2 = Math.abs(Cesium.Cartesian3.distance(positionDM, val2.position));
+          let len1 = Math.abs(Cesium.Cartesian3.distance(positionDM, val1.position));
+          let len2 = Math.abs(Cesium.Cartesian3.distance(positionDM, val2.position));
 
-          var adds = (len1 / (len1 + len2)) * (endTime.getTime() - startTime.getTime()); //求按距离比例的时间增加值
-          var currentTime = new Date(startTime.getTime() + adds);
+          let adds = (len1 / (len1 + len2)) * (endTime.getTime() - startTime.getTime()); //求按距离比例的时间增加值
+          let currentTime = new Date(startTime.getTime() + adds);
 
-          var inthtml = "单击处时间：" + currentTime.format("yyyy-MM-dd HH:mm:ss");
+          let inthtml = "单击处时间：" + currentTime.format("yyyy-MM-dd HH:mm:ss");
           return inthtml;
         });
-        var weixin = new mars3d.graphic.Satellite({
+        let weixin = new mars3d.graphic.Satellite({
           name: "GAOFEN 1",
           tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
           tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -231,7 +231,7 @@
           zIndex: 20210825,
         });
 
-        var now = Cesium.JulianDate.toDate(map.clock.currentTime);
+        let now = Cesium.JulianDate.toDate(map.clock.currentTime);
         $("#txtStartTime").val(now.format("yyyy-MM-dd HH:mm:ss"));
 
         now.setMinutes(now.getMinutes() + 60);
@@ -241,7 +241,7 @@
           position: "bottom left",
           control: "saturation",
           change: function (hex) {
-            var color = $("#txtColor").val();
+            let color = $("#txtColor").val();
             let opacity = Number($("#txtOpacity").val());
 
             graphicLayer.eachGraphic(function (graphic) {
@@ -258,7 +258,7 @@
           .slider({ min: 0.01, max: 1.0, step: 0.01, value: 0.4 })
           .on("change", (e) => {
             if (e && e.value) {
-              var color = $("#txtColor").val();
+              let color = $("#txtColor").val();
               let opacity = e.value.newValue;
 
               graphicLayer.eachGraphic(function (graphic) {
@@ -276,21 +276,21 @@
           });
 
         $("#chkAngleS").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           updateVisibleForFaceNouth(true, val);
         });
 
         $("#chkAngleJ").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           updateVisibleForFaceNouth(false, val);
         });
 
         $("#btnAdd").click(function () {
-          var _starttime = $.trim($("#txtStartTime").val());
-          var _endTime = $.trim($("#txtEndTime").val());
-          var _color = $("#txtColor").val();
-          var _opacity = Number($("#txtOpacity").val());
-          var _angle = Number($("#txtAngle").val());
+          let _starttime = $.trim($("#txtStartTime").val());
+          let _endTime = $.trim($("#txtEndTime").val());
+          let _color = $("#txtColor").val();
+          let _opacity = Number($("#txtOpacity").val());
+          let _angle = Number($("#txtAngle").val());
 
           addTimeShading(weixin, {
             startTime: _starttime,
@@ -318,22 +318,22 @@
           return;
         }
 
-        var step = 2 * 60000;
+        let step = 2 * 60000;
 
-        var points = [];
-        var positions = [];
+        let points = [];
+        let positions = [];
 
-        var temp_t = bt;
+        let temp_t = bt;
         while (temp_t <= et) {
-          var point = weixin.tle.getPoint(temp_t);
+          let point = weixin.tle.getPoint(temp_t);
           if (!point) {
             break;
           }
 
-          var ground_pos = Cesium.Cartesian3.fromDegrees(point.lng, point.lat);
+          let ground_pos = Cesium.Cartesian3.fromDegrees(point.lng, point.lat);
           positions.push(ground_pos);
 
-          var time = Cesium.JulianDate.fromDate(new Date(temp_t));
+          let time = Cesium.JulianDate.fromDate(new Date(temp_t));
           points.push({
             position: ground_pos,
             time: time,
@@ -348,19 +348,19 @@
           return;
         }
 
-        var clr = Cesium.Color.fromCssColorString(options.color || "#ff0000").withAlpha(Number(options.opacity || 1.0));
+        let clr = Cesium.Color.fromCssColorString(options.color || "#ff0000").withAlpha(Number(options.opacity || 1.0));
         clr = Cesium.ColorGeometryInstanceAttribute.fromColor(clr);
 
-        var geometryInstancesSG = []; //升轨
-        var geometryInstancesJG = []; //降轨
-        for (var i = 1; i < positions.length; i++) {
-          var position1 = positions[i - 1];
-          var position2 = positions[i];
+        let geometryInstancesSG = []; //升轨
+        let geometryInstancesJG = []; //降轨
+        for (let i = 1; i < positions.length; i++) {
+          let position1 = positions[i - 1];
+          let position2 = positions[i];
 
-          var height = points[i].height; //也可以取position2的高度
-          var shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) * 2; //根据卫星角度求其带宽度
+          let height = points[i].height; //也可以取position2的高度
+          let shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) * 2; //根据卫星角度求其带宽度
 
-          var instance = new Cesium.GeometryInstance({
+          let instance = new Cesium.GeometryInstance({
             geometry: new Cesium.CorridorGeometry({
               vertexFormat: Cesium.VertexFormat.POSITION_ONLY,
               positions: [position1, position2],
@@ -376,7 +376,7 @@
             points: [points[i - 1], points[i]],
           };
 
-          var hp = mars3d.PointUtil.getHeadingPitchRollForLine(position1, position2);
+          let hp = mars3d.PointUtil.getHeadingPitchRollForLine(position1, position2);
 
           if (hp.heading > 0) {
             geometryInstancesSG.push(instance);
@@ -387,7 +387,7 @@
 
         //升轨
         if (geometryInstancesSG.length > 0) {
-          var primitiveSG = new mars3d.graphic.BaseCombine({
+          let primitiveSG = new mars3d.graphic.BaseCombine({
             instances: geometryInstancesSG,
           });
           primitiveSG.isFaceNouth = true;
@@ -396,7 +396,7 @@
 
         //降轨
         if (geometryInstancesJG.length > 0) {
-          var primitiveJG = new mars3d.graphic.BaseCombine({
+          let primitiveJG = new mars3d.graphic.BaseCombine({
             instances: geometryInstancesJG,
           });
           primitiveJG.isFaceNouth = false;

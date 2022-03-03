@@ -60,11 +60,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.81008, lng: 117.291538, alt: 5537, heading: 282, pitch: -38 },
           },
@@ -74,7 +74,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -88,7 +88,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var primitive = new mars3d.graphic.Water({
+        let primitive = new mars3d.graphic.Water({
           positions: [
             [117.218662, 31.800226, 37.68],
             [117.227836, 31.800388, 32.98],
@@ -124,7 +124,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var primitive = new mars3d.graphic.Water({
+        let primitive = new mars3d.graphic.Water({
           positions: [
             [117.187572, 31.823074, 45.53],
             [117.195377, 31.82418, 43.36],
@@ -148,12 +148,12 @@
         graphicLayer.addGraphic(primitive); //primitive.addTo(graphicLayer)  //另外一种写法
 
         //entity转geojson
-        var geojson = primitive.toGeoJSON();
+        let geojson = primitive.toGeoJSON();
         console.log(geojson);
       }
 
       function addGraphic_a3(graphicLayer) {
-        var primitive = new mars3d.graphic.Water({
+        let primitive = new mars3d.graphic.Water({
           positions: [
             [117.216386, 31.815376, 35.16],
             [117.222533, 31.81729, 29.21],
@@ -185,7 +185,7 @@
       }
 
       function addGraphic_a4(graphicLayer) {
-        var primitive = new mars3d.graphic.Water({
+        let primitive = new mars3d.graphic.Water({
           positions: [
             [117.208302, 31.85757],
             [117.234234, 31.858263],
@@ -553,7 +553,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -593,9 +593,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

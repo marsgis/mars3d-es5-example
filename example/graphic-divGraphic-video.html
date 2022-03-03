@@ -90,11 +90,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.649617, lng: 117.081721, alt: 444, heading: 348, pitch: -25 },
           },
@@ -115,7 +115,7 @@
         map.addLayer(tiles3dLayer);
 
         //创建DIV数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -146,7 +146,7 @@
       }
 
       function addGraphic(graphicLayer, position) {
-        var graphicImg = new mars3d.graphic.DivGraphic({
+        let graphicImg = new mars3d.graphic.DivGraphic({
           position: position,
           style: {
             html: ` <div class="mars3d-camera-content">

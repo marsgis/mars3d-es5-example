@@ -83,10 +83,10 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.473861, lng: 117.225929, alt: 52974, heading: 2, pitch: -49 },
           },
@@ -96,7 +96,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //图层管理的相关处理
@@ -146,7 +146,7 @@
       }
 
       function addGraphic_a1(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.154815, 31.853495],
             [117.181255, 31.854257],
@@ -180,7 +180,7 @@
       }
 
       function addGraphic_a2(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.208302, 31.85757],
             [117.234234, 31.858263],
@@ -204,13 +204,13 @@
 
       function addGraphic_a3(graphicLayer) {
         //圆形时
-        var positions = mars3d.PolyUtil.getEllipseOuterPositions({
+        let positions = mars3d.PolyUtil.getEllipseOuterPositions({
           position: Cesium.Cartesian3.fromDegrees(117.276257, 31.866351, 19.57),
           radius: 1200, //半径
           count: 50, //共返回(count*4)个点
         });
 
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: positions,
           style: {
             diffHeight: 800,
@@ -228,7 +228,7 @@
       }
 
       function addGraphic_a4(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.229659, 31.908221],
             [117.240804, 31.908175],
@@ -250,7 +250,7 @@
       }
 
       function addGraphic_a5(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.153945, 31.881122, 36.4],
             [117.168352, 31.880147, 32.6],
@@ -273,14 +273,14 @@
         graphicLayer.addGraphic(graphic);
 
         //graphic转geojson
-        var geojson = graphic.toGeoJSON();
+        let geojson = graphic.toGeoJSON();
         console.log("转换后的geojson", geojson);
         addGeoJson(geojson, graphicLayer);
       }
 
       //添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
       function addGeoJson(geojson, graphicLayer) {
-        var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
+        let graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0];
         delete graphicCopy.attr;
         //新的坐标
         graphicCopy.positions = [
@@ -295,7 +295,7 @@
       }
 
       function addGraphic_a6(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.353776, 31.887406, 21.2],
             [117.321028, 31.887207, 21.3],
@@ -316,7 +316,7 @@
       }
 
       function addGraphic_a7(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.192113, 31.80998, 32.2],
             [117.228145, 31.792757, 26.7],
@@ -338,7 +338,7 @@
       }
 
       function addGraphic_a8(graphicLayer) {
-        var graphic = new mars3d.graphic.WallEntity({
+        let graphic = new mars3d.graphic.WallEntity({
           positions: [
             [117.206138, 31.877321],
             [117.206326, 31.901436],
@@ -371,13 +371,13 @@
           };
         }
 
-        var canvas = document.createElement("canvas");
+        let canvas = document.createElement("canvas");
         canvas.width = 1;
         canvas.height = 100;
 
-        var ctx = canvas.getContext("2d");
-        var grd = ctx.createLinearGradient(0, 0, 0, 100);
-        for (var key in elevationRamp) {
+        let ctx = canvas.getContext("2d");
+        let grd = ctx.createLinearGradient(0, 0, 0, 100);
+        for (let key in elevationRamp) {
           grd.addColorStop(1 - Number(key), elevationRamp[key]);
         }
 
@@ -392,7 +392,7 @@
           let arr = mars3d.Util.geoJsonToGraphics(data); //解析geojson
           for (let i = 0; i < arr.length; i++) {
             let item = arr[i];
-            var graphic = new mars3d.graphic.WallEntity({
+            let graphic = new mars3d.graphic.WallEntity({
               positions: item.positions,
               style: {
                 diffHeight: 3000,
@@ -772,7 +772,7 @@
 
         //绑定Popup
 
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
                 <tr>
                   <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
                 </tr>
@@ -812,9 +812,9 @@
 
       //取区域内的随机图标
       function randomPoint() {
-        var jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
-        var wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
-        var height = haoutil.math.random(1000, 9000);
+        let jd = haoutil.math.random(116.1 * 1000, 116.6 * 1000) / 1000;
+        let wd = haoutil.math.random(30.8 * 1000, 31.1 * 1000) / 1000;
+        let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
         </script>

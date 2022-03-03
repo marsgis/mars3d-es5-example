@@ -103,19 +103,19 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var poiLayer;
-      var queryGaodePOI;
+      let map;
+      let poiLayer;
+      let queryGaodePOI;
 
-      var drawGraphic; //限定区域
+      let drawGraphic; //限定区域
 
-      var $table;
-      var bootstrapList = []; //查询结果
-      var lastQueryOptions; //上一次请求参数，用于 下一页使用
+      let $table;
+      let bootstrapList = []; //查询结果
+      let lastQueryOptions; //上一次请求参数，用于 下一页使用
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 },
           },
@@ -129,22 +129,22 @@
         map.addLayer(poiLayer);
 
         poiLayer.bindPopup(function (event) {
-          var item = event.graphic.attr;
+          let item = event.graphic.attr;
 
-          var inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >';
-          var type = $.trim(item.type);
+          let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >';
+          let type = $.trim(item.type);
           if (type != "") {
             inHtml += "<div><label>类别</label>" + type + "</div>";
           }
-          var xzqh = $.trim(item.xzqh);
+          let xzqh = $.trim(item.xzqh);
           if (xzqh != "") {
             inHtml += "<div><label>区域</label>" + xzqh + "</div>";
           }
-          var tel = $.trim(item.tel);
+          let tel = $.trim(item.tel);
           if (tel != "") {
             inHtml += "<div><label>电话</label>" + tel + "</div>";
           }
-          var address = $.trim(item.address);
+          let address = $.trim(item.address);
           if (address != "") {
             inHtml += "<div><label>地址</label>" + address + "</div>";
           }
@@ -194,7 +194,7 @@
             },
           ],
           onClickRow: function (item, $element, field) {
-            var graphic = item._graphic;
+            let graphic = item._graphic;
             if (graphic == null) {
               toastr.warning(item.name + " 无经纬度坐标信息！");
               return;
@@ -212,7 +212,7 @@
           },
         });
 
-        var selectType;
+        let selectType;
         $('input:radio[name="queryContent"]').change(function () {
           selectType = $(this).val();
 
@@ -238,26 +238,30 @@
           bootstrapList = [];
           switch (selectType) {
             default:
-              //按城市
-              //var dnnm = $('#txtCity').data('citypicker').getCode()
-              var dmmc = $("#txtCity").data("citypicker").getName();
+              {
+                //按城市
+                //var dnnm = $('#txtCity').data('citypicker').getCode()
+                let dmmc = $("#txtCity").data("citypicker").getName();
 
-              loadData({
-                page: 0,
-                city: dmmc,
-                citylimit: true,
-              });
+                loadData({
+                  page: 0,
+                  city: dmmc,
+                  citylimit: true,
+                });
+              }
               break;
             case "2": //当前视角范围
-              var extent = map.getExtent();
-              loadData({
-                page: 0,
-                polygon: [
-                  [extent.xmin, extent.ymin],
-                  [extent.xmax, extent.ymax],
-                ],
-                limit: true,
-              });
+              {
+                let extent = map.getExtent();
+                loadData({
+                  page: 0,
+                  polygon: [
+                    [extent.xmin, extent.ymin],
+                    [extent.xmax, extent.ymax],
+                  ],
+                  limit: true,
+                });
+              }
               break;
             case "3": //按范围
               if (!drawGraphic) {
@@ -343,7 +347,7 @@
       }
 
       function loadData(queryOptions) {
-        var queryVal = $.trim($("#queryText").val());
+        let queryVal = $.trim($("#queryText").val());
         if (queryVal.length == 0) {
           haoutil.msg("请输入 名称 关键字筛选数据！");
           return;
@@ -356,7 +360,7 @@
           text: queryVal,
           success: function (res) {
             $("#resultView").show();
-            var data = res.list;
+            let data = res.list;
             bootstrapList = bootstrapList.concat(data);
             $table.bootstrapTable("append", data);
             $("#count").html(bootstrapList.length);
@@ -397,10 +401,10 @@
       function addGraphics(arr) {
         console.log("查询数据结果", arr);
 
-        for (var i = 0; i < arr.length; i++) {
-          var item = arr[i];
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i];
 
-          var graphic = new mars3d.graphic.BillboardEntity({
+          let graphic = new mars3d.graphic.BillboardEntity({
             position: Cesium.Cartesian3.fromDegrees(item.lng, item.lat),
             style: {
               image: "img/marker/mark3.png",

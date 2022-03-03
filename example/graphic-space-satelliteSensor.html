@@ -158,18 +158,18 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
-      var satelliteSensor;
-      var modelGraphic;
+      let satelliteSensor;
+      let modelGraphic;
 
-      var reverse = true; //z轴方向，true朝向空中，false朝向地心
-      var converter = Cesium.Transforms.eastNorthUpToFixedFrame;
+      let reverse = true; //z轴方向，true朝向空中，false朝向地心
+      let converter = Cesium.Transforms.eastNorthUpToFixedFrame;
       // var converter = Cesium.Transforms.localFrameToFixedFrameGenerator('east', 'south')
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 20.217716, lng: 82.229053, alt: 38911656, heading: 10, pitch: -90 },
           },
@@ -183,13 +183,13 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //移除2.5D视图
-        var arr = $(".cesium-sceneModePicker-wrapper").children();
+        let arr = $(".cesium-sceneModePicker-wrapper").children();
         if (arr.length > 3) {
           arr[3].remove();
         }
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //滑动条需要先设置，后才能取值
@@ -204,7 +204,7 @@
             }
           });
         $("#model_heading_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_heading").slider("setValue", value);
 
           modelGraphic.heading = value;
@@ -222,7 +222,7 @@
             }
           });
         $("#model_pitch_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_pitch").slider("setValue", value);
 
           modelGraphic.pitch = value;
@@ -240,7 +240,7 @@
             }
           });
         $("#model_roll_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_roll").slider("setValue", value);
 
           modelGraphic.roll = value;
@@ -256,7 +256,7 @@
             }
           });
         $("#model_angle1_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_angle1").slider("setValue", value);
           satelliteSensor.angle1 = value;
         });
@@ -270,7 +270,7 @@
             }
           });
         $("#model_angle2_2").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           $("#model_angle2").slider("setValue", value);
           satelliteSensor.angle2 = value;
         });
@@ -281,18 +281,18 @@
         $("#model_z").val(9980000);
 
         //参数
-        var x = Number($("#model_x").val());
-        var y = Number($("#model_y").val());
-        var z = Number($("#model_z").val());
+        let x = Number($("#model_x").val());
+        let y = Number($("#model_y").val());
+        let z = Number($("#model_z").val());
 
-        var heading = Number($("#model_heading").val());
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
+        let heading = Number($("#model_heading").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
 
-        var angle1 = Number($("#model_angle1").val()); //半张角
-        var angle2 = Number($("#model_angle2").val()); //半张角
+        let angle1 = Number($("#model_angle1").val()); //半张角
+        let angle2 = Number($("#model_angle2").val()); //半张角
 
-        var position = Cesium.Cartesian3.fromDegrees(x, y, z);
+        let position = Cesium.Cartesian3.fromDegrees(x, y, z);
 
         //加个模型
         modelGraphic = new mars3d.graphic.ModelEntity({
@@ -330,16 +330,16 @@
         graphicLayer.addGraphic(satelliteSensor);
 
         $("#chkShowModelMatrix").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           modelGraphic.debugAxis = val;
         });
         $("#modelMatrixLength").change(function () {
-          var value = Number($(this).val());
+          let value = Number($(this).val());
           modelGraphic.debugAxisLength = value * 1000;
         });
 
         $("#chkShowCone").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           satelliteSensor.show = val;
 
           if (val) {
@@ -378,7 +378,7 @@
         $("#btnGetRegion").click(function () {
           map.graphicLayer.clear();
 
-          var coords = satelliteSensor.getAreaCoords(); //导出成像区边界坐标
+          let coords = satelliteSensor.getAreaCoords(); //导出成像区边界坐标
           if (!coords || coords.length == 0) {
             haoutil.alert("当前与地球无成像区边");
             return;
@@ -387,7 +387,7 @@
           //显示边界点，测试
           map.graphicLayer.clear();
           $(coords).each(function (i, item) {
-            var primitive = new mars3d.graphic.PointPrimitive({
+            let primitive = new mars3d.graphic.PointPrimitive({
               position: item,
               style: {
                 color: "#ff0000",
@@ -411,13 +411,13 @@
         $("#btnGetCenter").click(function () {
           map.graphicLayer.clear();
 
-          var groundPosition = satelliteSensor.groundPosition;
+          let groundPosition = satelliteSensor.groundPosition;
           if (!groundPosition) {
             haoutil.alert("当前与地球无交点");
             return;
           }
 
-          var primitive = new mars3d.graphic.PointPrimitive({
+          let primitive = new mars3d.graphic.PointPrimitive({
             position: groundPosition,
             style: {
               color: "#ff0000",
@@ -430,16 +430,16 @@
           });
           map.graphicLayer.addGraphic(primitive);
 
-          var point = mars3d.LngLatPoint.fromCartesian(groundPosition);
+          let point = mars3d.LngLatPoint.fromCartesian(groundPosition);
           haoutil.alert(point.toString());
         });
       }
 
       function updatePosition() {
-        var x = Number($("#model_x").val());
-        var y = Number($("#model_y").val());
-        var z = Number($("#model_z").val());
-        var position = Cesium.Cartesian3.fromDegrees(x, y, z);
+        let x = Number($("#model_x").val());
+        let y = Number($("#model_y").val());
+        let z = Number($("#model_z").val());
+        let position = Cesium.Cartesian3.fromDegrees(x, y, z);
 
         modelGraphic.position = position;
         satelliteSensor.position = position;

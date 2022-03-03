@@ -43,11 +43,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 27.390195, lng: 117.386057, alt: 550488, heading: 0, pitch: -49 },
           },
@@ -57,12 +57,12 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建Graphic图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        var center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1);
+        let center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1);
 
-        var graphic = new mars3d.graphic.CircleEntity({
+        let graphic = new mars3d.graphic.CircleEntity({
           name: "合肥市",
           position: center,
           style: {
@@ -76,7 +76,7 @@
         });
         graphicLayer.addGraphic(graphic);
 
-        var cities = [
+        let cities = [
           { name: "六安市", lon: 116.3123, lat: 31.8329 },
           { name: "安庆市", lon: 116.7517, lat: 30.5255 },
           { name: "滁州市", lon: 118.1909, lat: 32.536 },
@@ -95,16 +95,16 @@
           { name: "铜陵市", lon: 117.9382, lat: 30.9375 },
         ];
 
-        var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+        let lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
           image: "img/textures/lineClr.png",
           color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
           speed: 10,
         });
-        for (var i = 0; i < cities.length; i++) {
-          var item = cities[i];
-          var thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1);
-          var positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100); //计算曲线点
-          var primitive = new mars3d.graphic.PolylinePrimitive({
+        for (let i = 0; i < cities.length; i++) {
+          let item = cities[i];
+          let thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1);
+          let positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100); //计算曲线点
+          let primitive = new mars3d.graphic.PolylinePrimitive({
             positions: positions,
             style: {
               width: 2,

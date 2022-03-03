@@ -48,12 +48,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var rotateOut;
+      let map;
+      let rotateOut;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.850468, lng: 116.354027, alt: 722, heading: 87, pitch: -6 },
           },

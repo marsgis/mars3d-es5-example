@@ -61,11 +61,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.402686, lng: 116.303632, alt: 48692, heading: 3, pitch: -43 },
           },
@@ -77,7 +77,7 @@
         showDrawDemo();
       }
 
-      var geoJsonLayer;
+      let geoJsonLayer;
 
       function removeLayer() {
         if (geoJsonLayer) {
@@ -299,7 +299,7 @@
 
         //下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
         // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-        var layerTest = map.getLayer(1987, "id");
+        let layerTest = map.getLayer(1987, "id");
         //绑定事件
         layerTest.on(mars3d.EventType.load, function (event) {
           console.log("数据加载完成", event);
@@ -326,7 +326,7 @@
               opacity: 0.8,
             },
             callback: function (attr, styleOpt) {
-              var diffHeight = Number(attr.floors || 1) * Number(attr.flo_height);
+              let diffHeight = Number(attr.floors || 1) * Number(attr.flo_height);
               return { height: 0, diffHeight: diffHeight };
             },
           },
@@ -365,8 +365,8 @@
               },
             },
             callback: function (attr, styleOpt) {
-              var flrH = attr.floorh || 0; //底面高度
-              var lyrH = attr.layerh || 0; //楼层高度
+              let flrH = attr.floorh || 0; //底面高度
+              let lyrH = attr.layerh || 0; //楼层高度
 
               return { height: flrH, diffHeight: lyrH };
             },
@@ -501,7 +501,7 @@
       }
 
       //示例：显示特殊面数据（单体化）
-      var tilesetLayer;
+      let tilesetLayer;
       function showDantihuaDemo() {
         removeLayer();
 
@@ -598,7 +598,7 @@
       }
 
       //===========================树控件处理============================
-      var layersObj = {};
+      let layersObj = {};
 
       function initTree(arr, nameColum = "name") {
         if (!arr || arr.length == 0) {
@@ -606,7 +606,7 @@
         }
 
         //初始化树
-        var setting = {
+        let setting = {
           check: {
             enable: true,
           },
@@ -621,8 +621,8 @@
           },
         };
 
-        var zNodes = [];
-        var pnode = {
+        let zNodes = [];
+        let pnode = {
           id: -1,
           name: "全部",
           type: "group",
@@ -632,11 +632,11 @@
         };
         zNodes.push(pnode);
 
-        for (var i = 0, len = arr.length; i < len; i++) {
-          var item = arr[i];
-          var name = item[nameColum] || "未命名";
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i];
+          let name = item[nameColum] || "未命名";
 
-          var node = {
+          let node = {
             id: i,
             pId: pnode.id,
             name: name,
@@ -653,15 +653,15 @@
       }
 
       function treeOverlays_onCheck(e, treeId) {
-        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        let zTree = $.fn.zTree.getZTreeObj(treeId);
 
         //获得所有改变check状态的节点
-        var changedNodes = zTree.getChangeCheckedNodes();
+        let changedNodes = zTree.getChangeCheckedNodes();
         if (changedNodes) {
-          for (var i = 0; i < changedNodes.length; i++) {
-            var treeNode = changedNodes[i];
+          for (let i = 0; i < changedNodes.length; i++) {
+            let treeNode = changedNodes[i];
             treeNode.checkedOld = treeNode.checked;
-            var graphic = layersObj[treeNode.id];
+            let graphic = layersObj[treeNode.id];
             if (graphic == null) {
               continue;
             }
@@ -673,7 +673,7 @@
       }
 
       function treeOverlays_onClick(event, treeId, treeNode) {
-        var graphic = layersObj[treeNode.id];
+        let graphic = layersObj[treeNode.id];
         if (graphic == null) {
           return;
         }

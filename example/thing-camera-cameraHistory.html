@@ -55,16 +55,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var cameraHistory = new mars3d.thing.CameraHistory();
+        let cameraHistory = new mars3d.thing.CameraHistory();
         map.addThing(cameraHistory);
 
         cameraHistory.on(mars3d.EventType.change, function (event) {
@@ -73,7 +73,7 @@
         });
 
         $("#last").click(function () {
-          var result = cameraHistory.goLast();
+          let result = cameraHistory.goLast();
 
           if (!result) {
             haoutil.msg("当前已是第一条记录了");
@@ -81,14 +81,14 @@
         });
 
         $("#next").click(function () {
-          var result = cameraHistory.goNext();
+          let result = cameraHistory.goNext();
           if (!result) {
             haoutil.msg("当前已是最后一条记录了");
           }
         });
 
         $("#now").click(function () {
-          var result = cameraHistory.goNow();
+          let result = cameraHistory.goNow();
           if (!result) {
             haoutil.msg("当前已是最后一条记录了");
           }

@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.818816, lng: 117.221131, alt: 2553, heading: 0, pitch: -55 },
           },
@@ -61,7 +61,7 @@
 
       //合肥市建筑物模型
       function addTilesetLayer() {
-        var fragmentShader = `
+        let fragmentShader = `
           // 注意shader中写浮点数是，一定要带小数点，否则会报错，比如0需要写成0.0，1要写成1.0
           float _baseHeight = 0.0; // 物体的基础高度，需要修改成一个合适的建筑基础高度
           float _heightRange = 25.0; // 高亮的范围(_baseHeight ~ _baseHeight + _heightRange)
@@ -81,7 +81,7 @@
           gl_FragColor.rgb += gl_FragColor.rgb * (1.0 - mars_diff);
        `;
 
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           name: "合肥市建筑物",
           url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
           maximumScreenSpaceError: 1,
@@ -96,7 +96,7 @@
         map.addLayer(tiles3dLayer);
 
         //模型裁剪
-        var modelThing = new mars3d.thing.TilesetClip({
+        let modelThing = new mars3d.thing.TilesetClip({
           layer: tiles3dLayer,
           positions: [
             [117.22648, 31.827441],
@@ -112,7 +112,7 @@
 
       function addGraphics() {
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         queryAreasData().then(function (geojson) {
@@ -122,7 +122,7 @@
             let item = arr[i];
 
             //polygon面
-            var polygonEntity = new mars3d.graphic.PolygonEntity({
+            let polygonEntity = new mars3d.graphic.PolygonEntity({
               positions: item.positions,
               style: {
                 color: item.attr.color,
@@ -132,7 +132,7 @@
             graphicLayer.addGraphic(polygonEntity);
 
             //PolylineEntity线
-            var graphicLine = new mars3d.graphic.PolylineEntity({
+            let graphicLine = new mars3d.graphic.PolylineEntity({
               positions: item.positions,
               style: {
                 width: 4,
@@ -147,7 +147,7 @@
             graphicLayer.addGraphic(graphicLine);
 
             //动态边框文本 DIV
-            var graphic = new mars3d.graphic.DivBoderLabel({
+            let graphic = new mars3d.graphic.DivBoderLabel({
               position: polygonEntity.center,
               style: {
                 text: item.attr.name,

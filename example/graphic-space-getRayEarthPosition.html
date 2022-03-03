@@ -112,11 +112,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             //此处参数会覆盖config.json中的对应配置
             center: { lat: 5.459746, lng: 68.238291, alt: 36261079, heading: 143, pitch: -89 },
@@ -137,14 +137,14 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.on(mars3d.EventType.click, function (event) {
           console.log("单击了卫星", event);
         });
 
-        var weixin = new mars3d.graphic.Satellite({
+        let weixin = new mars3d.graphic.Satellite({
           name: "GAOFEN 1",
           tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
           tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -180,7 +180,7 @@
         //卫星朝向的中线地面点
         let graphic = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var pt1 = weixin.position,
+            let pt1 = weixin.position,
               pt2 = weixin.groundPosition;
             if (!pt1 || !pt2) {
               return [];
@@ -204,25 +204,25 @@
               weixin.angle1 = e.value.newValue;
             }
           });
-        var angle1 = Number($("#model_angle1").val()); //设置在前，取值在后
+        let angle1 = Number($("#model_angle1").val()); //设置在前，取值在后
 
         let graphicTriangle = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var pt1 = weixin.position;
+            let pt1 = weixin.position;
 
-            var hpr = new Cesium.HeadingPitchRoll(
+            let hpr = new Cesium.HeadingPitchRoll(
               Cesium.Math.toRadians(weixin.heading),
               Cesium.Math.toRadians(weixin.pitch),
               Cesium.Math.toRadians(weixin.roll + angle1)
             );
-            var ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true);
+            let ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true);
 
-            var hdr2 = new Cesium.HeadingPitchRoll(
+            let hdr2 = new Cesium.HeadingPitchRoll(
               Cesium.Math.toRadians(weixin.heading),
               Cesium.Math.toRadians(weixin.pitch),
               Cesium.Math.toRadians(weixin.roll - angle1)
             );
-            var ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true);
+            let ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true);
 
             if (!ptRight || !ptLeft) {
               return [];
@@ -240,7 +240,7 @@
 
         //显示 坐标系参考轴
         $("#chkShowModelMatrix").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           weixin.coneShow = val; //显示关闭视锥体
         });
 
@@ -274,7 +274,7 @@
           $("#td_time").html(date.format("yyyy-M-d HH:mm:ss"));
 
           if (weixin.position) {
-            var point = mars3d.LngLatPoint.fromCartesian(weixin.position);
+            let point = mars3d.LngLatPoint.fromCartesian(weixin.position);
             $("#td_jd").html(point.lng);
             $("#td_wd").html(point.lat);
             $("#td_gd").html(haoutil.str.formatLength(point.alt));

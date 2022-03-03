@@ -65,16 +65,16 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {});
+        let mapOptions = mars3d.Util.merge(options, {});
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var streetView = new mars3d.thing.StreetView({
+        let streetView = new mars3d.thing.StreetView({
           rotateSpeed: 30, //右键拖动的移动度数，旋转的方向和速度，正负控制方向。
           windingPointDirection: false, ///绕点旋转方向 true逆时针，false顺时针
           windingPointTime: 30, //绕点旋转的一周时长(秒)，控制速度。

@@ -47,14 +47,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
-      var pathEntity = null;
+      let pathEntity = null;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 32.550222, lng: 117.366824, alt: 2696, heading: 273, pitch: -67 },
           },
@@ -127,23 +127,23 @@
       }
 
       function initPath(data) {
-        var property = new Cesium.SampledPositionProperty();
+        let property = new Cesium.SampledPositionProperty();
         property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
 
-        var start;
-        var stop;
-        for (var i = 0, len = data.length; i < len; i++) {
-          var item = data[i];
-          var lng = Number(item.x.toFixed(6)); //经度
-          var lat = Number(item.y.toFixed(6)); //纬度
-          var height = item.z; //高度
-          var time = item.time; //时间
+        let start;
+        let stop;
+        for (let i = 0, len = data.length; i < len; i++) {
+          let item = data[i];
+          let lng = Number(item.x.toFixed(6)); //经度
+          let lat = Number(item.y.toFixed(6)); //纬度
+          let height = item.z; //高度
+          let time = item.time; //时间
 
-          var position = null;
+          let position = null;
           if (lng && lat) {
             position = Cesium.Cartesian3.fromDegrees(lng, lat, height);
           }
-          var juliaDate = null;
+          let juliaDate = null;
           if (time) {
             juliaDate = Cesium.JulianDate.fromIso8601(time);
           }
@@ -157,7 +157,7 @@
             stop = juliaDate;
           }
 
-          var primitive = new mars3d.graphic.PointPrimitive({
+          let primitive = new mars3d.graphic.PointPrimitive({
             position: position,
             style: {
               pixelSize: 4,
@@ -212,7 +212,7 @@
         graphicLayer.addGraphic(pathEntity);
 
         //圆锥追踪体
-        var coneTrack = new mars3d.graphic.ConeTrack({
+        let coneTrack = new mars3d.graphic.ConeTrack({
           position: property,
           style: {
             length: 100,

@@ -85,11 +85,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.839437, lng: 117.216104, alt: 554, heading: 359, pitch: -55 },
             baseColor: "rgba(0,0,0.0,0.5)",
@@ -116,7 +116,7 @@
         // map.addLayer(qxLayer);
 
         // 加个模型
-        var tiles3dLayer = new mars3d.layer.TilesetLayer({
+        let tiles3dLayer = new mars3d.layer.TilesetLayer({
           name: "地下管网",
           url: "//data.mars3d.cn/3dtiles/max-piping/tileset.json",
           position: { lng: 117.215457, lat: 31.843363, alt: -3.6 },
@@ -139,20 +139,20 @@
           });
 
         //地下模式
-        var underground = new mars3d.thing.Underground({
+        let underground = new mars3d.thing.Underground({
           alpha: Number($("#alpha").val()),
           enabled: $("#chkUnderground").is(":checked"),
         });
         map.addThing(underground);
 
         $("#chkUnderground").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           underground.enabled = val;
         });
 
         //挖地区域
-        var terrainPlanClip = new mars3d.thing.TerrainPlanClip({
+        let terrainPlanClip = new mars3d.thing.TerrainPlanClip({
           positions: [
             [117.214769, 31.842048, 42.63],
             [117.217764, 31.842048, 42.63],
@@ -167,16 +167,16 @@
         map.addThing(terrainPlanClip);
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
         });
 
         $("#chkClippingPlanes").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           terrainPlanClip.enabled = val;
         });
         $("#txtHeight").change(function () {
-          var num = Number($(this).val());
+          let num = Number($(this).val());
           terrainPlanClip.diffHeight = num;
         });
 
@@ -196,7 +196,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.positionsShow;
+              let positions = graphic.positionsShow;
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
@@ -219,7 +219,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界

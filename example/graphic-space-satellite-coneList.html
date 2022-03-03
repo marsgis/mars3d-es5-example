@@ -86,11 +86,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
             cameraController: {
@@ -113,14 +113,14 @@
         map.clock.multiplier = 1; //速度
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         graphicLayer.on(mars3d.EventType.click, function (event) {
           console.log("单击了卫星", event);
         });
 
-        var weixin = new mars3d.graphic.Satellite({
+        let weixin = new mars3d.graphic.Satellite({
           name: "BEIDOU M6",
           tle1: "1 38775U 12050B   19233.58396017  .00000002  00000-0  00000+0 0  9996",
           tle2: "2 38775  54.9682 146.4459 0022572 250.3518 274.6095  1.86232229 47268",
@@ -179,7 +179,7 @@
 
         //显示 坐标系参考轴
         $("#chkShowModelMatrix").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           weixin.debugAxis = val;
         });
 
@@ -197,7 +197,7 @@
           $("#td_time").html(date.format("yyyy-M-d HH:mm:ss"));
 
           if (weixin.position) {
-            var point = mars3d.LngLatPoint.fromCartesian(weixin.position);
+            let point = mars3d.LngLatPoint.fromCartesian(weixin.position);
             $("#td_jd").html(point.lng);
             $("#td_wd").html(point.lat);
             $("#td_gd").html(haoutil.str.formatLength(point.alt));

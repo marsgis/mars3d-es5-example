@@ -149,28 +149,28 @@
         }
 
         $("#chkTestTerrain").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           map.scene.globe.depthTestAgainstTerrain = val;
         });
         $("#chkWireframe").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //三角网
           tiles3dLayer.tileset.debugWireframe = val;
         });
         $("#chkBoundbox").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
 
           //包围盒
           tiles3dLayer.tileset.debugShowBoundingVolume = val;
         });
         $("#chkGfirstperson").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           // 键盘漫游
           map.keyboardRoam.enabled = val;
         });
 
-        var type = haoutil.system.getRequestByName("data");
+        let type = haoutil.system.getRequestByName("data");
         switch (type) {
           default:
           case "qx-shequ":
@@ -411,7 +411,7 @@
 
         //可以绑定Popup弹窗，回调方法中任意处理
         tiles3dLayer.bindPopup(function (event) {
-          var attr = event.graphic.attr;
+          let attr = event.graphic.attr;
           // attr["视频"] = `<video src='//data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
           return mars3d.Util.getTemplateHtml({ title: "石化工厂", template: "all", attr: attr });
         });
@@ -459,7 +459,7 @@
 
         //可以绑定Popup弹窗，回调方法中任意处理
         tiles3dLayer.bindPopup(function (event) {
-          var attr = event.graphic.attr;
+          let attr = event.graphic.attr;
           return mars3d.Util.getTemplateHtml({ title: "桥梁", template: "all", attr: attr });
         });
 

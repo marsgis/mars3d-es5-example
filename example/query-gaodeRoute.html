@@ -87,18 +87,18 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var routeLayer;
-      var gaodeRoute;
+      let map;
+      let routeLayer;
+      let gaodeRoute;
 
       //当前页面业务相关
-      var startGraphic, endGraphic;
+      let startGraphic, endGraphic;
 
-      var lineGraphic;
+      let lineGraphic;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 },
           },
@@ -131,7 +131,7 @@
             success: function (graphic) {
               startGraphic = graphic;
 
-              var point = graphic.point;
+              let point = graphic.point;
               point.format();
               $("#startIpt").val(point.lng + "," + point.lat);
 
@@ -155,7 +155,7 @@
             success: function (graphic) {
               endGraphic = graphic;
 
-              var point = graphic.point;
+              let point = graphic.point;
               point.format();
               $("#endIpt").val(point.lng + "," + point.lat);
 
@@ -200,7 +200,7 @@
         haoutil.loading.show();
         $(".result").hide();
 
-        var type = Number($("#queryType").val()); //GaodeRouteType枚举类型
+        let type = Number($("#queryType").val()); //GaodeRouteType枚举类型
 
         gaodeRoute.query({
           type: type,
@@ -209,14 +209,14 @@
             haoutil.loading.close();
 
             let lineFirst = data.paths[0];
-            var points = lineFirst.points;
+            let points = lineFirst.points;
             if (!points || points.length < 1) {
               return;
             }
 
-            var time = haoutil.str.formatTime(lineFirst.allDuration);
-            var distance = haoutil.str.formatLength(lineFirst.allDistance);
-            var html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>";
+            let time = haoutil.str.formatTime(lineFirst.allDuration);
+            let distance = haoutil.str.formatLength(lineFirst.allDistance);
+            let html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>";
 
             let graphic = new mars3d.graphic.PolylineEntity({
               positions: points,
@@ -242,12 +242,12 @@
       function showResult(data) {
         $(".result").show();
 
-        var allTime = haoutil.str.formatTime(data.paths[0].allDuration);
-        var allDistance = haoutil.str.formatLength(data.paths[0].allDistance);
+        let allTime = haoutil.str.formatTime(data.paths[0].allDuration);
+        let allDistance = haoutil.str.formatLength(data.paths[0].allDistance);
 
-        var dhHtml = "";
-        for (var i = 0; i < data.paths[0].steps.length; i++) {
-          var item = data.paths[0].steps[i];
+        let dhHtml = "";
+        for (let i = 0; i < data.paths[0].steps.length; i++) {
+          let item = data.paths[0].steps[i];
           dhHtml += item.instruction + "；";
         }
         $("#useTime").html(allTime);

@@ -44,7 +44,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.783013, lng: 117.221851, alt: 2307, heading: 1, pitch: -29 },
           },
@@ -52,10 +52,10 @@
         });
 
         //创建三维地球场景
-        var map = new mars3d.Map("mars3dContainer", mapOptions);
+        let map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //高德POI图层，演示大数据的分块加载
-        var layer = new mars3d.layer.GeodePoiLayer({
+        let layer = new mars3d.layer.GeodePoiLayer({
           minimumLevel: 13,
           debuggerTileInfo: false, //是否显示网格信息（测试用）
           key: mars3d.Token.gaodeArr, //请在实际项目中将下面高德KEY换为自己申请的，因为该key不保证长期有效。

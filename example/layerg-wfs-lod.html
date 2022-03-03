@@ -40,11 +40,11 @@
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 30.563158, lng: 116.329235, alt: 16165, heading: 0, pitch: -45 },
           },
@@ -53,7 +53,7 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        var lodGraphicLayer = new mars3d.layer.LodGraphicLayer({
+        let lodGraphicLayer = new mars3d.layer.LodGraphicLayer({
           IdField: "id", //数据的唯一主键 字段名称
           minimumLevel: 11, //限定层级，只加载该层级下的数据。[与效率相关的重要参数]
           debuggerTileInfo: true,
@@ -67,7 +67,7 @@
           createGraphic(grid, attr) {
             let height = mars3d.PointUtil.getSurfaceHeight(map.scene, Cesium.Cartesian3.fromDegrees(attr.x, attr.y));
 
-            var graphic = new mars3d.graphic.ModelPrimitive({
+            let graphic = new mars3d.graphic.ModelPrimitive({
               position: [attr.x, attr.y, height],
               style: {
                 url: "//data.mars3d.cn/gltf/mars/leida.glb",

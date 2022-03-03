@@ -50,11 +50,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.799033, lng: 117.177563, alt: 4324.03, heading: 0, pitch: -45, roll: 0 },
             fxaa: true,
@@ -70,7 +70,7 @@
         showShanghaiDemo();
       }
 
-      var gltfLayer;
+      let gltfLayer;
 
       function removeLayer() {
         map.trackedEntity = null;
@@ -146,7 +146,7 @@
 
         // var arrData = [];
 
-        var positions = [
+        let positions = [
           { lng: 112.227630577, lat: 39.0613382363999, alt: 1815 },
           { lng: 112.229302206, lat: 39.0579481036999, alt: 1827 },
           { lng: 112.226596341, lat: 39.0584773033999, alt: 1849 },
@@ -197,15 +197,15 @@
       function showGguangfu() {
         removeLayer();
 
-        var arrData = [];
+        let arrData = [];
         //构造数据
-        var longitudeString = 93.1214,
+        let longitudeString = 93.1214,
           latitudeString = 42.7863,
           height = 678,
           heading = 0;
         //光伏电厂位置太阳能电池板位置
-        for (var i = 0; i < 120; i++) {
-          var point;
+        for (let i = 0; i < 120; i++) {
+          let point;
           if (i < 20) {
             point = { lng: longitudeString, lat: latitudeString + i / 1000, alt: height };
           } else if (i < 40) {

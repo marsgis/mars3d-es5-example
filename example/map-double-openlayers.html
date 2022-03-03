@@ -77,11 +77,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
             fxaa: true,
@@ -96,7 +96,7 @@
       }
 
       //二三维地图联动控制
-      var mapManager = {
+      let mapManager = {
         createMap2D: function (viewer) {
           let tileWorldImagery = new ol.layer.Tile({
             source: new ol.source.XYZ({

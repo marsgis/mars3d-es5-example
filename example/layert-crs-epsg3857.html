@@ -32,17 +32,21 @@
   </head>
 
   <body class="dark">
-    <div id="mars3dContainer" class="mars3d-container"></div>
+    <div id="mars3dContainer" class="mars3d-container">
+      <div class="infoview">
+        <input type="button" class="btn btn-primary" value="叠加图层" onclick="addLayer()" />
+        <input type="button" class="btn btn-primary" value="移除图层" onclick="removeLayer()" />
+    </div>
 
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 },
           },
@@ -53,9 +57,14 @@
 
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
+      }
+      // 叠加的图层
+      let tileLayer;
+      function addLayer() {
+        removeLayer();
 
         // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
-        let tileLayer = new mars3d.layer.XyzLayer({
+        tileLayer = new mars3d.layer.XyzLayer({
           url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
           crs: "EPSG:3857", // 标识为Web墨卡托投影坐标系，也是默认值
           minimumLevel: 0,
@@ -66,6 +75,12 @@
           flyTo: true,
         });
         map.addLayer(tileLayer);
+      }
+      function removeLayer() {
+        if (tileLayer) {
+          map.removeLayer(tileLayer, true);
+          tileLayer = null;
+        }
       }
     </script>
   </body>

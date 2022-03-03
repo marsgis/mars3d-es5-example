@@ -68,12 +68,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let tiles3dLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
             showSun: false,
@@ -133,7 +133,7 @@
       //当前页面业务相关
       function showModel() {
         removeLayer();
-        var _url = $("#txtModel").val();
+        let _url = $("#txtModel").val();
         localforage.setItem("g20_onlyModel2", _url);
 
         tiles3dLayer = new mars3d.layer.TilesetLayer({

@@ -97,11 +97,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 23.729961, lng: 116.284734, alt: 1868672, heading: 355, pitch: -65 },
             cameraController: {
@@ -114,17 +114,17 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //移除2.5D视图
-        var arr = $(".cesium-sceneModePicker-wrapper").children();
+        let arr = $(".cesium-sceneModePicker-wrapper").children();
         if (arr.length > 3) {
           arr[3].remove();
         }
 
         //创建矢量数据图层
-        var graphicLayer = new mars3d.layer.GraphicLayer();
+        let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //加个模型
-        var graphic = new mars3d.graphic.ModelEntity({
+        let graphic = new mars3d.graphic.ModelEntity({
           name: "地面站模型",
           position: [117.170264, 31.840312, 258],
           style: {
@@ -167,14 +167,14 @@
           });
 
         //参数
-        var heading = Number($("#model_heading").val());
-        var pitch = Number($("#model_pitch").val());
-        var roll = Number($("#model_roll").val());
-        var angle = Number($("#model_angle1").val());
-        var length = Number($("#model_length").val());
+        let heading = Number($("#model_heading").val());
+        let pitch = Number($("#model_pitch").val());
+        let roll = Number($("#model_roll").val());
+        let angle = Number($("#model_angle1").val());
+        let length = Number($("#model_length").val());
 
         //圆锥体
-        var conicSensor = new mars3d.graphic.ConicSensor({
+        let conicSensor = new mars3d.graphic.ConicSensor({
           position: [117.170264, 31.840312, 363],
           style: {
             angle: angle,
@@ -195,7 +195,7 @@
         //测试连接线
         let testLine = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var localEnd = conicSensor.rayPosition;
+            let localEnd = conicSensor.rayPosition;
             if (!localEnd) {
               return [];
             }
@@ -216,11 +216,11 @@
         });
 
         $("#chkShowTop").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           conicSensor.topShow = val;
         });
         $("#chkShow").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           conicSensor.show = val;
           testLine.show = val;
         });

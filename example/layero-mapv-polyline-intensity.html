@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 },
           },
@@ -59,9 +59,9 @@
       }
 
       function createMapvLayer() {
-        var randomCount = 1000;
-        var data = [];
-        var citys = [
+        let randomCount = 1000;
+        let data = [];
+        let citys = [
           "北京",
           "天津",
           "上海",
@@ -97,8 +97,8 @@
 
         // 自定义数据
         while (randomCount--) {
-          var cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
-          var cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
+          let cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
+          let cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
           data.push({
             geometry: {
               type: "LineString",
@@ -111,7 +111,7 @@
           });
         }
 
-        var options = {
+        let options = {
           gradient: {
             0: "blue",
             0.5: "yellow",
@@ -121,9 +121,9 @@
           max: 30,
           draw: "intensity",
         };
-        var dataSet = new this.mapv.DataSet(data);
+        let dataSet = new this.mapv.DataSet(data);
         //创建MapV图层
-        var mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
+        let mapVLayer = new mars3d.layer.MapVLayer(options, dataSet);
         map.addLayer(mapVLayer);
       }
     </script>

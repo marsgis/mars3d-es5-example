@@ -91,12 +91,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var tilesetFlat;
+      let map;
+      let tilesetFlat;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars3d.Util.merge(options, {
+        let mapOptions = mars3d.Util.merge(options, {
           scene: {
             center: { lat: 25.072996, lng: 102.648666, alt: 3773, heading: 29, pitch: -45 },
           },
@@ -109,7 +109,7 @@
         map.fixedLight = true;
 
         //加模型
-        var tilesetLayer = new mars3d.layer.TilesetLayer({
+        let tilesetLayer = new mars3d.layer.TilesetLayer({
           url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
           maximumScreenSpaceError: 6,
           maximumMemoryUsage: 2048,
@@ -176,7 +176,7 @@
             },
             success: function (graphic) {
               //绘制成功后回调
-              var positions = graphic.getOutlinePositions(false);
+              let positions = graphic.getOutlinePositions(false);
               map.graphicLayer.clear();
 
               addTestLine(positions);
@@ -190,7 +190,7 @@
         });
 
         $("#chkShowLine").change(function () {
-          var val = $(this).is(":checked");
+          let val = $(this).is(":checked");
           if (val) {
             //
           } else {
@@ -199,7 +199,7 @@
         });
 
         $("#flatHeight").change(function () {
-          var num = Number($(this).val());
+          let num = Number($(this).val());
           tilesetFlat.height = num;
         });
 
@@ -208,7 +208,7 @@
           map.graphicLayer.clear();
 
           // 清除表格
-          var tbody = document.getElementById("tbPoly");
+          let tbody = document.getElementById("tbPoly");
           tbody.innerHTML = "";
         });
       }
@@ -234,8 +234,8 @@
       // 区域表格添加一行记录
       function addTableItem(item) {
         // 增加tr和td表格
-        var tbody = document.getElementById("tbPoly");
-        var tr = document.createElement("tr");
+        let tbody = document.getElementById("tbPoly");
+        let tr = document.createElement("tr");
         tr.innerHTML = `
           <tr>
             <td>压平区${item.id}</td>
