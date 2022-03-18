@@ -30,8 +30,8 @@
 
     <link href="css/style.css" rel="stylesheet" />
     <style>
-      .infoview-right{
-        overflow:auto;
+      .infoview-right {
+        overflow: auto;
         max-height: 850px;
         position: fixed;
         left: 15px;
@@ -83,14 +83,14 @@
           <tr>
             <td>进度条：</td>
             <td class="slider">
-              <input id="slider_opacity" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="1" />
+              <input id="slider_brightness" type="text" data-slider-min="-0.5" data-slider-max="1.5" data-slider-step="0.01" data-slider-value="-0.5" />
             </td>
           </tr>
 
           <tr>
             <td>刻度进度条：</td>
             <td class="slider">
-              <input id="slider_showLevel" type="text" />
+              <input id="slider_showLevel" type="text"/>
             </td>
           </tr>
 
@@ -187,6 +187,7 @@
       let map;
       let $table;
       let tileLayer;
+      let bloomEffect;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -214,6 +215,10 @@
           showTyphoonTable(arr);
         });
 
+        // 构造bloom效果 用于滑动条测试
+        bloomEffect = new mars3d.effect.BloomEffect();
+        map.addEffect(bloomEffect);
+
         $("#slider_lodLevel")
           .slider({
             id: "slider-lodLevel-internal",
@@ -228,20 +233,26 @@
             $("#slider_showLevel").slider("setValue", lodLevel);
           });
 
-        $("#slider_showLevel").slider({
-          id: "slider-showLevel-internal",
-          ticks: [0, 5, 10, 15, 18, 21],
-          ticks_positions: [0, 20, 40, 60, 80, 100],
-          ticks_labels: ["0", "5", "10", "15", "18", "21"],
-          range: true,
-          value: [0, 21],
-        });
+        $("#slider_showLevel")
+          .slider({
+            id: "slider-showLevel-internal",
+            ticks: [-25, 2, 4, 6, 8, 9],
+            ticks_positions: [0, 20, 40, 60, 80, 100],
+            ticks_labels: ["0", "20", "40", "60", "80", "100"],
+            range: true,
+            value: [-25, 9],
+          })
+          .on("change", function () {
+            bloomEffect.brightness = Number($("#slider_showLevel").val()[0] / 50);
+          });
 
+        // 调整亮度 （演示滑动条）
         $("#slider_brightness")
           .slider()
           .on("change", function () {
-            // console.log(e);
+            bloomEffect.brightness = Number($("#slider_brightness").val());
           });
+
         $("#slider_opacity")
           .slider()
           .on("change", function () {

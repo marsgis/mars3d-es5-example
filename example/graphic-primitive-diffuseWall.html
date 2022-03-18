@@ -18,7 +18,7 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="https://muyao1987.gitee.io/cdn/marsgis.cn/favicon/favicon.ico" />
-    <title>走马灯围墙 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>扩散围墙 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <script
       type="text/javascript"
@@ -54,8 +54,6 @@
       </div>
     </div>
 
-
-
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
@@ -89,7 +87,7 @@
 
       function addGraphic_a1(graphicLayer) {
         //走马灯围墙效果
-        let scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.DiffuseWall({
           positions: [
             [117.268479, 31.836646, 25.53],
             [117.282362, 31.827581, 34.28],
@@ -100,7 +98,7 @@
           style: {
             diffHeight: 500, //高度
             color: "#f2fa19",
-            speed: 10,
+            speed: 5,
             reverse: false, //方向：true往上、false往下
 
             //高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
@@ -115,7 +113,7 @@
 
       function addGraphic_a2(graphicLayer) {
         //走马灯围墙效果
-        let scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.DiffuseWall({
           positions: [
             [117.269712, 31.883547, 22.12],
             [117.303505, 31.881174, 16.89],
@@ -125,7 +123,7 @@
           style: {
             diffHeight: 500, //高度
             color: "#00ff00",
-            speed: 10,
+            speed: 5,
             reverse: true, //方向：true往上、false往下
           },
           tooltip: "效果1",
@@ -135,7 +133,7 @@
 
       function addGraphic_a3(graphicLayer) {
         //走马灯围墙效果
-        let scrollWall = new mars3d.graphic.ScrollWall({
+        let scrollWall = new mars3d.graphic.DiffuseWall({
           positions: [
             [117.319966, 31.842082, 12.29],
             [117.330034, 31.835286, 11.07],
@@ -147,14 +145,14 @@
             diffHeight: 500, //高度
             color: "#f33349",
             style: 2, //效果2，默认是1
-            speed: 10,
+            speed: 5,
           },
           tooltip: "效果2",
         });
         graphicLayer.addGraphic(scrollWall);
       }
 
-//在图层级处理一些事物
+      //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -542,6 +540,6 @@
         let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
-        </script>
+    </script>
   </body>
 </html>

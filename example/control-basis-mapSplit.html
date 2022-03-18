@@ -48,7 +48,7 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
         map.basemap = null;
 
-        let _alllayers = this.map.getTileLayers();
+        let _alllayers = map.getTileLayers();
 
         console.log(_alllayers);
         let mapSplit = new mars3d.control.MapSplit({

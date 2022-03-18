@@ -74,6 +74,11 @@
           <input id="showHelpButton" class="styled" type="checkbox" checked />
           <label for="showHelpButton"> 帮助 </label>
         </div>
+
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="zoomButton" class="styled" type="checkbox" checked />
+          <label for="zoomButton"> 地图缩放 </label>
+        </div>
       </div>
       <div>
         面板：
@@ -139,7 +144,7 @@
         //显示刻度线
         $("#showTimeLine").change(function () {
           let show = $(this).is(":checked");
-          map.viewer.timeline.container.style.display = show ? "block" : "none";
+          map.controls.timeline.container.style.display = show ? "block" : "none";
 
           if (show) {
             map.controls.locationBar.setStyle({
@@ -155,7 +160,6 @@
         //位置信息状态栏
         $("#showLocation").change(function () {
           let show = $(this).is(":checked");
-
           map.controls.locationBar.show = show;
         });
 
@@ -166,11 +170,18 @@
           map.controls.compass.show = show;
         });
 
+        // 显示地图缩放
+        $("#zoomButton").change(function () {
+          let show = $(this).is(":checked");
+          map.controls.zoom.show = show
+        })
+
         //比例尺
         $("#showLegend").change(function () {
           let show = $(this).is(":checked");
           map.controls.distanceLegend.show = show;
         });
+
         //显示位置搜索
         $("#showLocationSearch").change(function () {
           let show = $(this).is(":checked");

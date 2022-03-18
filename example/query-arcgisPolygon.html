@@ -276,6 +276,7 @@
 
       function queryData() {
         if (drawGraphic == null) {
+          $("#tab_check").hide();
           haoutil.msg("请绘制查询区域！");
           return;
         }
@@ -288,6 +289,7 @@
           success: (result) => {
             if (result.count == 0) {
               haoutil.msg("未查询到相关记录！");
+              $("#tab_check").hide();
               return;
             }
             console.log("查询到的记录", result);

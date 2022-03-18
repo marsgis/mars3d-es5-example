@@ -59,6 +59,26 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
+        let geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+          name: "全国省界",
+          url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
+          symbol: {
+            type: "polygonCombine",
+            styleOptions: {
+              color: Cesium.Color.YELLOW.withAlpha(0.6),
+              outline: true,
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.BLUE,
+            },
+          },
+          popup: "all",
+        });
+        map.addLayer(geoJsonLayer);
+
+        geoJsonLayer.on(mars3d.EventType.click, function (event) {
+          console.log("监听layer，单击了矢量对象", event);
+        });
+
         let graphic = new mars3d.graphic.RectangleEntity({
           coordinates: Cesium.Rectangle.fromDegrees(-180.0, -90.0, 180.0, 90.0),
           style: {
@@ -71,6 +91,7 @@
             }),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(3000000, 100000000),
           },
+          allowDrillPick: true,
         });
         map.graphicLayer.addGraphic(graphic);
       }

@@ -133,12 +133,12 @@
             length: 4000,
             angle: 5, //半场角度
             material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
-              duration: 2000,
               color: "#02ff00",
             }),
           },
         });
         graphicLayer.addGraphic(coneTrack);
+
 
         $("#btnSelPoint").click(function () {
           map.graphicLayer.startDraw({

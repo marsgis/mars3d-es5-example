@@ -119,6 +119,8 @@
           let usedTime = (endTime - startTime) / 1000;
           // console.log(usedTime);
 
+          graphicLayer.flyTo()
+
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
         });
 
