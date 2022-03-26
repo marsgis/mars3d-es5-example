@@ -108,13 +108,12 @@
       .bookmarkView table td p:hover {
         display: inline-block;
         width: 160px;
-        white-space: normal;
-        word-wrap: break-word;
+        cursor: pointer;
       }
       .bookmarkView table i {
         position: absolute;
         right: 10px;
-        top: 10px;
+        bottom: 10px;
         cursor: pointer;
       }
 
@@ -152,7 +151,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       let arrView = [];
       let index = 0;
@@ -235,7 +234,7 @@
         let html = `<tr id="tr-${item.id}" class="trItem">
                      <td class="newAddView">
                       <div id='flyView-${item.id}'><img src="${item.image}"/></div>
-                      <div><p>${item.name}</p><i id="deleView-${item.id}" class="fa fa-trash"></i></div>
+                      <div><p title='${item.name}'>${item.name}</p><i id="deleView-${item.id}" class="fa fa-trash"></i></div>
                       </div>
                     </td>
                   </tr>`;

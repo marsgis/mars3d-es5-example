@@ -65,7 +65,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let drawLayer;
       let measure;
 
@@ -86,7 +86,7 @@
 
             defaultContextMenu: true, //涉及到多语言的模块：右键菜单
             zoom: { insertIndex: 1 },
-            compass: { top: "10px", right: "5px" },
+            compass: { top: "10px", left: "5px" },
             distanceLegend: { left: "180px", bottom: "30px" },
             locationBar: {
               fps: true,

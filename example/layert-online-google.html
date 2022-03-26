@@ -34,7 +34,7 @@
   <body class="dark">
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <div class="infoview infoview-right">
+    <div class="infoview">
       <input id="btnAddLayer" type="button" class="btn btn-primary" value="叠加图层" onclick="addLayer()" />
       <input id="btnRemoveLayer" type="button" class="btn btn-primary" value="移除图层" onclick="removeLayer()" />
     </div>
@@ -54,7 +54,7 @@
         initMap();
       });
 
-      let map;
+      var map;
       function initMap() {
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", {
@@ -154,7 +154,7 @@
         window.layer.open({
           type: 1,
           title: title || "功能 和 已知问题 提示",
-          offset: "rt",
+          offset: "rb",
           shade: false,
           skin: "layer-mars-dialog animation-scale-up",
           content: content,

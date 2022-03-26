@@ -30,16 +30,8 @@
 
     <link href="css/style.css" rel="stylesheet" />
     <style>
-      .infoview-right {
-        overflow: auto;
-        max-height: 850px;
-        position: fixed;
-        left: 15px;
-        top: 15px;
-        right: auto;
-      }
       .fixed-table-container tbody .selected td {
-        background-color: #3f4854a9;
+        background-color: #3f4854a9 !important;
       }
     </style>
   </head>
@@ -51,7 +43,7 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <div id="toolbar" class="infoview infoview-right">
+    <div class="infoview" style="overflow: auto;max-height: 850px;">
       <table class="mars-table">
         <tbody>
           <tr>
@@ -184,7 +176,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let $table;
       let tileLayer;
       let bloomEffect;

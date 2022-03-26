@@ -83,10 +83,10 @@
 
         <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
       </div>
-    </div>
 
-    <!-- 属性面板 -->
-    <div class="infoview" style="left: auto; right: 10px">
+      <div>
+        属性面板:
+
       <table class="mars-table">
         <tr>
           <td class="nametd">半径（米）</td>
@@ -135,6 +135,11 @@
           </td>
         </tr>
       </table>
+      </div>
+    </div>
+
+    <div id="tipView" class="info-tips">
+      (1) 该矢量对象不支持拾取
     </div>
 
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
@@ -146,14 +151,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars3d.Util.merge(options, {
           scene: {
             fxaa: true,
-            center: { lat: 30.834006, lng: 118.779512, alt: 306743, heading: 313, pitch: -58 },
+            center: {lat:30.76241,lng:120.06302,alt:160641,heading:291,pitch:-28},
             cameraController: {
               constrainedAxis: false,
             },
@@ -169,6 +174,12 @@
         //创建矢量数据图层
         let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
+
+
+        //在layer上绑定监听事件
+        graphicLayer.on(mars3d.EventType.click, function (event) {
+          console.log("单击事件");
+        });
 
         //图层管理的相关处理
         initLayerManager(graphicLayer);
@@ -223,26 +234,34 @@
           .slider({ min: 0, max: 360, step: 0.01, value: 90 })
           .on("change", (e) => {
             if (e && e.value) {
-              rectangularSensor.heading = e.value.newValue;
+              graphicLayer.eachGraphic((rectangularSensor) => {
+                rectangularSensor.heading = e.value.newValue;
+              })
             }
           });
         $("#model_pitch")
           .slider({ min: 0, max: 360, step: 0.01, value: 0 })
           .on("change", (e) => {
             if (e && e.value) {
-              rectangularSensor.pitch = e.value.newValue;
+              graphicLayer.eachGraphic((rectangularSensor) => {
+                rectangularSensor.pitch = e.value.newValue;
+              })
             }
           });
         $("#model_roll")
           .slider({ min: 0, max: 360, step: 0.01, value: 0 })
           .on("change", (e) => {
             if (e && e.value) {
-              rectangularSensor.roll = e.value.newValue;
+              graphicLayer.eachGraphic((rectangularSensor) => {
+                rectangularSensor.roll = e.value.newValue;
+              })
             }
           });
 
         $("#model_radius").change(function () {
-          rectangularSensor.radius = Number($(this).val());
+            graphicLayer.eachGraphic((rectangularSensor) => {
+              rectangularSensor.radius = Number($(this).val());
+            })
         });
 
         $("#model_angle1")
@@ -251,7 +270,9 @@
             if (e && e.value) {
               //传感器水平半角
               if (e && e.value) {
-                rectangularSensor.style = { xHalfAngleDegree: e.value.newValue };
+                graphicLayer.eachGraphic((rectangularSensor) => {
+                  rectangularSensor.style = { xHalfAngleDegree: e.value.newValue };
+                })
               }
             }
           });
@@ -261,14 +282,18 @@
             if (e && e.value) {
               //传感器垂直半角
               if (e && e.value) {
-                rectangularSensor.style = { yHalfAngleDegree: e.value.newValue };
+                graphicLayer.eachGraphic((rectangularSensor) => {
+                  rectangularSensor.style = { yHalfAngleDegree: e.value.newValue };
+                })
               }
             }
           });
 
         $("#chkShowScanPlane").change(function () {
           let showScanPlane = $("#chkShowScanPlane").is(":checked");
-          rectangularSensor.style = { showScanPlane: showScanPlane }; //是否显示扫描面
+          graphicLayer.eachGraphic((rectangularSensor) => {
+            rectangularSensor.style = { showScanPlane: showScanPlane }; //是否显示扫描面
+          })
         });
 
         //===========参数================
@@ -308,18 +333,18 @@
         graphicLayer.addGraphic(rectangularSensor);
       }
 
-//在图层级处理一些事物
+      //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
           console.log("监听layer，单击了矢量对象", event);
         });
-        // graphicLayer.on(mars3d.EventType.mouseOver, function(event) {
-        //   console.log('监听layer，鼠标移入了矢量对象', event)
-        // })
-        // graphicLayer.on(mars3d.EventType.mouseOut, function(event) {
-        //   console.log('监听layer，鼠标移出了矢量对象', event)
-        // })
+        graphicLayer.on(mars3d.EventType.mouseOver, function(event) {
+          console.log('监听layer，鼠标移入了矢量对象', event)
+        })
+        graphicLayer.on(mars3d.EventType.mouseOut, function(event) {
+          console.log('监听layer，鼠标移出了矢量对象', event)
+        })
 
         //可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
         bindLayerPopup(graphicLayer);
@@ -696,6 +721,23 @@
         let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
+
+
+      function openTipView(content, title) {
+        window.layer.open({
+          type: 1,
+          title: title || "功能 和 已知问题 提示",
+          offset: "rt",
+          shade: false,
+          skin: "layer-mars-dialog animation-scale-up",
+          content: content,
+        });
+      }
+
+      if ($("#tipView").length > 0) {
+        openTipView($("#tipView"));
+      }
+
         </script>
   </body>
 </html>

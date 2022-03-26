@@ -38,7 +38,7 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <div class="infoview" style="overflow: auto; left: 5px; left: auto; top: 5px; max-height: calc(100% - 90px)">
+    <div class="infoview" style="overflow: auto;  top: 5px; max-height: calc(100% - 90px)">
       <ul id="treeOverlays" class="ztree"></ul>
     </div>
 
@@ -47,7 +47,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -71,7 +71,7 @@
       function queryTilesetData() {
         return new Promise(function (resolve, reject) {
           $.ajax({
-            url: "config/tileset.json",
+            url: "../config/tileset.json",
             type: "get",
             dataType: "json",
             success: function (result) {

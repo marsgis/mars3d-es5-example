@@ -39,7 +39,7 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <div class="infoview">
+    <div class="infoview infoview-left">
       <div style="width: 100%; text-align: center; font-size: 16px">3dtile模型移动(只适合小范围内的偏移 笛卡尔坐标方向，非贴球面)</div>
 
       <table class="mars-table">
@@ -95,7 +95,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置

@@ -105,7 +105,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let tileLayer;
       let graphicLayer;
       function initMap(options) {
@@ -115,7 +115,7 @@
             center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 },
           },
           control: {
-            compass: { bottom: "320px", right: "5px" },
+            compass: { bottom: "320px", left: "5px" },
           },
         });
         //创建三维地球场景

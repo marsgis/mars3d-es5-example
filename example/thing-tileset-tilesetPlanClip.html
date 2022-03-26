@@ -104,7 +104,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -122,6 +122,7 @@
           maximumMemoryUsage: 1024,
           // highlight: { type: "click", color: "#00FFFF" },
           // popup: "all",
+          scale: 2,
           flyTo: true,
         });
         map.addLayer(tilesetLayer);
@@ -131,6 +132,7 @@
           clipOutSide: false,
           edgeColor: Cesium.Color.GREY,
           edgeWidth: 2.0,
+          showPlane: true,
         });
         map.addThing(tilesetPlanClip);
 

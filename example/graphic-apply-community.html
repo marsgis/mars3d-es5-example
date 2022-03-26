@@ -41,7 +41,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -96,7 +96,7 @@
         map.addLayer(tiles3dLayer);
 
         //模型裁剪
-        let modelThing = new mars3d.thing.TilesetClip({
+        let modelThing = new mars3d.thing.TilesetPlanClip({
           layer: tiles3dLayer,
           positions: [
             [117.22648, 31.827441],

@@ -103,7 +103,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let poiLayer;
       let queryGaodePOI;
 
@@ -353,7 +353,7 @@
           return;
         }
         haoutil.loading.show();
-
+        console.log(queryOptions);
         lastQueryOptions = {
           ...queryOptions,
           count: 25, //count 每页数量

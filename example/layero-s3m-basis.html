@@ -35,7 +35,7 @@
 
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <div id="viewSL" class="infoview">
+    <div id="viewSL" class="infoview infoview-left">
       <div id="viewBtn">
         S3M示例：
         <input type="button" class="btn btn-primary" value="人工建模(鸟巢)" onclick="showMaxNiaochaoDemo()" />
@@ -51,7 +51,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       if (haoutil.system.getRequestByName("data")) {
         $("#viewBtn").remove();

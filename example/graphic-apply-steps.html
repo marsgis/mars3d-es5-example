@@ -60,7 +60,7 @@
 
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <div id="viewReset" class="infoview" style="overflow: auto; left: 10px; top: 10px">
+    <div id="viewReset" class="infoview" style="overflow: auto; top: 10px">
       <div class="btn-group">
         <button id="btn_start" type="button" class="btn btn-primary"><i class="fa fa-play-circle-o"></i>开始</button>
         <button id="btn_pause" type="button" class="btn btn-primary" style="display: none"><i class="fa fa-pause-circle-o"></i>暂停</button>
@@ -82,7 +82,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置

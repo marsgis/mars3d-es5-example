@@ -248,7 +248,7 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    let map;
+    var map;
 
     $(document).ready(function () {
       if (!mars3d.Util.webglreport()) {
@@ -258,7 +258,7 @@
 
       //读取 config.json 配置文件
       mars3d.Util.fetchJson({
-        url: "config/config.json",
+        url: "../config/config.json",
       }).then(function (json) {
         //构建地图
         initMap(json.map3d);

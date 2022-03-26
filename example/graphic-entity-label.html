@@ -89,7 +89,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let graphicLayer;
 
       function initMap(options) {
@@ -131,7 +131,6 @@
 
           stopEditing();
         });
-
 
         //图层管理的相关处理
         initLayerManager(graphicLayer);
@@ -663,7 +662,6 @@
         return new mars3d.LngLatPoint(jd, wd, height);
       }
 
-
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
       let timeTik;
 
@@ -690,7 +688,6 @@
         }, 200);
       }
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-
     </script>
   </body>
 </html>

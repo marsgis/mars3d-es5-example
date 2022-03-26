@@ -107,7 +107,7 @@
 
       graphic = this.config.graphic;
       lonlats = this.config.lonlats;
-      this.viewWindow.plotEdit.startEditing(graphic.options, lonlats);
+      this.viewWindow.plotEdit.startEditing({ type: graphic.type, ...graphic.options }, lonlats);
     }
     //更新图上的属性
     updateAttr2map(attr) {
