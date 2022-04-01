@@ -184,6 +184,7 @@
         if (show) {
           if (!layer.isAdded) {
             map.addLayer(layer);
+            layer.flyTo();
           }
         } else {
           if (layer.isAdded) {

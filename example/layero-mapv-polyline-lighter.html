@@ -56,25 +56,13 @@
 
         map.basemap = 2017; //蓝色底图
 
-        queryMapvLayerData().then(function (data) {
-          createMapvLayer(data.features);
-        });
-      }
-
-      function queryMapvLayerData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/hefei-road.json",
-            type: "GET",
-            dataType: "json",
-            success: function (rs) {
-              resolve(rs);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-road.json" })
+          .then(function (data) {
+            createMapvLayer(data.features);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
       //创建mapv图层

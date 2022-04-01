@@ -71,7 +71,7 @@
         graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        queryFlyPathApiData().then(function (res) {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/flypath.json" }).then(function (res) {
           initPath(res);
         });
 
@@ -104,24 +104,6 @@
             radius: 3000,
             heading: -90,
             pitch: -25,
-          });
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryFlyPathApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/flypath.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              console.log(result);
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
           });
         });
       }

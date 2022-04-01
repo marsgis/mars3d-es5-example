@@ -59,25 +59,8 @@
         let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        queryMudiAllApiData().then(function (res) {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/mudi-all.json" }).then(function (res) {
           managerEntry(graphicLayer, res.data);
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryMudiAllApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/mudi-all.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
         });
       }
 

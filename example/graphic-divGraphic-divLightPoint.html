@@ -90,25 +90,8 @@
         map.addLayer(geoJsonLayer);
 
         //显示高校点
-        queryGaoXiaoApiData().then(function (res) {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/gaoxiao.json" }).then(function (res) {
           addFeature(res);
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryGaoXiaoApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/gaoxiao.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
         });
       }
 

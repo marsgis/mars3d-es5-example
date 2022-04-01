@@ -122,7 +122,7 @@
           maximumMemoryUsage: 1024,
           // highlight: { type: "click", color: "#00FFFF" },
           // popup: "all",
-          scale: 2,
+          // scale: 2,
           flyTo: true,
         });
         map.addLayer(tilesetLayer);
@@ -133,6 +133,11 @@
           edgeColor: Cesium.Color.GREY,
           edgeWidth: 2.0,
           showPlane: true,
+          editPlane: true,
+          planeStyle: {
+            color: Cesium.Color.WHITE.withAlpha(0.2),
+            editColor: Cesium.Color.fromCssColorString("#adf0e7").withAlpha(0.6),
+          },
         });
         map.addThing(tilesetPlanClip);
 

@@ -43,7 +43,7 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <div class="infoview" style="overflow: auto;max-height: 850px;">
+    <div class="infoview" style="overflow: auto; max-height: 850px">
       <table class="mars-table">
         <tbody>
           <tr>
@@ -75,14 +75,21 @@
           <tr>
             <td>进度条：</td>
             <td class="slider">
-              <input id="slider_brightness" type="text" data-slider-min="-0.5" data-slider-max="1.5" data-slider-step="0.01" data-slider-value="-0.5" />
+              <input
+                id="slider_brightness"
+                type="text"
+                data-slider-min="-0.5"
+                data-slider-max="1.5"
+                data-slider-step="0.01"
+                data-slider-value="-0.5"
+              />
             </td>
           </tr>
 
           <tr>
             <td>刻度进度条：</td>
             <td class="slider">
-              <input id="slider_showLevel" type="text"/>
+              <input id="slider_showLevel" type="text" />
             </td>
           </tr>
 
@@ -196,16 +203,26 @@
         initTree();
 
         //获取台风列表
-        queryTyphoonList().then(function (arr) {
-          //启动正在发送的台风
-          arr.forEach((item) => {
-            if (item.state == "start") {
-              item.show = true;
-              selectOneTyphoon(item);
-            }
+        mars3d.Util.fetchJson({
+          url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json",
+          data: {
+            t: new Date().getTime(),
+          },
+        })
+          .then(function (res) {
+            const arr = typhoon_jsons_list_default(res);
+            //启动正在发送的台风
+            arr.forEach((item) => {
+              if (item.state == "start") {
+                item.show = true;
+                selectOneTyphoon(item);
+              }
+            });
+            showTyphoonTable(arr);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-          showTyphoonTable(arr);
-        });
 
         // 构造bloom效果 用于滑动条测试
         bloomEffect = new mars3d.effect.BloomEffect();
@@ -250,9 +267,13 @@
           .on("change", function () {
             // console.log(e);
           });
+
         $("#txtColor").minicolors({
-          position: "bottom left",
+          position: "bottom right",
           control: "saturation",
+          change: function (color, opacity) {
+            console.log(color);
+          },
         });
       }
 
@@ -337,6 +358,10 @@
         });
       }
 
+      function dataUpdate() {
+        // 更新数据
+      }
+
       //清除图层限定范围
       function onClearExtent() {
         $("#txtRectangle").val("");
@@ -395,41 +420,20 @@
         });
       }
 
-      //停止播放
-      function stopTyphoon() {
-        $("#btnPlay").html('<span class="fa fa-play" aria-hidden="true"></span> 播放');
-        if (selectTF?.playTyphoon) {
-          selectTF.playTyphoon.stop();
-          selectTF.show = true;
-        }
-      }
-
       let typhoonListObj = {};
 
       //取消勾选台风
       function unSelectOneTyphoon(row) {
         let typhoon = typhoonListObj[row.id];
         if (typhoon == selectTF) {
-          stopTyphoon();
           $("#typhoonPath").hide();
-        }
-        if (typhoon) {
-          typhoon.show = false;
         }
       }
 
       //勾选了台风
       function selectOneTyphoon(row) {
         $("#lblName").html("[" + row.typnumber + "]" + "" + row.name_cn);
-        stopTyphoon();
         toastr.info(row.name_cn + "台风要来啦，大家要注意安全！");
-
-        if (typhoonListObj[row.id]) {
-          let typhoon = typhoonListObj[row.id];
-
-          typhoon.show = true;
-          typhoon.flyTo();
-        }
       }
 
       let selectTF;
@@ -438,65 +442,18 @@
         return $(window).height() - 440;
       }
 
-      //访问后端接口，取台风列表数据
-      function queryTyphoonList() {
-        return new Promise(function (resolve, reject) {
-          function typhoon_jsons_list_default(data) {
-            let arr = [];
-            data.typhoonList.forEach((item) => {
-              arr.push({
-                id: item[0],
-                name_en: item[1],
-                name_cn: item[2],
-                typnumber: item[3],
-                state: item[7],
-              });
-            });
-            resolve(arr);
-          }
-          window.typhoon_jsons_list_default = typhoon_jsons_list_default;
-
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json", //mock离线数据
-            dataType: "json",
-            type: "GET",
-            data: {
-              t: new Date().getTime(),
-            },
-            success: typhoon_jsons_list_default,
-            error: function (data) {
-              console.log("台风列表数据获取失败", data);
-              // haoutil.msg('台风列表数据获取失败！')
-              reject(data);
-            },
+      function typhoon_jsons_list_default(data) {
+        let arr = [];
+        data.typhoonList.forEach((item) => {
+          arr.push({
+            id: item[0],
+            name_en: item[1],
+            name_cn: item[2],
+            typnumber: item[3],
+            state: item[7],
           });
         });
-      }
-
-      //访问后端接口，取单个台风路径数据
-      function queryTyphoonItem(id) {
-        return new Promise(function (resolve, reject) {
-          function typhoon_jsons_view(res) {
-            let newData = conversionPathData(res.typhoon); //在Typhoon.js中
-            // console.log('台风数据==>', newData)
-            resolve(newData);
-          }
-          window["typhoon_jsons_view_" + id] = typhoon_jsons_view;
-
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json", //mock离线数据
-            dataType: "json",
-            type: "GET",
-            data: {
-              t: new Date().getTime(),
-            },
-            success: typhoon_jsons_view,
-            error: function (data) {
-              console.log("获取台风单个数据失败");
-              reject(data);
-            },
-          });
-        });
+        return arr;
       }
 
       //转换数据,将后端接口数据转换为需要的格式

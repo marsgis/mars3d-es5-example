@@ -54,8 +54,6 @@
       </div>
     </div>
 
-
-
     <script src="./js/common.js"></script>
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
@@ -293,48 +291,35 @@
 
       //显示合肥市边界
       function addGraphic_a9(graphicLayer) {
-        queryAreasData().then(function (data) {
-          let arr = mars3d.Util.geoJsonToGraphics(data); //解析geojson
-          for (let i = 0; i < arr.length; i++) {
-            let item = arr[i];
-            let primitive = new mars3d.graphic.WallPrimitive({
-              positions: item.positions,
-              style: {
-                diffHeight: 3000,
-                material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
-                  image: "img/textures/fence.png",
-                  color: "#bdf700",
-                  repeat: new Cesium.Cartesian2(5, 1),
-                  axisY: true, //方向，true时上下，false左右
-                  speed: 10, //速度，建议取值范围1-100
-                }),
-              },
-              attr: item.attr,
-            });
-            graphicLayer.addGraphic(primitive);
-            primitive.bindTooltip("合肥欢迎您 - 火星科技");
-          }
-        });
-      }
-
-      //数据获取
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/areas/340100.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100.json" })
+          .then(function (data) {
+            let arr = mars3d.Util.geoJsonToGraphics(data); //解析geojson
+            for (let i = 0; i < arr.length; i++) {
+              let item = arr[i];
+              let primitive = new mars3d.graphic.WallPrimitive({
+                positions: item.positions,
+                style: {
+                  diffHeight: 3000,
+                  material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+                    image: "img/textures/fence.png",
+                    color: "#bdf700",
+                    repeat: new Cesium.Cartesian2(5, 1),
+                    axisY: true, //方向，true时上下，false左右
+                    speed: 10, //速度，建议取值范围1-100
+                  }),
+                },
+                attr: item.attr,
+              });
+              graphicLayer.addGraphic(primitive);
+              primitive.bindTooltip("合肥欢迎您 - 火星科技");
+            }
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
-//在图层级处理一些事物
+      //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -722,6 +707,6 @@
         let height = haoutil.math.random(1000, 9000);
         return new mars3d.LngLatPoint(jd, wd, height);
       }
-        </script>
+    </script>
   </body>
 </html>

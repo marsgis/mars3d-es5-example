@@ -59,31 +59,18 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        queryWindyuvApiData().then(function (data) {
-          let arrPoints = [];
-          for (let i = 0; i < data.Data.length; i++) {
-            let item = data.Data[i];
-            arrPoints.push({ lng: item.X, lat: item.Y, value: item.Count });
-          }
-          showHeatMap(arrPoints);
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryWindyuvApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/heat.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
+          .then(function (data) {
+            let arrPoints = [];
+            for (let i = 0; i < data.Data.length; i++) {
+              let item = data.Data[i];
+              arrPoints.push({ lng: item.X, lat: item.Y, value: item.Count });
+            }
+            showHeatMap(arrPoints);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
       function showHeatMap(arrPoints) {

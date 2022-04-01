@@ -38,7 +38,7 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <div class="infoview  infoview-left">
+    <div class="infoview infoview-left">
       <div>
         演示数据：
         <input type="button" class="btn btn-primary" value="全球区域" onclick="loadEarthData()" />
@@ -161,59 +161,18 @@
         canvasWindLayer.speedRate = 50;
         canvasWindLayer.reverseY = false; //false时表示 纬度顺序从大到小
 
-        queryWindyuvApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windyuv.json" })
           .then(function (res) {
             earthWindData = res;
             canvasWindLayer.data = earthWindData;
           })
-          .catch(function (err) {
-            console.log("请求数据失败!", err);
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
       }
 
       //加载气象
       let dongnanWindData;
-
-      // 访问windyuv.json后端接口，取数据
-      function queryWindyuvApiData() {
-        return new Promise(function (resolve, reject) {
-          if (earthWindData) {
-            canvasWindLayer.data = earthWindData;
-          } else {
-            $.ajax({
-              url: "//data.mars3d.cn/file/apidemo/windyuv.json",
-              type: "get",
-              dataType: "json",
-              success: function (result) {
-                resolve(result);
-              },
-              error: function (data) {
-                reject(data);
-              },
-            });
-          }
-        });
-      }
-      // 访问windpoint.json后端接口，取数据
-      function queryWindpointApiData() {
-        return new Promise(function (resolve, reject) {
-          if (dongnanWindData) {
-            canvasWindLayer.data = dongnanWindData;
-          } else {
-            $.ajax({
-              url: "//data.mars3d.cn/file/apidemo/windpoint.json",
-              type: "get",
-              dataType: "json",
-              success: function (result) {
-                resolve(result);
-              },
-              error: function (data) {
-                reject(data);
-              },
-            });
-          }
-        });
-      }
 
       function loadDongnanData() {
         map.setCameraView({
@@ -228,14 +187,10 @@
         canvasWindLayer.speedRate = 85;
         canvasWindLayer.reverseY = true; //true时表示 纬度顺序从小到到大
 
-        queryWindpointApiData()
-          .then(function (res) {
-            dongnanWindData = convertWindData(res.data);
-            canvasWindLayer.data = dongnanWindData;
-          })
-          .catch(function (err) {
-            haoutil.msg("实时查询气象信息失败，请稍候再试");
-          });
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" }).then(function (res) {
+          dongnanWindData = convertWindData(res.data);
+          canvasWindLayer.data = dongnanWindData;
+        });
       }
 
       //将数据转换为需要的格式:风向转UV

@@ -110,89 +110,77 @@
         let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        queryAreasData().then(function (geojson) {
-          let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100_full.json" })
+          .then(function (geojson) {
+            let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
 
-          for (let i = 0; i < arr.length; i++) {
-            let item = arr[i];
+            for (let i = 0; i < arr.length; i++) {
+              let item = arr[i];
 
-            //polygon面
-            let polygonEntity = new mars3d.graphic.PolygonEntity({
-              positions: item.positions,
-              style: {
-                fill: true,
-                color: "#4881a7",
-                opacity: 0.5,
-                label: {
-                  text: item.attr.name,
-                  font_size: 20,
-                  color: "#ffffff",
-                  font_family: "楷体",
-                  outline: true,
-                  outlineColor: "black",
-                  setHeight: 2000,
-                  visibleDepth: false,
+              //polygon面
+              let polygonEntity = new mars3d.graphic.PolygonEntity({
+                positions: item.positions,
+                style: {
+                  fill: true,
+                  color: "#4881a7",
+                  opacity: 0.5,
+                  label: {
+                    text: item.attr.name,
+                    font_size: 20,
+                    color: "#ffffff",
+                    font_family: "楷体",
+                    outline: true,
+                    outlineColor: "black",
+                    setHeight: 2000,
+                    visibleDepth: false,
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 500000),
+                    scaleByDistance: new Cesium.NearFarScalar(200000, 1.0, 500000, 0.5),
+                  },
+                },
+              });
+              graphicLayer.addGraphic(polygonEntity);
+
+              //PolylineEntity线
+              let graphicLine = new mars3d.graphic.PolylineEntity({
+                positions: item.positions,
+                style: {
+                  color: "rgba(255,255,255,0.5)",
+                  width: 1,
+                },
+              });
+              graphicLayer.addGraphic(graphicLine);
+
+              //中心点
+              let center = item.attr.centroid;
+
+              //光锥体
+              let coneGlow = new mars3d.graphic.LightCone({
+                position: center,
+                style: {
+                  radius: 1500,
+                  height: 15000,
+                },
+              });
+              graphicLayer.addGraphic(coneGlow);
+
+              //LED数字显示
+              let number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
+              let graphic = new mars3d.graphic.DivGraphic({
+                position: [center[0], center[1], 12000],
+                style: {
+                  html: `<div class ="coneNum">${number}`,
+                  horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                  verticalOrigin: Cesium.VerticalOrigin.CENTER,
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 500000),
                   scaleByDistance: new Cesium.NearFarScalar(200000, 1.0, 500000, 0.5),
                 },
-              },
-            });
-            graphicLayer.addGraphic(polygonEntity);
-
-            //PolylineEntity线
-            let graphicLine = new mars3d.graphic.PolylineEntity({
-              positions: item.positions,
-              style: {
-                color: "rgba(255,255,255,0.5)",
-                width: 1,
-              },
-            });
-            graphicLayer.addGraphic(graphicLine);
-
-            //中心点
-            let center = item.attr.centroid;
-
-            //光锥体
-            let coneGlow = new mars3d.graphic.LightCone({
-              position: center,
-              style: {
-                radius: 1500,
-                height: 15000,
-              },
-            });
-            graphicLayer.addGraphic(coneGlow);
-
-            //LED数字显示
-            let number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
-            let graphic = new mars3d.graphic.DivGraphic({
-              position: [center[0], center[1], 12000],
-              style: {
-                html: `<div class ="coneNum">${number}`,
-                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-                verticalOrigin: Cesium.VerticalOrigin.CENTER,
-                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 500000),
-                scaleByDistance: new Cesium.NearFarScalar(200000, 1.0, 500000, 0.5),
-              },
-            });
-            graphicLayer.addGraphic(graphic);
-          }
-        });
-      }
-
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/areas/340100_full.json",
-            type: "get",
-            dataType: "json",
-            success: function (geojson) {
-              resolve(geojson);
-            },
-            error: function (data) {
-              reject(data);
-            },
+              });
+              graphicLayer.addGraphic(graphic);
+            }
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
     </script>
   </body>

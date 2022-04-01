@@ -73,12 +73,12 @@
         map.clock.currentTime = window.Cesium.JulianDate.fromDate(new Date("2020-11-25 10:10:00"));
 
         //加载车辆
-        queryCarListApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/car-list.json" })
           .then(function (res) {
             showCarList(res.data);
           })
-          .catch(function (e) {
-            console.log("queryCarListApiData失败", e);
+          .otherwise(function (error) {
+            console.log("queryCarListApiData失败", error);
             haoutil.msg("查询信息失败");
           });
       }
@@ -94,39 +94,6 @@
         "rgb(202, 101, 0)",
         "rgb(255, 0, 0)",
       ];
-
-      // 访问car-list.json后端接口，取数据
-      function queryCarListApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/car-list.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
-      // 访问car-path.json后端接口，取数据
-      function queryCarPathApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/car-path.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
 
       function showCarList(arr) {
         console.log("加载" + arr.length + "条");
@@ -283,7 +250,7 @@
 
       //读取车辆gps坐标路径的接口
       function getPathList(beginTime, endTime) {
-        queryCarPathApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/car-path.json" })
           .then(function (res) {
             let listALL = res.data || [];
 

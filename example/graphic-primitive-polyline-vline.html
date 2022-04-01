@@ -131,30 +131,13 @@
 
         map.basemap = 2017;
 
-        queryPopulationApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/population.json" })
           .then(function (data) {
             showData(data);
           })
-          .catch(function (data) {
-            console.log("ajax请求出错", data);
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-      }
-
-      // 访问后端接口，取数据
-      function queryPopulationApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/population.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       function showData(data) {

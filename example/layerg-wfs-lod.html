@@ -59,9 +59,22 @@
           debuggerTileInfo: true,
           //根据LOD分块信息去请求对应的Tile瓦块内的数据
           queryGridData: (grid, callback) => {
-            queryGraphicLayerData(grid.extent).then(function (data) {
-              callback(grid, data); //执行回调，回传数据
-            });
+            mars3d.Util.fetchJson({
+              url: "//server.mars3d.cn/server/pointRandom/",
+              queryParameters: {
+                xmin: grid.extent.xmin,
+                ymin: grid.extent.ymin,
+                xmax: grid.extent.xmax,
+                ymax: grid.extent.ymax,
+                count: 5,
+              },
+            })
+              .then(function (data) {
+                callback(grid, data); //执行回调，回传数据
+              })
+              .otherwise(function (error) {
+                console.log("加载JSON出错", error);
+              });
           },
           //根据 attr属性 创建 矢量对象[必须返回Graphic对象]
           createGraphic(grid, attr) {
@@ -84,30 +97,6 @@
 
         lodGraphicLayer.on(mars3d.EventType.click, (event) => {
           console.log("你单击了对象", event);
-        });
-      }
-
-      function queryGraphicLayerData(extent) {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//server.mars3d.cn/server/pointRandom/",
-            type: "get",
-            dataType: "json",
-            data: {
-              xmin: extent.xmin,
-              ymin: extent.ymin,
-              xmax: extent.xmax,
-              ymax: extent.ymax,
-              count: 5,
-            },
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              console.log("数据获取失败");
-              reject(data);
-            },
-          });
         });
       }
     </script>

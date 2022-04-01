@@ -55,29 +55,8 @@
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
         //加载气象
-        queryWindPointApiData()
-          .then(function (res) {
-            showWindLine(res.data);
-          })
-          .catch(function () {
-            haoutil.msg("实时查询气象信息失败，请稍候再试");
-          });
-      }
-
-      //访问后端接口，取数据
-      function queryWindPointApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/windpoint.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" }).then(function (res) {
+          showWindLine(res.data);
         });
       }
 

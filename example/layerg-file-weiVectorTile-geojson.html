@@ -58,56 +58,26 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        queryBJXLineData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000.json" })
           .then(function (geojson) {
             showBJXLine(geojson.features[0]);
           })
-          .catch(function () {
+          .otherwise(function (error) {
             haoutil.alert("Json文件加载失败！");
+            console.log("加载JSON出错", error);
           });
 
-        queryAreasData()
+        //获取安徽各市、边界线数据
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
           .then(function (geojson) {
             showGeoJsonVectorTile(geojson);
           })
-          .catch(function () {
+          .otherwise(function (error) {
             haoutil.alert("Json文件加载失败！");
+            console.log("加载JSON出错", error);
           });
       }
 
-      //获取安徽各市、边界线数据
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          //geojson 安徽各市
-          $.ajax({
-            type: "get",
-            dataType: "json",
-            url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
-      function queryBJXLineData() {
-        return new Promise(function (resolve, reject) {
-          //geojson 安徽边界线
-          $.ajax({
-            type: "get",
-            dataType: "json",
-            url: "//data.mars3d.cn/file/geojson/areas/340000.json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
       //API文档，参考lib\mars3d\thirdParty\weiVectorTile\Document.rar（解压Document.rar）
       function showGeoJsonVectorTile(geojson) {
         let tileLayer = new mars3d.layer.WeiVectorTileLayer({

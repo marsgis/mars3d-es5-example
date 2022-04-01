@@ -285,30 +285,13 @@
 
         initUI();
 
-        queryTleApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle.json" })
           .then(function (arr) {
             initData(arr);
           })
-          .catch(function () {
-            haoutil.msg("获取空间目标轨道数据异常！");
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-      }
-
-      // 访问后端接口，取数据
-      function queryTleApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/tle.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result.list);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       function initData(arr) {
@@ -684,12 +667,12 @@
       let GPS = [
         // eslint-disable-next-line prettier/prettier
         20959, 22877, 23953, 24876, 25933, 26360, 26407, 26605, 26690, 27663, 27704, 28129, 28190, 28361, 28474, 28874, 29486, 29601, 32260, 32384,
-        32711, 35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534
+        32711, 35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534,
       ];
       let GLONASS = [
         // eslint-disable-next-line prettier/prettier
         28915, 29672, 29670, 29671, 32276, 32275, 32393, 32395, 36111, 36112, 36113, 36400, 36402, 36401, 37139, 37138, 37137, 37829, 37869, 37867,
-        37868, 39155, 39620, 40001
+        37868, 39155, 39620, 40001,
       ];
       let INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476];
       let LANDSAT = [25682, 39084];

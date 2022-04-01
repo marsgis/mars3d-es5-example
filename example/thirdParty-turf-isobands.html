@@ -60,34 +60,18 @@
         });
 
         //加载气象
-        queryWindpointApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
           .then(function (res) {
             showWindLine(res.data);
           })
-          .catch(function () {
+          .otherwise(function (error) {
             haoutil.msg("实时查询气象信息失败，请稍候再试");
+            console.log("加载JSON出错", error);
           });
       }
 
       let colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"];
       let breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99]; //等值面的级数
-
-      // 访问后端接口，取数据
-      function queryWindpointApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/windpoint.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
 
       //等值线面
       function showWindLine(arr) {

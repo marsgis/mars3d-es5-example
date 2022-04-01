@@ -115,68 +115,56 @@
         let graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        queryAreasData().then(function (geojson) {
-          let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-shequ.json" })
+          .then(function (geojson) {
+            let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
 
-          for (let i = 0; i < arr.length; i++) {
-            let item = arr[i];
+            for (let i = 0; i < arr.length; i++) {
+              let item = arr[i];
 
-            //polygon面
-            let polygonEntity = new mars3d.graphic.PolygonEntity({
-              positions: item.positions,
-              style: {
-                color: item.attr.color,
-                opacity: 0.4,
-              },
-            });
-            graphicLayer.addGraphic(polygonEntity);
-
-            //PolylineEntity线
-            let graphicLine = new mars3d.graphic.PolylineEntity({
-              positions: item.positions,
-              style: {
-                width: 4,
-                closure: true,
-                // clampToGround: true,
-                material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineTrail, {
+              //polygon面
+              let polygonEntity = new mars3d.graphic.PolygonEntity({
+                positions: item.positions,
+                style: {
                   color: item.attr.color,
-                  speed: 4,
-                }),
-              },
-            });
-            graphicLayer.addGraphic(graphicLine);
+                  opacity: 0.4,
+                },
+              });
+              graphicLayer.addGraphic(polygonEntity);
 
-            //动态边框文本 DIV
-            let graphic = new mars3d.graphic.DivBoderLabel({
-              position: polygonEntity.center,
-              style: {
-                text: item.attr.name,
-                font_size: 15,
-                font_family: "微软雅黑",
-                color: "#ccc",
-                boderColor: "#15d1f2",
-                addHeight: 100,
-              },
-            });
-            graphicLayer.addGraphic(graphic);
-          }
-        });
-      }
+              //PolylineEntity线
+              let graphicLine = new mars3d.graphic.PolylineEntity({
+                positions: item.positions,
+                style: {
+                  width: 4,
+                  closure: true,
+                  // clampToGround: true,
+                  material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineTrail, {
+                    color: item.attr.color,
+                    speed: 4,
+                  }),
+                },
+              });
+              graphicLayer.addGraphic(graphicLine);
 
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/hefei-shequ.json",
-            type: "get",
-            dataType: "json",
-            success: function (geojson) {
-              resolve(geojson);
-            },
-            error: function (data) {
-              reject(data);
-            },
+              //动态边框文本 DIV
+              let graphic = new mars3d.graphic.DivBoderLabel({
+                position: polygonEntity.center,
+                style: {
+                  text: item.attr.name,
+                  font_size: 15,
+                  font_family: "微软雅黑",
+                  color: "#ccc",
+                  boderColor: "#15d1f2",
+                  addHeight: 100,
+                },
+              });
+              graphicLayer.addGraphic(graphic);
+            }
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
     </script>
   </body>

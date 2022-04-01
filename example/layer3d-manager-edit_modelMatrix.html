@@ -186,15 +186,15 @@
         <tr>
           <td>显示精度：</td>
           <td>
-            <input id="txt_maximumScreenSpaceError"  title="显示精度" />
+            <input id="txt_maximumScreenSpaceError" title="显示精度" />
           </td>
           <td>材质底色：</td>
           <td>
-            <input id="txt_luminanceAtZenith"  title="材质底色" />
+            <input id="txt_luminanceAtZenith" title="材质底色" />
           </td>
           <td>透明度：</td>
           <td>
-            <input id="txt_opacity"  title="透明度：" />
+            <input id="txt_opacity" title="透明度：" />
           </td>
         </tr>
       </table>
@@ -570,52 +570,40 @@
         });
       }
 
-      function querySceneTreeData(url) {
-        let scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json";
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: scenetree,
-            type: "get",
-            dataType: "json",
-            success: function (scene) {
-              resolve(scene);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
-      }
-
       function updateSceneTree(scene) {
         $("#viewReset").hide();
         let url = $("#txtModel").val();
-        querySceneTreeData(url).then(function (scene) {
-          let data = [];
-          if (scene.scenes) {
-            for (let i = 0; i < scene.scenes.length; i++) {
-              let node = scene.scenes[i];
-              name2text(node);
-              data.push(node);
+        let scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json";
+        mars3d.Util.fetchJson({ url: scenetree })
+          .then(function (scene) {
+            let data = [];
+            if (scene.scenes) {
+              for (let i = 0; i < scene.scenes.length; i++) {
+                let node = scene.scenes[i];
+                name2text(node);
+                data.push(node);
+              }
+            } else {
+              name2text(scene);
+              data.push(scene);
             }
-          } else {
-            name2text(scene);
-            data.push(scene);
-          }
 
-          $("#treeOverlays").data("jstree", false).empty();
-          $("#treeOverlays").jstree({
-            core: {
-              data: data,
-              themes: {
-                name: "default-dark",
-                dots: true,
-                icons: true,
+            $("#treeOverlays").data("jstree", false).empty();
+            $("#treeOverlays").jstree({
+              core: {
+                data: data,
+                themes: {
+                  name: "default-dark",
+                  dots: true,
+                  icons: true,
+                },
               },
-            },
+            });
+            $("#viewReset").show();
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-          $("#viewReset").show();
-        });
       }
 
       function name2text(o) {

@@ -69,39 +69,25 @@
         graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        queryPointRandomData()
+        let extent = map.getExtent();
+        mars3d.Util.fetchJson({
+          url: "//server.mars3d.cn/server/pointRandom/",
+          queryParameters: {
+            xmin: extent.xmin,
+            ymin: extent.ymin,
+            xmax: extent.xmax,
+            ymax: extent.ymax,
+            count: 100,
+          },
+          contentType: "application/x-www-form-urlencoded",
+        })
           .then(function (data) {
+            console.log(data);
             addData(data);
           })
-          .catch(function (data) {
-            console.log("请求出错", data);
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-      }
-
-      //获取数据
-      function queryPointRandomData() {
-        let extent = map.getExtent();
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//server.mars3d.cn/server/pointRandom/",
-            data: {
-              xmin: extent.xmin,
-              ymin: extent.ymin,
-              xmax: extent.xmax,
-              ymax: extent.ymax,
-              count: 100,
-            },
-            type: "get",
-            dataType: "json",
-            contentType: "application/x-www-form-urlencoded",
-            success: function (data) {
-              resolve(data);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       let selectGraphic = [];

@@ -212,25 +212,13 @@
           }
         });
 
-        queryDthData().then(function (result) {
-          graphicLayerEdit.loadGeoJSON(result);
-        });
-      }
-      //加载数据
-      function queryDthData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json" })
+          .then(function (result) {
+            graphicLayerEdit.loadGeoJSON(result);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
       //保存方法，可以将数据提交到后台

@@ -53,27 +53,14 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        queryWeiboApiData().then(function (res) {
-          //创建mapv图层
-          createMapvLayer(res);
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryWeiboApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/weibo.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo.json" })
+          .then(function (res) {
+            //创建mapv图层
+            createMapvLayer(res);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
       function createMapvLayer(rs) {

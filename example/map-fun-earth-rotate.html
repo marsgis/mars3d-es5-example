@@ -163,47 +163,35 @@
       });
       map.graphicLayer.addGraphic(lightCone);
 
-      queryAreasData().then(function (geojson) {
-        let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
-        let lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
-          image: "img/textures/lineClr.png",
-          color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
-          speed: 9,
-        });
-        for (let i = 0; i < arr.length; i++) {
-          let item = arr[i].attr;
-          if (item.name) {
-            let thisPoint = Cesium.Cartesian3.fromDegrees(item.center[0], item.center[1]);
-            let positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100); //计算曲线点
-            let primitive = new mars3d.graphic.PolylinePrimitive({
-              positions: positions,
-              style: {
-                width: 2,
-                material: lineMaterial, //动画线材质
-              },
-              attr: item,
-            });
-            primitive.bindTooltip(`合肥 - ${item.name}`);
-            map.graphicLayer.addGraphic(primitive);
+      mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/100000_full.json" })
+        .then(function (geojson) {
+          let arr = mars3d.Util.geoJsonToGraphics(geojson); //解析geojson
+          let lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+            image: "img/textures/lineClr.png",
+            color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
+            speed: 9,
+          });
+          for (let i = 0; i < arr.length; i++) {
+            let item = arr[i].attr;
+            if (item.name) {
+              let thisPoint = Cesium.Cartesian3.fromDegrees(item.center[0], item.center[1]);
+              let positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100); //计算曲线点
+              let primitive = new mars3d.graphic.PolylinePrimitive({
+                positions: positions,
+                style: {
+                  width: 2,
+                  material: lineMaterial, //动画线材质
+                },
+                attr: item,
+              });
+              primitive.bindTooltip(`合肥 - ${item.name}`);
+              map.graphicLayer.addGraphic(primitive);
+            }
           }
-        }
-      });
-    }
-
-    function queryAreasData() {
-      return new Promise(function (resolve, reject) {
-        $.ajax({
-          url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
-          type: "get",
-          dataType: "json",
-          success: function (geojson) {
-            resolve(geojson);
-          },
-          error: function (data) {
-            reject(data);
-          },
+        })
+        .otherwise(function (error) {
+          console.log("加载JSON出错", error);
         });
-      });
     }
   </script>
 </body>

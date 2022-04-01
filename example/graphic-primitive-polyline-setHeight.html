@@ -62,7 +62,8 @@
         //颜色
         let colors = ["#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#00441b"].reverse();
 
-        getBusData().then(function (arr) {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/bj-bus.json" }).then(function (res) {
+          let arr = mars3d.Util.geoJsonToGraphics(res);
           arr.forEach((item, index) => {
             let i = index % colors.length;
 
@@ -80,25 +81,6 @@
               attr: item.attr,
             });
             graphicLayer.addGraphic(primitive);
-          });
-        });
-      }
-
-      // 根据geojson接口取数据
-      function getBusData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/bj-bus.json",
-            dataType: "json",
-            type: "GET",
-            success: function (res) {
-              let arr = mars3d.Util.geoJsonToGraphics(res); //解析geojson
-              resolve(arr);
-            },
-            error: function (data) {
-              console.log("获取单个卡车详情失败", data);
-              reject(data);
-            },
           });
         });
       }

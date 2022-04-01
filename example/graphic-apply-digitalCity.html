@@ -272,7 +272,18 @@
         graphicLayer.addGraphic(scanCircle);
 
         // 远眺的线 ,数据获取的pointArr
-        queryAreasData().then((res) => {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/shanghai-point.json" }).then((res) => {
+          let pointArr = [];
+          res.features
+            .forEach((obj) => {
+              pointArr.push({
+                name: obj.properties.Name,
+                point: obj.geometry.coordinates,
+              });
+            })
+            .otherwise(function (error) {
+              console.log("加载JSON出错", error);
+            });
           let lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.ODLine, {
             color: new Cesium.Color(1, 1, 1),
             bgColor: new Cesium.Color(0.1, 0.7, 0.5, 0.4),
@@ -280,8 +291,8 @@
             startTime: Math.random(),
           });
 
-          for (let i = 0, len = res.length; i < len; i++) {
-            let item = res[i];
+          for (let i = 0, len = pointArr.length; i < len; i++) {
+            let item = pointArr[i];
 
             let color = ["#ffff00", "#81d8ff", "#fff9ed"];
             let thisPoint = Cesium.Cartesian3.fromDegrees(item.point[0], item.point[1], 1);
@@ -339,30 +350,6 @@
           instances: arrData,
         });
         graphicLayer.addGraphic(upPoly);
-      }
-
-      //数据获取 返回pointArr
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/shanghai-point.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              let pointArr = [];
-              result.features.forEach((obj) => {
-                pointArr.push({
-                  name: obj.properties.Name,
-                  point: obj.geometry.coordinates,
-                });
-              });
-              resolve(pointArr);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       //取区域内的随机图标；用于线对象的合并渲染

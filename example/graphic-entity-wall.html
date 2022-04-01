@@ -416,7 +416,7 @@
 
       //边界墙绘制
       function addGraphic_a9(graphicLayer) {
-        queryAreasData().then(function (data) {
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100.json" }).then(function (data) {
           let arr = mars3d.Util.geoJsonToGraphics(data); //解析geojson
           for (let i = 0; i < arr.length; i++) {
             let item = arr[i];
@@ -437,23 +437,6 @@
             graphicLayer.addGraphic(graphic);
             graphic.bindTooltip("合肥欢迎您 - 火星科技");
           }
-        });
-      }
-
-      //边界墙绘制 - 数据获取
-      function queryAreasData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/areas/340100.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
         });
       }
 

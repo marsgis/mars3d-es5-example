@@ -195,16 +195,26 @@
         drawWarningLine();
 
         //获取台风列表
-        queryTyphoonList().then(function (arr) {
-          //启动正在发送的台风
-          arr.forEach((item) => {
-            if (item.state == "start") {
-              item.show = true;
-              selectOneTyphoon(item);
-            }
+        mars3d.Util.fetchJson({
+          url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json",
+          data: {
+            t: new Date().getTime(),
+          },
+        })
+          .then(function (res) {
+            const arr = typhoon_jsons_list_default(res);
+            //启动正在发送的台风
+            arr.forEach((item) => {
+              if (item.state == "start") {
+                item.show = true;
+                selectOneTyphoon(item);
+              }
+            });
+            showTyphoonTable(arr);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-          showTyphoonTable(arr);
-        });
       }
 
       //显示台风列表
@@ -310,14 +320,24 @@
           typhoon.flyTo();
           showPathTable(typhoon); //已有的，直接展示
         } else {
-          queryTyphoonItem(row.id).then(function (newData) {
-            // eslint-disable-next-line no-undef
-            let typhoon = new Typhoon({ ...row, ...newData }, map);
-            typhoon.flyTo();
-            showPathTable(typhoon);
+          mars3d.Util.fetchJson({
+            url: "//data.mars3d.cn/file/apidemo/typhoon/view_" + row.id + ".json",
+            data: {
+              t: new Date().getTime(),
+            },
+          })
+            .then(function (res) {
+              const newData = typhoon_jsons_view(res);
+              // eslint-disable-next-line no-undef
+              let typhoon = new Typhoon({ ...row, ...newData }, map);
+              typhoon.flyTo();
+              showPathTable(typhoon);
 
-            typhoonListObj[row.id] = typhoon; //绑定到数据中，方便使用
-          });
+              typhoonListObj[row.id] = typhoon; //绑定到数据中，方便使用
+            })
+            .otherwise(function (error) {
+              console.log("加载JSON出错", error);
+            });
         }
       }
 
@@ -378,69 +398,24 @@
         return $(window).height() - 440;
       }
 
-      //访问后端接口，取台风列表数据
-      function queryTyphoonList() {
-        return new Promise(function (resolve, reject) {
-          function typhoon_jsons_list_default(data) {
-            let arr = [];
-            data.typhoonList.forEach((item) => {
-              arr.push({
-                id: item[0],
-                name_en: item[1],
-                name_cn: item[2],
-                typnumber: item[3],
-                state: item[7],
-              });
-            });
-            resolve(arr);
-          }
-          window.typhoon_jsons_list_default = typhoon_jsons_list_default;
-
-          $.ajax({
-            // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_default", //在线实时接口
-            // dataType: "jsonp",
-            url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json", //mock离线数据
-            dataType: "json",
-            type: "GET",
-            data: {
-              t: new Date().getTime(),
-            },
-            success: typhoon_jsons_list_default,
-            error: function (data) {
-              console.log("台风列表数据获取失败", data);
-              // haoutil.msg('台风列表数据获取失败！')
-              reject(data);
-            },
+      function typhoon_jsons_list_default(data) {
+        let arr = [];
+        data.typhoonList.forEach((item) => {
+          arr.push({
+            id: item[0],
+            name_en: item[1],
+            name_cn: item[2],
+            typnumber: item[3],
+            state: item[7],
           });
         });
+        return arr;
       }
 
-      //访问后端接口，取单个台风路径数据
-      function queryTyphoonItem(id) {
-        return new Promise(function (resolve, reject) {
-          function typhoon_jsons_view(res) {
-            let newData = conversionPathData(res.typhoon); //在Typhoon.js中
-            // console.log('台风数据==>', newData)
-            resolve(newData);
-          }
-          window["typhoon_jsons_view_" + id] = typhoon_jsons_view;
-
-          $.ajax({
-            // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/view_" + id, //在线实时接口
-            // dataType: "jsonp",
-            url: "//data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json", //mock离线数据
-            dataType: "json",
-            type: "GET",
-            data: {
-              t: new Date().getTime(),
-            },
-            success: typhoon_jsons_view,
-            error: function (data) {
-              console.log("获取台风单个数据失败");
-              reject(data);
-            },
-          });
-        });
+      function typhoon_jsons_view(res) {
+        let newData = conversionPathData(res.typhoon); //在Typhoon.js中
+        // console.log('台风数据==>', newData)
+        return newData;
       }
 
       //转换数据,将后端接口数据转换为需要的格式

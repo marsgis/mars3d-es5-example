@@ -76,11 +76,12 @@
         ];
         creatreDmzList(dmzList);
 
-        queryTleChinaApiData()
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle-china.json" })
           .then(function (data) {
             createSatelliteList(data.data);
           })
-          .catch(function () {
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
             haoutil.msg("获取卫星信息异常！");
           });
       }
@@ -284,23 +285,6 @@
 
             dmzGraphic._lastInPoly[weixin.uuid].state = thisIsInPoly;
           }
-        });
-      }
-
-      // 访问后端接口，取数据
-      function queryTleChinaApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/tle-china.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
         });
       }
     </script>

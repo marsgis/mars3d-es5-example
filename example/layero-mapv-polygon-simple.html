@@ -58,25 +58,15 @@
           layer.brightness = 0.3;
         });
 
-        queryMapvLayerData().then(function (res) {
-          createMapvLayer(res.features);
-        });
-      }
-      function queryMapvLayerData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
-            type: "GET",
-            dataType: "json",
-            success: function (rs) {
-              resolve(rs);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/buildings-hf.json" })
+          .then(function (res) {
+            createMapvLayer(res.features);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
+
       //创建mapv图层
       function createMapvLayer(geojson) {
         let options = {

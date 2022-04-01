@@ -37,7 +37,7 @@
 
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <div class="infoview" style="overflow: auto;   top: 50px; max-height: 90%">
+    <div class="infoview" style="overflow: auto; top: 50px; max-height: 90%">
       <ul id="treeOverlays" class="ztree"></ul>
     </div>
 
@@ -58,26 +58,13 @@
         //创建三维地球场景
         map = new mars3d.Map("mars3dContainer", mapOptions);
 
-        queryAirPortApiData().then(function (arr) {
-          addOrbitList(arr);
-        });
-      }
-
-      //访问后端接口，取数据
-      function queryAirPortApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/apidemo/airport.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
+        mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/airport.json" })
+          .then(function (arr) {
+            addOrbitList(arr);
+          })
+          .otherwise(function (error) {
+            console.log("加载JSON出错", error);
           });
-        });
       }
 
       function addOrbitList(arr) {

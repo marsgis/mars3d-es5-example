@@ -236,28 +236,14 @@
         });
 
         if (location.hostname !== "127.0.0.1" && location.hostname !== "localhost") {
-          queryDrawData().then(function (data) {
-            graphicLayer.loadGeoJSON(data, { clear: true, flyTo: true });
-          });
+          mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mars3d-draw.json" })
+            .then(function (data) {
+              graphicLayer.loadGeoJSON(data, { clear: true, flyTo: true });
+            })
+            .otherwise(function (error) {
+              console.log("加载JSON出错", error);
+            });
         }
-      }
-
-      //获取数据
-      function queryDrawData() {
-        //加载历史演示数据
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
-            type: "get",
-            dataType: "json",
-            success: function (result) {
-              resolve(result);
-            },
-            error: function (data) {
-              reject(data);
-            },
-          });
-        });
       }
 
       function drawPoint() {
