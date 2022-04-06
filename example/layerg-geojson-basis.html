@@ -239,8 +239,8 @@
         map.addLayer(geoJsonLayer);
 
         //绑定事件
-        geoJsonLayer.on(mars3d.EventType.load, function (event) {
-          console.log("数据加载完成", event);
+        geoJsonLayer.readyPromise.then((event) => {
+          console.log("readyPromise,数据加载完成", event);
           initTree(event.list);
         });
       }

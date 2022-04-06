@@ -165,7 +165,7 @@
             showYearZT(res.data); //柱状图
             bindHaihuaiPopup();
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             console.log("加载JSON出错", error);
           });
 

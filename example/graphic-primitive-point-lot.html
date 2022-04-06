@@ -133,7 +133,7 @@
 
             haoutil.msg("渲染点数量：" + rs.length);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             haoutil.alert(error, "加载数据出错");
           });
       }

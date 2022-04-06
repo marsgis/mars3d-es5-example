@@ -18,7 +18,7 @@ mars3d.Util.fetchJson({ url: configUrl })
     //移除遮罩
     setTimeout(removeMask, 3000);
   })
-  .otherwise(function (error) {
+  .catch(function (error) {
     console.log("加载JSON出错", error);
     removeMask();
     haoutil.alert(error && error.message, "出错了");

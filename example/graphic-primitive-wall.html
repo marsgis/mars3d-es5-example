@@ -314,7 +314,7 @@
               primitive.bindTooltip("合肥欢迎您 - 火星科技");
             }
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             console.log("加载JSON出错", error);
           });
       }

@@ -133,7 +133,7 @@
 
       var map;
       let graphicLayer;
-      let selectedView;
+      let video2D;
 
       let videoElement;
 
@@ -164,7 +164,6 @@
 
         //2.在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
-          selectedView = event.graphic;
           console.log("监听layer，单击了矢量对象", event);
         });
 
@@ -207,7 +206,7 @@
 
       // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
       function addGraphic_01() {
-        let video2D = new mars3d.graphic.Video2D({
+        video2D = new mars3d.graphic.Video2D({
           position: [117.205459, 31.842988, 64.3],
           style: {
             container: videoElement,
@@ -220,14 +219,12 @@
           },
         });
         graphicLayer.addGraphic(video2D);
-
-        selectedView = video2D; //记录下
       }
 
       function bindEvnet() {
         $("#btnClear").click(function () {
           graphicLayer.clear();
-          selectedView = null;
+          video2D = null;
         });
 
         //新增绘制
@@ -247,7 +244,7 @@
             success: function (graphic) {
               console.log("绘制完成", graphic);
 
-              selectedView = graphic; //记录下
+              video2D = graphic; //记录下
             },
           });
         });
@@ -267,7 +264,7 @@
           let aspectRatio = map.scene.canvas.clientWidth / map.scene.canvas.clientHeight; //获取canvas宽高
 
           //构造投射体
-          let video2D = new mars3d.graphic.Video2D({
+          video2D = new mars3d.graphic.Video2D({
             position: cameraPosition,
             targetPosition: targetPosition,
             style: {
@@ -279,69 +276,67 @@
             },
           });
           graphicLayer.addGraphic(video2D);
-
-          selectedView = video2D; //记录下
         });
 
-        let defValue = selectedView || {};
+        let defValue = video2D || {};
 
         $("#cameraAngle")
-          .slider({ min: 1, max: 60, step: 0.1, value: selectedView.angle })
+          .slider({ min: 1, max: 60, step: 0.1, value: video2D.angle })
           .on("change", (e) => {
-            if (!selectedView) {
+            if (!video2D) {
               return;
             }
-            selectedView.angle = e.value.newValue;
+            video2D.angle = e.value.newValue;
           });
         $("#cameraAngle2")
           .slider({ min: 10, max: 30, step: 0.1, value: defValue.angle2 })
           .on("change", (e) => {
-            if (selectedView && e?.value) {
-              selectedView.angle2 = e.value.newValue;
+            if (video2D && e?.value) {
+              video2D.angle2 = e.value.newValue;
             }
           });
         $("#cameraDistance")
           .slider({ min: 1, max: 1000, step: 0.1, value: defValue.distance })
           .on("change", (e) => {
-            if (selectedView && e?.value) {
-              selectedView.distance = e.value.newValue;
+            if (video2D && e?.value) {
+              video2D.distance = e.value.newValue;
             }
           });
 
         $("#cameraHeading")
           .slider({ min: 0, max: 360, step: 0.1, value: defValue.heading })
           .on("change", (e) => {
-            if (selectedView && e?.value) {
-              selectedView.heading = e.value.newValue;
+            if (video2D && e?.value) {
+              video2D.heading = e.value.newValue;
             }
           });
         $("#cameraPitch")
           .slider({ min: -180, max: 180, step: 0.1, value: defValue.pitch })
           .on("change", (e) => {
-            if (selectedView && e?.value) {
-              selectedView.pitch = e.value.newValue;
+            if (video2D && e?.value) {
+              video2D.pitch = e.value.newValue;
             }
           });
 
         $("#txtMixNum")
           .slider({ min: 0, max: 1, step: 0.1, value: defValue.opacity })
           .on("change", (e) => {
-            if (selectedView && e?.value) {
-              selectedView.opacity = e.value.newValue;
+            if (video2D && e?.value) {
+              video2D.opacity = e.value.newValue;
             }
           });
 
         $("#chkDebugFrustum").change(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
 
           let showFrustum = $(this).is(":checked");
-          selectedView.showFrustum = showFrustum;
+          video2D.showFrustum = showFrustum;
         });
 
         $("#btnSelCamera").click(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
 
@@ -351,13 +346,13 @@
               let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
-              selectedView.position = point;
+              video2D.position = point;
             },
           });
         });
 
         $("#btnSelView").click(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
 
@@ -367,7 +362,7 @@
               let point = graphic.point;
               graphic.remove(); //删除绘制的点
 
-              selectedView.targetPosition = point;
+              video2D.targetPosition = point;
             },
           });
         });
@@ -375,28 +370,28 @@
         //修改坐标 end
 
         $("#btnLocate").click(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
-          selectedView.setView();
+          video2D.setView();
         });
 
         $("#btnConsoleJson").click(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
 
-          let params = JSON.stringify(selectedView.toJSON());
+          let params = JSON.stringify(video2D.toJSON());
           console.log(params);
           haoutil.msg(params);
         });
 
         $("#btnPlayPause").click(function () {
-          if (!selectedView) {
+          if (!video2D) {
             return;
           }
 
-          selectedView.play = !selectedView.play;
+          video2D.play = !video2D.play;
         });
       }
     </script>

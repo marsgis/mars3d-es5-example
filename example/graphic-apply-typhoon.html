@@ -212,7 +212,7 @@
             });
             showTyphoonTable(arr);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             console.log("加载JSON出错", error);
           });
       }
@@ -335,7 +335,7 @@
 
               typhoonListObj[row.id] = typhoon; //绑定到数据中，方便使用
             })
-            .otherwise(function (error) {
+            .catch(function (error) {
               console.log("加载JSON出错", error);
             });
         }

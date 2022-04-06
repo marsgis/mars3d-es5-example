@@ -183,7 +183,7 @@
             });
             graphicLayer.addGraphic(primitive);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             haoutil.alert("服务出错", error);
           });
       }
@@ -227,7 +227,7 @@
       //       });
       //       graphicLayer.addGraphic(primitive);
       //     })
-      //     .otherwise(function (error) {
+      //     .catch(function (error) {
       //       haoutil.alert("服务出错", error);
       //     });
       // }

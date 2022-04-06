@@ -62,7 +62,7 @@
           .then(function (geojson) {
             showBJXLine(geojson.features[0]);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             haoutil.alert("Json文件加载失败！");
             console.log("加载JSON出错", error);
           });
@@ -72,7 +72,7 @@
           .then(function (geojson) {
             showGeoJsonVectorTile(geojson);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             haoutil.alert("Json文件加载失败！");
             console.log("加载JSON出错", error);
           });

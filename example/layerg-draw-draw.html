@@ -240,7 +240,7 @@
             .then(function (data) {
               graphicLayer.loadGeoJSON(data, { clear: true, flyTo: true });
             })
-            .otherwise(function (error) {
+            .catch(function (error) {
               console.log("加载JSON出错", error);
             });
         }

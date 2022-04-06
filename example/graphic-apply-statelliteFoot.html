@@ -80,7 +80,7 @@
             let swathWidth = swathWidthDict[satelliteEntity.id];
             satelliteFoot.start(satelliteEntity, swathWidth);
           })
-          .otherwise(function (error) {
+          .catch(function (error) {
             haoutil.alert(error, "加载数据出错");
           });
       }
