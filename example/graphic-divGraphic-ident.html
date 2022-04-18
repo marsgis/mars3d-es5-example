@@ -43,6 +43,7 @@
         <input id="btnDivgraphicYellow" type="button" class="btn btn-primary active" value="效果一" />
         <input id="btnDivgraphicBule" type="button" class="btn btn-primary" value="效果二" />
         <input id="btnDivgraphicWhite" type="button" class="btn btn-primary" value="效果三" />
+        <input id="btnDivgraphicSiber" type="button" class="btn btn-primary" value="效果四" />
       </div>
     </div>
 
@@ -92,6 +93,7 @@
         graphicLayer = new mars3d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
+        bindLayerPopup(); // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
         // 初始加载
         divGraphicYellow();
 
@@ -113,6 +115,13 @@
           $(this).addClass("active");
 
           divGraphicWhite();
+        });
+
+        $("#btnDivgraphicSiber").click(function () {
+          $(".active").removeClass("active");
+          $(this).addClass("active");
+
+          divGraphicSiber();
         });
 
         // 效果一
@@ -202,6 +211,42 @@
             graphicLayer.addGraphic(divGraphic);
           }
         }
+
+        // 效果四
+        function divGraphicSiber() {
+          graphicLayer.clear();
+
+          for (let i = 0; i < arrData.length; i++) {
+            const item = arrData[i];
+
+            const divGraphic = new mars3d.graphic.DivGraphic({
+              position: item.position,
+              style: {
+                html: `<div class="mars-spot">
+                        <div class="mars-spot-board">
+                          <h5>${item.name}</h5></div>
+                        <div class="mars-spot-line"></div>
+                      </div>`,
+                offsetY: -60,
+                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                verticalOrigin: Cesium.VerticalOrigin.BTOOM,
+              },
+            });
+            graphicLayer.addGraphic(divGraphic);
+          }
+        }
+      }
+
+      // 在图层绑定Popup弹窗
+      function bindLayerPopup() {
+        graphicLayer.bindPopup(function (event) {
+          const attr = event.graphic.attr || {};
+          attr["类型"] = event.graphic.type;
+          attr["来源"] = "我是layer上绑定的Popup";
+          attr["备注"] = "我支持鼠标交互";
+
+          return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr });
+        });
       }
     </script>
   </body>

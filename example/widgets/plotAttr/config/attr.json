@@ -133,7 +133,7 @@
         "name": "horizontalOrigin",
         "label": "横向对齐",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -145,7 +145,7 @@
         "name": "verticalOrigin",
         "label": "垂直对齐",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 1,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -189,7 +189,7 @@
         "name": "horizontalOrigin",
         "label": "横向定位",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -201,7 +201,7 @@
         "name": "verticalOrigin",
         "label": "垂直定位",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 0,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -248,7 +248,7 @@
         "name": "horizontalOrigin",
         "label": "横向对齐",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 0,
         "data": [
           { "text": "左边", "value": 1 },
@@ -260,7 +260,7 @@
         "name": "verticalOrigin",
         "label": "垂直对齐",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 1,
         "data": [
           { "text": "顶部", "value": -1 },
@@ -357,7 +357,7 @@
           { "text": "网格", "value": "Grid", "impact": ["color", "opacity", "cellAlpha", "lineCount", "lineThickness"] },
           { "text": "条纹", "value": "Stripe", "impact": ["repeat", "evenColor", "oddColor"] },
           { "text": "棋盘", "value": "Checkerboard", "impact": ["repeat", "evenColor", "oddColor"] },
-          { "text": "图片", "value": "Image", "impact": ["image", "opacity"] },
+          { "text": "图片", "value": "Image", "impact": ["image", "opacity", "stRotationDegree"] },
           { "text": "波纹效果", "value": "CircleWave", "impact": ["color", "opacity", "speed", "count", "gradient"] },
           { "text": "放大扫描线", "value": "ScanLine", "impact": ["color", "opacity", "speed"] },
           { "text": "雷达线", "value": "RadarLine", "impact": ["color", "opacity", "speed"] },
@@ -373,7 +373,7 @@
       { "name": "evenColor", "label": "主色", "type": "color", "defval": "#000000" },
       { "name": "oddColor", "label": "衬色", "type": "color", "defval": "#ffffff" },
       { "name": "repeat", "label": "数量", "type": "number", "defval": 2 },
-      { "name": "image", "label": "图片", "type": "label", "defval": "" },
+      { "name": "image", "label": "图片", "type": "label", "defval": "img/textures/laker_surface.jpg" },
 
       { "name": "color", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
       { "name": "opacity", "label": "透明度", "type": "slider", "defval": 0.6 },
@@ -421,7 +421,7 @@
           { "text": "网格", "value": "Grid", "impact": ["cellAlpha", "lineCount", "lineThickness"] },
           { "text": "条纹", "value": "Stripe", "impact": ["repeat", "evenColor", "oddColor"] },
           { "text": "棋盘", "value": "Checkerboard", "impact": ["repeat", "evenColor", "oddColor"] },
-          { "text": "图片", "value": "Image", "impact": ["image", "opacity"] }
+          { "text": "图片", "value": "Image", "impact": ["image", "opacity", "stRotationDegree"] }
         ]
       },
       { "name": "speed", "label": "速度", "type": "number", "defval": 10.0 },
@@ -433,7 +433,7 @@
       { "name": "evenColor", "label": "主色", "type": "color", "defval": "#000000" },
       { "name": "oddColor", "label": "衬色", "type": "color", "defval": "#ffffff" },
       { "name": "repeat", "label": "数量", "type": "number", "defval": 2 },
-      { "name": "image", "label": "图片", "type": "label", "defval": "" },
+      { "name": "image", "label": "图片", "type": "label", "defval": "img/textures/laker_surface.jpg" },
 
       { "name": "color", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
       { "name": "opacity", "label": "透明度", "type": "slider", "defval": 0.6 },
@@ -885,11 +885,11 @@
         "name": "cornerType",
         "label": "顶点样式",
         "type": "combobox",
-        "valType":"number",
+        "valType": "number",
         "defval": 0,
         "data": [
           { "text": "圆滑", "value": 0 },
-          { "text": "斜接", "value":1},
+          { "text": "斜接", "value": 1 },
           { "text": "斜切", "value": 2 }
         ]
       },
@@ -953,7 +953,7 @@
       { "name": "evenColor", "label": "主色", "type": "color", "defval": "#000000" },
       { "name": "oddColor", "label": "衬色", "type": "color", "defval": "#ffffff" },
       { "name": "repeat", "label": "数量", "type": "number", "defval": 2 },
-      { "name": "image", "label": "图片", "type": "label", "defval": "" },
+      { "name": "image", "label": "图片", "type": "label", "defval": "img/textures/laker_surface.jpg" },
 
       { "name": "color", "label": "颜色", "type": "color", "defval": "#3388ff" },
       { "name": "opacity", "label": "透明度", "type": "slider", "defval": 0.6 },
@@ -998,7 +998,7 @@
           { "text": "网格", "value": "Grid", "impact": ["color", "opacity", "cellAlpha", "lineCount", "lineThickness"] },
           { "text": "条纹", "value": "Stripe", "impact": ["repeat", "evenColor", "oddColor"] },
           { "text": "棋盘", "value": "Checkerboard", "impact": ["repeat", "evenColor", "oddColor"] },
-          { "text": "图片", "value": "Image", "impact": ["opacity", "image"] }
+          { "text": "图片", "value": "Image", "impact": ["opacity", "image","stRotationDegree"] }
         ]
       },
       { "name": "lineCount", "label": "网格数量", "type": "number", "defval": 8.0 },
@@ -1007,7 +1007,7 @@
       { "name": "evenColor", "label": "主色", "type": "color", "defval": "#000000" },
       { "name": "oddColor", "label": "衬色", "type": "color", "defval": "#ffffff" },
       { "name": "repeat", "label": "数量", "type": "number", "defval": 2 },
-      { "name": "image", "label": "图片", "type": "label", "defval": "" },
+      { "name": "image", "label": "图片", "type": "label", "defval": "img/textures/laker_surface.jpg" },
 
       { "name": "color", "label": "颜色", "type": "color", "defval": "#3388ff" },
       { "name": "opacity", "label": "透明度", "type": "slider", "defval": 0.6 },
