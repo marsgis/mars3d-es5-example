@@ -127,6 +127,7 @@ var plotEdit = {
         }
         let attrName = edit.name;
         let attrVal = attr.style[attrName] ?? edit.defval;
+
         if (!edit.isImpact) {
           attr.style[attrName] = attrVal;
         }
