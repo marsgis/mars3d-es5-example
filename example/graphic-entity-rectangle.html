@@ -91,15 +91,16 @@
 
         //创建Graphic图层
         graphicLayer = new mars3d.layer.GraphicLayer();
+
         map.addLayer(graphicLayer);
 
         //创建完成，事件监听
-        graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-          let graphic = e.graphic;
-          if (!graphicLayer.isContinued) {
-            startEditing(graphic);
-          }
-        });
+        // graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+        //   let graphic = e.graphic;
+        //   if (!graphicLayer.isContinued) {
+        //     startEditing(graphic);
+        //   }
+        // });
 
         //编辑修改了模型
         graphicLayer.on(
@@ -119,13 +120,13 @@
         initLayerManager(graphicLayer);
 
         //加一些演示数据
-        addGraphic_a1(graphicLayer);
-        addGraphic_a2(graphicLayer);
-        addGraphic_a3(graphicLayer);
-        addGraphic_a4(graphicLayer);
+        addGraphic_a1();
+        addGraphic_a2();
+        addGraphic_a3();
+        addGraphic_a4();
       }
 
-      function addGraphic_a1(graphicLayer) {
+      function addGraphic_a1() {
         let primitive = new mars3d.graphic.RectangleEntity({
           positions: [
             [117.220337, 31.786107],
@@ -153,7 +154,7 @@
       }
 
       //图片材质
-      function addGraphic_a2(graphicLayer) {
+      function addGraphic_a2() {
         let primitive = new mars3d.graphic.RectangleEntity({
           positions: [
             [117.337109, 31.881802],
@@ -170,7 +171,7 @@
         console.log(geojson);
       }
 
-      function addGraphic_a3(graphicLayer) {
+      function addGraphic_a3() {
         let primitive = new mars3d.graphic.RectangleEntity({
           positions: [
             [117.172852, 31.872736, 33.69],
@@ -199,14 +200,14 @@
       }
 
       //图片材质
-      function addGraphic_a4(graphicLayer) {
+      function addGraphic_a4() {
         let primitive = new mars3d.graphic.RectangleEntity({
           positions: [
             [117.353356, 31.82899, 10.7],
             [117.449547, 31.776242, 11.8],
           ],
           style: {
-            material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.RectSlide, {
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.RectSlide, {
               image: "//data.mars3d.cn/file/img/world/world.jpg",
               color: Cesium.Color.WHITE.withAlpha(0.7),
               speed: 2,
@@ -217,7 +218,7 @@
       }
 
       //在图层级处理一些事物
-      function initLayerManager(graphicLayer) {
+      function initLayerManager() {
         //在layer上绑定监听事件
         graphicLayer.on(mars3d.EventType.click, function (event) {
           console.log("监听layer，单击了矢量对象", event);
@@ -230,7 +231,7 @@
         // })
 
         //可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-        bindLayerPopup(graphicLayer);
+        bindLayerPopup();
 
         $("#chkPopup").change(function () {
           let val = $(this).is(":checked");
@@ -259,7 +260,7 @@
           let val = $(this).is(":checked");
 
           if (val) {
-            bindLayerContextMenu(graphicLayer);
+            bindLayerContextMenu();
           } else {
             graphicLayer.unbindContextMenu(true);
           }
@@ -269,6 +270,8 @@
         $("#btnStartDraw").click(function () {
           //开始绘制
           graphicLayer.startDraw({
+            hasEdit: true,
+            isAutoEditing: true, //绘制完成后是否自动激活编辑
             type: "rectangle",
             // maxPointNum: 2, //可以限定最大点数，2个点绘制后自动结束
             style: {
@@ -435,7 +438,7 @@
         return geojson;
       }
 
-      function bindLayerPopup(graphicLayer) {
+      function bindLayerPopup() {
         graphicLayer.bindPopup(function (event) {
           let attr = event.graphic?.attr || {};
           attr.test1 = "测试属性";
@@ -445,11 +448,11 @@
         });
       }
 
-      function bindLayerContextMenu(graphicLayer) {
+      function bindLayerContextMenu() {
         graphicLayer.bindContextMenu([
           {
             text: "开始编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic || !graphic.startEditing) {
@@ -469,7 +472,7 @@
           },
           {
             text: "停止编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -489,7 +492,7 @@
           },
           {
             text: "删除对象",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             show: (event) => {
               let graphic = event.graphic;
               if (!graphic || graphic.isDestroy) {
@@ -508,7 +511,7 @@
           },
           {
             text: "计算长度",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -535,7 +538,7 @@
           },
           {
             text: "计算周长",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -558,7 +561,7 @@
           },
           {
             text: "计算面积",
-            iconCls: "fa fa-reorder",
+            icon: "fa fa-reorder",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -617,7 +620,7 @@
         graphic.bindContextMenu([
           {
             text: "删除对象[graphic绑定的]",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             callback: function (e) {
               let graphic = e.graphic;
               if (graphic) {

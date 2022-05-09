@@ -186,7 +186,8 @@
         addGraphic_06(graphicLayer);
         addGraphic_07(graphicLayer);
         addGraphic_08(graphicLayer);
-        addGraphic_09(graphicLayer);
+        // addGraphic_09(graphicLayer);
+        addGraphic_10(graphicLayer);
       }
 
       //
@@ -436,6 +437,33 @@
         graphicLayer.addGraphic(circleEntity);
       }
 
+      function addGraphic_10(graphicLayer) {
+        const graphic = new mars3d.graphic.CircleEntity({
+          position: new mars3d.LatLngPoint(116.365776, 30.963614, 1090.7),
+          style: {
+            radius: 500,
+            opacity: 0.4,
+            color: "#02D4FD",
+            outline: false,
+            outlineColor: "#8A99B4",
+            outlineWidth: 2,
+            outlineOpacity: 1,
+            clampToGround: true,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        let newRadius = 500;
+
+        graphic.radius = new Cesium.CallbackProperty(function (time) {
+          if (newRadius < 2000) {
+            newRadius += 10;
+          }
+          return newRadius;
+        }, false);
+      }
+
+      function name(params) {}
       //在图层级处理一些事物
       function initLayerManager(graphicLayer) {
         //在layer上绑定监听事件
@@ -626,7 +654,7 @@
         graphicLayer.bindContextMenu([
           {
             text: "开始编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic || !graphic.startEditing) {
@@ -646,7 +674,7 @@
           },
           {
             text: "停止编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -666,7 +694,7 @@
           },
           {
             text: "删除对象",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             show: (event) => {
               let graphic = event.graphic;
               if (!graphic || graphic.isDestroy) {
@@ -685,7 +713,7 @@
           },
           {
             text: "计算长度",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -712,7 +740,7 @@
           },
           {
             text: "计算周长",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -735,7 +763,7 @@
           },
           {
             text: "计算面积",
-            iconCls: "fa fa-reorder",
+            icon: "fa fa-reorder",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -794,7 +822,7 @@
         graphic.bindContextMenu([
           {
             text: "删除对象[graphic绑定的]",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             callback: function (e) {
               let graphic = e.graphic;
               if (graphic) {

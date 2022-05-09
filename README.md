@@ -27,7 +27,6 @@
  
  这是一个基于`原生JS`开发的 Mars3D 功能示例 演示项目。
 
- > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：[功能示例Vue版教程](http://mars3d.cn/dev/guide/start/example.html)
 
  ## 项目特性 
 - **独立页面**：每一个页面是一个单独的示例，依赖少，独立运行。
@@ -65,7 +64,6 @@ git clone git@gitee.com:marsgis/mars3d-es5-example.git
 建议使用VScode工具打开代码目录（请参考[开发环境搭建教程](/guide/start/env.html)安装好VScode 及 Live Server插件）。
  
  参考下图通过Live Server访问各页面 
-
  ![image](http://mars3d.cn/dev/img/guide/start-example-run.jpg) 
 
   
@@ -91,14 +89,10 @@ npm run serve:dist  //测试dist运行状态
 ```
 
  
-
-
-### 运行效果   
- [在线体验](http://marsgis.gitee.io/mars3d-es5-example/)  
+### 运行效果  
+ [在线体验](http://mars3d.cn/example.html?type=es5)
 
  ![image](http://mars3d.cn/dev/img/guide/start-example-es5.jpg) 
-
-
  
 
 
@@ -122,7 +116,7 @@ mars3d-es5-example
 │───lib                 示例依赖资源
 │   └─include-lib.js    lib资源统一配置文件
 │───static              列表页、编辑页对应js、css
-└───index.html       列表页
+└───index.html          列表页
 ```
 
 与示例相关的2个主要目录是：`example`、`lib`。
@@ -134,7 +128,7 @@ mars3d-es5-example
 
  ![image](http://mars3d.cn/dev/img/guide/start-includeLib-ml.jpg) 
 
-为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](http://mars3d.cn/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
+为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](https://gitee.com/marsgis/mars3d-es5-example/blob/master/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
 <!--第三方lib-->
 <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"

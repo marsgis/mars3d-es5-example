@@ -127,12 +127,12 @@
         });
 
         //创建完成，事件监听
-        graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-          let graphic = e.graphic;
-          if (!graphicLayer.isContinued) {
-            startEditing(graphic);
-          }
-        });
+        // graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+        //   let graphic = e.graphic;
+        //   if (!graphicLayer.isContinued) {
+        //     startEditing(graphic);
+        //   }
+        // });
 
         //编辑修改了模型
         graphicLayer.on(

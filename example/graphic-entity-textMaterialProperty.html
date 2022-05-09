@@ -312,7 +312,6 @@
               width: 60,
               height: 10,
             });
-            console.log(positions);
 
             let rectangleEntity = new mars3d.graphic.RectangleEntity({
               positions: positions,
@@ -324,6 +323,8 @@
               },
             });
             graphicLayer.addGraphic(rectangleEntity);
+
+            startEditing(rectangleEntity);
           },
         });
       }

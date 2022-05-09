@@ -743,7 +743,7 @@
         graphicLayer.bindContextMenu([
           {
             text: "开始编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic || !graphic.startEditing) {
@@ -763,7 +763,7 @@
           },
           {
             text: "停止编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -783,7 +783,7 @@
           },
           {
             text: "删除对象",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             show: (event) => {
               let graphic = event.graphic;
               if (!graphic || graphic.isDestroy) {
@@ -836,7 +836,7 @@
         graphic.bindContextMenu([
           {
             text: "删除对象[graphic绑定的]",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             callback: function (e) {
               let graphic = e.graphic;
               if (graphic) {

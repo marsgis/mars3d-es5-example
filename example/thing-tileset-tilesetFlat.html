@@ -100,6 +100,7 @@
       var map;
       let tilesetFlat;
       let tiles3dLayer;
+      let showLine = true;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -127,58 +128,57 @@
 
         let positions;
         $("#btnDraw").click(function () {
-          map.graphicLayer.clear();
+          // map.graphicLayer.clear();
           map.graphicLayer.startDraw({
             type: "polygon",
             style: {
               color: "#007be6",
-              opacity: 0.5,
+              opacity: 0,
             },
             success: function (graphic) {
               //绘制成功后回调
               positions = graphic.positionsShow;
-              map.graphicLayer.clear();
+              // map.graphicLayer.clear();
 
-              addTestLine(positions);
+              let id = addTestLine(positions);
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
 
               let item = tilesetFlat.addArea(positions);
 
-              addTableItem(item);
+              addTableItem({ id: id, item: item });
             },
           });
         });
         $("#btnDrawExtent").click(function () {
-          map.graphicLayer.clear();
+          // map.graphicLayer.clear();
           map.graphicLayer.startDraw({
             type: "rectangle",
             style: {
               color: "#007be6",
-              opacity: 0.2,
+              opacity: 0,
               outline: false,
             },
             success: function (graphic) {
               //绘制成功后回调
               positions = graphic.getOutlinePositions(false);
-              map.graphicLayer.clear();
+              // map.graphicLayer.clear();
 
-              addTestLine(positions);
+              let id = addTestLine(positions);
               console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))); //打印下边界
 
               let item = tilesetFlat.addArea(positions);
 
-              addTableItem(item);
+              addTableItem({ id: id, item: item });
             },
           });
         });
 
         $("#chkShowLine").change(function () {
           let val = $(this).is(":checked");
-          if (val) {
-            addTestLine(positions);
-          } else {
-            map.graphicLayer.clear();
-          }
+          showLine = val;
+          map.graphicLayer.eachGraphic((graphic) => {
+            graphic.show = val;
+          });
         });
 
         $("#flatHeight").change(function () {
@@ -217,10 +217,6 @@
       }
 
       function addTestLine(positions) {
-        if (!$("#chkShowLine").is(":checked")) {
-          return;
-        }
-
         let graphic = new mars3d.graphic.PolylineEntity({
           positions: positions,
           style: {
@@ -230,18 +226,21 @@
             width: 2,
             clampToGround: true,
           },
+          show: showLine,
         });
         map.graphicLayer.addGraphic(graphic);
+
+        return graphic.id;
       }
 
       // 区域表格添加一行记录
-      function addTableItem(item) {
+      function addTableItem(data) {
         // 增加tr和td表格
         let tbody = document.getElementById("tbPoly");
         let tr = document.createElement("tr");
         tr.innerHTML = `
           <tr>
-            <td>压平区${item.id}</td>
+            <td>压平区${data.item.id}</td>
             <td>
               <a class="flyTo" href="javascript:void(0)" title="飞行定位到区域"><i class="fa fa-send-o"></i></a>&nbsp;&nbsp;
               <a class="remove" href="javascript:void(0)" title="删除区域"><i class="fa fa-trash"></i></a>
@@ -251,15 +250,15 @@
 
         //绑定单击事件 定位
         tr.querySelector(".flyTo").addEventListener("click", function (e) {
-          map.flyToPositions(item.positions);
+          map.flyToPositions(data.item.positions);
         });
 
         // 移动至绘制区域
         tr.querySelector(".remove").addEventListener("click", function (e) {
-          tilesetFlat.removeArea(item);
+          tilesetFlat.removeArea(data.item);
           tbody.removeChild(tr);
-
-          map.graphicLayer.clear();
+          let graphicLine = map.graphicLayer.getGraphicById(data.id);
+          map.graphicLayer.removeGraphic(graphicLine);
         });
       }
 

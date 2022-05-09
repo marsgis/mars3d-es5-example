@@ -395,7 +395,7 @@
         graphicLayer.bindContextMenu([
           {
             text: "开始编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic || !graphic.startEditing) {
@@ -415,7 +415,7 @@
           },
           {
             text: "停止编辑对象",
-            iconCls: "fa fa-edit",
+            icon: "fa fa-edit",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -435,7 +435,7 @@
           },
           {
             text: "删除对象",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             show: (event) => {
               let graphic = event.graphic;
               if (!graphic || graphic.isDestroy) {
@@ -454,7 +454,7 @@
           },
           {
             text: "计算长度",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -481,7 +481,7 @@
           },
           {
             text: "计算周长",
-            iconCls: "fa fa-medium",
+            icon: "fa fa-medium",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -504,7 +504,7 @@
           },
           {
             text: "计算面积",
-            iconCls: "fa fa-reorder",
+            icon: "fa fa-reorder",
             show: function (e) {
               let graphic = e.graphic;
               if (!graphic) {
@@ -563,7 +563,7 @@
         graphic.bindContextMenu([
           {
             text: "删除对象[graphic绑定的]",
-            iconCls: "fa fa-trash-o",
+            icon: "fa fa-trash-o",
             callback: function (e) {
               let graphic = e.graphic;
               if (graphic) {

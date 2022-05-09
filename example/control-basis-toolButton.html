@@ -34,6 +34,18 @@
         border: 2px solid red;
       }
     </style>
+
+    <!--演示支持iconfont的symbol方式（svg）-->
+    <script type="text/javascript" src="//at.alicdn.com/t/font_887615_6g5dbv18yaw.js"></script>
+    <style type="text/css">
+      .iconsvg {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+      }
+    </style>
   </head>
 
   <body class="dark">
@@ -66,7 +78,7 @@
 
         let toolButton = new mars3d.control.ToolButton({
           title: "示例按钮1",
-          icon: "./img/icon/bookmark-one.svg", //来源：https://iconpark.oceanengine.com/official
+          icon: "./img/icon/bookmark-one.svg", //支持base64或url图片
           insertIndex: 1, //插入的位置顺序, 1是home按钮后面
           click: (event) => {
             haoutil.msg("单击了控件1按钮，回调中想干啥就干啥~");
@@ -76,7 +88,7 @@
 
         let toolButton2 = new mars3d.control.ToolButton({
           title: "示例按钮2",
-          icon: "fa fa-street-view",
+          icon: "fa fa-street-view", //支持 font-class 的字体方式图标
           insertIndex: 0, //插入的位置顺序
           click: (event) => {
             haoutil.msg("单击了控件2按钮，回调中想干啥就干啥~");
@@ -88,7 +100,9 @@
 
         let toolButton3 = new mars3d.control.ToolButton({
           title: "示例按钮3",
-          icon: "fa fa-server",
+          icon: `<svg class="iconsvg" aria-hidden="true">
+                      <use xlink:href="#marsgis-qjsjdb"></use>
+                  </svg>`, //支持iconfont的symbol方式图标（svg）
           click: (event) => {
             isSeleted = !isSeleted;
             if (isSeleted) {
