@@ -54,7 +54,7 @@
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars3d.Util.merge(options, {
           scene: {
-            center: { lat: 31.806147, lng: 117.236965, alt: 3307, heading: 359, pitch: -54 },
+            center: { lat: 31.839779, lng: 117.261174, alt: 5404, heading: 359, pitch: -54 },
           },
           terrain: {
             show: false,
@@ -163,6 +163,7 @@
                 },
               },
             });
+            arr = arr.slice(0, 5000); // 控制数量，避免卡顿
 
             haoutil.msg("共加载" + arr.length + "个面");
 
