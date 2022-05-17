@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.8
- * 编译日期：2022-05-11 09:33:00
+ * 版本信息：v3.3.9
+ * 编译日期：2022-05-17 11:14:55
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -2757,6 +2757,18 @@ declare class BaseEffect extends BaseThing {
      * </p>
      */
     readonly uniforms: any;
+    /**
+     * 添加到地图上，同 map.addEffect
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map): BaseEffect;
+    /**
+     * 从地图上移除，同map.removeEffect
+     * @param [destroy] - 是否调用destroy释放
+     * @returns 无
+     */
+    remove(destroy?: boolean): void;
 }
 
 /**
@@ -6523,15 +6535,13 @@ declare class BasePolyEntity extends BaseEntity {
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
-     * @param options.callback - 异步计算高度完成后 的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 异步计算完成的Promise
      */
     autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
-        callback: Globe.surfaceLineWork_callback;
-    }): BasePolyEntity;
+    }): Promise<any>;
     /**
      * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
      * @param positions - 坐标数组
@@ -6643,6 +6653,10 @@ declare namespace BillboardEntity {
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
  * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.model] - 设置附加的 gltf模型 和对应的样式
+ * @param [options.point] - 设置附加的 像素点 和对应的样式
+ * @param [options.circle] - 设置附加的 圆 和对应的样式
+ * @param [options.path] - 设置附加的 轨迹路线 和对应的样式
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -6672,6 +6686,10 @@ declare class BillboardEntity extends BasePointEntity {
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Tooltip.StyleOptions | any;
         contextmenuItems?: any;
+        model?: ModelEntity.StyleOptions | any | any;
+        point?: PointEntity.StyleOptions | any | any;
+        circle?: CircleEntity.StyleOptions | any | any;
+        path?: PathEntity.StyleOptions | any | any;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -8770,6 +8788,10 @@ declare namespace ModelEntity {
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
  * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.billboard] - 设置附加的 图标 和对应的样式。
+ * @param [options.point] - 设置附加的 像素点 和对应的样式
+ * @param [options.circle] - 设置附加的 圆 和对应的样式
+ * @param [options.path] - 设置附加的 轨迹路线 和对应的样式
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -8802,6 +8824,10 @@ declare class ModelEntity extends BasePointEntity {
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Tooltip.StyleOptions | any;
         contextmenuItems?: any;
+        billboard?: BillboardEntity.StyleOptions | any | any;
+        point?: PointEntity.StyleOptions | any | any;
+        circle?: CircleEntity.StyleOptions | any | any;
+        path?: PathEntity.StyleOptions | any | any;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -8957,10 +8983,6 @@ declare namespace PathEntity {
  * @param [options.orientation] - 实体方向
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.label] - 设置是否显示 文本 和对应的样式
- * @param [options.model] - 设置是否显示 gltf模型 和对应的样式
- * @param [options.point] - 设置是否显示 像素点 和对应的样式，如果不设置gltf模型时，可以选择该项。
- * @param [options.billboard] - 设置是否显示 图标 和对应的样式，如果不设置gltf模型时，可以选择该项。
  * @param [options.availability] - 与该对象关联的可用性(如果有的话)。
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
@@ -8971,6 +8993,11 @@ declare namespace PathEntity {
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
  * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.label] - 设置是否显示 文本 和对应的样式
+ * @param [options.model] - 设置附加的 gltf模型 和对应的样式
+ * @param [options.billboard] - 设置附加的 图标 和对应的样式。
+ * @param [options.point] - 设置附加的 像素点 和对应的样式
+ * @param [options.circle] - 设置附加的 圆 和对应的样式
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -8983,10 +9010,6 @@ declare class PathEntity extends BasePointEntity {
         orientation?: Cesium.Property;
         style: PathEntity.StyleOptions | any;
         attr?: any;
-        label?: LabelEntity.StyleOptions | any;
-        model?: ModelEntity.StyleOptions | any;
-        point?: PointEntity.StyleOptions | any;
-        billboard?: BillboardEntity.StyleOptions | any;
         availability?: Cesium.TimeIntervalCollection;
         description?: Cesium.Property | string;
         viewFrom?: Cesium.Property;
@@ -8997,6 +9020,11 @@ declare class PathEntity extends BasePointEntity {
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Tooltip.StyleOptions | any;
         contextmenuItems?: any;
+        label?: LabelEntity.StyleOptions | any;
+        model?: ModelEntity.StyleOptions | any | any;
+        billboard?: BillboardEntity.StyleOptions | any | any;
+        point?: PointEntity.StyleOptions | any | any;
+        circle?: CircleEntity.StyleOptions | any | any;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -9276,6 +9304,10 @@ declare namespace PointEntity {
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
  * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.model] - 设置附加的 gltf模型 和对应的样式
+ * @param [options.billboard] - 设置附加的 图标 和对应的样式
+ * @param [options.circle] - 设置附加的 圆 和对应的样式
+ * @param [options.path] - 设置附加的 轨迹路线 和对应的样式
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -9305,6 +9337,10 @@ declare class PointEntity extends BasePointEntity {
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Tooltip.StyleOptions | any;
         contextmenuItems?: any;
+        model?: ModelEntity.StyleOptions | any | any;
+        billboard?: BillboardEntity.StyleOptions | any | any;
+        circle?: CircleEntity.StyleOptions | any | any;
+        path?: PathEntity.StyleOptions | any | any;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -12101,10 +12137,10 @@ declare class VolumeMeasure extends AreaMeasure {
     updateText(unit: string): void;
     /**
      * 通过鼠标拾取高度，赋值给基准面
-     * @param callback - 拾取完成后的回调方法
-     * @returns 无
+     * @param [callback] - 拾取完成后的回调方法
+     * @returns 拾取完成后的回调,与callback 2选1
      */
-    selecteHeight(callback: (...params: any[]) => any): void;
+    selecteHeight(callback?: (...params: any[]) => any): Promise<number>;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -12386,15 +12422,13 @@ declare class BasePolyPrimitive extends BasePrimitive {
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
-     * @param options.callback - 异步计算高度完成后 的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 异步计算完成的Promise
      */
     autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
-        callback: Globe.surfaceLineWork_callback;
-    }): BasePolyPrimitive;
+    }): Promise<any>;
 }
 
 declare namespace BasePrimitive {
@@ -15948,6 +15982,8 @@ declare namespace DynamicRoamLine {
 /**
  * 动态漫游路线管理类 【动态传入的数据】
  * @param options - 参数对象，包括以下：
+ * @param [options.model] - 设置是否显示 gltf模型 和对应的样式, 还额外包括：<br />
+ * //  * @param {Boolean} [options.model.noPitchRoll] 设置为true时，可以设置模型只动态更改方向，内部固定模型的Pitch和Roll方向值为0
  * @param [options.model] - 设置是否显示 gltf模型 和对应的样式
  * @param [options.label] - 设置是否显示 文本 和对应的样式
  * @param [options.billboard] - 设置是否显示 图标 和对应的样式，如果不设置gltf模型时，可以选择该项。
@@ -15993,6 +16029,7 @@ declare namespace DynamicRoamLine {
  */
 declare class DynamicRoamLine extends BaseRoamLine {
     constructor(options: {
+        model?: ModelEntity.StyleOptions | any;
         model?: ModelEntity.StyleOptions | any;
         label?: LabelEntity.StyleOptions | any;
         billboard?: BillboardEntity.StyleOptions | any;
@@ -16129,10 +16166,11 @@ declare namespace RoamLine {
  * @param options.positions - 轨迹的 坐标数组
  * @param options.speed - 轨迹的 速度( 单位：千米/小时)
  * @param [options.timeField = 'time'] - 当points数组中已有时间值，请传入该值的字段名称，同时speed将失效，已实际传入时间字段为准。
- * @param [options.model] - 设置是否显示 gltf模型 和对应的样式
+ * @param [options.model] - 设置是否显示 gltf模型 和对应的样式还额外包括：<br />
+ * //* @param {Boolean} [options.model.noPitchRoll] 设置为true时，可以设置模型只动态更改方向，内部固定模型的Pitch和Roll方向值为0
  * @param [options.label] - 设置是否显示 文本 和对应的样式
  * @param [options.billboard] - 设置是否显示 图标 和对应的样式，如果不设置gltf模型时，可以选择该项。
- * @param [options.point] - 设置是否显示 图标 和对应的样式，如果不设置gltf模型时，可以选择该项。
+ * @param [options.point] - 设置是否显示 像素点 和对应的样式，如果不设置gltf模型时，可以选择该项。
  * @param [options.path] - 设置是否显示 轨迹路线 和对应的样式
  * @param [options.circle] - 设置是否显示 圆对象 和对应的样式
  * @param [options.attr] - 矢量数据的 属性信息，可以任意附加属性。
@@ -16151,11 +16189,6 @@ declare namespace RoamLine {
  * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
- *
- * //以下是 clampToGround中使用的
- * @param [options.splitNum = 100] - 当clampToGround计算时，插值数，等比分割的个数
- * @param [options.minDistance = null] - 当clampToGround计算时，插值最小间隔(单位：米)，优先级高于splitNum
- * @param [options.offset = 0] - 当clampToGround计算时，可以按需增加偏移高度（单位：米），便于可视
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
  * @param [options.frameRateHeight = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
  * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
@@ -16213,9 +16246,6 @@ declare class RoamLine extends BaseRoamLine {
         forwardExtrapolationType?: Cesium.ExtrapolationType;
         backwardExtrapolationType?: Cesium.ExtrapolationType;
         fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
-        splitNum?: number;
-        minDistance?: number;
-        offset?: number;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -16296,10 +16326,23 @@ declare class RoamLine extends BaseRoamLine {
     stop(): void;
     /**
      * 计算贴地线
-     * @param callback - 计算完成的回调方法
-     * @returns 无
+     * @param [options] - 控制参数
+     * @param [options.splitNum = 100] - 插值数，等比分割的个数
+     * @param [options.minDistance = null] - 插值最小间隔(单位：米)，优先级高于splitNum
+     * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
+     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
+     * @param [options.callback] - 计算完成的回调方法
+     * @returns 异步计算完成的Promise
      */
-    clampToGround(callback: (...params: any[]) => any): void;
+    clampToGround(options?: {
+        splitNum?: number;
+        minDistance?: number;
+        has3dtiles?: boolean;
+        objectsToExclude?: any;
+        offset?: number;
+        callback?: (...params: any[]) => any;
+    }): Promise<any>;
     /**
      * 获取剖面数据
      * @param callback - 计算完成的回调方法
@@ -19051,7 +19094,7 @@ declare namespace TilesetLayer {
 /**
  * 3dtiles 三维模型图层。
  * @param options - 参数对象， 构造参数建议从{@link http://mars3d.cn/editor.html?id=layer-tileset/manager/edit|模型编辑页面}设置后保存参数后拷贝json参数即可。参数包括以下：
- * @param options.url - tileset的主JSON文件的 url
+ * @param options.url - tileset的主JSON文件的 url ，ION资源时可以写 url: Cesium.IonResource.fromAssetId(8564),
  * @param [options.maximumScreenSpaceError = 16] - 用于驱动细化细节级别的最大屏幕空间错误。可以简单理解为：数值加大，能让最终成像变模糊。
  * @param [options.maximumMemoryUsage = 512] - 数据集可以使用的最大内存量(以MB计)，这个参数要根据当前客户端显卡显存来配置，如果我们场景只显示这一个模型数据，这个可以设置到显存的50% 左右，比如我的显存是4G，这个可以设置到2048左右。那么既保证不超过显存限制，又可以最大利用显存缓存。<br />
  * 解释：
@@ -19143,7 +19186,7 @@ declare namespace TilesetLayer {
  */
 declare class TilesetLayer extends BaseGraphicLayer {
     constructor(options: {
-        url: Cesium.Resource | string;
+        url: string | Cesium.Resource | Cesium.IonResource;
         maximumScreenSpaceError?: number;
         maximumMemoryUsage?: number;
         position?: {
@@ -22986,8 +23029,25 @@ declare class XyzLayer extends BaseTileLayer {
 
 /**
  * 右键菜单 控件
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.preventDefault = true] - 是否取消右键菜单
+ * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.enabled = true] - 对象的启用状态
+ * @param [options.parentContainer] - 控件加入的父容器，默认为map所在的DOM map.container
+ * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
+ * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
 declare class ContextMenu extends BaseControl {
+    constructor(options?: {
+        preventDefault?: boolean;
+        id?: string | number;
+        enabled?: boolean;
+        parentContainer?: HTMLElement;
+        insertIndex?: number;
+        insertBefore?: HTMLElement;
+        eventParent?: BaseClass | boolean;
+    });
     /**
      * 设置DOM容器的显示隐藏
      */
@@ -22996,8 +23056,35 @@ declare class ContextMenu extends BaseControl {
 
 /**
  * 键盘漫游控制类
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.moveStep = 10] - 平移步长 (米)
+ * @param [options.dirStep = 25] - 相机原地旋转步长，值越大步长越小。
+ * @param [options.rotateStep = 1.0] - 相机围绕目标点旋转速率，0.3 - 2.0
+ * @param [options.minPitch = 0.1] - 最小仰角  0 - 1
+ * @param [options.maxPitch = 0.95] - 最大仰角  0 - 1
+ * @param [options.minHeight = 0] - 最低高度（单位：米）
+ * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.enabled = true] - 对象的启用状态
+ * @param [options.parentContainer] - 控件加入的父容器，默认为map所在的DOM map.container
+ * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
+ * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
 declare class KeyboardRoam extends BaseControl {
+    constructor(options?: {
+        moveStep?: number;
+        dirStep?: number;
+        rotateStep?: number;
+        minPitch?: number;
+        maxPitch?: number;
+        minHeight?: number;
+        id?: string | number;
+        enabled?: boolean;
+        parentContainer?: HTMLElement;
+        insertIndex?: number;
+        insertBefore?: HTMLElement;
+        eventParent?: BaseClass | boolean;
+    });
     /**
      * 平移步长 (米)
      */
@@ -23267,7 +23354,6 @@ declare namespace Map {
      * 添加到地图的控件 参数
      *
      * 以下是mars3d.control定义的控件，支持所有控件类型
-     * @property [defaultContextMenu = true] - 是否绑定默认的地图右键菜单
      * @property [mouseDownView] - 鼠标滚轮缩放美化样式, 对应 {@link MouseDownView}构造参数
      * @property [locationBar] - 鼠标提示控件, 对应 {@link LocationBar}构造参数
      * @property [locationBar.fps] - 是否显示实时FPS帧率
@@ -23278,6 +23364,21 @@ declare namespace Map {
      * @property [zoom] - 时钟动画控制控件 , 对应 {@link Zoom}构造参数
      * @property [overviewMap] - 鹰眼地图 控件, 对应{@link OverviewMap }构造参数
      * @property [mapSplit] - 卷帘对比 控件, 对应{@link MapSplit }构造参数
+     * @property [contextmenu] - 内置 右键菜单 控制参数, 对应{@link ContextMenu }构造参数
+     * @property [contextmenu.preventDefault = true] - 是否取消右键菜单
+     * @property [contextmenu.hasDefault = true] - 是否绑定默认的地图右键菜单
+     * @property [popup] - 内置 Popup 控制参数
+     * @property [popup.isOnly = true] - 是否单个显示模式
+     * @property [popup.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
+     * @property [tooltip] - 内置 Tooltip 控制参数
+     * @property [tooltip.cacheTime = 20] - 延迟缓存的时间，单位：毫秒
+     * @property [keyboardRoam] - 内置 键盘漫游 控制参数, 对应{@link KeyboardRoam }构造参数
+     * @property [keyboardRoam.moveStep = 10] - 平移步长 (米)
+     * @property [keyboardRoam.dirStep = 25] - 相机原地旋转步长，值越大步长越小。
+     * @property [keyboardRoam.rotateStep = 1.0] - 相机围绕目标点旋转速率，0.3 - 2.0
+     * @property [keyboardRoam.minPitch = 0.1] - 最小仰角  0 - 1
+     * @property [keyboardRoam.maxPitch = 0.95] - 最大仰角  0 - 1
+     * @property [keyboardRoam.minHeight = 0] - 最低高度（单位：米）
      *
      * 以下是Cesium.Viewer所支持的控件相关的options
      * @property [infoBox = true] - 是否显示 点击要素之后显示的信息
@@ -23298,7 +23399,6 @@ declare namespace Map {
      * @property [showRenderLoopErrors = true] - 如果为true，则在发生渲染循环错误时，此小部件将自动向包含错误的用户显示HTML面板。
      */
     type controlOptions = {
-        defaultContextMenu?: boolean;
         mouseDownView?: boolean;
         locationBar?: {
             fps?: boolean;
@@ -23310,6 +23410,25 @@ declare namespace Map {
         zoom?: any;
         overviewMap?: any;
         mapSplit?: any;
+        contextmenu?: {
+            preventDefault?: boolean;
+            hasDefault?: boolean;
+        };
+        popup?: {
+            isOnly?: boolean;
+            depthTest?: boolean;
+        };
+        tooltip?: {
+            cacheTime?: number;
+        };
+        keyboardRoam?: {
+            moveStep?: number;
+            dirStep?: number;
+            rotateStep?: number;
+            minPitch?: number;
+            maxPitch?: number;
+            minHeight?: number;
+        };
         infoBox?: boolean;
         selectionIndicator?: boolean;
         animation?: boolean;
@@ -25651,6 +25770,12 @@ declare class HeatLayer extends BaseLayer {
      * @returns 无
      */
     clear(): void;
+    /**
+     * 根据坐标点获取其对应的value值和颜色值
+     * @param item - 坐标点
+     * @returns 格式为 {"x":2081,"y":767,"value":3,"color":"rgba(209,231,0,195)"}
+     */
+    getPointData(item: Cesium.Cartesian3 | LngLatPoint): any;
     /**
      * 获取图层内所有数据的 矩形边界值
      * @param [options] - 控制参数
@@ -29108,13 +29233,13 @@ declare class Sightline extends BaseThing {
      * @param [options.offsetHeight = 0] - 在起点增加的高度值，比如加上人的身高
      * @param [options.splitNum = 50] - 插值数，等比分割的个数
      * @param [options.minDistance] - 插值时的最小间隔(单位：米)，优先级高于splitNum
-     * @returns 无,  分析结果在end事件中返回
+     * @returns 分析结果完成的Promise
      */
     addAsync(origin: Cesium.Cartesian3, target: Cesium.Cartesian3, options?: {
         offsetHeight?: number;
         splitNum?: number;
         minDistance?: number;
-    }): void;
+    }): Promise<any>;
     /**
      * 清除分析
      * @returns 无
@@ -32340,7 +32465,7 @@ declare namespace PolyUtil {
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param options.callback - 异步计算高度完成后 的回调方法
-     * @returns 无
+     * @returns 异步计算完成的Promise, 等价于callback
      */
     function computeSurfaceLine(options?: {
         scene: Cesium.Scene;
@@ -32351,7 +32476,7 @@ declare namespace PolyUtil {
         objectsToExclude?: any;
         offset?: number;
         callback: Globe.surfaceLineWork_callback;
-    }): void;
+    }): Promise<any>;
     /**
      * 求 多个点 的的贴地新坐标（不插值）
      * @param [options = {}] - 参数对象:
@@ -32361,7 +32486,7 @@ declare namespace PolyUtil {
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param options.callback - 异步计算高度完成后 的回调方法
-     * @returns 无
+     * @returns 异步计算完成的Promise, 等价于callback
      */
     function computeSurfacePoints(options?: {
         scene: Cesium.Scene;
@@ -32370,7 +32495,7 @@ declare namespace PolyUtil {
         objectsToExclude?: any;
         offset?: number;
         callback: Globe.surfaceLineWork_callback;
-    }): void;
+    }): Promise<any>;
     /**
      * 异步分段分步计算贴地距离中，每计算完成2个点之间的距离后 的回调方法
      * @param raisedPositions - 当前2个点之间的 贴地坐标数组
@@ -32396,7 +32521,7 @@ declare namespace PolyUtil {
      * @param options.endItem - 异步计算高度完成后 的回调方法
      * @param options.end - 异步计算高度完成后 的回调方法
      * @param options.callback - 异步计算高度完成后 的回调方法(别名，同end)
-     * @returns 无
+     * @returns 异步计算完成的Promise,同callback
      */
     function computeStepSurfaceLine(options?: {
         scene: Cesium.Scene;
@@ -32409,7 +32534,7 @@ declare namespace PolyUtil {
         endItem: computeStepSurfaceLine_endItem;
         end: computeStepSurfaceLine_end;
         callback: computeStepSurfaceLine_end;
-    }): void;
+    }): Promise<any>;
     /**
      * 计算2点间的 曲线链路的点集（空中曲线）
      * @param startPoint - 开始节点
@@ -32917,6 +33042,7 @@ declare namespace Util {
      * @param [options.proxy] - 加载资源时要使用的代理服务url。
      * @param [options.templateValues] - 一个对象，用于替换Url中的模板值的键/值对
      * @param [options.headers] - 一个对象，将发送的其他HTTP标头。比如：headers: { 'X-My-Header': 'valueOfHeader' }
+     * @param [options.method = "get"] - 请求类型
      * @returns 返回Promise异步处理结果，对象为JSON数据
      */
     function fetchJson(options: {
@@ -32925,6 +33051,7 @@ declare namespace Util {
         proxy?: string;
         templateValues?: any;
         headers?: any;
+        method?: string;
     }): Promise<any>;
     /**
      * 请求服务返回结果，方法是基于axios库精简的

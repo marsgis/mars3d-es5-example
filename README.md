@@ -86,7 +86,10 @@ npm run serve
 ```
 npm run build //编译后生成在dist目录，拷贝出去发布即可
 npm run serve:dist  //测试dist运行状态
+
+// 或者将dist文件夹发布在自己的服务数据上
 ```
+
 
  
 ### 运行效果  

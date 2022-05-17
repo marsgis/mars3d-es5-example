@@ -39,7 +39,7 @@
     <!-- 面板 -->
     <div class="infoview">
       <div class="checkbox checkbox-primary checkbox-inline">
-        <input id="chkPointerEvents" class="styled" type="checkbox"  />
+        <input id="chkPointerEvents" class="styled" type="checkbox" />
         <label for="chkPointerEvents"> 启用Echars交互 </label>
       </div>
     </div>
@@ -312,8 +312,6 @@
           barData.push(data[i].value);
           sum += data[i].value;
         }
-        // console.log(categoryData);
-        // console.log(sum + "   " + count);
 
         let option = {
           animation: false,
@@ -323,9 +321,7 @@
               text: "散点图态势",
               subtext: "san dian tu taishi",
               left: "center",
-              textStyle: {
-                color: "#fff",
-              },
+              color: "#fff",
             },
             {
               id: "statistic",
@@ -333,10 +329,8 @@
               right: 120,
               top: 40,
               width: 100,
-              textStyle: {
-                color: "#fff",
-                fontSize: 16,
-              },
+              color: "#fff",
+              fontSize: 16,
             },
           ],
 
@@ -365,9 +359,7 @@
             },
             axisLabel: {
               margin: 2,
-              textStyle: {
-                color: "#aaa",
-              },
+              color: "#aaa",
             },
           },
           yAxis: {
@@ -387,9 +379,7 @@
             },
             axisLabel: {
               interval: 0,
-              textStyle: {
-                color: "#ddd",
-              },
+              color: "#ddd",
             },
             data: categoryData,
           },
@@ -400,25 +390,18 @@
               coordinateSystem: "mars3dMap",
               data: convertData(data),
               symbolSize: function (val) {
-                let size = (val[2] / 500) * 1.5;
+                const size = (val[2] / 500) * 1.5;
                 return Math.max(size, 8);
               },
               label: {
-                normal: {
-                  formatter: "{b}",
-                  position: "right",
-                  show: false,
-                },
-                emphasis: {
-                  show: true,
-                },
+                formatter: "{b}",
+                position: "right",
+                show: false,
               },
               itemStyle: {
-                normal: {
-                  color: "#FF8C00",
-                  position: "right",
-                  show: true,
-                },
+                color: "#FF8C00",
+                position: "right",
+                show: true,
               },
             },
             {
@@ -427,7 +410,7 @@
               coordinateSystem: "mars3dMap",
               data: convertData(data),
               symbolSize: function (val) {
-                let size = val[2] / 500;
+                const size = val[2] / 500;
                 return Math.max(size, 8);
               },
               showEffectOn: "render",
@@ -436,18 +419,15 @@
               },
               hoverAnimation: true,
               label: {
-                normal: {
-                  formatter: "{b}",
-                  position: "right",
-                  show: true,
-                },
+                formatter: "{b}",
+                position: "right",
+                color: "inherit",
+                show: true,
               },
               itemStyle: {
-                normal: {
-                  color: "#f4e925",
-                  shadowBlur: 50,
-                  shadowColor: "#EE0000",
-                },
+                color: "#f4e925",
+                shadowBlur: 50,
+                shadowColor: "#EE0000",
               },
               zlevel: 1,
             },
@@ -457,9 +437,7 @@
               type: "bar",
               symbol: "none",
               itemStyle: {
-                normal: {
-                  color: "#ddb926",
-                },
+                color: "#ddb926",
               },
               data: data,
             },

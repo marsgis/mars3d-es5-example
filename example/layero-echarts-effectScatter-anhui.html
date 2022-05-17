@@ -212,7 +212,7 @@
                   return 8;
                 }
 
-                let num = (val[2] / sum) * 150;
+                const num = (val[2] / sum) * 150;
                 return Math.max(num, 8);
               },
               showEffectOn: "render",
@@ -221,11 +221,11 @@
               },
               hoverAnimation: true,
               label: {
-                normal: {
-                  formatter: "{b}",
-                  position: "right",
-                  show: true,
-                },
+                formatter: "{b}",
+                position: "right",
+                color: "inherit",
+                fontSize: "18",
+                show: true,
               },
               tooltip: {
                 formatter: function (params, ticket, callback) {
@@ -237,11 +237,9 @@
                 },
               },
               itemStyle: {
-                normal: {
-                  color: "#ffff00",
-                  shadowBlur: 60,
-                  shadowColor: "#cccccc",
-                },
+                color: "#ffff00",
+                shadowBlur: 60,
+                shadowColor: "#cccccc",
               },
               zlevel: 1,
             },

@@ -239,7 +239,7 @@
         // startFly()
 
         //贴地时，异步计算完成后开始
-        roamLine.clampToGround(function (e) {
+        roamLine.clampToGround().then(function () {
           //异步计算完成贴地后再启动
           //贴地后的路线值为flyLine.points
           startFly();

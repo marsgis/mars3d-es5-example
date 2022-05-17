@@ -182,7 +182,6 @@
             heading: 0,
             radius: 500,
           },
-          clampToTileset: true, // 标识贴模型漫游
         };
 
         roamLine = new mars3d.graphic.RoamLine(flydata);
@@ -235,7 +234,7 @@
         // startFly()
 
         //贴地时，异步计算完成后开始
-        roamLine.clampToGround(function () {
+        roamLine.clampToGround({ has3dtiles: true }).then(function () {
           //异步计算完成贴地后再启动
           startFly();
         });
