@@ -17,6 +17,12 @@ module.exports = {
     defineExpose: "readonly",
     withDefaults: "readonly",
 
+    globalMsg: "readonly",
+    globalAlert: "readonly",
+    globalNotify: "readonly",
+    showLoading: "readonly",
+    hideLoading: "readonly",
+
     Cesium: "readonly",
     mars3d: "readonly",
     L: "readonly",
