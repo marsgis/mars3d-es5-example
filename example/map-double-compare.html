@@ -96,7 +96,7 @@
         //绑定的控件
         mapOptions2.control = {
           baseLayerPicker: true, //basemaps底图切换按钮
-          defaultContextMenu: true, //右键菜单
+          contextmenu: { hasDefault: true }, //右键菜单
         };
 
         mapEx = new mars3d.Map("cesiumContainerEx", mapOptions2);
