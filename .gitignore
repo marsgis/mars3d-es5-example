@@ -12,9 +12,6 @@
 lib/CesiumUnminified/
 lib/Cesium-1.*/
 mars3d-*src.*
-!mars3d-supermap-src.js*
-!mars3d-tdt-src.js*
-!mars3d-widget-src.js*
 
 # profiling files
 chrome-profiler-events*.json
@@ -54,4 +51,4 @@ Thumbs.db
 package-lock.json
 
 # 本地测试
-/example-test
+*-test

@@ -1,0 +1,193 @@
+////import * as mars3d from "mars3d"
+//import { Typhoon, PlayTyphoon } from "./Typhoon"
+
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+var mapOptions = {
+  scene: {
+    center: { lat: 8.560501, lng: 111.849127, alt: 10725692, heading: 358, pitch: -87 }
+  }
+}
+
+var eventTarget = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  // 绘制24/48小时警戒线
+  drawWarningLine()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+function onUnmounted() {
+  map = null
+}
+
+// 所有已构造的台风集合
+var typhoonListObj = {}
+
+// 当前选择的台风
+let selectTyphoon
+
+// 勾选台风
+function selectOneTyphoon(row) {
+  stopPlay()
+
+  var id = row.id
+  if (!typhoonListObj[id]) {
+    typhoonListObj[id] = new Typhoon({ ...row }, map)
+  }
+
+  var typhoon = typhoonListObj[id]
+  typhoon.show = true
+  typhoon.flyTo()
+
+  selectTyphoon = typhoon
+}
+
+// 取消勾选台风
+function unSelectOneTyphoon(id) {
+  var typhoon = typhoonListObj[id]
+  if (!typhoon) {
+    return
+  }
+
+  if (typhoon.playTyphoon) {
+    typhoon.playTyphoon.stop()
+  }
+  typhoon.show = false
+
+  selectTyphoon = null
+}
+
+// 定位到台风
+function clickTyRow(row) {
+  var typhoon = typhoonListObj[row.id]
+  if (typhoon) {
+    typhoon.flyTo()
+  }
+}
+
+// 定位到轨迹点
+function clickPathRow(row) {
+  selectTyphoon.showPointFQ(row)
+  var graphic = selectTyphoon.getPointById(row.id)
+  if (graphic) {
+    graphic.flyTo({
+      radius: 1600000,
+      complete() {
+        graphic.openTooltip()
+      }
+    })
+  }
+}
+
+// 开始播放
+function startPlay() {
+  if (!selectTyphoon) {
+    return
+  }
+
+  if (!selectTyphoon.playTyphoon) {
+    selectTyphoon.playTyphoon = new PlayTyphoon(selectTyphoon.options, map)
+  }
+
+  selectTyphoon.playTyphoon.start()
+  selectTyphoon.show = false
+}
+
+// 停止播放
+function stopPlay() {
+  if (selectTyphoon?.playTyphoon) {
+    selectTyphoon.playTyphoon.stop()
+    selectTyphoon.show = true
+  }
+}
+
+// 绘制警戒线
+function drawWarningLine() {
+  // 绘制24小时警戒线
+  var lineWarning24 = new mars3d.graphic.PolylineEntity({
+    positions: [
+      [127, 34],
+      [127, 22],
+      [119, 18],
+      [119, 11],
+      [113, 4.5],
+      [105, 0]
+    ],
+    style: {
+      color: "#828314",
+      width: 2,
+      zIndex: 1
+    }
+  })
+  map.graphicLayer.addGraphic(lineWarning24)
+
+  // 注记文本
+  var textWarning24 = new mars3d.graphic.RectangleEntity({
+    positions: [
+      [128.129019, 29.104287],
+      [125.850451, 28.424599]
+    ],
+    style: {
+      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Text, {
+        text: "24小时警戒线",
+        font: "80px 楷体",
+        color: "#828314",
+        backgroundColor: new Cesium.Color(0.0, 0.0, 0.0, 0)
+      }),
+      rotationDegree: 90
+    }
+  })
+  map.graphicLayer.addGraphic(textWarning24)
+
+  // 绘制48小时警戒线
+  var lineWarning48 = new mars3d.graphic.PolylineEntity({
+    positions: [
+      [132, 34],
+      [132, 22],
+      [119, 0],
+      [105, 0]
+    ],
+    style: {
+      width: 2,
+      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.PolylineDash, {
+        dashLength: 20.0,
+        color: "#4dba3d"
+      })
+    }
+  })
+  map.graphicLayer.addGraphic(lineWarning48)
+
+  // 注记文本
+  var textWarning48 = new mars3d.graphic.RectangleEntity({
+    positions: [
+      [130.502492, 25.959716],
+      [133.423638, 26.772991]
+    ],
+    style: {
+      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Text, {
+        text: "48小时警戒线",
+        font: "80px 楷体",
+        color: "#4dba3d",
+        backgroundColor: new Cesium.Color(0.0, 0.0, 0.0, 0)
+      }),
+      rotationDegree: 90,
+      zIndex: 4
+    }
+  })
+  map.graphicLayer.addGraphic(textWarning48)
+}
+
+var formatDate = mars3d.Util.formatDate

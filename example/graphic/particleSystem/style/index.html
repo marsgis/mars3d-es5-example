@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars3d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <!-- 标题及搜索关键字 -->
+    <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://muyao1987.gitee.io/cdn/marsgis.cn/favicon/favicon.ico" />
+    <title>粒子效果 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,bootstrap-slider"
+    ></script>
+
+    <link href="/css/style.css" rel="stylesheet" />
+    <style>
+      #toolbar input {
+        vertical-align: middle;
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+
+      #toolbar .header {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body class="dark">
+    <div id="mars3dContainer" class="mars3d-container"></div>
+
+    <!-- 面板 -->
+    <div id="toolbar" class="infoview">
+      <table class="mars-table">
+        <tbody>
+          <tr title="粒子效果的所在位置">
+            <td>所在位置</td>
+            <td>
+              <input id="btnSelectPosition" type="button" onclick="btnSelectPosition()" class="btn btn-info" value="图上选点" />
+            </td>
+            <td></td>
+          </tr>
+
+          <tr title="发射的整体方向所在位置">
+            <td>发射目标方向</td>
+            <td colspan="2">
+              <input id="btnSelectTarget" type="button" class="btn btn-info" value="图上选点" />
+              &nbsp;&nbsp;&nbsp;&nbsp; 点高度
+              <input id="txtTargetHeight" type="number" size="5" value="10.0" style="width: 60px" />
+            </td>
+          </tr>
+
+          <tr title="sliderParticleSize 粒子图片的Size大小">
+            <td>粒子图片大小</td>
+            <td>
+              <input type="range" id="sliderParticleSize" min="2" max="60.0" step="1" data-bind="value: sliderParticleSize, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: sliderParticleSize" />
+              （px）
+            </td>
+          </tr>
+          <tr title="slideStart 粒子在出生时的比例（单位：相对于imageSize大小的倍数）">
+            <td>粒子开始比例</td>
+            <td>
+              <input type="range" id="slideStart" min="0.0" max="10.0" step="1" data-bind="value: slideStart, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: slideStart" />
+            </td>
+          </tr>
+
+          <tr title="slideStop 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）">
+            <td>粒子结束比例</td>
+            <td>
+              <input type="range" id="slideStop" min="0.0" max="10.0" step="1" data-bind="value: slideStop, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: slideStop" />
+            </td>
+          </tr>
+
+          <tr title="emissionRate 粒子发射器的发射速率">
+            <td>粒子发射数量</td>
+            <td>
+              <input type="range" id="emissionRate" min="0.0" max="500.0" step="1" data-bind="value: emissionRate, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: emissionRate" />
+              （次/秒）
+            </td>
+          </tr>
+
+          <tr title="slideMinLife 粒子可能存在的最短寿命时间，实际寿命将随机生成">
+            <td>最小寿命时长</td>
+            <td>
+              <input type="range" id="slideMinLife" min="0.1" max="30.0" step="1" data-bind="value: slideMinLife, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: slideMinLife" />
+              （秒）
+            </td>
+          </tr>
+
+          <tr title="slideMaxLife 粒子可能存在的最长寿命时间，实际寿命将随机生成">
+            <td>最大寿命时长</td>
+            <td>
+              <input type="range" id="slideMaxLife" min="0.1" max="30.0" step="1" data-bind="value: slideMaxLife, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: slideMaxLife" />
+              （秒）
+            </td>
+          </tr>
+
+          <!-- <tr title="slideMinSpeed 粒子初速度的最小界限，超过该最小界限，随机选择粒子的实际速度。">
+                    <td>最小速度</td>
+                    <td>
+                        <input type="range" min="0.0" max="30.0" step="1"
+                            data-bind="value: slideMinSpeed, valueUpdate: 'input'">
+                    </td>
+                    <td>
+                        <input type="text" size="5" data-bind="value: slideMinSpeed">
+                        （米/秒）
+                    </td>
+                </tr>
+
+                <tr title="slideMaxSpeed 粒子初速度的最大界限，超过该最大界限，随机选择粒子的实际速度。">
+                    <td>最大速度</td>
+                    <td>
+                        <input type="range" min="0.0" max="30.0" step="1"
+                            data-bind="value: slideMaxSpeed, valueUpdate: 'input'">
+                    </td>
+                    <td>
+                        <input type="text" size="5" data-bind="value: slideMaxSpeed">
+                        （米/秒）
+                    </td>
+                </tr> -->
+
+          <tr title="slideGravity 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）">
+            <td>重力因子</td>
+            <td>
+              <input type="range" id="slideGravity" min="-20.0" max="20.0" step="1" data-bind="value: slideGravity, valueUpdate: 'input'" />
+            </td>
+            <td>
+              <input type="text" size="5" data-bind="value: slideGravity" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+      let viewModel = {
+        sliderParticleSize: 20.0,
+        slideStart: 1.0,
+        slideStop: 3.0,
+        emissionRate: 200,
+        slideMinLife: 1.2,
+        slideMaxLife: 3.2,
+        slideMinSpeed: 1.0,
+        slideMaxSpeed: 4.0,
+        slideGravity: -11.0
+      }
+
+      function initUI(options) {
+        //绑定UI处理
+        changeParamView()
+
+        $("#btnSelectTarget").click(function () {
+          let addHeight = Number($("#txtTargetHeight").val())
+          btnSelectTarget(addHeight)
+        })
+      }
+
+      //UI绑定数据 处理
+      function changeParamView() {
+        Cesium.knockout.track(viewModel)
+        let toolbar = document.getElementById("toolbar")
+        Cesium.knockout.applyBindings(viewModel, toolbar)
+
+        //绑定事件
+        Cesium.knockout.getObservable(viewModel, "emissionRate").subscribe(function (newValue) {
+          viewModel.emissionRate = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideMinLife").subscribe(function (newValue) {
+          viewModel.slideMinLife = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideMaxLife").subscribe(function (newValue) {
+          viewModel.slideMaxLife = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideMinSpeed").subscribe(function (newValue) {
+          viewModel.slideMinSpeed = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideMaxSpeed").subscribe(function (newValue) {
+          viewModel.slideMaxSpeed = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideStart").subscribe(function (newValue) {
+          viewModel.slideStart = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideStop").subscribe(function (newValue) {
+          viewModel.slideStop = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "sliderParticleSize").subscribe(function (newValue) {
+          viewModel.sliderParticleSize = newValue
+          initParamView(viewModel)
+        })
+
+        Cesium.knockout.getObservable(viewModel, "slideGravity").subscribe(function (newValue) {
+          viewModel.slideGravity = newValue
+          initParamView(viewModel)
+        })
+      }
+    </script>
+  </body>
+</html>

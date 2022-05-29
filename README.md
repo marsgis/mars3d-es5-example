@@ -19,18 +19,27 @@
 </p>
 
 
- 基于原生JS开发的功能示例。
- 
- 
+
+功能示例项目，是基于[Mars3D 平台](http://mars3d.cn)做的一个按每个单独功能进行单页面展示、并且支持修改编辑代码实时运行的一个演示功能的系统。
+主要用于开发人员学习了解 Mars3D 每个功能的使用、用于业务人员了解体验 Mars3D 具备的功能点。
+
+首先建议您学习浏览一遍我们功能示例的源码（源码中会有大量注释），阅读源码时可以结合查阅API文档来理解类及方法的作用和参数说明等。
+
 
 ## 项目介绍
  
  这是一个基于`原生JS`开发的 Mars3D 功能示例 演示项目。
 
+ > 如果您不熟悉原生JS，也可以阅读：[功能示例Vue版](http://mars3d.cn/dev/guide/project/example-vue.html)、[功能示例React版](http://mars3d.cn/dev/guide/project/example-react.html)
 
- ## 项目特性 
+
+## 项目特性 
 - **独立页面**：每一个页面是一个单独的示例，依赖少，独立运行。
 - **适合不同技术栈**: 原生JS开发, 适合不同技术栈用户理解
+
+
+## 视频讲解
+建议先看一遍视频讲解，再实际操作，您可以[新页面查看高清视频](https://www.bilibili.com/video/BV1Hg411o7Js/)
 
 
 
@@ -61,9 +70,9 @@ git clone git@gitee.com:marsgis/mars3d-es5-example.git
  
 在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`index.html`或example目录下各对应示例页面即可。
 
-建议使用VScode工具打开代码目录（请参考[开发环境搭建教程](/guide/start/env.html)安装好VScode 及 Live Server插件）。
+建议使用VScode工具打开代码目录（请参考[开发环境搭建教程](/guide/start/env.html)安装好VScode 及 Live Server插件），运行index.html页面即可。
  
- 参考下图通过Live Server访问各页面 
+如果只想浏览单个示例，也可以参考下图通过Live Server访问对应示例的页面 
  ![image](http://mars3d.cn/dev/img/guide/start-example-run.jpg) 
 
   
@@ -90,7 +99,6 @@ npm run serve:dist  //测试dist运行状态
 // 或者将dist文件夹发布在自己的服务数据上
 ```
 
-
  
 ### 运行效果  
  [在线体验](http://mars3d.cn/example.html?type=es5)
@@ -114,12 +122,15 @@ npm run serve:dist  //测试dist运行状态
 ### 主要目录说明
 ```
 mars3d-es5-example
-└───data                列表配置信息及截图
+│───config              列表配置信息及截图
 │───example             示例代码，每个示例页面可以单独运行【重要】
-│───lib                 示例依赖资源
-│   └─include-lib.js    lib资源统一配置文件
-│───static              列表页、编辑页对应js、css
-└───index.html          列表页
+│───css                 公共CSS样式文件
+│───img                 公共图片文件
+│───js                  公共JS文件
+│───lib                 示例依赖的类库
+│   └─include-lib.js    lib类库统一配置文件
+│───widgets             基础项目模块资源，便于演示部分示例
+└───index.html          列表页（访问入口）
 ```
 
 与示例相关的2个主要目录是：`example`、`lib`。
@@ -134,23 +145,23 @@ mars3d-es5-example
 为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](https://gitee.com/marsgis/mars3d-es5-example/blob/master/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
 <!--第三方lib-->
-<script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
+<script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
     include="font-awesome,mars3d"></script>
 ```
 该方式等价于（如不习惯include-lib.js，也可以改为下面演示的直接引入方式）： 
 
 ```html
 <!--对应font-awesome-->
-<link rel="stylesheet" href="../lib/fonts/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/fonts/font-awesome/css/font-awesome.min.css">
 
 <!--对应turf-->
-<script type="text/javascript" src="../lib/turf/turf.min.js"></script>
+<script type="text/javascript" src="/lib/turf/turf.min.js"></script>
 
 <!--对应mars3d-->
-<link rel="stylesheet" href="../lib/Cesium/Widgets/widgets.css">
-<script type="text/javascript" src="../lib/Cesium/Cesium.js"></script>
-<link rel="stylesheet" href="../lib/mars3d/mars3d.css">
-<script type="text/javascript" src="../lib/mars3d/mars3d.js"></script>
+<link rel="stylesheet" href="/lib/Cesium/Widgets/widgets.css">
+<script type="text/javascript" src="/lib/Cesium/Cesium.js"></script>
+<link rel="stylesheet" href="/lib/mars3d/mars3d.css">
+<script type="text/javascript" src="/lib/mars3d/mars3d.js"></script>
 ```
  
  

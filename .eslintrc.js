@@ -3,11 +3,11 @@ module.exports = {
   env: {
     es6: true,
     node: false,
-    browser: true,
+    browser: true
   },
   parser: "babel-eslint",
   parserOptions: {
-    sourceType: "module",
+    sourceType: "module"
   },
   plugins: ["html", "prettier"],
   extends: ["eslint:recommended", "plugin:prettier/recommended"],
@@ -17,6 +17,7 @@ module.exports = {
     defineExpose: "readonly",
     withDefaults: "readonly",
 
+    currentPath: "readonly",
     globalMsg: "readonly",
     globalAlert: "readonly",
     globalNotify: "readonly",
@@ -39,21 +40,17 @@ module.exports = {
     netcdfjs: "readonly",
     ol: "readonly",
     olcs: "readonly",
-    mapv: "readonly",
 
+    map: "readonly",
     $: false,
     haoutil: false,
     toastr: false,
     layer: false,
     localforage: false,
     JB: false,
-    h337: false,
     jeDate: false,
-    kriging: false,
+    kriging: false
   },
-  // ""0""表示忽略问题，等同于"off";
-  // ""1""表示给出警告，等同于"warn";
-  // ""2""表示直接报错，等同于"error"。
   rules: {
     // mars3d-es5-example项目专用的配置(目的便于示例的开发调试) start
     "no-unused-vars": "off", // 不允许有声明后未被使用的变量或参数
@@ -110,6 +107,6 @@ module.exports = {
     "no-func-assign": "error", // 禁止对 function 声明重新赋值
     "no-nested-ternary": "error", // 禁用嵌套的三元表达式
     "no-multiple-empty-lines": ["error", { max: 3 }], // 空行最多不能超过两行
-    "new-cap": "off", // 关闭eslint fromDegrees方法报错
-  },
-};
+    "new-cap": "off" // 关闭eslint fromDegrees方法报错
+  }
+}

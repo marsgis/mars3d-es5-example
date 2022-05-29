@@ -197,10 +197,10 @@ img {
   border-style: none;
 }
 
-svg {
+/* svg {
   overflow: hidden;
   vertical-align: middle;
-}
+} */
 
 table {
   border-collapse: collapse;
