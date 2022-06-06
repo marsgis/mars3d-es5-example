@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -87,29 +87,29 @@ function onUnmounted() {
  * @returns {void} 无
  */
 function showYearZT(data) {
-  var yearArr = Object.keys(data)
-  var arr = data[yearArr[0]]
+  const yearArr = Object.keys(data)
+  const arr = data[yearArr[0]]
 
   for (let i = 0; i < arr.length; i += 1) {
-    var attr = arr[i]
-    var jwd = getJWDByName(attr.name)
+    const attr = arr[i]
+    const jwd = getJWDByName(attr.name)
 
-    var num1 = attr["第一产业"]
-    var num2 = attr["第二产业"]
-    var num3 = attr["第三产业"]
-    var numall = Number(num1 + num2 + num3).toFixed(2)
-    var html = `${attr.name}<br/>
+    const num1 = attr["第一产业"]
+    const num2 = attr["第二产业"]
+    const num3 = attr["第三产业"]
+    const numall = Number(num1 + num2 + num3).toFixed(2)
+    const html = `${attr.name}<br/>
                   <span style="color:#63AEFF">第一产业：${num1}</span><br/>
                   <span style="color:#FFB861">第二产业：${num2}</span><br/>
                   <span style="color:#FF6D5D">第三产业：${num3}</span>`
 
-    var height1 = Math.floor(num1 * 10)
-    var height2 = Math.floor(num2 * 10)
-    var height3 = Math.floor(num3 * 10)
+    const height1 = Math.floor(num1 * 10)
+    const height2 = Math.floor(num2 * 10)
+    const height3 = Math.floor(num3 * 10)
 
-    var p1 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 / 2)
-    var p2 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 / 2)
-    var p3 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 + height1 / 2)
+    const p1 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 / 2)
+    const p2 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 / 2)
+    const p3 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 + height1 / 2)
 
     // 添加柱体
     createZT(p1, height3, "#63AEFF", html)
@@ -117,7 +117,7 @@ function showYearZT(data) {
     createZT(p3, height1, "#FF6D5D", html)
 
     // 添加文字
-    var primitive = new mars3d.graphic.LabelPrimitive({
+    const primitive = new mars3d.graphic.LabelPrimitive({
       position: Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height1 + height2 + height3),
       style: {
         text: numall,
@@ -139,7 +139,7 @@ function showYearZT(data) {
 
 //  创建柱体
 function createZT(position, len, color, html) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: position,
     style: {
       length: len,
@@ -157,7 +157,7 @@ function createZT(position, len, color, html) {
   return graphic
 }
 
-var cityPosition = [
+const cityPosition = [
   { name: "亳州", jwd: [116.203602, 33.496075] },
   { name: "商丘", jwd: [115.871509, 34.297084] },
   { name: "淮北", jwd: [116.688413, 33.689214] },
@@ -174,7 +174,7 @@ var cityPosition = [
 //  根据名称获取坐标
 function getJWDByName(name) {
   for (let i = 0; i < cityPosition.length; i += 1) {
-    var item = cityPosition[i]
+    const item = cityPosition[i]
     if (item.name === name) {
       return item.jwd
     }
@@ -195,11 +195,11 @@ function conventChartsData(arrOld) {
   objCity = {} // 十一个城市对应的各年度数据
 
   for (let a = 0; a < arrYear.length; a++) {
-    var arrCity = arrOld[arrYear[a]] // 指定某年的11个城市对应数据
+    const arrCity = arrOld[arrYear[a]] // 指定某年的11个城市对应数据
 
     // 循环十次
     for (let b = 0; b < arrCity.length; b++) {
-      var item = arrCity[b]
+      const item = arrCity[b]
 
       if (!objCity[item.code]) {
         objCity[item.code] = []
@@ -212,7 +212,7 @@ function conventChartsData(arrOld) {
 }
 
 function bindHaihuaiPopup() {
-  var layerHuaihai = map.getLayer(1987, "id") // 获取config.json中对应图层
+  const layerHuaihai = map.getLayer(1987, "id") // 获取config.json中对应图层
 
   // 在layer上绑定Popup单击弹窗
   layerHuaihai.bindPopup(
@@ -229,10 +229,10 @@ function bindHaihuaiPopup() {
 
   let gdpCharts
   layerHuaihai.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上打开了popup", container)
 
-    var option = getCityChartsOptions(event.graphic.attr)
+    const option = getCityChartsOptions(event.graphic.attr)
     if (!option) {
       return
     }
@@ -241,7 +241,7 @@ function bindHaihuaiPopup() {
     gdpCharts.setOption(option)
   })
   layerHuaihai.on(mars3d.EventType.popupClose, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上移除了popup", container)
 
     gdpCharts.dispose()
@@ -250,20 +250,20 @@ function bindHaihuaiPopup() {
 }
 
 function getCityChartsOptions(attr) {
-  var code = attr.code.slice(0, 4)
-  var arrGDPvalues = objCity[code]
+  const code = attr.code.slice(0, 4)
+  const arrGDPvalues = objCity[code]
   if (!arrGDPvalues) {
     globalMsg(attr.Name + " 无经济数据")
     return
   }
 
   // arrGDPvalues  是点击的城市的数值,需要以[b,0,value]的方式重新排列
-  var arrData = []
+  const arrData = []
   for (let b = 0; b < arrGDPvalues.length; b++) {
     arrData[b] = [b, 0, arrGDPvalues[b]]
   }
 
-  var option = {
+  const option = {
     visualMap: {
       max: 4500,
       show: false,
@@ -273,11 +273,9 @@ function getCityChartsOptions(attr) {
     },
     title: {
       text: attr.Name + "   近五年GDP（亿元）",
+      textStyle: { color: "white", fontSize: "17", fontWidth: "normal" },
       top: "10",
-      left: "5",
-      color: "white",
-      fontSize: "17",
-      fontWidth: "normal"
+      left: "5"
     },
     tooltip: {
       show: "true",

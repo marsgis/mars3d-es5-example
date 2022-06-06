@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetClip
 
 var mapOptions = {
@@ -21,14 +21,14 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
-
-  globalNotify("已知问题：", `
-    (1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式 模型
-    (2) 目前不支持所有3dtiles数据，请替换url进行自测。`)
-
+  globalNotify(
+    "已知问题提示",
+    `(1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+     (2) 目前不支持所有3dtile数据，请替换url进行自测`
+  )
 
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
     url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
@@ -91,12 +91,12 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var item = tilesetClip.addArea(positions)
+      const item = tilesetClip.addArea(positions)
       addTableItem(item)
     }
   })
@@ -113,12 +113,12 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var item = tilesetClip.addArea(positions)
+      const item = tilesetClip.addArea(positions)
       addTableItem(item)
     }
   })
@@ -136,13 +136,13 @@ function addTableItem(item) {
 
 // 定位至模型
 function flyToGraphic(item) {
-  var graphic = tilesetClip.getAreaById(item)
+  const graphic = tilesetClip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 // 删除模型
 function deletedGraphic(item) {
-  var graphic = tilesetClip.getAreaById(item)
+  const graphic = tilesetClip.getAreaById(item)
   tilesetClip.removeArea(graphic)
 }
 

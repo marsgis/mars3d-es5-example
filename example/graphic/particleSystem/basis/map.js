@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
@@ -38,10 +38,10 @@ function onUnmounted() {
 
 // 喷泉效果
 function addDemoGraphic1(graphicLayer) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.224855, 31.815135, 28.05), // 位置
     style: {
-      image: "./img/particle/fountain2.png",
+      image: "./img/particle/penquan.png",
       startColor: new Cesium.Color(1, 1, 1, 0.6), // 粒子出生时的颜色
       endColor: new Cesium.Color(0.8, 0.86, 1, 0.4), // 当粒子死亡时的颜色
 
@@ -69,10 +69,10 @@ function addDemoGraphic1(graphicLayer) {
 
 // 火炬效果
 function addDemoGraphic2(graphicLayer) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.225518, 31.815549, 28.28), // 位置
     style: {
-      image: "./img/particle/fire4.png",
+      image: "./img/particle/fire2.png",
       startColor: new Cesium.Color(1, 1, 1, 1), // 粒子出生时的颜色
       endColor: new Cesium.Color(0.5, 0, 0, 0), // 当粒子死亡时的颜色
       // sizeInMeters: true,
@@ -100,7 +100,7 @@ function addDemoGraphic2(graphicLayer) {
 
 // 动态运行车辆的尾气粒子效果
 function addDemoGraphic3(graphicLayer) {
-  var roamLine = new mars3d.graphic.RoamLine({
+  const roamLine = new mars3d.graphic.RoamLine({
     positions: [
       [117.226585, 31.818437, 32.41],
       [117.226838, 31.811681, 28.23]
@@ -118,7 +118,7 @@ function addDemoGraphic3(graphicLayer) {
   // 启动漫游
   roamLine.start()
 
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     modelMatrix: (time) => {
       return roamLine.modelMatrix
     },

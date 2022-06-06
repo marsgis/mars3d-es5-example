@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
-//import { HuxingLayer } from "./HuxingLayer.js"
+// import * as mars3d from "mars3d"
+// import { HuxingLayer } from "./HuxingLayer.js"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {

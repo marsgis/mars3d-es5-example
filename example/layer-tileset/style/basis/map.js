@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -22,9 +22,8 @@ function onMounted(mapInstance) {
   map.basemap = 2017 // 切换到蓝色底图
   // 模型
   tiles3dLayer = new mars3d.layer.TilesetLayer({
-    type: "3dtiles",
     name: "合肥市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
+    url: "//data.mars3d.cn/3dtiles/jzw-hefei2/tileset.json",
     maximumScreenSpaceError: 1,
     maximumMemoryUsage: 1024,
     style: {

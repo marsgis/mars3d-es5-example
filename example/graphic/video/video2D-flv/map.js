@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
-//import { $message } from "@mars/components/mars-ui/index"
+// import * as mars3d from "mars3d"
+// import { $message } from "@mars/components/mars-ui/index"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let video2D
 let videoElement
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -54,7 +54,7 @@ function onMounted(mapInstance) {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -74,7 +74,7 @@ function onUnmounted() {
   map = null
 }
 
-var flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
+const flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
 
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
@@ -86,7 +86,7 @@ function createVideoDom() {
   videoElement.style.display = "none"
 
   if (window.flvjs.isSupported()) {
-    var flvPlayer = window.flvjs.createPlayer({
+    const flvPlayer = window.flvjs.createPlayer({
       type: "flv",
       url: flvUrl
     })
@@ -167,12 +167,12 @@ function addVideo(data) {
 function addThisCamera(data) {
   graphicLayer.clear()
   // 取屏幕中心点
-  var targetPosition = map.getCenter({ format: false })
+  const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
   video2D = new mars3d.graphic.Video2D({
@@ -274,7 +274,7 @@ function locate() {
 // 打印参数
 function printParameters() {
   if (video2D) {
-    var params = video2D.toJSON()
+    const params = video2D.toJSON()
     console.log("Video2D构造参数为", JSON.stringify(params))
   }
 }
@@ -287,7 +287,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       video2D.position = point
@@ -304,7 +304,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       video2D.targetPosition = point

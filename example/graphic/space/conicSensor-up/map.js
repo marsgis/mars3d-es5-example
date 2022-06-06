@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let conicSensor
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -21,11 +21,11 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
       console.log("加载JSON出错", error)
     })
 
-  globalNotify("功能和已知问题提示", `在视域变化中部分效果（如点的闪烁）没有融合，可根据实际项目决定是否采用此效果。`)
+  globalNotify("已知问题提示", `在视域变化中部分效果（如点的闪烁）没有融合，可根据实际项目决定是否采用此效果。`)
 }
 
 /**
@@ -40,9 +40,9 @@ function onUnmounted() {
 }
 
 function createMapvLayer(rs) {
-  var data = []
+  const data = []
   for (let i = 0; i < rs[0].length; i++) {
-    var geoCoord = rs[0][i].geoCoord
+    const geoCoord = rs[0][i].geoCoord
     data.push({
       geometry: {
         type: "Point",
@@ -52,7 +52,7 @@ function createMapvLayer(rs) {
     })
   }
 
-  var options = {
+  const options = {
     fillStyle: "rgba(255, 250, 50, 0.6)",
     // shadowColor: 'rgba(255, 250, 50, 0.5)',
     // shadowBlur: 3,
@@ -76,6 +76,6 @@ function createMapvLayer(rs) {
   }
 
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }

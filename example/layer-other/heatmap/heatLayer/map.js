@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,9 +20,9 @@ function onMounted(mapInstance) {
 
   mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
     .then(function (data) {
-      var arrPoints = []
+      const arrPoints = []
       for (let i = 0; i < data.Data.length; i++) {
-        var item = data.Data[i]
+        const item = data.Data[i]
         arrPoints.push({ lng: item.X, lat: item.Y, value: item.Count })
       }
       showHeatMap(arrPoints)
@@ -42,7 +42,7 @@ function onUnmounted() {
 
 function showHeatMap(arrPoints) {
   // 热力图 图层
-  var heatLayer = new mars3d.layer.HeatLayer({
+  const heatLayer = new mars3d.layer.HeatLayer({
     positions: arrPoints,
     // 以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
     heatStyle: {
@@ -59,10 +59,10 @@ function showHeatMap(arrPoints) {
   map.addLayer(heatLayer)
 
   map.on(mars3d.EventType.mouseMove, (e) => {
-    var point = mars3d.LngLatPoint.fromCartesian(e.cartesian)
-    var data = heatLayer.getPointData(point)
+    const point = mars3d.LngLatPoint.fromCartesian(e.cartesian)
+    const data = heatLayer.getPointData(point)
 
-    var inhtml = `
+    const inhtml = `
       经度: ${point.lng} <br />
       纬度: ${point.lat} <br />
       X值: ${data.x} <br />

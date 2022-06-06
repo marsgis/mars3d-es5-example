@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -24,7 +24,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var graphic = new mars3d.graphic.RectangleEntity({
+  const graphic = new mars3d.graphic.RectangleEntity({
     coordinates: Cesium.Rectangle.fromDegrees(-180.0, -90.0, 180.0, 90.0),
     style: {
       height: 6000,

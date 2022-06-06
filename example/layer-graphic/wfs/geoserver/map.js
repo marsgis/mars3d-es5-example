@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -79,10 +79,10 @@ function onUnmounted() {
  * @returns {void} 无
  */
 function addWmsLayer() {
-  var changeLevel = 15
+  const changeLevel = 15
 
   // 瓦片图，参考用
-  var tileLayer = new mars3d.layer.WmsLayer({
+  const tileLayer = new mars3d.layer.WmsLayer({
     name: "建筑物面WMS",
     type: "wms",
     url: "//server.mars3d.cn/geoserver/mars/wms",
@@ -99,7 +99,7 @@ function addWmsLayer() {
   })
   map.addLayer(tileLayer)
 
-  var wfsLayer = new mars3d.layer.WfsLayer({
+  const wfsLayer = new mars3d.layer.WfsLayer({
     name: "建筑物面WFS",
     url: "//server.mars3d.cn/geoserver/mars/wfs",
     layer: "mars:hfjzw",
@@ -128,6 +128,18 @@ function addWmsLayer() {
   // 绑定事件
   wfsLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
+  })
+
+  let timeTik
+  wfsLayer.on(mars3d.EventType.update, function (event) {
+    console.log(`图层内数据更新了`, event)
+
+    clearTimeout(timeTik)
+    timeTik = setTimeout(() => {
+      if (!wfsLayer.isLoading) {
+        console.log(`本批次数据加载完成`)
+      }
+    }, 1000)
   })
 }
 

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let allCount
 let lastSelectWX
 
@@ -87,9 +87,9 @@ function initData(arr) {
   map.addLayer(graphicLayer)
 
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var style = {
+    const style = {
       pixelSize: 5,
       color: "rgba(0,255,0,0.6)",
       outlineWidth: 1,
@@ -117,7 +117,7 @@ function initData(arr) {
       delete item.info
     }
 
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       id: item.id,
       style: style,
       attr: item
@@ -127,7 +127,7 @@ function initData(arr) {
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
-    var satelliteObj = event.graphic
+    const satelliteObj = event.graphic
 
     if (lastSelectWX) {
       // 重置上次选中的轨道样式
@@ -135,7 +135,7 @@ function initData(arr) {
       lastSelectWX = null
     }
     if (satelliteObj) {
-      var item = satelliteObj.attr
+      const item = satelliteObj.attr
       if (!item.name) {
         return
       }
@@ -155,14 +155,14 @@ function initData(arr) {
       if (item.launchSite) {
         launchSite = getLaunchSiteName(item.launchSite)
       }
-      var period = mars3d.Util.formatNum(item.period, 2) + " 分钟"
-      var inclination = item.inclination + "°"
-      var apogee = mars3d.Util.formatNum(item.apogee, 0) + " km"
-      var perigee = mars3d.Util.formatNum(item.perigee, 0) + " km"
+      const period = mars3d.Util.formatNum(item.period, 2) + " 分钟"
+      const inclination = item.inclination + "°"
+      const apogee = mars3d.Util.formatNum(item.apogee, 0) + " km"
+      const perigee = mars3d.Util.formatNum(item.perigee, 0) + " km"
 
-      var inhtml = `<a href="https://www.n2yo.com/satellite/?s=${item.id}" target="_blank">N2YO...</a>`
+      const inhtml = `<a href="https://www.n2yo.com/satellite/?s=${item.id}" target="_blank">N2YO...</a>`
 
-      var weixinList = [
+      const weixinList = [
         item.name,
         item.id,
         item.cospar,
@@ -195,16 +195,16 @@ let worker
 function initWorker(arr) {
   worker = new Worker(window.currentPath + "tleWorker.js") // currentPath为当前目录，内置在示例框架中
   worker.onmessage = function (event) {
-    var time = event.data.time
-    var positionObj = event.data.positionObj
+    const time = event.data.time
+    const positionObj = event.data.positionObj
 
-    for (var id in positionObj) {
-      var item = positionObj[id]
+    for (const id in positionObj) {
+      const item = positionObj[id]
       if (!item) {
         continue
       }
 
-      var graphic = graphicLayer.getGraphicById(id)
+      const graphic = graphicLayer.getGraphicById(id)
       if (graphic) {
         graphic.position = new Cesium.Cartesian3(item.x, item.y, item.z)
       }
@@ -220,7 +220,7 @@ function initWorker(arr) {
 
 function postWorkerMessage(arr) {
   // 取数据的时间范围，开始时间
-  var date = Cesium.JulianDate.toDate(map.clock.currentTime)
+  const date = Cesium.JulianDate.toDate(map.clock.currentTime)
 
   // 主线程调用worker.postMessage()方法，向 Worker 发消息。
   worker.postMessage({
@@ -231,7 +231,7 @@ function postWorkerMessage(arr) {
 
 function weixingStyle(item) {
   // 高亮选中的轨道样式
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     tle1: item.tle1,
     tle2: item.tle2,
     model: {
@@ -295,17 +295,17 @@ function resetGraphic() {
 }
 
 // Well known satellite constellations.
-var GPS = [
+const GPS = [
   20959, 22877, 23953, 24876, 25933, 26360, 26407, 26605, 26690, 27663, 27704, 28129, 28190, 28361, 28474, 28874, 29486, 29601, 32260, 32384, 32711,
   35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534
 ]
-var GLONASS = [
+const GLONASS = [
   28915, 29672, 29670, 29671, 32276, 32275, 32393, 32395, 36111, 36112, 36113, 36400, 36402, 36401, 37139, 37138, 37137, 37829, 37869, 37867, 37868,
   39155, 39620, 40001
 ]
-var INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476]
-var LANDSAT = [25682, 39084]
-var DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115]
+const INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476]
+const LANDSAT = [25682, 39084]
+const DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115]
 
 // 判断卫星数据
 function selectSatellites(data) {
@@ -313,34 +313,34 @@ function selectSatellites(data) {
     return
   }
 
-  var name = data.name
-  var xilie = data.selXiLie // 系列卫星
-  var country = data.selCountry // 所属国家
-  var type = data.selType // 对象类型
+  const name = data.name
+  const xilie = data.selXiLie // 系列卫星
+  const country = data.selCountry // 所属国家
+  const type = data.selType // 对象类型
 
-  var val1 = data.sliLaunchdate
-  var min1 = 1950
-  var max1 = 2022
+  const val1 = data.sliLaunchdate
+  const min1 = 1950
+  const max1 = 2022
 
-  var val2 = data.sliPeriod
-  var min2 = 0
-  var max2 = 60000
+  const val2 = data.sliPeriod
+  const min2 = 0
+  const max2 = 60000
 
-  var val3 = data.sliInclination
-  var min3 = 0
-  var max3 = 150
+  const val3 = data.sliInclination
+  const min3 = 0
+  const max3 = 150
 
-  var val4 = data.sliApogee
-  var min4 = 0
-  var max4 = 600000
+  const val4 = data.sliApogee
+  const min4 = 0
+  const max4 = 600000
 
-  var val5 = data.sliPerigee
-  var min5 = 0
-  var max5 = 500000
+  const val5 = data.sliPerigee
+  const min5 = 0
+  const max5 = 500000
 
-  var val6 = data.sliRcs
-  var min6 = 0
-  var max6 = 1000
+  const val6 = data.sliRcs
+  const min6 = 0
+  const max6 = 1000
 
   let selCount = 0
 
@@ -355,7 +355,7 @@ function selectSatellites(data) {
       graphic.selected = false
     }
 
-    var attr = graphic.attr // 卫星的属性
+    const attr = graphic.attr // 卫星的属性
 
     // 名称
     if (name) {
@@ -401,7 +401,7 @@ function selectSatellites(data) {
 
     // 类型的判断
     if (type) {
-      var name = attr.name
+      const name = attr.name
       if (type === "junk" && name.indexOf(" DEB") === -1 && name.indexOf(" R/B") === -1) {
         return
       }
@@ -417,7 +417,7 @@ function selectSatellites(data) {
         return
       }
 
-      var y = attr.launchDate.getFullYear()
+      const y = attr.launchDate.getFullYear()
       if (y <= val1[0] || y >= val1[1]) {
         return
       }

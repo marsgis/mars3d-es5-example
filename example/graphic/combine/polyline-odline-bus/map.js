@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,7 +32,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定Popup弹窗
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -41,10 +41,10 @@ function onMounted(mapInstance) {
   })
 
   Cesium.Resource.fetchJson("//data.mars3d.cn/file/apidemo/bjgj.json").then(function (data) {
-    var busLines = []
+    const busLines = []
     data.forEach(function (busLine, idx) {
       let prevPt
-      var points = []
+      const points = []
       for (let i = 0; i < busLine.length; i += 2) {
         let pt = [busLine[i], busLine[i + 1]]
         if (i > 0) {
@@ -52,9 +52,9 @@ function onMounted(mapInstance) {
         }
         prevPt = pt
 
-        var longitude = pt[0] / 1e4
-        var latitude = pt[1] / 1e4
-        var cart = Cesium.Cartesian3.fromDegrees(longitude, latitude, 100.0)
+        const longitude = pt[0] / 1e4
+        const latitude = pt[1] / 1e4
+        const cart = Cesium.Cartesian3.fromDegrees(longitude, latitude, 100.0)
         points.push(cart)
       }
 
@@ -77,7 +77,7 @@ function onUnmounted() {
 }
 
 function createLines(arr) {
-  var arrData = []
+  const arrData = []
   arr.forEach(function (item, index) {
     arrData.push({
       positions: item.positions,
@@ -94,7 +94,7 @@ function createLines(arr) {
   })
 
   // 多个线对象的合并渲染。
-  var primitive = new mars3d.graphic.PolylineCombine({
+  const primitive = new mars3d.graphic.PolylineCombine({
     instances: arrData
   })
   graphicLayer.addGraphic(primitive)

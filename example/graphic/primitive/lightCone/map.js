@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
   bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 合肥市
-  var lightCone = new mars3d.graphic.LightCone({
+  const lightCone = new mars3d.graphic.LightCone({
     position: Cesium.Cartesian3.fromDegrees(117.29, 32.0581, 117.8),
     style: {
       color: "rgba(255,0,0,0.9)",
@@ -42,7 +42,7 @@ function onMounted(mapInstance) {
   // 演示个性化处理graphic
   initGraphicManager(lightCone)
 
-  var cities = [
+  const cities = [
     { name: "六安市", lon: 116.3123, lat: 31.8329 },
     { name: "安庆市", lon: 116.7517, lat: 30.5255 },
     { name: "滁州市", lon: 118.1909, lat: 32.536 },
@@ -61,9 +61,9 @@ function onMounted(mapInstance) {
     { name: "铜陵市", lon: 117.9382, lat: 30.9375 }
   ]
   for (let i = 0; i < cities.length; i++) {
-    var item = cities[i]
+    const item = cities[i]
 
-    var coneGlow2 = new mars3d.graphic.LightCone({
+    const coneGlow2 = new mars3d.graphic.LightCone({
       position: Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 0),
       style: {
         radius: 5000,
@@ -93,7 +93,7 @@ function onUnmounted() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -123,7 +123,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -131,11 +131,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -158,7 +162,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -175,7 +179,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

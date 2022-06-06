@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let terrainPlanClip
 
 var mapOptions = {
@@ -23,7 +23,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题：", `因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对`)
+  globalNotify("已知问题提示", `因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对`)
 }
 
 /**
@@ -36,7 +36,7 @@ function onUnmounted() {
 
 function addLayer(height) {
   // 管网模型图层
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
     url: "//data.mars3d.cn/3dtiles/max-piping/tileset.json",
     position: { lng: 117.215457, lat: 31.843363, alt: -3.6 },
@@ -97,7 +97,7 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -120,7 +120,7 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标

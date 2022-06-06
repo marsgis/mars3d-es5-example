@@ -440,6 +440,11 @@ html {
 .mars3d-template-content label {
   padding-right: 6px;
 }
+
+.mars3d-popup-content {
+  margin: 15px;
+}
+
 .mars3d-template-titile {
   border-bottom: 1px solid #3ea6ff;
 }

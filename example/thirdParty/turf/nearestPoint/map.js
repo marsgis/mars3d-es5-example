@@ -1,10 +1,10 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let pointLayer
 let graphicLayer
 
-var pointStyle = {
+const pointStyle = {
   verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
   scale: 1,
   scaleByDistance: true,
@@ -74,7 +74,7 @@ function clickPoint(position) {
   graphicLayer.clear()
 
   // 生成查询点
-  var queryPoint = new mars3d.graphic.BillboardEntity({
+  const queryPoint = new mars3d.graphic.BillboardEntity({
     position: position,
     style: {
       ...pointStyle,
@@ -85,17 +85,17 @@ function clickPoint(position) {
   graphicLayer.addGraphic(queryPoint)
 
   // turf分析
-  var targetPoint = queryPoint.toGeoJSON()
-  var points = pointLayer.toGeoJSON()
-  var nearest = turf.nearestPoint(targetPoint, points)
+  const targetPoint = queryPoint.toGeoJSON()
+  const points = pointLayer.toGeoJSON()
+  const nearest = turf.nearestPoint(targetPoint, points)
   if (!nearest) {
     return
   }
 
-  var nearestPoint = mars3d.Util.geoJsonToGraphics(nearest)[0]
+  const nearestPoint = mars3d.Util.geoJsonToGraphics(nearest)[0]
 
   // 连线
-  var polyline = new mars3d.graphic.PolylineEntity({
+  const polyline = new mars3d.graphic.PolylineEntity({
     positions: [position, nearestPoint.position],
     style: {
       width: 5,
@@ -110,7 +110,7 @@ function clickPoint(position) {
   graphicLayer.addGraphic(polyline)
 
   // 终点
-  var endPoint = new mars3d.graphic.CircleEntity({
+  const endPoint = new mars3d.graphic.CircleEntity({
     position: nearestPoint.position,
     style: {
       radius: polyline.distance / 10,

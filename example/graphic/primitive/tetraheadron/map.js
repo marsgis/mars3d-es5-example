@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -17,18 +17,25 @@ var mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   map.basemap = 2017 // 切换至蓝色底图
 
   // 添加参考三维模型;
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json"
+    url: "//data.mars3d.cn/3dtiles/jzw-hefei2/tileset.json",
+    maximumScreenSpaceError: 1,
+    maximumMemoryUsage: 1024,
+    style: {
+      color: {
+        conditions: [["true", `color("rgba(42, 160, 224, 1)")`]]
+      }
+    },
+    marsJzwStyle: true
   })
   map.addLayer(tiles3dLayer)
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
@@ -46,12 +53,12 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
+  const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.222132, 31.822729, 250),
     style: {
       width: 25,
       height: 40,
-      color: "rgba(200,200,0,0.7)",
+      color: "rgba(255,0,0,0.7)",
       moveHeight: 50
     },
     attr: { remark: "示例1" }
@@ -60,7 +67,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
+  const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.227581, 31.821564, 250),
     style: {
       width: 20,
@@ -74,7 +81,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
+  const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.223923, 31.81897, 250),
     style: {
       width: 20,

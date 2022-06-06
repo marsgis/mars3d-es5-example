@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,9 +31,9 @@ function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  var options = getEchartsOption()
+  const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
@@ -48,7 +48,7 @@ function createEchartsLayer() {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var geoCoordMap = {
+  const geoCoordMap = {
     海门: [121.15, 31.89],
     鄂尔多斯: [109.781327, 39.608266],
     招远: [120.38, 37.35],
@@ -241,7 +241,7 @@ function getEchartsOption() {
     大庆: [125.03, 46.58]
   }
 
-  var datapoint = [
+  const datapoint = [
     {
       name: "海门",
       value: 9
@@ -1004,10 +1004,10 @@ function getEchartsOption() {
     }
   ]
 
-  var convertData = function (data) {
-    var res = []
+  const convertData = function (data) {
+    const res = []
     for (let i = 0; i < data.length; i++) {
-      var geoCoord = geoCoordMap[data[i].name]
+      const geoCoord = geoCoordMap[data[i].name]
       if (geoCoord) {
         res.push({
           name: data[i].name,
@@ -1018,7 +1018,7 @@ function getEchartsOption() {
     return res
   }
 
-  var option = {
+  const option = {
     animation: false,
     backgroundColor: "rgba(17, 19, 42, 0.4)",
     title: {

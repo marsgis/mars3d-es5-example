@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let graphicFrustum
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -43,10 +43,10 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var position = [116.359147, 30.990366, 6000]
+  const position = [116.359147, 30.990366, 6000]
 
   // 加个飞机
-  var graphicFJ = new mars3d.graphic.ModelPrimitive({
+  const graphicFJ = new mars3d.graphic.ModelPrimitive({
     position: position,
     style: {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -77,7 +77,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.FrustumPrimitive({
+  const graphic = new mars3d.graphic.FrustumPrimitive({
     position: [116.25813, 30.983059, 5000],
     style: {
       angle: 7,
@@ -102,7 +102,7 @@ function addDemoGraphic2(graphicLayer) {
 
 function addDemoGraphic3(graphicLayer) {
   // 加个卫星
-  var graphicFJ = new mars3d.graphic.ModelPrimitive({
+  const graphicFJ = new mars3d.graphic.ModelPrimitive({
     position: [116.303349, 31.070789, 7000],
     style: {
       url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
@@ -114,7 +114,7 @@ function addDemoGraphic3(graphicLayer) {
   })
   graphicLayer.addGraphic(graphicFJ)
 
-  var graphic = new mars3d.graphic.FrustumPrimitive({
+  const graphic = new mars3d.graphic.FrustumPrimitive({
     position: [116.303349, 31.070789, 7000],
     style: {
       angle: 10,
@@ -138,7 +138,7 @@ function onClickSelPoint() {
       color: "#ffff00"
     },
     success: function (graphic) {
-      var position = graphic.positionShow
+      const position = graphic.positionShow
       map.graphicLayer.clear()
 
       graphicFrustum.targetPosition = position
@@ -163,7 +163,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -179,7 +179,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -187,11 +187,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

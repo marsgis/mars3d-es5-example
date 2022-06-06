@@ -1,9 +1,8 @@
-////import * as mars3d from "mars3d"
-//import { $message } from "@mars/components/mars-ui/index"
+// import * as mars3d from "mars3d"
+// import { $message } from "@mars/components/mars-ui/index"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
-
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let videoElement
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -23,7 +22,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 11.5 },
@@ -58,7 +57,7 @@ function onUnmounted() {
   map = null
 }
 
-var flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
+const flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
@@ -69,7 +68,7 @@ function createVideoDom() {
   videoElement.style.display = "none"
 
   if (window.flvjs.isSupported()) {
-    var flvPlayer = window.flvjs.createPlayer({
+    const flvPlayer = window.flvjs.createPlayer({
       type: "flv",
       url: flvUrl
     })
@@ -95,7 +94,7 @@ function createVideoDom() {
 
 // 竖立视频
 function addDemoGraphic1() {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481299, 28.439988, 140],
       [119.481162, 28.440102, 140],
@@ -113,7 +112,7 @@ function addDemoGraphic1() {
 
 // 地面视频
 function addDemoGraphic2() {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481749, 28.440171],
       [119.481385, 28.440457],
@@ -216,7 +215,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -232,14 +231,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -252,14 +251,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -272,7 +271,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -280,11 +279,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

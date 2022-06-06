@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -41,7 +41,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var primitive = new mars3d.graphic.CloudPrimitive({
+  const primitive = new mars3d.graphic.CloudPrimitive({
     position: [116.353072, 30.859836, 2000],
     style: {
       scale: new Cesium.Cartesian2(5500, 1000),
@@ -63,7 +63,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.CloudPrimitive({
+  const primitive = new mars3d.graphic.CloudPrimitive({
     position: [116.332891, 30.856537, 1500],
     style: {
       scale: new Cesium.Cartesian2(3500, 800),
@@ -76,7 +76,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var primitive = new mars3d.graphic.CloudPrimitive({
+  const primitive = new mars3d.graphic.CloudPrimitive({
     position: [116.371649, 30.851072, 1389],
     style: {
       scale: new Cesium.Cartesian2(5000, 1000),
@@ -89,7 +89,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var primitive = new mars3d.graphic.CloudPrimitive({
+  const primitive = new mars3d.graphic.CloudPrimitive({
     position: new mars3d.LngLatPoint(116.350075, 30.848636, 1500),
     style: {
       scale: new Cesium.Cartesian2(2300, 900),
@@ -106,12 +106,12 @@ function addDemoGraphic(num) {
   graphicLayer.clear()
 
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
 
   let scaleX, scaleY, aspectRatio, cloudHeight, depth
 
   for (let j = 0; j < num; ++j) {
-    var position = randomPoint()
+    const position = randomPoint()
 
     scaleX = getRandomNumberInRange(500, 2000)
     scaleY = scaleX / 2.0 - getRandomNumberInRange(0, scaleX / 4.0)
@@ -120,7 +120,7 @@ function addDemoGraphic(num) {
     aspectRatio = getRandomNumberInRange(1.5, 2.1)
     cloudHeight = getRandomNumberInRange(5, 20)
 
-    var primitive = new mars3d.graphic.CloudPrimitive({
+    const primitive = new mars3d.graphic.CloudPrimitive({
       position: position,
       style: {
         scale: new Cesium.Cartesian2(scaleX, scaleY),
@@ -132,9 +132,9 @@ function addDemoGraphic(num) {
   }
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   // console.log(usedTime);
 
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
@@ -142,9 +142,9 @@ function addDemoGraphic(num) {
 
 // 取区域内的随机点
 function randomPoint() {
-  var jd = getRandomNumberInRange(116.29 * 1000, 116.39 * 1000) / 1000
-  var wd = getRandomNumberInRange(30.8 * 1000, 30.88 * 1000) / 1000
-  var height = getRandomNumberInRange(2000, 4000)
+  const jd = getRandomNumberInRange(116.29 * 1000, 116.39 * 1000) / 1000
+  const wd = getRandomNumberInRange(30.8 * 1000, 30.88 * 1000) / 1000
+  const height = getRandomNumberInRange(2000, 4000)
   return new mars3d.LngLatPoint(jd, wd, height)
 }
 

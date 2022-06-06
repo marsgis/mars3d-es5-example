@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -33,11 +33,16 @@ function addLayer() {
   map.basemap = 2017 // 蓝色底图
 
   // 加载城市模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
+    url: "//data.mars3d.cn/3dtiles/jzw-hefei2/tileset.json",
     maximumScreenSpaceError: 1,
     maximumMemoryUsage: 1024,
-    center: { lat: 31.805004, lng: 117.222617, alt: 1457.4, heading: 1.6, pitch: -30.5, roll: 0 },
+    style: {
+      color: {
+        conditions: [["true", `color("rgba(42, 160, 224, 1)")`]]
+      }
+    },
+    marsJzwStyle: true,
     popup: "all"
   })
   map.addLayer(tilesetLayer)
@@ -54,10 +59,10 @@ function addLayer() {
   map.addLayer(graphicLayer)
 
   // 测试点数据，实际开发时换掉
-  var arrPoints = getRandomPoints(1000)
+  const arrPoints = getRandomPoints(1000)
 
   // 热力图 图层
-  var heatLayer = new mars3d.layer.HeatLayer({
+  const heatLayer = new mars3d.layer.HeatLayer({
     positions: arrPoints,
     // 以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
     heatStyle: {
@@ -75,9 +80,9 @@ function addLayer() {
 
   // 显示地面对应的点，测试渲染结果的正确性
   for (let i = 0; i < arrPoints.length; i++) {
-    var item = arrPoints[i]
+    const item = arrPoints[i]
 
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       position: [item.lng, item.lat, 90],
       style: {
         color: "#ffff00",
@@ -96,15 +101,15 @@ function chkUnderground(val) {
 
 // 获取bbox矩形区域内的count个随机点
 function getRandomPoints(count) {
-  var xmin = 117.226189
-  var xmax = 117.245831
-  var ymin = 31.828858
-  var ymax = 31.842967
-  var arr = []
-  var arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
+  const xmin = 117.226189
+  const xmax = 117.245831
+  const ymin = 31.828858
+  const ymax = 31.842967
+  const arr = []
+  const arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i].geometry.coordinates
-    var val = Math.floor(Math.random() * 100) // 热力值
+    const item = arrPoint[i].geometry.coordinates
+    const val = Math.floor(Math.random() * 100) // 热力值
     arr.push({ lng: item[0], lat: item[1], value: val })
   }
   return arr

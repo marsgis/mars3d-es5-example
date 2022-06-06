@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 2也可以通过下面方法获取center参数
-  var center = map.getCameraView()
+  const center = map.getCameraView()
   console.log("center参数为", JSON.stringify(center))
 
   // 可以通过centerAt切换视角
@@ -28,12 +28,12 @@ function onMounted(mapInstance) {
 
 // 视图切换
 function sceneMode(name) {
-  var value = Number(name)
+  const value = Number(name)
   setSceneOptions("sceneMode", value)
 }
 
 function setSceneOptions(name, value) {
-  var options = {}
+  const options = {}
   options[name] = value
 
   console.log("更新了地图参数", options)
@@ -41,7 +41,7 @@ function setSceneOptions(name, value) {
 }
 
 function setSceneGlobeOptions(name, value) {
-  var options = { globe: {} }
+  const options = { globe: {} }
   options.globe[name] = value
 
   console.log("更新了地图参数", options)
@@ -49,7 +49,7 @@ function setSceneGlobeOptions(name, value) {
 }
 
 function setSceneCameraControllerOptions(name, value) {
-  var options = { cameraController: {} }
+  const options = { cameraController: {} }
   options.cameraController[name] = value
 
   console.log("更新了地图参数", options)

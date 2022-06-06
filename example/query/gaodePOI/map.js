@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let poiLayer
 let queryGaodePOI
@@ -31,23 +31,23 @@ function onMounted(mapInstance) {
   map.addLayer(poiLayer)
 
   poiLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
 
     let inHtml = '<div class="mars3d-template-titile">' + item.name + '</div><div class="mars3d-template-content" >'
 
-    var type = String(item.type).trim()
+    const type = String(item.type).trim()
     if (type) {
       inHtml += "<div><label>类别</label>" + type + "</div>"
     }
-    var xzqh = String(item.xzqh).trim()
+    const xzqh = String(item.xzqh).trim()
     if (xzqh) {
       inHtml += "<div><label>区域</label>" + xzqh + "</div>"
     }
-    var tel = String(item.tel).trim()
+    const tel = String(item.tel).trim()
     if (tel) {
       inHtml += "<div><label>电话</label>" + tel + "</div>"
     }
-    var address = String(item.address).trim()
+    const address = String(item.address).trim()
     if (address) {
       inHtml += "<div><label>地址</label>" + address + "</div>"
     }
@@ -80,7 +80,7 @@ function query(radioFanwei, cityShi, text) {
   switch (radioFanwei) {
     case "2": {
       // 当前视角范围
-      var extent = map.getExtent()
+      const extent = map.getExtent()
       loadData(
         {
           page: 0,
@@ -109,7 +109,7 @@ function query(radioFanwei, cityShi, text) {
       )
       break
     default: {
-      var dmmc = cityShi
+      const dmmc = cityShi
       loadData(
         {
           page: 0,
@@ -135,7 +135,10 @@ function loadData(queryOptions, text) {
     count: 25, // count 每页数量
     text: text,
     success: function (res) {
-      var data = res.list
+      const data = res.list
+      if (data.length <= 1) {
+        globalMsg("未搜索到相关数据！")
+      }
       resultList = resultList.concat(data)
       addDemoGraphics(data)
 
@@ -163,7 +166,7 @@ function clearAll(noClearDraw) {
 
 function addDemoGraphics(arr) {
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.lng, item.lat),

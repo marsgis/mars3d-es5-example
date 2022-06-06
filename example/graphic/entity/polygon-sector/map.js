@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var eventTarget = new mars3d.BaseClass()
 
@@ -44,7 +44,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.Sector({
+  const graphic = new mars3d.graphic.Sector({
     positions: [
       [117.151322, 31.863556, 34.3]
       // [117.18186, 31.869359, 29.8],
@@ -75,7 +75,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.Sector({
+  const graphic = new mars3d.graphic.Sector({
     position: [117.257699, 31.861722, 24.8],
     style: {
       radius: 4000,
@@ -93,7 +93,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.Sector({
+  const graphic = new mars3d.graphic.Sector({
     position: [117.152749, 31.77278, 24.1],
     style: {
       radius: 3000,
@@ -116,7 +116,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.Sector({
+  const graphic = new mars3d.graphic.Sector({
     position: [117.272405, 31.798676, 21.2],
     style: {
       radius: 3000,
@@ -171,7 +171,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -187,14 +187,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -207,14 +207,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -227,7 +227,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -235,19 +235,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算周长",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -255,8 +259,8 @@ function bindLayerContextMenu() {
       text: "计算面积",
       icon: "fa fa-reorder",
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }

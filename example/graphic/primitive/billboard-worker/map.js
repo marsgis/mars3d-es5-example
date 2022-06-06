@@ -1,9 +1,9 @@
 // AQI来源：https://aqicn.org
 
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let imgData = null
 let lastExtent = null
@@ -38,7 +38,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定Popup单击弹窗
   graphicLayer.bindPopup(function (event, callback) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
     if (!item) {
       return false
     }
@@ -71,8 +71,8 @@ function onUnmounted() {
 function onMap_cameraChanged() {
   endTimestamp = new Date().getTime()
   if (bWorking === false) {
-    var extent = map.getExtent()
-    var bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax
+    const extent = map.getExtent()
+    const bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax
     if (bbox !== lastExtent) {
       startWorker(bbox)
       lastExtent = bbox
@@ -97,7 +97,7 @@ function startWorker(strBounds) {
   worker.onmessage = function (event) {
     // Worker返回的结果。
     currentData = event.data.entityTable
-    var currTime = event.data.currTime
+    const currTime = event.data.currTime
     if (currentData.length !== 0 && currTime > startTimestamp) {
       createGraphics(currentData)
     }
@@ -112,9 +112,9 @@ function createGraphics(currentData) {
   console.log("加载数据", currentData)
 
   for (let i = currentData.length - 1; i >= 0; i--) {
-    var item = currentData[i]
+    const item = currentData[i]
 
-    var primitive = new mars3d.graphic.BillboardPrimitive({
+    const primitive = new mars3d.graphic.BillboardPrimitive({
       id: item.x,
       name: item.city,
       position: [item.lon, item.lat],
@@ -136,14 +136,14 @@ function createGraphics(currentData) {
 
 // 获取色带
 function getImageData() {
-  var nWidth = 500
-  var canvas = document.createElement("canvas")
+  const nWidth = 500
+  const canvas = document.createElement("canvas")
   canvas.width = nWidth
   canvas.height = nWidth
-  var ctx = canvas.getContext("2d")
+  const ctx = canvas.getContext("2d")
   ctx.beginPath()
   /* 指定渐变区域 */
-  var grad = ctx.createLinearGradient(0, 0, nWidth, 0)
+  const grad = ctx.createLinearGradient(0, 0, nWidth, 0)
   /* 指定几个颜色 */
   grad.addColorStop(0.05, "rgb(0, 228, 0)") // green
   grad.addColorStop(0.15, "rgb(256, 256, 0)") // yellow

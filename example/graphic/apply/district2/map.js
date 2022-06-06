@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var color = "#363635"
+const color = "#363635"
 var mapOptions = {
   scene: {
     center: { lat: 25.845231, lng: 117.57678, alt: 488175, heading: 358, pitch: -42 },
@@ -37,7 +37,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加矢量图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 添加对象
@@ -57,7 +57,7 @@ function onUnmounted() {
 // 添加安徽省底图和墙
 function addAnhui() {
   // 安徽省卫星底图
-  var tileLayer = new mars3d.layer.XyzLayer({
+  const tileLayer = new mars3d.layer.XyzLayer({
     url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
     minimumLevel: 0,
     maximumLevel: 12,
@@ -66,13 +66,13 @@ function addAnhui() {
   map.addLayer(tileLayer)
 
   // 安徽省边界线墙
-  var anhuiWall = new mars3d.layer.GeoJsonLayer({
+  const anhuiWall = new mars3d.layer.GeoJsonLayer({
     name: "安徽省边界墙",
     url: "//data.mars3d.cn/file/geojson/areas/340000.json",
     // 自定义解析数据
     onCreateGraphic: function (options) {
-      var points = options.positions[0] // 坐标
-      var attr = options.attr // 属性信息
+      const points = options.positions[0] // 坐标
+      const attr = options.attr // 属性信息
 
       console.log("边界墙原始坐标", points)
 
@@ -84,7 +84,7 @@ function addAnhui() {
       }).then((result) => {
         console.log("边界墙插值计算完成坐标", result.positions)
 
-        var primitive = new mars3d.graphic.WallPrimitive({
+        const primitive = new mars3d.graphic.WallPrimitive({
           positions: result.positions,
           style: {
             addHeight: -15000,
@@ -114,7 +114,7 @@ function addAnhui() {
   map.addLayer(anhuiWall)
 
   // 安徽各市边界线和名称
-  var shiLayer = new mars3d.layer.GeoJsonLayer({
+  const shiLayer = new mars3d.layer.GeoJsonLayer({
     name: "安徽各市边界线",
     url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
     symbol: {
@@ -151,10 +151,10 @@ function addAnhui() {
 
 // 添加示范城市的相关对象
 function addCenterCity(graphicLayer) {
-  var point = [117.234218, 31.814155, 0]
+  const point = [117.234218, 31.814155, 0]
 
   // divgraphic标注
-  var divgraphic = new mars3d.graphic.DivGraphic({
+  const divgraphic = new mars3d.graphic.DivGraphic({
     position: point,
     style: {
       html: `<div class="marsBlackPanel">
@@ -167,7 +167,7 @@ function addCenterCity(graphicLayer) {
   graphicLayer.addGraphic(divgraphic)
 
   // 圆形动态扩散图
-  var cicle = new mars3d.graphic.CirclePrimitive({
+  const cicle = new mars3d.graphic.CirclePrimitive({
     position: point,
     style: {
       radius: 16000,
@@ -183,7 +183,7 @@ function addCenterCity(graphicLayer) {
 
 // 添加周边的圆圈刻度尺等对象
 function addOutCircle(graphicLayer) {
-  var arrImg = [
+  const arrImg = [
     {
       // 刻度
       image: "./img/icon/calib.png",
@@ -211,8 +211,8 @@ function addOutCircle(graphicLayer) {
   ]
 
   for (let i = 0; i < arrImg.length; i++) {
-    var item = arrImg[i]
-    var primitive = new mars3d.graphic.RectanglePrimitive({
+    const item = arrImg[i]
+    const primitive = new mars3d.graphic.RectanglePrimitive({
       positions: item.positions,
       style: {
         materialType: mars3d.MaterialType.Image2,

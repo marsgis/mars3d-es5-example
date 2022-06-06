@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let shortestPathLayer
 
@@ -128,17 +128,17 @@ function shortestPath() {
 
   shortestPathLayer.clear()
 
-  var polygon = polygonZAM.toGeoJSON() // 障碍面
-  var startPoint = pointQD.toGeoJSON() // 起点
-  var endPoint = pointZD.toGeoJSON() // 终点
+  const polygon = polygonZAM.toGeoJSON() // 障碍面
+  const startPoint = pointQD.toGeoJSON() // 起点
+  const endPoint = pointZD.toGeoJSON() // 终点
 
-  var options = {
+  const options = {
     obstacles: polygon
   }
-  var path = turf.shortestPath(startPoint, endPoint, options)
+  const path = turf.shortestPath(startPoint, endPoint, options)
 
-  var positions = path.geometry.coordinates
-  var polyonLine = new mars3d.graphic.PolylineEntity({
+  const positions = path.geometry.coordinates
+  const polyonLine = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       color: " #55ff33"

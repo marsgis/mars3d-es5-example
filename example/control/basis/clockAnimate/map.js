@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
 var eventTarget = new mars3d.BaseClass()
@@ -25,7 +25,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 时钟控制（可替代cesium本身的animation）
-  var clockAnimate = new mars3d.control.ClockAnimate({
+  const clockAnimate = new mars3d.control.ClockAnimate({
     format: "yyyy-MM-dd HH:mm:ss"
   })
   map.addControl(clockAnimate)
@@ -33,9 +33,9 @@ function onMounted(mapInstance) {
   clockAnimate.on(mars3d.EventType.click, function (event) {
     if (event.targetType === "label") {
       console.log("单击了时间文本区域", event)
-      var startTime = Cesium.JulianDate.toDate(map.clock.startTime)
-      var stopTime = Cesium.JulianDate.toDate(map.clock.stopTime)
-      var currentTime = Cesium.JulianDate.toDate(map.clock.currentTime)
+      const startTime = Cesium.JulianDate.toDate(map.clock.startTime)
+      const stopTime = Cesium.JulianDate.toDate(map.clock.stopTime)
+      const currentTime = Cesium.JulianDate.toDate(map.clock.currentTime)
 
       eventTarget.fire("clickShowClockAnimate", { startTime, stopTime, currentTime })
     }
@@ -55,8 +55,8 @@ function setCurrentTime(currentTime) {
 }
 
 function setClockAnimateTime(startTimes, stopTimes) {
-  var startTime = Cesium.JulianDate.fromDate(new Date(startTimes))
-  var stopTime = Cesium.JulianDate.fromDate(new Date(stopTimes))
+  const startTime = Cesium.JulianDate.fromDate(new Date(startTimes))
+  const stopTime = Cesium.JulianDate.fromDate(new Date(stopTimes))
 
   if (map.controls.timeline) {
     map.controls.timeline.zoomTo(startTime, stopTime)

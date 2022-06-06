@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var eventTarget = new mars3d.BaseClass()
 
@@ -41,7 +41,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.LabelEntity({
+  const graphic = new mars3d.graphic.LabelEntity({
     position: new mars3d.LngLatPoint(116.308659, 30.914005, 429.94),
     style: {
       text: "合肥火星科技有限公司",
@@ -60,14 +60,14 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 
   // graphic转geojson
-  var geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON()
   console.log("转换后的geojson", geojson)
   addGeoJson(geojson, graphicLayer)
 }
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.position = [116.18869, 30.95041, 525.84]
@@ -77,7 +77,7 @@ function addGeoJson(geojson, graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.LabelEntity({
+  const graphic = new mars3d.graphic.LabelEntity({
     name: "贴地文字",
     position: new mars3d.LngLatPoint(116.241728, 30.879732),
     style: {
@@ -92,7 +92,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.LabelEntity({
+  const graphic = new mars3d.graphic.LabelEntity({
     name: "根据视距缩放文字",
     position: new mars3d.LngLatPoint(116.340026, 30.873948, 383.31),
     style: {
@@ -108,7 +108,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.LabelEntity({
+  const graphic = new mars3d.graphic.LabelEntity({
     name: "根据视距显示文字",
     position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
     style: {
@@ -164,7 +164,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -180,14 +180,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -200,14 +200,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -220,7 +220,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -228,11 +228,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

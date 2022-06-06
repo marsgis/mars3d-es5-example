@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
-//import { $message } from "@mars/components/mars-ui/index"
+// import * as mars3d from "mars3d"
+// import { $message } from "@mars/components/mars-ui/index"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let selectedView
 let videoElement
@@ -30,7 +30,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -59,7 +59,7 @@ function onUnmounted() {
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
 function addDemoGraphic1() {
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     position: [117.205457, 31.842984, 63.9],
     style: {
       container: videoElement,
@@ -88,7 +88,7 @@ function addDemoGraphic1() {
   })
 }
 
-var flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
+const flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
@@ -100,7 +100,7 @@ function createVideoDom() {
 
   // 加FLV演示数据
   if (window.flvjs.isSupported()) {
-    var flvPlayer = window.flvjs.createPlayer({
+    const flvPlayer = window.flvjs.createPlayer({
       type: "flv",
       url: flvUrl
     })
@@ -156,7 +156,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.targetPosition = point
@@ -202,15 +202,15 @@ function addVideo(data) {
 // 按当前视角投射视频
 function addThisCamera(data) {
   // 取屏幕中心点
-  var targetPosition = map.getCenter({ format: false })
+  const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     position: cameraPosition,
     targetPosition: targetPosition,
     style: {
@@ -256,7 +256,7 @@ function printParameters() {
     return
   }
 
-  var params = JSON.stringify(selectedView.toJSON())
+  const params = JSON.stringify(selectedView.toJSON())
   console.log("Video3D构造参数为", params)
 }
 
@@ -276,7 +276,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point

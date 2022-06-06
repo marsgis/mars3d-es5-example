@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -62,7 +62,7 @@ function setStyle1() {
 function setStyle2() {
   globalMsg(`当前效果是：动态渐变+动态光环的特效`)
 
-  var upZ = tiles3dLayer.upAxis === Cesium.Axis.Z
+  const upZ = tiles3dLayer.upAxis === Cesium.Axis.Z
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,

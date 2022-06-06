@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let slope
 let contourLine
 let graphicLayer
@@ -35,7 +35,7 @@ function addSlope() {
       show: true
     },
     tooltip: function (event) {
-      var attr = event.graphic?.attr
+      const attr = event.graphic?.attr
       return `坡度: ${attr.slopeStr1}  (${attr.slopeStr2})<br />坡向: ${attr.direction}°`
     }
   })
@@ -73,7 +73,7 @@ function btnDrawExtent(splitNum) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -103,7 +103,7 @@ function btnDraw(splitNum) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -129,7 +129,7 @@ function btnDrawPoint() {
       color: "#ffff00"
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       graphicLayer.clear()
 
       slope.add(positions)

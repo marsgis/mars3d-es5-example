@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let mapEx
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -34,24 +34,24 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改已有地图为50%
-  var mapOld = document.getElementById("centerDiv3D")
+  const mapOld = document.getElementById("centerDiv3D")
   mapOld.style.width = "50%"
 
-  var centerDivEx = mars3d.DomUtil.create("div", "", document.body)
+  const centerDivEx = mars3d.DomUtil.create("div", "", document.body)
   centerDivEx.setAttribute("id", "centerDivEx")
-  var sourceContainer = mars3d.DomUtil.create("div", "mars3d-container", centerDivEx)
+  const sourceContainer = mars3d.DomUtil.create("div", "mars3d-container", centerDivEx)
   sourceContainer.setAttribute("id", "mars3dContainerEx")
 
   // 获取原来地图的参数
-  var mapOptions2 = map.getCurrentOptions() // map.getOptions()
+  const mapOptions2 = map.getCurrentOptions() // map.getOptions()
   mapOptions2.control.baseLayerPicker = true // basemaps底图切换按钮
   mapOptions2.control.sceneModePicker = false
 
   // 用于双屏同图层，不同配置展示
   for (let i = 0, len = mapOptions2.layers.length; i < len; i++) {
-    var item = mapOptions2.layers[i]
+    const item = mapOptions2.layers[i]
     if (item.compare) {
-      for (var key in item.compare) {
+      for (const key in item.compare) {
         item[key] = item.compare[key] // 存在compare属性时
       }
     }
@@ -103,6 +103,6 @@ function _mapEx_extentChangeHandler(e) {
 
 // “变化屏”mapChange变化，将“被更新屏”mapUpdate同步更新
 function updateView(mapChange, mapUpdate) {
-  var view = mapChange.getCameraView()
+  const view = mapChange.getCameraView()
   mapUpdate.setCameraView(view, { duration: 0 })
 }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -46,21 +46,21 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
     return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
   })
 
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
     tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -103,7 +103,7 @@ function addGraphicLayer() {
   graphicLayer.addGraphic(weixin)
 
   // 目标卫星
-  var winxinMB = new mars3d.graphic.Satellite({
+  const winxinMB = new mars3d.graphic.Satellite({
     name: "COSMOS 2251 DEB",
     tle1: "1 33916U 93036DV  21197.38574736  .00000034  00000-0  48020-4 0  9991",
     tle2: "2 33916  74.0517 160.4563 0330253 328.4241 153.7022 13.66391564618811",
@@ -146,7 +146,7 @@ function addGraphicLayer() {
   graphicLayer.addGraphic(winxinMB)
 
   // 四棱椎体
-  var rectSensor = new mars3d.graphic.RectSensor({
+  const rectSensor = new mars3d.graphic.RectSensor({
     position: new Cesium.CallbackProperty(function (time) {
       return weixin.position
     }, false),

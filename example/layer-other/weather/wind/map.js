@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -82,12 +82,12 @@ function onParticleSystemOptionsChange(options) {
 // 加载并解析NC数据
 function loadNetCDF(filePath) {
   return new Promise(function (resolve) {
-    var request = new XMLHttpRequest()
+    const request = new XMLHttpRequest()
     request.open("GET", filePath)
     request.responseType = "arraybuffer"
 
     request.onload = function () {
-      var arrayToMap = function (array) {
+      const arrayToMap = function (array) {
         return array.reduce(function (map, object) {
           map[object.name] = object
           return map
@@ -95,22 +95,22 @@ function loadNetCDF(filePath) {
       }
 
       // eslint-disable-next-line new-cap
-      var NetCDF = new netcdfjs(request.response)
-      var variables = arrayToMap(NetCDF.variables)
-      var uAttributes = arrayToMap(variables.U.attributes)
-      var vAttributes = arrayToMap(variables.V.attributes)
+      const NetCDF = new netcdfjs(request.response)
+      const variables = arrayToMap(NetCDF.variables)
+      const uAttributes = arrayToMap(variables.U.attributes)
+      const vAttributes = arrayToMap(variables.V.attributes)
 
-      var arrLon = NetCDF.getDataVariable("lon").flat()
-      var arrLat = NetCDF.getDataVariable("lat").flat()
-      var arrU = NetCDF.getDataVariable("U").flat()
-      var maxU = uAttributes.max.value
-      var minU = uAttributes.min.value
-      var arrV = NetCDF.getDataVariable("V").flat()
-      var maxV = vAttributes.max.value
-      var minV = vAttributes.min.value
+      const arrLon = NetCDF.getDataVariable("lon").flat()
+      const arrLat = NetCDF.getDataVariable("lat").flat()
+      const arrU = NetCDF.getDataVariable("U").flat()
+      const maxU = uAttributes.max.value
+      const minU = uAttributes.min.value
+      const arrV = NetCDF.getDataVariable("V").flat()
+      const maxV = vAttributes.max.value
+      const minV = vAttributes.min.value
 
       // 构造WindLayer类需要的格式数据
-      var result = {
+      const result = {
         xmin: Math.min(...arrLon),
         xmax: Math.max(...arrLon),
         ymin: Math.min(...arrLat),

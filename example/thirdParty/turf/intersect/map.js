@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let graphic1
@@ -81,11 +81,11 @@ function intersect() {
     intersectGraphic = null
   }
 
-  var layer1 = graphic1.toGeoJSON()
-  var layer2 = graphic2.toGeoJSON()
+  const layer1 = graphic1.toGeoJSON()
+  const layer2 = graphic2.toGeoJSON()
   console.log("2个面的geojson对象", layer1, layer2)
 
-  var geojson = turf.intersect(layer1, layer2)
+  const geojson = turf.intersect(layer1, layer2)
 
   intersectGraphic = mars3d.Util.geoJsonToGraphics(geojson)[0]
   intersectGraphic.type = "polygon"

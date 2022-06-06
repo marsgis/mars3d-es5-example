@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象,用于graphic绑定展示
 let tilesetLayer // 3dtiles模型；添加模型选择
 let tilesetFlat
@@ -21,22 +21,24 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
-  globalNotify("已知问题：", `
-    (1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式 模型
-    (2) 目前不支持所有3dtiles数据，请替换url进行自测。`)
+  globalNotify(
+    "已知问题提示",
+    `(1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+     (2) 目前不支持所有3dtile数据，请替换url进行自测`
+  )
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   showDytDemo(true, [
     [108.959062, 34.220134, 397.3],
     [108.959802, 34.220147, 397.6],
     [108.959779, 34.219506, 398.7],
     [108.959106, 34.21953, 398.1]
-  ]) // true - 加载边界线,后者是初始加载的压平位置
+  ])
 }
 
 /**
@@ -47,7 +49,7 @@ function onUnmounted() {
   map = null
 }
 
-function showDytDemo(chkShowLine, positions = null) {
+function showDytDemo(chkShowLine, positions) {
   removeLayer()
 
   // 加模型
@@ -85,8 +87,29 @@ function showTehDemo(chkShowLine) {
   createTilesetFlat(chkShowLine)
 }
 
+function showQxShequDemo(chkShowLine) {
+  removeLayer()
+
+  tilesetLayer = new mars3d.layer.TilesetLayer({
+    name: "县城社区",
+    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    position: { alt: 11.5 },
+    maximumScreenSpaceError: 1,
+    maximumMemoryUsage: 1024,
+    dynamicScreenSpaceError: true,
+    cullWithChildrenBounds: false,
+    skipLevelOfDetail: true,
+    preferLeaves: true,
+    center: { lat: 28.439062, lng: 119.479517, alt: 484, heading: 4, pitch: -63 },
+    flyTo: true
+  })
+  map.addLayer(tilesetLayer)
+
+  createTilesetFlat(chkShowLine)
+}
+
 // 添加模型处理类，默认positions为大雁塔的压平位置
-function createTilesetFlat(chkShowLine, positions = null) {
+function createTilesetFlat(chkShowLine, positions) {
   if (tilesetFlat) {
     map.removeThing(tilesetFlat)
     tilesetFlat = null
@@ -95,25 +118,17 @@ function createTilesetFlat(chkShowLine, positions = null) {
   // 模型压平处理类
   tilesetFlat = new mars3d.thing.TilesetFlat({
     layer: tilesetLayer,
-    positions: positions,
-    height: 0
+    positions: positions
   })
   map.addThing(tilesetFlat)
 
   // 模型加载完成方法一
   tilesetLayer.readyPromise.then((e) => {
     tilesetFlat.list.forEach((item) => {
-      var id = addTestLine(chkShowLine, item.positions)
+      const id = addTestLine(chkShowLine, item.positions)
       addTableItem({ id: id, item: item })
     })
   })
-
-  // 模型加载完成方法二
-  // tilesetLayer.on(mars3d.EventType.load, function () {
-  //   setTimeout(() => {
-  //     eventTarget.fire("dataLoaded", { list: tilesetFlat.list })
-  //   }, 10)
-  // })
 }
 
 function removeLayer() {
@@ -131,7 +146,7 @@ function removeLayer() {
 }
 
 // 添加矩形
-function btnDrawExtent(chkShowLine) {
+function btnDrawExtent(chkShowLine, height) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -142,20 +157,20 @@ function btnDrawExtent(chkShowLine) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
-      var id = addTestLine(chkShowLine, positions)
+      const id = addTestLine(chkShowLine, positions)
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var item = tilesetFlat.addArea(positions)
+      const item = tilesetFlat.addArea(positions, { height: height })
 
       addTableItem({ id: id, item: item })
     }
   })
 }
 // 绘制多边形
-function btnDraw(chkShowLine) {
+function btnDraw(chkShowLine, height) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -165,13 +180,13 @@ function btnDraw(chkShowLine) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      var id = addTestLine(chkShowLine, positions)
+      const id = addTestLine(chkShowLine, positions)
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var item = tilesetFlat.addArea(positions)
+      const item = tilesetFlat.addArea(positions, { height: height })
 
       addTableItem({ id: id, item: item })
     }
@@ -188,7 +203,7 @@ function removeAll() {
 
 // 改变压平的高度
 function changeFlatHeight(val) {
-  tilesetFlat.height = val
+  tilesetFlat.updateHeight(val)
 }
 
 // 是否显示测试边界线
@@ -199,7 +214,7 @@ function chkShowLine(val) {
 }
 
 function addTestLine(chkShowLine, positions) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       closure: true,
@@ -230,14 +245,15 @@ function showHideArea(id, selected) {
 
 // 定位至模型
 function flyToGraphic(item) {
-  var graphic = tilesetFlat.getAreaById(item)
+  const graphic = tilesetFlat.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 // 删除模型
 function deletedGraphic(key, id) {
-  var graphic = tilesetFlat.getAreaById(key)
+  const graphic = tilesetFlat.getAreaById(key)
   tilesetFlat.removeArea(graphic)
-  var graphicLine = graphicLayer.getGraphicById(id)
+
+  const graphicLine = graphicLayer.getGraphicById(id)
   graphicLayer.removeGraphic(graphicLine)
 }

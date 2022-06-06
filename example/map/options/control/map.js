@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加控件有2种方式:
 
-  var map = new mars3d.Map("mars3dContainer", {
+  const map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 33.938752, lng: 103.753712, alt: 18401000, heading: 0, pitch: -90 }
     },
@@ -40,7 +40,7 @@ function initMap() {
   map.toolbar.style.bottom = "120px" // 修改toolbar控件的样式
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
-  var locationBar = new mars3d.control.LocationBar({
+  const locationBar = new mars3d.control.LocationBar({
     fps: true,
     template:
       "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"

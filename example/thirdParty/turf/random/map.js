@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var mapOptions = {
   scene: {
@@ -35,23 +35,23 @@ function onUnmounted() {
 
 // 颜色
 let index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }
 
-var bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
 function randomPoints() {
   graphicLayer.clear()
 
-  var points = turf.randomPoint(100, { bbox: bbox })
+  const points = turf.randomPoint(100, { bbox: bbox })
 
   points.features.forEach((e, index) => {
-    var position = e.geometry.coordinates
+    const position = e.geometry.coordinates
 
-    var primitive = new mars3d.graphic.BillboardPrimitive({
+    const primitive = new mars3d.graphic.BillboardPrimitive({
       position: position,
       style: {
         image: "img/marker/mark3.png",
@@ -72,16 +72,16 @@ function randomPolylines() {
   let numVertices = parseInt(Math.random() * 10)
   numVertices = numVertices < 3 ? 3 : numVertices
 
-  var polylines = turf.randomLineString(100, {
+  const polylines = turf.randomLineString(100, {
     bbox: bbox,
     num_vertices: numVertices, // 每个 LineString 将包含多少个坐标。
     max_length: 0.01 // 大小
   })
 
   polylines.features.forEach((e, index) => {
-    var positions = e.geometry.coordinates
+    const positions = e.geometry.coordinates
 
-    var primitive = new mars3d.graphic.PolylinePrimitive({
+    const primitive = new mars3d.graphic.PolylinePrimitive({
       positions: positions,
       style: {
         width: 4,
@@ -101,15 +101,15 @@ function randomPolygons() {
   let numVertices = parseInt(Math.random() * 10)
   numVertices = numVertices < 3 ? 3 : numVertices
 
-  var polygons = turf.randomPolygon(100, {
+  const polygons = turf.randomPolygon(100, {
     bbox: bbox,
     num_vertices: numVertices, // 坐标个数,必须多于或等于四个
     max_radial_length: 0.01 // 大小
   })
 
   polygons.features.forEach((e, index) => {
-    var positions = e.geometry.coordinates
-    var primitive = new mars3d.graphic.PolygonPrimitive({
+    const positions = e.geometry.coordinates
+    const primitive = new mars3d.graphic.PolygonPrimitive({
       positions: positions,
       style: {
         color: getColor(),

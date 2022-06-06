@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let terrainPlanClip
 let tilesetPlanClip // 模型裁剪事件
 let underground
@@ -30,7 +30,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     id: 1987,
     name: "桥梁",
     url: "//data.mars3d.cn/3dtiles/bim-qiaoliang/tileset.json",
@@ -159,7 +159,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -186,7 +186,7 @@ function drawPolygon() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -230,7 +230,7 @@ function clipLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -242,18 +242,34 @@ function clipLine() {
 function clipPoly() {
   tilesetPlanClip.clear()
 
+  // map.graphicLayer.startDraw({
+  //   type: "polygon",
+  //   style: {
+  //     color: "#007be6",
+  //     opacity: 0.5
+  //   },
+  //   success: function (graphic) {
+  //     // 绘制成功后回调
+  //     const positions = graphic.positionsShow
+  //     map.graphicLayer.clear()
+
+  //     console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
+
+  //     tilesetPlanClip.positions = positions
+  //   }
+  // })
+
   map.graphicLayer.startDraw({
-    type: "polygon",
+    type: "rectangle",
     style: {
       color: "#007be6",
-      opacity: 0.5
+      opacity: 0.8,
+      outline: false
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
-
-      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       tilesetPlanClip.positions = positions
     }
@@ -264,16 +280,34 @@ function clipPoly() {
 function clipPoly2() {
   tilesetPlanClip.clear()
 
+  // map.graphicLayer.startDraw({
+  //   type: "polygon",
+  //   style: {
+  //     color: "#007be6",
+  //     opacity: 0.5,
+  //     clampToGround: true
+  //   },
+  //   success: function (graphic) {
+  //     // 绘制成功后回调
+  //     const positions = graphic.positionsShow
+  //     map.graphicLayer.clear()
+
+  //     tilesetPlanClip.clipOutSide = true
+  //     tilesetPlanClip.positions = positions
+  //   }
+  // })
+
+
   map.graphicLayer.startDraw({
-    type: "polygon",
+    type: "rectangle",
     style: {
       color: "#007be6",
-      opacity: 0.5,
-      clampToGround: true
+      opacity: 0.8,
+      outline: false
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true

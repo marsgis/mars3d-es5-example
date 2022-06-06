@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 构造鹰眼地图
-  var overviewMap = new mars3d.control.OverviewMap({
+  const overviewMap = new mars3d.control.OverviewMap({
     basemap: {
       name: "天地图电子",
       type: "group",

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,8 +32,8 @@ function onUnmounted() {
 
 function createMapvLayer() {
   let randomCount = 1000
-  var data = []
-  var citys = [
+  const data = []
+  const citys = [
     "北京",
     "天津",
     "上海",
@@ -69,8 +69,8 @@ function createMapvLayer() {
 
   // 自定义数据
   while (randomCount--) {
-    var cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
-    var cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     data.push({
       geometry: {
         type: "LineString",
@@ -83,7 +83,7 @@ function createMapvLayer() {
     })
   }
 
-  var options = {
+  const options = {
     gradient: {
       0: "blue",
       0.5: "yellow",
@@ -96,6 +96,6 @@ function createMapvLayer() {
   }
 
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }

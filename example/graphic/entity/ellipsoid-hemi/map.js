@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -52,7 +52,7 @@ function onUnmounted() {
 
 //
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: [116.1, 31.0, 1000],
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
@@ -87,7 +87,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.2, 31.0, 1000),
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
@@ -111,7 +111,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.307258, 30.999546, 1239.2),
     style: {
       radii: 2500,
@@ -129,7 +129,7 @@ function addDemoGraphic3(graphicLayer) {
 
 //
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: [116.4, 31.0, 1000],
     style: {
       radii: 2500,
@@ -147,7 +147,7 @@ function addDemoGraphic4(graphicLayer) {
 
 //
 function addDemoGraphic5(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: [116.1, 30.9, 1000],
     style: {
       radii: 2500,
@@ -185,7 +185,7 @@ function addDemoGraphic5(graphicLayer) {
 
 // 半圆顶球体
 function addDemoGraphic6(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.2, 30.9, 1000),
     style: {
       radii: 2500,
@@ -220,7 +220,7 @@ function addDemoGraphic6(graphicLayer) {
 
 // 含内半径 半圆顶球体
 function addDemoGraphic7(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
     style: {
       radii: 2500,
@@ -244,7 +244,7 @@ function addDemoGraphic7(graphicLayer) {
 
 // 被切开的含内半径 半圆顶球体
 function addDemoGraphic8(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidEntity({
+  const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.4, 30.9, 1000),
     style: {
       radii: 2500,
@@ -268,9 +268,9 @@ function addDemoGraphic8(graphicLayer) {
 }
 
 function addDemoGraphic9(graphicLayer) {
-  var point = [116.257171, 31.218046, 962.1]
+  const point = [116.257171, 31.218046, 962.1]
 
-  var graphicN = new mars3d.graphic.EllipsoidEntity({
+  const graphicN = new mars3d.graphic.EllipsoidEntity({
     position: point,
     style: {
       radii: 4000,
@@ -291,7 +291,7 @@ function addDemoGraphic9(graphicLayer) {
   })
   graphicLayer.addGraphic(graphicN)
 
-  var graphicZ = new mars3d.graphic.EllipsoidEntity({
+  const graphicZ = new mars3d.graphic.EllipsoidEntity({
     position: point,
     style: {
       radii: 6000,
@@ -312,7 +312,7 @@ function addDemoGraphic9(graphicLayer) {
   })
   graphicLayer.addGraphic(graphicZ)
 
-  var graphicW = new mars3d.graphic.EllipsoidEntity({
+  const graphicW = new mars3d.graphic.EllipsoidEntity({
     position: point,
     style: {
       radii: 8000,
@@ -335,9 +335,9 @@ function addDemoGraphic9(graphicLayer) {
 
   // 绑定事件
   graphicW.on(mars3d.EventType.editMouseMove, (event) => {
-    var linkage = event.graphic?.options?.linkage // 联动的对象
+    const linkage = event.graphic?.options?.linkage // 联动的对象
     if (linkage) {
-      var position = event.graphic.position
+      const position = event.graphic.position
       linkage.forEach((element) => {
         element.position = position
       })
@@ -362,7 +362,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -378,14 +378,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -398,14 +398,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -418,7 +418,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -426,11 +426,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -455,7 +459,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -472,7 +476,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

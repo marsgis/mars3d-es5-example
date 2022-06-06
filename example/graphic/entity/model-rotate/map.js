@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   addDemoGraphic1(graphicLayer)
@@ -38,7 +38,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "飞机",
     position: [116.239918, 30.879709, 1208],
     style: {
@@ -56,7 +56,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "四凌锥体",
     position: [116.257665, 30.869372, 1500],
     style: {
@@ -74,7 +74,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphicCar = new mars3d.graphic.ModelEntity({
+  const graphicCar = new mars3d.graphic.ModelEntity({
     name: "汽车",
     position: [116.210938, 30.87518, 613.1],
     style: {

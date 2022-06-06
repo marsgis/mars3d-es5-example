@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 var echartTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -48,32 +48,32 @@ function showData(arrdata) {
   let polylines3 = []
   let polylines4 = []
   let polylines5 = []
-  var polylinesTB = []
+  const polylinesTB = []
   for (let i = 0; i < arrdata.length; i++) {
-    var item = arrdata[i]
+    const item = arrdata[i]
 
     // 所在经纬度坐标及海拔高度
-    var longitude = Number(item.longitude)
-    var latitude = Number(item.latitude)
-    var height = Number(item.height)
+    const longitude = Number(item.longitude)
+    const latitude = Number(item.latitude)
+    const height = Number(item.height)
 
-    var originPoint = {
+    const originPoint = {
       longitude: longitude,
       latitude: latitude,
       height: height
     }
-    var position = Cesium.Cartesian3.fromDegrees(originPoint.longitude, originPoint.latitude, originPoint.height)
+    const position = Cesium.Cartesian3.fromDegrees(originPoint.longitude, originPoint.latitude, originPoint.height)
 
     // 计算电线塔转角角度
-    var degree = parseInt(item.degree)
+    const degree = parseInt(item.degree)
 
     // 5条线路坐标
-    var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
-    var newPoint1 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.341789, 16.837972, 50.717621), hpr)
-    var newPoint2 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.34241, -16.838163, 50.717617), hpr)
-    var newPoint3 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025005, 0.022878, 39.540545), hpr)
-    var newPoint4 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.024999, 15.009109, 39.303012), hpr)
-    var newPoint5 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025001, -15.009585, 39.301099), hpr)
+    const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
+    const newPoint1 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.341789, 16.837972, 50.717621), hpr)
+    const newPoint2 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.34241, -16.838163, 50.717617), hpr)
+    const newPoint3 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025005, 0.022878, 39.540545), hpr)
+    const newPoint4 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.024999, 15.009109, 39.303012), hpr)
+    const newPoint5 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025001, -15.009585, 39.301099), hpr)
 
     polylinesTB.push(newPoint3) // 图标显示的点
 
@@ -84,8 +84,8 @@ function showData(arrdata) {
       polylines4.push(newPoint4)
       polylines5.push(newPoint5)
     } else {
-      var angularityFactor = -5000
-      var num = 50
+      const angularityFactor = -5000
+      const num = 50
       let positions = mars3d.PolyUtil.getLinkedPointList(polylines1[polylines1.length - 1], newPoint1, angularityFactor, num) // 计算曲线点
       polylines1 = polylines1.concat(positions)
 
@@ -102,7 +102,7 @@ function showData(arrdata) {
       polylines5 = polylines5.concat(positions)
     }
 
-    var html = mars3d.Util.getTemplateHtml({
+    const html = mars3d.Util.getTemplateHtml({
       title: "塔杆",
       template: [
         { field: "roadName", name: "所属线路" },
@@ -135,9 +135,9 @@ function showData(arrdata) {
 
 // 绘制电线塔模型
 function drawWireTowerModel(position, degree, inthtml) {
-  var modelUrls = ["tower.glb", "V.glb", "vertical01.glb", "vertical02.glb"]
+  const modelUrls = ["tower.glb", "V.glb", "vertical01.glb", "vertical02.glb"]
   for (let j = 0; j < modelUrls.length; j++) {
-    var primitive = new mars3d.graphic.ModelPrimitive({
+    const primitive = new mars3d.graphic.ModelPrimitive({
       position: position,
       style: {
         url: "//data.mars3d.cn/gltf/mars/tower/" + modelUrls[j],
@@ -153,7 +153,7 @@ function drawWireTowerModel(position, degree, inthtml) {
 }
 
 function drawGuideLine(positions, color) {
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     positions: positions,
     style: {
       width: 4,
@@ -170,20 +170,20 @@ function computeSurfacePointsHeight(polylines5) {
     scene: map.scene,
     positions: polylines5 // 需要计算的源路线坐标数组
   }).then((result) => {
-    var heightArry = []
-    var heightTDArray = []
+    const heightArry = []
+    const heightTDArray = []
     let distanceArray
     for (let i = 0; i < polylines5.length; i++) {
-      var item = polylines5[i]
-      var carto = Cesium.Cartographic.fromCartesian(item)
+      const item = polylines5[i]
+      const carto = Cesium.Cartographic.fromCartesian(item)
 
-      var height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
-      var tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(result.positions[i]).height) // 地面高度
+      const height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
+      const tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(result.positions[i]).height) // 地面高度
       heightArry.push(height)
       heightTDArray.push(tdHeight)
 
       // 距离数组
-      var positionsLineFirst = result.positions[0]
+      const positionsLineFirst = result.positions[0]
       distanceArray = result.positions.map(function (data) {
         return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
       })

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let particleGraphic
 let particlePosition
 
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 2.在layer上绑定监听事件
@@ -47,7 +47,7 @@ function onMounted(mapInstance) {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var primitive = e.graphic
+        const primitive = e.graphic
         if (primitive) {
           graphicLayer.removeGraphic(primitive)
         }
@@ -109,7 +109,7 @@ function btnSelectTarget(val) {
     type: "point",
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       targetPosition = positions[0]
       map.graphicLayer.clear()
 
@@ -124,7 +124,7 @@ function btnSelectPosition() {
     type: "point",
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       particlePosition = positions[0]
       map.graphicLayer.clear()
 
@@ -168,7 +168,7 @@ function initParamView(data) {
 function updateTarget(position, val) {
   position = mars3d.PointUtil.addPositionsHeight(position, val)
 
-  var target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3())
+  const target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3())
   Cesium.Cartesian3.multiplyByScalar(target, 0.01, target)
 
   console.log(`${target.x},${target.y},${target.z}`)

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measure
 let measureVolume
 
@@ -93,9 +93,9 @@ function addMeasure() {
 
 // 点选高度
 function showHeightVal() {
-  var baseHeight = measureVolume.height.toFixed(1)
-  var minHeight = measureVolume.minHeight.toFixed(1)
-  var maxHeight = getFixedNum(measureVolume.maxHeight)
+  const baseHeight = measureVolume.height.toFixed(1)
+  const minHeight = measureVolume.minHeight.toFixed(1)
+  const maxHeight = getFixedNum(measureVolume.maxHeight)
 
   // 触发自定义事件 heightVal ，改变组件面板中的值
   eventTarget.fire("heightVal", { baseHeight, minHeight, maxHeight })
@@ -153,7 +153,7 @@ function txtMinHeight(num) {
 
 // 修改顶高
 function txtMaxHeight(num) {
-  var maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
+  const maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
   if (num < maxHeight) {
     globalMsg("墙顶部高度不能低于区域内的地表高" + maxHeight)
     measureVolume.maxHeight = Number(maxHeight)
@@ -197,15 +197,15 @@ function showInterResult(list) {
   let pt1, pt2, pt3
   // var geometryInstances = [];
   for (let i = 0, len = list.length; i < len; i++) {
-    var item = list[i]
+    const item = list[i]
 
     pt1 = item.point1.pointDM
     pt2 = item.point2.pointDM
     pt3 = item.point3.pointDM
 
     // 点
-    for (var pt of [item.point1, item.point2, item.point3]) {
-      var primitive = new mars3d.graphic.PointPrimitive({
+    for (const pt of [item.point1, item.point2, item.point3]) {
+      const primitive = new mars3d.graphic.PointPrimitive({
         position: pt.pointDM,
         style: {
           pixelSize: 9,
@@ -221,10 +221,10 @@ function showInterResult(list) {
     item.area = item.area || mars3d.MeasureUtil.getTriangleArea(pt1, pt2, pt3)
 
     // 三角网及边线
-    var positions = [pt1, pt2, pt3, pt1]
+    const positions = [pt1, pt2, pt3, pt1]
 
     // 三角网面（单击用）
-    var primitivePoly = new mars3d.graphic.PolygonPrimitive({
+    const primitivePoly = new mars3d.graphic.PolygonPrimitive({
       positions: positions,
       style: {
         material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.Color, {
@@ -236,7 +236,7 @@ function showInterResult(list) {
     primitivePoly.bindTooltip("三角面积:" + mars3d.MeasureUtil.formatArea(item.area) + "(第" + i + "个)")
 
     // 三角网边线
-    var primitiveLine = new mars3d.graphic.PolylinePrimitive({
+    const primitiveLine = new mars3d.graphic.PolylinePrimitive({
       positions: positions,
       style: {
         width: 1,

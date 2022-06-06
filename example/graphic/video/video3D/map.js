@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let selectedView
 
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -58,7 +58,7 @@ function onUnmounted() {
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
 function addDemoGraphic1() {
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     position: [117.204472, 31.842488, 120.9],
     style: {
       url: "//data.mars3d.cn/file/video/lukou.mp4",
@@ -74,7 +74,7 @@ function addDemoGraphic1() {
 }
 
 function addDemoGraphic2() {
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     position: [117.205457, 31.842984, 63.9],
     style: {
       url: "//data.mars3d.cn/file/video/menqian.mp4",
@@ -135,7 +135,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.targetPosition = point
@@ -185,15 +185,15 @@ function addVideo(data) {
 
 function addThisCamera(data) {
   // 取屏幕中心点
-  var targetPosition = map.getCenter({ format: false })
+  const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     position: cameraPosition,
     targetPosition: targetPosition,
     style: {
@@ -238,7 +238,7 @@ function printParameters() {
     return
   }
 
-  var params = JSON.stringify(selectedView.toJSON())
+  const params = JSON.stringify(selectedView.toJSON())
   console.log("Video3D构造参数为", params)
 }
 
@@ -251,7 +251,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point

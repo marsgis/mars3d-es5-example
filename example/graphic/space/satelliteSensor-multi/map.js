@@ -1,14 +1,14 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer
 
 let satelliteSensor
 let satelliteSensor2
 let modelGraphic
 
-var reverse = true // z轴方向，true朝向空中，false朝向地心
-var converter = Cesium.Transforms.eastNorthUpToFixedFrame
+const reverse = true // z轴方向，true朝向空中，false朝向地心
+const converter = Cesium.Transforms.eastNorthUpToFixedFrame
 // let converter = Cesium.Transforms.localFrameToFixedFrameGenerator('east', 'south')
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -62,7 +62,7 @@ function onUnmounted() {
 // 初始化创建一个卫星视锥体
 
 function addModelGraphic(sensorParams) {
-  var position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
+  const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
 
   // 加个模型
   modelGraphic = new mars3d.graphic.ModelEntity({
@@ -125,7 +125,7 @@ function addModelGraphic(sensorParams) {
  * @returns {void}
  */
 function updatePosition(x, y, z) {
-  var position = Cesium.Cartesian3.fromDegrees(x, y, z)
+  const position = Cesium.Cartesian3.fromDegrees(x, y, z)
   modelGraphic.position = position
   satelliteSensor.position = position
   satelliteSensor2.position = position
@@ -208,7 +208,7 @@ function clearAll() {
 function getRegion() {
   map.graphicLayer.clear()
 
-  var coords = satelliteSensor.getAreaCoords() // 导出成像区边界坐标
+  const coords = satelliteSensor.getAreaCoords() // 导出成像区边界坐标
   if (!coords || coords.length === 0) {
     globalMsg("当前与地球无成像区边")
     return
@@ -217,7 +217,7 @@ function getRegion() {
   map.graphicLayer.clear()
 
   coords.forEach((position) => {
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       position: position,
       style: {
         color: "#ff0000",
@@ -235,13 +235,13 @@ function getRegion() {
 function getCenter() {
   map.graphicLayer.clear()
 
-  var groundPosition = satelliteSensor.groundPosition
+  const groundPosition = satelliteSensor.groundPosition
   if (!groundPosition) {
     globalMsg("当前与地球无交点")
     return
   }
 
-  var primitive = new mars3d.graphic.PointPrimitive({
+  const primitive = new mars3d.graphic.PointPrimitive({
     position: groundPosition,
     style: {
       color: "#ff0000",
@@ -254,6 +254,6 @@ function getCenter() {
   })
   map.graphicLayer.addGraphic(primitive)
 
-  var point = mars3d.LngLatPoint.fromCartesian(groundPosition)
+  const point = mars3d.LngLatPoint.fromCartesian(groundPosition)
   globalMsg(point.toString())
 }

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
@@ -30,7 +30,7 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加载模型列表
-  var configUrl = "//data.mars3d.cn/gltf/list.json"
+  const configUrl = "//data.mars3d.cn/gltf/list.json"
   mars3d.Util.fetchJson({ url: configUrl })
     .then(function (data) {
       eventTarget.fire("loadModelList", { data })
@@ -117,14 +117,14 @@ function changeItemUrl(item) {
  * @returns {void} 无
  */
 function openGeoJSON(file) {
-  var fileName = file.name
-  var fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  const fileName = file.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
   if (fileType === "json" || fileType === "geojson") {
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      var json = this.result
+      const json = this.result
       graphicLayer.loadGeoJSON(json, {
         flyTo: true
       })
@@ -140,6 +140,6 @@ function saveGeoJSON() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  var geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toGeoJSON()
   mars3d.Util.downloadFile("模型标绘.json", JSON.stringify(geojson))
 }

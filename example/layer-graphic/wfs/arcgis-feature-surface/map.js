@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
     maximumMemoryUsage: 1024
   })
 
-  var tiles3dLayer2 = new mars3d.layer.ArcGisWfsLayer({
+  const tiles3dLayer2 = new mars3d.layer.ArcGisWfsLayer({
     name: "兴趣点",
     url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/1",
     where: " NAME like '%大学%' ",
@@ -61,7 +61,7 @@ function onMounted(mapInstance) {
   })
 
   // 绑定回调处理
-  var layerPoint = map.getLayer("兴趣点", "name")
+  const layerPoint = map.getLayer("兴趣点", "name")
   layerPoint.on(mars3d.EventType.addGraphic, function (event) {
     // 添加entity的回调，方便自定义控制。
     updateAutoSurfaceHeight(event.graphic)
@@ -90,7 +90,7 @@ function updateAutoSurfaceHeight(graphic) {
     callback: function (newHeight, cartOld) {
       console.log("原始高度为：" + cartOld.height.toFixed(2) + ",贴地高度：" + newHeight.toFixed(2))
 
-      var positionNew = Cesium.Cartesian3.fromRadians(cartOld.longitude, cartOld.latitude, newHeight)
+      const positionNew = Cesium.Cartesian3.fromRadians(cartOld.longitude, cartOld.latitude, newHeight)
       graphic.position = positionNew
     }
   })

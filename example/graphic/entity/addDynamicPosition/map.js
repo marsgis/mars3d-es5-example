@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -38,7 +38,7 @@ function onMounted(mapInstance) {
 
   // 加一些演示数据
   for (let i = 0; i < 20; i++) {
-    var graphic = new mars3d.graphic.ModelEntity({
+    const graphic = new mars3d.graphic.ModelEntity({
       style: {
         url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
         scale: 0.5,
@@ -74,7 +74,7 @@ function onMounted(mapInstance) {
     // });
   }
   for (let i = 0; i < 20; i++) {
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       style: {
         image: "img/marker/mark3.png",
         scale: 0.6,
@@ -87,7 +87,7 @@ function onMounted(mapInstance) {
     graphicLayer.addGraphic(graphic)
   }
   for (let i = 0; i < 3; i++) {
-    var graphic = new mars3d.graphic.DivUpLabel({
+    const graphic = new mars3d.graphic.DivUpLabel({
       style: {
         text: "火星科技",
         color: "#fff",
@@ -131,8 +131,8 @@ function onUnmounted() {
 
 // 取区域内的随机点
 function randomPoint() {
-  var jd = random(117.207666 * 1000, 117.287241 * 1000) / 1000
-  var wd = random(31.817099 * 1000, 31.876848 * 1000) / 1000
+  const jd = random(117.207666 * 1000, 117.287241 * 1000) / 1000
+  const wd = random(31.817099 * 1000, 31.876848 * 1000) / 1000
   return Cesium.Cartesian3.fromDegrees(jd, wd, 30)
 }
 function random(min, max) {
@@ -142,7 +142,7 @@ function random(min, max) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -158,7 +158,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -166,11 +166,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

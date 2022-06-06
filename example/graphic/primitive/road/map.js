@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let road
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -74,7 +74,7 @@ function drawLine(width, height, opacity) {
       width: 3
     },
     success: (graphic) => {
-      var points = graphic.points
+      const points = graphic.points
 
       graphic.remove() // 删除绘制的线
 
@@ -125,7 +125,7 @@ function clearLayer() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -155,7 +155,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -163,19 +163,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算长度",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -33,7 +33,7 @@ function onUnmounted() {
 
 function addDemoGraphics() {
   Cesium.Resource.fetchJson("//data.mars3d.cn/file/apidemo/flights.json").then(function (data) {
-    var airports = data.airports.map(function (item) {
+    const airports = data.airports.map(function (item) {
       return {
         name: item[0],
         country: item[2],
@@ -41,22 +41,22 @@ function addDemoGraphics() {
       }
     })
 
-    var routesGroupByAirline = {}
+    const routesGroupByAirline = {}
     data.routes.forEach(function (route) {
-      var airline = data.airlines[route[0]]
-      var airlineName = airline[0]
+      const airline = data.airlines[route[0]]
+      const airlineName = airline[0]
       if (!routesGroupByAirline[airlineName]) {
         routesGroupByAirline[airlineName] = []
       }
       routesGroupByAirline[airlineName].push(route)
     })
 
-    var routes = routesGroupByAirline["Air China"]
+    const routes = routesGroupByAirline["Air China"]
 
-    var routePaths = []
+    const routePaths = []
     routes.forEach(function (route, index) {
-      var start = airports[route[1]]
-      var end = airports[route[2]]
+      const start = airports[route[1]]
+      const end = airports[route[2]]
 
       routePaths.push({
         startName: start.name,
@@ -72,7 +72,7 @@ function addDemoGraphics() {
 
 function initPath(routePaths) {
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件
@@ -82,16 +82,16 @@ function initPath(routePaths) {
 
   // 在layer上绑定Popup弹窗
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     if (!attr) {
       return false
     }
     return mars3d.Util.getTemplateHtml({ title: "航线", template: "{startName} - {endName}", attr: attr })
   })
 
-  var arrData = []
+  const arrData = []
   routePaths.forEach(function (item, index) {
-    var positions = mars3d.PolyUtil.getLinkedPointList(item.startPoint, item.endPoint, 5000, 30)
+    const positions = mars3d.PolyUtil.getLinkedPointList(item.startPoint, item.endPoint, 5000, 30)
 
     arrData.push({
       positions: positions,
@@ -110,7 +110,7 @@ function initPath(routePaths) {
   })
 
   // 多个线对象的合并渲染。
-  var primitive = new mars3d.graphic.PolylineCombine({
+  const primitive = new mars3d.graphic.PolylineCombine({
     instances: arrData
   })
   graphicLayer.addGraphic(primitive)
@@ -123,7 +123,7 @@ function initPath(routePaths) {
   map.addLayer(graphicLayer)
 
   routePaths.forEach(function (item, index) {
-    var positions = mars3d.PolyUtil.getLinkedPointList(item.startPoint, item.endPoint, 5000, 30)
+    const positions = mars3d.PolyUtil.getLinkedPointList(item.startPoint, item.endPoint, 5000, 30)
 
     let graphic = new mars3d.graphic.PolylinePrimitive({
       positions: positions,

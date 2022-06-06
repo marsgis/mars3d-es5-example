@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -54,7 +54,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.220337, 31.832987, 42.8],
       [117.220242, 31.835234, 45.6],
@@ -88,7 +88,7 @@ function addDemoGraphic1(graphicLayer) {
 
 // 有衬色边线,附带的label演示，导出geojson，加载geojson
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.172852, 31.862736, 33.69],
       [117.251461, 31.856011, 26.44]
@@ -114,14 +114,14 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 
   // graphic转geojson
-  var geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON()
   console.log("转换后的geojson", geojson)
   addGeoJson(geojson, graphicLayer)
 }
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.positions = [
@@ -135,7 +135,7 @@ function addGeoJson(geojson, graphicLayer) {
 
 // 箭头线
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.358187, 31.838662, 12.23],
       [117.4384, 31.819405, 11.78]
@@ -154,7 +154,7 @@ function addDemoGraphic3(graphicLayer) {
 
 // 虚线
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.348938, 31.805369, 7.63],
       [117.429496, 31.786715, 8.41]
@@ -174,7 +174,7 @@ function addDemoGraphic4(graphicLayer) {
 
 // 虚线 ，双色间隔
 function addDemoGraphic5(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.313682, 31.7416, 10.85],
       [117.311934, 31.774753, 19.71],
@@ -194,7 +194,7 @@ function addDemoGraphic5(graphicLayer) {
 }
 
 function addDemoGraphic6(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.169646, 31.769171],
       [117.194579, 31.806466]
@@ -213,11 +213,11 @@ function addDemoGraphic6(graphicLayer) {
 }
 
 function addDemoGraphic7(graphicLayer) {
-  var startPoint = Cesium.Cartesian3.fromDegrees(117.025419, 32.00651, 51.2)
-  var endPoint = Cesium.Cartesian3.fromDegrees(117.323963, 32.050384, 33.8)
-  var positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
+  const startPoint = Cesium.Cartesian3.fromDegrees(117.025419, 32.00651, 51.2)
+  const endPoint = Cesium.Cartesian3.fromDegrees(117.323963, 32.050384, 33.8)
+  const positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 8,
@@ -235,11 +235,11 @@ function addDemoGraphic7(graphicLayer) {
 }
 
 function addDemoGraphic8(graphicLayer) {
-  var startPoint = Cesium.Cartesian3.fromDegrees(117.128446, 31.943352, 42.31)
-  var endPoint = Cesium.Cartesian3.fromDegrees(117.410216, 31.975375, 37.53)
-  var positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
+  const startPoint = Cesium.Cartesian3.fromDegrees(117.128446, 31.943352, 42.31)
+  const endPoint = Cesium.Cartesian3.fromDegrees(117.410216, 31.975375, 37.53)
+  const positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 10,
@@ -258,11 +258,11 @@ function addDemoGraphic8(graphicLayer) {
 
 // 演示CallbackProperty属性
 function addDemoGraphic9(graphicLayer) {
-  var startPoint = Cesium.Cartesian3.fromDegrees(117.281455, 31.896386, 22.64)
-  var endPoint = Cesium.Cartesian3.fromDegrees(117.528249, 31.921552, 43.3)
-  var positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
+  const startPoint = Cesium.Cartesian3.fromDegrees(117.281455, 31.896386, 22.64)
+  const endPoint = Cesium.Cartesian3.fromDegrees(117.528249, 31.921552, 43.3)
+  const positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 5,
@@ -279,11 +279,11 @@ function addDemoGraphic9(graphicLayer) {
 }
 
 function addDemoGraphic10(graphicLayer) {
-  var startPoint = Cesium.Cartesian3.fromDegrees(116.96385, 32.089068, 38.1)
-  var endPoint = Cesium.Cartesian3.fromDegrees(117.299257, 32.137552, 40)
-  var positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
+  const startPoint = Cesium.Cartesian3.fromDegrees(116.96385, 32.089068, 38.1)
+  const endPoint = Cesium.Cartesian3.fromDegrees(117.299257, 32.137552, 40)
+  const positions = mars3d.PolyUtil.getLinkedPointList(startPoint, endPoint, 20000, 50) // 计算曲线点
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 10,
@@ -298,7 +298,7 @@ function addDemoGraphic10(graphicLayer) {
 }
 
 function addDemoGraphic11(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.086107, 31.848306, 40.6],
       [117.145698, 31.798726, 22.6]
@@ -318,7 +318,7 @@ function addDemoGraphic11(graphicLayer) {
 }
 
 function addDemoGraphic12(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.037815, 31.799497, 39.1],
       [117.097695, 31.742135, 22.5]
@@ -338,7 +338,7 @@ function addDemoGraphic12(graphicLayer) {
 }
 
 function addDemoGraphic13(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.057761, 31.81993, 33.3],
       [117.121986, 31.77118, 19.3]
@@ -358,7 +358,7 @@ function addDemoGraphic13(graphicLayer) {
 }
 
 function addDemoGraphic14(graphicLayer) {
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [117.009827, 31.776642, 42],
       [117.100274, 31.69459, 37.4]
@@ -408,7 +408,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -424,14 +424,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -444,14 +444,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -464,7 +464,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -472,19 +472,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算长度",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     }
@@ -544,7 +548,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -561,7 +565,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

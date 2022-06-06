@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,16 +20,16 @@ function onMounted(mapInstance) {
 
   map.basemap = null
 
-  var _alllayers = map.getTileLayers()
+  const _alllayers = map.getTileLayers()
 
-  var mapSplit = new mars3d.control.MapSplit({
+  const mapSplit = new mars3d.control.MapSplit({
     rightLayer: _alllayers[0],
     leftLayer: _alllayers[1]
   })
   map.addControl(mapSplit)
 
   // 加载模型图层
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 11.5 },

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -50,18 +50,18 @@ function onUnmounted() {
 
 // 流场线
 function showWindLine(arr) {
-  var arrData = []
-  var radius = 12000
-  var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+  const arrData = []
+  const radius = 12000
+  const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
     image: "img/textures/line-arrow-right.png",
     color: "#00ff00",
     speed: 30
   })
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, 0)
-    var angle = 180 - item.dir
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, 0)
+    const angle = 180 - item.dir
 
     let pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, angle, radius)
     pt1 = mars3d.PointUtil.setPositionsHeight(pt1, 0)
@@ -77,7 +77,7 @@ function showWindLine(arr) {
   }
 
   // 多个线对象的合并渲染。
-  var primitive = new mars3d.graphic.PolylineCombine({
+  const primitive = new mars3d.graphic.PolylineCombine({
     instances: arrData
   })
   graphicLayer.addGraphic(primitive)
@@ -97,7 +97,7 @@ function showWindLine(arr) {
 
   let radius = 12000
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     let position = Cesium.Cartesian3.fromDegrees(item.x, item.y, 0)
     let angle = 180 - item.dir
@@ -120,7 +120,7 @@ function showWindLine(arr) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"

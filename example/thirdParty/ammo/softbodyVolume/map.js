@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,14 +32,14 @@ function onUnmounted() {
 }
 
 function addDemo() {
-  var GeometryUtils = Cesium.GeometryUtils
-  var MeshPhongMaterial = Cesium.MeshPhongMaterial
-  var BasicMeshMaterial = Cesium.BasicMeshMaterial
+  const GeometryUtils = Cesium.GeometryUtils
+  const MeshPhongMaterial = Cesium.MeshPhongMaterial
+  const BasicMeshMaterial = Cesium.BasicMeshMaterial
 
-  var center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
-  var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
+  const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
+  const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
 
-  var meshVisualizer = new Cesium.MeshVisualizer({
+  const meshVisualizer = new Cesium.MeshVisualizer({
     modelMatrix: modelMatrix,
     up: { y: 1 },
     referenceAxisParameter: {
@@ -84,26 +84,26 @@ function addDemo() {
 
     // Graphics variables
     let clickRequest = false
-    var mouseCoords = new Cesium.Cartesian2()
-    var ballMaterial = createMaterial()
-    var pos = new Cesium.Cartesian3()
-    var quat = new Cesium.Quaternion()
+    const mouseCoords = new Cesium.Cartesian2()
+    const ballMaterial = createMaterial()
+    const pos = new Cesium.Cartesian3()
+    const quat = new Cesium.Quaternion()
 
     // Physics variables
-    var gravityConstant = -9.8
+    const gravityConstant = -9.8
     let collisionConfiguration
     let dispatcher
     let broadphase
     let solver
     let physicsWorld
-    var rigidBodies = []
-    var softBodies = []
-    var margin = 0.05
+    const rigidBodies = []
+    const softBodies = []
+    const margin = 0.05
     // let hinge
-    var transformAux1 = new Ammo.btTransform()
-    var softBodyHelpers = new Ammo.btSoftBodyHelpers()
-    // var armMovement = 0
-    var ray = new Cesium.Ray()
+    const transformAux1 = new Ammo.btTransform()
+    const softBodyHelpers = new Ammo.btSoftBodyHelpers()
+    // const armMovement = 0
+    const ray = new Cesium.Ray()
     let softBodySolver
 
     function initPhysics() {
@@ -123,7 +123,7 @@ function addDemo() {
       // Ground
       pos.set(0, -0.5, 0)
       quat.set(0, 0, 0, 1)
-      var ground = createParalellepiped(
+      const ground = createParalellepiped(
         40,
         1,
         40,
@@ -139,20 +139,20 @@ function addDemo() {
       GeometryUtils.computeVertexNormals(ground.geometry)
 
       // Create soft volumes
-      var volumeMass = 15
+      const volumeMass = 15
 
-      var sphereGeometry = new THREE.SphereBufferGeometry(1.5, 40, 25)
+      const sphereGeometry = new THREE.SphereBufferGeometry(1.5, 40, 25)
       sphereGeometry.translate(5, 5, 0)
       createSoftVolume(sphereGeometry, volumeMass, 250)
 
-      var boxGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.BoxGeometry(1, 1, 5, 4, 4, 20))
+      const boxGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.BoxGeometry(1, 1, 5, 4, 4, 20))
       boxGeometry.translate(-2, 5, 0)
       createSoftVolume(boxGeometry, volumeMass, 120)
 
       // Ramp
       pos.set(3, 1, 0)
       Cesium.Quaternion.fromAxisAngle(new Cesium.Cartesian3(0, 0, 1), (30 * Math.PI) / 180, quat)
-      var obstacle = createParalellepiped(
+      const obstacle = createParalellepiped(
         10,
         1,
         4,
@@ -170,30 +170,30 @@ function addDemo() {
 
     function processGeometry(bufGeometry) {
       // Obtain a Geometry
-      var geometry = new THREE.Geometry().fromBufferGeometry(bufGeometry)
+      const geometry = new THREE.Geometry().fromBufferGeometry(bufGeometry)
 
       // Merge the vertices so the triangle soup is converted to indexed triangles
-      // var vertsDiff = geometry.mergeVertices()
+      // const vertsDiff = geometry.mergeVertices()
 
       // Convert again to BufferGeometry, indexed
-      var indexedBufferGeom = createIndexedBufferGeometryFromGeometry(geometry)
+      const indexedBufferGeom = createIndexedBufferGeometryFromGeometry(geometry)
 
       // Create index arrays mapping the indexed vertices to bufGeometry vertices
       mapIndices(bufGeometry, indexedBufferGeom)
     }
 
     function createIndexedBufferGeometryFromGeometry(geometry) {
-      var numVertices = geometry.vertices.length
-      var numFaces = geometry.faces.length
+      const numVertices = geometry.vertices.length
+      const numFaces = geometry.faces.length
 
-      var bufferGeom = new THREE.BufferGeometry()
-      var vertices = new Float32Array(numVertices * 3)
-      var indices = new (numFaces * 3 > 65535 ? Uint32Array : Uint16Array)(numFaces * 3)
+      const bufferGeom = new THREE.BufferGeometry()
+      const vertices = new Float32Array(numVertices * 3)
+      const indices = new (numFaces * 3 > 65535 ? Uint32Array : Uint16Array)(numFaces * 3)
 
       for (let i = 0; i < numVertices; i++) {
-        var p = geometry.vertices[i]
+        const p = geometry.vertices[i]
 
-        var i3 = i * 3
+        const i3 = i * 3
 
         vertices[i3] = p.x
         vertices[i3 + 1] = p.y
@@ -201,9 +201,9 @@ function addDemo() {
       }
 
       for (let i = 0; i < numFaces; i++) {
-        var f = geometry.faces[i]
+        const f = geometry.faces[i]
 
-        var i3 = i * 3
+        const i3 = i * 3
 
         indices[i3] = f.a
         indices[i3 + 1] = f.b
@@ -217,32 +217,32 @@ function addDemo() {
     }
 
     function isEqual(x1, y1, z1, x2, y2, z2) {
-      var delta = 0.000001
+      const delta = 0.000001
       return Math.abs(x2 - x1) < delta && Math.abs(y2 - y1) < delta && Math.abs(z2 - z1) < delta
     }
 
     function mapIndices(bufGeometry, indexedBufferGeom) {
       // Creates ammoVertices, ammoIndices and ammoIndexAssociation in bufGeometry
 
-      var vertices = bufGeometry.attributes.position.array
-      var idxVertices = indexedBufferGeom.attributes.position.array
-      var indices = indexedBufferGeom.index.array
+      const vertices = bufGeometry.attributes.position.array
+      const idxVertices = indexedBufferGeom.attributes.position.array
+      const indices = indexedBufferGeom.index.array
 
-      var numIdxVertices = idxVertices.length / 3
-      var numVertices = vertices.length / 3
+      const numIdxVertices = idxVertices.length / 3
+      const numVertices = vertices.length / 3
 
       bufGeometry.ammoVertices = idxVertices
       bufGeometry.ammoIndices = indices
       bufGeometry.ammoIndexAssociation = []
 
       for (let i = 0; i < numIdxVertices; i++) {
-        var association = []
+        const association = []
         bufGeometry.ammoIndexAssociation.push(association)
 
-        var i3 = i * 3
+        const i3 = i * 3
 
         for (let j = 0; j < numVertices; j++) {
-          var j3 = j * 3
+          const j3 = j * 3
           if (isEqual(idxVertices[i3], idxVertices[i3 + 1], idxVertices[i3 + 2], vertices[j3], vertices[j3 + 1], vertices[j3 + 2])) {
             association.push(j3)
           }
@@ -253,7 +253,7 @@ function addDemo() {
     function createSoftVolume(bufferGeom, mass, pressure) {
       processGeometry(bufferGeom)
 
-      var volume = new Cesium.Mesh(
+      const volume = new Cesium.Mesh(
         bufferGeom,
         new BasicMeshMaterial({
           uniforms: {
@@ -268,7 +268,7 @@ function addDemo() {
 
       // Volume physic object
 
-      var volumeSoftBody = softBodyHelpers.CreateFromTriMesh(
+      const volumeSoftBody = softBodyHelpers.CreateFromTriMesh(
         physicsWorld.getWorldInfo(),
         bufferGeom.ammoVertices,
         bufferGeom.ammoIndices,
@@ -276,7 +276,7 @@ function addDemo() {
         true
       )
 
-      var sbConfig = volumeSoftBody.get_m_cfg()
+      const sbConfig = volumeSoftBody.get_m_cfg()
       sbConfig.set_viterations(40)
       sbConfig.set_piterations(40)
 
@@ -304,16 +304,16 @@ function addDemo() {
     }
 
     function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
-      var box = Cesium.BoxGeometry.fromDimensions({
+      const box = Cesium.BoxGeometry.fromDimensions({
         dimensions: new Cesium.Cartesian3(sx, sy, sz),
         vertexFormat: new Cesium.VertexFormat({
           position: true,
           normal: true
         })
       })
-      var threeObject = new Cesium.Mesh(box, material)
+      const threeObject = new Cesium.Mesh(box, material)
 
-      var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
+      const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
       shape.setMargin(margin)
 
       createRigidBody(threeObject, shape, mass, pos, quat)
@@ -328,17 +328,17 @@ function addDemo() {
       }
       Cesium.Quaternion.clone(quat, threeObject.quaternion)
 
-      var transform = new Ammo.btTransform()
+      const transform = new Ammo.btTransform()
       transform.setIdentity()
       transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z))
       transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w))
-      var motionState = new Ammo.btDefaultMotionState(transform)
+      const motionState = new Ammo.btDefaultMotionState(transform)
 
-      var localInertia = new Ammo.btVector3(0, 0, 0)
+      const localInertia = new Ammo.btVector3(0, 0, 0)
       physicsShape.calculateLocalInertia(mass, localInertia)
 
-      var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
-      var body = new Ammo.btRigidBody(rbInfo)
+      const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
+      const body = new Ammo.btRigidBody(rbInfo)
 
       threeObject.physicsBody = body
 
@@ -363,26 +363,26 @@ function addDemo() {
 
         // Update soft volumes
         for (let i = 0, il = softBodies.length; i < il; i++) {
-          var volume = softBodies[i]
-          var geometry = volume.geometry
-          var softBody = volume.physicsBody
-          var volumePositions = geometry.attributes.position.values
-          var volumeNormals = geometry.attributes.normal.values
-          var association = geometry.ammoIndexAssociation
-          var numVerts = association.length
-          var nodes = softBody.get_m_nodes()
+          const volume = softBodies[i]
+          const geometry = volume.geometry
+          const softBody = volume.physicsBody
+          const volumePositions = geometry.attributes.position.values
+          const volumeNormals = geometry.attributes.normal.values
+          const association = geometry.ammoIndexAssociation
+          const numVerts = association.length
+          const nodes = softBody.get_m_nodes()
           for (let j = 0; j < numVerts; j++) {
-            var node = nodes.at(j)
-            var nodePos = node.get_m_x()
-            var x = nodePos.x()
-            var y = nodePos.y()
-            var z = nodePos.z()
-            var nodeNormal = node.get_m_n()
-            var nx = nodeNormal.x()
-            var ny = nodeNormal.y()
-            var nz = nodeNormal.z()
+            const node = nodes.at(j)
+            const nodePos = node.get_m_x()
+            const x = nodePos.x()
+            const y = nodePos.y()
+            const z = nodePos.z()
+            const nodeNormal = node.get_m_n()
+            const nx = nodeNormal.x()
+            const ny = nodeNormal.y()
+            const nz = nodeNormal.z()
 
-            var assocVertex = association[j]
+            const assocVertex = association[j]
 
             for (let k = 0, kl = assocVertex.length; k < kl; k++) {
               let indexVertex = assocVertex[k]
@@ -405,13 +405,13 @@ function addDemo() {
 
         // Update rigid bodies
         for (let i = 0, il = rigidBodies.length; i < il; i++) {
-          var objThree = rigidBodies[i]
-          var objPhys = objThree.physicsBody
-          var ms = objPhys.getMotionState()
+          const objThree = rigidBodies[i]
+          const objPhys = objThree.physicsBody
+          const ms = objPhys.getMotionState()
           if (ms) {
             ms.getWorldTransform(transformAux1)
-            var p = transformAux1.getOrigin()
-            var q = transformAux1.getRotation()
+            const p = transformAux1.getOrigin()
+            const q = transformAux1.getRotation()
             objThree.position.set(p.x(), p.y(), p.z())
             objThree.quaternion.set(q.x(), q.y(), q.z(), q.w())
             objThree.modelMatrixNeedsUpdate = true
@@ -426,13 +426,13 @@ function addDemo() {
     let start = false
     let init = false
     let startTime = new Date()
-    var rayDir = new Cesium.Cartesian3()
-    // var maxDistance = 100 // 发射点与射线和局部场景的交点的距离不能太远，过远会撕碎软体进而碎片过多时导致ammo物理引擎崩溃
+    const rayDir = new Cesium.Cartesian3()
+    // const maxDistance = 100 // 发射点与射线和局部场景的交点的距离不能太远，过远会撕碎软体进而碎片过多时导致ammo物理引擎崩溃
 
     function initInput() {
-      var scene = map.scene
-      var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas)
-      // var lastMesh = null
+      const scene = map.scene
+      const handler = new Cesium.ScreenSpaceEventHandler(scene.canvas)
+      // const lastMesh = null
       handler.setInputAction(function (movement) {
         if (!clickRequest) {
           Cesium.Cartesian2.clone(movement.position, mouseCoords)
@@ -449,19 +449,19 @@ function addDemo() {
           return
         }
         // Creates a ball
-        var ballMass = 3
-        var ballRadius = 0.4
+        const ballMass = 3
+        const ballRadius = 0.4
 
-        var ball = new Cesium.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial)
+        const ball = new Cesium.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial)
 
-        var ballShape = new Ammo.btSphereShape(ballRadius)
+        const ballShape = new Ammo.btSphereShape(ballRadius)
         ballShape.setMargin(margin)
 
         Cesium.Cartesian3.clone(ray.direction, rayDir)
         Cesium.Cartesian3.subtract(ray.origin, ray.direction, pos)
 
         quat.set(0, 0, 0, 1)
-        var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat)
+        const ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat)
         ballBody.setFriction(0.5)
 
         Cesium.Cartesian3.normalize(rayDir, rayDir)
@@ -472,7 +472,7 @@ function addDemo() {
       }
     }
     function update(frameState) {
-      var deltaTime = (new Date() - startTime) / 1000.0
+      const deltaTime = (new Date() - startTime) / 1000.0
       updatePhysics(deltaTime)
       processClick()
       startTime = new Date()

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var arrData = [
+  const arrData = [
     {
       name: "南通市",
       totalLength: 233991,
@@ -98,16 +98,16 @@ function onUnmounted() {
 
 function showDivGraphic(arr) {
   for (let i = 0; i < arr.length; i++) {
-    var deepUnUsed = arr[i].deepUnUsedLength // 国道
-    var deepUsed = arr[i].deepUsedLength // 县道
-    var total = arr[i].totalLength // 中间显示
-    var unDeepUnUsed = arr[i].unDeepUnUsedLength // 铁路
-    var unDeepUsed = arr[i].unDeepUsedLength // 高速
-    var cityName = arr[i].name // 城市名字
-    var point = [arr[i].lng, arr[i].lat] // 位置
+    const deepUnUsed = arr[i].deepUnUsedLength // 国道
+    const deepUsed = arr[i].deepUsedLength // 县道
+    const total = arr[i].totalLength // 中间显示
+    const unDeepUnUsed = arr[i].unDeepUnUsedLength // 铁路
+    const unDeepUsed = arr[i].unDeepUsedLength // 高速
+    const cityName = arr[i].name // 城市名字
+    const point = [arr[i].lng, arr[i].lat] // 位置
 
     // 白色背景
-    var backGroundGraphic = new mars3d.graphic.DivGraphic({
+    const backGroundGraphic = new mars3d.graphic.DivGraphic({
       position: point,
       style: {
         html: '<div style="width:60px;height:60px;border-radius: 50%;background-color: #ffffff; position: relative;"></div>',
@@ -118,7 +118,7 @@ function showDivGraphic(arr) {
     graphicLayer.addGraphic(backGroundGraphic)
 
     // div
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: point,
       style: {
         html: '<div style="width: 100px;height:100px;"></div>',
@@ -128,12 +128,12 @@ function showDivGraphic(arr) {
       pointerEvents: true
     })
     graphic.on(mars3d.EventType.add, function (e) {
-      var dom = e.target.container.firstChild
-      var attr = e.target.attr
+      const dom = e.target.container.firstChild
+      const attr = e.target.attr
 
-      var chartChart = echarts.init(dom)
+      const chartChart = echarts.init(dom)
 
-      var option = {
+      const option = {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}km </br>占比 : {d}%",

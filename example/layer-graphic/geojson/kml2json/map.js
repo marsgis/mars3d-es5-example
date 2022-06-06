@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -116,7 +116,7 @@ function shoRailway() {
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
-    var data = event.list
+    const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -138,7 +138,7 @@ function showExpressway() {
 
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
-    var data = event.list
+    const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -154,7 +154,7 @@ function showSafetyNotice() {
     name: "海上安全警告",
     url: "//data.mars3d.cn/file/kml/NAVWARN.kmz",
     symbol: function (attr, style, featue) {
-      var geoType = featue.geometry?.type
+      const geoType = featue.geometry?.type
       if (geoType === "Point") {
         return {
           image: "img/marker/di3.png",
@@ -186,7 +186,7 @@ function showSafetyNotice() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    var data = event.list
+    const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -210,7 +210,7 @@ function showMeteorological() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    var data = event.list
+    const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -226,7 +226,7 @@ function showGDP() {
     name: "全球各国GDP",
     url: "//data.mars3d.cn/file/kml/gdpPerCapita2008.kmz",
     symbol: function (attr, style, featue) {
-      var geoType = featue.geometry?.type
+      const geoType = featue.geometry?.type
       if (geoType === "Point") {
         return {
           type: "label", // 指定用label渲染。
@@ -252,7 +252,7 @@ function showGDP() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    var data = event.list
+    const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let geoJsonLayer // 矢量图层对象,用于layer绑定展示
 let graphicLayer // 矢量图层对象,用于graphic绑定展示
 
@@ -20,11 +20,11 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   map.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("打开了popup(全局监听)", event)
   })
   map.on(mars3d.EventType.popupClose, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("关闭了popup(全局监听)", event)
   })
 
@@ -56,7 +56,7 @@ function bindMapDemo() {
   map.closePopup()
 
   // 传入坐标和内容，可以直接任意弹出
-  var position = [116.328539, 30.978731, 1521]
+  const position = [116.328539, 30.978731, 1521]
   map.openPopup(position, "我是地图上直接弹出的")
 }
 
@@ -73,7 +73,7 @@ function bindLayerDemo() {
   // 在layer上绑定Popup单击弹窗
   geoJsonLayer.bindPopup(
     function (event) {
-      var attr = event.graphic.attr
+      const attr = event.graphic.attr
       return attr.type + " 我是layer上绑定的Popup" + new Date().toLocaleTimeString()
 
       // return new Promise((resolve) => {
@@ -87,11 +87,11 @@ function bindLayerDemo() {
   )
 
   geoJsonLayer.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上打开了popup", container)
   })
   geoJsonLayer.on(mars3d.EventType.popupClose, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上移除了popup", container)
   })
 }
@@ -135,7 +135,7 @@ function bindLayerTemplateDemo() {
   // 在layer上绑定Popup单击弹窗
   geoJsonLayer.bindPopup(
     function (event) {
-      var attr = event.graphic.attr
+      const attr = event.graphic.attr
       return "我是layer上绑定的自定义模版Popup<br />" + attr.type
     },
     {
@@ -149,11 +149,11 @@ function bindLayerTemplateDemo() {
   )
 
   geoJsonLayer.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上打开了popup", container)
   })
   geoJsonLayer.on(mars3d.EventType.popupClose, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("图层上移除了popup", container)
   })
 }
@@ -162,7 +162,7 @@ function bindLayerTemplateDemo() {
 function bindGraphicDemo1() {
   removeDemoLayer()
 
-  var graphic = new mars3d.graphic.BoxEntity({
+  const graphic = new mars3d.graphic.BoxEntity({
     position: new mars3d.LngLatPoint(116.328539, 30.978731, 1521),
     style: {
       dimensions: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -183,7 +183,7 @@ function bindGraphicDemo1() {
 
   function getInnerHtml(event) {
     // let attr = event.graphic.attr
-    var inthtml = `<table style="width:280px;">
+    const inthtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
                 <tr><td >说明：</td><td >Popup鼠标单击信息弹窗1 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
@@ -194,10 +194,10 @@ function bindGraphicDemo1() {
   }
 
   graphic.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("打开了popup", container)
 
-    var btnDetails = container.querySelector("#btnDetails")
+    const btnDetails = container.querySelector("#btnDetails")
     if (btnDetails) {
       btnDetails.addEventListener("click", (e) => {
         showXQ()
@@ -205,7 +205,7 @@ function bindGraphicDemo1() {
     }
   })
   graphic.on(mars3d.EventType.popupClose, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
     console.log("移除了popup", container)
   })
 
@@ -217,7 +217,7 @@ function bindGraphicDemo1() {
 function bindGraphicDemo2() {
   removeDemoLayer()
 
-  var graphic = new mars3d.graphic.BillboardEntity({
+  const graphic = new mars3d.graphic.BillboardEntity({
     position: new mars3d.LngLatPoint(116.328539, 30.978731, 1521),
     style: {
       image: "img/marker/di3.png",
@@ -237,7 +237,7 @@ function bindGraphicDemo2() {
   })
   graphicLayer.addGraphic(graphic)
 
-  var innerHtml = `<table style="width:280px;">
+  const innerHtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup局部刷新</th></tr>
                 <tr><td >说明：</td><td >Popup鼠标单击信息弹窗2 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
@@ -247,8 +247,8 @@ function bindGraphicDemo2() {
               </table>`
 
   graphic.on(mars3d.EventType.popupOpen, function (event) {
-    var container = event.container // popup对应的DOM
-    var btnDetails = container.querySelector("#btnDetails")
+    const container = event.container // popup对应的DOM
+    const btnDetails = container.querySelector("#btnDetails")
     if (btnDetails) {
       btnDetails.addEventListener("click", (e) => {
         showXQ()
@@ -258,10 +258,10 @@ function bindGraphicDemo2() {
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   graphic.on(mars3d.EventType.postRender, function (event) {
-    var container = event.container // popup对应的DOM
-    var tdTime = container.querySelector("#tdTime")
+    const container = event.container // popup对应的DOM
+    const tdTime = container.querySelector("#tdTime")
     if (tdTime) {
-      var date = mars3d.Util.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss S")
+      const date = mars3d.Util.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss S")
 
       tdTime.innerHTML = date
     }
@@ -273,6 +273,6 @@ function bindGraphicDemo2() {
 
 // 只是为了演示，可以单击详情
 function showXQ() {
-  var showHistoryLayer = true
+  const showHistoryLayer = true
   eventTarget.fire("showWebsite", { showHistoryLayer })
 }

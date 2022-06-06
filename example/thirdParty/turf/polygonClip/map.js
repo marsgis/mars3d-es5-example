@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let polygonLayer
 let graphicLayer
 
@@ -49,7 +49,7 @@ function drawLine() {
       width: 3
     },
     success: (graphic) => {
-      var clipLine = graphic.toGeoJSON()
+      const clipLine = graphic.toGeoJSON()
       clipAllPolygon(clipLine)
 
       graphic.remove()
@@ -62,7 +62,7 @@ function loadPolygon() {
   polygonLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(polygonLayer)
 
-  var postionArr = [
+  const postionArr = [
     {
       postions: [
         [117.21983, 31.780687],
@@ -109,7 +109,7 @@ function loadPolygon() {
   ]
 
   for (let i = 0; i < postionArr.length; i++) {
-    var polygonGraphic = new mars3d.graphic.PolygonEntity({
+    const polygonGraphic = new mars3d.graphic.PolygonEntity({
       positions: [postionArr[i].postions],
       style: {
         color: "#00ffff",
@@ -125,7 +125,7 @@ function loadPolygon() {
 function clipAllPolygon(clipLine) {
   polygonLayer.eachGraphic(function (graphic) {
     try {
-      var clippedPolygon = geoUtil.polygonClipByLine(graphic.toGeoJSON(), clipLine)
+      const clippedPolygon = geoUtil.polygonClipByLine(graphic.toGeoJSON(), clipLine)
 
       graphicLayer.loadGeoJSON(clippedPolygon, {
         style: {
@@ -147,7 +147,7 @@ function clipAllPolygon(clipLine) {
  * geoJson数据处理模块(需要引入turf.js)
  * 输入输出数据均为标准geoJson格式
  */
-var geoUtil = {
+const geoUtil = {
   // 合并多边形
   unionPolygon: function (polygons) {
     let polygon = polygons[0]
@@ -164,7 +164,7 @@ var geoUtil = {
    */
   polygonClipByLine: function (polygon, clipLine) {
     if (polygon.geometry.type === "Polygon") {
-      var polyLine = turf.polygonToLine(polygon)
+      const polyLine = turf.polygonToLine(polygon)
       if (polyLine.geometry.type === "LineString") {
         // 切割普通多边形
         return this._singlePolygonClip(polyLine, clipLine)
@@ -174,12 +174,12 @@ var geoUtil = {
       }
     } else if (polygon.geometry.type === "MultiPolygon") {
       // 若输入的多边形类型为Multipolygon则拆分成多个Polygon
-      var polygons = this.multiPolygon2polygons(polygon)
+      const polygons = this.multiPolygon2polygons(polygon)
       let clipPolygon = null
       let clipPolygonIndex = -1
       // 获取MultiPolygon中与切割线相交的多边形（有且只能有一个多边形相交2个交点）
       polygons.forEach(function (polygon, index) {
-        var polyLine = turf.polygonToLine(polygon)
+        const polyLine = turf.polygonToLine(polygon)
         if (turf.lineIntersect(polyLine, clipLine).features.length === 2) {
           if (!clipPolygon) {
             clipPolygon = polygon
@@ -202,33 +202,33 @@ var geoUtil = {
 
   _singlePolygonClip: function (polyLine, clipLine) {
     // 获得裁切点
-    var intersects = turf.lineIntersect(polyLine, clipLine)
+    const intersects = turf.lineIntersect(polyLine, clipLine)
     if (intersects.features.length !== 2) {
       throw new Error({ state: "裁剪失败", message: "切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length })
     }
     // 检查切割线与多边形的位置关系 （切割线的起点和终点不能落在多边形内部）
-    var clipLineLength = clipLine.geometry.coordinates.length
-    var clipLineStartPoint = turf.point(clipLine.geometry.coordinates[0])
-    var clipLineEndPoint = turf.point(clipLine.geometry.coordinates[clipLineLength - 1])
-    var polygon = turf.polygon([polyLine.geometry.coordinates])
+    const clipLineLength = clipLine.geometry.coordinates.length
+    const clipLineStartPoint = turf.point(clipLine.geometry.coordinates[0])
+    const clipLineEndPoint = turf.point(clipLine.geometry.coordinates[clipLineLength - 1])
+    const polygon = turf.polygon([polyLine.geometry.coordinates])
     if (turf.booleanPointInPolygon(clipLineStartPoint, polygon) || turf.booleanPointInPolygon(clipLineEndPoint, polygon)) {
       throw new Error({ state: "裁剪失败", message: "切割线起点或终点不能在 裁剪多边形内部" })
     }
     // 通过裁切点 分割多边形（只能获得多边形的一部分）
-    var slicedPolyLine = turf.lineSlice(intersects.features[0], intersects.features[1], polyLine)
+    const slicedPolyLine = turf.lineSlice(intersects.features[0], intersects.features[1], polyLine)
     // 裁剪线分割 保留多边形内部部分
-    var slicedClipLine = turf.lineSlice(intersects.features[0], intersects.features[1], clipLine)
+    const slicedClipLine = turf.lineSlice(intersects.features[0], intersects.features[1], clipLine)
     // 重新拼接多边形 存在 对接的问题 所以先进行判断 如何对接裁剪的多边形和裁剪线
-    var resultPolyline1 = this.connectLine(slicedPolyLine, slicedClipLine)
+    const resultPolyline1 = this.connectLine(slicedPolyLine, slicedClipLine)
     // 闭合线 来构造多边形
     resultPolyline1.geometry.coordinates.push(resultPolyline1.geometry.coordinates[0])
-    var resultPolygon1 = turf.lineToPolygon(resultPolyline1)
+    const resultPolygon1 = turf.lineToPolygon(resultPolyline1)
     // 构造切割的另一面多边形
-    var firstPointOnLine = this.isOnLine(turf.point(polyLine.geometry.coordinates[0]), slicedPolyLine)
-    var pointList = []
+    const firstPointOnLine = this.isOnLine(turf.point(polyLine.geometry.coordinates[0]), slicedPolyLine)
+    const pointList = []
     if (firstPointOnLine) {
       for (let i = 0; i < polyLine.geometry.coordinates.length; i++) {
-        var coordinate = polyLine.geometry.coordinates[i]
+        const coordinate = polyLine.geometry.coordinates[i]
         if (!this.isOnLine(turf.point(coordinate), slicedPolyLine)) {
           pointList.push(coordinate)
         }
@@ -237,7 +237,7 @@ var geoUtil = {
       let skipNum = 0 // 记录前面被跳过的点的个数
       let isStartPush = false
       for (let i = 0; i < polyLine.geometry.coordinates.length; i++) {
-        var coordinate = polyLine.geometry.coordinates[i]
+        const coordinate = polyLine.geometry.coordinates[i]
         if (!this.isOnLine(turf.point(coordinate), slicedPolyLine)) {
           if (isStartPush) {
             pointList.push(coordinate)
@@ -253,11 +253,11 @@ var geoUtil = {
         pointList.push(polyLine.geometry.coordinates[i])
       }
     }
-    var slicedPolyLine_2 = turf.lineString(pointList)
-    var resultPolyline2 = this.connectLine(slicedPolyLine_2, slicedClipLine)
+    const slicedPolyLine_2 = turf.lineString(pointList)
+    const resultPolyline2 = this.connectLine(slicedPolyLine_2, slicedClipLine)
     // 闭合线 来构造多边形
     resultPolyline2.geometry.coordinates.push(resultPolyline2.geometry.coordinates[0])
-    var resultPolygon2 = turf.lineToPolygon(resultPolyline2)
+    const resultPolygon2 = turf.lineToPolygon(resultPolyline2)
     // 返回面要素集
     return turf.featureCollection([resultPolygon1, resultPolygon2])
   },
@@ -265,9 +265,9 @@ var geoUtil = {
   _multiPolygonClip: function (polyLine, clipLine) {
     // 将环 多边形分割成 内部逆时针多边形+外部多边形
     let outPolyline
-    var insidePolylineList = []
+    const insidePolylineList = []
     for (let i = 0; i < polyLine.geometry.coordinates.length; i++) {
-      var splitPolyline = turf.lineString(polyLine.geometry.coordinates[i])
+      const splitPolyline = turf.lineString(polyLine.geometry.coordinates[i])
       if (turf.booleanClockwise(splitPolyline)) {
         if (outPolyline) {
           throw new Error({ state: "裁剪失败", message: "出现了两个外部多边形无法处理" })
@@ -275,18 +275,18 @@ var geoUtil = {
           outPolyline = splitPolyline
         }
       } else {
-        var intersects = turf.lineIntersect(splitPolyline, clipLine)
+        const intersects = turf.lineIntersect(splitPolyline, clipLine)
         if (intersects.features.length > 0) {
           throw new Error({ state: "裁剪失败", message: "切割线不能与内环有交点" })
         }
         insidePolylineList.push(splitPolyline)
       }
     }
-    var resultCollection = this._singlePolygonClip(outPolyline, clipLine)
+    const resultCollection = this._singlePolygonClip(outPolyline, clipLine)
 
     for (let i = 0; i < resultCollection.features.length; i++) {
       for (let j = 0; j < insidePolylineList.length; j++) {
-        var startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
+        const startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
         if (turf.booleanPointInPolygon(startPoint, resultCollection.features[i])) {
           resultCollection.features[i] = turf.mask(resultCollection.features[i], turf.lineToPolygon(insidePolylineList[j]))
         }
@@ -300,14 +300,14 @@ var geoUtil = {
    * 方法会将两条线段最近的一段直接连接
    */
   connectLine: function (line1, line2) {
-    var line2_length = line2.geometry.coordinates.length
-    var line1_startPoint = line1.geometry.coordinates[0]
-    var line2_startPoint = line2.geometry.coordinates[0]
-    var line2_endPoint = line2.geometry.coordinates[line2_length - 1]
-    var pointList = []
+    const line2_length = line2.geometry.coordinates.length
+    const line1_startPoint = line1.geometry.coordinates[0]
+    const line2_startPoint = line2.geometry.coordinates[0]
+    const line2_endPoint = line2.geometry.coordinates[line2_length - 1]
+    const pointList = []
     // 获取line1 所有点坐标
     for (let i = 0; i < line1.geometry.coordinates.length; i++) {
-      var coordinate = line1.geometry.coordinates[i]
+      const coordinate = line1.geometry.coordinates[i]
       pointList.push(coordinate)
     }
 
@@ -316,7 +316,7 @@ var geoUtil = {
       line2.geometry.coordinates = line2.geometry.coordinates.reverse()
     }
     for (let i = 0; i < line2.geometry.coordinates.length; i++) {
-      var coordinate = line2.geometry.coordinates[i]
+      const coordinate = line2.geometry.coordinates[i]
       pointList.push(coordinate)
     }
     return turf.lineString(pointList)
@@ -328,7 +328,7 @@ var geoUtil = {
    */
   isOnLine: function (point, line) {
     for (let i = 0; i < line.geometry.coordinates.length; i++) {
-      var coordinate = line.geometry.coordinates[i]
+      const coordinate = line.geometry.coordinates[i]
       if (point.geometry.coordinates[0] === coordinate[0] && point.geometry.coordinates[1] === coordinate[1]) {
         return true
       }
@@ -348,9 +348,9 @@ var geoUtil = {
     if (multiPolygon.geometry.type !== "MultiPolygon") {
       return
     }
-    var polygons = []
+    const polygons = []
     multiPolygon.geometry.coordinates.forEach((item) => {
-      var polygon = {
+      const polygon = {
         type: "Feature",
         properties: {},
         geometry: {
@@ -369,7 +369,7 @@ var geoUtil = {
    * 考虑polygons中就存在多面的情况
    */
   polygons2MultiPolygon: function (geoJson) {
-    var newGeoJson = {
+    const newGeoJson = {
       type: "FeatureCollection",
       features: [{ geometry: { coordinates: [], type: "MultiPolygon" }, type: "Feature", properties: {} }]
     }

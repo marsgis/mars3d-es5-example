@@ -1,11 +1,11 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 属性参数，将覆盖config.json中的对应配置
 var mapOptions = {
   scene: {
-    center: {"lat":36.06234,"lng":113.946384,"alt":1356,"heading":350,"pitch":-44}
+    center: { lat: 36.045934, lng: 113.942816, alt: 1663, heading: 2, pitch: -25 }
   }
 }
 
@@ -40,7 +40,7 @@ function workPoint1Sdd() {
   clearPoint()
   clearLine()
   map.centerAt({ y: 36.061395, x: 113.94298, alt: 1903, heading: 0, pitch: -57.5 })
-  var arrPoint = [
+  const arrPoint = [
     [113.944168, 36.071057, 536.1],
     [113.939593, 36.072087, 510.42],
     [113.942957, 36.067383, 462.29],
@@ -74,7 +74,7 @@ function workPoint2Abd() {
     }
   )
 
-  var arrPoint = [
+  const arrPoint = [
     [113.943496, 36.068508, 449.63],
     [113.941962, 36.071444, 481.09],
     [113.948862, 36.071282, 453.99]
@@ -90,7 +90,7 @@ function workPoint3Pdbhd() {
   // 视角定位
   map.centerAt({ y: 36.062523, x: 113.946202, z: 1343.59, heading: 353.6, pitch: -42, roll: 0 })
 
-  var arrPoint = [
+  const arrPoint = [
     [113.945927, 36.069593, 431.33],
     [113.94593, 36.073602, 427.86],
     [113.942159, 36.072318, 443.86],
@@ -107,7 +107,7 @@ function workPoint4Sjd() {
   // 视角定位
   map.centerAt({ y: 36.05423, x: 113.945328, z: 1087.7, heading: 352.4, pitch: -25.4, roll: 360 })
 
-  var arrPoint = [
+  const arrPoint = [
     [113.944745, 36.063709, 350.32],
     [113.950068, 36.066712, 363.01],
     [113.936588, 36.065365, 351.94]
@@ -123,7 +123,7 @@ function workPoint5Sjpdbhd() {
   // 视角定位
   map.centerAt({ y: 36.055819, x: 113.950153, z: 696.74, heading: 334.4, pitch: -13.2, roll: 359.9 })
 
-  var arrPoint = [
+  const arrPoint = [
     [113.948382, 36.068049, 414.36],
     [113.938975, 36.06497, 395.87],
     [113.941956, 36.064592, 365.89]
@@ -146,7 +146,7 @@ function workPoint6Qxbhd() {
     }
   )
 
-  var arrPoint = [
+  const arrPoint = [
     [113.941119, 36.070139, 415.86],
     [113.945836, 36.069939, 453.99],
     [113.942108, 36.072372, 443.98],
@@ -169,7 +169,7 @@ function workLine1Sjx() {
   })
 
   // 添加线
-  var lineArr = [
+  const lineArr = [
     {
       point: [
         [113.944168, 36.071057, 536.1],
@@ -240,9 +240,9 @@ function workLine1Sjx() {
   map.addLayer(polyLineLayer)
 
   for (let i = 0; i < lineArr.length; i++) {
-    var item = lineArr[i]
+    const item = lineArr[i]
 
-    var line = new mars3d.graphic.PolylineEntity({
+    const line = new mars3d.graphic.PolylineEntity({
       positions: item.point,
       style: {
         width: 5,
@@ -275,7 +275,7 @@ function workLine2Sgx() {
   map.centerAt({ y: 36.05648, x: 113.944653, z: 2092, heading: 354.4, pitch: -44.6 })
 
   // 添加线
-  var lineArr = [
+  const lineArr = [
     {
       point: [
         [113.941971, 36.073964, 403.46],
@@ -311,9 +311,9 @@ function workLine2Sgx() {
   map.addLayer(polyLineLayer)
 
   for (let i = 0; i < lineArr.length; i++) {
-    var item = lineArr[i]
+    const item = lineArr[i]
 
-    var line = new mars3d.graphic.PolylineEntity({
+    const line = new mars3d.graphic.PolylineEntity({
       positions: item.point,
       style: {
         width: 5,
@@ -355,7 +355,7 @@ function workDgx1Point() {
   clearPoint()
   map.centerAt({ y: 36.06874, x: 113.948078, z: 811.62, heading: 292.6, pitch: -39.6 })
 
-  var arrPoint = [
+  const arrPoint = [
     [113.944168, 36.071057, 536.1],
     [113.94405, 36.070572, 519.49],
     [113.943981, 36.070254, 498.84],
@@ -363,7 +363,7 @@ function workDgx1Point() {
   ]
   pointLayer = createArrPoint(arrPoint)
 
-  var labelText = ["b", "m", "g", "f", "h"]
+  const labelText = ["b", "m", "g", "f", "h"]
   pointLayer.eachGraphic((graphic, index) => {
     graphic.setStyle({
       label: {
@@ -399,7 +399,7 @@ function workDgx2Line() {
   clearPoint()
   map.centerAt({ lat: 36.069792, lng: 113.944474, alt: 1708, heading: 357, pitch: -82 })
 
-  var arrPoint = [
+  const arrPoint = [
     [113.946061, 36.070867, 500.37],
     [113.943193, 36.070854, 499.86],
     [113.943335, 36.072232, 500.31],
@@ -512,13 +512,13 @@ function workDgx3End() {
 
 // 创建点 公共方法
 function createArrPoint(arrPoint) {
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i]
+    const item = arrPoint[i]
 
-    var graphic = new mars3d.graphic.PointEntity({
+    const graphic = new mars3d.graphic.PointEntity({
       position: item,
       style: {
         color: "#ffffff",
@@ -550,14 +550,14 @@ function createArrPoint(arrPoint) {
 
 // 创建文本指示  公共方法
 function createArrText(arrPoint, name) {
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i]
+    const item = arrPoint[i]
 
     // 文字注记
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: item,
       style: {
         html: `<div class="marsImgPanel1">

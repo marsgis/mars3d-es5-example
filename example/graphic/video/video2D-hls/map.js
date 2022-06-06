@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let selectedView
 let videoElement
@@ -26,7 +26,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -54,7 +54,7 @@ function onMounted(mapInstance) {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -75,8 +75,8 @@ function onUnmounted() {
 }
 
 // let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
-// var hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-var hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
 function createVideoDom(callback) {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
@@ -87,7 +87,7 @@ function createVideoDom(callback) {
   videoElement.style.display = "none"
 
   if (window.Hls.isSupported()) {
-    var hls = new window.Hls()
+    const hls = new window.Hls()
     hls.loadSource(hlsUrl)
     hls.attachMedia(videoElement)
     hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
@@ -121,7 +121,7 @@ function createVideoDom(callback) {
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
 function addDemoGraphic1() {
-  var video2D = new mars3d.graphic.Video2D({
+  const video2D = new mars3d.graphic.Video2D({
     position: [117.205459, 31.842988, 64.3],
     style: {
       container: videoElement,
@@ -175,15 +175,15 @@ function addVideo(data) {
 // 按当前相机投射视频
 function addThisCamera(data) {
   // 取屏幕中心点
-  var targetPosition = map.getCenter({ format: false })
+  const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
-  var video2D = new mars3d.graphic.Video2D({
+  const video2D = new mars3d.graphic.Video2D({
     position: cameraPosition,
     targetPosition: targetPosition,
     style: {
@@ -290,7 +290,7 @@ function printParameters() {
     return
   }
 
-  var params = selectedView.toJSON()
+  const params = selectedView.toJSON()
   console.log("Video2D构造参数为", JSON.stringify(params))
 }
 // 视频位置
@@ -302,7 +302,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point
@@ -319,7 +319,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.targetPosition = point

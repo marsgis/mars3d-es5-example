@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -37,11 +37,11 @@ function onUnmounted() {
 }
 
 function createMapvLayer(rs) {
-  var data1 = []
-  var data2 = []
-  var data3 = []
+  const data1 = []
+  const data2 = []
+  const data3 = []
   for (let i = 0; i < rs[0].length; i++) {
-    var geoCoord = rs[0][i].geoCoord
+    const geoCoord = rs[0][i].geoCoord
     data1.push({
       geometry: {
         type: "Point",
@@ -51,7 +51,7 @@ function createMapvLayer(rs) {
   }
 
   for (let i = 0; i < rs[1].length; i++) {
-    var geoCoord = rs[1][i].geoCoord
+    const geoCoord = rs[1][i].geoCoord
     data2.push({
       geometry: {
         type: "Point",
@@ -62,7 +62,7 @@ function createMapvLayer(rs) {
   }
 
   for (let i = 0; i < rs[2].length; i++) {
-    var geoCoord = rs[2][i].geoCoord
+    const geoCoord = rs[2][i].geoCoord
     data3.push({
       geometry: {
         type: "Point",
@@ -71,7 +71,7 @@ function createMapvLayer(rs) {
     })
   }
 
-  var animation = {
+  const animation = {
     animation: {
       stepsRange: {
         start: 0,
@@ -88,7 +88,7 @@ function createMapvLayer(rs) {
 }
 
 function addMapvLayer(data, color, size, animation) {
-  var options1 = {
+  const options1 = {
     fillStyle: color,
     bigData: "Point",
     size: size,
@@ -98,6 +98,6 @@ function addMapvLayer(data, color, size, animation) {
     data: data // 数据
   }
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options1)
+  const mapVLayer = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer)
 }

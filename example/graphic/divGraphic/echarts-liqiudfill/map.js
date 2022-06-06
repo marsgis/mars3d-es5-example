@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载石化工厂模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
     url: "http://data.mars3d.cn/3dtiles/max-shihua/tileset.json",
     position: { lng: 117.077158, lat: 31.659116, alt: 24.6 },
@@ -49,7 +49,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic(position, attr) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: position,
     style: {
       html: `<div style="width: 80px;height:80px;"></div>`,
@@ -59,14 +59,14 @@ function addDemoGraphic(position, attr) {
     attr: attr
   })
   graphic.on(mars3d.EventType.add, function (e) {
-    var dom = e.target.container.firstChild
-    var attr = e.target.attr
+    const dom = e.target.container.firstChild
+    const attr = e.target.attr
 
-    var liquidfillchartChart = echarts.init(dom)
+    const liquidfillchartChart = echarts.init(dom)
 
     // 参考API：https://github.com/ecomfe/echarts-liquidfill
     // 参考示例：https://www.makeapie.com/explore.html#tags=liquidFill~sort=rank~timeframe=all~author=all
-    var option = {
+    const option = {
       series: [
         {
           type: "liquidFill",

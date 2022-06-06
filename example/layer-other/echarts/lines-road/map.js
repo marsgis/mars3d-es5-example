@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -42,10 +42,10 @@ function onUnmounted() {
  * @returns {void} 无
  */
 function createEchartsLayer(data) {
-  var options = getEchartsOption(data)
+  const options = getEchartsOption(data)
   options.depthTest = false // 是否进行计算深度（大数据时，需要关闭）
 
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
@@ -61,7 +61,7 @@ function createEchartsLayer(data) {
  * @return {option} 根据获取的数据创建echart图表的数据
  */
 function getEchartsOption(data) {
-  var option = {
+  const option = {
     animation: false,
 
     visualMap: {

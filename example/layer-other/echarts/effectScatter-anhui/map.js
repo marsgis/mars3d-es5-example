@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,9 +31,9 @@ function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  var options = getEchartsOption()
+  const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
@@ -48,7 +48,7 @@ function createEchartsLayer() {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var data = [
+  const data = [
     {
       name: "六安市",
       value: 112,
@@ -142,13 +142,13 @@ function getEchartsOption() {
       return b.location[1] - a.location[1]
     })
     for (let i = 1; i < data.length; i++) {
-      var thisItem = data[i].location
+      const thisItem = data[i].location
 
       let ispy = false
       for (let j = 0; j < i; j++) {
-        var lastItem = data[j].location
-        var offX = Math.abs(lastItem[0] - thisItem[0])
-        var offY = Math.abs(lastItem[1] - thisItem[1])
+        const lastItem = data[j].location
+        const offX = Math.abs(lastItem[0] - thisItem[0])
+        const offY = Math.abs(lastItem[1] - thisItem[1])
         if (offX < 0.025 && offY < 0.005) {
           ispy = true
           break
@@ -162,7 +162,7 @@ function getEchartsOption() {
   }
 
   let sum = 0
-  var dataVals = []
+  const dataVals = []
   for (let i = 0; i < data.length; i++) {
     sum += data[i].value
 
@@ -172,7 +172,7 @@ function getEchartsOption() {
     })
   }
 
-  var option = {
+  const option = {
     animation: false,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
 
@@ -189,7 +189,7 @@ function getEchartsOption() {
             return 8
           }
 
-          var num = (val[2] / sum) * 150
+          const num = (val[2] / sum) * 150
           return Math.max(num, 8)
         },
         showEffectOn: "render",

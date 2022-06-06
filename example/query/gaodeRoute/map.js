@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let routeLayer // 矢量数据图层
 let gaodeRoute // 高德 路径规划
 
@@ -87,7 +87,7 @@ function startPoint(type) {
     })
     .then((graphic) => {
       startGraphic = graphic
-      var point = graphic.point
+      const point = graphic.point
       point.format()
       // 触发自定义事件，改变输入框的值
       queryRoute(type)
@@ -120,7 +120,7 @@ function endPoint(type) {
     })
     .then((graphic) => {
       endGraphic = graphic
-      var point = graphic.point
+      const point = graphic.point
       point.format()
       queryRoute(type)
 
@@ -141,17 +141,17 @@ function queryRoute(type) {
     points: [startGraphic.coordinate, endGraphic.coordinate],
     success: function (data) {
       hideLoading()
-      var firstItem = data.paths[0]
-      var points = firstItem.points
+      const firstItem = data.paths[0]
+      const points = firstItem.points
       if (!points || points.length < 1) {
         return
       }
 
-      var time = mars3d.Util.formatTime(firstItem.allDuration)
-      var distance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
-      var html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
+      const time = mars3d.Util.formatTime(firstItem.allDuration)
+      const distance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
+      const html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
 
-      var graphic = new mars3d.graphic.PolylineEntity({
+      const graphic = new mars3d.graphic.PolylineEntity({
         positions: points,
         style: {
           clampToGround: true,
@@ -163,11 +163,11 @@ function queryRoute(type) {
       })
       routeLayer.addGraphic(graphic)
 
-      var allTime = mars3d.Util.formatTime(firstItem.allDuration)
-      var allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
+      const allTime = mars3d.Util.formatTime(firstItem.allDuration)
+      const allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
       let dhHtml = ""
       for (let i = 0; i < firstItem.steps.length; i++) {
-        var item = firstItem.steps[i]
+        const item = firstItem.steps[i]
         dhHtml += item.instruction + "；"
       }
 
@@ -186,6 +186,6 @@ function saveGeoJSON() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  var geojson = routeLayer.toGeoJSON()
+  const geojson = routeLayer.toGeoJSON()
   mars3d.Util.downloadFile("导航路径.json", JSON.stringify(geojson))
 }

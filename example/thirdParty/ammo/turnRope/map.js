@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,15 +32,15 @@ function onUnmounted() {
 }
 
 function addDemo() {
-  var MeshVisualizer = Cesium.MeshVisualizer
-  var Mesh = Cesium.Mesh
-  var MeshMaterial = Cesium.MeshMaterial
-  var MeshPhongMaterial = Cesium.MeshPhongMaterial
+  const MeshVisualizer = Cesium.MeshVisualizer
+  const Mesh = Cesium.Mesh
+  const MeshMaterial = Cesium.MeshMaterial
+  const MeshPhongMaterial = Cesium.MeshPhongMaterial
 
-  var center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
-  var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
+  const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
+  const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
 
-  var meshVisualizer = new MeshVisualizer({
+  const meshVisualizer = new MeshVisualizer({
     modelMatrix: modelMatrix,
     up: { y: 1 },
     referenceAxisParameter: {
@@ -102,19 +102,19 @@ function addDemo() {
     // - Global variables -
 
     // Physics variables
-    var gravityConstant = -9.8
+    const gravityConstant = -9.8
     let collisionConfiguration
     let dispatcher
     let broadphase
     let solver
     let physicsWorld
-    var rigidBodies = []
-    var margin = 0.05
+    const rigidBodies = []
+    const margin = 0.05
     let hinge
     let rope
-    var transformAux1 = new Ammo.btTransform()
+    const transformAux1 = new Ammo.btTransform()
 
-    var time = 0
+    const time = 0
     let armMovement = 0
     let softBodySolver
 
@@ -132,13 +132,13 @@ function addDemo() {
     }
 
     function createObjects() {
-      var pos = new Cesium.Cartesian3()
-      var quat = new Cesium.Quaternion()
+      const pos = new Cesium.Cartesian3()
+      const quat = new Cesium.Quaternion()
 
       // Ground
       pos.set(0, -0.5, 0)
       quat.set(0, 0, 0, 1)
-      var ground = createParalellepiped(
+      const ground = createParalellepiped(
         40,
         1,
         40,
@@ -153,10 +153,10 @@ function addDemo() {
       )
       ground.quaternion = null
       // Ball
-      var ballMass = 1.2
-      var ballRadius = 0.6
+      const ballMass = 1.2
+      const ballRadius = 0.6
 
-      var ball = new Mesh(
+      const ball = new Mesh(
         new Cesium.SphereGeometry({
           radius: ballRadius,
           stackPartitions: 20,
@@ -169,7 +169,7 @@ function addDemo() {
         })
       )
 
-      var ballShape = new Ammo.btSphereShape(ballRadius)
+      const ballShape = new Ammo.btSphereShape(ballRadius)
       ballShape.setMargin(margin)
       pos.set(-3, 2, 0)
       quat.set(0, 0, 0, 1)
@@ -177,17 +177,17 @@ function addDemo() {
       ball.physicsBody.setFriction(0.5)
 
       // Wall
-      var brickMass = 0.5
-      var brickLength = 1.2
-      var brickDepth = 0.6
-      var brickHeight = brickLength * 0.5
-      var numBricksLength = 6
-      var numBricksHeight = 8
-      var z0 = -numBricksLength * brickLength * 0.5
+      const brickMass = 0.5
+      const brickLength = 1.2
+      const brickDepth = 0.6
+      const brickHeight = brickLength * 0.5
+      const numBricksLength = 6
+      const numBricksHeight = 8
+      const z0 = -numBricksLength * brickLength * 0.5
       pos.set(0, brickHeight * 0.5, z0)
       quat.set(0, 0, 0, 1)
       for (let j = 0; j < numBricksHeight; j++) {
-        var oddRow = j % 2 === 1
+        const oddRow = j % 2 === 1
 
         pos.z = z0
 
@@ -195,7 +195,7 @@ function addDemo() {
           pos.z -= 0.25 * brickLength
         }
 
-        var nRow = oddRow ? numBricksLength + 1 : numBricksLength
+        const nRow = oddRow ? numBricksLength + 1 : numBricksLength
         for (let i = 0; i < nRow; i++) {
           let brickLengthCurrent = brickLength
           let brickMassCurrent = brickMass
@@ -204,7 +204,7 @@ function addDemo() {
             brickMassCurrent *= 0.5
           }
 
-          var brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
+          const brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
 
           if (oddRow && (i === 0 || i === nRow - 2)) {
             pos.z += 0.75 * brickLength
@@ -217,21 +217,21 @@ function addDemo() {
 
       // The rope
       // Rope graphic object
-      var ropeNumSegments = 10
-      var ropeLength = 4
-      var ropeMass = 3
-      var ropePos = ball.position.clone()
+      const ropeNumSegments = 10
+      const ropeLength = 4
+      const ropeMass = 3
+      const ropePos = ball.position.clone()
       ropePos.y += ballRadius
 
-      var segmentLength = ropeLength / ropeNumSegments
-      var ropeMaterial = new MeshMaterial({
+      const segmentLength = ropeLength / ropeNumSegments
+      const ropeMaterial = new MeshMaterial({
         defaultColor: Cesium.Color.fromRgba(0x000000).withAlpha(1),
         side: MeshMaterial.Sides.DOUBLE,
         translucent: false,
         wireframe: true
       })
-      var ropePositions = []
-      var ropeIndices = []
+      const ropePositions = []
+      const ropeIndices = []
 
       for (let i = 0; i < ropeNumSegments + 1; i++) {
         ropePositions.push(ropePos.x, ropePos.y + i * segmentLength, ropePos.z)
@@ -241,7 +241,7 @@ function addDemo() {
         ropeIndices.push(i, i + 1)
       }
 
-      var ropeGeometry = new Cesium.Geometry({
+      const ropeGeometry = new Cesium.Geometry({
         attributes: {
           position: new Cesium.GeometryAttribute({
             componentDatatype: Cesium.ComponentDatatype.DOUBLE,
@@ -258,11 +258,11 @@ function addDemo() {
       meshVisualizer.add(rope)
 
       // Rope physic object
-      var softBodyHelpers = new Ammo.btSoftBodyHelpers()
-      var ropeStart = new Ammo.btVector3(ropePos.x, ropePos.y, ropePos.z)
-      var ropeEnd = new Ammo.btVector3(ropePos.x, ropePos.y + ropeLength, ropePos.z)
-      var ropeSoftBody = softBodyHelpers.CreateRope(physicsWorld.getWorldInfo(), ropeStart, ropeEnd, ropeNumSegments - 1, 0)
-      var sbConfig = ropeSoftBody.get_m_cfg()
+      const softBodyHelpers = new Ammo.btSoftBodyHelpers()
+      const ropeStart = new Ammo.btVector3(ropePos.x, ropePos.y, ropePos.z)
+      const ropeEnd = new Ammo.btVector3(ropePos.x, ropePos.y + ropeLength, ropePos.z)
+      const ropeSoftBody = softBodyHelpers.CreateRope(physicsWorld.getWorldInfo(), ropeStart, ropeEnd, ropeNumSegments - 1, 0)
+      const sbConfig = ropeSoftBody.get_m_cfg()
       sbConfig.set_viterations(10)
       sbConfig.set_piterations(10)
       ropeSoftBody.setTotalMass(ropeMass, false)
@@ -275,44 +275,44 @@ function addDemo() {
       ropeSoftBody.setActivationState(4)
 
       // The base
-      var armMass = 2
-      var armLength = 3
-      var pylonHeight = ropePos.y + ropeLength
-      var baseMaterial = createMaterial()
+      const armMass = 2
+      const armLength = 3
+      const pylonHeight = ropePos.y + ropeLength
+      const baseMaterial = createMaterial()
       pos.set(ropePos.x, 0.1, ropePos.z - armLength)
       quat.set(0, 0, 0, 1)
-      var base = createParalellepiped(1, 0.2, 1, 0, pos, quat, baseMaterial)
+      const base = createParalellepiped(1, 0.2, 1, 0, pos, quat, baseMaterial)
       base.quaternion = null
       pos.set(ropePos.x, 0.5 * pylonHeight, ropePos.z - armLength)
-      var pylon = createParalellepiped(0.4, pylonHeight, 0.4, 0, pos, quat, baseMaterial)
+      const pylon = createParalellepiped(0.4, pylonHeight, 0.4, 0, pos, quat, baseMaterial)
       pylon.quaternion = null
 
       pos.set(ropePos.x, pylonHeight + 0.2, ropePos.z - 0.5 * armLength)
-      var arm = createParalellepiped(0.4, 0.4, armLength + 0.4, armMass, pos, quat, baseMaterial)
+      const arm = createParalellepiped(0.4, 0.4, armLength + 0.4, armMass, pos, quat, baseMaterial)
 
       // Glue the rope extremes to the ball and the arm
-      var influence = 1
+      const influence = 1
       ropeSoftBody.appendAnchor(0, ball.physicsBody, true, influence)
       ropeSoftBody.appendAnchor(ropeNumSegments, arm.physicsBody, true, influence)
 
       // Hinge constraint to move the arm
-      var pivotA = new Ammo.btVector3(0, pylonHeight * 0.5, 0)
-      var pivotB = new Ammo.btVector3(0, -0.2, -armLength * 0.5)
-      var axis = new Ammo.btVector3(0, 1, 0)
+      const pivotA = new Ammo.btVector3(0, pylonHeight * 0.5, 0)
+      const pivotB = new Ammo.btVector3(0, -0.2, -armLength * 0.5)
+      const axis = new Ammo.btVector3(0, 1, 0)
       hinge = new Ammo.btHingeConstraint(pylon.physicsBody, arm.physicsBody, pivotA, pivotB, axis, axis, true)
       physicsWorld.addConstraint(hinge, true)
     }
 
     function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
-      var box = Cesium.BoxGeometry.fromDimensions({
+      const box = Cesium.BoxGeometry.fromDimensions({
         dimensions: new Cesium.Cartesian3(sx, sy, sz),
         vertexFormat: new Cesium.VertexFormat({
           position: true,
           normal: true
         })
       })
-      var threeObject = new Mesh(box, material)
-      var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
+      const threeObject = new Mesh(box, material)
+      const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
       shape.setMargin(margin)
 
       createRigidBody(threeObject, shape, mass, pos, quat)
@@ -324,17 +324,17 @@ function addDemo() {
       threeObject.position.copy(pos)
       threeObject.quaternion = new Cesium.Quaternion(quat)
 
-      var transform = new Ammo.btTransform()
+      const transform = new Ammo.btTransform()
       transform.setIdentity()
       transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z))
       transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w))
-      var motionState = new Ammo.btDefaultMotionState(transform)
+      const motionState = new Ammo.btDefaultMotionState(transform)
 
-      var localInertia = new Ammo.btVector3(0, 0, 0)
+      const localInertia = new Ammo.btVector3(0, 0, 0)
       physicsShape.calculateLocalInertia(mass, localInertia)
 
-      var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
-      var body = new Ammo.btRigidBody(rbInfo)
+      const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
+      const body = new Ammo.btRigidBody(rbInfo)
 
       threeObject.physicsBody = body
 
@@ -386,14 +386,14 @@ function addDemo() {
       physicsWorld.stepSimulation(deltaTime, 10)
 
       // Update rope
-      var softBody = rope.physicsBody
-      var ropePositions = rope.geometry.attributes.position.values
-      var numVerts = ropePositions.length / 3
-      var nodes = softBody.get_m_nodes()
+      const softBody = rope.physicsBody
+      const ropePositions = rope.geometry.attributes.position.values
+      const numVerts = ropePositions.length / 3
+      const nodes = softBody.get_m_nodes()
       let indexFloat = 0
       for (let i = 0; i < numVerts; i++) {
-        var node = nodes.at(i)
-        var nodePos = node.get_m_x()
+        const node = nodes.at(i)
+        const nodePos = node.get_m_x()
         ropePositions[indexFloat++] = nodePos.x()
         ropePositions[indexFloat++] = nodePos.y()
         ropePositions[indexFloat++] = nodePos.z()
@@ -402,13 +402,13 @@ function addDemo() {
 
       // Update rigid bodies
       for (let i = 0, il = rigidBodies.length; i < il; i++) {
-        var objThree = rigidBodies[i]
-        var objPhys = objThree.physicsBody
-        var ms = objPhys.getMotionState()
+        const objThree = rigidBodies[i]
+        const objPhys = objThree.physicsBody
+        const ms = objPhys.getMotionState()
         if (ms) {
           ms.getWorldTransform(transformAux1)
-          var p = transformAux1.getOrigin()
-          var q = transformAux1.getRotation()
+          const p = transformAux1.getOrigin()
+          const q = transformAux1.getRotation()
           objThree.position.set(p.x(), p.y(), p.z())
           if (objThree.quaternion) {
             objThree.quaternion.set(q.x(), q.y(), q.z(), q.w())
@@ -422,7 +422,7 @@ function addDemo() {
     let start = false
     let startTime = new Date()
     function update(frameState) {
-      var deltaTime = (new Date() - startTime) / 1000.0
+      const deltaTime = (new Date() - startTime) / 1000.0
       updatePhysics(deltaTime)
 
       startTime = new Date()

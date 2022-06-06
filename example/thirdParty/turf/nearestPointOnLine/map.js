@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let pointLayer
 
@@ -74,21 +74,21 @@ function drawPoint() {
 
 // 最近点计算
 function nearPoint() {
-  var lineLayer = graphicLayer.getGraphics()
-  var point = pointLayer.getGraphics()
+  const lineLayer = graphicLayer.getGraphics()
+  const point = pointLayer.getGraphics()
 
   if (lineLayer.length < 1 || point.length < 1) {
     return
   }
 
-  var line = lineLayer[0].toGeoJSON()
-  var pt = point[0].toGeoJSON()
+  const line = lineLayer[0].toGeoJSON()
+  const pt = point[0].toGeoJSON()
 
-  var snapped = turf.nearestPointOnLine(line, pt, { units: "miles" })
-  var position = snapped.geometry.coordinates
+  const snapped = turf.nearestPointOnLine(line, pt, { units: "miles" })
+  const position = snapped.geometry.coordinates
 
   // 最近点（图标点）
-  var primitive = new mars3d.graphic.BillboardPrimitive({
+  const primitive = new mars3d.graphic.BillboardPrimitive({
     position: position,
     style: {
       image: "img/marker/mark3.png",

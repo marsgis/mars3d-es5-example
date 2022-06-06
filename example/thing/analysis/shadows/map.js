@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let shadows
 
 var mapOptions = {
@@ -24,12 +24,14 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("已知问题提示", `模型上日照阴影可能存在锯齿。`)
+
   // let imageryLayer = map.scene.imageryLayers.get(0)
   // imageryLayer.dayAlpha = 0.1  //白天图层透明值
   // imageryLayer.nightAlpha = 1.0 //夜晚图层透明值
 
   // 加个模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 80.6 },
     maximumScreenSpaceError: 1,
@@ -44,7 +46,7 @@ function onMounted(mapInstance) {
   map.addThing(shadows)
 
   shadows.on(mars3d.EventType.change, function () {
-    var shadowTime = shadows.time
+    const shadowTime = shadows.time
     eventTarget.fire("changeShadows", { shadowTime })
   })
 }
@@ -72,9 +74,9 @@ function stopPlay() {
  * @param {number} minutes 分钟
  */
 function startPlay(date, hours, minutes) {
-  var currentTime = setShadows(date, hours, minutes)
-  var startDate = new Date(date + " 00:00:00")
-  var endDate = new Date(date + " 23:59:59")
+  const currentTime = setShadows(date, hours, minutes)
+  const startDate = new Date(date + " 00:00:00")
+  const endDate = new Date(date + " 23:59:59")
 
   shadows.start(startDate, endDate, currentTime)
 }
@@ -88,7 +90,7 @@ function startPlay(date, hours, minutes) {
  * @param {number} minutes 分钟
  */
 function setShadows(date, hours, minutes) {
-  var dateTime = new Date(`${date} ${hours}:${minutes}:00`)
+  const dateTime = new Date(`${date} ${hours}:${minutes}:00`)
   shadows.time = dateTime
 
   return dateTime

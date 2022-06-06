@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let queryMapserver
 let geoJsonLayer
@@ -97,7 +97,7 @@ function showGeoJsonLayer() {
   map.addLayer(geoJsonLayer)
 
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
-    var list = event.list
+    const list = event.list
     eventTarget.fire("befortUI", { list })
   })
 }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "石化工厂",
     url: "//data.mars3d.cn/3dtiles/max-shihua/tileset.json",

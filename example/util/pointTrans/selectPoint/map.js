@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,7 +21,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var point = map.getCenter()
+  const point = map.getCenter()
   point.format()
   eventTarget.fire("loadCenterPoint", { point })
 }
@@ -36,7 +36,7 @@ function onUnmounted() {
 
 // 获取默认point点
 function defultPoint() {
-  var point = map.getCenter()
+  const point = map.getCenter()
   point.format()
   return {
     lng: point.lng,
@@ -77,8 +77,8 @@ function bindMourseClick() {
   map.setCursor(true)
   map.once(mars3d.EventType.click, function (event) {
     map.setCursor(false)
-    var cartesian = event.cartesian
-    var point = mars3d.LngLatPoint.fromCartesian(cartesian)
+    const cartesian = event.cartesian
+    const point = mars3d.LngLatPoint.fromCartesian(cartesian)
     point.format() // 经度、纬度、高度
 
     eventTarget.fire("clickMap", { point })
@@ -87,7 +87,7 @@ function bindMourseClick() {
 
 let pointEntity
 function updateMarker(hasCenter, jd, wd, alt) {
-  var position = [jd, wd, alt]
+  const position = [jd, wd, alt]
 
   if (pointEntity == null) {
     pointEntity = new mars3d.graphic.PointEntity({

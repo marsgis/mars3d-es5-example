@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -43,10 +43,10 @@ function queryPopulationApiData() {
 }
 
 function showData(data) {
-  var heightScale = 2000000
+  const heightScale = 2000000
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件
@@ -56,7 +56,7 @@ function showData(data) {
 
   // 在layer上绑定Popup弹窗
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -65,25 +65,25 @@ function showData(data) {
   })
 
   for (let x = 0; x < 1; x++) {
-    var series = data[x]
-    var coordinates = series[1]
+    const series = data[x]
+    const coordinates = series[1]
 
     // Now loop over each coordinate in the series and create
     for (let i = 0; i < coordinates.length; i += 3) {
-      var latitude = coordinates[i]
-      var longitude = coordinates[i + 1]
-      var height = coordinates[i + 2]
+      const latitude = coordinates[i]
+      const longitude = coordinates[i + 1]
+      const height = coordinates[i + 2]
 
       // Ignore lines of zero height.
       if (height === 0) {
         continue
       }
 
-      var color = Cesium.Color.fromHsl(0.6 - height * 0.5, 1.0, 0.5)
-      var surfacePosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, 0)
-      var heightPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, height * heightScale)
+      const color = Cesium.Color.fromHsl(0.6 - height * 0.5, 1.0, 0.5)
+      const surfacePosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, 0)
+      const heightPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, height * heightScale)
 
-      var primitive = new mars3d.graphic.PolylineEntity({
+      const primitive = new mars3d.graphic.PolylineEntity({
         positions: [surfacePosition, heightPosition],
         style: {
           width: 4,

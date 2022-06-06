@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -18,6 +18,8 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("已知问题提示", `(1) 井目前主要地形开挖分析内部中使用，在本示例内未开启深度检测时会浮动在地图上。`)
+
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -30,8 +32,6 @@ function onMounted(mapInstance) {
   addDemoGraphic1(graphicLayer)
   addDemoGraphic2(graphicLayer)
   addDemoGraphic3(graphicLayer)
-
-  globalNotify("已知问题：", `(1) 井目前主要地形开挖分析内部中使用，在本示例内未开启深度检测时会浮动在地图上。`)
 }
 
 /**
@@ -45,7 +45,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var primitive = new mars3d.graphic.Pit({
+  const primitive = new mars3d.graphic.Pit({
     positions: [
       [117.216544, 31.835278, 40],
       [117.225898, 31.834257, 40],
@@ -74,7 +74,7 @@ function addDemoGraphic1(graphicLayer) {
 
 // 图片材质
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.Pit({
+  const primitive = new mars3d.graphic.Pit({
     positions: [
       [117.187572, 31.823074, 45.53],
       [117.195377, 31.82418, 43.36],
@@ -94,7 +94,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var primitive = new mars3d.graphic.Pit({
+  const primitive = new mars3d.graphic.Pit({
     positions: [
       [117.216386, 31.815376, 35.16],
       [117.222533, 31.81729, 29.21],
@@ -118,7 +118,7 @@ function addDemoGraphic3(graphicLayer) {
 function addPit(graphicLayer, positions, height) {
   console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-  var primitive = new mars3d.graphic.Pit({
+  const primitive = new mars3d.graphic.Pit({
     positions: positions,
     style: {
       diffHeight: height, // 井的深度
@@ -140,7 +140,7 @@ function drawExtent(height) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       // 构造井对象
@@ -159,7 +159,7 @@ function drawPolygon(height) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       // 构造井对象
@@ -185,7 +185,7 @@ function onDepthTestChange(val) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -215,7 +215,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -223,19 +223,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算周长",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -243,8 +247,8 @@ function bindLayerContextMenu() {
       text: "计算面积",
       icon: "fa fa-reorder",
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }
@@ -268,7 +272,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -285,7 +289,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -34,13 +34,13 @@ function onMounted(mapInstance) {
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var property = getDynamicProperty() // 取数据
+  const property = getDynamicProperty() // 取数据
 
   // 视锥体 展示
-  var conicSensor = new mars3d.graphic.ConicSensor({
+  const conicSensor = new mars3d.graphic.ConicSensor({
     position: property,
     style: {
       angle: 15,
@@ -62,7 +62,7 @@ function onUnmounted() {
 
 function getDynamicProperty() {
   // 该数据是由后端计算返回的轨道信息
-  var wxkjx = [
+  const wxkjx = [
     {
       time: "2021-01-01T12:08:20Z",
       x: -143.774623333805,
@@ -101,13 +101,13 @@ function getDynamicProperty() {
     }
   ]
 
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   for (let z = 0; z < wxkjx.length; z++) {
-    var item = wxkjx[z]
-    var thisTime = Cesium.JulianDate.fromIso8601(item.time)
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
+    const item = wxkjx[z]
+    const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
 
     // 添加每一个链接点的信息，到达的时间以及坐标位置
     property.addSample(thisTime, position)

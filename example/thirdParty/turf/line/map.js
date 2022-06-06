@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let lineLayer
@@ -61,10 +61,10 @@ function calculationCurve() {
   }
   line = line[0].toGeoJSON()
 
-  var curved = turf.bezierSpline(line)
-  var positions = curved.geometry.coordinates
+  const curved = turf.bezierSpline(line)
+  const positions = curved.geometry.coordinates
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 4,
@@ -85,11 +85,11 @@ function parallelLines(distance) {
 
   graphicLayer.clear()
 
-  var offsetLine = turf.lineOffset(line, distance, { units: "miles" })
+  const offsetLine = turf.lineOffset(line, distance, { units: "miles" })
 
-  var positions = offsetLine.geometry.coordinates
+  const positions = offsetLine.geometry.coordinates
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 4,

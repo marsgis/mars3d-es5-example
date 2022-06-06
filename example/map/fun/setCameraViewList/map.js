@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -18,7 +18,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "大雁塔",
     url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
     position: { alt: -27 },
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 创建视点，duration参数调节每个步骤时长
-  var viewPoints = [
+  const viewPoints = [
     { lng: 108.961601, lat: 34.217109, alt: 509.2, heading: 314.5, pitch: -22.5, duration: 6, stop: 0 },
     { lng: 108.96164, lat: 34.222159, alt: 510.3, heading: 211.2, pitch: -22.5, duration: 8, stop: 0 },
     { lng: 108.957259, lat: 34.221967, alt: 494.3, heading: 127.5, pitch: -17.2, duration: 8, stop: 0 },

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -18,7 +18,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/max-fcfh/tileset.json",
     maximumScreenSpaceError: 1
   })
@@ -31,7 +31,7 @@ function onMounted(mapInstance) {
     // tiles3dLayer.tileset._selectedTiles[0].transform = Cesium.Matrix4.fromTranslation(new Cesium.Cartesian3(100, 0, 0))
     // Cesium.Matrix4.multiply(temp1.transform, Cesium.Matrix4.fromTranslation(new Cesium.Cartesian3(100, 0, 0)), temp1.transform)
 
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     if (attr) {
       tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
         color: {

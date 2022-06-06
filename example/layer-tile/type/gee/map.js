@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -35,7 +35,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  globalNotify("已知问题：", `(1) 需要自行部署自己的谷歌地球企业版服务后，修改url才能体验。`)
+  globalNotify("已知问题提示", `(1) 需要自行部署自己的谷歌地球企业版服务后，修改url才能体验。`)
 }
 
 /**

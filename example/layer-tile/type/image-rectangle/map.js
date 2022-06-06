@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
-  var tileLayer = new mars3d.layer.ImageLayer({
+  const tileLayer = new mars3d.layer.ImageLayer({
     name: "中科大-西区",
     url: "//data.mars3d.cn/file/img/zkd-xq.png",
     rectangle: { xmin: 117.245648, xmax: 117.254431, ymin: 31.836891, ymax: 31.843413 }

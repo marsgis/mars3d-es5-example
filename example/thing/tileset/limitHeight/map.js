@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let limitHeight
 
 var mapOptions = {
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
     url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
@@ -81,7 +81,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       limitHeight.positions = positions
 
       map.graphicLayer.clear()
@@ -101,7 +101,7 @@ function drawPolygon() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       limitHeight.positions = positions
 
       map.graphicLayer.clear()

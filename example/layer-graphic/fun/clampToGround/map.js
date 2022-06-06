@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let geoJsonLayer
 
 var mapOptions = {
@@ -38,7 +38,7 @@ function onUnmounted() {
  *
  */
 function addLayer() {
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
     maximumScreenSpaceError: 1,
@@ -72,7 +72,7 @@ function addLayer() {
 
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
-    var geojsonLength = geoJsonLayer.length
+    const geojsonLength = geoJsonLayer.length
     eventTarget.fire("geoJsonLayerLoad", { geojsonLength })
     console.log("数据加载完成", event)
   })
@@ -80,7 +80,7 @@ function addLayer() {
 
 // 保存为Geojson文件
 function toGeojson() {
-  var geojson = geoJsonLayer.toGeoJSON()
+  const geojson = geoJsonLayer.toGeoJSON()
   mars3d.Util.downloadFile("hfty-point-含高度值.json", JSON.stringify(geojson))
 }
 
@@ -95,7 +95,7 @@ function getDataSurfaceHeight() {
   // 对图层内的数据做贴地运算,自动得到贴地高度
   geoJsonLayer.autoSurfaceHeight({
     endItem: function (index, len) {
-      var resultData = {
+      const resultData = {
         percent: index + 1,
         percentAll: len
       }

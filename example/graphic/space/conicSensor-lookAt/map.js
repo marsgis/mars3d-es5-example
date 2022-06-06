@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -48,20 +48,20 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // ===========================================================
   // 取数据
-  var property = getDynamicProperty(function (timeInterval) {
+  const property = getDynamicProperty(function (timeInterval) {
     graphic.entity.availability = new Cesium.TimeIntervalCollection([new Cesium.TimeInterval(timeInterval)])
   })
 
-  var times = property._property._times
-  var startTime = times[0].clone()
-  var stopTime = times[times.length - 1].clone()
+  const times = property._property._times
+  const startTime = times[0].clone()
+  const stopTime = times[times.length - 1].clone()
 
-  var graphic = new mars3d.graphic.PathEntity({
+  const graphic = new mars3d.graphic.PathEntity({
     availability: new Cesium.TimeIntervalCollection([
       new Cesium.TimeInterval({
         start: startTime,
@@ -91,7 +91,7 @@ function addGraphicLayer() {
   // ===========================================================
 
   // 视锥体 展示
-  var satelliteSensor = new mars3d.graphic.SatelliteSensor({
+  const satelliteSensor = new mars3d.graphic.SatelliteSensor({
     position: property,
     autoHeading: true, // 是否自动角度，根据监听的卫星模型
     style: {
@@ -109,8 +109,8 @@ function addGraphicLayer() {
   satelliteSensor.trackedEntity = graphic // 本身跟随卫星
 
   // 地面站 展示
-  var localStart = Cesium.Cartesian3.fromDegrees(109.51856, 18.258736, 2)
-  var conicSensor = new mars3d.graphic.ConicSensor({
+  const localStart = Cesium.Cartesian3.fromDegrees(109.51856, 18.258736, 2)
+  const conicSensor = new mars3d.graphic.ConicSensor({
     position: localStart,
     style: {
       angle: 5, // 雷达最小扫描仰角
@@ -123,9 +123,9 @@ function addGraphicLayer() {
   conicSensor.lookAt = property // 追踪卫星
 
   // 测试连接线
-  var testLine = new mars3d.graphic.PolylineEntity({
+  const testLine = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var localEnd = conicSensor.rayPosition
+      const localEnd = conicSensor.rayPosition
       if (!localEnd) {
         return []
       }
@@ -144,49 +144,49 @@ function addGraphicLayer() {
 
 // 构造模拟数据，实际项目应改为服务读取返回
 function getDynamicProperty(callback) {
-  var arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(map.clock.currentTime), 2 * 60)
+  const arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(map.clock.currentTime), 2 * 60)
 
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var thisTime = Cesium.JulianDate.fromIso8601(item.time)
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
+    const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
 
     // 添加每一个链接点的信息，到达的时间以及坐标位置
     property.addSample(thisTime, position)
   }
 
-  var times = property._property._times
-  var startTime = times[0].clone()
+  const times = property._property._times
+  const startTime = times[0].clone()
   let stopTime = times[times.length - 1].clone()
 
-  var allTimes = Cesium.JulianDate.secondsDifference(stopTime, map.clock.currentTime) * 0.3 // 判断剩下多少时长时加载下一步数据
+  const allTimes = Cesium.JulianDate.secondsDifference(stopTime, map.clock.currentTime) * 0.3 // 判断剩下多少时长时加载下一步数据
   let loading = false
   map.on(mars3d.EventType.clockTick, function (clock) {
-    var sxTimes = Cesium.JulianDate.secondsDifference(stopTime, map.clock.currentTime) // 剩下时长
+    const sxTimes = Cesium.JulianDate.secondsDifference(stopTime, map.clock.currentTime) // 剩下时长
 
     if (!loading && sxTimes < allTimes) {
       loading = true
-      var arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(stopTime), 2 * 60)
+      const arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(stopTime), 2 * 60)
 
       for (let i = 1; i < arr.length; i++) {
-        var item = arr[i]
+        const item = arr[i]
 
-        var thisTime = Cesium.JulianDate.fromIso8601(item.time)
-        var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
+        const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+        const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
 
         // 添加每一个链接点的信息，到达的时间以及坐标位置
         property.addSample(thisTime, position)
       }
 
-      var times = property._property._times
+      const times = property._property._times
       stopTime = times[times.length - 1].clone()
 
       loading = false
       if (callback) {
-        var result = { start: startTime, stop: stopTime }
+        const result = { start: startTime, stop: stopTime }
         callback(result)
       }
     }
@@ -196,7 +196,7 @@ function getDynamicProperty(callback) {
 }
 
 // 模拟数据生产类
-var dataWork = {
+const dataWork = {
   thisPoint: {
     x: 100.245989,
     y: 0,
@@ -204,9 +204,9 @@ var dataWork = {
   },
   // data开始时间，seconds 秒数
   getTestData: function (date, seconds) {
-    var startTime = Cesium.JulianDate.fromIso8601(date) // 飞行开始时间
+    const startTime = Cesium.JulianDate.fromIso8601(date) // 飞行开始时间
 
-    var arr = []
+    const arr = []
 
     let thisTime
     for (let i = 0; i <= seconds; i += 5) {

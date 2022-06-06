@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-var arrData = [
+const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
   { name: "油罐二", position: [117.095206, 31.814878, 47.3] },
   { name: "油罐三", position: [117.094653, 31.814428, 47.3] },
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载油田联合站模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     pid: 2020,
     type: "3dtiles",
     name: "油田联合站",
@@ -46,9 +46,9 @@ function onMounted(mapInstance) {
 
   // 初始加载
   for (let i = 0; i < arrData.length; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
-    var graphic = new mars3d.graphic.CanvasBillboard({
+    const graphic = new mars3d.graphic.CanvasBillboard({
       position: item.position,
       style: {
         text: 18,

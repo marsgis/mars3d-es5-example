@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let lineLayer
 let pointLayer
 
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
           pointLayer.clear()
@@ -71,20 +71,20 @@ function crossPoint() {
     return
   }
 
-  var geojson = lineLayer.toGeoJSON()
-  var allCount = geojson.features.length
+  const geojson = lineLayer.toGeoJSON()
+  const allCount = geojson.features.length
 
   for (let i = 0; i < allCount; i++) {
-    var line1 = geojson.features[i]
+    const line1 = geojson.features[i]
 
     for (let j = i + 1; j < allCount; j++) {
-      var line2 = geojson.features[j]
+      const line2 = geojson.features[j]
 
       // 计算相交点
-      var intersects = turf.lineIntersect(line1, line2)
+      const intersects = turf.lineIntersect(line1, line2)
 
       if (intersects.features.length > 0) {
-        var intersectsPointGrahic = mars3d.Util.geoJsonToGraphics(intersects.features, {
+        const intersectsPointGrahic = mars3d.Util.geoJsonToGraphics(intersects.features, {
           style: {
             color: "#0000ff",
             pixelSize: 8,
@@ -106,8 +106,8 @@ function clearAll() {
 
 // 颜色
 let index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"]
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }

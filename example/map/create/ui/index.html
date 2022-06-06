@@ -11,7 +11,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,ztree,jquery.minicolors,jedate,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,toastr,mars3d,font-awesome,localforage"
+      include="jquery,layer,toastr,font-awesome,ztree,jquery.minicolors,jedate,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,toastr,mars3d,font-awesome,localforage"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -23,8 +23,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -41,7 +39,7 @@
           <tr>
             <td>下拉框：</td>
             <td>
-              <select id="txtCrs" class="selectpicker form-control" onchange="dataUpdate()">
+              <select id="txtCrs" class="selectpicker form-control">
                 <option value="" selected="selected">默认</option>
                 <option value="EPSG:3857">火星</option>
                 <option value="EPSG:4326">地球</option>
@@ -134,9 +132,9 @@
           <tr>
             <td>弹窗：</td>
             <td id="tdViewAdd" colspan="2" style="text-align: left">
-              <input type="button" class="btn btn-primary" value="错误信息" onclick="messageOut()" />
-              <input type="button" class="btn btn-primary" value="警告信息" onclick="Warning()" />
-              <input type="button" class="btn btn-primary" value="提示信息" onclick="Alert()" />
+              <input type="button" class="btn btn-primary" value="提示信息" onclick="messageOut()" />
+              <input type="button" class="btn btn-primary" value="Notify弹窗" onclick="Warning()" />
+              <input type="button" class="btn btn-primary" value="Alert弹窗" onclick="Alert()" />
             </td>
           </tr>
 
@@ -172,7 +170,14 @@
       let $table
 
       function initUI(options) {
-        initTree() // 树控件
+        // 树控件
+        mars3d.Util.fetchJson({ url: "../config/tileset.json" })
+          .then(function (data) {
+            initTree(data.layers)
+          })
+          .catch(function (error) {
+            console.log("加载JSON出错", error)
+          })
 
         // eslint-disable-next-line no-undef
         jeDate("#txtStartTime", {
@@ -255,6 +260,11 @@
             console.log(color)
           }
         })
+
+        $("#txtCrs").change(function () {
+          const txtCrs = $("#txtCrs").val()
+          toastr.info(txtCrs)
+        })
       }
 
       function fireStar() {
@@ -286,13 +296,13 @@
       }
 
       function messageOut() {
-        window.toastr.error("展示错误信息")
+        globalMsg("展示Message信息")
       }
       function Alert() {
-        toastr.info("展示提示信息")
+        globalAlert("我是Alert提示信息内容", "提示Alert标题")
       }
       function Warning() {
-        toastr.warning("展示警告信息！")
+        globalNotify("提示Notify标题", "我是Notify提示信息内容")
       }
 
       function jinDuTiao() {
@@ -431,7 +441,7 @@
       let layers = []
       let layersObj = {}
 
-      function initTree() {
+      function initTree(layers) {
         //初始化树
         let setting = {
           check: {
@@ -449,20 +459,16 @@
         }
 
         let zNodes = []
-        layers = map.getLayers({
-          basemaps: true, //是否取config.json中的basempas
-          layers: true //是否取config.json中的layers
-        })
-
-        //遍历出config.json中所有的basempas和layers
         for (let i = layers.length - 1; i >= 0; i--) {
-          let node = _getNodeConfig(layers[i])
+          let layerOptions = layers[i]
+          layerOptions.flyTo = true
+          let layer = mars3d.LayerUtil.create(layerOptions) //创建图层
+
+          let node = _getNodeConfig(layer)
           if (node) {
             zNodes.push(node)
           }
         }
-
-        //
         $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
       }
 
@@ -501,11 +507,13 @@
           if (layer.parent) {
             node._parentId = layer.parent.uuid
           }
+
           //记录图层
           layersObj[node.uuid] = layer
         }
         return node
       }
+
       function treeOverlays_onCheck(e, treeId, chktreeNode) {
         let treeObj = $.fn.zTree.getZTreeObj(treeId)
         //获得所有改变check状态的节点
@@ -547,6 +555,7 @@
           if (!layer.isAdded) {
             map.addLayer(layer)
           }
+          // layer.flyTo();
         } else {
           if (layer.isAdded) {
             map.removeLayer(layer)
@@ -559,9 +568,11 @@
           return
         }
         let layer = layersObj[treeNode.uuid]
-        if (layer == null) {
+        if (layer == null || !layer.layer) {
+          haoutil.msg("图层尚未加载，需要加载后才能定位！")
           return
         }
+
         layer.flyTo()
       }
     </script>

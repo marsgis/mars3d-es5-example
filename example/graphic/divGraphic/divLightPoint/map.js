@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
   map.basemap = 2017
 
   // 显示边界
-  var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "南京市",
     url: "//data.mars3d.cn/file/geojson/areas/320100_full.json",
     symbol: {
@@ -72,26 +72,26 @@ function onUnmounted() {
 }
 
 function addFeature(arr) {
-  var pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"]
+  const pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"]
 
   // 创建DIV数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
 
-    var item = event.graphic.attr
+    const item = event.graphic.attr
     globalMsg("单击了：" + item["高校名称"])
   })
 
   graphicLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
     if (!item) {
       return false
     }
-    var html =
+    const html =
       "高校名称：" +
       item["高校名称"] +
       "<br />所属地区：" +
@@ -106,17 +106,17 @@ function addFeature(arr) {
   })
 
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
-    var postions = item["经纬度"].split(",") // 取到经纬度坐标
+    const item = arr[i]
+    const postions = item["经纬度"].split(",") // 取到经纬度坐标
     if (postions.length !== 2) {
       continue
     }
 
-    var lng = Number(postions[0])
-    var lat = Number(postions[1])
-    var pointColor = pointColorArr[i % pointColorArr.length]
+    const lng = Number(postions[0])
+    const lat = Number(postions[1])
+    const pointColor = pointColorArr[i % pointColorArr.length]
 
-    var graphic = new mars3d.graphic.DivLightPoint({
+    const graphic = new mars3d.graphic.DivLightPoint({
       position: Cesium.Cartesian3.fromDegrees(lng, lat),
       style: {
         color: pointColor,

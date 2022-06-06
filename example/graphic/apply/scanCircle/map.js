@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
 
   map.basemap = 2017 // 蓝色底图
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 8,
@@ -36,7 +36,7 @@ function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
@@ -57,7 +57,7 @@ function onUnmounted() {
 
 function addDemoGraphic1(graphicLayer) {
   // 立体围墙扩散效果,面状
-  var diffuseWallGlow = new mars3d.graphic.DiffuseWall({
+  const diffuseWallGlow = new mars3d.graphic.DiffuseWall({
     positions: [
       [121.475616, 31.255374, 5.87],
       [121.482578, 31.248681, 10.85],
@@ -78,7 +78,7 @@ function addDemoGraphic1(graphicLayer) {
 
 function addDemoGraphic2(graphicLayer) {
   // 立体围墙扩散效果,圆状
-  var circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
+  const circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
     position: new mars3d.LngLatPoint(121.481165, 31.278668, 44.3), // 圆中心点
     style: {
       diffHeight: 2000, // 高度
@@ -92,7 +92,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var primitive = new mars3d.graphic.CirclePrimitive({
+  const primitive = new mars3d.graphic.CirclePrimitive({
     position: [121.522454, 31.267553, 61.9],
     style: {
       radius: 2000,
@@ -110,7 +110,7 @@ function addDemoGraphic3(graphicLayer) {
 function addDemoGraphic4(graphicLayer) {
   let _rotation = Math.random()
 
-  var graphic = new mars3d.graphic.CircleEntity({
+  const graphic = new mars3d.graphic.CircleEntity({
     position: Cesium.Cartesian3.fromDegrees(121.504242, 31.23805, 27.88),
     style: {
       radius: 1500.0,
@@ -133,7 +133,7 @@ function addDemoGraphic4(graphicLayer) {
 
 function addDemoGraphic5(graphicLayer) {
   let _rotation = Math.random()
-  var graphic = new mars3d.graphic.CircleEntity({
+  const graphic = new mars3d.graphic.CircleEntity({
     position: new mars3d.LngLatPoint(121.526215, 31.245237, 123.5),
     style: {
       radius: 700.0,

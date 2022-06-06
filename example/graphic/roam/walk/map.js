@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let roamLine
-var roamLineData = {}
+const roamLineData = {}
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
@@ -39,11 +39,11 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后单个路线的 保存JSON
-  var flydata = {
+  const flydata = {
     name: "步行路线",
     speed: 40,
     positions: [
@@ -104,7 +104,7 @@ function addGraphicLayer() {
 
   roamLine.bindPopup(
     () => {
-      var html = `<div id="popupContent"  class="marsBlackPanel animation-spaceInDown">
+      const html = `<div id="popupContent"  class="marsBlackPanel animation-spaceInDown">
     <div class="marsBlackPanel-text">
       <div style="width: 200px;text-align:left;">
         <div>总 距 离：<span id="lblAllLen"> </span></div>
@@ -123,34 +123,34 @@ function addGraphicLayer() {
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   roamLine.on(mars3d.EventType.postRender, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
 
-    var params = roamLine?.info
+    const params = roamLine?.info
     if (!params) {
       return
     }
 
-    var lblAllLen = container.querySelector("#lblAllLen")
+    const lblAllLen = container.querySelector("#lblAllLen")
     if (lblAllLen) {
       lblAllLen.innerHTML = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
     }
 
-    var lblAllTime = container.querySelector("#lblAllTime")
+    const lblAllTime = container.querySelector("#lblAllTime")
     if (lblAllTime) {
       lblAllTime.innerHTML = mars3d.Util.formatTime(roamLine.alltimes / map.clock.multiplier)
     }
 
-    var lblStartTime = container.querySelector("#lblStartTime")
+    const lblStartTime = container.querySelector("#lblStartTime")
     if (lblStartTime) {
       lblStartTime.innerHTML = mars3d.Util.formatDate(Cesium.JulianDate.toDate(roamLine.startTime), "yyyy-M-d HH:mm:ss")
     }
 
-    var lblRemainTime = container.querySelector("#lblRemainTime")
+    const lblRemainTime = container.querySelector("#lblRemainTime")
     if (lblRemainTime) {
       lblRemainTime.innerHTML = mars3d.Util.formatTime((roamLine.alltimes - params.time) / map.clock.multiplier)
     }
 
-    var lblRemainLen = container.querySelector("#lblRemainLen")
+    const lblRemainLen = container.querySelector("#lblRemainLen")
     if (lblRemainLen) {
       lblRemainLen.innerHTML = mars3d.MeasureUtil.formatDistance(roamLine.alllen - params.len)
     }

@@ -1,10 +1,13 @@
-////import * as mars3d from "mars3d"
-// //import kgUtil from "kml-geojson"
+// import * as mars3d from "mars3d"
+// // import kgUtil from "kml-geojson"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var mapOptions = {
+  // scene: {
+  //   center: { lat: 30.846849, lng: 116.335307, alt: 739, heading: 360, pitch: -45 }
+  // },
   control: {
     infoBox: false
   }
@@ -311,7 +314,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -326,14 +329,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -346,14 +349,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -366,7 +369,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -374,18 +377,22 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算长度",
       icon: "fa fa-medium",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -403,8 +410,8 @@ function bindLayerContextMenu() {
         )
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     },
@@ -412,7 +419,7 @@ function bindLayerContextMenu() {
       text: "计算周长",
       icon: "fa fa-medium",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -426,8 +433,8 @@ function bindLayerContextMenu() {
         )
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -435,7 +442,7 @@ function bindLayerContextMenu() {
       text: "计算面积",
       icon: "fa fa-reorder",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -451,8 +458,8 @@ function bindLayerContextMenu() {
         )
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }
@@ -476,11 +483,11 @@ function updateOnlyPickModelPosition(value) {
  * @returns {void} 无
  */
 function openGeoJSON(file) {
-  var fileName = file.name
-  var fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  const fileName = file.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
   if (fileType === "json" || fileType === "geojson") {
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       let geojson = this.result
@@ -490,10 +497,10 @@ function openGeoJSON(file) {
       })
     }
   } else if (fileType === "kml") {
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      var strkml = this.result
+      const strkml = this.result
       kgUtil.toGeoJSON(strkml).then((geojson) => {
         geojson = simplifyGeoJSON(geojson) // 简化geojson的点
         console.log("kml2geojson", geojson)
@@ -534,7 +541,7 @@ function saveGeoJSON() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  var geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toGeoJSON()
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
 
@@ -551,7 +558,7 @@ function saveKML() {
 
   geojsonObject = JSON.parse(JSON.stringify(geojsonObject))
 
-  var kml = kgUtil.toKml(geojsonObject, {
+  const kml = kgUtil.toKml(geojsonObject, {
     name: "Mars3D标绘数据",
     documentName: "Mars3D标绘数据文件",
     documentDescription: "标绘数据 by mars3d.cn",
@@ -573,13 +580,13 @@ function saveWKT() {
   }
   geojsonObject = JSON.parse(JSON.stringify(geojsonObject))
 
-  var arrWKT = []
+  const arrWKT = []
   let index = 0
   geojsonObject.features.forEach((feature) => {
-    var attr = feature.properties
-    var style = feature.properties.style
+    const attr = feature.properties
+    const style = feature.properties.style
 
-    var wkt = Terraformer.WKT.convert(feature.geometry) // geojson转换WKT格式 ,terraformer库
+    const wkt = Terraformer.WKT.convert(feature.geometry) // geojson转换WKT格式 ,terraformer库
     arrWKT.push({
       id: ++index,
       name: attr.name || "",
@@ -593,11 +600,11 @@ function saveWKT() {
 
 // 加载演示数据
 function loadDemoData() {
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mars3d-draw.json" })
-    .then(function (json) {
-      graphicLayer.loadGeoJSON(json, { clear: true, flyTo: true })
-    })
-    .catch(function (error) {
-      console.log("加载JSON出错", error)
-    })
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    return
+  }
+
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mars3d-draw.json" }).then(function (json) {
+    graphicLayer.loadGeoJSON(json, { clear: true, flyTo: true })
+  })
 }

@@ -1,14 +1,11 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
   option.control = {
-    geocoder: true,
-    geocoderConfig: {
-      key: ["f2fedb9b08ae13d22f1692cd472d345e", "2e6ca4aeb6867fb637a5bee8333e5d3a"] // 高德key
-    }
+    geocoder: true
   }
   return option
 }
@@ -24,7 +21,7 @@ function onMounted(mapInstance) {
 
   // 查询结果回调方法
   map.controls.geocoder.viewModel.complete.addEventListener(function () {
-    var arrdata = map.controls.geocoder.viewModel.suggestions
+    const arrdata = map.controls.geocoder.viewModel.suggestions
     console.log("查询结果", arrdata)
   })
 }

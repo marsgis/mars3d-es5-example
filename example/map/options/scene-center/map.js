@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map
+var map
 let graphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -19,7 +19,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphic = new mars3d.graphic.EllipsoidEntity({
@@ -79,7 +79,7 @@ function changeView4() {
 
 // **************************** 相机和视角控制********************** //
 function mapGetCameraView() {
-  var camera = map.getCameraView()
+  const camera = map.getCameraView()
   globalAlert(JSON.stringify(camera), "当前视角参数")
 }
 

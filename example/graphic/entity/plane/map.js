@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 var eventTarget = new mars3d.BaseClass()
 
 /**
@@ -38,7 +38,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.PlaneEntity({
+  const graphic = new mars3d.graphic.PlaneEntity({
     position: [116.282587, 30.859197, 544.31],
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Y, 0.0),
@@ -62,7 +62,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.PlaneEntity({
+  const graphic = new mars3d.graphic.PlaneEntity({
     position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
@@ -82,7 +82,7 @@ function addDemoGraphic2(graphicLayer) {
 
 //
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.PlaneEntity({
+  const graphic = new mars3d.graphic.PlaneEntity({
     position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
@@ -101,7 +101,7 @@ function addDemoGraphic3(graphicLayer) {
 
 //
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.PlaneEntity({
+  const graphic = new mars3d.graphic.PlaneEntity({
     position: [116.244399, 30.920459, 573.6],
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_X, 0.0),
@@ -125,7 +125,7 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 
   // 转geojson
-  var geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON()
   console.log(geojson)
 
   addGeoJson(geojson, graphicLayer)
@@ -133,7 +133,7 @@ function addDemoGraphic4(graphicLayer) {
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.position = [116.301991, 30.933872, 624.03]
@@ -144,14 +144,14 @@ function addGeoJson(geojson, graphicLayer) {
 
 function addDemoGraphic5(graphicLayer) {
   // 圆形边界点
-  var positions = mars3d.PolyUtil.getEllipseOuterPositions({
+  const positions = mars3d.PolyUtil.getEllipseOuterPositions({
     position: Cesium.Cartesian3.fromDegrees(116.370171, 30.833143, 479.6),
     radius: 1200, // 半径
     count: 50 // 共返回(count*4)个点
   })
 
   let index = 0
-  var graphic = new mars3d.graphic.PlaneEntity({
+  const graphic = new mars3d.graphic.PlaneEntity({
     position: new Cesium.CallbackProperty(function () {
       index++
       if (index >= positions.length - 1) {
@@ -200,7 +200,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -216,14 +216,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -236,14 +236,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -256,7 +256,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -264,11 +264,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -310,7 +314,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -327,7 +331,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

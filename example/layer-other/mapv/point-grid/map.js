@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -25,12 +25,12 @@ function onUnmounted() {
 
 function createMapvLayer() {
   // 构造数据
-  var positions = []
-  var geojson = []
+  const positions = []
+  const geojson = []
   let randomCount = 300
   while (randomCount--) {
     // 取区域内的随机点
-    var point = [random(113 * 1000, 119 * 1000) / 1000, random(28 * 1000, 35 * 1000) / 1000]
+    const point = [random(113 * 1000, 119 * 1000) / 1000, random(28 * 1000, 35 * 1000) / 1000]
 
     positions.push(Cesium.Cartesian3.fromDegrees(point[0], point[1]))
 
@@ -47,7 +47,7 @@ function createMapvLayer() {
   })
 
   // mapv图层参数
-  var options = {
+  const options = {
     fillStyle: "rgba(55, 50, 250, 0.8)",
     shadowColor: "rgba(255, 250, 50, 1)",
     shadowBlur: 20,
@@ -71,7 +71,7 @@ function createMapvLayer() {
   }
 
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }
 

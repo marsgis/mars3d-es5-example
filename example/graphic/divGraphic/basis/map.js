@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -59,7 +59,7 @@ function onUnmounted() {
 
 // 一个黑色面板，指向左下角黄色连线
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.741611, 31.408068, 75.5],
     style: {
       html: `<div class="marsBlackPanel  animation-spaceInDown">
@@ -83,7 +83,7 @@ function addDemoGraphic1(graphicLayer) {
 
 // 一个渐变的文本面板,中间竖直连线
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.510732, 31.403786, 176.4],
     style: {
       html: `<div class="marsBlueGradientPnl">
@@ -107,7 +107,7 @@ function addDemoGraphic2(graphicLayer) {
 
 //
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.960075, 31.19609, 237.4],
     style: {
       html: `<div class="marsGreenGradientPnl" >安徽欢迎您</div>`,
@@ -127,7 +127,7 @@ function addDemoGraphic3(graphicLayer) {
 
 // 添加GIF图标，DIV方式
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.79013, 31.164872, 289],
     style: {
       html: '<img src="img/marker/tf.gif" style="width:50px;height:50px;" ></img>',
@@ -143,7 +143,7 @@ function addDemoGraphic4(graphicLayer) {
 
 // 加css动画的扩散点 DivLightPoint
 function addDemoGraphic5(graphicLayer) {
-  var graphic = new mars3d.graphic.DivLightPoint({
+  const graphic = new mars3d.graphic.DivLightPoint({
     position: [116.630276, 31.213813],
     style: {
       color: "#f33349",
@@ -158,7 +158,7 @@ function addDemoGraphic5(graphicLayer) {
 
 // 内置扩展的动态文本 DivBoderLabel
 function addDemoGraphic6(graphicLayer) {
-  var graphic = new mars3d.graphic.DivBoderLabel({
+  const graphic = new mars3d.graphic.DivBoderLabel({
     position: [116.460722, 31.140888, 781],
     style: {
       text: "火星科技Mars3D平台",
@@ -174,7 +174,7 @@ function addDemoGraphic6(graphicLayer) {
 
 // 内置扩展的竖立文本 DivBoderLabel
 function addDemoGraphic7(graphicLayer) {
-  var graphic = new mars3d.graphic.DivUpLabel({
+  const graphic = new mars3d.graphic.DivUpLabel({
     position: [116.327136, 30.99723, 914.6],
     style: {
       text: "我是竖立的文本",
@@ -192,7 +192,7 @@ function addDemoGraphic7(graphicLayer) {
 
 // 类似popup/toolitp的自定义html
 function addDemoGraphic8(graphicLayer) {
-  var graphic = new mars3d.graphic.Popup({
+  const graphic = new mars3d.graphic.Popup({
     position: [116.146461, 31.380152, 395.1],
     style: {
       html: `这里可以放入任意html代码<br /> Popup和Tooltip也是继承自DivGraphic`,
@@ -214,7 +214,7 @@ function addDemoGraphic8(graphicLayer) {
 
 // 倾斜指向左下角的面板样式
 function addDemoGraphic9(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.138686, 31.101009, 1230],
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
@@ -275,14 +275,14 @@ function addDemoGraphic9(graphicLayer) {
   // 刷新局部DOM,不影响面板的其他控件操作
   // [建议读取到后端接口数据后主动去修改DOM，比下面演示的实时刷新效率高些]
   graphic.on(mars3d.EventType.postRender, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
 
-    var lablLiuliang = container.querySelector("#lablLiuliang")
+    const lablLiuliang = container.querySelector("#lablLiuliang")
     if (lablLiuliang) {
       lablLiuliang.innerHTML = (Math.random() * 100).toFixed(0) // 测试的随机数
     }
 
-    var lablYeWei = container.querySelector("#lablYeWei")
+    const lablYeWei = container.querySelector("#lablYeWei")
     if (lablYeWei) {
       lablYeWei.innerHTML = mars3d.Util.formatDate(new Date(), "ss.S") // 测试的随机数
     }
@@ -291,7 +291,7 @@ function addDemoGraphic9(graphicLayer) {
 
 // 倾斜指向左下角的面板样式
 function addDemoGraphic10(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.228043, 30.882207],
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-green">
@@ -355,7 +355,7 @@ function addDemoGraphic10(graphicLayer) {
 
 // 倾斜指向左下角的面板样式
 function addDemoGraphic11(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5),
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-blue">
@@ -409,29 +409,29 @@ function movePoint(graphic) {
   map.clock.shouldAnimate = true
 
   // 动画移动
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
-  var time = 20 // 移动的时长 ，秒
+  const time = 20 // 移动的时长 ，秒
   let tempTime
 
   // 起点
-  var startPoint = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5)
+  const startPoint = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5)
   tempTime = map.clock.currentTime // 飞行开始时间
   property.addSample(tempTime, startPoint)
 
   // 移动到的第1个目标点
-  var point1 = Cesium.Cartesian3.fromDegrees(116.311439, 30.76485, 423.7)
+  const point1 = Cesium.Cartesian3.fromDegrees(116.311439, 30.76485, 423.7)
   tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate())
   property.addSample(tempTime, point1)
 
   // 移动到的第2个目标点
-  var point2 = Cesium.Cartesian3.fromDegrees(116.63081, 30.786585, 85)
+  const point2 = Cesium.Cartesian3.fromDegrees(116.63081, 30.786585, 85)
   tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate())
   property.addSample(tempTime, point2)
 
   // 移动到的第3个目标点
-  var point3 = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5)
+  const point3 = Cesium.Cartesian3.fromDegrees(116.706926, 30.945346, 457.5)
   tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate())
   property.addSample(tempTime, point3)
 
@@ -457,7 +457,7 @@ function startDrawGraphic() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -473,14 +473,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -493,14 +493,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -513,7 +513,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -521,7 +521,7 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }

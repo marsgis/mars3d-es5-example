@@ -58,6 +58,7 @@ module.exports = {
     "comma-dangle": "off", // 强制在对象和数组文字中一致地使用尾随逗号
     eqeqeq: "off", // 是否使用 === 替代 ==
     "no-var": "off", // @fixable 禁止使用 var
+    "no-undef": "warn",
     // mars3d-es5-example项目专用的配置(目的便于示例的开发调试) end
 
     camelcase: "off", // 强制驼峰命名规则

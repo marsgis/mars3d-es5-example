@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let tilesetFlood
+var map // mars3d.Map三维地图对象
+var tilesetFlood
 
 var mapOptions = {
   scene: {
@@ -20,9 +20,11 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题：", `
-    (1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式 模型
-    (2) 目前不支持所有3dtiles数据，请替换url进行自测。`)
+  globalNotify(
+    "已知问题提示",
+    `(1) 对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+     (2) 目前不支持所有3dtile数据，请替换url进行自测`
+  )
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   addLayer()
@@ -38,7 +40,7 @@ function onUnmounted() {
 
 function addLayer() {
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
     url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
@@ -68,7 +70,7 @@ function addLayer() {
     console.log("开始分析", e)
   })
   tilesetFlood.on(mars3d.EventType.change, function (e) {
-    var height = e.height
+    const height = e.height
     eventTarget.fire("heightChange", { height })
   })
   tilesetFlood.on(mars3d.EventType.end, function (e) {
@@ -103,7 +105,7 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
 
       tilesetFlood.addArea(positions)
     }
@@ -122,7 +124,7 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
 
       tilesetFlood.addArea(positions)
 
@@ -139,9 +141,9 @@ function begin(data) {
   }
   map.graphicLayer.clear()
 
-  var minValue = Number(data.minHeight)
-  var maxValue = Number(data.maxHeight)
-  var speed = Number(data.speed)
+  const minValue = Number(data.minHeight)
+  const maxValue = Number(data.maxHeight)
+  const speed = Number(data.speed)
   if (minValue <= 27) {
     globalMsg("最低海拔过低，请耐心等候几秒")
   }

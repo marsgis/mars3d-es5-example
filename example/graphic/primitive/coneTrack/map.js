@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -53,7 +53,7 @@ function onUnmounted() {
 
 // 静态的位置
 function addDemoGraphic1(graphicLayer) {
-  var coneTrack = new mars3d.graphic.ConeTrackPrimitive({
+  const coneTrack = new mars3d.graphic.ConeTrackPrimitive({
     position: [116.327881, 31.018378, 5000],
     targetPosition: [116.365017, 30.996012, 898.6], // 可选
     style: {
@@ -77,9 +77,9 @@ function addDemoGraphic1(graphicLayer) {
 // 静态的位置
 let coneTrack
 function addDemoGraphic2(graphicLayer) {
-  var position = [116.28782, 30.971557, 5000]
+  const position = [116.28782, 30.971557, 5000]
   // 加个飞机
-  var primitive = new mars3d.graphic.ModelPrimitive({
+  const primitive = new mars3d.graphic.ModelPrimitive({
     position: position,
     style: {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -114,7 +114,7 @@ function onClickSelPoint() {
       color: "#ffff00"
     },
     success: function (graphic) {
-      var position = graphic.positionShow
+      const position = graphic.positionShow
       map.graphicLayer.clear()
 
       coneTrack.targetPosition = position
@@ -124,7 +124,7 @@ function onClickSelPoint() {
 
 // 动态的位置
 function addDemoGraphic3(graphicLayer) {
-  var propertyFJ = getSampledPositionProperty([
+  const propertyFJ = getSampledPositionProperty([
     [116.364307, 31.03778, 5000],
     [116.42794, 31.064786, 5000],
     [116.474002, 31.003825, 5000],
@@ -134,7 +134,7 @@ function addDemoGraphic3(graphicLayer) {
   ])
 
   // 飞机
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     position: propertyFJ,
     orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
     style: {
@@ -147,7 +147,7 @@ function addDemoGraphic3(graphicLayer) {
   graphicLayer.addGraphic(graphicModel)
 
   // 汽车
-  var propertyQC = getSampledPositionProperty([
+  const propertyQC = getSampledPositionProperty([
     [116.391268, 30.956038, 827.2],
     [116.37934, 30.980835, 898.1],
     [116.382514, 30.999031, 921.5],
@@ -155,7 +155,7 @@ function addDemoGraphic3(graphicLayer) {
     [116.412254, 31.021635, 1224.1],
     [116.432328, 31.045508, 804.3]
   ])
-  var graphicQC = new mars3d.graphic.PathEntity({
+  const graphicQC = new mars3d.graphic.PathEntity({
     position: propertyQC,
     orientation: new Cesium.VelocityOrientationProperty(propertyQC),
     style: {
@@ -173,7 +173,7 @@ function addDemoGraphic3(graphicLayer) {
   graphicLayer.addGraphic(graphicQC)
 
   // 圆锥追踪体（动态position=>动态targetPosition）
-  var coneTrack = new mars3d.graphic.ConeTrackPrimitive({
+  const coneTrack = new mars3d.graphic.ConeTrackPrimitive({
     position: propertyFJ,
     // targetPosition: [116.417326, 31.046258, 841.2],
     targetPosition: propertyQC,
@@ -206,14 +206,14 @@ function addDemoGraphic3(graphicLayer) {
 
 // 计算演示的SampledPositionProperty轨迹
 function getSampledPositionProperty(points) {
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
-  var start = map.clock.currentTime
-  var positions = mars3d.LngLatArray.toCartesians(points)
+  const start = map.clock.currentTime
+  const positions = mars3d.LngLatArray.toCartesians(points)
   for (let i = 0; i < positions.length; i++) {
-    var time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
-    var position = positions[i]
+    const time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
+    const position = positions[i]
     property.addSample(time, position)
   }
   return property
@@ -222,7 +222,7 @@ function getSampledPositionProperty(points) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -238,7 +238,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -246,11 +246,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

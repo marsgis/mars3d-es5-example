@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -22,7 +22,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 按shift键+鼠标左键 拖拽 地球到合适区域，通过下面代码获取视角参数，拷贝到mapOptions的center参数中。
-  var center = JSON.stringify(map.getCameraView({ simplify: false }))
+  const center = JSON.stringify(map.getCameraView({ simplify: false }))
   console.log("center视角为：", center)
 
   startRotate()
@@ -50,10 +50,10 @@ function stopRotate() {
 }
 // 地球旋转
 function map_onClockTick() {
-  var spinRate = 1
+  const spinRate = 1
 
-  var currentTime = map.clock.currentTime.secondsOfDay
-  var delta = (currentTime - previousTime) / 1000
+  const currentTime = map.clock.currentTime.secondsOfDay
+  const delta = (currentTime - previousTime) / 1000
   previousTime = currentTime
   map.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -spinRate * delta)
 }
@@ -72,9 +72,9 @@ function getGeojsonStart() {
 }
 
 function addDemoGraphics(geojson) {
-  var center = Cesium.Cartesian3.fromDegrees(117.203932, 31.856794, 31.8)
+  const center = Cesium.Cartesian3.fromDegrees(117.203932, 31.856794, 31.8)
   // 公司位置 矢量对象标记
-  var lightCone = new mars3d.graphic.LightCone({
+  const lightCone = new mars3d.graphic.LightCone({
     position: center,
     style: {
       color: "rgba(0,255,255,0.9)",
@@ -85,18 +85,18 @@ function addDemoGraphics(geojson) {
   })
   map.graphicLayer.addGraphic(lightCone)
 
-  var arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
-  var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+  const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+  const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
     image: "img/textures/line-color-yellow.png",
     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
     speed: 9
   })
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i].attr
+    const item = arr[i].attr
     if (item.name) {
-      var thisPoint = Cesium.Cartesian3.fromDegrees(item.center[0], item.center[1])
-      var positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
-      var primitive = new mars3d.graphic.PolylinePrimitive({
+      const thisPoint = Cesium.Cartesian3.fromDegrees(item.center[0], item.center[1])
+      const positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
+      const primitive = new mars3d.graphic.PolylinePrimitive({
         positions: positions,
         style: {
           width: 2,

@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayerElllipsoid
 
-var center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点
+const center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -22,7 +22,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayerElllipsoid = new mars3d.layer.GraphicLayer()
@@ -32,13 +32,13 @@ function onMounted(mapInstance) {
   createEllipsoid(true, false)
 
   // 添加点集
-  var resource = new Cesium.Resource({
+  const resource = new Cesium.Resource({
     url: "//data.mars3d.cn/file/apidemo/diffusion.json"
   })
   resource
     .fetchJson()
     .then(function (rs) {
-      globalNotify("已知问题：", `加载十几万条数据，请耐心等待~`)
+      globalNotify("已知问题提示", `加载十几万条数据，请耐心等待~`)
 
       setTimeout(() => {
         creteaPointPrimitive(graphicLayer, rs)
@@ -61,21 +61,21 @@ function onUnmounted() {
 function creteaPointPrimitive(graphicLayer, rs) {
   clr.init()
 
-  var degree = 45 // 角度
-  var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
+  const degree = 45 // 角度
+  const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
 
   for (let i = 1, len = rs.length; i < len; i++) {
-    var item = rs[i]
+    const item = rs[i]
 
     if (item[2] !== 2) {
       continue
     } // 只展示一层
 
-    var val = item[3]
-    var par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr)
+    const val = item[3]
+    const par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr)
 
     // 加point点
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       position: par1Position,
       style: {
         pixelSize: 5,
@@ -91,7 +91,7 @@ function creteaPointPrimitive(graphicLayer, rs) {
 function createEllipsoid(redShow, yellowShow) {
   graphicLayerElllipsoid.clear()
   let radiu = 200
-  var redSphere = new mars3d.graphic.EllipsoidEntity({
+  const redSphere = new mars3d.graphic.EllipsoidEntity({
     name: "危险圈",
     position: center,
     style: {
@@ -111,7 +111,7 @@ function createEllipsoid(redShow, yellowShow) {
   redSphere.show = redShow
 
   radiu = 400
-  var yellowSphere = new mars3d.graphic.EllipsoidEntity({
+  const yellowSphere = new mars3d.graphic.EllipsoidEntity({
     name: "警告圈",
     position: center,
     style: {
@@ -132,7 +132,7 @@ function createEllipsoid(redShow, yellowShow) {
 }
 
 // 颜色处理
-var clr = {
+const clr = {
   span: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07],
   colors: ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"],
   init: function () {

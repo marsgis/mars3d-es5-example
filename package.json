@@ -4,11 +4,11 @@
   "description": "Mars3D平台,原生JS版本功能示例",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./example*/**/*.{js,html} --fix",
     "serve": "http-server",
-    "serve:dist": "http-server ./dist",
     "build": "gulp build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve:dist": "http-server ./dist",
+    "lint": "eslint ./example*/**/*.{js,html} --fix",
+    "build-read": "node build/build.js"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
@@ -23,6 +23,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.3.1",
+    "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-cheerio": "^0.6.3",

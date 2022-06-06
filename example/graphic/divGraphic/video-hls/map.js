@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载石化工厂模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
     url: "http://data.mars3d.cn/3dtiles/max-shihua/tileset.json",
     position: { lng: 117.077158, lat: 31.659116, alt: 24.6 },
@@ -30,7 +30,7 @@ function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 创建DIV数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -44,7 +44,7 @@ function onMounted(mapInstance) {
         text: "查看摄像头",
         icon: "fa fa-trash-o",
         callback: function (e) {
-          var graphic = e.graphic
+          const graphic = e.graphic
 
           globalMsg("右键菜单示例")
         }
@@ -69,11 +69,11 @@ function onUnmounted() {
 }
 
 // let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
-// var hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-var hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
 
 function addDemoGraphic(graphicLayer, position) {
-  var graphicImg = new mars3d.graphic.DivGraphic({
+  const graphicImg = new mars3d.graphic.DivGraphic({
     position: position,
     style: {
       html: ` <div class="mars3d-camera-content">
@@ -100,10 +100,10 @@ function addDemoGraphic(graphicLayer, position) {
   graphicLayer.addGraphic(graphicImg)
 
   graphicImg.on(mars3d.EventType.popupOpen, function (event) {
-    var videoElement = event.container.querySelector("#videoHLS") // popup对应的DOM
+    const videoElement = event.container.querySelector("#videoHLS") // popup对应的DOM
 
     if (window.Hls.isSupported()) {
-      var hls = new window.Hls()
+      const hls = new window.Hls()
       hls.loadSource(hlsUrl)
       hls.attachMedia(videoElement)
       hls.on(window.Hls.Events.MANIFEST_PARSED, function () {

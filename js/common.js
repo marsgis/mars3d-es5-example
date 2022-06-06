@@ -54,48 +54,80 @@ function globalInitMap(options) {
 //初始化widget相关
 function initWidget(map) {
   //初始化widget管理器
-  mars3d.widget.init(map, {
-    defaultOptions: {
-      style: "dark",
-      windowOptions: { skin: "layer-mars-dialog animation-scale-up", position: { bottom: 50, left: 10 } }
+  mars3d.widget.init(
+    map,
+    {
+      defaultOptions: {
+        style: "dark",
+        windowOptions: { skin: "layer-mars-dialog animation-scale-up", position: { bottom: 50, left: 10 } }
+      },
+      openAtStart: [
+        {
+          name: "右上角工具栏",
+          uri: "widgets/toolButton/menuBtn.js"
+        }
+      ],
+      widgets: [
+        {
+          name: "图层管理",
+          uri: "widgets/manageLayers/widget.js",
+          group: "forlayer",
+          autoCenter: true,
+          windowOptions: {
+            position: { top: 10, bottom: 40, left: 50 }
+          },
+          autoDisable: false,
+          disableOther: false
+        }
+      ]
     },
-    openAtStart: [
-      {
-        name: "右上角工具栏",
-        uri: "widgets/toolButton/menuBtn.js"
-      }
-    ],
-    widgets: [
-      {
-        name: "图层管理",
-        uri: "widgets/manageLayers/widget.js",
-        group: "forlayer",
-        autoCenter: true,
-        windowOptions: {
-          position: { top: 10, bottom: 40, left: 50 }
-        },
-        autoDisable: false,
-        disableOther: false
-      }
-    ]
-  },"/")
+    "/"
+  )
 }
 
-
-
 // 调用项目的消息提示（自动消失）
-function globalMsg(msg, ...args) {
-  return haoutil.msg(msg, ...args)
+function globalMsg(content) {
+  if (window.layer) {
+    window.layer.msg(content) // 此方法需要引用layer.js
+  } else if (window.toastr) {
+    window.toastr.info(content) // 此方法需要引用toastr
+  } else {
+    window.alert(content)
+  }
 }
 
 // 调用项目的弹窗提示（手动单击确定关闭窗口）
-function globalAlert(msg, title, ...args) {
-  return haoutil.alert(title,msg, ...args)
+function globalAlert(content, title) {
+  if (window.layer) {
+    // 此方法需要引用layer.js
+    window.layer.alert(content, {
+      title: title || "提示",
+      skin: "layui-layer-lan layer-mars-dialog",
+      closeBtn: 0,
+      anim: 0
+    })
+  } else if (window.toastr) {
+    window.toastr.info(content, title) // 此方法需要引用toastr
+  } else {
+    window.alert(content)
+  }
 }
 
 // 调用项目的右上角信息提示（可关闭）
-function globalNotify(msg, title, ...args) {
-  return haoutil.msg(msg + title, ...args)
+function globalNotify(title, content) {
+  if (window.toastr) {
+    window.toastr.warning(content, title) // 此方法需要引用toastr
+  } else if (window.layer) {
+    // 此方法需要引用layer.js
+    window.layer.alert(content, {
+      title: title || "提示",
+      skin: "layui-layer-lan layer-mars-dialog",
+      closeBtn: 0,
+      anim: 0
+    })
+  } else {
+    window.alert(content)
+  }
 }
 
 function showLoading() {

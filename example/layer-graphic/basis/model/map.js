@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let gltfLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -105,7 +105,7 @@ function showDonghuaDemo() {
 function showFenliDemo() {
   removeLayer()
 
-  var positions = [
+  const positions = [
     { lng: 112.227630577, lat: 39.0613382363999, alt: 1815 },
     { lng: 112.229302206, lat: 39.0579481036999, alt: 1827 },
     { lng: 112.226596341, lat: 39.0584773033999, alt: 1849 },
@@ -156,12 +156,12 @@ function showFenliDemo() {
 function showGuangfu() {
   removeLayer()
 
-  var arrData = []
+  const arrData = []
   // 构造数据
-  var longitudeString = 93.1214
-  var latitudeString = 42.7863
-  var height = 678
-  var heading = 0
+  const longitudeString = 93.1214
+  const latitudeString = 42.7863
+  const height = 678
+  const heading = 0
   // 光伏电厂位置太阳能电池板位置
   for (let i = 0; i < 120; i++) {
     let point

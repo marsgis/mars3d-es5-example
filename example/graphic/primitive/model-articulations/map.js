@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let primitive
+var map // mars3d.Map三维地图对象
+var primitive
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
@@ -29,14 +29,14 @@ let model
 
 function addRockets() {
   // // 绑定到UI界面控制参数
-  // var viewModel = {
+  // const viewModel = {
   //   articulations: [],
   //   stages: [],
   //   selectedArticulation: undefined
   // }
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   primitive = new mars3d.graphic.ModelPrimitive({
@@ -55,13 +55,13 @@ function addRockets() {
     model = event.model
 
     // 缩放区域到模型所在位置
-    var controller = map.scene.screenSpaceCameraController
-    var r = 2.0 * Math.max(model.boundingSphere.radius, map.camera.frustum.near)
+    const controller = map.scene.screenSpaceCameraController
+    const r = 2.0 * Math.max(model.boundingSphere.radius, map.camera.frustum.near)
     controller.minimumZoomDistance = r * 0.2
 
-    var center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, Cesium.Cartesian3.ZERO, new Cesium.Cartesian3())
-    var heading = Cesium.Math.toRadians(0.0)
-    var pitch = Cesium.Math.toRadians(-10.0)
+    const center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, Cesium.Cartesian3.ZERO, new Cesium.Cartesian3())
+    const heading = Cesium.Math.toRadians(0.0)
+    const pitch = Cesium.Math.toRadians(-10.0)
     map.camera.lookAt(center, new Cesium.HeadingPitchRange(heading, pitch, r * 1.5))
 
     // 设置参数效果
@@ -70,13 +70,13 @@ function addRockets() {
     model.applyArticulations()
 
     // 读取gltf内的构件信息
-    var articulationsByName = model._runtime.articulationsByName
-    var articulations = Object.keys(articulationsByName).map(function (articulationName) {
+    const articulationsByName = model._runtime.articulationsByName
+    const articulations = Object.keys(articulationsByName).map(function (articulationName) {
       return {
         name: articulationName,
         name_cn: namesCN[articulationName] || articulationName, // 汉化
         stages: articulationsByName[articulationName].stages.map(function (stage) {
-          var stageModel = {
+          const stageModel = {
             name: stage.name,
             name_cn: namesCN[stage.name] || stage.name, // 汉化
             minimum: stage.minimumValue,
@@ -95,13 +95,13 @@ function addRockets() {
 
 // 设置参数效果
 function setArticulationStage(groupName, stageName, current) {
-  var name = groupName + " " + stageName
+  const name = groupName + " " + stageName
   model.setArticulationStage(name, Number(current))
   model.applyArticulations()
 }
 
 // 汉化属性名称
-var namesCN = {
+const namesCN = {
   // 属性分组
   LaunchVehicle: "火箭整体",
   Fairing: "整流罩",

@@ -25,25 +25,36 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,mars3d"
     ></script>
 
     <script type="text/javascript" src="/lib/dom2img/dom-to-image.js"></script>
 
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/divGraphic.css" rel="stylesheet" />
+    <style>
+      .infoview {
+        width: 213px;
+      }
+    </style>
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
-      <input type="button" class="btn btn-primary" id="showMapImg" value="查看场景出图" />
-      <input type="button" class="btn btn-primary" id="downLoad2" value="下载场景缩略图" />
-      <input type="button" class="btn btn-primary" id="downLoad" value="下载场景出图" />
-      <input type="button" class="btn btn-primary" id="downLoadDiv" value="下载场景出图(含DIV部分)" />
+      <div class="f-mb">
+        <input type="button" class="btn btn-primary" id="showMapImg" value="查看场景出图" />
+      </div>
+      <div class="f-mb">
+        <input type="button" class="btn btn-primary" id="downLoad2" value="下载场景缩略图" />
+      </div>
+      <div class="f-mb">
+        <input type="button" class="btn btn-primary" id="downLoad" value="下载场景出图" />
+      </div>
+      <div class="f-mb">
+        <input type="button" class="btn btn-primary" id="downLoadDiv" value="下载场景出图(含DIV部分)" />
+      </div>
     </div>
 
     <script src="/js/common.js"></script>

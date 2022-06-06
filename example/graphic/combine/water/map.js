@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    var pickedItem = event.pickedObject?.data
+    const pickedItem = event.pickedObject?.data
     // let attr = event.graphic.attr
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
@@ -68,7 +68,7 @@ function addDemoGraphic1(graphicLayer) {
       globalMsg("共加载" + arr.length + "个水面")
 
       // 多个面对象的合并渲染。
-      var primitive = new mars3d.graphic.WaterCombine({
+      const primitive = new mars3d.graphic.WaterCombine({
         instances: arr,
         // 公共样式
         style: {
@@ -92,16 +92,16 @@ function addDemoGraphic1(graphicLayer) {
 function addDemoGraphic(count) {
   graphicLayer.clear()
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
   count = count * 10000
 
-  var arrData = []
+  const arrData = []
   for (let j = 0; j < count; ++j) {
-    var position = randomPoint()
-    var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500)
-    var pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500)
-    var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500)
-    var pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500)
+    const position = randomPoint()
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500)
+    const pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500)
+    const pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500)
 
     arrData.push({
       positions: [pt1, pt2, pt3, pt4, pt1],
@@ -122,23 +122,23 @@ function addDemoGraphic(count) {
   }
 
   // 多个面对象的合并渲染。
-  var primitive = new mars3d.graphic.WaterCombine({
+  const primitive = new mars3d.graphic.WaterCombine({
     instances: arrData
   })
   graphicLayer.addGraphic(primitive)
 
   hideLoading()
 
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -149,8 +149,8 @@ function bindLayerPopup() {
 
 // 取区域内的随机点
 function randomPoint() {
-  var jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
-  var wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000
+  const jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
+  const wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000
   return Cesium.Cartesian3.fromDegrees(jd, wd)
 }
 function random(min, max) {

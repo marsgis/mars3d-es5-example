@@ -25,7 +25,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,toastr,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -43,8 +43,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
     <!-- <div id="toolbar" class="infoview"></div> -->
 
@@ -56,6 +54,7 @@
           <td colspan="2">
             <input type="button" class="btn btn-primary" value="大雁塔" id="showDytDemo" />
             <input type="button" class="btn btn-primary" value="天鹅湖" id="showTehDemo" />
+            <input type="button" class="btn btn-primary" value="某县城" id="showQxShequDemo" />
           </td>
         </tr>
         <tr>
@@ -89,8 +88,6 @@
       </table>
     </div>
 
-
-
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
     <script type="text/javascript">
@@ -112,10 +109,17 @@
 
           showTehDemo($("#chkShowLine").is(":checked"))
         })
+        $("#showQxShequDemo").click(function () {
+          // 清除表格
+          let tbody = document.getElementById("tbPoly")
+          tbody.innerHTML = ""
+
+          showQxShequDemo($("#chkShowLine").is(":checked"))
+        })
 
         // 绘制开挖区域
         $("#btnDraw").click(function () {
-          btnDrawExtent($("#chkShowLine").is(":checked"))
+          btnDraw($("#chkShowLine").is(":checked"))
         })
         $("#btnDrawExtent").click(function () {
           btnDrawExtent($("#chkShowLine").is(":checked"))

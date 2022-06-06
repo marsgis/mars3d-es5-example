@@ -1,9 +1,9 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-var arrData = [
+const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
   { name: "油罐二", position: [117.095206, 31.814878, 47.3] },
   { name: "油罐三", position: [117.094653, 31.814428, 47.3] },
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载油田联合站模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     pid: 2020,
     type: "3dtiles",
     name: "油田联合站",
@@ -66,9 +66,9 @@ function divGraphicYellow() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivGraphic({
+    const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
         html: `<div class="marsBlackPanel  animation-spaceInDown">
@@ -88,15 +88,15 @@ function divGraphicYellow() {
 
     // 刷新局部DOM,不影响popup面板的其他控件操作
     divGraphic.on(mars3d.EventType.postRender, function (event) {
-      var container = event.container // popup对应的DOM
-      var graphic = event.target
+      const container = event.container // popup对应的DOM
+      const graphic = event.target
 
-      var oldVal = graphic.attr.duNum
+      const oldVal = graphic.attr.duNum
 
-      var newVal = Number(mars3d.Util.formatDate(new Date(), "ss")) + graphic.attr.index
+      const newVal = Number(mars3d.Util.formatDate(new Date(), "ss")) + graphic.attr.index
       if (oldVal !== newVal) {
         graphic.attr.duNum = newVal
-        var temperatureDom = container.querySelector(".temperature")
+        const temperatureDom = container.querySelector(".temperature")
         if (temperatureDom) {
           temperatureDom.innerHTML = newVal
         }
@@ -110,9 +110,9 @@ function divGraphicBule() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivGraphic({
+    const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
         html: `<div class="marsBlueGradientPnl">
@@ -132,9 +132,9 @@ function divGraphicWhite() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivUpLabel({
+    const divGraphic = new mars3d.graphic.DivUpLabel({
       position: item.position,
       style: {
         text: item.name,
@@ -155,9 +155,9 @@ function divGraphicHotSpot() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivGraphic({
+    const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
         html: `<div class="mars-spot">
@@ -178,7 +178,7 @@ function divGraphicHotSpot() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"

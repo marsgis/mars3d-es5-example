@@ -1,4 +1,4 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 let map3d
 let map2d
@@ -13,9 +13,9 @@ function onMounted(mapInstance) {
   map3d = mapInstance // 记录map
   map3d.camera.percentageChanged = 0.01
 
-  creatMap2D()
+  globalNotify("已知问题提示", `三维事件目前监听不灵敏，视角同步不够平滑。 `)
 
-  globalNotify("已知问题：", `(1) 三维事件目前监听不灵敏，视角同步不够平滑。 `)
+  creatMap2D()
 }
 
 /**
@@ -35,14 +35,14 @@ function onUnmounted() {
 function creatMap2D() {
   showLoading()
 
-  var mapDiv = mars3d.DomUtil.create("div", "", document.body)
+  const mapDiv = mars3d.DomUtil.create("div", "", document.body)
   mapDiv.setAttribute("id", "centerDiv2D")
 
-  var map2dDiv = mars3d.DomUtil.create("div", "", mapDiv)
+  const map2dDiv = mars3d.DomUtil.create("div", "", mapDiv)
   map2dDiv.setAttribute("id", "map2d")
   map2dDiv.setAttribute("class", "mars2d-container")
 
-  var configUrl = "http://mars2d.cn/config/config.json"
+  const configUrl = "http://mars2d.cn/config/config.json"
   mars2d.Util.fetchJson({ url: configUrl })
     .then(function (data) {
       // 构建地图
@@ -76,8 +76,8 @@ function unbind2dEvent() {
 }
 
 function _map2d_extentChangeHandler(e) {
-  var bounds = map2d.getBounds()
-  var extent = {
+  const bounds = map2d.getBounds()
+  const extent = {
     xmin: bounds.getWest(),
     xmax: bounds.getEast(),
     ymin: bounds.getSouth(),
@@ -103,8 +103,8 @@ function unbind3dEvent() {
 }
 
 function camera_moveEndHandler(e) {
-  var point = map3d.getCenter() // 范围对象
-  var level = map3d.level
+  const point = map3d.getCenter() // 范围对象
+  const level = map3d.level
   console.log(`'三维地图变化了，位置： ${point.toString()},层级 ${level} `)
 
   unbind2dEvent()
@@ -115,8 +115,8 @@ function camera_moveEndHandler(e) {
 }
 
 function viewTo3d() {
-  var to3dDom = document.getElementById("centerDiv3D")
-  var to2dDom = document.getElementById("centerDiv2D")
+  const to3dDom = document.getElementById("centerDiv3D")
+  const to2dDom = document.getElementById("centerDiv2D")
   to2dDom.style.display = "none"
   to3dDom.style.display = "block"
   to3dDom.style.left = "0"
@@ -124,8 +124,8 @@ function viewTo3d() {
 }
 
 function viewTo2d() {
-  var to3dDom = document.getElementById("centerDiv3D")
-  var to2dDom = document.getElementById("centerDiv2D")
+  const to3dDom = document.getElementById("centerDiv3D")
+  const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.display = "none"
   to2dDom.style.display = "block"
   to2dDom.style.width = "100%"
@@ -136,8 +136,8 @@ function viewTo2d() {
 }
 
 function viewTo23D() {
-  var to3dDom = document.getElementById("centerDiv3D")
-  var to2dDom = document.getElementById("centerDiv2D")
+  const to3dDom = document.getElementById("centerDiv3D")
+  const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.width = "50%"
   to2dDom.style.width = "50%"
   to3dDom.style.left = "50%"

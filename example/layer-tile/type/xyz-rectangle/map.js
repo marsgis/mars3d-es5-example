@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -35,7 +35,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加 安徽省边界线墙
-  var anhuiWall = new mars3d.layer.GeoJsonLayer({
+  const anhuiWall = new mars3d.layer.GeoJsonLayer({
     name: "安徽省边界墙",
     url: "//data.mars3d.cn/file/geojson/areas/340000.json",
     symbol: {
@@ -52,7 +52,7 @@ function onMounted(mapInstance) {
   map.addLayer(anhuiWall)
 
   // 安徽省卫星底图
-  var tileLayer = new mars3d.layer.XyzLayer({
+  const tileLayer = new mars3d.layer.XyzLayer({
     url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
     minimumLevel: 0,
     maximumLevel: 12,

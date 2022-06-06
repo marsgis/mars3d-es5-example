@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 访问后端接口，取数据
@@ -42,11 +42,11 @@ function onUnmounted() {
 
 function createGraphics(graphicLayer, arr) {
   graphicLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
     if (!item) {
       return false
     }
-    var inthtml = `<table style="width: auto;">
+    const inthtml = `<table style="width: auto;">
                   <tr>
                     <th scope="col" colspan="2" style="text-align:center;font-size:15px;">${item.text} </th>
                   </tr>
@@ -79,8 +79,8 @@ function createGraphics(graphicLayer, arr) {
     console.log("你单击了", event)
 
     if (map.camera.positionCartographic.height > 90000) {
-      var graphic = event.graphic
-      var position = graphic.position
+      const graphic = event.graphic
+      const position = graphic.position
       map.flyToPoint(position, {
         radius: 5000, // 距离目标点的距离
         duration: 4,
@@ -92,10 +92,10 @@ function createGraphics(graphicLayer, arr) {
   })
 
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
-    var position = Cesium.Cartesian3.fromDegrees(+item.lng, +item.lat, item.z || 0)
+    const item = arr[i]
+    const position = Cesium.Cartesian3.fromDegrees(+item.lng, +item.lat, item.z || 0)
 
-    var primitive = new mars3d.graphic.BillboardPrimitive({
+    const primitive = new mars3d.graphic.BillboardPrimitive({
       position: position,
       style: {
         image: "img/marker/mark3.png",

@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let roamLine
-var roamLineData = {}
+const roamLineData = {}
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -28,9 +28,9 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  addGraphicLayer()
+  globalNotify("已知问题提示", `不支持对地形的求交，目前仅对椭球体做投射。 `)
 
-  globalNotify("已知问题：", `(1) 不支持对地形的求交，目前仅对椭球体做投射。 `)
+  addGraphicLayer()
 }
 
 /**
@@ -43,11 +43,11 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后保存JSON
-  var flydata = {
+  const flydata = {
     name: "飞机航线",
     speed: 100,
     showStop: true,
@@ -237,8 +237,8 @@ function showRealTimeInfo(params, _alltime) {
 }
 
 function updateModel(isAuto, val) {
-  var pitch = val.slidePitchStep
-  var roll = val.slideRollStep
+  const pitch = val.slidePitchStep
+  const roll = val.slideRollStep
 
   roamLine.updateAngle(isAuto, {
     pitch: pitch,
@@ -248,12 +248,12 @@ function updateModel(isAuto, val) {
 
 // 改变视角模式
 function updateCameraSetting(data) {
-  var cameraType = data.select
-  var followedX = data.followedX
-  var followedZ = data.followedZ
-  var offsetZ = data.offsetZ
-  var offsetY = data.offsetY
-  var offsetX = data.offsetX
+  const cameraType = data.select
+  const followedX = data.followedX
+  const followedZ = data.followedZ
+  const offsetZ = data.offsetZ
+  const offsetY = data.offsetY
+  const offsetX = data.offsetX
 
   roamLine.setCameraOptions({
     type: cameraType,

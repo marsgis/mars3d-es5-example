@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,7 +31,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 一线以上城市地理位置
-  var arrStart = [
+  const arrStart = [
     { name: "北京", position: [116.395645038, 39.9299857781] },
     { name: "上海", position: [121.487899486, 31.24916171] },
     { name: "广州", position: [113.307649675, 23.1200491021] },
@@ -55,22 +55,22 @@ function onMounted(mapInstance) {
   ]
 
   //  连接点地理位置
-  var arrEnd = [
+  const arrEnd = [
     { name: "西安", position: [108.953098279, 34.2777998978] },
     { name: "南京", position: [118.778074408, 32.0572355018] },
     { name: "武汉", position: [114.316200103, 30.5810841269] }
   ]
 
   // 创建矢量数据
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   for (let i = 0; i < arrStart.length; i++) {
-    var item = arrStart[i]
-    var position = item.position
+    const item = arrStart[i]
+    const position = item.position
 
     // 城市名字
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: position,
       style: {
         html: `<div class ="textName">${item.name}</div>`,
@@ -82,11 +82,11 @@ function onMounted(mapInstance) {
   }
 
   for (let i = 0; i < arrEnd.length; i++) {
-    var item = arrEnd[i]
-    var endPoint = item.position
+    const item = arrEnd[i]
+    const endPoint = item.position
 
     // 城市名字
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: endPoint,
       style: {
         html: `<div class ="textName">${item.name}</div>`,
@@ -97,11 +97,11 @@ function onMounted(mapInstance) {
     graphicLayer.addGraphic(graphic)
 
     for (let j = 0; j < arrStart.length; j++) {
-      var item = arrStart[j]
-      var startPoint = item.position
+      const item = arrStart[j]
+      const startPoint = item.position
 
       // 连线
-      var line = new mars3d.graphic.PolylinePrimitive({
+      const line = new mars3d.graphic.PolylinePrimitive({
         positions: [startPoint, endPoint],
         style: {
           width: 2,

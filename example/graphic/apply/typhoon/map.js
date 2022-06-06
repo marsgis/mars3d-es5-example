@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
-//import { Typhoon, PlayTyphoon } from "./Typhoon"
+// import * as mars3d from "mars3d"
+// import { Typhoon, PlayTyphoon } from "./Typhoon"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -34,7 +34,7 @@ function onUnmounted() {
 }
 
 // 所有已构造的台风集合
-var typhoonListObj = {}
+const typhoonListObj = {}
 
 // 当前选择的台风
 let selectTyphoon
@@ -43,12 +43,12 @@ let selectTyphoon
 function selectOneTyphoon(row) {
   stopPlay()
 
-  var id = row.id
+  const id = row.id
   if (!typhoonListObj[id]) {
     typhoonListObj[id] = new Typhoon({ ...row }, map)
   }
 
-  var typhoon = typhoonListObj[id]
+  const typhoon = typhoonListObj[id]
   typhoon.show = true
   typhoon.flyTo()
 
@@ -57,7 +57,7 @@ function selectOneTyphoon(row) {
 
 // 取消勾选台风
 function unSelectOneTyphoon(id) {
-  var typhoon = typhoonListObj[id]
+  const typhoon = typhoonListObj[id]
   if (!typhoon) {
     return
   }
@@ -72,7 +72,7 @@ function unSelectOneTyphoon(id) {
 
 // 定位到台风
 function clickTyRow(row) {
-  var typhoon = typhoonListObj[row.id]
+  const typhoon = typhoonListObj[row.id]
   if (typhoon) {
     typhoon.flyTo()
   }
@@ -81,7 +81,7 @@ function clickTyRow(row) {
 // 定位到轨迹点
 function clickPathRow(row) {
   selectTyphoon.showPointFQ(row)
-  var graphic = selectTyphoon.getPointById(row.id)
+  const graphic = selectTyphoon.getPointById(row.id)
   if (graphic) {
     graphic.flyTo({
       radius: 1600000,
@@ -117,7 +117,7 @@ function stopPlay() {
 // 绘制警戒线
 function drawWarningLine() {
   // 绘制24小时警戒线
-  var lineWarning24 = new mars3d.graphic.PolylineEntity({
+  const lineWarning24 = new mars3d.graphic.PolylineEntity({
     positions: [
       [127, 34],
       [127, 22],
@@ -135,7 +135,7 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(lineWarning24)
 
   // 注记文本
-  var textWarning24 = new mars3d.graphic.RectangleEntity({
+  const textWarning24 = new mars3d.graphic.RectangleEntity({
     positions: [
       [128.129019, 29.104287],
       [125.850451, 28.424599]
@@ -153,7 +153,7 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(textWarning24)
 
   // 绘制48小时警戒线
-  var lineWarning48 = new mars3d.graphic.PolylineEntity({
+  const lineWarning48 = new mars3d.graphic.PolylineEntity({
     positions: [
       [132, 34],
       [132, 22],
@@ -171,7 +171,7 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(lineWarning48)
 
   // 注记文本
-  var textWarning48 = new mars3d.graphic.RectangleEntity({
+  const textWarning48 = new mars3d.graphic.RectangleEntity({
     positions: [
       [130.502492, 25.959716],
       [133.423638, 26.772991]

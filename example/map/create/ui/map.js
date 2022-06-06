@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -65,7 +65,7 @@ function drawExtent() {
       outlineColor: "rgba(255,255,0,1)"
     },
     success: function (graphic) {
-      var rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
+      const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
       eventTarget.fire("drawExtent", { extent: JSON.stringify(rectangle) }) // 抛出事件，可以组件中去监听事件
     }
   })
@@ -102,7 +102,7 @@ function createLayer(layer) {
 function queryTilesetData() {
   mars3d.Util.fetchJson({ url: "config/tileset.json" })
     .then(function (arr) {
-      var modelData = arr.layers
+      const modelData = arr.layers
       eventTarget.fire("loadTypeList", { modelData })
     })
     .catch(function (error) {

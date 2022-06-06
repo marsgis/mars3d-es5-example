@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -72,7 +72,7 @@ function onUnmounted() {
 }
 
 function changeColor(color) {
-  var clr = Cesium.Color.fromCssColorString(color)
+  const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
 
@@ -108,8 +108,8 @@ function showModel(_url) {
     map.scene.screenSpaceCameraController.maximumZoomDistance = tiles3dLayer.boundingSphere.radius * 5
 
     // 模型不可以拖拽移动位置，可放大缩小，旋转
-    // var center = tiles3dLayer.center.toCartesian()
-    // var offset = new Cesium.HeadingPitchRange(0, 0, tiles3dLayer.boundingSphere.radius)
+    // const center = tiles3dLayer.center.toCartesian()
+    // const offset = new Cesium.HeadingPitchRange(0, 0, tiles3dLayer.boundingSphere.radius)
     // map.camera.lookAt(center, offset)
 
     // 自动贴地处理

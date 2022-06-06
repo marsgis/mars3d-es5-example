@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -25,7 +25,7 @@ var mapOptions = {
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 时间控制参数
-var args = {
+const args = {
   space: 100,
   time: 5,
   martTimeInter: null,
@@ -59,7 +59,7 @@ function addLayer() {
   map.addLayer(graphicLayer)
 
   // 合肥高铁
-  var coors = [
+  const coors = [
     [117.277697, 31.800233, 45],
     [117.262022, 31.798983, 45],
     [117.229506, 31.793351, 45],
@@ -72,10 +72,10 @@ function addLayer() {
     [117.091144, 31.787516, 45]
   ]
 
-  var positions = mars3d.PointTrans.lonlats2cartesians(coors)
+  const positions = mars3d.PointTrans.lonlats2cartesians(coors)
 
   // 插值求新路线（按固定间隔米数插值） positions输入的值需为笛卡尔空间xyz坐标数组
-  var positionsNew = mars3d.PolyUtil.interLine(positions, {
+  const positionsNew = mars3d.PolyUtil.interLine(positions, {
     minDistance: 20 // 间隔20米
   })
 
@@ -93,17 +93,17 @@ function addLayer() {
 
 // 构造动态高铁   positions:设计的路线    positionsTD地面的贴地路线（用于比较）
 function inintRoad(positionsSJ, positionsTD) {
-  var heightArray = []
-  var heightTDArray = []
-  var mpoints = []
+  const heightArray = []
+  const heightTDArray = []
+  const mpoints = []
   for (let i = 0; i < positionsSJ.length; i++) {
-    var position = positionsSJ[i]
-    var carto = Cesium.Cartographic.fromCartesian(position)
-    var x = Cesium.Math.toDegrees(carto.longitude)
-    var y = Cesium.Math.toDegrees(carto.latitude)
+    const position = positionsSJ[i]
+    const carto = Cesium.Cartographic.fromCartesian(position)
+    const x = Cesium.Math.toDegrees(carto.longitude)
+    const y = Cesium.Math.toDegrees(carto.latitude)
 
-    var height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
-    var tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(positionsTD[i]).height) // 地面高度
+    const height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
+    const tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(positionsTD[i]).height) // 地面高度
 
     heightArray.push(height)
     heightTDArray.push(tdHeight)
@@ -111,15 +111,15 @@ function inintRoad(positionsSJ, positionsTD) {
   }
 
   //  距离数组
-  var positionsLineFirst = positionsTD[0]
-  var distanceArray = positionsTD.map(function (data) {
+  const positionsLineFirst = positionsTD[0]
+  const distanceArray = positionsTD.map(function (data) {
     return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
   })
 
   // 显示echarts
   eventTarget.fire("dataLoaded", { heightArray, heightTDArray, distanceArray })
   //  画线
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     id: "设计路线",
     positions: positionsSJ,
     style: {
@@ -131,7 +131,7 @@ function inintRoad(positionsSJ, positionsTD) {
   })
   graphicLayer.addGraphic(primitive)
 
-  var primitiveTD = new mars3d.graphic.PolylinePrimitive({
+  const primitiveTD = new mars3d.graphic.PolylinePrimitive({
     id: "贴地路线",
     positions: positionsTD,
     style: {
@@ -142,21 +142,21 @@ function inintRoad(positionsSJ, positionsTD) {
   graphicLayer.addGraphic(primitiveTD)
 
   // =================计算路线====================
-  var start = map.clock.currentTime.clone()
+  const start = map.clock.currentTime.clone()
 
-  var counts = mpoints.length
+  const counts = mpoints.length
 
-  var arrProperty = []
+  const arrProperty = []
 
   // 16组车身+头尾2个车头 共18组
   for (let j = 0; j < 18; j++) {
-    var stime = Cesium.JulianDate.addSeconds(start, j, new Cesium.JulianDate()) // 每隔j秒，添加一次时间
+    const stime = Cesium.JulianDate.addSeconds(start, j, new Cesium.JulianDate()) // 每隔j秒，添加一次时间
 
-    var property = new Cesium.SampledPositionProperty()
+    const property = new Cesium.SampledPositionProperty()
 
     for (let i = 0; i < counts; i++) {
-      var time = Cesium.JulianDate.addSeconds(stime, i + 1, new Cesium.JulianDate())
-      var point = Cesium.Cartesian3.fromDegrees(mpoints[i][0], mpoints[i][1], mpoints[i][2] + 0.5)
+      const time = Cesium.JulianDate.addSeconds(stime, i + 1, new Cesium.JulianDate())
+      const point = Cesium.Cartesian3.fromDegrees(mpoints[i][0], mpoints[i][1], mpoints[i][2] + 0.5)
       property.addSample(time, point) // 添加新样本，时间、位置
     }
 
@@ -170,7 +170,7 @@ function inintRoad(positionsSJ, positionsTD) {
 
   // =================时间相关====================
 
-  var stop = Cesium.JulianDate.addSeconds(start, counts + 60, new Cesium.JulianDate())
+  const stop = Cesium.JulianDate.addSeconds(start, counts + 60, new Cesium.JulianDate())
   map.clock.startTime = start.clone()
   map.clock.stopTime = stop.clone()
   map.clock.currentTime = start.clone()
@@ -182,7 +182,7 @@ function inintRoad(positionsSJ, positionsTD) {
     map.controls.timeline.zoomTo(start, stop)
   }
 
-  var availability = new Cesium.TimeIntervalCollection([
+  const availability = new Cesium.TimeIntervalCollection([
     new Cesium.TimeInterval({
       start: start,
       stop: Cesium.JulianDate.addSeconds(start, counts, new Cesium.JulianDate())
@@ -190,11 +190,11 @@ function inintRoad(positionsSJ, positionsTD) {
   ])
 
   // =================添加高铁车头================
-  var graphicHead = addTrainHead(arrProperty[0], availability)
+  const graphicHead = addTrainHead(arrProperty[0], availability)
   map.trackedEntity = graphicHead.entity // 设置相机的视角跟随的Entity实例
 
   // =================添加车身====================
-  var len = arrProperty.length
+  const len = arrProperty.length
   for (let j = 1; j < len - 1; j++) {
     addTrainBody(arrProperty[j], availability)
   }
@@ -209,7 +209,7 @@ function inintRoad(positionsSJ, positionsTD) {
   let lastDistance
 
   function locTrain() {
-    var t = parseInt(map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay) // 时间差
+    const t = parseInt(map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay) // 时间差
 
     if (t >= heightArray.length) {
       // 高铁运行结束之后
@@ -228,7 +228,7 @@ function inintRoad(positionsSJ, positionsTD) {
 
 // 添加车头
 function addTrainHead(position, availability, rotatePI) {
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车头",
     position: position,
     orientation: new Cesium.VelocityOrientationProperty(position),
@@ -246,7 +246,7 @@ function addTrainHead(position, availability, rotatePI) {
 
 // 添加车身
 function addTrainBody(position, availability) {
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车身",
     position: position,
     orientation: new Cesium.VelocityOrientationProperty(position),
@@ -264,34 +264,34 @@ function addTrainBody(position, availability) {
 
 // 添加铁路，定时更新
 function addRailway(graphicHead, mpoints) {
-  var positions = []
-  var orientations = []
+  const positions = []
+  const orientations = []
 
-  var times = graphicHead.position._property._times
-  var start = times[0].clone()
-  var counts = times.length
+  const times = graphicHead.position._property._times
+  const start = times[0].clone()
+  const counts = times.length
 
   for (let k = 1; k < counts; k++) {
-    var time = times[k]
+    const time = times[k]
 
-    var position = graphicHead.position.getValue(time)
+    const position = graphicHead.position.getValue(time)
     positions.push(position)
 
-    var orientation = graphicHead.orientation.getValue(time)
+    const orientation = graphicHead.orientation.getValue(time)
     orientations.push(orientation)
   }
 
   let i = 0
-  var roadNum = 80
+  const roadNum = 80
 
   function addroad() {
-    var space = Math.round(map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay)
+    const space = Math.round(map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay)
     let spa = space + args.space
     if (spa > counts) {
       spa = counts
     }
     for (; i < spa; i++) {
-      var availability = new Cesium.TimeIntervalCollection([
+      const availability = new Cesium.TimeIntervalCollection([
         new Cesium.TimeInterval({
           start: Cesium.JulianDate.addSeconds(start, -roadNum + i, new Cesium.JulianDate()),
           stop: Cesium.JulianDate.addSeconds(start, roadNum + i, new Cesium.JulianDate())
@@ -301,10 +301,10 @@ function addRailway(graphicHead, mpoints) {
       //  当高度在地下时，添加地下隧道
       if (mpoints[i][2] - mpoints[i][3] < -20 || (i > 2 && mpoints[i - 3][2] - mpoints[i - 3][3] < -20)) {
         //  mpoints[i][2] -- 设计高度；mpoints[i][3] -- 贴地高度
-        var id = "s" + i
-        var graphic = graphicLayer.getGraphicById(id)
+        const id = "s" + i
+        const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
-          var graphicModel = new mars3d.graphic.ModelEntity({
+          const graphicModel = new mars3d.graphic.ModelEntity({
             id: id,
             position: positions[i],
             orientation: orientations[i],
@@ -321,10 +321,10 @@ function addRailway(graphicHead, mpoints) {
       }
 
       //  添加轨道地面
-      var id = "xl" + i
-      var graphic = graphicLayer.getGraphicById(id)
+      const id = "xl" + i
+      const graphic = graphicLayer.getGraphicById(id)
       if (!graphic) {
-        var graphicModel = new mars3d.graphic.ModelEntity({
+        const graphicModel = new mars3d.graphic.ModelEntity({
           id: id,
           position: positions[i],
           orientation: orientations[i],
@@ -341,10 +341,10 @@ function addRailway(graphicHead, mpoints) {
 
       // 添加轨道支架
       if (mpoints[i][2] - mpoints[i][3] > 20 && i % 5 === 0) {
-        var id = "xq" + i
-        var graphic = graphicLayer.getGraphicById(id)
+        const id = "xq" + i
+        const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
-          var graphicModel = new mars3d.graphic.ModelEntity({
+          const graphicModel = new mars3d.graphic.ModelEntity({
             id: id,
             position: positions[i],
             orientation: orientations[i],
@@ -362,10 +362,10 @@ function addRailway(graphicHead, mpoints) {
 
       // 添加轨道边的柱子
       if (i % 12 === 0) {
-        var id = "xd" + i
-        var graphic = graphicLayer.getGraphicById(id)
+        const id = "xd" + i
+        const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
-          var graphicModel = new mars3d.graphic.ModelEntity({
+          const graphicModel = new mars3d.graphic.ModelEntity({
             id: id,
             position: positions[i],
             orientation: orientations[i],
@@ -399,7 +399,7 @@ function addRailway(graphicHead, mpoints) {
 }
 
 function removeGraphic(id) {
-  var graphic = graphicLayer.getGraphicById(id)
+  const graphic = graphicLayer.getGraphicById(id)
   if (graphic) {
     if (graphic.entity.availability._intervals[0].stop.secondsOfDay < map.clock.currentTime.secondsOfDay) {
       graphic.remove(true)

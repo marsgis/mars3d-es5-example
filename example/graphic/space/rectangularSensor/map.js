@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let rectangularSensor
 
@@ -30,7 +30,7 @@ var eventTarget = new mars3d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题：", `(1)该矢量对象不支持拾取。`)
+  globalNotify("已知问题提示", `该矢量对象不支持拾取`)
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()

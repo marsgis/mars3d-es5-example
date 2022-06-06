@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -18,7 +18,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var terrainClip = new mars3d.thing.TerrainClip({
+  const terrainClip = new mars3d.thing.TerrainClip({
     positions: [
       [116.919224, 31.460461],
       [116.901819, 31.459734],

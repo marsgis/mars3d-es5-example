@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -39,27 +39,27 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改3d地图的样式
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.left = "50%"
   dom3d.style.width = "50%"
 
   // 创建2d地图
-  var mapDiv = mars3d.DomUtil.create("div", "", document.body)
+  const mapDiv = mars3d.DomUtil.create("div", "", document.body)
   mapDiv.setAttribute("id", "centerDiv2D")
   mapDiv.style.width = "50%"
 
-  var map2ds = mars3d.DomUtil.create("div", "", mapDiv)
+  const map2ds = mars3d.DomUtil.create("div", "", mapDiv)
   map2ds.setAttribute("id", "map2d")
   map2ds.setAttribute("class", "mars2d-container")
 
-  var tileWorldImagery = new ol.layer.Tile({
+  const tileWorldImagery = new ol.layer.Tile({
     source: new ol.source.XYZ({
       url: "https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
       crossOrigin: "Anonymous"
     })
   })
 
-  var map2d = new ol.Map({
+  const map2d = new ol.Map({
     target: "map2d",
     projection: "EPSG:3857",
     layers: [tileWorldImagery],
@@ -72,7 +72,7 @@ function onMounted(mapInstance) {
   })
 
   // 联动控制器
-  var ol3d = new olcs.OLCesium({ map: map2d, viewer: map.viewer })
+  const ol3d = new olcs.OLCesium({ map: map2d, viewer: map.viewer })
 }
 
 /**

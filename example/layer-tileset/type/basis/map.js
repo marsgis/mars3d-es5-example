@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,9 +32,6 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
-
-  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
-
   // 调试面板
   map.viewer.extend(Cesium.viewerCesiumInspectorMixin)
   map.scene.globe.depthTestAgainstTerrain = false
@@ -63,7 +60,7 @@ function onMounted(mapInstance) {
     map.scene.globe.showGroundAtmosphere = false
   }
 
-  var type = mars3d.Util.getRequestByName("data")
+  const type = mars3d.Util.getRequestByName("data")
   switch (type) {
     case "qx-shequ":
       showQxShequDemo()
@@ -106,16 +103,16 @@ function onUnmounted() {
  * @returns {void}
  */
 function isPCBroswer() {
-  var sUserAgent = navigator.userAgent.toLowerCase()
+  const sUserAgent = navigator.userAgent.toLowerCase()
 
-  var bIsIpad = sUserAgent.match(/ipad/i) === "ipad"
-  var bIsIphoneOs = sUserAgent.match(/iphone/i) === "iphone"
-  var bIsMidp = sUserAgent.match(/midp/i) === "midp"
-  var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) === "rv:1.2.3.4"
-  var bIsUc = sUserAgent.match(/ucweb/i) === "ucweb"
-  var bIsAndroid = sUserAgent.match(/android/i) === "android"
-  var bIsCE = sUserAgent.match(/windows ce/i) === "windows ce"
-  var bIsWM = sUserAgent.match(/windows mobile/i) === "windows mobile"
+  const bIsIpad = sUserAgent.match(/ipad/i) === "ipad"
+  const bIsIphoneOs = sUserAgent.match(/iphone/i) === "iphone"
+  const bIsMidp = sUserAgent.match(/midp/i) === "midp"
+  const bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) === "rv:1.2.3.4"
+  const bIsUc = sUserAgent.match(/ucweb/i) === "ucweb"
+  const bIsAndroid = sUserAgent.match(/android/i) === "android"
+  const bIsCE = sUserAgent.match(/windows ce/i) === "windows ce"
+  const bIsWM = sUserAgent.match(/windows mobile/i) === "windows mobile"
   if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
     return false
   } else {
@@ -359,7 +356,7 @@ function showMaxShihuaDemo() {
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   tiles3dLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
     return mars3d.Util.getTemplateHtml({ title: "石化工厂", template: "all", attr: attr })
   })
@@ -412,7 +409,7 @@ function showBimQiaoliangDemo() {
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   tiles3dLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     return mars3d.Util.getTemplateHtml({ title: "桥梁", template: "all", attr: attr })
   })
 

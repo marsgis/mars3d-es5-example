@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
     url: "//data.mars3d.cn/file/apidemo/car-list.json"
   })
     .then(function (res) {
-      var tableData = res.data
+      const tableData = res.data
       eventTarget.fire("carList", { tableData })
       showCarList(tableData)
     })
@@ -46,7 +46,7 @@ function onUnmounted() {
   map = null
 }
 
-var colors = [
+const colors = [
   "rgb(40, 40, 255)",
   "rgb(0, 88, 176)",
   "rgb(0, 128, 255)",
@@ -67,7 +67,7 @@ function showCarList(arr) {
 
   // 鼠标移入提示信息
   graphicLayer.bindTooltip(function (event) {
-    var data = event.graphic.options
+    const data = event.graphic.options
     return "车辆编号：" + data.id + "<br />车牌号码：" + data.name
   })
 
@@ -81,7 +81,7 @@ function showCarList(arr) {
 
   // 绑定点击事件
   graphicLayer.on(mars3d.EventType.click, (event, position) => {
-    var car = event.graphic
+    const car = event.graphic
     console.log("单击了车辆", car)
 
     if (lastClickCar) {
@@ -112,7 +112,7 @@ function showCarList(arr) {
   let lastClickCar
 
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
     item.show = true
     let modelParam
     switch (item.type) {
@@ -131,7 +131,7 @@ function showCarList(arr) {
       default:
     }
 
-    var car = new mars3d.graphic.DynamicRoamLine({
+    const car = new mars3d.graphic.DynamicRoamLine({
       id: item.id,
       name: item.name,
       model: {
@@ -158,14 +158,14 @@ function showCarList(arr) {
 }
 
 // 取轨迹数据的时间间隔（单位：秒）
-var timeStep = 10
+const timeStep = 10
 let lastTime
 
 // 首次获取并创建轨迹
 function createPath() {
   // 取数据的时间范围，结束时间
-  var date = Cesium.JulianDate.toDate(map.clock.currentTime)
-  var endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const date = Cesium.JulianDate.toDate(map.clock.currentTime)
+  const endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   // 修改当前时间回退一分钟，因为数据永远是当前时间之前的。
   date.setSeconds(date.getSeconds() - 60)
@@ -173,7 +173,7 @@ function createPath() {
 
   // 取数据的时间范围，开始时间
   date.setMinutes(date.getMinutes() - 10) // 初次取一定时间内的数据
-  var beginTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const beginTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   // 记录最后一次读取数据的时间
   lastTime = endTime
@@ -189,11 +189,11 @@ function createPath() {
 
 // 后续更新轨迹
 function updatePath() {
-  var beginTime = lastTime
+  const beginTime = lastTime
 
-  var date = new Date(beginTime)
+  const date = new Date(beginTime)
   date.setSeconds(date.getSeconds() + timeStep)
-  var endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   lastTime = endTime
 
@@ -207,24 +207,24 @@ function getPathList(beginTime, endTime) {
     url: "//data.mars3d.cn/file/apidemo/car-path.json"
   })
     .then((res) => {
-      var listALL = res.data || []
+      const listALL = res.data || []
       // 因为读取静态json，为了演示动态，筛选数据内符合时间范围内的数据。
       // 真实接口中可以注释下面代码。
-      var d_beginTime = new Date(beginTime)
-      var d_endTime = new Date(endTime)
-      var list = listALL.filter((item) => {
-        var thistime = new Date(item.time)
+      const d_beginTime = new Date(beginTime)
+      const d_endTime = new Date(endTime)
+      const list = listALL.filter((item) => {
+        const thistime = new Date(item.time)
         return thistime >= d_beginTime && thistime <= d_endTime
       })
 
-      var path = `${endTime} 获取到 ${list.length} 条GPS坐标记录`
+      const path = `${endTime} 获取到 ${list.length} 条GPS坐标记录`
 
       eventTarget.fire("showPath", { path })
 
       // 循环车辆
       graphicLayer.eachGraphic((car) => {
         // 取出对应车辆的轨迹列表
-        var path = list.filter((item) => {
+        const path = list.filter((item) => {
           return item.id === car.id
         })
 
@@ -245,7 +245,7 @@ function getPathList(beginTime, endTime) {
 }
 
 function onSelect(id, selected) {
-  var car = graphicLayer.getGraphicById(id)
+  const car = graphicLayer.getGraphicById(id)
   if (!car) {
     return
   }
@@ -259,7 +259,7 @@ function onSelect(id, selected) {
 
 function onChange(data) {
   data.forEach((item) => {
-    var car = graphicLayer.getGraphicById(item)
+    const car = graphicLayer.getGraphicById(item)
     if (car) {
       car.flyToPoint({ radius: 900 })
     }
@@ -268,7 +268,7 @@ function onChange(data) {
 
 // 点击行
 function flyToModel(id) {
-  var car = graphicLayer.getGraphicById(id)
+  const car = graphicLayer.getGraphicById(id)
   if (car) {
     car.flyToPoint({ radius: 900 })
   }

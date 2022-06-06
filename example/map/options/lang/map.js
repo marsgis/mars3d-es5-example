@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let drawLayer
 let measure
@@ -56,7 +56,7 @@ function onMounted(mapInstance) {
       text: map.getLangText("_删除"),
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -64,11 +64,11 @@ function onMounted(mapInstance) {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
-        var parent = graphic._parent // 右击是编辑点时
+        const parent = graphic._parent // 右击是编辑点时
         drawLayer.removeGraphic(graphic)
         if (parent) {
           drawLayer.removeGraphic(parent)

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -36,7 +36,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 合肥市边界墙
-  var borderWall = new mars3d.layer.GeoJsonLayer({
+  const borderWall = new mars3d.layer.GeoJsonLayer({
     name: "合肥市边界墙",
     url: "//data.mars3d.cn/file/geojson/areas/340100.json",
     symbol: {
@@ -78,13 +78,13 @@ function onUnmounted() {
 function addGraphics() {
   mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100_full.json" })
     .then(function (geojson) {
-      var arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+      const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 
       for (let i = 0; i < arr.length; i++) {
-        var item = arr[i]
+        const item = arr[i]
 
         // polygon面
-        var polygonEntity = new mars3d.graphic.PolygonEntity({
+        const polygonEntity = new mars3d.graphic.PolygonEntity({
           positions: item.positions,
           style: {
             fill: true,
@@ -107,7 +107,7 @@ function addGraphics() {
         graphicLayer.addGraphic(polygonEntity)
 
         // PolylineEntity线
-        var graphicLine = new mars3d.graphic.PolylineEntity({
+        const graphicLine = new mars3d.graphic.PolylineEntity({
           positions: item.positions,
           style: {
             color: "rgba(255,255,255,0.5)",
@@ -117,10 +117,10 @@ function addGraphics() {
         graphicLayer.addGraphic(graphicLine)
 
         // 中心点
-        var center = item.attr.centroid
+        const center = item.attr.centroid
 
         // 光锥体
-        var coneGlow = new mars3d.graphic.LightCone({
+        const coneGlow = new mars3d.graphic.LightCone({
           position: center,
           style: {
             radius: 1500,
@@ -130,8 +130,8 @@ function addGraphics() {
         graphicLayer.addGraphic(coneGlow)
 
         // LED数字显示
-        var number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000) // 随机数字 3000-4000
-        var graphic = new mars3d.graphic.DivGraphic({
+        const number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000) // 随机数字 3000-4000
+        const graphic = new mars3d.graphic.DivGraphic({
           position: [center[0], center[1], 12000],
           style: {
             html: `<div class ="coneNum">${number}`,

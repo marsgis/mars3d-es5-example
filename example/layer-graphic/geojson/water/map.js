@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let graphic
 let waterLayer
@@ -102,7 +102,7 @@ function onUnmounted() {
   map = null
 }
 
-var minHeight = 16
+const minHeight = 16
 let timeInv
 // 高度更新
 function updateHeight(height) {
@@ -122,10 +122,10 @@ function updateHeight(height) {
  */
 function openZm(height, time) {
   let thisHeight = minHeight // 当前高度
-  var endHeight = height + minHeight // 结束高度
+  const endHeight = height + minHeight // 结束高度
 
-  var step = time / 0.1 // 步长
-  var stepHeight = (endHeight - thisHeight) / step // 每次阀门、水面上移高度
+  const step = time / 0.1 // 步长
+  const stepHeight = (endHeight - thisHeight) / step // 每次阀门、水面上移高度
 
   // 再次点击"开启"时从当前位置开启
   updateHeight(thisHeight)
@@ -152,10 +152,10 @@ function openZm(height, time) {
  */
 function closeZm(height, time) {
   let thisHeight = height + minHeight
-  var endHeight = minHeight
+  const endHeight = minHeight
 
-  var step = time / 0.1
-  var stepHeight = (endHeight - thisHeight) / step
+  const step = time / 0.1
+  const stepHeight = (endHeight - thisHeight) / step
 
   updateHeight(thisHeight)
 

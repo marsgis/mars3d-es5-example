@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tileLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -46,7 +46,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 
 // 加载图层
 function createTileLayer(options) {
-  var params = {
+  const params = {
     type: options.type, // 类型
     url: options.url, // 图层url
     // subdomains: $("#txtSubdomains").val(), // url子域
@@ -78,7 +78,7 @@ function createTileLayer(options) {
   removeLayer()
 
   // 绘制区域
-  var rectangle = options.rectangle
+  const rectangle = options.rectangle
   if (rectangle) {
     params.rectangle = rectangle
   }
@@ -141,7 +141,7 @@ function btnDrawExtent(options) {
       outlineColor: "#ff0000"
     },
     success: function (graphic) {
-      var rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
+      const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
       options.rectangle = rectangle
       eventTarget.fire("rectangle", { rectangle })
       createTileLayer(options)
@@ -171,7 +171,7 @@ function changeBrightness(val) {
 
 function creatHRectangleEntity(item) {
   map.graphicLayer.clear()
-  var graphic = new mars3d.graphic.RectangleEntity({
+  const graphic = new mars3d.graphic.RectangleEntity({
     rectangle: Cesium.Rectangle.fromDegrees(item.xmin, item.ymin, item.xmax, item.ymax),
     style: {
       fill: false,

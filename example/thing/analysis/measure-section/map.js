@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measureObj
 
 var mapOptions = {
@@ -79,8 +79,8 @@ function measureSection() {
 }
 
 function calculation(params) {
-  var len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
-  var hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
+  const len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
+  const hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
 
   return { len, hbgdStr }
 }
@@ -96,7 +96,7 @@ let tipGraphic
  * @returns {void}
  */
 function showTipMarker(point, z, inthtml) {
-  var _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
+  const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
     tipGraphic = new mars3d.graphic.BillboardEntity({

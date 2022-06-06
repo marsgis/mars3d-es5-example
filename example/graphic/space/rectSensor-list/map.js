@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -47,7 +47,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  var tle_arr = [
+  const tle_arr = [
     "COSMOS 33918U",
     "1 33918U 93036DX  21197.87508339  .00001232  00000-0  17625-3 0  9990",
     "2 33918  74.0595 343.7064 0054912  74.2148  45.2906 14.76790626663155",
@@ -94,14 +94,14 @@ function onUnmounted() {
  */
 function createSatelliteList(arr) {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
@@ -109,8 +109,8 @@ function createSatelliteList(arr) {
   })
 
   for (let i = 0; i < arr.length; i += 3) {
-    var item = arr[i]
-    var weixin = new mars3d.graphic.Satellite({
+    const item = arr[i]
+    const weixin = new mars3d.graphic.Satellite({
       name: arr[i],
       tle1: arr[i + 1],
       tle2: arr[i + 2],
@@ -161,7 +161,7 @@ function createSatelliteList(arr) {
     graphicLayer.addGraphic(weixin)
 
     // RectSensor锥体（比Satellite内置的cone效率略高）
-    var rectSensor = new mars3d.graphic.RectSensor({
+    const rectSensor = new mars3d.graphic.RectSensor({
       position: new Cesium.CallbackProperty(function (time) {
         return weixin.position
       }, false),

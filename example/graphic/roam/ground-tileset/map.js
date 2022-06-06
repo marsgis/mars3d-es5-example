@@ -1,10 +1,10 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer
 
 let roamLine
-var roamLineData = {}
+const roamLineData = {}
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "文庙",
     url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 120 },
@@ -97,34 +97,34 @@ function addGraphicLayer() {
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   roamLine.on(mars3d.EventType.postRender, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
 
-    var params = roamLine?.info
+    const params = roamLine?.info
     if (!params) {
       return
     }
 
-    var lblAllLen = container.querySelector("#lblAllLen")
+    const lblAllLen = container.querySelector("#lblAllLen")
     if (lblAllLen) {
       lblAllLen.innerHTML = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
     }
 
-    var lblAllTime = container.querySelector("#lblAllTime")
+    const lblAllTime = container.querySelector("#lblAllTime")
     if (lblAllTime) {
       lblAllTime.innerHTML = mars3d.Util.formatTime(roamLine.alltimes / map.clock.multiplier)
     }
 
-    var lblStartTime = container.querySelector("#lblStartTime")
+    const lblStartTime = container.querySelector("#lblStartTime")
     if (lblStartTime) {
       lblStartTime.innerHTML = mars3d.Util.formatDate(Cesium.JulianDate.toDate(roamLine.startTime), "yyyy-M-d HH:mm:ss")
     }
 
-    var lblRemainTime = container.querySelector("#lblRemainTime")
+    const lblRemainTime = container.querySelector("#lblRemainTime")
     if (lblRemainTime) {
       lblRemainTime.innerHTML = mars3d.Util.formatTime((roamLine.alltimes - params.time) / map.clock.multiplier)
     }
 
-    var lblRemainLen = container.querySelector("#lblRemainLen")
+    const lblRemainLen = container.querySelector("#lblRemainLen")
     if (lblRemainLen) {
       lblRemainLen.innerHTML = mars3d.MeasureUtil.formatDistance(roamLine.alllen - params.len)
     }
@@ -199,7 +199,7 @@ function showRealTimeInfo(params, _alltime) {
 
 // 添加尾气粒子效果
 function addParticleSystem(target) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     modelMatrix: (time) => {
       return target.modelMatrix
     },

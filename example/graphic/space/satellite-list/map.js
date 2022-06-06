@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -90,7 +90,7 @@ function createSatelliteList(arr) {
   })
 
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     // 属性处理
     item.model = {
@@ -127,7 +127,7 @@ function createSatelliteList(arr) {
     }
     // 属性处理  END
 
-    var satelliteObj = new mars3d.graphic.Satellite(item)
+    const satelliteObj = new mars3d.graphic.Satellite(item)
     graphicLayer.addGraphic(satelliteObj)
   }
   console.log("当前卫星数量: " + arr.length)
@@ -136,7 +136,7 @@ function createSatelliteList(arr) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.options
+    const attr = event.graphic.options
     return `名称：${attr.name}<br/>英文名：${attr.name_en || ""}<br/>类型：${attr.type}`
   })
 }
@@ -173,7 +173,7 @@ function highlightSatellite(satelliteObj) {
 
 // 判断卫星是否在面内
 function processInArea(weixin) {
-  var position = weixin?.position
+  const position = weixin?.position
   if (!position) {
     return
   }
@@ -184,17 +184,17 @@ function processInArea(weixin) {
     }
 
     dmzGraphic._lastInPoly[weixin.uuid] = dmzGraphic._lastInPoly[weixin.uuid] || {}
-    var lastState = dmzGraphic._lastInPoly[weixin.uuid]
+    const lastState = dmzGraphic._lastInPoly[weixin.uuid]
 
-    var thisIsInPoly = dmzGraphic.isInPoly(position)
+    const thisIsInPoly = dmzGraphic.isInPoly(position)
     if (thisIsInPoly !== lastState.state) {
       if (thisIsInPoly) {
         // 开始进入区域内
         console.log(`${weixin.name} 卫星开始进入 ${dmzGraphic.name} 地面站区域内`)
 
-        var line = new mars3d.graphic.PolylineEntity({
+        const line = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var pots = weixin.position
+            const pots = weixin.position
             if (!pots) {
               return []
             }
@@ -241,7 +241,7 @@ function random(min, max) {
 let dmzLayer
 // 创建地面站
 function creatreDmzList() {
-  var arr = [
+  const arr = [
     { name: "西安", radius: 1500000, point: [108.938314, 34.345614, 342.9] },
     { name: "喀什", radius: 1800000, point: [75.990372, 39.463507, 1249.5] },
     { name: "文昌", radius: 1200000, point: [110.755151, 19.606573, 21.1] }
@@ -252,9 +252,9 @@ function creatreDmzList() {
   map.addLayer(dmzLayer)
 
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
     // 地面站gltf模型
-    var graphic = new mars3d.graphic.ModelEntity({
+    const graphic = new mars3d.graphic.ModelEntity({
       name: "地面站模型",
       position: item.point,
       style: {
@@ -267,7 +267,7 @@ function creatreDmzList() {
     })
     dmzLayer.addGraphic(graphic)
 
-    var dmfwGraphic = new mars3d.graphic.CircleEntity({
+    const dmfwGraphic = new mars3d.graphic.CircleEntity({
       name: item.name,
       position: item.point,
       style: {

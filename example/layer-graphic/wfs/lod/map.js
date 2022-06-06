@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -30,13 +30,13 @@ function onUnmounted() {
 }
 
 function LodGraphicLayer() {
-  var lodGraphicLayer = new mars3d.layer.LodGraphicLayer({
+  const lodGraphicLayer = new mars3d.layer.LodGraphicLayer({
     IdField: "id", // 数据的唯一主键 字段名称
     minimumLevel: 11, // 限定层级，只加载该层级下的数据。[与效率相关的重要参数]
     debuggerTileInfo: true,
     // 根据LOD分块信息去请求对应的Tile瓦块内的数据
     queryGridData: (grid, callback) => {
-      var extent = grid.extent
+      const extent = grid.extent
       mars3d.Util.fetchJson({
         url: "//server.mars3d.cn/server/pointRandom/",
         queryParameters: {
@@ -56,9 +56,9 @@ function LodGraphicLayer() {
     },
     // 根据 attr属性 创建 矢量对象[必须返回Graphic对象]
     createGraphic(grid, attr) {
-      var height = mars3d.PointUtil.getSurfaceHeight(map.scene, Cesium.Cartesian3.fromDegrees(attr.x, attr.y))
+      const height = mars3d.PointUtil.getSurfaceHeight(map.scene, Cesium.Cartesian3.fromDegrees(attr.x, attr.y))
 
-      var graphic = new mars3d.graphic.ModelPrimitive({
+      const graphic = new mars3d.graphic.ModelPrimitive({
         position: [attr.x, attr.y, height],
         style: {
           url: "//data.mars3d.cn/gltf/mars/leida.glb",

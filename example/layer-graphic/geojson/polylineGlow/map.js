@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -42,7 +42,7 @@ function addDemoGraphics() {
   map.scene.skyAtmosphere.show = false
 
   // geojson图层
-  var geoJsonLayer1 = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer1 = new mars3d.layer.GeoJsonLayer({
     url: "//data.mars3d.cn/file/geojson/wuhan-line1.json",
     symbol: {
       // type: 'polyline',
@@ -59,7 +59,7 @@ function addDemoGraphics() {
   })
   map.addLayer(geoJsonLayer1)
 
-  var geoJsonLayer2 = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer2 = new mars3d.layer.GeoJsonLayer({
     url: "//data.mars3d.cn/file/geojson/wuhan-line2.json",
     symbol: {
       styleOptions: {
@@ -75,7 +75,7 @@ function addDemoGraphics() {
   })
   map.addLayer(geoJsonLayer2)
 
-  var geoJsonLayer3 = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer3 = new mars3d.layer.GeoJsonLayer({
     url: "//data.mars3d.cn/file/geojson/wuhan-line3.json",
     symbol: {
       styleOptions: {

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,10 +31,10 @@ function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  var options = getEchartsOption()
+  const options = getEchartsOption()
   // options.pointerEvents = true // 使用单击
 
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   if (options.pointerEvents) {
@@ -55,19 +55,19 @@ function createEchartsLayer() {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var beijinCoord = [116.407395, 39.904211]
+  const beijinCoord = [116.407395, 39.904211]
 
-  var geoCoorddata = {
+  const geoCoorddata = {
     合肥: [117.399043, 31.741401],
     深圳: [114.057865, 22.543096],
     乌鲁木齐: [87.405386, 41.779595]
   }
 
-  var symbolPoint = "image://img/marker/symbol1.png"
-  var linePoint = "image://img/marker/linePoint1.png"
+  const symbolPoint = "image://img/marker/symbol1.png"
+  const linePoint = "image://img/marker/linePoint1.png"
 
-  var pointArr = []
-  for (var key in geoCoorddata) {
+  const pointArr = []
+  for (const key in geoCoorddata) {
     pointArr.push({
       name: key,
       value: geoCoorddata[key],
@@ -75,7 +75,7 @@ function getEchartsOption() {
     })
   }
 
-  var option = {
+  const option = {
     animation: false,
 
     series: [

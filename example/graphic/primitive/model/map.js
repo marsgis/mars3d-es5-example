@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -47,7 +47,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var primitive = new mars3d.graphic.ModelPrimitive({
+  const primitive = new mars3d.graphic.ModelPrimitive({
     position: [116.346929, 30.861947, 401.34],
     style: {
       url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
@@ -81,14 +81,14 @@ function addDemoGraphic1(graphicLayer) {
   initGraphicManager(primitive)
 
   // 转geojson
-  var geojson = primitive.toGeoJSON()
+  const geojson = primitive.toGeoJSON()
   console.log("转换后的geojson", geojson)
   addGeoJson(geojson, graphicLayer)
 }
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.position = [116.348587, 30.859472, 373.8]
@@ -98,7 +98,7 @@ function addGeoJson(geojson, graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.ModelPrimitive({
+  const primitive = new mars3d.graphic.ModelPrimitive({
     position: [116.35104, 30.86225, 374.4],
     style: {
       url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
@@ -130,7 +130,7 @@ function addDemoGraphic2(graphicLayer) {
 
   // 手动按需启动动画
   primitive.on(mars3d.EventType.load, function (event) {
-    var model = event.model
+    const model = event.model
 
     // 参考API: http://mars3d.cn/api/cesium/ModelAnimationCollection.html
     model.activeAnimations.addAll({
@@ -157,7 +157,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var primitive = new mars3d.graphic.ModelPrimitive({
+  const primitive = new mars3d.graphic.ModelPrimitive({
     position: [116.349194, 30.864603, 376.58],
     style: {
       url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
@@ -183,14 +183,14 @@ function addDemoGraphic(count) {
 
   showLoading()
 
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
 
   createModels(count)
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 // 清除数据
@@ -198,9 +198,9 @@ function addDemoGraphic(count) {
 function createModels(count) {
   for (let j = 0; j < count; ++j) {
     //
-    var position = randomPoint()
+    const position = randomPoint()
 
-    var primitive = new mars3d.graphic.ModelPrimitive({
+    const primitive = new mars3d.graphic.ModelPrimitive({
       position: position,
       style: {
         url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -225,7 +225,7 @@ function createModels(count) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -255,7 +255,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -263,11 +263,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -290,7 +294,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -307,7 +311,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }
@@ -318,9 +322,9 @@ function initGraphicManager(graphic) {
 
 // 取区域内的随机点
 function randomPoint() {
-  var jd = random(116.1 * 1000, 116.6 * 1000) / 1000
-  var wd = random(30.8 * 1000, 31.1 * 1000) / 1000
-  var height = random(1000, 9000)
+  const jd = random(116.1 * 1000, 116.6 * 1000) / 1000
+  const wd = random(30.8 * 1000, 31.1 * 1000) / 1000
+  const height = random(1000, 9000)
   return new mars3d.LngLatPoint(jd, wd, height)
 }
 function random(min, max) {

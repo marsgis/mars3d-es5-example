@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -41,7 +41,7 @@ function onUnmounted() {
 
 // 创建mapv图层
 function createMapvLayer(geojson) {
-  var options = {
+  const options = {
     fillStyle: "rgba(255, 80, 53, 0.8)",
     strokeStyle: "rgba(250, 255, 53, 0.8)",
     size: 3,
@@ -52,6 +52,6 @@ function createMapvLayer(geojson) {
   }
 
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,8 +21,10 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("已知问题提示", "(1) 目前为实验示例，镜面效果一般。 (2) 模型越平整效果越好 ")
+
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 80.6 },
     maximumScreenSpaceError: 1,
@@ -33,10 +35,8 @@ function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 倒影效果
-  var invertedEffect = new mars3d.effect.InvertedEffect()
+  const invertedEffect = new mars3d.effect.InvertedEffect()
   map.addEffect(invertedEffect)
-
-  globalNotify("已知问题提示", "(1) 目前为实验示例，镜面效果一般。 (2) 模型越平整效果越好 ")
 }
 
 /**

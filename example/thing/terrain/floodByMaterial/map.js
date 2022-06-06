@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let floodByMaterial
 
 var mapOptions = {
@@ -39,7 +39,7 @@ function onMounted(mapInstance) {
   })
 
   floodByMaterial.on(mars3d.EventType.change, function (e) {
-    var height = e.height
+    const height = e.height
     eventTarget.fire("heightChange", { height })
   })
 
@@ -69,7 +69,7 @@ function btnDrawExtent(callback) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
 
       // 更新最大、最小高度值
       updateHeightRange(positions, callback)
@@ -92,7 +92,7 @@ function btnDraw(callback) {
       outline: false
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
 
       // 更新最大、最小高度值
       updateHeightRange(positions, callback)
@@ -105,9 +105,9 @@ function btnDraw(callback) {
 function updateHeightRange(positions, callback) {
   showLoading()
 
-  var result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
-  var minHeight = Math.ceil(result.minHeight)
-  var maxHeight = Math.floor(result.maxHeight)
+  const result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
+  const minHeight = Math.ceil(result.minHeight)
+  const maxHeight = Math.floor(result.maxHeight)
 
   callback(minHeight, maxHeight)
   hideLoading()
@@ -121,9 +121,9 @@ function begin(data) {
   }
   map.graphicLayer.clear()
 
-  var minValue = Number(data.minHeight)
-  var maxValue = Number(data.maxHeight)
-  var speed = Number(data.speed)
+  const minValue = Number(data.minHeight)
+  const maxValue = Number(data.maxHeight)
+  const speed = Number(data.speed)
 
   floodByMaterial.setOptions({
     minHeight: minValue,

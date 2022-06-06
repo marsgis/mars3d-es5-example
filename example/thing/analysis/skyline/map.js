@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let skyline
 
 var mapOptions = {
@@ -22,7 +22,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型，观看效果更佳
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",

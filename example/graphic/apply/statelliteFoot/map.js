@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,16 +32,16 @@ function onMounted(mapInstance) {
 
   showLoading()
 
-  var czml = Cesium.CzmlDataSource.load("//data.mars3d.cn/file/czml/satellite-one.czml")
+  const czml = Cesium.CzmlDataSource.load("//data.mars3d.cn/file/czml/satellite-one.czml")
   czml
     .then(function (dataSource) {
       hideLoading()
 
       map.dataSources.add(dataSource)
 
-      var satelliteEntity = dataSource.entities.values[0]
+      const satelliteEntity = dataSource.entities.values[0]
 
-      var swathWidth = swathWidthDict[satelliteEntity.id]
+      const swathWidth = swathWidthDict[satelliteEntity.id]
       satelliteFoot.start(satelliteEntity, swathWidth)
     })
     .catch(function (error) {
@@ -58,29 +58,29 @@ function onUnmounted() {
 }
 
 // 多个卫星时可以可配置【卫星地面投射圆半径，足迹宽度】
-var swathWidthDict = {
+const swathWidthDict = {
   "Satellite/CBERS 4": 650000.0
 }
 
 // 地球观测的轨道预测,包含绘制卫星到地球的足迹功能。
-var satelliteFoot = {
+const satelliteFoot = {
   start: function (entity, instrumentFOV) {
     if (!instrumentFOV) {
       // 默认值；
       instrumentFOV = 2000 * 1000
     }
 
-    var secondMultiplier = instrumentFOV / 250000.0 // 每间隔多少公里进行显示一次足迹。
-    var intervalBetweenFootPrints = 40 * secondMultiplier // setInterval间隔脚印的时长
-    var numberOfFootPrintsAtAtime = parseInt(90 / Math.ceil(secondMultiplier)) * 5 // 保持足迹的数量个数
+    const secondMultiplier = instrumentFOV / 250000.0 // 每间隔多少公里进行显示一次足迹。
+    const intervalBetweenFootPrints = 40 * secondMultiplier // setInterval间隔脚印的时长
+    const numberOfFootPrintsAtAtime = parseInt(90 / Math.ceil(secondMultiplier)) * 5 // 保持足迹的数量个数
 
-    var point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
+    const point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
     this.drawOneFoot(point, instrumentFOV)
 
     let timeLast = map.clock.currentTime.secondsOfDay + intervalBetweenFootPrints
 
     map.on(mars3d.EventType.clockTick, (event) => {
-      var sxTimes = Math.abs(map.clock.currentTime.secondsOfDay - timeLast) // 剩下时长
+      const sxTimes = Math.abs(map.clock.currentTime.secondsOfDay - timeLast) // 剩下时长
 
       if (sxTimes < 1 || sxTimes > intervalBetweenFootPrints) {
         timeLast = map.clock.currentTime.secondsOfDay + intervalBetweenFootPrints
@@ -89,7 +89,7 @@ var satelliteFoot = {
           graphicLayer.clear()
         }
 
-        var point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
+        const point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
         this.drawOneFoot(point, instrumentFOV)
       }
     })
@@ -109,9 +109,9 @@ var satelliteFoot = {
 
   // 卫星到地面的垂直线,point: 卫星在天空中的位置
   _drawLineGroundToSatellite: function (point) {
-    var groundPoint = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, 0.0)
+    const groundPoint = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, 0.0)
 
-    var point1 = new mars3d.graphic.PointPrimitive({
+    const point1 = new mars3d.graphic.PointPrimitive({
       position: point,
       style: {
         pixelSize: 2,
@@ -120,7 +120,7 @@ var satelliteFoot = {
     })
     graphicLayer.addGraphic(point1)
 
-    var point2 = new mars3d.graphic.PointPrimitive({
+    const point2 = new mars3d.graphic.PointPrimitive({
       position: groundPoint,
       style: {
         pixelSize: 2,
@@ -129,7 +129,7 @@ var satelliteFoot = {
     })
     graphicLayer.addGraphic(point2)
 
-    var primitiveLine = new mars3d.graphic.PolylinePrimitive({
+    const primitiveLine = new mars3d.graphic.PolylinePrimitive({
       positions: [point, groundPoint],
       style: {
         width: 1,
@@ -140,7 +140,7 @@ var satelliteFoot = {
   },
   // 投射圆锥体
   _drawInstrumentFootPrintSwathWidth: function (instrumentFOV, point) {
-    var primitive = new mars3d.graphic.CylinderPrimitive({
+    const primitive = new mars3d.graphic.CylinderPrimitive({
       name: "视锥体",
       position: Cesium.Cartesian3.fromDegrees(point.lng, point.lat, point.alt / 2),
       style: {
@@ -156,15 +156,15 @@ var satelliteFoot = {
   },
   // 在地球表面上绘制可见足迹椭圆（红色外圈线）
   _drawVisibleFootPrint: function (point) {
-    var groundPoint = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, 0.0)
+    const groundPoint = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, 0.0)
 
-    var radiusOfEarth = Cesium.Cartesian3.distance(new Cesium.Cartesian3(0, 0, 0), groundPoint)
-    var satToOrignEarth = radiusOfEarth + point.alt // point to origin of earth
-    var groundPointToSatPointToTangentAngle = Cesium.Math.toDegrees(Math.asin(radiusOfEarth / satToOrignEarth))
-    var groundPointToOriginToTangentAngle = 90.0 - groundPointToSatPointToTangentAngle
-    var distanceAlongGround = Cesium.Math.TWO_PI * radiusOfEarth * (groundPointToOriginToTangentAngle / 360.0)
+    const radiusOfEarth = Cesium.Cartesian3.distance(new Cesium.Cartesian3(0, 0, 0), groundPoint)
+    const satToOrignEarth = radiusOfEarth + point.alt // point to origin of earth
+    const groundPointToSatPointToTangentAngle = Cesium.Math.toDegrees(Math.asin(radiusOfEarth / satToOrignEarth))
+    const groundPointToOriginToTangentAngle = 90.0 - groundPointToSatPointToTangentAngle
+    const distanceAlongGround = Cesium.Math.TWO_PI * radiusOfEarth * (groundPointToOriginToTangentAngle / 360.0)
 
-    var primitive = new mars3d.graphic.CirclePrimitive({
+    const primitive = new mars3d.graphic.CirclePrimitive({
       name: "可视卫星范围（45度）",
       position: groundPoint,
       style: {

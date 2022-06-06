@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let flatBillboard
 
@@ -52,7 +52,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    var pickedItem = event.pickedObject?.data
+    const pickedItem = event.pickedObject?.data
     // let attr = event.graphic.attr
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
@@ -83,19 +83,19 @@ function onUnmounted() {
 function showDataPoint(numPoints) {
   clearData()
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
   // 创建等值线区域
-  var extent = [112.287256, 27.408204, 120.695453, 34.659583]
-  var pointGrid = turf.pointGrid(extent, numPoints, {
+  const extent = [112.287256, 27.408204, 120.695453, 34.659583]
+  const pointGrid = turf.pointGrid(extent, numPoints, {
     units: "miles"
   })
-  var arr = []
+  const arr = []
   for (let i = 0; i < pointGrid.features.length; i++) {
-    var coor = pointGrid.features[i].geometry.coordinates
-    var position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000)
+    const coor = pointGrid.features[i].geometry.coordinates
+    const position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000)
 
-    var angle = random(0, 360) // 随机方向
-    var speed = random(0, 60) // 随机数值
+    const angle = random(0, 360) // 随机方向
+    const speed = random(0, 60) // 随机数值
 
     arr.push({
       position: position,
@@ -111,9 +111,9 @@ function showDataPoint(numPoints) {
   flatBillboard.instances = arr
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
@@ -151,9 +151,9 @@ function queryWindPointApiData() {
 
 function showWindPoint(arr) {
   clearData()
-  var arrPoint = []
+  const arrPoint = []
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
     arrPoint.push({
       position: Cesium.Cartesian3.fromDegrees(item.x, item.y, 1000),
       angle: 360 - item.dir, // 方向
@@ -238,7 +238,7 @@ function getImageBySpeed(speed) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"

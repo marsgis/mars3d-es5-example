@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层
 let graphic // 矢量数据
 
@@ -87,17 +87,17 @@ function rotatePoint_onChangeHandler(event) {
 
 // 在map地图上绑定右键菜单
 function bindMapDefault() {
-  // var defaultContextmenuItems = map.getDefaultContextMenu() // 内置的默认右键菜单获取方法
+  // const defaultContextmenuItems = map.getDefaultContextMenu() // 内置的默认右键菜单获取方法
   // map.bindContextMenu(defaultContextmenuItems) // 可以删减defaultContextmenuItems数组内值
 
   // eslint-disable-next-line no-undef
-  var defaultContextmenuItems = getDefaultContextMenu(map) //是map.getDefaultContextMenu代码相同，用于自定义修改，代码在getDefaultContextMenu.js
+  const defaultContextmenuItems = getDefaultContextMenu(map) //是map.getDefaultContextMenu代码相同，用于自定义修改，代码在getDefaultContextMenu.js
   map.bindContextMenu(defaultContextmenuItems) // 可以删减defaultContextmenuItems数组内值
 }
 
 // 在map地图上绑定右键菜单
 function bindMapDemo() {
-  var mapContextmenuItems = [
+  const mapContextmenuItems = [
     {
       text: "显示此处经纬度",
       icon: `<svg class="iconsvg" aria-hidden="true">
@@ -107,7 +107,7 @@ function bindMapDemo() {
         return Cesium.defined(e.cartesian)
       },
       callback: function (e) {
-        var mpt = mars3d.LngLatPoint.fromCartesian(e.cartesian)
+        const mpt = mars3d.LngLatPoint.fromCartesian(e.cartesian)
         globalAlert(mpt.toString(), "位置信息")
       }
     },
@@ -115,7 +115,7 @@ function bindMapDemo() {
       text: "查看当前视角",
       icon: "fa fa-camera-retro", // 支持 font-class 的字体方式图标
       callback: function (e) {
-        var mpt = JSON.stringify(map.getCameraView())
+        const mpt = JSON.stringify(map.getCameraView())
         globalAlert(mpt, "当前视角信息")
       }
     },
@@ -151,7 +151,7 @@ function bindMapDemo() {
             return Cesium.defined(e.cartesian)
           },
           callback: function (e) {
-            var cameraDistance = Cesium.Cartesian3.distance(e.cartesian, map.camera.positionWC) * 0.1
+            const cameraDistance = Cesium.Cartesian3.distance(e.cartesian, map.camera.positionWC) * 0.1
 
             map.flyToPoint(e.cartesian, {
               radius: cameraDistance, // 距离目标点的距离
@@ -177,7 +177,7 @@ function bindLayerDemo() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -187,7 +187,7 @@ function bindLayerDemo() {
       text: "计算长度",
       icon: "fa fa-medium",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         return (
           graphic.type === "polyline" ||
           graphic.type === "curve" ||
@@ -197,8 +197,8 @@ function bindLayerDemo() {
         )
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     },
@@ -206,12 +206,12 @@ function bindLayerDemo() {
       text: "计算周长",
       icon: "fa fa-medium",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -219,12 +219,12 @@ function bindLayerDemo() {
       text: "计算面积",
       icon: "fa fa-reorder",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
       },
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }
@@ -243,7 +243,7 @@ function bindGraphicDemo() {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

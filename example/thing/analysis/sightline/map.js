@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let sightline
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -19,14 +19,14 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("已知问题提示", "(1) 依赖cesium底层接口，少数情况下不够准确")
+
   sightline = new mars3d.thing.Sightline({
     visibleColor: new Cesium.Color(0, 1, 0, 0.4),
     hiddenColor: new Cesium.Color(1, 0, 0, 0.4)
     // depthFailColor: Cesium.Color.fromCssColorString("#db2c8f"),
   })
   map.addThing(sightline)
-
-  globalNotify("功能和已知问题提示", "(1) 依赖cesium底层接口，少数情况下不够准确")
 }
 
 /**
@@ -52,7 +52,7 @@ function drawCircle() {
       let center = graphic.positionShow
       center = mars3d.PointUtil.addPositionsHeight(center, 1.5) // 加人的身高等因素，略微抬高一些
 
-      var targetPoints = graphic.getOutlinePositions(false, 45)
+      const targetPoints = graphic.getOutlinePositions(false, 45)
 
       map.graphicLayer.clear()
       map.scene.globe.depthTestAgainstTerrain = true
@@ -81,12 +81,12 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
       map.scene.globe.depthTestAgainstTerrain = true
 
-      var center = positions[0]
-      var targetPoint = positions[1]
+      const center = positions[0]
+      const targetPoint = positions[1]
       sightline.add(center, targetPoint, { offsetHeight: 1.5 }) // 1.5是加人的身高等因素，略微抬高一些
 
       createPoint(center, true)
@@ -110,7 +110,7 @@ function clearAll() {
  * @return {object} 返回像素点Entity对象
  */
 function createPoint(position, isFirst) {
-  var graphic = new mars3d.graphic.PointEntity({
+  const graphic = new mars3d.graphic.PointEntity({
     position: position,
     style: {
       color: Cesium.Color.fromCssColorString("#3388ff"),

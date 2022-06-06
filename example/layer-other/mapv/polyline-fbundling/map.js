@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,7 +31,7 @@ function onUnmounted() {
 }
 
 function createMapvLayer() {
-  var nodeData = {
+  const nodeData = {
     0: {
       x: 108.154518,
       y: 36.643346
@@ -42,14 +42,14 @@ function createMapvLayer() {
     }
   }
 
-  var edgeData = [
+  const edgeData = [
     {
       source: "1",
       target: "0"
     }
   ]
 
-  var citys = [
+  const citys = [
     "北京",
     "天津",
     "上海",
@@ -85,7 +85,7 @@ function createMapvLayer() {
 
   // 自定义数据
   for (let i = 1; i < 500; i++) {
-    var cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     nodeData[i] = {
       x: cityCenter.lng - 5 + Math.random() * 10,
       y: cityCenter.lat - 5 + Math.random() * 10
@@ -96,16 +96,16 @@ function createMapvLayer() {
     })
   }
 
-  var fbundling = this.mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
+  const fbundling = this.mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
 
-  var results = fbundling()
+  const results = fbundling()
 
-  var data = []
-  var timeData = []
+  const data = []
+  const timeData = []
 
   for (let i = 0; i < results.length; i++) {
-    var line = results[i]
-    var coordinates = []
+    const line = results[i]
+    const coordinates = []
     for (let j = 0; j < line.length; j++) {
       coordinates.push([line[j].x, line[j].y])
       timeData.push({
@@ -125,7 +125,7 @@ function createMapvLayer() {
     })
   }
 
-  var options1 = {
+  const options1 = {
     strokeStyle: "rgba(55, 50, 250, 0.3)",
     globalCompositeOperation: "lighter",
     shadowColor: "rgba(55, 50, 250, 0.5)",
@@ -136,10 +136,10 @@ function createMapvLayer() {
   }
 
   // 创建MapV图层
-  var mapVLayer1 = new mars3d.layer.MapVLayer(options1)
+  const mapVLayer1 = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer1)
 
-  var options2 = {
+  const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.9)",
     globalCompositeOperation: "lighter",
     size: 1.5,
@@ -157,6 +157,6 @@ function createMapvLayer() {
   }
 
   // 创建MapV图层
-  var mapVLayer2 = new mars3d.layer.MapVLayer(options2)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
 }

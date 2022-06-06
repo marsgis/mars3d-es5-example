@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -37,7 +37,7 @@ function demoSampleProperty() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -51,7 +51,7 @@ function demoSampleProperty() {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
   // 演示属性机制
-  var property = new Cesium.SampledProperty(Cesium.Cartesian3)
+  const property = new Cesium.SampledProperty(Cesium.Cartesian3)
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), new Cesium.Cartesian3(400.0, 300.0, 100.0))
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:20")), new Cesium.Cartesian3(400.0, 300.0, 900.0))
   // 让盒子一直存在
@@ -67,7 +67,7 @@ function demoTimeIntervalCollectionProperty() {
   map.clock.currentTime = Cesium.JulianDate.fromIso8601("2017-08-25T00:00:00.00Z")
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -78,7 +78,7 @@ function demoTimeIntervalCollectionProperty() {
   graphicLayer.addGraphic(marsBox)
 
   // 演示属性机制
-  var property = new Cesium.TimeIntervalCollectionProperty()
+  const property = new Cesium.TimeIntervalCollectionProperty()
   property.intervals.addInterval(
     Cesium.TimeInterval.fromIso8601({
       iso8601: "2017-08-25T00:00:00.00Z/2017-08-25T00:00:02.00Z",
@@ -119,7 +119,7 @@ function demoConstantProperty() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -148,7 +148,7 @@ function demoCompositeProperty() {
   map.clock.currentTime = Cesium.JulianDate.fromIso8601("2017-08-25T00:00:00.00Z")
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -161,12 +161,12 @@ function demoCompositeProperty() {
   // 演示属性机制
 
   // 1 sampledProperty
-  var sampledProperty = new Cesium.SampledProperty(Cesium.Cartesian3)
+  const sampledProperty = new Cesium.SampledProperty(Cesium.Cartesian3)
   sampledProperty.addSample(Cesium.JulianDate.fromIso8601("2017-08-25T00:00:00.00Z"), new Cesium.Cartesian3(400.0, 300.0, 100.0))
   sampledProperty.addSample(Cesium.JulianDate.fromIso8601("2017-08-25T00:00:10.00Z"), new Cesium.Cartesian3(400.0, 300.0, 500.0))
 
   // 2 ticProperty
-  var ticProperty = new Cesium.TimeIntervalCollectionProperty()
+  const ticProperty = new Cesium.TimeIntervalCollectionProperty()
   ticProperty.intervals.addInterval(
     Cesium.TimeInterval.fromIso8601({
       iso8601: "2017-08-25T00:00:10.00Z/2017-08-25T00:00:12.00Z",
@@ -201,7 +201,7 @@ function demoCompositeProperty() {
   )
 
   // 3 compositeProperty
-  var compositeProperty = new Cesium.CompositeProperty()
+  const compositeProperty = new Cesium.CompositeProperty()
   compositeProperty.intervals.addInterval(
     Cesium.TimeInterval.fromIso8601({
       iso8601: "2017-08-25T00:00:00.00Z/2017-08-25T00:00:10.00Z",
@@ -226,7 +226,7 @@ function demoSampledPositionProperty() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.198461, 31.834956, 40.2],
     style: {
       dimensions: new Cesium.Cartesian3(100.0, 200.0, 300.0),
@@ -240,7 +240,7 @@ function demoSampledPositionProperty() {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
   // 演示属性机制
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), Cesium.Cartesian3.fromDegrees(117.198461, 31.834956, 40.2))
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:20")), Cesium.Cartesian3.fromDegrees(117.231979, 31.833411, 35.6))
 
@@ -252,7 +252,7 @@ function demoColorMaterialProperty() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -274,7 +274,7 @@ function demoColorMaterialProperty2() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -288,7 +288,7 @@ function demoColorMaterialProperty2() {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
   // 演示属性机制
-  var colorProperty = new Cesium.SampledProperty(Cesium.Color)
+  const colorProperty = new Cesium.SampledProperty(Cesium.Color)
   colorProperty.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), new Cesium.Color(0, 0, 1))
   colorProperty.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:10")), new Cesium.Color(1, 1, 0))
 
@@ -300,7 +300,7 @@ function demoCallbackProperty() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -312,7 +312,7 @@ function demoCallbackProperty() {
 
   // 演示属性机制
   let len = 100.0
-  var property = new Cesium.CallbackProperty(function (time, result) {
+  const property = new Cesium.CallbackProperty(function (time, result) {
     result = result || new Cesium.Cartesian3(400.0, 300.0, 500.0)
 
     len += 3.0
@@ -335,7 +335,7 @@ function demoReferenceProperty() {
   graphicLayer.clear()
 
   // 创建蓝色盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -349,14 +349,14 @@ function demoReferenceProperty() {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
   // 演示属性机制
-  var property = new Cesium.SampledProperty(Cesium.Cartesian3)
+  const property = new Cesium.SampledProperty(Cesium.Cartesian3)
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), new Cesium.Cartesian3(400.0, 300.0, 100.0))
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:20")), new Cesium.Cartesian3(400.0, 300.0, 900.0))
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-26 00:00:00")), new Cesium.Cartesian3(400.0, 300.0, 900.0)) // 让盒子一直存在
   marsBox.setStyle({ dimensions: property })
 
   // 另外一个红色盒子
-  var redBox = new mars3d.graphic.BoxEntity({
+  const redBox = new mars3d.graphic.BoxEntity({
     position: [117.225643, 31.843242, 37.9],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -367,8 +367,8 @@ function demoReferenceProperty() {
   graphicLayer.addGraphic(redBox)
 
   // 演示属性机制
-  var collection = graphicLayer.dataSource.entities
-  var dimensions = new Cesium.ReferenceProperty(collection, marsBox.uuid, ["box", "dimensions"])
+  const collection = graphicLayer.dataSource.entities
+  const dimensions = new Cesium.ReferenceProperty(collection, marsBox.uuid, ["box", "dimensions"])
   redBox.setStyle({ dimensions: dimensions })
 }
 
@@ -377,7 +377,7 @@ function demoPropertyBag() {
   graphicLayer.clear()
 
   // 创建盒子
-  var marsBox = new mars3d.graphic.BoxEntity({
+  const marsBox = new mars3d.graphic.BoxEntity({
     position: [117.220164, 31.834887, 39.6],
     style: {
       dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
@@ -391,11 +391,11 @@ function demoPropertyBag() {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
   // 演示属性机制
-  var zp = new Cesium.SampledProperty(Number)
+  const zp = new Cesium.SampledProperty(Number)
   zp.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), 100.0)
   zp.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:10")), 800.0)
 
-  var dimensions = new Cesium.PropertyBag({
+  const dimensions = new Cesium.PropertyBag({
     x: 400.0,
     y: 300.0,
     z: zp
@@ -407,11 +407,11 @@ function demoPropertyBag() {
 function demoVelocityVectorProperty() {
   graphicLayer.clear()
 
-  var propertyFJ = getSampledPositionProperty([
+  const propertyFJ = getSampledPositionProperty([
     [117.198461, 31.834956, 40.2],
     [117.231979, 31.833411, 35.6]
   ])
-  var graphic = new mars3d.graphic.BillboardEntity({
+  const graphic = new mars3d.graphic.BillboardEntity({
     position: propertyFJ,
     orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
     style: {
@@ -425,13 +425,13 @@ function demoVelocityVectorProperty() {
 
 // 计算演示的SampledPositionProperty轨迹
 function getSampledPositionProperty(points) {
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
 
-  var start = map.clock.currentTime
-  var positions = mars3d.LngLatArray.toCartesians(points)
+  const start = map.clock.currentTime
+  const positions = mars3d.LngLatArray.toCartesians(points)
   for (let i = 0; i < positions.length; i++) {
-    var time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
-    var position = positions[i]
+    const time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
+    const position = positions[i]
     property.addSample(time, position)
   }
   return property

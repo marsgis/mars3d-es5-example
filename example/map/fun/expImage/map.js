@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -38,7 +38,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 80.6 },
     maximumScreenSpaceError: 1,
@@ -47,7 +47,7 @@ function onMounted(mapInstance) {
   map.addLayer(tilesetLayer)
 
   // 创建DIV数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   addGraphic_06(graphicLayer)
@@ -88,8 +88,8 @@ function downLoad2() {
 }
 
 function downLoadDiv() {
-  var mapDom = document.getElementById("mars3dContainer")
-  var filterNode = document.getElementsByClassName("cesium-viewer-cesiumWidgetContainer")
+  const mapDom = document.getElementById("mars3dContainer")
+  const filterNode = document.getElementsByClassName("cesium-viewer-cesiumWidgetContainer")
   function filter(node) {
     return node !== filterNode[0]
   }
@@ -112,23 +112,23 @@ function downLoadDiv() {
 // 合并2张图片
 function mergeImage(base1, base2, width, height) {
   return new Promise((resolve, reject) => {
-    var canvas = document.createElement("canvas")
+    const canvas = document.createElement("canvas")
     canvas.width = width
     canvas.height = height
-    var ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext("2d")
 
-    var image = new Image() // MAP图片
+    const image = new Image() // MAP图片
     image.crossOrigin = "Anonymous" // 支持跨域图片
     image.onload = () => {
       ctx.drawImage(image, 0, 0, width, height)
 
-      var image2 = new Image() // div图片
+      const image2 = new Image() // div图片
       image2.crossOrigin = "Anonymous" // 支持跨域图片
       image2.onload = () => {
         ctx.drawImage(image2, 0, 0, width, height)
 
         // 合并后的图片
-        var base64 = canvas.toDataURL("image/png")
+        const base64 = canvas.toDataURL("image/png")
         resolve(base64)
       }
       image2.src = base2
@@ -139,7 +139,7 @@ function mergeImage(base1, base2, width, height) {
 
 // 内置扩展的动态文本 DivBoderLabel
 function addGraphic_06(graphicLayer) {
-  var graphic = new mars3d.graphic.DivBoderLabel({
+  const graphic = new mars3d.graphic.DivBoderLabel({
     position: [116.460722, 31.140888, 781],
     style: {
       text: "火星科技Mars3D平台",
@@ -154,7 +154,7 @@ function addGraphic_06(graphicLayer) {
 
 // 类似popup/toolitp的自定义html
 function addGraphic_08(graphicLayer) {
-  var graphic = new mars3d.graphic.Popup({
+  const graphic = new mars3d.graphic.Popup({
     position: [116.146461, 31.380152, 395.1],
     style: {
       html: `这里可以放入任意html代码<br /> Popup和Tooltip也是继承自DivGraphic`,
@@ -175,7 +175,7 @@ function addGraphic_08(graphicLayer) {
 
 // 倾斜指向左下角的面板样式
 function addGraphic_09(graphicLayer) {
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: [116.138686, 31.101009, 1230],
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
@@ -236,14 +236,14 @@ function addGraphic_09(graphicLayer) {
   // 刷新局部DOM,不影响面板的其他控件操作
   // [建议读取到后端接口数据后主动去修改DOM，比下面演示的实时刷新效率高些]
   graphic.on(mars3d.EventType.postRender, function (event) {
-    var container = event.container // popup对应的DOM
+    const container = event.container // popup对应的DOM
 
-    var lablLiuliang = container.querySelector("#lablLiuliang")
+    const lablLiuliang = container.querySelector("#lablLiuliang")
     if (lablLiuliang) {
       lablLiuliang.innerHTML = (Math.random() * 100).toFixed(0) // 测试的随机数
     }
 
-    var lablYeWei = container.querySelector("#lablYeWei")
+    const lablYeWei = container.querySelector("#lablYeWei")
     if (lablYeWei) {
       lablYeWei.innerHTML = mars3d.Util.formatDate(new Date(), "ss.S") // 测试的随机数
     }

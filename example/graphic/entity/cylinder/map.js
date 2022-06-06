@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 var eventTarget = new mars3d.BaseClass()
 
 /**
@@ -43,7 +43,7 @@ function onUnmounted() {
 
 //
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: [116.282587, 30.859197, 1544.31],
     style: {
       length: 2000.0,
@@ -62,7 +62,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: [116.177214, 30.842242, 2000],
     style: {
       slices: 4, // 四凌锥
@@ -84,7 +84,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: [116.219019, 30.906387, 584.51],
     style: {
       length: 2000.0,
@@ -103,7 +103,7 @@ function addDemoGraphic3(graphicLayer) {
 
 //
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       length: 2000.0,
@@ -126,14 +126,14 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
   // graphic转geojson
-  var geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON()
   console.log("转换后的geojson", geojson)
   addGeoJson(geojson, graphicLayer)
 }
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.position = [116.301991, 30.933872, 624.03]
@@ -144,10 +144,10 @@ function addGeoJson(geojson, graphicLayer) {
 
 // 也可以直接使用ConeTrack对象
 function addDemoGraphic5(graphicLayer) {
-  var point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
+  const point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
 
   // 添加模型
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     position: point,
     style: {
       url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
@@ -158,10 +158,10 @@ function addDemoGraphic5(graphicLayer) {
   graphicLayer.addGraphic(graphicModel)
 
   // 效果1
-  var pointQY = point.clone()
+  const pointQY = point.clone()
   pointQY.alt = pointQY.alt / 2
 
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: pointQY,
     style: {
       length: point.alt,
@@ -178,10 +178,10 @@ function addDemoGraphic5(graphicLayer) {
 
 // 也可以直接使用ConeTrack对象
 function addDemoGraphic6(graphicLayer) {
-  var point = new mars3d.LngLatPoint(116.504297, 30.924326, 9000)
+  const point = new mars3d.LngLatPoint(116.504297, 30.924326, 9000)
 
   // 添加模型
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     position: point,
     style: {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
@@ -193,10 +193,10 @@ function addDemoGraphic6(graphicLayer) {
   graphicLayer.addGraphic(graphicModel)
 
   // 效果1
-  var pointQY = point.clone()
+  const pointQY = point.clone()
   pointQY.alt = pointQY.alt / 2
 
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: pointQY,
     style: {
       length: point.alt,
@@ -243,7 +243,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -259,14 +259,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -279,14 +279,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -299,7 +299,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -307,11 +307,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -351,7 +355,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -368,7 +372,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

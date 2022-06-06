@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -23,7 +23,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var toolButton = new mars3d.control.ToolButton({
+  const toolButton = new mars3d.control.ToolButton({
     title: "示例按钮bookmark",
     icon: "img/icon/bookmark-one.svg",
     insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
@@ -33,7 +33,7 @@ function onMounted(mapInstance) {
   })
   map.addControl(toolButton)
 
-  var toolButton2 = new mars3d.control.ToolButton({
+  const toolButton2 = new mars3d.control.ToolButton({
     title: "示例按钮good",
     icon: "img/icon/good.svg",
     insertIndex: 0, // 插入的位置顺序
@@ -43,7 +43,7 @@ function onMounted(mapInstance) {
   })
   map.addControl(toolButton2)
 
-  var toolButton3 = new mars3d.control.ToolButton({
+  const toolButton3 = new mars3d.control.ToolButton({
     title: "示例按钮chinese",
     icon: "img/icon/chinese.svg",
     click: () => {

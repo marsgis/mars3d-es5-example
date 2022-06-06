@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
-  var locationBar = new mars3d.control.LocationBar({
+  const locationBar = new mars3d.control.LocationBar({
     fps: true,
     template:
       "<div>经度:{lng}</div><div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"

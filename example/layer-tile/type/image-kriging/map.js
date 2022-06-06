@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
-//import kriging from "./krigingConfig"
+// import * as mars3d from "mars3d"
+// import kriging from "./krigingConfig"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -22,8 +22,8 @@ function onMounted(mapInstance) {
   queryTemperatureData()
     .then(function (geojson) {
       // eslint-disable-next-line no-undef
-      var image = loadkriging(geojson.features, kriging_bounds, kriging_colors)
-      var tileLayer = new mars3d.layer.ImageLayer({
+      const image = loadkriging(geojson.features, kriging_bounds, kriging_colors)
+      const tileLayer = new mars3d.layer.ImageLayer({
         url: image,
         rectangle: {
           xmin: 73.4766,
@@ -56,13 +56,13 @@ function queryTemperatureData() {
 // 根据 克里金法 插值绘制图片
 function loadkriging(tempture, bounds, colors) {
   // let canvas = document.createElement("canvas")
-  var canvas = mars3d.DomUtil.create("canvas")
+  const canvas = mars3d.DomUtil.create("canvas")
   canvas.width = 2000
   canvas.height = 2000
 
-  var t = []
-  var x = []
-  var y = []
+  const t = []
+  const x = []
+  const y = []
   for (let i = 0, len = tempture.length; i < len; i++) {
     t.push(tempture[i].properties.Temperatur) // 权重值
     x.push(tempture[i].geometry.coordinates[0]) // x
@@ -70,16 +70,16 @@ function loadkriging(tempture, bounds, colors) {
   }
   // 1.用克里金训练一个variogram对象
 
-  var variogram = kriging.train(t, x, y, "exponential", 0, 100)
+  const variogram = kriging.train(t, x, y, "exponential", 0, 100)
 
   // 2.使用刚才的variogram对象使polygons描述的地理位置内的格网元素具备不一样的预测值；
   // bounds:普通的geojson格式的面的格式的coordinates。
 
-  var grid = kriging.grid(bounds, variogram, 0.05)
+  const grid = kriging.grid(bounds, variogram, 0.05)
   // 3.将得到的格网预测值渲染到canvas画布上
 
   kriging.plot(canvas, grid, [73.4766, 135.088], [18.1055, 53.5693], colors)
 
-  var image = canvas.toDataURL("image/png")
+  const image = canvas.toDataURL("image/png")
   return image
 }

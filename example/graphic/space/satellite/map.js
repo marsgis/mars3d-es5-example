@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let weixin
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -51,14 +51,14 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
@@ -118,17 +118,17 @@ function addGraphicLayer() {
   })
   graphicLayer.addGraphic(weixin)
 
-  var weixinData = {}
+  const weixinData = {}
   weixinData.name = weixin.name
   weixinData.tle1 = weixin.options.tle1
   weixinData.tle2 = weixin.options.tle2
 
   // 显示实时坐标和时间
   weixin.on(mars3d.EventType.change, (e) => {
-    var date = Cesium.JulianDate.toDate(map.clock.currentTime)
+    const date = Cesium.JulianDate.toDate(map.clock.currentTime)
     weixinData.time = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
     if (weixin.position) {
-      var point = mars3d.LngLatPoint.fromCartesian(weixin.position)
+      const point = mars3d.LngLatPoint.fromCartesian(weixin.position)
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = mars3d.MeasureUtil.formatDistance(point.alt)
@@ -158,7 +158,7 @@ function selPoint() {
         color: "#ffff00"
       },
       success: function (graphic) {
-        var position = graphic.positionShow
+        const position = graphic.positionShow
         map.graphicLayer.clear()
 
         weixin.lookAt = position

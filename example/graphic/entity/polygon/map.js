@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 var eventTarget = new mars3d.BaseClass()
 
@@ -49,7 +49,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [117.271662, 31.870639, 21.49],
       [117.290605, 31.871517, 19.47],
@@ -78,7 +78,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [117.187572, 31.823074, 45.53],
       [117.195377, 31.82418, 43.36],
@@ -98,7 +98,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [117.216386, 31.815376, 35.16],
       [117.222533, 31.81729, 29.21],
@@ -125,7 +125,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [117.183593, 31.856606, 32.1],
       [117.197665, 31.86613, 33.9],
@@ -152,7 +152,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 function addDemoGraphic5(graphicLayer) {
-  var primitive = new mars3d.graphic.PolygonEntity({
+  const primitive = new mars3d.graphic.PolygonEntity({
     positions: [
       [117.261476, 31.799865, 20.8],
       [117.270864, 31.804957, 26],
@@ -179,7 +179,7 @@ function addDemoGraphic5(graphicLayer) {
 }
 
 function addDemoGraphic6(graphicLayer) {
-  var primitive = new mars3d.graphic.PolygonEntity({
+  const primitive = new mars3d.graphic.PolygonEntity({
     positions: [
       // 外环
       [
@@ -237,7 +237,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -253,14 +253,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -273,14 +273,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -293,7 +293,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -301,11 +301,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
 
@@ -313,8 +317,8 @@ function bindLayerContextMenu() {
       text: "计算周长",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -322,8 +326,8 @@ function bindLayerContextMenu() {
       text: "计算面积",
       icon: "fa fa-reorder",
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }

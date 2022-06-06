@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let sightline
 
 let positionSXT
@@ -48,7 +48,7 @@ function creatTestData() {
   // 测试数据
   positionSXT = Cesium.Cartesian3.fromDegrees(116.144485, 30.744249, 1060)
 
-  var graphicSXT = new mars3d.graphic.PointEntity({
+  const graphicSXT = new mars3d.graphic.PointEntity({
     position: positionSXT,
     style: {
       color: "#ffff00",
@@ -66,11 +66,11 @@ function creatTestData() {
   map.graphicLayer.addGraphic(graphicSXT)
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 地面点
-  var TargetGraphic = new mars3d.graphic.PointEntity({
+  const TargetGraphic = new mars3d.graphic.PointEntity({
     position: new Cesium.CallbackProperty(() => {
       return positionDM
     }, false),
@@ -92,7 +92,7 @@ function creatTestData() {
   })
   graphicLayer.addGraphic(TargetGraphic)
 
-  var graphicJD = new mars3d.graphic.PointEntity({
+  const graphicJD = new mars3d.graphic.PointEntity({
     position: new Cesium.CallbackProperty(function (time) {
       return positionJD
     }, false),
@@ -107,7 +107,7 @@ function creatTestData() {
   graphicLayer.addGraphic(graphicJD)
 
   // 摄像头朝向的地面点连线
-  var graphicLine = new mars3d.graphic.PolylineEntity({
+  const graphicLine = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
       if (!positionSXT || !positionDM || positionJD != null) {
         return []
@@ -174,7 +174,7 @@ function updateModel(params) {
     return
   }
 
-  var hpr = new Cesium.HeadingPitchRoll(
+  const hpr = new Cesium.HeadingPitchRoll(
     Cesium.Math.toRadians(params.heading),
     Cesium.Math.toRadians(params.pitch),
     Cesium.Math.toRadians(params.roll)

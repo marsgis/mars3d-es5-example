@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
 
   map.basemap = 2017 // 蓝色底图
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 8,
@@ -59,7 +59,7 @@ function onUnmounted() {
 
 // 立体围墙扩散效果,面状
 function addDemoGraphic1() {
-  var diffuseWallGlow = new mars3d.graphic.DiffuseWall({
+  const diffuseWallGlow = new mars3d.graphic.DiffuseWall({
     positions: [
       [121.475616, 31.255374, 5.87],
       [121.482578, 31.248681, 10.85],
@@ -85,7 +85,7 @@ function addDemoGraphic1() {
 
 // 立体围墙扩散效果,圆状
 function addDemoGraphic2() {
-  var circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
+  const circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
     position: Cesium.Cartesian3.fromDegrees(121.504242, 31.23805, 27.88), // 圆中心点
     style: {
       diffHeight: 2000, // 高度
@@ -115,7 +115,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -131,7 +131,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -139,19 +139,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算长度",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     }

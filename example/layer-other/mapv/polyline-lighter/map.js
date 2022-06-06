@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -40,10 +40,10 @@ function onUnmounted() {
 
 // 创建mapv图层
 function createMapvLayer(rs) {
-  var timeData = []
-  var arr = mars3d.Util.geoJsonToGraphics(rs) // 解析geojson
+  const timeData = []
+  const arr = mars3d.Util.geoJsonToGraphics(rs) // 解析geojson
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     for (let j = 0; j < item.positions.length; j++) {
       timeData.push({
@@ -57,7 +57,7 @@ function createMapvLayer(rs) {
     }
   }
 
-  var options1 = {
+  const options1 = {
     strokeStyle: "rgba(53,57,255,0.5)",
     shadowColor: "rgba(53,57,255,0.2)",
     shadowBlur: 3,
@@ -68,10 +68,10 @@ function createMapvLayer(rs) {
   }
 
   // 创建MapV图层  线图层
-  var mapVLayer1 = new mars3d.layer.MapVLayer(options1)
+  const mapVLayer1 = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer1)
 
-  var options2 = {
+  const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.2)",
     globalCompositeOperation: "lighter",
     size: 1.5,
@@ -89,6 +89,6 @@ function createMapvLayer(rs) {
   }
 
   // 创建MapV图层  动态轨迹图层
-  var mapVLayer2 = new mars3d.layer.MapVLayer(options2)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
 }

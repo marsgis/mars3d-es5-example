@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let camberRadar
 let graphicLayer
 
@@ -32,7 +32,7 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {
@@ -61,7 +61,7 @@ function onUnmounted() {
  * @returns {void}
  */
 function getViewConfig(radarParsms) {
-  var style = {
+  const style = {
     radius: radarParsms.outerRadius,
     startRadius: radarParsms.innerRadius,
 

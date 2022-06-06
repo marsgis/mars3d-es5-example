@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -56,7 +56,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.153945, 31.881122, 36.4],
       [117.168352, 31.880147, 32.6],
@@ -82,7 +82,7 @@ function addDemoGraphic1() {
 }
 
 function addDemoGraphic2() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.208302, 31.85757],
       [117.234234, 31.858263],
@@ -106,13 +106,13 @@ function addDemoGraphic2() {
 
 function addDemoGraphic3() {
   // 圆形时
-  var positions = mars3d.PolyUtil.getEllipseOuterPositions({
+  const positions = mars3d.PolyUtil.getEllipseOuterPositions({
     position: Cesium.Cartesian3.fromDegrees(117.276257, 31.866351, 19.57),
     radius: 1200, // 半径
     count: 50 // 共返回(count*4)个点
   })
 
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: positions,
     style: {
       diffHeight: 800,
@@ -130,7 +130,7 @@ function addDemoGraphic3() {
 }
 
 function addDemoGraphic4() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.154815, 31.853495],
       [117.181255, 31.854257],
@@ -162,7 +162,7 @@ function addDemoGraphic4() {
 }
 
 function addDemoGraphic5() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.229659, 31.908221],
       [117.240804, 31.908175]
@@ -194,7 +194,7 @@ function addDemoGraphic5() {
 }
 
 function addDemoGraphic6() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.169646, 31.769171],
       [117.194579, 31.806466]
@@ -209,7 +209,7 @@ function addDemoGraphic6() {
 }
 
 function addDemoGraphic7() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.353776, 31.887406, 21.2],
       [117.321028, 31.887207, 21.3],
@@ -230,7 +230,7 @@ function addDemoGraphic7() {
 }
 
 function addDemoGraphic8() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.251382, 31.824055, 28.4],
       [117.278989, 31.819766, 27.3],
@@ -255,7 +255,7 @@ function addDemoGraphic8() {
 }
 
 function addDemoGraphic9() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.31104, 31.821121, 14],
       [117.330257, 31.823798, 9.9],
@@ -281,7 +281,7 @@ function addDemoGraphic9() {
 }
 
 function addDemoGraphic10() {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.374042, 31.838945, 11.6],
       [117.392644, 31.835948, 4.7],
@@ -309,10 +309,10 @@ function addDemoGraphic10() {
 
 // 显示合肥市边界
 function addDemoGraphic11(data) {
-  var arr = mars3d.Util.geoJsonToGraphics(data) // 解析geojson
+  const arr = mars3d.Util.geoJsonToGraphics(data) // 解析geojson
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
-    var primitive = new mars3d.graphic.WallPrimitive({
+    const item = arr[i]
+    const primitive = new mars3d.graphic.WallPrimitive({
       positions: item.positions,
       style: {
         diffHeight: 3000,
@@ -334,7 +334,7 @@ function addDemoGraphic11(data) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -364,7 +364,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -372,19 +372,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算长度",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
       }
     }
@@ -408,7 +412,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -425,7 +429,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

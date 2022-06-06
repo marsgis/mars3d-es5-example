@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -34,6 +34,7 @@ function onMounted(mapInstance) {
   addDemoGraphic4(graphicLayer)
   addDemoGraphic5(graphicLayer)
   addDemoGraphic6(graphicLayer)
+  addDemoGraphic7(graphicLayer)
 }
 
 /**
@@ -45,7 +46,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var primitive = new mars3d.graphic.CylinderPrimitive({
+  const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.282587, 30.859197, 1544.31],
     style: {
       length: 2000.0,
@@ -63,7 +64,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.CylinderPrimitive({
+  const primitive = new mars3d.graphic.CylinderPrimitive({
     position: new mars3d.LngLatPoint(116.22457, 30.883148, 1035.2),
     style: {
       length: 2000.0,
@@ -81,7 +82,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
-  var primitive = new mars3d.graphic.CylinderPrimitive({
+  const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.177214, 30.842242, 2000],
     style: {
       slices: 4, // 四凌锥
@@ -103,7 +104,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var primitive = new mars3d.graphic.CylinderPrimitive({
+  const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.244399, 30.920459, 573.6],
     style: {
       length: 2000.0,
@@ -118,7 +119,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 function addDemoGraphic5(graphicLayer) {
-  var primitive = new mars3d.graphic.CylinderPrimitive({
+  const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.328775, 30.954602, 5000],
     style: {
       length: 10000.0,
@@ -139,10 +140,10 @@ function addDemoGraphic5(graphicLayer) {
 
 function addDemoGraphic6(graphicLayer) {
   // 添加卫星1
-  var point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
+  const point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
 
   // 添加模型
-  var graphicModel = new mars3d.graphic.ModelPrimitive({
+  const graphicModel = new mars3d.graphic.ModelPrimitive({
     position: point,
     style: {
       url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
@@ -154,10 +155,10 @@ function addDemoGraphic6(graphicLayer) {
   graphicLayer.addGraphic(graphicModel)
 
   // 效果1
-  var pointQY = point.clone()
+  const pointQY = point.clone()
   pointQY.alt = pointQY.alt / 2
 
-  var graphic = new mars3d.graphic.CylinderPrimitive({
+  const graphic = new mars3d.graphic.CylinderPrimitive({
     position: pointQY,
     style: {
       length: point.alt,
@@ -169,6 +170,65 @@ function addDemoGraphic6(graphicLayer) {
     }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+
+// 注册自定义材质
+const CylinderFadeType = "CylinderFade"
+mars3d.MaterialUtil.register(CylinderFadeType, {
+  fabric: {
+    uniforms: {
+      color: new Cesium.Color(1.0, 0.0, 0.0, 0.7),
+      image: Cesium.Material.DefaultImageId
+    },
+    source: `
+        uniform vec4 color;
+        uniform sampler2D image;
+        czm_material czm_getMaterial(czm_materialInput materialInput){
+          czm_material material = czm_getDefaultMaterial(materialInput);
+          vec2 st = materialInput.st;
+          float time = fract(czm_frameNumber / 90.) ;
+          vec2 new_st = fract(st- vec2(time,time));
+          vec4 colorImage = texture2D(image, new_st);
+          vec3 diffuse = colorImage.rgb;
+          float alpha = colorImage.a;
+          diffuse *= color.rgb;
+          alpha *= color.a;
+          material.diffuse = diffuse;
+          material.alpha = alpha * pow(1. - st.t,color.a);
+          return material;
+        } `
+  },
+  translucent: true
+})
+
+function addDemoGraphic7(graphicLayer) {
+  Cesium.Resource.fetchImage({ url: "img/textures/vline-point.png" }).then((image) => {
+    const primitive = new mars3d.graphic.CylinderPrimitive({
+      position: [116.209929, 30.975196, 1670.4],
+      style: {
+        length: 2000.0,
+        topRadius: 0.0,
+        bottomRadius: 1000.0,
+        material: mars3d.MaterialUtil.createMaterial(CylinderFadeType, {
+          color: "#00ffff",
+          image: _getParticlesImage(image)
+        })
+      },
+      attr: { remark: "示例7" }
+    })
+    graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
+  })
+}
+
+function _getParticlesImage(image) {
+  const canvas = document.createElement("canvas")
+  canvas.width = 64
+  canvas.height = 256
+  const ctx = canvas.getContext("2d")
+  ctx.clearRect(0, 0, 64, 256)
+  ctx.drawImage(image, 0, 0)
+  ctx.drawImage(image, 33, 0)
+  return canvas
 }
 
 // 在图层级处理一些事物
@@ -188,7 +248,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -204,7 +264,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -212,11 +272,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -239,7 +303,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -256,7 +320,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

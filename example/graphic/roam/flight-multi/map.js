@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -49,7 +49,7 @@ function onUnmounted() {
 }
 
 function addRoamLines() {
-  var arrLine = [
+  const arrLine = [
     {
       id: "1",
       name: "A01",
@@ -347,7 +347,7 @@ function addRoamLines() {
   ]
 
   for (let i = 0, len = arrLine.length; i < len; i++) {
-    var flydata = arrLine[i]
+    const flydata = arrLine[i]
 
     flydata.label = {
       show: true,
@@ -377,7 +377,7 @@ function addRoamLines() {
     }
     // flydata.forwardExtrapolationType = Cesium.ExtrapolationType.NONE;
 
-    var roamLine = new mars3d.graphic.RoamLine(flydata)
+    const roamLine = new mars3d.graphic.RoamLine(flydata)
     graphicLayer.addGraphic(roamLine)
 
     // 启动漫游
@@ -388,7 +388,7 @@ function addRoamLines() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -404,7 +404,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -412,11 +412,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

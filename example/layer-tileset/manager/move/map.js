@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -73,6 +73,6 @@ function showModel(modelUrl) {
 }
 
 function setTranslation(x, y, z) {
-  var translation = Cesium.Cartesian3.fromArray([x, y, z])
+  const translation = Cesium.Cartesian3.fromArray([x, y, z])
   tiles3dLayer.tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation)
 }

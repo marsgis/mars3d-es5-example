@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let roamLine
-var roamLineData = {}
+const roamLineData = {}
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
@@ -16,7 +16,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 参数可以从 基础项目 飞行漫游功能界面操作后保存JSON
@@ -99,10 +99,10 @@ function showRealTimeInfo(params, _alltime) {
 
 function addDivPoint(position) {
   // 创建DIV数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: position,
     hasCache: false,
     style: {

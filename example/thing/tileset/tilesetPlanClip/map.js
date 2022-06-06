@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetPlanClip
 
 /**
@@ -13,7 +13,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "教学楼",
     url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
     position: { lng: 117.251229, lat: 31.844015, alt: 31.2 },
@@ -57,7 +57,7 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -78,7 +78,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -99,7 +99,7 @@ function drawPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -118,7 +118,7 @@ function drawPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true

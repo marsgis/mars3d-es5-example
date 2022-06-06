@@ -17,10 +17,15 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,jquery.range,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,jquery.range,layer,haoutil,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
+    <style>
+      .input-slider {
+        width: 60px !important;
+      }
+    </style>
   </head>
 
   <body class="dark">
@@ -34,7 +39,17 @@
       </div>
       <div style="margin-top: 5px">
         线宽：
-        <input id="lineWidth" type="number" value="3" min="1" step="1" max="10" class="form-control" style="width: 100px" />（像素）
+        <input
+          id="lineWidth"
+          class="input-slider"
+          type="number"
+          value="3"
+          min="1"
+          step="1"
+          max="10"
+          class="form-control"
+          style="width: 100px"
+        />（像素）
 
         <input id="randomCor" class="btn btn-primary" type="button" value="换色" />
       </div>

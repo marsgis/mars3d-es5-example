@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
-//import { PoiQueryButton } from "./PoiQueryButton"
+// import * as mars3d from "mars3d"
+// import { PoiQueryButton } from "./PoiQueryButton"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 var mapOptions = {
   scene: {
@@ -21,7 +21,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var poiQueryButton = new PoiQueryButton({
+  const poiQueryButton = new PoiQueryButton({
     insertIndex: 0 // 插入的位置顺序
   })
   map.addControl(poiQueryButton)

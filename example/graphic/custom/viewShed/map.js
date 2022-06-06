@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer
 let selectedView
 
@@ -26,8 +26,10 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("已知问题提示", `(1) 平面上视域内可能存在锯齿。(2) 视角变化时可能有锯齿抖动。`)
+
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 11.5 },
     maximumScreenSpaceError: 1,
@@ -55,7 +57,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1() {
-  var viewShed = new mars3d.graphic.ViewShed({
+  const viewShed = new mars3d.graphic.ViewShed({
     position: [119.480878, 28.440286, 149],
     style: {
       angle: 60,
@@ -127,7 +129,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point
@@ -193,7 +195,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.targetPosition = point

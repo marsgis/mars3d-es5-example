@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 显示水域
-  var waterLayer = new mars3d.layer.GeoJsonLayer({
+  const waterLayer = new mars3d.layer.GeoJsonLayer({
     url: "//data.mars3d.cn/file/geojson/wangjiaba.json",
     symbol: {
       type: "waterCombine",
@@ -56,7 +56,7 @@ function onUnmounted() {
 // 添加水柱
 function addWaterGate() {
   // 水柱位置
-  var posArr = [
+  const posArr = [
     [115.600031, 32.43217, 38],
     [115.600104, 32.432121, 38],
     [115.600163, 32.432059, 38],
@@ -73,10 +73,10 @@ function addWaterGate() {
   ]
 
   for (let i = 0, len = posArr.length; i < len; i++) {
-    var pos = posArr[i]
-    var position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2])
+    const pos = posArr[i]
+    const position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2])
 
-    var particleSystem = new mars3d.graphic.ParticleSystem({
+    const particleSystem = new mars3d.graphic.ParticleSystem({
       id: i + 1,
       position: position, // 位置
       style: {
@@ -106,7 +106,7 @@ function addWaterGate() {
 
 // 单个闸门控制
 function onChangeGate(id, checked) {
-  var particleSystem = graphicLayer.getGraphicById(id)
+  const particleSystem = graphicLayer.getGraphicById(id)
   if (particleSystem) {
     particleSystem.show = !checked
   }

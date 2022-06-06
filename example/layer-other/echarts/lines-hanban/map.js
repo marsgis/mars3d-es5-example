@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,8 +31,8 @@ function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  var options = getEchartsOption()
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const options = getEchartsOption()
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
@@ -47,7 +47,7 @@ function createEchartsLayer() {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var items = [
+  const items = [
     {
       level: 1,
       name: "北京",
@@ -159,20 +159,20 @@ function getEchartsOption() {
     }
   ]
 
-  var lineColor = ["#fff", "#f6fb05", "#00fcff"]
+  const lineColor = ["#fff", "#f6fb05", "#00fcff"]
 
   // 城市点位图标
-  var symbolList = ["image://img/marker/symbol1.png", "image://img/marker/symbol2.png"]
+  const symbolList = ["image://img/marker/symbol1.png", "image://img/marker/symbol2.png"]
 
   // 线上的动态运动点图标
-  var pointSymbol = ["image://img/marker/linePoint1.png", "image://img/marker/linePoint2.png"]
+  const pointSymbol = ["image://img/marker/linePoint1.png", "image://img/marker/linePoint2.png"]
 
   // level = 1的地点添加图标
   items.forEach((el) => {
     el.symbol = symbolList[el.level - 1]
   })
 
-  var dataArr = [[], [], []]
+  const dataArr = [[], [], []]
   items.forEach((el) => {
     if (el.belong) {
       items.forEach((element) => {
@@ -190,7 +190,7 @@ function getEchartsOption() {
     }
   })
 
-  var seriesOne = [
+  const seriesOne = [
     {
       type: "effectScatter",
       layout: "none",
@@ -221,7 +221,7 @@ function getEchartsOption() {
       data: items
     }
   ]
-  var lineSeries = []
+  const lineSeries = []
   dataArr.forEach((el, index) => {
     lineSeries.push({
       name: "",
@@ -247,9 +247,9 @@ function getEchartsOption() {
     })
   })
 
-  var seriesData = seriesOne.concat(lineSeries)
+  const seriesData = seriesOne.concat(lineSeries)
 
-  var option = {
+  const option = {
     animation: false,
     // backgroundColor: '#000',
 

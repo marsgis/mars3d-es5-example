@@ -26,17 +26,20 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-heatmap"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-heatmap"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
-
+    <div class="infoview">
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="chkHasEdit" class="styled" type="checkbox" checked />
+        <label for="chkHasEdit"> 是否动态 </label>
+      </div>
+    </div>
     <!-- 图例面板 -->
     <div style="position: absolute; bottom: 30px; right: 10px">
       <img src="/img/legend/heatmap.png" height="200px" />
@@ -44,5 +47,12 @@
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+      $("#chkHasEdit").change(function () {
+        let val = $(this).is(":checked")
+        chkUnderground(val) //启用动态
+      })
+    </script>
   </body>
 </html>

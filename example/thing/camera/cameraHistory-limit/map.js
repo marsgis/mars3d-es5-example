@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let cameraHistory
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
 
   cameraHistory.on(mars3d.EventType.change, function (event) {
     // 触发自定义事件
-    var count = event.count
+    const count = event.count
     eventTarget.fire("changeCamera", { count })
   })
 }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,8 +31,8 @@ function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  var options = getEchartsOption()
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const options = getEchartsOption()
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
@@ -47,7 +47,7 @@ function createEchartsLayer() {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var geoCoordMap = {
+  const geoCoordMap = {
     上海: [121.4648, 31.2891],
     东莞: [113.8953, 22.901],
     东营: [118.7073, 37.5513],
@@ -167,7 +167,7 @@ function getEchartsOption() {
     韶关: [113.7964, 24.7028]
   }
 
-  var BJData = [
+  const BJData = [
     [
       {
         name: "北京",
@@ -334,12 +334,12 @@ function getEchartsOption() {
 
   // let planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
 
-  var convertData = function (data) {
-    var res = []
+  const convertData = function (data) {
+    const res = []
     for (let i = 0; i < data.length; i++) {
-      var dataItem = data[i]
-      var fromCoord = geoCoordMap[dataItem[0].name]
-      var toCoord = geoCoordMap[dataItem[1].name]
+      const dataItem = data[i]
+      const fromCoord = geoCoordMap[dataItem[0].name]
+      const toCoord = geoCoordMap[dataItem[1].name]
       if (fromCoord && toCoord) {
         res.push({
           fromName: dataItem[0].name,
@@ -351,7 +351,7 @@ function getEchartsOption() {
     return res
   }
 
-  var series = []
+  const series = []
   ;[["北京", BJData]].forEach(function (item, i) {
     series.push(
       {
@@ -406,7 +406,7 @@ function getEchartsOption() {
     )
   })
 
-  var option = {
+  const option = {
     animation: false,
     // title: {
     //    text: 'EasyOP集群分布图',

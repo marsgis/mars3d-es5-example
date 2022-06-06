@@ -1,10 +1,10 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetLayer
 let tilesetBoxClip
 
-var Cesium = mars3d.Cesium
+
 var mapOptions = {
   scene: {
     center: { lat: 31.842844, lng: 117.251112, alt: 125, heading: 6, pitch: -36 }
@@ -55,7 +55,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       map.graphicLayer.clear()
-      var point = graphic.point
+      const point = graphic.point
       tilesetBoxClip.position = point
       eventTarget.fire("hasDraw", { point })
     }

@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer
-var centerArr = [] // 视角数组
+const centerArr = [] // 视角数组
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {
@@ -32,7 +32,7 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
     url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
@@ -58,7 +58,7 @@ function onUnmounted() {
   map = null
 }
 
-var arrData = [
+const arrData = [
   {
     title: "中国安徽广播电视台",
     description: "安徽广播电视台（AHTV）是集广播、电视、报纸、</br>网络、新媒体等多种业务为一体的省级广播电视综合传</br>媒机构。",
@@ -96,19 +96,19 @@ var arrData = [
 function showDitailInfo() {
   for (let i = 0; i < arrData.length; i++) {
     // 动态坐标属性
-    var property = new Cesium.SampledPositionProperty()
-    var startTime = Cesium.JulianDate.fromDate(new Date(arrData[i].startTime))
-    var endTime = Cesium.JulianDate.fromDate(new Date(arrData[i].endTime))
+    const property = new Cesium.SampledPositionProperty()
+    const startTime = Cesium.JulianDate.fromDate(new Date(arrData[i].startTime))
+    const endTime = Cesium.JulianDate.fromDate(new Date(arrData[i].endTime))
 
     property.addSample(startTime, Cesium.Cartesian3.fromDegrees(...arrData[i].position)) // 此刻显示
     property.addSample(endTime, Cesium.Cartesian3.fromDegrees(...arrData[i].position)) // 此刻不显示
 
-    var stopTime = new Date(arrData[i].endTime).getSeconds() - new Date(arrData[i].startTime).getSeconds()
+    const stopTime = new Date(arrData[i].endTime).getSeconds() - new Date(arrData[i].startTime).getSeconds()
 
     arrData[i].center.stop = stopTime // 停顿视角
     centerArr.push(arrData[i].center) // center集合
 
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: property,
       style: {
         html: `<div class="marsTiltPanel marsTiltPanel-theme-red">

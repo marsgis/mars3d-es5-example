@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let conicSensor
 let testLine
@@ -32,7 +32,7 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {
@@ -78,7 +78,7 @@ function addConicSensor() {
   // 测试连接线
   testLine = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var localEnd = conicSensor.rayPosition
+      const localEnd = conicSensor.rayPosition
       if (!localEnd) {
         return []
       }

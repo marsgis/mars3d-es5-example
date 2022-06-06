@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -23,9 +23,9 @@ function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1)
+  const center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1)
 
-  var graphic = new mars3d.graphic.CircleEntity({
+  const graphic = new mars3d.graphic.CircleEntity({
     name: "合肥市",
     position: center,
     style: {
@@ -39,7 +39,7 @@ function onMounted(mapInstance) {
   })
   graphicLayer.addGraphic(graphic)
 
-  var cities = [
+  const cities = [
     { name: "六安市", lon: 116.3123, lat: 31.8329 },
     { name: "安庆市", lon: 116.7517, lat: 30.5255 },
     { name: "滁州市", lon: 118.1909, lat: 32.536 },
@@ -58,16 +58,16 @@ function onMounted(mapInstance) {
     { name: "铜陵市", lon: 117.9382, lat: 30.9375 }
   ]
 
-  var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+  const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
     image: "img/textures/line-color-yellow.png",
     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
     speed: 10
   })
   for (let i = 0; i < cities.length; i++) {
-    var item = cities[i]
-    var thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1)
-    var positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
-    var primitive = new mars3d.graphic.PolylinePrimitive({
+    const item = cities[i]
+    const thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1)
+    const positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
+    const primitive = new mars3d.graphic.PolylinePrimitive({
       positions: positions,
       style: {
         width: 2,

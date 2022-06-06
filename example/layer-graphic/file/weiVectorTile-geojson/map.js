@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -49,7 +49,7 @@ function onUnmounted() {
  * @returns {void} 无
  */
 function showGeoJsonVectorTile(geojson) {
-  var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer = new mars3d.layer.WeiVectorTileLayer({
     source: geojson,
     zIndex: 2,
     removeDuplicate: false,
@@ -117,7 +117,7 @@ function showBJXLine(feature) {
   bufferedInner = turf.featureCollection([bufferedInner])
   bufferedOuter = turf.featureCollection([bufferedOuter])
 
-  var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer = new mars3d.layer.WeiVectorTileLayer({
     source: bufferedOuter,
     zIndex: 99,
     removeDuplicate: false,
@@ -137,7 +137,7 @@ function showBJXLine(feature) {
   })
   map.addLayer(tileLayer)
 
-  var tileLayer2 = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer2 = new mars3d.layer.WeiVectorTileLayer({
     source: bufferedInner,
     zIndex: 99,
     removeDuplicate: false,

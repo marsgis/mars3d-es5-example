@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
   map.basemap = "黑色底图"
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   addDemoGraphics(graphicLayer)
@@ -37,18 +37,18 @@ function onUnmounted() {
 
 function addDemoGraphics(graphicLayer) {
   // 颜色
-  var colors = ["#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#00441b"].reverse()
+  const colors = ["#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#00441b"].reverse()
 
   mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/bj-bus.json" })
     .then(function (res) {
-      var arr = mars3d.Util.geoJsonToGraphics(res) // 解析geojson
+      const arr = mars3d.Util.geoJsonToGraphics(res) // 解析geojson
       arr.forEach((item, index) => {
-        var i = index % colors.length
+        const i = index % colors.length
 
-        var color = colors[i]
-        var height = i * 80 + 50
+        const color = colors[i]
+        const height = i * 80 + 50
 
-        var primitive = new mars3d.graphic.PolylinePrimitive({
+        const primitive = new mars3d.graphic.PolylinePrimitive({
           positions: item.positions,
           style: {
             width: 3,

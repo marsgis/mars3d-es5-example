@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,7 +31,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphics() {
-  var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "安徽各市",
     url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
     symbol: {
@@ -57,7 +57,7 @@ function addDemoGraphics() {
         }
       },
       callback: function (attr, styleOpt) {
-        var randomHeight = attr.gdp * 5 // 测试的高度
+        const randomHeight = attr.gdp * 5 // 测试的高度
         return {
           color: getColor(),
           diffHeight: randomHeight
@@ -77,7 +77,7 @@ function addDemoGraphics() {
   })
 }
 
-var arrColor = ["rgb(15,176,255)", "rgb(18,76,154)", "#40C4E4", "#42B2BE", "rgb(51,176,204)", "#8CB7E5", "rgb(0,244,188)", "#139FF0"]
+const arrColor = ["rgb(15,176,255)", "rgb(18,76,154)", "#40C4E4", "#42B2BE", "rgb(51,176,204)", "#8CB7E5", "rgb(0,244,188)", "#139FF0"]
 
 let index = 0
 function getColor() {

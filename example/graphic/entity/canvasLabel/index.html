@@ -24,15 +24,13 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-widget"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-widget"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
@@ -75,9 +73,9 @@
 
       <div>
         方法演示：
-        <input id="btnStartBounce" type="button" class="btn btn-default" onclick="btnStartBounce()" value="开始弹跳" />
-        <input id="btnStartBounce2" type="button" class="btn btn-default" onclick="btnStartBounce2()" value="开始弹跳(自动停止)" />
-        <input id="btnStopBounce" type="button" class="btn btn-default" onclick="btnStopBounce()" value="停止弹跳" />
+        <input id="btnStartBounce" type="button" class="btn btn-default" onclick="onClickStartBounce()" value="开始弹跳" />
+        <input id="btnStartBounce2" type="button" class="btn btn-default" onclick="onClickStartBounce2()" value="开始弹跳(自动停止)" />
+        <input id="btnStopBounce" type="button" class="btn btn-default" onclick="onClickStopBounce()" value="停止弹跳" />
       </div>
     </div>
 
@@ -93,6 +91,56 @@
       function initUI(options) {
         initLayerManager()
       }
+      // 属性面板
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+      let timeTik
+      function showEditor(e) {
+        const graphic = e.graphic
+        clearTimeout(timeTik)
+
+        if (!graphic._conventStyleJson) {
+          graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+          graphic._conventStyleJson = true //只处理一次
+        }
+
+        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
+        if (plotAttr && plotAttr.isActivate) {
+          plotAttr.startEditing(graphic, graphic.coordinates)
+        } else {
+          mars3d.widget.activate({
+            map: map,
+            uri: "widgets/plotAttr/widget.js",
+            name: "属性编辑",
+            graphic: graphic,
+            lonlats: graphic.coordinates
+          })
+        }
+      }
+
+      function stopEditing() {
+        timeTik = setTimeout(function () {
+          mars3d.widget.disable("widgets/plotAttr/widget.js")
+        }, 200)
+      }
+
+      eventTarget.on("graphicEditor-start", async (e) => {
+        let val = $("#chkHasEdit").is(":checked")
+        if (val) {
+          showEditor(e)
+        }
+      })
+      // 编辑修改了模型
+      eventTarget.on("graphicEditor-update", async (e) => {
+        let val = $("#chkHasEdit").is(":checked")
+        if (val) {
+          showEditor(e)
+        }
+      })
+
+      // 停止编辑修改模型
+      eventTarget.on("graphicEditor-stop", async (e) => {
+        stopEditing()
+      })
 
       function initLayerManager() {
         $("#btnStartDraw").click(function () {

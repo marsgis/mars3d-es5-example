@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -37,10 +37,10 @@ function onUnmounted() {
 
 // 创建mapv图层
 function createMapvLayer(geojson) {
-  var geojsonDataSet = this.mapv.geojson.getDataSet(geojson)
+  const geojsonDataSet = this.mapv.geojson.getDataSet(geojson)
 
-  var to = "北京"
-  var qianxi = new this.mapv.DataSet([
+  const to = "北京"
+  const qianxi = new this.mapv.DataSet([
     {
       from: "河北",
       count: 354551,
@@ -93,17 +93,17 @@ function createMapvLayer(geojson) {
     }
   ])
 
-  var lineData = []
-  var pointData = []
-  var textData = []
-  var timeData = []
+  const lineData = []
+  const pointData = []
+  const textData = []
+  const timeData = []
 
-  var citys = {}
+  const citys = {}
 
-  var qianxiData = qianxi.get()
+  const qianxiData = qianxi.get()
   for (let i = 0; i < qianxiData.length; i++) {
-    var fromCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from)
-    var toCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to)
+    const fromCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from)
+    const toCenter = this.mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to)
     if (!fromCenter || !toCenter) {
       continue
     }
@@ -136,7 +136,7 @@ function createMapvLayer(geojson) {
       text: qianxiData[i].to
     })
 
-    var curve = this.mapv.utilCurve.getPoints([fromCenter, toCenter])
+    const curve = this.mapv.utilCurve.getPoints([fromCenter, toCenter])
 
     for (let j = 0; j < curve.length; j++) {
       timeData.push({
@@ -159,7 +159,7 @@ function createMapvLayer(geojson) {
     })
   }
 
-  var data = geojsonDataSet.get({
+  const data = geojsonDataSet.get({
     filter: function (item) {
       if (!citys[item.name]) {
         return false
@@ -170,7 +170,7 @@ function createMapvLayer(geojson) {
     }
   })
 
-  var geojsonOptions = {
+  const geojsonOptions = {
     gradient: {
       0: "rgba(55, 50, 250, 0.4)",
       1: "rgba(55, 50, 250, 1)"
@@ -180,10 +180,10 @@ function createMapvLayer(geojson) {
     depthTest: false,
     data: data // 数据
   }
-  var mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions) // 创建MapV图层
+  const mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions) // 创建MapV图层
   map.addLayer(mapVLayer)
 
-  var textOptions = {
+  const textOptions = {
     draw: "text",
     font: "14px Arial",
     fillStyle: "white",
@@ -193,10 +193,10 @@ function createMapvLayer(geojson) {
     shadowBlur: 10,
     data: textData // 数据
   }
-  var textmapVLayer = new mars3d.layer.MapVLayer(textOptions) // 创建MapV图层
+  const textmapVLayer = new mars3d.layer.MapVLayer(textOptions) // 创建MapV图层
   map.addLayer(textmapVLayer)
 
-  var lineOptions = {
+  const lineOptions = {
     strokeStyle: "rgba(255, 250, 50, 0.8)",
     shadowColor: "rgba(255, 250, 50, 1)",
     shadowBlur: 20,
@@ -205,10 +205,10 @@ function createMapvLayer(geojson) {
     draw: "simple",
     data: lineData // 数据
   }
-  var linemapVLayer = new mars3d.layer.MapVLayer(lineOptions) // 创建MapV图层
+  const linemapVLayer = new mars3d.layer.MapVLayer(lineOptions) // 创建MapV图层
   map.addLayer(linemapVLayer)
 
-  var pointOptions = {
+  const pointOptions = {
     fillStyle: "rgba(254,175,3,0.7)",
     shadowColor: "rgba(55, 50, 250, 0.5)",
     shadowBlur: 10,
@@ -217,10 +217,10 @@ function createMapvLayer(geojson) {
     draw: "simple",
     data: pointData // 数据
   }
-  var pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions) // 创建MapV图层
+  const pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions) // 创建MapV图层
   map.addLayer(pointmapVLayer)
 
-  var timeOptions = {
+  const timeOptions = {
     fillStyle: "rgba(255, 250, 250, 0.5)",
     zIndex: 200,
     size: 2.5,
@@ -236,6 +236,6 @@ function createMapvLayer(geojson) {
     draw: "simple",
     data: timeData // 数据
   }
-  var timemapVLayer = new mars3d.layer.MapVLayer(timeOptions) // 创建MapV图层
+  const timemapVLayer = new mars3d.layer.MapVLayer(timeOptions) // 创建MapV图层
   map.addLayer(timemapVLayer)
 }

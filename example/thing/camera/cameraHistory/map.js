@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let cameraHistory
 
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -32,7 +32,7 @@ function onUnmounted() {
 
 // 上一条视角
 function lastView() {
-  var result = cameraHistory.goLast()
+  const result = cameraHistory.goLast()
 
   if (!result) {
     globalMsg("当前已是第一条记录了")
@@ -40,7 +40,7 @@ function lastView() {
 }
 // 下一条视角
 function nextView() {
-  var result = cameraHistory.goNext()
+  const result = cameraHistory.goNext()
   if (!result) {
     globalMsg("当前已是最后一条记录了")
   }
@@ -48,7 +48,7 @@ function nextView() {
 
 // 回到当前视角
 function lastOneView() {
-  var result = cameraHistory.goNow()
+  const result = cameraHistory.goNow()
   if (!result) {
     globalMsg("当前已是最后一条记录了")
   }

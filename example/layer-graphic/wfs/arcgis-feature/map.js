@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -70,10 +70,10 @@ function onUnmounted() {
 
 // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
 function addArcGisWFSLayer1() {
-  var changeLevel = 15
+  const changeLevel = 15
 
   // 瓦片图，对比参考用
-  var tileLayer = new mars3d.layer.ArcGisLayer({
+  const tileLayer = new mars3d.layer.ArcGisLayer({
     name: "瓦片图层",
     url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer",
     layers: "37",
@@ -84,7 +84,7 @@ function addArcGisWFSLayer1() {
   map.addLayer(tileLayer)
 
   // 动态矢量图
-  var wfsLayer = new mars3d.layer.ArcGisWfsLayer({
+  const wfsLayer = new mars3d.layer.ArcGisWfsLayer({
     name: "建筑物面矢量图层",
     url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37",
     where: " NAME like '%合肥%' ",
@@ -113,7 +113,18 @@ function addArcGisWFSLayer1() {
   wfsLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
-  window.wfsLayer = wfsLayer
+
+  let timeTik
+  wfsLayer.on(mars3d.EventType.update, function (event) {
+    console.log(`图层内数据更新了`, event)
+
+    clearTimeout(timeTik)
+    timeTik = setTimeout(() => {
+      if (!wfsLayer.isLoading) {
+        console.log(`本批次数据加载完成`)
+      }
+    }, 1000)
+  })
 
   setTimeout(function () {
     // 测试更换条件
@@ -124,7 +135,7 @@ function addArcGisWFSLayer1() {
 // 适合少于1000条的少量数据，一次性请求加载
 function addArcGisWFSLayer2() {
   // 一次性加载的wfs图层
-  var wfsLayer = new mars3d.layer.ArcGisWfsSingleLayer({
+  const wfsLayer = new mars3d.layer.ArcGisWfsSingleLayer({
     name: "合肥边界线",
     url: "//server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/41",
     symbol: {

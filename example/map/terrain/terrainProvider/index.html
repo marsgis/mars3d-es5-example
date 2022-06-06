@@ -25,56 +25,98 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
+    <style>
+      .infoview {
+        width: 160px;
+      }
+      .radio-info {
+        margin-left: 20px;
+      }
+
+      .checkbox-primary {
+        margin-left: 20px;
+      }
+    </style>
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
     <div class="infoview">
-      <div class="radio radio-info radio-inline">
-        <input type="radio" id="radioTerrain1" name="radioTerrain" value="none" />
-        <label for="radioTerrain1">无地形 </label>
-      </div>
-      <div class="radio radio-info radio-inline">
-        <input type="radio" id="radioTerrain2" name="radioTerrain" value="xyz" checked />
-        <label for="radioTerrain2">标准服务</label>
-      </div>
-      <div class="radio radio-info radio-inline" title="目前演示的是mars3d部署的地形服务">
-        <input type="radio" id="radioTerrain3" name="radioTerrain" value="ion" />
-        <label for="radioTerrain3">Ion在线服务</label>
-      </div>
-      <div class="radio radio-info radio-inline">
-        <input type="radio" id="radioTerrain4" name="radioTerrain" value="arcgis" />
-        <label for="radioTerrain4">ArcGIS服务</label>
-      </div>
-      <!-- <div class="radio radio-info radio-inline">
-      <input type="radio" id="radioTerrain5" name="radioTerrain" value="gee" >
-      <label for="radioTerrain5">谷歌地球企业服务</label>
-    </div>
+      <table class="mars-table">
+        <tbody>
+          <tr>
+            <td>单选:</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="radio radio-info radio-inline">
+                <input type="radio" id="radioTerrain1" name="radioTerrain" value="none" />
+                <label for="radioTerrain1">无地形 </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="radio radio-info radio-inline">
+                <input type="radio" id="radioTerrain2" name="radioTerrain" value="xyz" checked />
+                <label for="radioTerrain2">标准服务</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="radio radio-info radio-inline" title="目前演示的是mars3d部署的地形服务">
+                <input type="radio" id="radioTerrain3" name="radioTerrain" value="ion" />
+                <label for="radioTerrain3">Ion在线服务</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="radio radio-info radio-inline">
+                <input type="radio" id="radioTerrain4" name="radioTerrain" value="arcgis" />
+                <label for="radioTerrain4">ArcGIS服务</label>
+              </div>
+              <!-- <div class="radio radio-info radio-inline">
+                  <input type="radio" id="radioTerrain6" name="radioTerrain" value="vr" >
+                  <label for="radioTerrain6">VR服务</label>
+                  </div> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div class="radio radio-info radio-inline">
-      <input type="radio" id="radioTerrain6" name="radioTerrain" value="vr" >
-      <label for="radioTerrain6">VR服务</label>
-    </div> -->
+      <table class="mars-table">
+        <tbody>
+          <tr>
+            <td>调试：</td>
+          </tr>
 
-      <div>
-        调试：
-        <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkTerrain" class="styled" type="checkbox" checked />
-          <label for="chkTerrain"> 开启地形 </label>
-        </div>
-        <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkWireframe" class="styled" type="checkbox" />
-          <label for="chkWireframe"> 地形三角网 </label>
-        </div>
-      </div>
+          <tr>
+            <td>
+              <div class="checkbox checkbox-primary checkbox-inline">
+                <input id="chkTerrain" class="styled" type="checkbox" checked />
+                <label for="chkTerrain"> 开启地形 </label>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="checkbox checkbox-primary checkbox-inline">
+                <input id="chkWireframe" class="styled" type="checkbox" />
+                <label for="chkWireframe"> 地形三角网 </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <script src="/js/common.js"></script>

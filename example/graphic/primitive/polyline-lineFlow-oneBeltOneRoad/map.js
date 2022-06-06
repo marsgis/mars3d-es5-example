@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -50,21 +50,21 @@ function onUnmounted() {
 
 function showRoad(arr, options) {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   let arrPosition = []
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y)
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y)
     item.position = position
 
     arrPosition.push(position)
 
     // 创建点
     if (item.icon) {
-      var billboardPrimitive = new mars3d.graphic.BillboardPrimitive({
+      const billboardPrimitive = new mars3d.graphic.BillboardPrimitive({
         name: item.name,
         position: position,
         style: {
@@ -88,7 +88,7 @@ function showRoad(arr, options) {
       })
       graphicLayer.addGraphic(billboardPrimitive)
 
-      var html = `<div class="mars-load-location">
+      const html = `<div class="mars-load-location">
         ${item.continent} - ${item.country} - <i style="color: #00ffff;">${item.name}</i>
       </div>`
       billboardPrimitive.bindPopup(html)
@@ -96,10 +96,10 @@ function showRoad(arr, options) {
   }
 
   arrPosition = arrPosition.reverse()
-  var positions = mars3d.PolyUtil.getBezierCurve(arrPosition)
+  const positions = mars3d.PolyUtil.getBezierCurve(arrPosition)
   positions.push(arrPosition[arrPosition.length - 1])
 
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     positions: positions,
     style: {
       width: 4,

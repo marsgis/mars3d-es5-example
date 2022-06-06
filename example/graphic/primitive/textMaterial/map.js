@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "水利闸门",
     url: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
     position: { alt: 15.2 },
@@ -56,7 +56,7 @@ function onUnmounted() {
 
 //  wall文字  primitive方式添加
 function addDemoGraphic1(graphicLayer) {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [121.479914, 29.791249, 32],
       [121.479694, 29.791303, 32]
@@ -75,7 +75,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //  wall文字  primitive方式添加
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.WallPrimitive({
+  const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [121.479343, 29.791419, 35],
       [121.479197, 29.791474, 35]
@@ -96,7 +96,7 @@ function addDemoGraphic2(graphicLayer) {
 
 // rectangle贴地矩形  3dtiles路面文字
 function addDemoGraphic3(graphicLayer) {
-  var rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
+  const rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
     name: "路面文字",
     positions: [
       [121.479989, 29.791162],
@@ -130,7 +130,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
+  const rectanglePrimitive = new mars3d.graphic.RectanglePrimitive({
     positions: [
       [121.479593, 29.791632, 13],
       [121.480136, 29.79169, 13]
@@ -160,26 +160,26 @@ function addDemoGraphic(count) {
   map.centerAt({ lat: 29.81612, lng: 121.476177, alt: 945, heading: 179, pitch: -22 })
 
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
 
   // 取区域内的随机图标
   function randomPoint(j) {
-    var jd = random(121.460727 * 1000, 121.494659 * 1000) / 1000
-    var wd = random(29.778576 * 1000, 29.806463 * 1000) / 1000
+    const jd = random(121.460727 * 1000, 121.494659 * 1000) / 1000
+    const wd = random(29.778576 * 1000, 29.806463 * 1000) / 1000
     return Cesium.Cartesian3.fromDegrees(jd, wd, 20)
   }
 
-  var txtWidth = 90 // 图片宽度，单位：米
-  var txtHeight = 40 // 图片高度，单位：米
+  const txtWidth = 90 // 图片宽度，单位：米
+  const txtHeight = 40 // 图片高度，单位：米
 
   // 多个面对象的合并渲染。
-  var instances = []
+  const instances = []
   for (let j = 0; j < count; ++j) {
-    var position = randomPoint(j)
+    const position = randomPoint(j)
 
-    var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 160, txtWidth)
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 160, txtWidth)
 
-    var primitive = new mars3d.graphic.WallPrimitive({
+    const primitive = new mars3d.graphic.WallPrimitive({
       positions: [position, pt1],
       style: {
         diffHeight: txtHeight,
@@ -194,9 +194,9 @@ function addDemoGraphic(count) {
   }
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   console.log(usedTime)
 
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
@@ -212,7 +212,7 @@ function random(min, max) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -242,7 +242,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -250,11 +250,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -98,7 +98,7 @@ let lastgeojson
 function updateBuffer(graphic) {
   let buffere
   try {
-    var geojson = graphic ? graphic.toGeoJSON() : lastgeojson
+    const geojson = graphic ? graphic.toGeoJSON() : lastgeojson
     geojson.properties = {}
 
     buffere = mars3d.PolyUtil.buffer(geojson, width)
@@ -111,7 +111,7 @@ function updateBuffer(graphic) {
     return
   }
 
-  var graphicsOptions = mars3d.Util.geoJsonToGraphics(buffere, {
+  const graphicsOptions = mars3d.Util.geoJsonToGraphics(buffere, {
     type: "polygon",
     style: {
       color: "rgba(255,0,0,0.4)",

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -45,14 +45,14 @@ function onUnmounted() {
 
 function addSatellite() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
@@ -60,9 +60,9 @@ function addSatellite() {
   })
 
   // 取数据
-  var property = getDynamicProperty()
+  const property = getDynamicProperty()
 
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     name: "自定义轨道",
     position: property, // 无tle，传入自定义的动态轨道位置属性
     model: {
@@ -114,7 +114,7 @@ function addSatellite() {
 
 function getDynamicProperty() {
   // 该数据是由后端计算返回的轨道信息
-  var wxdata = [
+  const wxdata = [
     {
       time: "2021-01-01T11:55:00Z",
       x: -134.648939681369,
@@ -207,14 +207,14 @@ function getDynamicProperty() {
     }
   ]
 
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   for (let z = 0; z < wxdata.length; z++) {
-    var item = wxdata[z]
+    const item = wxdata[z]
 
-    var thisTime = Cesium.JulianDate.fromIso8601(item.time)
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
+    const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
     // 添加每一个链接点的信息，到达的时间以及坐标位置
     property.addSample(thisTime, position)
   }

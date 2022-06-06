@@ -1,11 +1,11 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let currSkyBox // 当前生效的Skybox
 let defaultSkybox // cesium自带的Skybox
 
-var qingtianSkybox = new mars3d.GroundSkyBox({
+const qingtianSkybox = new mars3d.GroundSkyBox({
   sources: {
     positiveX: "img/skybox_near/qingtian/rightav9.jpg",
     negativeX: "img/skybox_near/qingtian/leftav9.jpg",
@@ -16,7 +16,7 @@ var qingtianSkybox = new mars3d.GroundSkyBox({
   }
 })
 
-var wanxiaSkybox = new mars3d.GroundSkyBox({
+const wanxiaSkybox = new mars3d.GroundSkyBox({
   sources: {
     positiveX: "img/skybox_near/wanxia/SunSetRight.png",
     negativeX: "img/skybox_near/wanxia/SunSetLeft.png",
@@ -27,7 +27,7 @@ var wanxiaSkybox = new mars3d.GroundSkyBox({
   }
 })
 
-var lantianSkybox = new mars3d.GroundSkyBox({
+const lantianSkybox = new mars3d.GroundSkyBox({
   sources: {
     positiveX: "img/skybox_near/lantian/Right.jpg",
     negativeX: "img/skybox_near/lantian/Left.jpg",
@@ -58,8 +58,8 @@ function onMounted(mapInstance) {
   currSkyBox = qingtianSkybox
 
   map.on(mars3d.EventType.postRender, function () {
-    var position = map.camera.position
-    var height = Cesium.Cartographic.fromCartesian(position).height
+    const position = map.camera.position
+    const height = Cesium.Cartographic.fromCartesian(position).height
     if (height < 230000) {
       if (currSkyBox) {
         map.scene.skyBox = currSkyBox

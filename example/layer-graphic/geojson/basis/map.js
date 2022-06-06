@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -320,7 +320,7 @@ function showBuilding() {
         opacity: 0.8
       },
       callback: function (attr, styleOpt) {
-        var diffHeight = Number(attr.floors || 1) * Number(attr.flo_height)
+        const diffHeight = Number(attr.floors || 1) * Number(attr.flo_height)
         return { height: 0, diffHeight: diffHeight }
       }
     },
@@ -363,8 +363,8 @@ function showFloor() {
         }
       },
       callback: function (attr, styleOpt) {
-        var flrH = attr.floorh || 0 // 底面高度
-        var lyrH = attr.layerh || 0 // 楼层高度
+        const flrH = attr.floorh || 0 // 底面高度
+        const lyrH = attr.layerh || 0 // 楼层高度
 
         return { height: flrH, diffHeight: lyrH }
       }
@@ -437,7 +437,7 @@ function showPlanningSurface() {
 
   // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
   // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-  var layerTest = map.getLayer(1987, "id")
+  const layerTest = map.getLayer(1987, "id")
   // 绑定事件
   layerTest.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
@@ -602,7 +602,7 @@ function showWorld() {
 }
 
 function setDefuatData() {
-  var defuat = {
+  const defuat = {
     enabledShowHide: true,
     enabledPopup: true,
     enabledTooltip: false,

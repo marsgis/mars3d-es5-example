@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let drawGraphic
 let graphicLayer
 
@@ -47,7 +47,7 @@ function onMounted(mapInstance) {
   // })
 
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
@@ -66,7 +66,7 @@ function onUnmounted() {
 }
 
 function creatSatellite() {
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
     tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -93,7 +93,7 @@ function creatSatellite() {
   weixin._lastInPoly = false
 
   setTimeout(() => {
-    var position = weixin.position
+    const position = weixin.position
     if (position) {
       map.flyToPoint(position, {
         radius: 900000, // 距离目标点的距离
@@ -105,19 +105,19 @@ function creatSatellite() {
   // 位置变化事件
   graphicLayer.on(mars3d.EventType.change, function (event) {
     // 判断卫星是否在面内
-    var weixin = event.graphic
+    const weixin = event.graphic
     if (!drawGraphic) {
       weixin._lastInPoly = false
       weixin.coneShow = false // 关闭视锥体
       return
     }
 
-    var position = weixin.position
+    const position = weixin.position
     if (!position) {
       return
     }
     let openVideo = false
-    var thisIsInPoly = drawGraphic.isInPoly(position)
+    const thisIsInPoly = drawGraphic.isInPoly(position)
     if (thisIsInPoly !== weixin._lastInPoly) {
       if (thisIsInPoly) {
         // 开始进入区域内

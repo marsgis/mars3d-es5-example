@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let heatLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -21,11 +21,11 @@ function onMounted(mapInstance) {
   map.basemap = 2017 // 蓝色底图
 
   // 图层1
-  var arrPoints = getRandomPoints(1000) // 测试点数据，实际开发时换掉
+  const arrPoints = getRandomPoints(1000) // 测试点数据，实际开发时换掉
   showHeatMap(arrPoints, 300)
 
   // 图层2
-  var arrPoints2 = getRandomPoints(1000) // 测试点数据，实际开发时换掉
+  const arrPoints2 = getRandomPoints(1000) // 测试点数据，实际开发时换掉
   showHeatMap(arrPoints2, 800)
 }
 
@@ -57,11 +57,11 @@ function showHeatMap(arrPoints, height) {
 
 // 更新数据
 function btnUpdate() {
-  var arr = getRandomPoints(1000)
+  const arr = getRandomPoints(1000)
   heatLayer.setPositions(arr, true)
 }
 
-var rectangle = {
+const rectangle = {
   xmin: 117.226189,
   xmax: 117.245831,
   ymin: 31.828858,
@@ -70,11 +70,11 @@ var rectangle = {
 
 // 获取bbox矩形区域内的count个随机点
 function getRandomPoints(count) {
-  var arr = []
-  var arrPoint = turf.randomPoint(count, { bbox: [rectangle.xmin, rectangle.ymin, rectangle.xmax, rectangle.ymax] }).features // 随机点
+  const arr = []
+  const arrPoint = turf.randomPoint(count, { bbox: [rectangle.xmin, rectangle.ymin, rectangle.xmax, rectangle.ymax] }).features // 随机点
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i].geometry.coordinates
-    var val = Math.floor(Math.random() * 100) // 热力值
+    const item = arrPoint[i].geometry.coordinates
+    const val = Math.floor(Math.random() * 100) // 热力值
     arr.push({ lng: item[0], lat: item[1], value: val })
   }
   return arr

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let queryMapserver
 let drawGraphic
 let geoJsonLayer
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 用于参考
-  var arcGisLayer = new mars3d.layer.ArcGisLayer({
+  const arcGisLayer = new mars3d.layer.ArcGisLayer({
     url: "//server.mars3d.cn/arcgis/rest/services/mars/guihua/MapServer",
     opacity: 0.2
   })
@@ -144,15 +144,15 @@ function queryData(queryVal) {
       }
       console.log("查询到的记录", result)
 
-      var drawGeoJSON = drawGraphic.toGeoJSON({ outline: true })
+      const drawGeoJSON = drawGraphic.toGeoJSON({ outline: true })
 
-      var arrArea = []
-      var arrFeatures = result.geojson.features
+      const arrArea = []
+      const arrFeatures = result.geojson.features
       for (let i = 0; i < arrFeatures.length; i++) {
-        var feature = arrFeatures[i]
+        const feature = arrFeatures[i]
 
         try {
-          var geojsonNew = turf.intersect(drawGeoJSON, feature) // 切割
+          const geojsonNew = turf.intersect(drawGeoJSON, feature) // 切割
 
           if (geojsonNew) {
             feature.geometry = geojsonNew.geometry
@@ -162,7 +162,7 @@ function queryData(queryVal) {
           clearAll()
         }
 
-        var area = turf.area(feature) || feature.properties.Shape_Area || 0
+        const area = turf.area(feature) || feature.properties.Shape_Area || 0
         feature.properties.muArea = mars3d.Util.formatNum(area * 0.0015, 2) // 平方米转亩
 
         // 需要统计的数据
@@ -187,9 +187,9 @@ function queryData(queryVal) {
 function calculateArea(arr) {
   console.log("计算前数据", arr)
 
-  var objTemp = {}
+  const objTemp = {}
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     if (!objTemp[item.type]) {
       objTemp[item.type] = { area: 0, count: 0 }
@@ -199,16 +199,16 @@ function calculateArea(arr) {
     objTemp[item.type].count++
   }
 
-  var arrTable = [] // 类型+面积+数量
-  for (var type in objTemp) {
-    var area = mars3d.Util.formatNum(objTemp[type].area, 2)
+  const arrTable = [] // 类型+面积+数量
+  for (const type in objTemp) {
+    const area = mars3d.Util.formatNum(objTemp[type].area, 2)
     arrTable.push({ type: type, area: area, count: objTemp[type].count })
   }
   eventTarget.fire("tableData", { list: arrTable })
 }
 
 // 规划面着色配置
-var styleFieldOptions = {
+const styleFieldOptions = {
   A1: {
     // 行政办公用地
     color: "rgba(255,127,159,0.9)"

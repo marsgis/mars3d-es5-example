@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -20,7 +20,7 @@ var eventTarget = new mars3d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 }
 
@@ -35,7 +35,7 @@ function onUnmounted() {
 // 添加书签
 function butAddTxtName(name) {
   // 动态的获取index
-  var item = {
+  const item = {
     name: name,
     center: map.getCameraView()
   }

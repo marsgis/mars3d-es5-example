@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -19,7 +19,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
@@ -51,7 +51,7 @@ function onMounted(mapInstance) {
 
   // style回调方法
   tilesetLayer.style = function (event) {
-    var attr = event.properties
+    const attr = event.properties
 
     // 下面可以根据属性做各类判断后返回不同颜色，隐藏的可以透明度为0
     if (attr.testStyle) {

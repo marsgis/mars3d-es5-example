@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let selectedView
 
@@ -36,7 +36,7 @@ function onUnmounted() {
 
 function addModel() {
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -64,7 +64,7 @@ function addModel() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -78,7 +78,7 @@ function addModel() {
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
 function addDemoGraphic1() {
-  var video2D = new mars3d.graphic.Video2D({
+  const video2D = new mars3d.graphic.Video2D({
     position: [117.205459, 31.842988, 64.3],
     style: {
       url: "//data.mars3d.cn/file/video/duimian.mp4",
@@ -132,18 +132,18 @@ function addVideo(data) {
 // 按当前相机投射视频
 function addThisCamera(data) {
   // 取屏幕中心点
-  var targetPosition = map.getCenter({ format: false })
+  const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
-  var fov = Cesium.Math.toDegrees(map.camera.frustum.fov) / 2 // 相机水平张角
-  var aspectRatio = map.scene.canvas.clientWidth / map.scene.canvas.clientHeight // 获取canvas宽高
+  const fov = Cesium.Math.toDegrees(map.camera.frustum.fov) / 2 // 相机水平张角
+  const aspectRatio = map.scene.canvas.clientWidth / map.scene.canvas.clientHeight // 获取canvas宽高
 
   // 构造投射体
-  var video2D = new mars3d.graphic.Video2D({
+  const video2D = new mars3d.graphic.Video2D({
     position: cameraPosition,
     targetPosition: targetPosition,
     style: {
@@ -243,7 +243,7 @@ function locate() {
 // 打印参数
 function printParameters() {
   if (selectedView) {
-    var params = selectedView.toJSON()
+    const params = selectedView.toJSON()
     console.log(JSON.stringify(params))
   }
 }
@@ -257,7 +257,7 @@ function selCamera() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point
@@ -274,7 +274,7 @@ function onClickSelView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.targetPosition = point

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -30,8 +30,8 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    var pickedItem = event.pickedObject?.data
-    // var attr = event.graphic.attr
+    const pickedItem = event.pickedObject?.data
+    // const attr = event.graphic.attr
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
@@ -53,22 +53,22 @@ function addDemoGraphic(num) {
   graphicLayer.clear()
 
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
 
-  var count = num * 10000
+  const count = num * 10000
 
-  var gridSize = 45 / Math.sqrt(count)
+  const gridSize = 45 / Math.sqrt(count)
 
-  var bbox = [116.984788, 31.625909, 117.484068, 32.021504]
-  var geojson = turf.pointGrid(bbox, gridSize, { units: "kilometers" })
-  var arrData = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const geojson = turf.pointGrid(bbox, gridSize, { units: "kilometers" })
+  const arrData = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 
-  var radius = (gridSize * 1000) / 2
+  const radius = (gridSize * 1000) / 2
 
   for (let j = 0; j < arrData.length; ++j) {
-    var position = mars3d.LngLatPoint.toCartesian(arrData[j].position)
-    var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, radius)
-    var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, radius)
+    const position = mars3d.LngLatPoint.toCartesian(arrData[j].position)
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, radius)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, radius)
 
     arrData[j] = {
       positions: [pt1, position, pt3],
@@ -83,7 +83,7 @@ function addDemoGraphic(num) {
   }
 
   // 多个面对象的合并渲染。
-  var primitive = new mars3d.graphic.WallCombine({
+  const primitive = new mars3d.graphic.WallCombine({
     instances: arrData,
     // style: {
     //   outline: true,
@@ -99,9 +99,9 @@ function addDemoGraphic(num) {
   graphicLayer.addGraphic(primitive)
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   // console.log(usedTime);
 
   globalMsg("生成" + arrData.length + "条数据，共耗时" + usedTime.toFixed(2) + "秒")
@@ -110,7 +110,7 @@ function addDemoGraphic(num) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"

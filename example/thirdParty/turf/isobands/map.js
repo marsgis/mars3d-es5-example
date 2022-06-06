@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 var mapOptions = {
   scene: {
     center: { lat: 23.359088, lng: 116.19963, alt: 1262727, heading: 2, pitch: -60 }
@@ -39,14 +39,14 @@ function onUnmounted() {
   map = null
 }
 
-var colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
-var breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
+const colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
+const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 
 // 等值线面
 function showWindLine(arr) {
-  var pointGrid = []
+  const pointGrid = []
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     pointGrid.push({
       type: "Feature",
@@ -58,7 +58,7 @@ function showWindLine(arr) {
     })
   }
 
-  var points = {
+  const points = {
     type: "FeatureCollection",
     features: pointGrid
   }
@@ -74,11 +74,11 @@ function showWindLine(arr) {
   // points.features.map((i) => (i.properties.speed = Number(i.properties.speed.toFixed(2))))
 
   // 等值面
-  var geojsonPoly = turf.isobands(points, breaks, {
+  const geojsonPoly = turf.isobands(points, breaks, {
     zProperty: "speed"
   })
 
-  var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "等值面",
     data: geojsonPoly,
     popup: "{speed}",
@@ -90,8 +90,8 @@ function showWindLine(arr) {
       },
       callback: function (attr, styleOpt) {
         // 得到点的权重，计算落在那个色度带
-        var val = Number(attr.speed.split("-")[0] || 0)
-        var color = getColor(val)
+        const val = Number(attr.speed.split("-")[0] || 0)
+        const color = getColor(val)
         return {
           color: color
         }
@@ -101,7 +101,7 @@ function showWindLine(arr) {
   map.addLayer(geoJsonLayer)
 
   // 等值线
-  var geojsonLine = turf.isolines(points, breaks, {
+  const geojsonLine = turf.isolines(points, breaks, {
     zProperty: "speed"
   })
 
@@ -119,7 +119,7 @@ function showWindLine(arr) {
   //     features[i].geometry.coordinates = _lCoords;
   // }
 
-  var layerDZX = new mars3d.layer.GeoJsonLayer({
+  const layerDZX = new mars3d.layer.GeoJsonLayer({
     name: "等值线",
     data: geojsonLine,
     popup: "{speed}",

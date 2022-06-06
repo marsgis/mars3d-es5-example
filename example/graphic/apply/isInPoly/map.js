@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var extent = map.getExtent()
+  const extent = map.getExtent()
   mars3d.Util.fetchJson({
     url: "//server.mars3d.cn/server/pointRandom/",
     queryParameters: {
@@ -53,9 +53,9 @@ function onUnmounted() {
 let selectGraphic = []
 function addData(arr) {
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.x, item.y, 0),
       style: {
         image: "img/marker/mark3.png",
@@ -75,9 +75,9 @@ function addData(arr) {
 // 在范围内的改变图标为红色
 function updateSelect(drawGraphic) {
   graphicLayer.eachGraphic((graphic) => {
-    var position = graphic.positionShow
+    const position = graphic.positionShow
 
-    var isInArea = drawGraphic.isInPoly(position)
+    const isInArea = drawGraphic.isInPoly(position)
     if (isInArea) {
       graphic.setStyle({
         image: "img/marker/mark1.png"
@@ -91,7 +91,7 @@ function removeAll() {
   map.graphicLayer.clear()
 
   for (let i = 0; i < selectGraphic.length; i++) {
-    var graphic = selectGraphic[i]
+    const graphic = selectGraphic[i]
     graphic.setStyle({
       image: "img/marker/mark3.png"
     })

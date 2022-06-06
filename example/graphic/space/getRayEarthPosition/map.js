@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let weixin
 let graphicLayer
 let graphicTriangle
@@ -55,7 +55,7 @@ function addSatellite() {
     console.log("单击了卫星", event)
   })
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
@@ -89,10 +89,10 @@ function addSatellite() {
   graphicLayer.addGraphic(weixin)
 
   // 卫星朝向的中线地面点
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(() => {
-      var pt1 = weixin.position
-      var pt2 = weixin.groundPosition
+      const pt1 = weixin.position
+      const pt2 = weixin.groundPosition
       if (!pt1 || !pt2) {
         return []
       }
@@ -113,17 +113,17 @@ function addSatellite() {
     })
   }, 3000)
 
-  var weixinData = {}
+  const weixinData = {}
   weixinData.name = weixin.name
   weixinData.tle1 = weixin.options.tle1
   weixinData.tle2 = weixin.options.tle2
 
   // 显示实时坐标和时间
   weixin.on(mars3d.EventType.change, (e) => {
-    var date = Cesium.JulianDate.toDate(map.clock.currentTime)
+    const date = Cesium.JulianDate.toDate(map.clock.currentTime)
     weixinData.time = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
     if (weixin.position) {
-      var point = mars3d.LngLatPoint.fromCartesian(weixin.position)
+      const point = mars3d.LngLatPoint.fromCartesian(weixin.position)
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = mars3d.MeasureUtil.formatDistance(point.alt)
@@ -138,21 +138,21 @@ function centerPoint(angle1) {
   }
   graphicTriangle = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var pt1 = weixin.position
+      const pt1 = weixin.position
 
-      var hpr = new Cesium.HeadingPitchRoll(
+      const hpr = new Cesium.HeadingPitchRoll(
         Cesium.Math.toRadians(weixin.heading),
         Cesium.Math.toRadians(weixin.pitch),
         Cesium.Math.toRadians(weixin.roll + angle1)
       )
-      var ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true)
+      const ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true)
 
-      var hdr2 = new Cesium.HeadingPitchRoll(
+      const hdr2 = new Cesium.HeadingPitchRoll(
         Cesium.Math.toRadians(weixin.heading),
         Cesium.Math.toRadians(weixin.pitch),
         Cesium.Math.toRadians(weixin.roll - angle1)
       )
-      var ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true)
+      const ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true)
 
       if (!ptRight || !ptLeft) {
         return []

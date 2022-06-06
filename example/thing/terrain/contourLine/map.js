@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let contourLine
 
 var mapOptions = {
@@ -67,7 +67,7 @@ function addContourLine() {
   map.addThing(contourLine)
 
   // 演示的示例区域
-  var areaItem = contourLine.addArea([
+  const areaItem = contourLine.addArea([
     [116.003125, 30.948354, 1103.66],
     [116.23964, 30.946376, 563.02],
     [116.223677, 30.802558, 522.04],
@@ -87,12 +87,12 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var areaItem = contourLine.addArea(positions)
+      const areaItem = contourLine.addArea(positions)
       addTableItem(areaItem)
     }
   })
@@ -109,12 +109,12 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
-      var areaItem = contourLine.addArea(positions)
+      const areaItem = contourLine.addArea(positions)
       addTableItem(areaItem)
     }
   })
@@ -171,12 +171,12 @@ function changeTable(data) {
 
 // 表格操作
 function flyToGraphic(item) {
-  var graphic = contourLine.getAreaById(item)
+  const graphic = contourLine.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 function deletedGraphic(item) {
-  var graphic = contourLine.getAreaById(item)
+  const graphic = contourLine.getAreaById(item)
   contourLine.removeArea(graphic)
 }
 

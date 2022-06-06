@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let textMaterialProperty
 var eventTarget = new mars3d.BaseClass()
 
@@ -21,7 +21,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "水利闸门",
     url: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
     position: { alt: 15.2 },
@@ -65,7 +65,7 @@ function onUnmounted() {
 
 // wall文字 entity方式
 function addDemoGraphic1(graphicLayer) {
-  var wallEntity = new mars3d.graphic.WallEntity({
+  const wallEntity = new mars3d.graphic.WallEntity({
     positions: [
       [121.479914, 29.791249, 32],
       [121.479694, 29.791303, 32]
@@ -85,7 +85,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //  wall文字  primitive方式添加
 function addDemoGraphic2(graphicLayer) {
-  var primitive = new mars3d.graphic.WallEntity({
+  const primitive = new mars3d.graphic.WallEntity({
     positions: [
       [121.479343, 29.791419, 35],
       [121.479197, 29.791474, 35]
@@ -107,9 +107,9 @@ function addDemoGraphic2(graphicLayer) {
 
 // 对Canvas做自定义处理,需要返回Promise
 function onCustomCanvas(canvas, material) {
-  var cWidth = canvas.width
-  var cHeight = canvas.height
-  var context = canvas.getContext("2d")
+  const cWidth = canvas.width
+  const cHeight = canvas.height
+  const context = canvas.getContext("2d")
 
   return Cesium.Resource.createIfNeeded("./img/country/zg.png")
     .fetchImage()
@@ -122,7 +122,7 @@ function onCustomCanvas(canvas, material) {
 
 // rectangle贴地矩形  3dtiles路面文字
 function addDemoGraphic3(graphicLayer) {
-  var rectangleEntity = new mars3d.graphic.RectangleEntity({
+  const rectangleEntity = new mars3d.graphic.RectangleEntity({
     name: "路面文字",
     positions: [
       [121.479989, 29.791162],
@@ -156,7 +156,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic4(graphicLayer) {
-  var rectangleEntity = new mars3d.graphic.RectangleEntity({
+  const rectangleEntity = new mars3d.graphic.RectangleEntity({
     positions: [
       [121.479593, 29.791632, 13],
       [121.480136, 29.79169, 13]
@@ -212,7 +212,7 @@ function bindLayerEvent() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -262,14 +262,14 @@ function onClickDrawPoint() {
       clampToGround: true
     },
     success: function (graphic) {
-      var position = graphic.positionShow
-      var positions = mars3d.PolyUtil.getRectPositionsByCenter({
+      const position = graphic.positionShow
+      const positions = mars3d.PolyUtil.getRectPositionsByCenter({
         center: position,
         width: 60,
         height: 10
       })
 
-      var rectangleEntity = new mars3d.graphic.RectangleEntity({
+      const rectangleEntity = new mars3d.graphic.RectangleEntity({
         positions: positions,
         style: {
           material: textMaterialProperty,

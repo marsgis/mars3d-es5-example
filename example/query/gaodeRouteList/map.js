@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let routeLayer
 let gaodeRoute
 
@@ -42,27 +42,27 @@ function onMounted(mapInstance) {
   map.addLayer(poiLayer)
 
   poiLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
 
     let inHtml = '<div class="mars3d-template-titile">' + item.name + '</div><div class="mars3d-template-content" >'
 
-    var type = String(item.type).trim()
+    const type = String(item.type).trim()
     if (type) {
       inHtml += "<div><label>类别</label>" + type + "</div>"
     }
 
-    var xzqh = String(item.xzqh).trim()
+    const xzqh = String(item.xzqh).trim()
     if (xzqh) {
       inHtml += "<div><label>区域</label>" + xzqh + "</div>"
     }
 
-    var tel = String(item.tel).trim()
+    const tel = String(item.tel).trim()
     if (tel) {
       inHtml += "<div><label>电话</label>" + tel + "</div>"
     }
 
     if (item.address) {
-      var address = item.address.trim()
+      const address = item.address.trim()
       inHtml += "<div><label>地址</label>" + address + "</div>"
     }
     inHtml += "</div>"
@@ -97,7 +97,7 @@ function startPoint() {
     })
     .then((graphic) => {
       startGraphic = graphic
-      var point = graphic.point
+      const point = graphic.point
       point.format()
 
       return point.lng + "," + point.lat
@@ -111,7 +111,7 @@ function endPoint() {
   poiLayer.clear()
   endPointArr = null
 
-  var extent = map.getExtent() // 当前视域内
+  const extent = map.getExtent() // 当前视域内
 
   queryGaodePOI.queryPolygon({
     text: "企业",
@@ -126,7 +126,7 @@ function endPoint() {
     success: function (res) {
       hideLoading()
 
-      var count = res.count
+      const count = res.count
       eventTarget.fire("end", { count })
 
       addEndPointEntity(res.list)
@@ -150,8 +150,8 @@ function btnAnalyse(type, count) {
 }
 
 function queryRoute(type) {
-  var startPoint = startGraphic.coordinate
-  var points = []
+  const startPoint = startGraphic.coordinate
+  const points = []
 
   endPointArr.forEach((item) => {
     points.push([startPoint, [item.x, item.y]])
@@ -174,23 +174,23 @@ function queryRoute(type) {
 
 function showRouteResult(data) {
   for (let i = 0; i < data.length; i++) {
-    var item = data[i]
+    const item = data[i]
     if (!item) {
       continue
     }
 
-    var lnglats = item.points
+    const lnglats = item.points
     if (!lnglats || lnglats.length < 1) {
       continue
     }
 
-    var name = endPointArr[i].name
+    const name = endPointArr[i].name
 
-    var time = mars3d.Util.formatTime(item.allDuration)
-    var distance = mars3d.MeasureUtil.formatDistance(item.allDistance)
-    var html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
+    const time = mars3d.Util.formatTime(item.allDuration)
+    const distance = mars3d.MeasureUtil.formatDistance(item.allDistance)
+    const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
 
-    var graphic = new mars3d.graphic.PolylineEntity({
+    const graphic = new mars3d.graphic.PolylineEntity({
       positions: lnglats,
       style: {
         clampToGround: true,
@@ -206,7 +206,7 @@ function showRouteResult(data) {
     graphic.entityGraphic.material_old = graphic.entityGraphic.material
     graphic.entityGraphic.width_old = graphic.entityGraphic.width
 
-    var id = graphic.id
+    const id = graphic.id
     eventTarget.fire("analyse", { i, name, distance, time, id })
   }
 }
@@ -218,9 +218,9 @@ function addEndPointEntity(arr) {
   endPointArr = arr
 
   for (let i = 0; i < arr.length; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.x, item.y),
       style: {
         image: "img/marker/end.png",
@@ -248,7 +248,7 @@ function addEndPointEntity(arr) {
 
 let lastRoute
 function centerAtRoute(id) {
-  var graphic = routeLayer.getGraphicById(id)
+  const graphic = routeLayer.getGraphicById(id)
 
   if (lastRoute) {
     lastRoute.entityGraphic.material = lastRoute.entityGraphic.material_old

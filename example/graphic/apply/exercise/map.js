@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
-//import { $message } from "@mars/components/mars-ui/index"
+// import * as mars3d from "mars3d"
+// import { $message } from "@mars/components/mars-ui/index"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -42,12 +42,12 @@ function onMounted(mapInstance) {
   // 动态数据
   mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/exercise-dynamic.json" }).then(function (arrData) {
     for (let i = 0; i < arrData.length; i++) {
-      var data = arrData[i]
+      const data = arrData[i]
 
       // 动态坐标属性
-      var property = new Cesium.SampledPositionProperty()
+      const property = new Cesium.SampledPositionProperty()
       data.path.forEach((item, index) => {
-        var startTime = item.time
+        const startTime = item.time
         let tempTime = Cesium.JulianDate.fromDate(new Date(startTime))
         tempTime = Cesium.JulianDate.addSeconds(tempTime, 0, new Cesium.JulianDate())
         property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(...item.position))
@@ -107,7 +107,7 @@ function onUnmounted() {
 }
 
 function addWallPrimitive(positions, color) {
-  var Square = new mars3d.graphic.WallPrimitive({
+  const Square = new mars3d.graphic.WallPrimitive({
     positions: mars3d.graphic.GatheringPlace.getOutlinePositions(positions),
     style: {
       diffHeight: 5000,
@@ -125,7 +125,7 @@ function addWallPrimitive(positions, color) {
 
 // 【动态】飞机飞行路线
 function addPlane(property, team) {
-  var feijiPath = new mars3d.graphic.PathEntity({
+  const feijiPath = new mars3d.graphic.PathEntity({
     position: property,
     style: {
       width: 6,
@@ -164,12 +164,12 @@ function addPlane(property, team) {
 function addAttackArrow(property, team) {
   // property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
 
-  var times = [].concat(property._property._times)
-  var positions = [property.getValue(times.shift())]
-  var graphicTriangle = new mars3d.graphic.AttackArrowPW({
+  const times = [].concat(property._property._times)
+  const positions = [property.getValue(times.shift())]
+  const graphicTriangle = new mars3d.graphic.AttackArrowPW({
     positions: new Cesium.CallbackProperty(function (time) {
       for (let index = 0, len = times.length; index < len; index++) {
-        var item = times[index]
+        const item = times[index]
         if (item.secondsOfDay === Math.round(time.secondsOfDay)) {
           if (property.getValue(time)) {
             positions.push(property.getValue(time))
@@ -179,7 +179,7 @@ function addAttackArrow(property, team) {
         }
       }
 
-      var point = property.getValue(time)
+      const point = property.getValue(time)
       if (point) {
         return positions.concat(point)
       } else {
@@ -207,7 +207,7 @@ function addMissile(property, team) {
     missileImage = "img/icon/missile_blue.png"
   }
 
-  var graphic = new mars3d.graphic.BillboardEntity({
+  const graphic = new mars3d.graphic.BillboardEntity({
     position: property,
     orientation: new Cesium.VelocityOrientationProperty(property),
     style: {
@@ -222,7 +222,7 @@ function addMissile(property, team) {
 
 // 【动态】导弹爆炸之后的滞留
 function addFire(property) {
-  var fireImage = new mars3d.graphic.BillboardEntity({
+  const fireImage = new mars3d.graphic.BillboardEntity({
     position: property,
     orientation: new Cesium.VelocityOrientationProperty(property),
     style: {

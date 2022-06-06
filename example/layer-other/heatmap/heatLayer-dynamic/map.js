@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let heatLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -33,9 +33,9 @@ function onUnmounted() {
 
 function showHeatMap() {
   // 随机数据的生成
-  var heatMapData0 = getRandomPoints()
-  var heatMapData1 = getRandomPoints()
-  var resultHeatMapData = getRandomPoints()
+  const heatMapData0 = getRandomPoints()
+  const heatMapData1 = getRandomPoints()
+  const resultHeatMapData = getRandomPoints()
 
   // 热力图 图层
   heatLayer = new mars3d.layer.HeatLayer({
@@ -66,7 +66,7 @@ function showHeatMap() {
       ratio = 0.0
     }
 
-    var gridData = new Array(100 * 100)
+    const gridData = new Array(100 * 100)
     gridData.fill(0)
 
     lerpHeatMapData(heatMapData0, heatMapData1, ratio, resultHeatMapData)
@@ -81,22 +81,22 @@ function chkUnderground(enabled) {
   isDynamic = enabled
 }
 
-var rectangle = {
+const rectangle = {
   xmin: 117.226189,
   xmax: 117.245831,
   ymin: 31.828858,
   ymax: 31.842967
 }
 
-var heatCount = 1000
+const heatCount = 1000
 
 // 获取bbox矩形区域内的count个随机点
 function getRandomPoints() {
-  var arr = []
-  var arrPoint = turf.randomPoint(heatCount, { bbox: [rectangle.xmin, rectangle.ymin, rectangle.xmax, rectangle.ymax] }).features // 随机点
+  const arr = []
+  const arrPoint = turf.randomPoint(heatCount, { bbox: [rectangle.xmin, rectangle.ymin, rectangle.xmax, rectangle.ymax] }).features // 随机点
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i].geometry.coordinates
-    var val = Math.floor(Math.random() * 100) // 热力值
+    const item = arrPoint[i].geometry.coordinates
+    const val = Math.floor(Math.random() * 100) // 热力值
     arr.push({ lng: item[0], lat: item[1], value: val })
   }
   return arr
@@ -104,8 +104,8 @@ function getRandomPoints() {
 
 function lerpHeatMapData(startArr, endArr, ratio, result) {
   for (let i = 0; i < heatCount; i++) {
-    var start = startArr[i]
-    var end = endArr[i]
+    const start = startArr[i]
+    const end = endArr[i]
     result[i] = {
       lng: start.lng * (1 - ratio) + end.lng * ratio,
       lat: start.lat * (1 - ratio) + end.lat * ratio,

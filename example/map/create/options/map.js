@@ -1,8 +1,8 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 function initMap() {
   // 创建三维地球场景
-  var map = new mars3d.Map("mars3dContainer", {
+  const map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 30.054604, lng: 108.885436, alt: 17036414, heading: 0, pitch: -90 },
       showSun: true,

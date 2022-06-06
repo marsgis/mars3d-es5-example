@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    var pickedItem = event.pickedObject?.data
+    const pickedItem = event.pickedObject?.data
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
@@ -53,7 +53,7 @@ function addDemoGraphic1(graphicLayer) {
     url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
   })
     .then((data) => {
-      var arr = mars3d.Util.geoJsonToGraphics(data, {
+      const arr = mars3d.Util.geoJsonToGraphics(data, {
         symbol: {
           callback: function (attr, styleOpt) {
             return {
@@ -67,7 +67,7 @@ function addDemoGraphic1(graphicLayer) {
       globalMsg("共加载" + arr.length + "个线")
 
       // 多个线对象的合并渲染。
-      var primitive = new mars3d.graphic.PolylineCombine({
+      const primitive = new mars3d.graphic.PolylineCombine({
         instances: arr,
 
         // 高亮时的样式
@@ -87,15 +87,15 @@ function addDemoGraphic(count) {
   graphicLayer.clear()
 
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
 
   count = count * 10000
 
-  var arrData = []
+  const arrData = []
   for (let j = 0; j < count; ++j) {
-    var position = randomPoint()
-    var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 100)
-    var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 100)
+    const position = randomPoint()
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 100)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 100)
 
     arrData.push({
       positions: [pt1, position, pt3],
@@ -111,7 +111,7 @@ function addDemoGraphic(count) {
   }
 
   // 多个线对象的合并渲染。
-  var primitive = new mars3d.graphic.PolylineCombine({
+  const primitive = new mars3d.graphic.PolylineCombine({
     instances: arrData,
     // 高亮时的样式
     highlight: {
@@ -122,9 +122,9 @@ function addDemoGraphic(count) {
   graphicLayer.addGraphic(primitive)
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
 
   globalMsg("生成" + arrData.length + "条数据，共耗时" + usedTime.toFixed(2) + "秒")
 }
@@ -132,7 +132,7 @@ function addDemoGraphic(count) {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -143,8 +143,8 @@ function bindLayerPopup() {
 
 // 取区域内的随机点
 function randomPoint() {
-  var jd = random(117.143348 * 1000, 117.331228 * 1000) / 1000
-  var wd = random(31.752147 * 1000, 31.890378 * 1000) / 1000
+  const jd = random(117.143348 * 1000, 117.331228 * 1000) / 1000
+  const wd = random(31.752147 * 1000, 31.890378 * 1000) / 1000
   return Cesium.Cartesian3.fromDegrees(jd, wd)
 }
 

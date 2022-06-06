@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -45,7 +45,7 @@ function showWeiVectorTileLayer() {
     files[1].name = "hefei.dbf"
     files[2].name = "hefei.prj"
 
-    var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+    const tileLayer = new mars3d.layer.WeiVectorTileLayer({
       source: files,
       removeDuplicate: false,
       zIndex: 2,

@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -51,29 +51,29 @@ function onUnmounted() {
 
 function addSatellite() {
   graphicLayer.bindPopup(function (event) {
-    var points = event.graphic.attr?.points
+    const points = event.graphic.attr?.points
     if (!points) {
       return
     }
     // 单击轨迹连线上的点后，求该点对应的时间
-    var positionDM = event.cartesian
-    var val1 = points[0]
-    var val2 = points[points.length - 1]
+    const positionDM = event.cartesian
+    const val1 = points[0]
+    const val2 = points[points.length - 1]
 
-    var startTime = Cesium.JulianDate.toDate(val1.time)
-    var endTime = Cesium.JulianDate.toDate(val2.time)
+    const startTime = Cesium.JulianDate.toDate(val1.time)
+    const endTime = Cesium.JulianDate.toDate(val2.time)
 
-    var len1 = Math.abs(Cesium.Cartesian3.distance(positionDM, val1.position))
-    var len2 = Math.abs(Cesium.Cartesian3.distance(positionDM, val2.position))
+    const len1 = Math.abs(Cesium.Cartesian3.distance(positionDM, val1.position))
+    const len2 = Math.abs(Cesium.Cartesian3.distance(positionDM, val2.position))
 
-    var adds = (len1 / (len1 + len2)) * (endTime.getTime() - startTime.getTime()) // 求按距离比例的时间增加值
-    var currentTime = new Date(startTime.getTime() + adds)
+    const adds = (len1 / (len1 + len2)) * (endTime.getTime() - startTime.getTime()) // 求按距离比例的时间增加值
+    const currentTime = new Date(startTime.getTime() + adds)
 
-    var inthtml = "单击处时间：" + mars3d.Util.formatDate(currentTime, "yyyy-MM-dd HH:mm:ss")
+    const inthtml = "单击处时间：" + mars3d.Util.formatDate(currentTime, "yyyy-MM-dd HH:mm:ss")
     return inthtml
   })
 
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
     tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -129,22 +129,22 @@ function addSatellite() {
     })
   }, 1000)
 
-  var now = Cesium.JulianDate.toDate(map.clock.currentTime)
-  var startTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
+  const now = Cesium.JulianDate.toDate(map.clock.currentTime)
+  const startTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
 
   now.setMinutes(now.getMinutes() + 60)
-  var endTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
+  const endTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
 
   eventTarget.fire("loadStatellite", { startTime, endTime })
 }
 
 function btnAdd(data) {
-  var weixin = map.graphicLayer.getGraphicByAttr("name", "GAOFEN 1")
-  var startTime = data.startTime
-  var endTime = data.endTime
-  var areaColor = data.areaColor
-  var slideOpacity = data.slideOpacity
-  var slideAngle = data.slideAngle
+  const weixin = map.graphicLayer.getGraphicByAttr("name", "GAOFEN 1")
+  const startTime = data.startTime
+  const endTime = data.endTime
+  const areaColor = data.areaColor
+  const slideOpacity = data.slideOpacity
+  const slideAngle = data.slideAngle
 
   addTimeShading(weixin, {
     startTime: startTime,
@@ -165,7 +165,7 @@ function changeColorOpacity(data) {
 }
 
 function changeAngle(val) {
-  var weixin = map.graphicLayer.getGraphicByAttr("name", "GAOFEN 1")
+  const weixin = map.graphicLayer.getGraphicByAttr("name", "GAOFEN 1")
   if (val) {
     weixin.angle1 = val
   }
@@ -183,29 +183,29 @@ function changeGuidaoJ(valJ) {
 function addTimeShading(weixin, options) {
   graphicLayer.clear()
 
-  var bt = new Date(options.startTime).getTime()
-  var et = new Date(options.endTime).getTime()
+  const bt = new Date(options.startTime).getTime()
+  const et = new Date(options.endTime).getTime()
   if (bt >= et) {
     globalMsg("开始时间需要小于结束时间。")
     return
   }
 
-  var step = 2 * 60000
+  const step = 2 * 60000
 
-  var points = []
-  var positions = []
+  const points = []
+  const positions = []
 
   let temp_t = bt
   while (temp_t <= et) {
-    var point = weixin.tle.getPoint(temp_t)
+    const point = weixin.tle.getPoint(temp_t)
     if (!point) {
       break
     }
 
-    var ground_pos = Cesium.Cartesian3.fromDegrees(point.lng, point.lat)
+    const ground_pos = Cesium.Cartesian3.fromDegrees(point.lng, point.lat)
     positions.push(ground_pos)
 
-    var time = Cesium.JulianDate.fromDate(new Date(temp_t))
+    const time = Cesium.JulianDate.fromDate(new Date(temp_t))
     points.push({
       position: ground_pos,
       time: time,
@@ -223,16 +223,16 @@ function addTimeShading(weixin, options) {
   let clr = Cesium.Color.fromCssColorString(options.color || "#ff0000").withAlpha(Number(options.opacity || 1.0))
   clr = Cesium.ColorGeometryInstanceAttribute.fromColor(clr)
 
-  var geometryInstancesSG = [] // 升轨
-  var geometryInstancesJG = [] // 降轨
+  const geometryInstancesSG = [] // 升轨
+  const geometryInstancesJG = [] // 降轨
   for (let i = 1; i < positions.length; i++) {
-    var position1 = positions[i - 1]
-    var position2 = positions[i]
+    const position1 = positions[i - 1]
+    const position2 = positions[i]
 
-    var height = points[i].height // 也可以取position2的高度
-    var shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) * 2 // 根据卫星角度求其带宽度
+    const height = points[i].height // 也可以取position2的高度
+    const shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) * 2 // 根据卫星角度求其带宽度
 
-    var instance = new Cesium.GeometryInstance({
+    const instance = new Cesium.GeometryInstance({
       geometry: new Cesium.CorridorGeometry({
         vertexFormat: Cesium.VertexFormat.POSITION_ONLY,
         positions: [position1, position2],
@@ -248,7 +248,7 @@ function addTimeShading(weixin, options) {
       points: [points[i - 1], points[i]]
     }
 
-    var hp = mars3d.PointUtil.getHeadingPitchRollForLine(position1, position2)
+    const hp = mars3d.PointUtil.getHeadingPitchRollForLine(position1, position2)
 
     if (hp.heading > 0) {
       geometryInstancesSG.push(instance)
@@ -259,7 +259,7 @@ function addTimeShading(weixin, options) {
 
   // 升轨
   if (geometryInstancesSG.length > 0) {
-    var primitiveSG = new mars3d.graphic.BaseCombine({
+    const primitiveSG = new mars3d.graphic.BaseCombine({
       instances: geometryInstancesSG
     })
     primitiveSG.isFaceNouth = true
@@ -268,7 +268,7 @@ function addTimeShading(weixin, options) {
 
   // 降轨
   if (geometryInstancesJG.length > 0) {
-    var primitiveJG = new mars3d.graphic.BaseCombine({
+    const primitiveJG = new mars3d.graphic.BaseCombine({
       instances: geometryInstancesJG
     })
     primitiveJG.isFaceNouth = false

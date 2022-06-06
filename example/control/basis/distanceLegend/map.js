@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件) 不可多次添加
-  var distanceLegend = new mars3d.control.DistanceLegend({ left: "100px", bottom: "2px" })
+  const distanceLegend = new mars3d.control.DistanceLegend({ left: "100px", bottom: "2px" })
   map.addControl(distanceLegend)
 
   distanceLegend.on(mars3d.EventType.change, function (event) {

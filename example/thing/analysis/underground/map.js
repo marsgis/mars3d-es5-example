@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let underground
 
 var mapOptions = {
@@ -43,7 +43,7 @@ function addLayer() {
   underground.colorAlphaByDistance = new Cesium.NearFarScalar(1000.0, 0.0, 1000000.0, 1.0) */
 
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
     url: "//data.mars3d.cn/3dtiles/max-piping/tileset.json",
     position: { lng: 117.215457, lat: 31.843363, alt: -3.6 },
@@ -57,11 +57,11 @@ function addLayer() {
   map.addLayer(tiles3dLayer)
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 黄色盒子
-  var graphic = new mars3d.graphic.BoxEntity({
+  const graphic = new mars3d.graphic.BoxEntity({
     position: [117.218633, 31.843935, 41.43],
     style: {
       dimensions: new Cesium.Cartesian3(40.0, 30.0, 50.0),
@@ -73,7 +73,7 @@ function addLayer() {
   graphicLayer.addGraphic(graphic)
 
   // 创建gltf模型
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     position: [117.214494, 31.844015, 30],
     style: {
       url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangche2.gltf",

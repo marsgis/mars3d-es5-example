@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -20,7 +20,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     pid: 2030,
     type: "3dtiles",
     name: "校园",
@@ -41,8 +41,8 @@ function onMounted(mapInstance) {
   map.addLayer(geoJsonLayerDTH)
 
   geoJsonLayerDTH.bindPopup((e) => {
-    var item = e.graphic.attr
-    var html = `房号：${item.name}<br/>
+    const item = e.graphic.attr
+    const html = `房号：${item.name}<br/>
                 楼层：第${item.thisFloor}层 (共${item.allFloor}层)<br/>
                 班级：${item.remark}<br/>
                 说明：教学楼`
@@ -78,13 +78,13 @@ function chkShowColor(val) {
 
 // 添加单体化矢量对象
 function createDthGraphic(options) {
-  var points = options.positions // 各顶点的坐标
-  var attr = options.attr // 楼层层高配置信息
+  const points = options.positions // 各顶点的坐标
+  const attr = options.attr // 楼层层高配置信息
 
-  var minHight = attr.bottomHeight // 当前层的 底部海拔高度
-  var maxHight = attr.topHeight // 当前层的 顶部海拔高度
+  const minHight = attr.bottomHeight // 当前层的 底部海拔高度
+  const maxHight = attr.topHeight // 当前层的 顶部海拔高度
 
-  var primitive = new mars3d.graphic.PolygonPrimitive({
+  const primitive = new mars3d.graphic.PolygonPrimitive({
     positions: points,
     style: {
       height: minHight,
@@ -107,8 +107,8 @@ function createDthGraphic(options) {
 
 // 颜色
 let index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }

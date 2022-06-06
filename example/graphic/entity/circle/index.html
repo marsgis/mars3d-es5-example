@@ -24,7 +24,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-widget"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-widget"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -82,15 +82,8 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
       function initUI(options) {
-        $("#btnStartBounce").click(function () {
-          btnStartBounce()
-        })
-
-        $("#btnStartBounce2").click(function () {
-          btnStartBounce2()
-        })
-        $("#btnStopBounce").click(function () {
-          btnStopBounce()
+        $("#btnStartDrawExtruded").click(function () {
+          onClickDrawModelExtruded()
         })
 
         initLayerManager()

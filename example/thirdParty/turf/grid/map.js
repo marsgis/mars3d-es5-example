@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 var mapOptions = {
@@ -30,42 +30,42 @@ function onUnmounted() {
   map = null
 }
 
-var turfOptions = { units: "kilometers" }
-var bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+const turfOptions = { units: "kilometers" }
+const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
 // 蜂窝网格
 function hexGrid(cellSide) {
-  var geojson = turf.hexGrid(bbox, cellSide, turfOptions)
+  const geojson = turf.hexGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 点网格
 function pointGrid(cellSide) {
-  var geojson = turf.pointGrid(bbox, cellSide, turfOptions)
+  const geojson = turf.pointGrid(bbox, cellSide, turfOptions)
   drawPoint(geojson)
 }
 
 // 正方形网格
 function squareGrid(cellSide) {
-  var geojson = turf.squareGrid(bbox, cellSide, turfOptions)
+  const geojson = turf.squareGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 三角形网格
 function triangleGrid(cellSide) {
-  var geojson = turf.triangleGrid(bbox, cellSide, turfOptions)
+  const geojson = turf.triangleGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 蜂窝网格、正方形网格、三角形网格
 function drawPolyon(geojson) {
   graphicLayer.clear()
-  var polygons = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+  const polygons = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 
   for (let i = 0; i < polygons.length; i++) {
-    var item = polygons[i]
+    const item = polygons[i]
 
-    var graphic = new mars3d.graphic.PolygonEntity({
+    const graphic = new mars3d.graphic.PolygonEntity({
       positions: item.positions,
       style: {
         color: "#ffff00",
@@ -87,12 +87,12 @@ function drawPolyon(geojson) {
 function drawPoint(geojson) {
   graphicLayer.clear()
 
-  var points = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+  const points = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 
   for (let i = 0; i < points.length; i++) {
-    var item = points[i]
+    const item = points[i]
 
-    var graphic = new mars3d.graphic.PointPrimitive({
+    const graphic = new mars3d.graphic.PointPrimitive({
       position: item.position,
       style: {
         color: "#ffff00",

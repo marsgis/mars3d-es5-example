@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetPlanClip
 let terrainPlanClip
 
@@ -44,7 +44,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // BIM模型处理
-  var layerWorkBIM = map.getLayer(1987, "id")
+  const layerWorkBIM = map.getLayer(1987, "id")
 
   // 单击事件
   layerWorkBIM.on(mars3d.EventType.click, function (event) {
@@ -53,13 +53,13 @@ function onMounted(mapInstance) {
 
   // 遍历取出所有的feature，并查询其属性
   // layerWorkBIM.readyPromise.then(function (e) {
-  //   var allTileObj = {}
+  //   const allTileObj = {}
   //   layerWorkBIM.tileset.tileVisible.addEventListener((tile) => {
-  //     var content = tile.content
-  //     var featuresLength = content.featuresLength
+  //     const content = tile.content
+  //     const featuresLength = content.featuresLength
   //     for (let i = 0; i < featuresLength; i++) {
-  //       var feature = content.getFeature(i)
-  //       var attr = layerWorkBIM._getFeatureProperties(feature)
+  //       const feature = content.getFeature(i)
+  //       const attr = layerWorkBIM._getFeatureProperties(feature)
   //       allTileObj[attr.id] = attr
   //     }
   //     // 后续使用allTileObj即可

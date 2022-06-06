@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let canvasWindLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -130,8 +130,8 @@ function loadDongnanData() {
 
 // 将数据转换为需要的格式:风向转UV
 function convertWindData(arr) {
-  var arrU = []
-  var arrV = []
+  const arrU = []
+  const arrV = []
 
   let xmin = arr[0].x
   let xmax = arr[0].x
@@ -142,7 +142,7 @@ function convertWindData(arr) {
   // u表示经度方向上的风，u为正，表示西风，从西边吹来的风。
   // v表示纬度方向上的风，v为正，表示南风，从南边吹来的风。
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
     if (xmin > item.x) {
       xmin = item.x
@@ -157,15 +157,15 @@ function convertWindData(arr) {
       ymax = item.y
     }
 
-    var u = mars3d.WindUtil.getU(item.speed, item.dir)
+    const u = mars3d.WindUtil.getU(item.speed, item.dir)
     arrU.push(u)
 
-    var v = mars3d.WindUtil.getV(item.speed, item.dir)
+    const v = mars3d.WindUtil.getV(item.speed, item.dir)
     arrV.push(v)
   }
 
-  var rows = getKeyNumCount(arr, "y") // 计算 行数
-  var cols = getKeyNumCount(arr, "x") // 计算 列数
+  const rows = getKeyNumCount(arr, "y") // 计算 行数
+  const cols = getKeyNumCount(arr, "x") // 计算 列数
 
   return {
     xmin: xmin,
@@ -180,13 +180,13 @@ function convertWindData(arr) {
 }
 
 function getKeyNumCount(arr, key) {
-  var obj = {}
+  const obj = {}
   arr.forEach((item) => {
     obj[item[key]] = true
   })
 
   let count = 0
-  for (var col in obj) {
+  for (const col in obj) {
     count++
   }
   return count

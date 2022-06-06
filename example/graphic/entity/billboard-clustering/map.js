@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let arrData
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -70,11 +70,11 @@ function onUnmounted() {
 
 function addFeature(graphicLayer, arr) {
   graphicLayer.bindPopup(function (event) {
-    var item = event.graphic?.attr
+    const item = event.graphic?.attr
     if (!item) {
       return false
     }
-    var inthtml = `<table style="width: auto;">
+    const inthtml = `<table style="width: auto;">
                   <tr>
                     <th scope="col" colspan="2" style="text-align:center;font-size:15px;">${item.text} </th>
                   </tr>
@@ -102,11 +102,11 @@ function addFeature(graphicLayer, arr) {
     console.log("你单击了", event)
 
     if (map.camera.positionCartographic.height > 90000) {
-      var graphic = event.graphic
+      const graphic = event.graphic
       // graphic.closePopup()
       if (graphic) {
         // 单击了具体的点对象
-        var position = graphic.positionShow
+        const position = graphic.positionShow
         map.flyToPoint(position, {
           radius: 5000, // 距离目标点的距离
           duration: 4,
@@ -117,16 +117,16 @@ function addFeature(graphicLayer, arr) {
         })
       } else {
         // 单击了聚合的点
-        var arrEntity = event.pickedObject.id
+        const arrEntity = event.pickedObject.id
         map.flyTo(arrEntity)
       }
     }
   })
 
   for (let i = 0, len = arr.length; i < len; i++) {
-    var item = arr[i]
+    const item = arr[i]
 
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       position: new mars3d.LngLatPoint(item.lng, item.lat, item.z || 0),
       style: {
         image: "img/marker/mark3.png",
@@ -160,20 +160,20 @@ function getDataSurfaceHeight() {
     return
   }
 
-  var lonCol = "lng"
-  var latCol = "lat"
-  var heightCol = "z"
+  const lonCol = "lng"
+  const latCol = "lat"
+  const heightCol = "z"
 
-  var positions = []
+  const positions = []
   for (let i = 0, len = arrData.length; i < len; i++) {
-    var item = arrData[i]
+    const item = arrData[i]
 
     // 所在经纬度坐标及海拔高度
-    var longitude = Number(item[lonCol])
-    var latitude = Number(item[latCol])
-    var height = Number(item[heightCol] || 0)
+    const longitude = Number(item[lonCol])
+    const latitude = Number(item[latCol])
+    const height = Number(item[heightCol] || 0)
 
-    var position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
+    const position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
     positions.push(position)
   }
 
@@ -189,8 +189,8 @@ function getDataSurfaceHeight() {
     }
 
     for (let i = 0, len = arrData.length; i < len; i++) {
-      var item = arrData[i]
-      var point = mars3d.LngLatPoint.fromCartesian(result.positions[i])
+      const item = arrData[i]
+      const point = mars3d.LngLatPoint.fromCartesian(result.positions[i])
 
       item[lonCol] = point.lng
       item[latCol] = point.lat

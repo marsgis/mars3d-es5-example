@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,7 +31,7 @@ function onUnmounted() {
 
 let echartsLayer
 function createEchartsLayer(val) {
-  var options = getEchartsOption()
+  const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
 
   options.pointerEvents = val
@@ -55,7 +55,7 @@ function chkPointerEvents(val) {
  * @return {option} echart图表的数据
  */
 function getEchartsOption() {
-  var data = [
+  const data = [
     {
       name: "上海",
       value: 19780
@@ -202,7 +202,7 @@ function getEchartsOption() {
     }
   ]
 
-  var geoCoordMap = {
+  const geoCoordMap = {
     上海: [121.48, 31.22],
     珠海: [113.52, 22.3],
     三亚: [109.31, 18.14],
@@ -242,10 +242,10 @@ function getEchartsOption() {
   }
 
   // 在echart图表中展示图点
-  var convertData = function (data) {
-    var res = []
+  const convertData = function (data) {
+    const res = []
     for (let i = 0; i < data.length; i++) {
-      var geoCoord = geoCoordMap[data[i].name]
+      const geoCoord = geoCoordMap[data[i].name]
       if (geoCoord) {
         res.push({
           name: data[i].name,
@@ -261,10 +261,10 @@ function getEchartsOption() {
     return a.value - b.value
   })
 
-  var categoryData = []
-  var barData = []
+  const categoryData = []
+  const barData = []
   let sum = 0
-  var count = data.length
+  const count = data.length
 
   for (let i = 0; i < count; i++) {
     categoryData.push(data[i].name)
@@ -272,7 +272,7 @@ function getEchartsOption() {
     sum += data[i].value
   }
 
-  var option = {
+  const option = {
     animation: false,
     backgroundColor: "rgba(17, 19, 42, 0.3)",
     title: [
@@ -349,7 +349,7 @@ function getEchartsOption() {
         coordinateSystem: "mars3dMap",
         data: convertData(data),
         symbolSize: function (val) {
-          var size = (val[2] / 500) * 1.5
+          const size = (val[2] / 500) * 1.5
           return Math.max(size, 8)
         },
         label: {
@@ -369,7 +369,7 @@ function getEchartsOption() {
         coordinateSystem: "mars3dMap",
         data: convertData(data),
         symbolSize: function (val) {
-          var size = val[2] / 500
+          const size = val[2] / 500
           return Math.max(size, 8)
         },
         showEffectOn: "render",

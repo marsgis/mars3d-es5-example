@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
   globalMsg("文件数据较大，正在加载数据，请稍等片刻……")
   showLoading()
 
-  var colorHash = {
+  const colorHash = {
     10: "#FFEDA0",
     15: "#FED976",
     20: "#FEB24C",
@@ -34,7 +34,7 @@ function onMounted(mapInstance) {
     450000: "#800026"
   }
 
-  var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "建筑物面",
     url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
     symbol: {
@@ -45,9 +45,9 @@ function onMounted(mapInstance) {
         outline: false
       },
       callback: function (attr, styleOpt) {
-        var floor = Number(attr.floor || 1)
-        var diffHeight = floor * 5
-        for (var key in colorHash) {
+        const floor = Number(attr.floor || 1)
+        const diffHeight = floor * 5
+        for (const key in colorHash) {
           if (floor <= parseInt(key)) {
             return { height: 0, diffHeight: diffHeight, color: colorHash[key] }
           }
@@ -68,7 +68,7 @@ function onMounted(mapInstance) {
 
   // 在layer上绑定监听事件
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
-    var pickedItem = event.graphic.attr
+    const pickedItem = event.graphic.attr
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 }

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let pointsLayer
 
@@ -36,16 +36,16 @@ function onUnmounted() {
   map = null
 }
 
-var bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 // 生成50个随机点
 function randomPoints() {
   clearlayer()
 
-  var points = turf.randomPoint(50, { bbox: bbox }) // 50个随机点
+  const points = turf.randomPoint(50, { bbox: bbox }) // 50个随机点
 
   points.features.forEach((e, index) => {
-    var position = e.geometry.coordinates
-    var primitive = new mars3d.graphic.BillboardPrimitive({
+    const position = e.geometry.coordinates
+    const primitive = new mars3d.graphic.BillboardPrimitive({
       position: position,
       style: {
         image: "img/marker/mark3.png",
@@ -65,18 +65,18 @@ function randomPoints() {
 function convexPolygon() {
   graphicLayer.clear()
 
-  var points = pointsLayer.toGeoJSON()
+  const points = pointsLayer.toGeoJSON()
 
   if (points.features.length === 0) {
     globalMsg("请先创建原始数据")
     return
   }
 
-  var hull = turf.convex(points)
+  const hull = turf.convex(points)
 
-  var convexPoints = hull.geometry.coordinates
+  const convexPoints = hull.geometry.coordinates
   // 外包围面;
-  var polygonGraphic = new mars3d.graphic.PolygonEntity({
+  const polygonGraphic = new mars3d.graphic.PolygonEntity({
     positions: convexPoints,
     style: {
       color: "#00ffff",
@@ -91,22 +91,22 @@ function convexPolygon() {
 function voronoiPolygon() {
   graphicLayer.clear()
 
-  var points = pointsLayer.toGeoJSON()
+  const points = pointsLayer.toGeoJSON()
 
   if (points.features.length === 0) {
     globalMsg("请先创建原始数据")
     return
   }
 
-  var options = {
+  const options = {
     bbox: bbox
   }
-  var voronoiPolygons = turf.voronoi(points, options)
+  const voronoiPolygons = turf.voronoi(points, options)
 
   voronoiPolygons.features.forEach((e, index) => {
-    var position = e.geometry.coordinates
+    const position = e.geometry.coordinates
 
-    var voronoiPolygon = new mars3d.graphic.PolygonEntity({
+    const voronoiPolygon = new mars3d.graphic.PolygonEntity({
       positions: position,
       style: {
         randomColor: true, // 随机色
@@ -123,7 +123,7 @@ function voronoiPolygon() {
 function tinPolygon() {
   graphicLayer.clear()
 
-  var points = pointsLayer.toGeoJSON()
+  const points = pointsLayer.toGeoJSON()
 
   if (points.features.length === 0) {
     globalMsg("请先创建原始数据")
@@ -133,13 +133,13 @@ function tinPolygon() {
   for (let i = 0; i < points.features.length; i++) {
     points.features[i].properties.z = ~~(Math.random() * 9)
   }
-  var tin = turf.tin(points, "z")
+  const tin = turf.tin(points, "z")
 
   tin.features.forEach((e, index) => {
-    var position = e.geometry.coordinates
+    const position = e.geometry.coordinates
 
     // TIN多边形
-    var tinPolygon = new mars3d.graphic.PolygonEntity({
+    const tinPolygon = new mars3d.graphic.PolygonEntity({
       positions: position,
       style: {
         randomColor: true, // 随机色

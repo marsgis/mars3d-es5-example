@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tileLayer
 let graphicLayer
 
@@ -85,10 +85,10 @@ function chooseStree() {
 }
 
 function creatDom() {
-  var divDom = mars3d.DomUtil.create("div", "", document.body)
+  const divDom = mars3d.DomUtil.create("div", "", document.body)
   divDom.setAttribute("id", "centerDivJJ")
 
-  var iframDom = mars3d.DomUtil.create("iframe", "stree", divDom)
+  const iframDom = mars3d.DomUtil.create("iframe", "stree", divDom)
   iframDom.setAttribute("id", "streeScape")
   iframDom.setAttribute("src", window.currentPath + "baidu.html?lng=117.215219&lat=31.861592") // currentPath为当前目录，内置在示例框架中
 }
@@ -97,8 +97,8 @@ let typeView = 0
 // 3d显示
 function viewTo3d() {
   typeView = 0
-  var dom2d = document.getElementById("centerDivJJ")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDivJJ")
+  const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "block"
   dom3d.style.width = "100%"
   dom3d.style.left = "0"
@@ -109,8 +109,8 @@ function viewTo3d() {
 // // 街景显示
 function streetscape() {
   typeView = 1
-  var dom2d = document.getElementById("centerDivJJ")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDivJJ")
+  const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "none"
   dom2d.style.width = "100%"
   dom2d.style.display = "block"
@@ -119,8 +119,8 @@ function streetscape() {
 // 分屏显示
 function splitScreen() {
   typeView = 2
-  var dom2d = document.getElementById("centerDivJJ")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDivJJ")
+  const dom3d = document.getElementById("centerDiv3D")
 
   dom2d.style.width = "50%"
   dom3d.style.width = "50%"
@@ -130,9 +130,9 @@ function splitScreen() {
 }
 
 function onClickMap(event) {
-  var point = mars3d.LngLatPoint.fromCartesian(event.cartesian)
+  const point = mars3d.LngLatPoint.fromCartesian(event.cartesian)
 
-  var rightFrame = document.getElementById("streeScape")
+  const rightFrame = document.getElementById("streeScape")
   rightFrame.contentWindow.setPosition(point)
 
   if (typeView === 0) {

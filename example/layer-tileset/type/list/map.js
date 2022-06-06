@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetClip
 let queryGaodePOI
 
@@ -54,7 +54,7 @@ function removeLayer(layer) {
 
 // function cutModel(layer) {
 //   // 3d模型裁剪
-//   var tilesetPlanClip = new mars3d.thing.TilesetClip({
+//   const tilesetPlanClip = new mars3d.thing.TilesetClip({
 //     layer: layer,
 //     clipOutSide: true, // 外裁剪
 //     positions: [
@@ -90,7 +90,7 @@ function cutModel(layer) {
 function queryTilesetData() {
   mars3d.Util.fetchJson({ url: "config/tileset.json" })
     .then(function (arr) {
-      var modelData = arr.layers
+      const modelData = arr.layers
       eventTarget.fire("loadTypeList", { modelData })
     })
     .catch(function (error) {

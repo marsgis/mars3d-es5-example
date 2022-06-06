@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
@@ -19,7 +19,7 @@ var mapOptions = function (option) {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  var zoom = new mars3d.control.Zoom({
+  const zoom = new mars3d.control.Zoom({
     insertIndex: 1 // 插入的位置顺序
   })
   map.addControl(zoom)

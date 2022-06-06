@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let linePositions
 let graphicPath
 
@@ -33,11 +33,11 @@ function onUnmounted() {
 
 function addDemoGraphics() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 半球
-  var graphicQiu = new mars3d.graphic.EllipsoidEntity({
+  const graphicQiu = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(117.276726, 31.864175, -10000.0),
     style: {
       radii: new Cesium.Cartesian3(200000.0, 200000.0, 200000.0),
@@ -74,17 +74,17 @@ function addDemoGraphics() {
   // graphicLayer.addGraphic(graphicLine);
 
   // 飞机path路径
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
-  var start = map.clock.currentTime
+  const start = map.clock.currentTime
   let alltimes = 0
   for (let i = 0, len = linePositions.length; i < len; i++) {
     alltimes += 1
-    var time = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate())
+    const time = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate())
     property.addSample(time, linePositions[i])
   }
-  var stop = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate())
+  const stop = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate())
 
   // This is where it becomes a smooth path.
   property.setInterpolationOptions({

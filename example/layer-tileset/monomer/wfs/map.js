@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型【目前没有全合肥的模型，下面模型为了测试下】
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
@@ -45,7 +45,7 @@ function onUnmounted() {
 
 function addWfsLayer() {
   // 单体化图层【支持geoserver的wfs服务配置dth属性】
-  var wfsLayer = new mars3d.layer.WfsLayer({
+  const wfsLayer = new mars3d.layer.WfsLayer({
     name: "建筑物面",
     url: "//server.mars3d.cn/geoserver/mars/wfs",
     layer: "mars:hfjzw",

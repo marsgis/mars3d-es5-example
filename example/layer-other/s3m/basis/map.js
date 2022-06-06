@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -30,8 +30,10 @@ var mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
+
+  globalNotify("已知问题提示", `当前使用的是原生Cesium+SuperMap3D插件方式，很多API不支持，完整方式需要参考Github开源代码切换Cesium到超图版Cesium。`)
+
 
   showMaxNiaochaoDemo()
 }
@@ -108,9 +110,9 @@ function showMaxPipeDemo() {
   s3mLayer.readyPromise.then(function (s3mLayer) {
     console.log("s3m模型加载完成", s3mLayer)
 
-    var layers = s3mLayer.layer
+    const layers = s3mLayer.layer
 
-    var overGroundLayer = layers[25]
+    const overGroundLayer = layers[25]
     overGroundLayer.style3D.fillForeColor.alpha = 0.5
 
     // for (var i = 0; i < layers.length; i++) {
@@ -154,8 +156,8 @@ function showBIMQiaoDemo() {
   s3mLayer.readyPromise.then(function (s3mLayer) {
     console.log("s3m模型加载完成", s3mLayer)
 
-    var layers = s3mLayer.layer
-    for (var layer of layers) {
+    const layers = s3mLayer.layer
+    for (const layer of layers) {
       // 设置边框线
       layer.style3D.lineWidth = 0.5
       layer.style3D.lineColor = new Cesium.Color(60 / 255, 60 / 255, 60 / 255, 1)

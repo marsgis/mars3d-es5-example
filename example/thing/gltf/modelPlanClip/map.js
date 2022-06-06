@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let modelPlanClip
 
 var mapOptions = {
@@ -21,11 +21,11 @@ function onMounted(mapInstance) {
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加模型
-  var graphic = new mars3d.graphic.ModelPrimitive({
+  const graphic = new mars3d.graphic.ModelPrimitive({
     position: [117.150365, 31.841954, 50.26],
     style: {
       url: "//data.mars3d.cn/gltf/mars/dikuai/d1.gltf",
@@ -79,7 +79,7 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -100,7 +100,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -123,7 +123,7 @@ function drawPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -144,7 +144,7 @@ function drawPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.clipOutSide = true

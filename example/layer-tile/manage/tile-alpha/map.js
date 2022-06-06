@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -32,7 +32,7 @@ let step = 0
 let arrTileLayer
 
 function start(time) {
-  var urlArr = [
+  const urlArr = [
     "//data.mars3d.cn/file/img/radar/201906211112.PNG",
     "//data.mars3d.cn/file/img/radar/201906211124.PNG",
     "//data.mars3d.cn/file/img/radar/201906211130.PNG",
@@ -40,9 +40,9 @@ function start(time) {
     "//data.mars3d.cn/file/img/radar/201906211142.PNG"
   ]
 
-  var arr = []
+  const arr = []
   for (let i = 0, len = urlArr.length; i < len; i++) {
-    var tileLayer = new mars3d.layer.ImageLayer({
+    const tileLayer = new mars3d.layer.ImageLayer({
       url: urlArr[i],
       rectangle: { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 },
       alpha: 0
@@ -57,15 +57,15 @@ function start(time) {
 }
 
 let idxTimer
-var alphaStep = 0.01
+const alphaStep = 0.01
 
 function changeRadarAlpha(time) {
   if (step > arrTileLayer.length - 1) {
     step = 0
     arrTileLayer[arrTileLayer.length - 1].alpha = 0
   }
-  var layer1 = arrTileLayer[step]
-  var layer2 = arrTileLayer[step + 1]
+  const layer1 = arrTileLayer[step]
+  const layer2 = arrTileLayer[step + 1]
   if (!layer1 || !layer2) {
     return
   }

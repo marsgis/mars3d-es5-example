@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -21,13 +21,13 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  globalNotify("已知问题提示", `(1) 使用国家测绘局天地图在线地名服务。(2) 如未显示地名，可能是服务不稳定造成`)
+
   // 天地图 三维地名服务图层
-  var tdtDmLayer = new mars3d.layer.TdtDmLayer({
+  const tdtDmLayer = new mars3d.layer.TdtDmLayer({
     key: mars3d.Token.tianditu
   })
   map.addLayer(tdtDmLayer)
-
-  globalNotify("已知问题：", `(1) 使用国家测绘局天地图在线地名服务。(2) 如未显示地名，可能是服务不稳定造成`)
 }
 
 /**

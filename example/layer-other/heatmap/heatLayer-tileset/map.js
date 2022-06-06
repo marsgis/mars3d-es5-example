@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -31,7 +31,7 @@ function onUnmounted() {
 function addLayer() {
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
     url: "//data.mars3d.cn/3dtiles/max-shihua/tileset.json",
     position: { lng: 117.077158, lat: 31.659116, alt: 24.6 },
@@ -50,10 +50,10 @@ function addLayer() {
   map.addLayer(tilesetLayer)
 
   // 测试点数据，实际开发时换掉
-  var arrPoints = getRandomPoints(900)
+  const arrPoints = getRandomPoints(900)
 
   // 热力图 图层
-  var heatLayer = new mars3d.layer.HeatLayer({
+  const heatLayer = new mars3d.layer.HeatLayer({
     positions: arrPoints,
     // 以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
     heatStyle: {
@@ -72,16 +72,16 @@ function addLayer() {
 
 // 获取bbox矩形区域内的count个随机点
 function getRandomPoints(count) {
-  var xmin = 117.075718
-  var xmax = 117.083508
-  var ymin = 31.654645
-  var ymax = 31.661744
+  const xmin = 117.075718
+  const xmax = 117.083508
+  const ymin = 31.654645
+  const ymax = 31.661744
 
-  var arr = []
-  var arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
+  const arr = []
+  const arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
   for (let i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i].geometry.coordinates
-    var val = Math.floor(Math.random() * 100) // 热力值
+    const item = arrPoint[i].geometry.coordinates
+    const val = Math.floor(Math.random() * 100) // 热力值
 
     arr.push({ lng: item[0], lat: item[1], value: val })
   }

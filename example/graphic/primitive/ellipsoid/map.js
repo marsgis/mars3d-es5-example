@@ -1,7 +1,7 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -50,7 +50,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: [116.1, 31.0, 1000],
     style: {
       radii: new Cesium.Cartesian3(1000.0, 1000.0, 1500.0),
@@ -72,7 +72,7 @@ function addDemoGraphic1(graphicLayer) {
 
 //
 function addDemoGraphic2(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 31.0, 1000),
     style: {
       radii: new Cesium.Cartesian3(1000.0, 1000.0, 1000.0),
@@ -87,7 +87,7 @@ function addDemoGraphic2(graphicLayer) {
 
 //
 function addDemoGraphic3(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.307258, 30.999546, 1239.2),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -103,7 +103,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 function addDemoGraphic3b(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.303345, 31.087028, 452.2),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -119,7 +119,7 @@ function addDemoGraphic3b(graphicLayer) {
 
 //
 function addDemoGraphic4(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: [116.4, 31.0, 1000],
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2500.0, 2500.0),
@@ -148,14 +148,14 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 
   // graphic转geojson
-  var geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON()
   console.log("转换后的geojson", geojson)
   addGeoJson(geojson, graphicLayer)
 }
 
 // 添加单个geojson为graphic，多个直接用graphicLayer.loadGeoJSON
 function addGeoJson(geojson, graphicLayer) {
-  var graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
+  const graphicCopy = mars3d.Util.geoJsonToGraphics(geojson)[0]
   delete graphicCopy.attr
   // 新的坐标
   graphicCopy.position = [116.5, 31.0, 1000]
@@ -166,10 +166,10 @@ function addGeoJson(geojson, graphicLayer) {
 
 // 2圈平面扇形
 function addDemoGraphic5(graphicLayer) {
-  var outerRadius = 5000.0
-  var innerRadius = 1000
+  const outerRadius = 5000.0
+  const innerRadius = 1000
 
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: [116.1, 30.9, 1000],
     style: {
       radii: new Cesium.Cartesian3(outerRadius, outerRadius, outerRadius),
@@ -189,7 +189,7 @@ function addDemoGraphic5(graphicLayer) {
 
 // 半圆顶球体
 function addDemoGraphic6(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -205,7 +205,7 @@ function addDemoGraphic6(graphicLayer) {
 
 // 含内半径 半圆顶球体
 function addDemoGraphic7(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2000.0, 1500.0),
@@ -222,7 +222,7 @@ function addDemoGraphic7(graphicLayer) {
 
 // 被切开的含内半径 半圆顶球体
 function addDemoGraphic8(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.4, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -240,7 +240,7 @@ function addDemoGraphic8(graphicLayer) {
 
 // 顶部和底部切出的桶形体
 function addDemoGraphic9(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.5, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -258,7 +258,7 @@ function addDemoGraphic9(graphicLayer) {
 
 // 碗行体
 function addDemoGraphic10(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.1, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -275,7 +275,7 @@ function addDemoGraphic10(graphicLayer) {
 
 // 时钟开孔
 function addDemoGraphic11(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -295,7 +295,7 @@ function addDemoGraphic11(graphicLayer) {
 
 // 局部圆顶
 function addDemoGraphic12(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.3, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
@@ -313,7 +313,7 @@ function addDemoGraphic12(graphicLayer) {
 
 // 部分椭圆体
 function addDemoGraphic13(graphicLayer) {
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.4, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(3000.0, 3000.0, 3000.0),
@@ -332,8 +332,8 @@ function addDemoGraphic13(graphicLayer) {
 
 // 土星综合对象
 function addDemoGraphic14(graphicLayer) {
-  var position = new mars3d.LngLatPoint(116.5, 30.8, 1000)
-  var graphic = new mars3d.graphic.EllipsoidPrimitive({
+  const position = new mars3d.LngLatPoint(116.5, 30.8, 1000)
+  const graphic = new mars3d.graphic.EllipsoidPrimitive({
     name: "土星",
     position: position,
     style: {
@@ -344,7 +344,7 @@ function addDemoGraphic14(graphicLayer) {
   })
   graphicLayer.addGraphic(graphic)
 
-  var graphicNei = new mars3d.graphic.EllipsoidPrimitive({
+  const graphicNei = new mars3d.graphic.EllipsoidPrimitive({
     name: "土星的内圈",
     position: position,
     style: {
@@ -359,7 +359,7 @@ function addDemoGraphic14(graphicLayer) {
   })
   graphicLayer.addGraphic(graphicNei)
 
-  var graphicWai = new mars3d.graphic.EllipsoidPrimitive({
+  const graphicWai = new mars3d.graphic.EllipsoidPrimitive({
     name: "土星外圈",
     position: position,
     style: {
@@ -392,7 +392,7 @@ function bindLayerEvent() {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr || {}
+    const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -408,7 +408,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -416,11 +416,15 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     }
   ])
@@ -443,7 +447,7 @@ function initGraphicManager(graphic) {
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
   // 绑定Popup
-  var inthtml = `<table style="width: auto;">
+  const inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>
@@ -460,7 +464,7 @@ function initGraphicManager(graphic) {
       text: "删除对象[graphic绑定的]",
       icon: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphic.remove()
         }

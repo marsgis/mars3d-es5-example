@@ -1,13 +1,14 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
+
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {
-    center: { lat: 43.820826, lng: 125.144526, alt: 679, heading: 333, pitch: -32 }
+    center: { lat: 43.822109, lng: 125.14311, alt: 890, heading: 337, pitch: -50 }
   },
   control: {
     infoBox: false
@@ -26,7 +27,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "校园",
     url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
@@ -78,13 +79,13 @@ function onMounted(mapInstance) {
 
   // 触发自定义事件
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    var graphic = e.graphic
+    const graphic = e.graphic
     eventTarget.fire("graphicEditor-start", { graphic })
   })
   graphicLayer.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
     function (e) {
-      var graphic = e.graphic
+      const graphic = e.graphic
       eventTarget.fire("graphicEditor-update", { graphic })
     }
   )
@@ -93,7 +94,7 @@ function onMounted(mapInstance) {
   })
 
   // 加载数据
-  var configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
+  const configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
   mars3d.Util.fetchJson({ url: configUrl })
     .then(function (result) {
       graphicLayer.loadGeoJSON(result)
@@ -123,14 +124,14 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
           return false
         }
         return !graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -143,14 +144,14 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.isEditing
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return false
         }
@@ -163,7 +164,7 @@ function bindLayerContextMenu() {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
-        var graphic = event.graphic
+        const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
         } else {
@@ -171,19 +172,23 @@ function bindLayerContextMenu() {
         }
       },
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (!graphic) {
           return
         }
+        const parent = graphic._parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {
       text: "计算周长",
       icon: "fa fa-medium",
       callback: function (e) {
-        var graphic = e.graphic
-        var strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
       }
     },
@@ -191,8 +196,8 @@ function bindLayerContextMenu() {
       text: "计算面积",
       icon: "fa fa-reorder",
       callback: function (e) {
-        var graphic = e.graphic
-        var strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }
@@ -201,7 +206,7 @@ function bindLayerContextMenu() {
 
 // 切换到预览模式
 function toYLMS() {
-  var geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toGeoJSON()
 
   geoJsonLayerDTH.load({ data: geojson })
 
@@ -241,14 +246,14 @@ function drawPolygon() {
  * @returns {void} 无
  */
 function openGeoJSON(file) {
-  var fileName = file.name
-  var fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  const fileName = file.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
   if (fileType === "json" || fileType === "geojson") {
-    var reader = new FileReader()
+    const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      var json = this.result
+      const json = this.result
       graphicLayer.loadGeoJSON(json, {
         clear: true,
         flyTo: true
@@ -265,7 +270,7 @@ function saveGeoJSON() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  var layers = map.getLayerById(graphicLayer.id)
-  var geojson = layers.toGeoJSON()
+  const layers = map.getLayerById(graphicLayer.id)
+  const geojson = layers.toGeoJSON()
   mars3d.Util.downloadFile("单体化.json", JSON.stringify(geojson))
 }

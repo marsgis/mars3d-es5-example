@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let terrainClip
 
 var mapOptions = {
@@ -20,11 +20,7 @@ var eventTabel = new mars3d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify(
-    "已知问题：",
-    `(1) 开挖区域内矢量对象无法穿透进行拾取。
-     (2) 多个开挖区域距离太远时会存在误差。`
-  )
+  globalNotify("已知问题提示", `(1) 开挖区域内矢量对象无法穿透进行拾取。 (2) 多个开挖区域距离太远时会存在误差。`)
 }
 
 /**
@@ -44,7 +40,7 @@ function addTerrainClip(height) {
   })
   map.addThing(terrainClip)
 
-  var areaItem = terrainClip.addArea(
+  const areaItem = terrainClip.addArea(
     [
       [116.334222, 30.899171, 645.46],
       [116.370874, 30.899171, 645.46],
@@ -55,7 +51,7 @@ function addTerrainClip(height) {
   )
   addTableItem(areaItem)
 
-  var areaItem2 = terrainClip.addArea(
+  const areaItem2 = terrainClip.addArea(
     [
       [116.416497, 30.934256, 775.89],
       [116.427392, 30.962941, 1084.88],
@@ -83,13 +79,13 @@ function btnDrawExtent(isShow) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
 
       // 挖地区域
-      var areaItem = terrainClip.addArea(positions)
+      const areaItem = terrainClip.addArea(positions)
       addTableItem(areaItem, isShow)
     }
   })
@@ -105,12 +101,12 @@ function btnDraw(isShow) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
 
-      var areaItem = terrainClip.addArea(positions)
+      const areaItem = terrainClip.addArea(positions)
       addTableItem(areaItem, isShow)
     }
   })
@@ -155,12 +151,12 @@ function changeTable(data) {
 
 // 表格操作
 function flyToGraphic(item) {
-  var graphic = terrainClip.getAreaById(item)
+  const graphic = terrainClip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 function deletedGraphic(item) {
-  var graphic = terrainClip.getAreaById(item)
+  const graphic = terrainClip.getAreaById(item)
   terrainClip.removeArea(graphic)
 }
 

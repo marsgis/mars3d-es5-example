@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -36,7 +36,7 @@ function addEntity() {
   map.addLayer(graphicLayer)
 
   // 飞行区域边界线
-  var graphic = new mars3d.graphic.PolygonEntity({
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [116.069898, 31.303655],
       [116.098708, 31.322126],
@@ -64,7 +64,7 @@ function addEntity() {
   })
 }
 
-var workPlane = {
+const workPlane = {
   flySpeed: 600, // 飞行速度
   psNum: 400, // 投射间隔路程
   frameNum: 0,
@@ -143,7 +143,7 @@ var workPlane = {
     this.frameNum++
 
     // 当前的路线中的点位
-    var currIndex = this.roamLine.currIndex // 当前飞行的线路,共五条线，从零开始
+    const currIndex = this.roamLine.currIndex // 当前飞行的线路,共五条线，从零开始
 
     if (currIndex % 2 === 0) {
       if (this.frameNum % this.stepNum === 0) {
@@ -160,12 +160,12 @@ var workPlane = {
           return
         }
         // 获取起点坐标到终点坐标的 Heading Pitch Roll方向角度值
-        var hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2)
+        const hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2)
         // 将弧度转换为度
-        var heading = Cesium.Math.toDegrees(hpr.heading)
+        const heading = Cesium.Math.toDegrees(hpr.heading)
 
         // 添加四棱锥体线
-        var graphicFrustum = new mars3d.graphic.FrustumPrimitive({
+        const graphicFrustum = new mars3d.graphic.FrustumPrimitive({
           position: this.roamLine.position,
           style: {
             angle: 15,
@@ -193,11 +193,11 @@ var workPlane = {
 
     if (this.frameNum % this.stepNum === 0 && currIndex % 2 === 0) {
       if (this.arr4LinePrimitive.length > 0) {
-        var graphicFrustum = this.arr4LinePrimitive[this.arr4LinePrimitive.length - 1]
+        const graphicFrustum = this.arr4LinePrimitive[this.arr4LinePrimitive.length - 1]
         // 地面的4个顶点坐标
-        var positions = graphicFrustum.getRayEarthPositions()
+        const positions = graphicFrustum.getRayEarthPositions()
         // 添加地面矩形
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        const primitive = new mars3d.graphic.PolygonPrimitive({
           positions: positions,
           style: {
             color: this.arrColor[graphicLayer.length % this.arrColor.length],

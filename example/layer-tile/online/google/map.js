@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -61,13 +61,9 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  eventTarget.fire("mapLoaded")
+  globalNotify("已知问题提示", `按国家测绘主管部门的通知,  目前国家相关部门对未经审核批准的谷歌等地图做了封锁及下架，目前谷歌地图服务暂不可用`)
 
-  globalNotify(
-    "已知问题：",
-    `(1)按国家测绘主管部门的通知,目前国家相关部门对未经审核批准的谷歌等地图做了封锁及下架，
-      目前谷歌地图服务暂不可用`
-  )
+  eventTarget.fire("mapLoaded")
 }
 
 /**

@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let roamLine
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -57,11 +57,11 @@ function onUnmounted() {
 
 function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后单个路线的 保存JSON
-  var flydata = {
+  const flydata = {
     name: "室内路线",
     speed: 5,
     positions: [

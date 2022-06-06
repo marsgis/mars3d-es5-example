@@ -1,6 +1,6 @@
-////import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -19,7 +19,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 经纬网
-  var tileLayer = new mars3d.layer.GraticuleLayer({
+  const tileLayer = new mars3d.layer.GraticuleLayer({
     // lineStyle: {
     //   color: '#ffff00',
     // },

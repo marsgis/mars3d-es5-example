@@ -25,7 +25,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,mars3d,localforage"
+      include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,mars3d,localforage"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -125,8 +125,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -151,22 +149,24 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
+      let index = 0
       let arrView = []
 
       function initUI(options) {
         //加载历史数据
         localforage.getItem("bookmark").then(function (markArr) {
           if (markArr && markArr.length > 0) {
-            console.log("历史数据", markArr)
-
             for (let i = 0; i < markArr.length; i++) {
               let item = markArr[i]
               arrView.push(item)
               addBookmark(item)
             }
             $("#addView .no-found").remove()
+            index = markArr[markArr.length - 1].id + 1
           }
         })
+
+        // localforage.setItem("bookmark", [])
 
         // 添加视角
         $("#addtxtName").click(() => {
@@ -199,9 +199,14 @@
         // 触发事件
         eventTarget.on("addImgObject", (event) => {
           const item = event.item
+          const arrViewItem = {
+            id: index++,
+            name: item.name,
+            image: item.image
+          }
 
-          arrView.push(item)
-          addBookmark(item)
+          arrView.push(arrViewItem)
+          addBookmark(arrViewItem)
         })
       }
 
