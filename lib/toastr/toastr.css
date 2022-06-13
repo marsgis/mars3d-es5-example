@@ -103,7 +103,7 @@ button.toast-close-button {
 	position: relative;
 	width: 300px;
 	padding: 10px 15px;
-	margin: 0 0 6px;
+	margin: 0 0 16px;
 	overflow: hidden;
 	color: #a3afb7;
 	pointer-events: auto;
