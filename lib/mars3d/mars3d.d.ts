@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.13
- * 编译日期：2022-06-13 09:20:35
+ * 版本信息：v3.3.15
+ * 编译日期：2022-06-20 09:42:46
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -2174,14 +2174,14 @@ declare class BaseClass {
      * 触发指定类型的事件。
      * @param type - 事件类型
      * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
-     * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
+     * @param [propagate] - 将事件传播给父类 (用addEventParent设置)
      * @returns 当前对象本身,可以链式调用
      */
     fire(type: EventType | string, data?: any, propagate?: BaseClass): BaseClass;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
     listens(type: EventType | string, propagate?: BaseClass): boolean;
@@ -2549,6 +2549,11 @@ declare class LngLatPoint {
      */
     toCartographic(): Cesium.Cartographic;
     /**
+     * 转换为 WebMercator投影平面坐标
+     * @returns WebMercator投影平面坐标,示例：[13048882.06,3741659.72]
+     */
+    toMercator(): number[];
+    /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
@@ -2565,7 +2570,7 @@ declare class LngLatPoint {
      * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的LatLngPoint对象
      */
-    static parse(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): LngLatPoint;
+    static parse(position: string | any[] | LngLatPoint | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): LngLatPoint;
     /**
      * 根据数组数据，转换返回LatLngPoint对象
      * 示例：[113.123456,31.123456,30.1]
@@ -2594,19 +2599,32 @@ declare class LngLatPoint {
      */
     static fromCartographic(cartographic: Cesium.Cartographic): LngLatPoint;
     /**
+     * 根据传入的 WebMercator投影平面坐标，转换返回LatLngPoint对象
+     * @param arrdata - WebMercator投影平面坐标，示例：[13048882.06,3741659.72]
+     * @returns 转换返回的LatLngPoint对象
+     */
+    static fromMercator(arrdata: number[]): LngLatPoint;
+    /**
      * 根据传入的各种对象数据，转换返回Cartesian3对象
      * @param position - 坐标位置
      * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的Cartesian3对象
      */
-    static toCartesian(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
+    static toCartesian(position: string | any[] | LngLatPoint | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
     /**
      * 根据传入的各种对象数据，转换返回Cartographic对象
      * @param position - 坐标位置
      * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的Cartographic对象
      */
-    static toCartographic(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartographic;
+    static toCartographic(position: string | any[] | LngLatPoint | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartographic;
+    /**
+     * 转换返回经纬度坐标数组
+     * @param value - 坐标位置数组
+     * @param [noAlt] - 是否包含高度值
+     * @returns 经纬度坐标数组,示例： [123.123456,32.654321,198.7]
+     */
+    static toArray(value: string | any[] | Cesium.Cartesian3 | any, noAlt?: boolean): any[][];
     /**
      * 经度纬度的格式化时的长度，默认为6
      */
@@ -2780,7 +2798,7 @@ declare class BaseEffect extends BaseThing {
      * 触发指定类型的事件。
      * @param type - 事件类型
      * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
-     * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
+     * @param [propagate] - 将事件传播给父类 (用addEventParent设置)
      * @returns 当前对象本身,可以链式调用
      */
     fire(type: EventType | string, data?: any, propagate?: BaseClass): BaseClass;
@@ -3568,7 +3586,7 @@ declare class BaseGraphic extends BaseClass {
      * 触发指定类型的事件。
      * @param type - 事件类型
      * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
-     * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
+     * @param [propagate] - 将事件传播给父类 (用addEventParent设置)
      * @returns 当前对象本身,可以链式调用
      */
     fire(type: EventType | string, data?: any, propagate?: BaseClass): BaseClass;
@@ -5571,7 +5589,7 @@ declare class DivGraphic extends BaseGraphic {
      * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
@@ -6208,10 +6226,10 @@ declare class BaseEntity extends BaseGraphic {
     /**
      * 高亮闪烁 Enity实体对象
      * @param options - 参数
-     * @param [options.time = null] - 闪烁的时长(秒)，未设置时不自动停止。
+     * @param [options.time] - 闪烁的时长(秒)，未设置时不自动停止。
      * @param [options.color = Cesium.Color.YELLOW] - 高亮的颜色
      * @param [options.maxAlpha = 0.3] - 闪烁的最大透明度，从 0 到 maxAlpha 渐变
-     * @param [options.onEnd = null] - 播放完成后的回调方法
+     * @param [options.onEnd] - 播放完成后的回调方法
      * @returns 高亮闪烁控制 对象
      */
     startFlicker(options: {
@@ -6417,7 +6435,7 @@ declare class BasePointEntity extends BaseEntity {
      * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
@@ -6566,7 +6584,7 @@ declare class BasePolyEntity extends BaseEntity {
      * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PolyUtil#computeSurfacePoints}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @returns 异步计算完成的Promise
      */
@@ -7416,10 +7434,10 @@ declare class FlickerEntity {
      * 高亮闪烁 Enity实体对象
      * @param entitys - entity对象或对象数组
      * @param [opts = {}] - 控制参数
-     * @param [opts.time = null] - 闪烁的时长(秒)，未设置时不自动停止。
+     * @param [opts.time] - 闪烁的时长(秒)，未设置时不自动停止。
      * @param [opts.color = Cesium.Color.YELLOW] - 高亮的颜色
      * @param [opts.maxAlpha = 0.3] - 闪烁的最大透明度，从 0 到 maxAlpha 渐变
-     * @param [opts.onEnd = null] - 播放完成后的回调方法
+     * @param [opts.onEnd] - 播放完成后的回调方法
      * @returns 高亮闪烁控制 对象
      */
     startFlicker(entitys: Cesium.Entity | Cesium.Entity[], opts?: {
@@ -12247,7 +12265,7 @@ declare class BasePointPrimitive extends BasePrimitive {
      * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
@@ -12377,7 +12395,7 @@ declare class BasePolyPrimitive extends BasePrimitive {
      * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PolyUtil#computeSurfacePoints}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @returns 异步计算完成的Promise
      */
@@ -15955,7 +15973,7 @@ declare namespace DynamicRoamLine {
  * //以下是 clampToGround中使用的
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
  * @param [options.frameRateHeight = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
- * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
+ * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.shadow] - 设置投影或附加的对象，支持类型：
  * @param [options.shadow.wall] - wall类型所支持的参数
  * @param [options.shadow.cylinder] - cylinder类型所支持的参数
@@ -16154,7 +16172,7 @@ declare namespace RoamLine {
  * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
  * @param [options.frameRateHeight = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
- * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
+ * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.shadow] - 设置投影或附加的对象，支持类型：
  * @param [options.shadow.wall] - wall类型所支持的参数
  * @param [options.shadow.cylinder] - cylinder类型所支持的参数
@@ -16295,9 +16313,9 @@ declare class RoamLine extends BaseRoamLine {
      * 计算贴地线
      * @param [options] - 控制参数
      * @param [options.splitNum = 100] - 插值数，等比分割的个数
-     * @param [options.minDistance = null] - 插值最小间隔(单位：米)，优先级高于splitNum
+     * @param [options.minDistance] - 插值最小间隔(单位：米)，优先级高于splitNum
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param [options.callback] - 计算完成的回调方法
      * @returns 异步计算完成的Promise
@@ -16789,7 +16807,7 @@ declare class BaseLayer extends BaseClass {
      * 触发指定类型的事件。
      * @param type - 事件类型
      * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
-     * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
+     * @param [propagate] - 将事件传播给父类 (用addEventParent设置)
      * @returns 当前对象本身,可以链式调用
      */
     fire(type: EventType | string, data?: any, propagate?: BaseClass): BaseClass;
@@ -18104,7 +18122,7 @@ declare namespace GraphicLayer {
 /**
  * 矢量数据图层
  * @param [options] - 参数对象，包括以下：
- * @param [options.data = null] - 需要自动加载的数据，内部自动生成Graphic对象。{@link GraphicUtil#.create}
+ * @param [options.data] - 需要自动加载的数据，内部自动生成Graphic对象。{@link GraphicUtil#.create}
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续标绘,联系标绘状态下无法编辑已有对象。
@@ -18383,7 +18401,7 @@ declare class GraphicLayer extends BaseGraphicLayer {
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @param options.endItem - 异步计算高度完成后 的回调方法
      * @returns 绘制创建完成的Promise,等价于callback参数
@@ -19764,7 +19782,7 @@ declare class GroupLayer extends BaseGraphicLayer {
     /**
      * 是否有同名的子图层，一般用于新增时判断
      * @param name - 图层名称
-     * @param [excludedLayer = null] - 可以指定不进行判断的图层，比如当前图层本身
+     * @param [excludedLayer] - 可以指定不进行判断的图层，比如当前图层本身
      * @returns 是否同名
      */
     hasLayer(name: string, excludedLayer?: BaseLayer): boolean;
@@ -23276,7 +23294,7 @@ declare namespace Map {
      *
      * 以下是Cesium.Clock时钟相关参数
      * @property [clock] - 时钟相关参数
-     * @property [clock.currentTime = null] - 当前的时间
+     * @property [clock.currentTime] - 当前的时间
      * @property [clock.multiplier = 1.0] - 当前的速度
      */
     type sceneOptions = {
@@ -24185,7 +24203,7 @@ declare class Map extends BaseClass {
      * 飞行到默认视角，
      * 一般为config.json中的center参数配置的视角。
      * @param [options = {}] - 参数对象:
-     * @param [options.duration = null] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
+     * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @returns 无
      */
     flyHome(options?: {
@@ -24200,7 +24218,7 @@ declare class Map extends BaseClass {
      * @param arr.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
      * @param arr.pitch - 俯仰角度值，绕纬度线旋转角度, 0至360
      * @param arr.roll - 翻滚角度值，绕经度线旋转角度, 0至360
-     * @param [arr.duration = null] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
+     * @param [arr.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [arr.stop = 1] - 该步骤飞行结束的停留时间（单位：秒）。
      * @param [arr.onStart] - 该步骤飞行开始前的回调方法
      * @param [arr.onEnd] - 该步骤飞行开始结束后的回调方法
@@ -24437,19 +24455,19 @@ declare class Map extends BaseClass {
      * 执行开场动画，动画播放地球飞行定位到指定区域
      * @param [options = {}] - 参数对象:
      * @param [options.center = getCameraView()] - 飞行到的指定区域视角参数
-     * @param [options.callback = null] - 飞行结束的回调方法
+     * @param [options.callback] - 飞行结束的回调方法
      * @returns 飞行结束的Promise
      */
     openFlyAnimation(options?: {
         center?: any;
         callback?: (...params: any[]) => any;
-    }): Promise;
+    }): Promise<boolean>;
     /**
      * 执行旋转地球动画
      * @param [options = {}] - 参数对象:
      * @param [options.duration = 10] - 动画时长（单位：秒）
      * @param [options.center = getCameraView()] - 飞行到的指定区域视角参数
-     * @param [options.callback = null] - 飞行结束的回调方法
+     * @param [options.callback] - 飞行结束的回调方法
      * @returns 无
      */
     rotateAnimation(options?: {
@@ -27836,7 +27854,7 @@ declare namespace widget {
      * 触发指定类型的事件。
      * @param type - 事件类型
      * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
-     * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
+     * @param [propagate] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
     function fire(type: WidgetEventType, data: any, propagate?: BaseClass | any): void;
@@ -27852,7 +27870,7 @@ declare namespace widget {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
     function listens(type: WidgetEventType, propagate?: BaseClass): boolean;
@@ -28210,7 +28228,7 @@ declare class BaiduPOI {
      * @param [queryOptions.location = null] - 圆形区域检索中心点，不支持多个点
      * @param queryOptions.location.lat - 纬度
      * @param queryOptions.location.lng - 经度
-     * @param [queryOptions.radius = null] - 圆形区域检索半径，单位为米。（增加区域内数据召回权重，如需严格限制召回数据在区域内，请搭配使用radiuslimit参数），当半径过大，超过中心点所在城市边界时，会变为城市范围检索，检索范围为中心点所在城市
+     * @param [queryOptions.radius] - 圆形区域检索半径，单位为米。（增加区域内数据召回权重，如需严格限制召回数据在区域内，请搭配使用radiuslimit参数），当半径过大，超过中心点所在城市边界时，会变为城市范围检索，检索范围为中心点所在城市
      * @param [queryOptions.radiuslimit = false] - 是否严格限定召回结果在设置检索半径范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
      * @param [queryOptions.city = null] - 可以重新限定查询的区域，默认为类构造时传入的city
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
@@ -31359,7 +31377,7 @@ declare namespace GraphicUtil {
      * @param options - Graphic构造参数,包含：
      * @param options.type - 类型
      * @param options.style - 样式,按{@link GraphicType}对应的类的style配置
-     * @param [options.attr = null] - 属性
+     * @param [options.attr] - 属性
      * @returns 创建完成的矢量数据对象
      */
     function fromEntity(entity: Cesium.Entity, options: {
@@ -31952,7 +31970,7 @@ declare namespace PointUtil {
      * @param [options = {}] - 参数对象:
      * @param options.asyn - 是否进行异步精确计算
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 仅 asyn:false 时返回高度值
      */
@@ -31968,7 +31986,7 @@ declare namespace PointUtil {
      * @param position - 坐标
      * @param [options = {}] - 参数对象:
      * @param options.asyn - 是否进行异步精确计算
-     * @param [options.objectsToExclude = null] - 排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 仅 asyn:false 时返回高度值
      */
@@ -32008,7 +32026,7 @@ declare namespace PointUtil {
      * @param [options.relativeHeight = fasle] - 是否在地形上侧的高度，在对象具备Cesium.HeightReference.RELATIVE_TO_GROUND时，可以设置为ture
      * @param [options.maxHeight] - 可以限定最高高度，当计算的结果大于maxHeight时，原样返回，可以屏蔽计算误差的数据。
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，
      * @returns 贴地坐标
      */
     function getSurfacePosition(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
@@ -32199,7 +32217,7 @@ declare namespace PolyUtil {
      * @param [options.splitNum = 10] - 插值数，横纵等比分割的网格个数
      * @param [options.asyn = false] - 是否进行异步精确计算
      * @param [options.has3dtiles] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.onlyPoint = false] - truea时，返回结果中只返回点，不返回三角网
      * @returns 仅 asyn:false 时返回计算结果值
      */
@@ -32220,7 +32238,7 @@ declare namespace PolyUtil {
      * @param [options = {}] - 参数对象:
      * @param [options.splitNum = 10] - 插值数，横纵等比分割的网格个数
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @returns 计算面内最大、最小高度值对象，结果示例：{ maxHeight: 100, minHeight: 21 }
      */
     function getHeightRange(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], scene: Cesium.Scene, options?: {
@@ -32237,7 +32255,7 @@ declare namespace PolyUtil {
      * @param [options.splitNum = 10] - 插值数，横纵等比分割的网格个数
      * @param [options.asyn = false] - 是否进行异步精确计算
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @returns 仅 asyn:false 时返回计算结果值
      */
     function computeVolume(options?: {
@@ -32382,7 +32400,7 @@ declare namespace PolyUtil {
      * @param options.scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param options.positions - 坐标数组
      * @param [options.splitNum = 100] - 插值数，等比分割的个数
-     * @param [options.minDistance = null] - 插值最小间隔(单位：米)，优先级高于splitNum
+     * @param [options.minDistance] - 插值最小间隔(单位：米)，优先级高于splitNum
      * @param [options.height = 0] - 坐标的高度
      * @param [options.surfaceHeight = true] - 是否计算贴地高度 （非精确计算，根据当前加载的地形和模型数据情况有关）
      * @returns 插值后的路线坐标数组
@@ -32414,9 +32432,9 @@ declare namespace PolyUtil {
      * @param options.scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param options.positions - 坐标数组
      * @param [options.splitNum = 100] - 插值数，等比分割的个数
-     * @param [options.minDistance = null] - 插值最小间隔(单位：米)，优先级高于splitNum
+     * @param [options.minDistance] - 插值最小间隔(单位：米)，优先级高于splitNum
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 异步计算完成的Promise, 等价于callback
@@ -32437,7 +32455,7 @@ declare namespace PolyUtil {
      * @param options.scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param options.positions - 坐标数组
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 异步计算完成的Promise, 等价于callback
@@ -32468,9 +32486,9 @@ declare namespace PolyUtil {
      * @param options.scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param options.positions - 坐标数组
      * @param [options.splitNum = 100] - 插值数，等比分割的个数
-     * @param [options.minDistance = null] - 插值最小间隔(单位：米)，优先级高于splitNum
+     * @param [options.minDistance] - 插值最小间隔(单位：米)，优先级高于splitNum
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param [options.objectsToExclude] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param [options.offset = 0] - 可以按需增加偏移高度（单位：米），便于可视
      * @param options.endItem - 异步计算高度完成后 的回调方法
      * @param options.end - 异步计算高度完成后 的回调方法
@@ -32696,7 +32714,7 @@ declare namespace Util {
      * 获取Cesium对象值的最终value值，
      * 因为cesium经常属性或绑定一层，通过本方法可以内部去判断是否有getValue或_value进行取最终value值。
      * @param obj - Cesium对象值
-     * @param [ClasName = null] - Cesium的类名，方便识别判断
+     * @param [ClasName] - Cesium的类名，方便识别判断
      * @param [time = Cesium.JulianDate.now()] - 如果具有时间属于时，取指定的时间的值
      * @returns 最终value值
      */
