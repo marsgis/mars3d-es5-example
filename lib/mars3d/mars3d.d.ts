@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.15
- * 编译日期：2022-06-20 09:42:46
+ * 版本信息：v3.3.17
+ * 编译日期：2022-07-04 20:20:28
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -144,11 +144,11 @@ declare enum EffectType {
  */
 declare enum EventType {
     /**
-     * 添加对象
+     * 添加对象(本身)
      */
     add = "add",
     /**
-     * 移除对象
+     * 移除对象(本身)
      */
     remove = "remove",
     /**
@@ -1907,10 +1907,10 @@ declare class MapSplit extends BaseControl {
     /**
      * 对瓦片图层设置卷帘方向
      * @param layer - 图层
-     * @param splitDirection - 图层显示的方向
+     * @param [splitDirection] - 图层显示的方向
      * @returns 无
      */
-    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection: Cesium.SplitDirection): void;
+    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection?: Cesium.SplitDirection): void;
     /**
      * 控件类型
      */
@@ -4973,8 +4973,8 @@ declare class ParticleSystem extends BasePointPrimitive {
 declare namespace Tetrahedron {
     /**
      * 四面体（顶部正方形+倒立的三角椎体） 支持的样式信息
-     * @property [width = 20] - 顶部正方形长宽，单位：米
-     * @property [height = 30] - 倒立的三角椎体部分高度，单位：米
+     * @property [width = 20] - 顶部大小，顶部正方形长宽，单位：米
+     * @property [height = 30] - 椎体高度，倒立的三角椎体部分高度，单位：米
      * @property [color = new Cesium.Color(0.8, 0.8, 0, 0.8)] - 颜色
      * @property [animation = true] - 是否动画
      * @property [moveHeight = 30] - 动画时，上下移动的单程总高度，单位：米
@@ -4993,7 +4993,7 @@ declare namespace Tetrahedron {
 }
 
 /**
- * 四面体（顶部正方形+倒立的三角椎体），该对象暂不支持鼠标交互和拾取
+ * 四面体（顶部正方形+倒立的三角椎体）
  * @param options - 参数对象，包括以下：
  * @param options.position - 坐标位置
  * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
@@ -5657,9 +5657,11 @@ declare class DivGraphic extends BaseGraphic {
 declare namespace DivLightPoint {
     /**
      * 动画的扩散div点 支持的样式信息
-     * @property [color = '#f33349'] - CSS颜色
-     * @property [horizontalOrigin] - 横向方向的定位
-     * @property [verticalOrigin] - 垂直方向的定位
+     * @property [color = '#f33349'] - 点的颜色
+     * @property [size = 10] - 高宽大小，单位:像素
+     * @property [label] - 文本
+     * @property [label.text] - 文本内容
+     * @property [label.color] - 文本颜色
      * @property [offsetX] - 用于非规则div时，横向偏移的px像素值
      * @property [offsetY] - 用于非规则div时，垂直方向偏移的px像素值
      * @property [scaleByDistance = false] - 是否按视距缩放
@@ -5679,8 +5681,11 @@ declare namespace DivLightPoint {
      */
     type StyleOptions = any | {
         color?: string;
-        horizontalOrigin?: Cesium.HorizontalOrigin;
-        verticalOrigin?: Cesium.VerticalOrigin;
+        size?: number;
+        label?: {
+            text?: string;
+            color?: string;
+        };
         offsetX?: number;
         offsetY?: number;
         scaleByDistance?: boolean;
@@ -12952,7 +12957,7 @@ declare namespace CloudPrimitive {
      * 积云 Primitive矢量数据 支持的样式信息
      * @property scale - 积云的比例（以米为单位）。该scale属性会影响广告牌的大小，但不会影响云的实际外观。
      * @property maximumSize - 积云的最大尺寸。这定义了云可以出现的最大椭球体积。这不是保证特定的大小，而是指定了云出现的边界，改变它可以影响云的形状。
-     * @property slice - 云的“切片”，即为广告牌外观选择的云的特定横截面。给定一个介于 0 和 1 之间的值，切片根据其在 z 方向上的最大尺寸指定与云相交的深度。
+     * @property slice - 切片，即为广告牌外观选择的云的特定横截面。给定一个介于 0 和 1 之间的值，切片根据其在 z 方向上的最大尺寸指定与云相交的深度。
      * @property [brightness = 1.0] - 亮度
      */
     type StyleOptions = any | {
@@ -23253,18 +23258,27 @@ declare namespace Map {
      * 以下是Cesium.Viewer所支持的options【控件相关的写在另外的control属性中】
      * @property [sceneMode = Cesium.SceneMode.SCENE3D] - 初始场景模式。可以设置进入场景后初始是2D、2.5D、3D 模式。
      * @property [scene3DOnly = false] - 为 true 时，每个几何实例将仅以3D渲染以节省GPU内存。
-     * @property [mapProjection = new Cesium.GeographicProjection()] - 在二维模式下地图的呈现坐标系，默认为EPSG4326坐标系，如果需要EPSG3857墨卡托坐标系展示，传 new Cesium.WebMercatorProjection() 即可
+     * @property [mapProjection = new Cesium.GeographicProjection()] - 在二维模式下时，地图的呈现坐标系，默认为EPSG4326坐标系，如果需要EPSG3857墨卡托坐标系展示，传 new Cesium.WebMercatorProjection() 即可
+     * @property [mapMode2D = Cesium.MapMode2D.INFINITE_SCROLL] - 在二维模式下时，地图是可旋转的还是可以在水平方向无限滚动。
      * @property [shouldAnimate = true] - 是否开启时钟动画
      * @property [shadows = false] - 是否启用日照阴影
      * @property [useDefaultRenderLoop = true] - 如果此小部件应控制渲染循环，则为true，否则为false。
      * @property [targetFrameRate] - 使用默认渲染循环时的目标帧速率。
      * @property [useBrowserRecommendedResolution = true] - 如果为true，则以浏览器建议的分辨率渲染，并忽略 window.devicePixelRatio 。
      * @property [automaticallyTrackDataSourceClocks = true] - 如果为true，则此小部件将自动跟踪新添加的数据源的时钟设置，并在数据源的时钟发生更改时进行更新。如果要独立配置时钟，请将其设置为false。
-     * @property [contextOptions] - WebGL创建属性 传递给 Cesium.Scene 的 options 。{@link Cesium.Scene}.
+     * @property [contextOptions = {}] - WebGL创建属性 传递给 Cesium.Scene 的 options 。{@link Cesium.Scene}
+     * @property [contextOptions.allowTextureFilterAnisotropic = true] - 允许纹理过滤各向异性
+     * @property [contextOptions.requestWebgl2 = false] - 是否启用webgl2
+     * @property [contextOptions.webgl] - WebGL画布,用于 canvas.getContext("webgl", webglOptions)
+     * @property [contextOptions.webgl.alpha = false] - 是否包含alpha缓冲区，如果需要DIV透明时，需要改为true
+     * @property [contextOptions.webgl.antialias] - 是否执行抗锯齿
+     * @property [contextOptions.webgl.failIfMajorPerformanceCaveat] - 如果系统性能较低，是否创建上下文
+     * @property [contextOptions.webgl.depth] - 绘图缓冲区的深度缓冲区至少为16位
+     * @property [contextOptions.webgl.stencil = true] - 绘图缓冲区具有至少8位的模板缓冲区
+     * @property [contextOptions.webgl.powerPreference = "high-performance"] - 对用户代理的提示，指示GPU的哪种配置适合WebGL上下文
      * @property [orderIndependentTranslucency = true] - 如果为true，并且配置支持它，则使用顺序无关的半透明性。
      * @property [terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY] - 确定地形是否投射或接收来自光源的阴影。
-     * @property [mapMode2D = Cesium.MapMode2D.INFINITE_SCROLL] - 确定2D地图是可旋转的还是可以在水平方向无限滚动。
-     * @property [requestRenderMode = false] - 是否显示渲染，如果为真，渲染帧只会在需要时发生，这是由场景中的变化决定的。启用可以减少你的应用程序的CPU/GPU使用量，并且在移动设备上使用更少的电池，但是需要使用 {@link Scene#requestRender} 在这种模式下显式地渲染一个新帧。在许多情况下，在API的其他部分更改场景后，这是必要的。参见 {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
+     * @property [requestRenderMode = false] - 是否显式渲染，如果为真，渲染帧只会在需要时发生，这是由场景中的变化决定的。启用可以减少你的应用程序的CPU/GPU使用量，并且在移动设备上使用更少的电池，但是需要使用 {@link Scene#requestRender} 在这种模式下显式地渲染一个新帧。在许多情况下，在API的其他部分更改场景后，这是必要的。参见 {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
      * @property [maximumRenderTimeChange = 0.0] - 如果requestRenderMode为true，这个值定义了在请求渲染之前允许的模拟时间的最大变化。参见 {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
      *
      * 以下是Cesium.Globe对象相关参数
@@ -23273,7 +23287,7 @@ declare namespace Map {
      * @property [globe.baseColor = '#546a53'] - 地球背景色 ，css颜色值
      * @property [globe.depthTestAgainstTerrain = false] - 是否启用深度监测,可以开启来测试矢量对象是否在地形下面或被遮挡。
      * @property [globe.showGroundAtmosphere = true] - 是否在地球上绘制的地面大气
-     * @property [globe.enableLighting = false] - 是否显示昼夜区域
+     * @property [globe.enableLighting = false] - 是否显示晨昏线，可以看到地球的昼夜区域
      * @property [globe.tileCacheSize = 100] - 地形图块缓存的大小，表示为图块数。任何其他只要不需要渲染，就会释放超出此数目的图块这个框架。较大的数字将消耗更多的内存，但显示细节更快例如，当缩小然后再放大时。
      * @property [globe.terrainExaggeration = 1.0] - 地形夸张倍率，用于放大地形的标量。请注意，地形夸张不会修改其他相对于椭球的图元。
      * @property [globe.realAlt = false] - 地形夸张倍率，在测量高度和下侧提示的高度信息中是否转换为实际真实高度值。
@@ -23281,11 +23295,11 @@ declare namespace Map {
      *
      * 以下是Cesium.ScreenSpaceCameraController对象相关参数
      * @property [cameraController] - 相机操作相关参数
-     * @property [cameraController.zoomFactor = 3.0] - 鼠标滚轮放大的步长参数
-     * @property [cameraController.constrainedAxis = true] - 为false时 解除在南北极区域鼠标操作限制
-     * @property [cameraController.minimumZoomDistance = 1.0] - 变焦时相机位置的最小量级（以米为单位），默认为1。该值是相机与地表(含地形)的相对距离。
-     * @property [cameraController.maximumZoomDistance = 50000000.0] - 变焦时相机位置的最大值（以米为单位）。该值是相机与地表(含地形)的相对距离。
-     * @property [cameraController.minimumCollisionTerrainHeight = 80000] - 低于此高度时绕鼠标键绕圈，大于时绕视图中心点绕圈。
+     * @property [cameraController.minimumZoomDistance = 1.0] - 相机最近视距，变焦时相机位置的最小量级（以米为单位），默认为1。该值是相机与地表(含地形)的相对距离。
+     * @property [cameraController.maximumZoomDistance = 50000000.0] - 相机最远视距，变焦时相机位置的最大值（以米为单位）。该值是相机与地表(含地形)的相对距离。
+     * @property [cameraController.zoomFactor = 3.0] - 滚轮放大倍数，控制鼠标滚轮操作的步长
+     * @property [cameraController.minimumCollisionTerrainHeight = 80000] - 最小碰撞高度，低于此高度时绕鼠标键绕圈，大于时绕视图中心点绕圈。
+     * @property [cameraController.constrainedAxis = true] - 南北极绕轴心旋转，为false时 解除在南北极区域鼠标操作限制
      * @property [cameraController.enableRotate = true] - 2D和3D视图下，是否允许用户旋转相机
      * @property [cameraController.enableTranslate = true] - 2D和哥伦布视图下，是否允许用户平移地图
      * @property [cameraController.enableTilt = true] - 3D和哥伦布视图下，是否允许用户倾斜相机
@@ -23326,16 +23340,27 @@ declare namespace Map {
         sceneMode?: Cesium.SceneMode;
         scene3DOnly?: boolean;
         mapProjection?: Cesium.MapProjection;
+        mapMode2D?: Cesium.MapMode2D;
         shouldAnimate?: boolean;
         shadows?: boolean;
         useDefaultRenderLoop?: boolean;
         targetFrameRate?: number;
         useBrowserRecommendedResolution?: boolean;
         automaticallyTrackDataSourceClocks?: boolean;
-        contextOptions?: any;
+        contextOptions?: {
+            allowTextureFilterAnisotropic?: boolean;
+            requestWebgl2?: boolean;
+            webgl?: {
+                alpha?: boolean;
+                antialias?: boolean;
+                failIfMajorPerformanceCaveat?: boolean;
+                depth?: boolean;
+                stencil?: boolean;
+                powerPreference?: string;
+            };
+        };
         orderIndependentTranslucency?: boolean;
         terrainShadows?: Cesium.ShadowMode;
-        mapMode2D?: Cesium.MapMode2D;
         requestRenderMode?: boolean;
         maximumRenderTimeChange?: number;
         globe?: {
@@ -23350,11 +23375,11 @@ declare namespace Map {
             terrainExaggerationRelativeHeight?: number;
         };
         cameraController?: {
-            zoomFactor?: number;
-            constrainedAxis?: boolean;
             minimumZoomDistance?: number;
             maximumZoomDistance?: number;
+            zoomFactor?: number;
             minimumCollisionTerrainHeight?: number;
+            constrainedAxis?: boolean;
             enableRotate?: boolean;
             enableTranslate?: boolean;
             enableTilt?: boolean;
@@ -23384,7 +23409,6 @@ declare namespace Map {
      * @property [contextmenu.preventDefault = true] - 是否取消右键菜单
      * @property [contextmenu.hasDefault = true] - 是否绑定默认的地图右键菜单
      * @property [popup] - 内置 Popup 控制参数
-     * @property [popup.isOnly = true] - 是否单个显示模式
      * @property [popup.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
      * @property [tooltip] - 内置 Tooltip 控制参数
      * @property [tooltip.cacheTime = 20] - 延迟缓存的时间，单位：毫秒
@@ -23431,7 +23455,6 @@ declare namespace Map {
             hasDefault?: boolean;
         };
         popup?: {
-            isOnly?: boolean;
             depthTest?: boolean;
         };
         tooltip?: {
@@ -29123,7 +29146,7 @@ declare namespace Shadows {
  * @param [options.multiplier = 1600] - 时钟倍率，控制速度
  * @param [options.time] - 当前时间
  * @param [options.terrain = true] - 是否启用地形的阴影效果，在平原地区或无地形时可以关闭
- * @param [options.lighting = true] - 是否启用地球昼夜区域的覆盖效果
+ * @param [options.lighting = true] - 是否显示晨昏线，可以看到地球的昼夜区域
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
@@ -30454,6 +30477,11 @@ declare class TilesetFlat extends TilesetEditBase {
      * 压平高度 (单位：米)，基于压平区域最低点高度的偏移量
      */
     height: number;
+    /**
+     * 更新压平高度 (单位：米)
+     * @param height - 高度值（单位：米）
+     */
+    updateHeight(height: number): void;
 }
 
 declare namespace TilesetFlood {
@@ -32331,6 +32359,12 @@ declare namespace PolyUtil {
      */
     function formatRectangle(rectangle: Cesium.Rectangle, digits?: number): any;
     /**
+     * 计算geojson的边界范围
+     * @param [geojson] - Geojson对象
+     * @returns 返回经纬度值，示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
+     */
+    function getExtentByGeoJSON(geojson?: any): any;
+    /**
      * 获取 坐标数组 的 矩形边界值
      * @param positions - 坐标数组
      * @param [isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
@@ -32698,7 +32732,7 @@ declare namespace Util {
      * @param [options = {}] - 参数对象:
      * @param options.attr - 属性值
      * @param options.template - 模版配置，支持：'all'、数组、字符串模板
-     * @param options.title - 标题
+     * @param [options.title] - 标题
      * @param [options.edit = false] - 是否返回编辑输入框
      * @param [options.width = 190] - edit:true时的，编辑输入框宽度值
      * @returns Html字符串
@@ -32706,7 +32740,7 @@ declare namespace Util {
     function getTemplateHtml(options?: {
         attr: any;
         template: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
-        title: string;
+        title?: string;
         edit?: boolean;
         width?: number;
     }): string;
@@ -32901,6 +32935,7 @@ declare namespace Util {
      * @param [textStyle.stroke = false] - 是否描边文本。
      * @param [textStyle.strokeWidth = 1] - 文本描边的宽度。
      * @param [textStyle.strokeColor = Cesium.Color.BLACK] - 文本描边的颜色。
+     * @param [textStyle.background = false] - 是否背景色。
      * @param [textStyle.backgroundColor = Cesium.Color.TRANSPARENT] - 画布的背景色。
      * @param [textStyle.padding = 0] - 要在文本周围添加的填充的像素大小。
      * @param [textStyle.outlineWidth] - 边框的宽度。
@@ -32915,6 +32950,7 @@ declare namespace Util {
         stroke?: boolean;
         strokeWidth?: number;
         strokeColor?: Cesium.Color;
+        background?: boolean;
         backgroundColor?: Cesium.Color;
         padding?: number;
         outlineWidth?: number;
