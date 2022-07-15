@@ -32,8 +32,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
     <!-- 面板 -->
     <div class="infoview" style="overflow: auto; top: 5px; height: calc(100% - 90px)">
@@ -46,7 +44,9 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
-      function initUI(options) {}
+      function initUI(options) {
+        initTree()
+      }
 
       //===========================树控件处理============================
       let layers = []
@@ -84,12 +84,8 @@
         $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
       }
 
-      eventTarget.on("loadEnd", () => {
-        initTree()
-      })
-
       function _getNodeConfig(layer) {
-        if (layer == null || layer.options.noLayerManage) {
+        if (layer == null || layer.isPrivate) {
           return
         }
 
@@ -102,29 +98,28 @@
         let node = {
           id: layer.id,
           pId: layer.pid,
-          name: layer.name,
-          uuid: layer.uuid
+          name: layer.name
         }
 
         if (layer.hasEmptyGroup) {
           //空数组
           node.icon = "/lib/jquery/ztree/css/mars/images/folder.png"
           node.open = item.open == null ? true : item.open
-          layersObj[node.uuid] = layer
+          layersObj[node.id] = layer
         } else if (layer.hasChildLayer) {
           //有子节点的数组
           node.icon = "/lib/jquery/ztree/css/mars/images/layerGroup.png"
           node.open = item.open == null ? true : item.open
-          layersObj[node.uuid] = layer
+          layersObj[node.id] = layer
         } else {
           node.icon = "/lib/jquery/ztree/css/mars/images/layer.png"
           node.checked = layer.isAdded && layer.show
 
           if (layer.parent) {
-            node._parentId = layer.parent.uuid
+            node._parentId = layer.parent.id
           }
           //记录图层
-          layersObj[node.uuid] = layer
+          layersObj[node.id] = layer
         }
         return node
       }
@@ -145,7 +140,7 @@
             continue
           }
 
-          let layer = layersObj[treeNode.uuid]
+          let layer = layersObj[treeNode.id]
           if (layer == null) {
             continue
           }
@@ -168,7 +163,7 @@
         if (show) {
           if (!layer.isAdded) {
             addLayer(layer)
-            flyToLayer(layer)
+            layer.flyTo()
           }
         } else {
           if (layer.isAdded) {
@@ -178,14 +173,14 @@
       }
 
       function treeOverlays_onDblClick(event, treeId, treeNode) {
-        if (treeNode == null || treeNode.uuid == null) {
+        if (treeNode == null || treeNode.id == null) {
           return
         }
-        let layer = layersObj[treeNode.uuid]
+        let layer = layersObj[treeNode.id]
         if (layer == null) {
           return
         }
-        flyToLayer(layer)
+        layer.flyTo()
       }
     </script>
   </body>

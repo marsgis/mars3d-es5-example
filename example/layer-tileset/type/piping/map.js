@@ -113,6 +113,7 @@ function terrainClips(heightVal) {
     splitNum: 50 // 井边界插值数
   })
   map.addThing(terrainPlanClip)
+
 }
 
 function heightChange(num) {
@@ -134,7 +135,7 @@ function drawExtent() {
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
-      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
+      console.log("绘制坐标为", JSON.stringify(mars3d.LngLatArray.toArray(positions))) // 方便测试拷贝坐标
 
       // 挖地区域
       terrainPlanClip.positions = positions
@@ -157,7 +158,7 @@ function drawPolygon() {
       const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
+      console.log("绘制坐标为", JSON.stringify(mars3d.LngLatArray.toArray(positions))) // 方便测试拷贝坐标
 
       // 挖地区域
       terrainPlanClip.positions = positions

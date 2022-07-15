@@ -36,11 +36,14 @@ function onMounted(mapInstance) {
   })
   map.addLayer(tiles3dLayer)
 
-  // 创建Graphic图层
+  // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  bindLayerEvent() // 对图层绑定相关事件
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
   bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
@@ -81,6 +84,7 @@ function addDemoGraphic1() {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(diffuseWallGlow)
+
 }
 
 // 立体围墙扩散效果,圆状
@@ -96,20 +100,58 @@ function addDemoGraphic2() {
     attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(circleDiffuseWallGlow)
+
+  // setInterval(() => {
+  //   circleDiffuseWallGlow.uniforms.color = Cesium.Color.fromRandom({ alpha: 0.6 })
+  // }, 500)
 }
 
-// 在图层级处理一些事物
-function bindLayerEvent() {
-  // 在layer上绑定监听事件
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event)
+// 生成演示数据(测试数据量)
+function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+  graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars3d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const position = result.points[j]
+    const index = j + 1
+
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 0, result.radius)
+    const pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 72, result.radius)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 144, result.radius)
+    const pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 216, result.radius)
+    const pt5 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 288, result.radius)
+
+    const graphic = new mars3d.graphic.DiffuseWall({
+      positions: [pt1, pt2, pt3, pt4, pt5],
+      style: {
+        diffHeight: result.radius * 2,
+        color: "#ff0000"
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+
+  graphicLayer.enabledEvent = true // 恢复事件
+  return result.points.length
+}
+
+// 开始绘制
+function startDrawGraphic() {
+  graphicLayer.startDraw({
+    type: "diffuseWall",
+    style: {
+      color: "#55ff33",
+      opacity: 0.8,
+      diffHeight: 800,
+      speed: 10 // 速度
+    }
   })
-  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
-    console.log("监听layer，鼠标移入了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
-    console.log("监听layer，鼠标移出了矢量对象", event)
-  }) */
 }
 
 // 在图层绑定Popup弹窗
@@ -138,12 +180,12 @@ function bindLayerContextMenu() {
           return true
         }
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         if (!graphic) {
           return
         }
-        const parent = graphic._parent // 右击是编辑点时
+        const parent = graphic.parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
         if (parent) {
           graphicLayer.removeGraphic(parent)
@@ -153,7 +195,7 @@ function bindLayerContextMenu() {
     {
       text: "计算长度",
       icon: "fa fa-medium",
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)

@@ -89,46 +89,6 @@ function bindLayerContextMenu() {
 
   graphicLayer.bindContextMenu([
     {
-      text: "开始编辑对象",
-      icon: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      icon: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
-    {
       text: "删除对象",
       icon: "fa fa-trash-o",
       show: (event) => {
@@ -226,7 +186,6 @@ function bindLayerContextMenu() {
 }
 
 function drawFile() {
-  console.log("调用了")
   let file = this.files[0]
 
   let fileName = file.name
@@ -236,12 +195,15 @@ function drawFile() {
     let reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      let geojson = this.result
-      geojson = simplifyGeoJSON(geojson) //简化geojson的点
+      let geojson = JSON.parse(this.result)
 
-      graphicLayer.loadGeoJSON(geojson, {
-        flyTo: true
-      })
+      if (geojson.type == "graphic" && geojson.data) {
+        graphicLayer.addGraphic(geojson.data)
+        graphicLayer.flyTo()
+      } else {
+        geojson = simplifyGeoJSON(geojson) //简化geojson的点
+        graphicLayer.loadGeoJSON(geojson, { flyTo: true })
+      }
       clearSelectFile()
     }
   } else if (fileType == "kml") {

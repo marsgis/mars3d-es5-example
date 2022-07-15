@@ -32,24 +32,57 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
       <div>
         <div class="btn-group" role="group">
-          <input type="button" class="btn btn-primary" value="背景1" onclick="show1()" />
-          <input type="button" class="btn btn-primary" value="背景2" onclick="show2()" />
-          <input type="button" class="btn btn-primary" value="背景3" onclick="show3()" />
-          <input type="button" class="btn btn-primary" value="背景4" onclick="show4()" />
-          <input type="button" class="btn btn-primary" value="背景5" onclick="show5()" />
-          <input type="button" class="btn btn-primary active" value="背景6" onclick="show6()" />
+          <input id="first" type="button" class="btn btn-primary" value="背景1" onclick="show1()" />
+          <input id="second" type="button" class="btn btn-primary" value="背景2" onclick="show2()" />
+          <input id="third" type="button" class="btn btn-primary" value="背景3" onclick="show3()" />
+          <input id="four" type="button" class="btn btn-primary" value="背景4" onclick="show4()" />
+          <input id="five" type="button" class="btn btn-primary" value="背景5" onclick="show5()" />
+          <input id="six" type="button" class="btn btn-primary active" value="背景6" onclick="show6()" />
         </div>
       </div>
     </div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI(options) {
+        // 按钮切换效果
+        $("#first").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+        $("#second").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+        $("#third").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+
+        $("#four").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+
+        $("#five").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+
+        $("#six").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+        })
+      }
+    </script>
   </body>
 </html>

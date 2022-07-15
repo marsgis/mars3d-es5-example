@@ -184,3 +184,7 @@ function creatHRectangleEntity(item) {
 
   graphic.flyTo({ scale: 1.5 })
 }
+
+var saveParams = (updateValue) => {
+  mars3d.Util.downloadFile("瓦片图层参数.json", JSON.stringify({ ...updateValue, center: map.getCameraView() }))
+}

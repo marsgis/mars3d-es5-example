@@ -117,7 +117,7 @@
         Cesium.knockout.applyBindings(viewModel, toolbar)
 
         //gltf模型加载完成事件
-        primitive.on(mars3d.EventType.load, (event) => {
+        graphic.on(mars3d.EventType.load, (event) => {
           let model = event.model
 
           //缩放区域到模型所在位置

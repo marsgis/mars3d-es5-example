@@ -51,8 +51,8 @@ function onUnmounted() {
 
 // 叠加的图层
 let tileLayer
-function addLayer() {
-  removeLayer()
+function addTileLayer() {
+  removeTileLayer()
 
   map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 0, pitch: -67 })
 
@@ -70,19 +70,21 @@ function addLayer() {
     highlight: {
       type: "wallP",
       diffHeight: 100,
-      material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+      materialType: mars3d.MaterialType.LineFlow,
+      materialOptions: {
         image: "img/textures/fence.png",
         color: "#ffff00",
         speed: 10, // 速度，建议取值范围1-100
         axisY: true
-      })
+      }
     },
 
     flyTo: true
   })
   map.addLayer(tileLayer)
 }
-function removeLayer() {
+
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

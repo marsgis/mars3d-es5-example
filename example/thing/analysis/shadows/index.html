@@ -79,8 +79,10 @@
             let date = $("#txt_rzfx_Date").val()
             let hours = Number.parseInt(value / 60)
             let minutes = Number.parseInt(value % 60)
+            // setShadows(date, hours, minutes)
+            const dateTime = setShadows(today, hours, minutes)
+            $("#lbl_rzfx_nowTime").html(dateTime.format("MM月dd日 HH:mm"))
 
-            setShadows(date, hours, minutes)
             $("#btn_rzfx_btn_rzfx_pause").val("播放")
           }
         })

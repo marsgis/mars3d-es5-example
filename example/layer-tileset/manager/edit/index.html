@@ -26,7 +26,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,web-icons,bootstrap,bootstrap-select,bootstrap-checkbox,bootstrap-slider,toastr,jstree,layer,haoutil,mars3d,localforage"
+      include="jquery,layer,toastr,font-awesome,web-icons,bootstrap,bootstrap-select,bootstrap-checkbox,bootstrap-slider,toastr,jstree,layer,haoutil,mars3d,localforage"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -64,7 +64,7 @@
               max="180"
               step="0.000001"
               style="width: 120px"
-              value="0"
+              value="121.479394"
               onchange="changetilesObjectData()"
             />
           </td>
@@ -78,7 +78,7 @@
               max="90"
               step="0.000001"
               style="width: 110px"
-              value="0"
+              value="29.791416"
               onchange="changetilesObjectData()"
             />
           </td>
@@ -93,22 +93,7 @@
         </tr>
 
         <tr class="transform">
-          <td>方向Z(四周)：</td>
-          <td title="绕z轴旋转模型">
-            <input
-              id="txt_rotation_z"
-              class="form-control"
-              type="number"
-              style="width: 120px"
-              min="-360"
-              max="360"
-              step="0.1"
-              value="0"
-              onchange="changetilesObjectData()"
-            />
-          </td>
-
-          <td>方向X：</td>
+          <td>绕X轴旋转模型：</td>
           <td title="绕x轴旋转模型">
             <input
               id="txt_rotation_x"
@@ -123,7 +108,7 @@
             />
           </td>
 
-          <td>方向Y：</td>
+          <td>绕Y轴旋转模型：</td>
           <td title="绕y轴旋转模型">
             <input
               id="txt_rotation_y"
@@ -137,23 +122,24 @@
               onchange="changetilesObjectData()"
             />
           </td>
-        </tr>
 
-        <tr class="transform">
-          <td>缩放比例：</td>
-          <td>
+          <td>绕Z轴旋转模型：</td>
+          <td title="绕z轴旋转模型">
             <input
-              id="txt_scale"
+              id="txt_rotation_z"
               class="form-control"
               type="number"
-              style="width: 110px"
-              min="0.1"
-              max="100"
+              style="width: 120px"
+              min="-360"
+              max="360"
               step="0.1"
-              value="1"
+              value="0"
               onchange="changetilesObjectData()"
             />
           </td>
+        </tr>
+
+        <tr class="transform">
           <td>变换垂直轴</td>
           <td>
             <select id="txt_axis" class="selectpicker form-control">
@@ -168,26 +154,41 @@
           </td>
 
           <td colspan="2">
-            <input type="button" class="btn btn-primary" value="应用参数" onclick="changetilesObjectData()" />
-
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div class="checkbox checkbox-primary checkbox-inline transform">
-              <input id="chkIsEditng" class="styled" type="checkbox" />
-              <label for="chkIsEditng">
-                <b>鼠标拖拽编辑</b>
+              <input id="highlightEnable" class="styled" type="checkbox" />
+              <label for="highlightEnable">
+                <b>单击高亮构件</b>
+              </label>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="checkbox checkbox-primary checkbox-inline transform">
+              <input id="popupEnable" checked class="styled" type="checkbox" />
+              <label for="popupEnable">
+                <b>单击popup弹窗</b>
               </label>
             </div>
           </td>
         </tr>
 
         <tr>
+          <td>缩放比例：</td>
+          <td>
+            <input
+              id="txt_scale"
+              class="form-control"
+              type="number"
+              style="width: 110px"
+              min="0.1"
+              max="100"
+              step="0.1"
+              value="1"
+              onchange="changetilesObjectData()"
+            />
+          </td>
           <td>显示精度：</td>
           <td>
             <input id="txt_maximumScreenSpaceError" title="显示精度" />
-          </td>
-          <td>材质底色：</td>
-          <td>
-            <input id="txt_luminanceAtZenith" title="材质底色" />
           </td>
           <td>透明度：</td>
           <td>
@@ -219,47 +220,45 @@
       let tilesObject
 
       eventTarget.on("tiles3dLayerLoad", function (event) {
-        const tileset = event.data
-        const tiles3dLayer = event.tiles3dLayer
-
+        const tiles3dLayer = event.layer
         // 取模型中心点信息
         const locParams = tiles3dLayer.center
 
         if (locParams.alt < -1000 || locParams.alt > 10000) {
           locParams.alt = 0 // 高度异常数据，自动赋值高度为0
         }
-        tilesObject.txtX = locParams.lng.toFixed(6)
-        tilesObject.txtY = locParams.lat.toFixed(6)
-        tilesObject.txtZ = locParams.alt.toFixed(6)
-        tilesObject.luminanceAtZenith = tileset.luminanceAtZenith
-        tilesObject.maximumScreenSpaceError = tileset.maximumScreenSpaceError
+
+        $("#txt_x").val(Number(locParams.lng.toFixed(6)))
+        $("#txt_y").val(Number(locParams.lat.toFixed(6)))
+        $("#txt_z").val(Number(locParams.alt.toFixed(6)))
+
+        $("#txt_maximumScreenSpaceError").slider("setValue", tiles3dLayer.tileset.maximumScreenSpaceError)
 
         if (tiles3dLayer.transform) {
-          tilesObject.rotationX = tiles3dLayer.rotation_x.toFixed(1)
-          tilesObject.rotationY = tiles3dLayer.rotation_y.toFixed(1)
-          tilesObject.rotationZ = tiles3dLayer.rotation_z.toFixed(1)
-          tilesObject.scale = tiles3dLayer.scale || 1
-          tilesObject.axis = tiles3dLayer.axis
+          $("#txt_rotation_z").val(tiles3dLayer.rotation_z.toFixed(1))
+          $("#txt_rotation_x").val(tiles3dLayer.rotation_x.toFixed(1))
+          $("#txt_rotation_y").val(tiles3dLayer.rotation_y.toFixed(1))
+
+          $("#txt_scale").val(tiles3dLayer.scale || 1)
+          $("#txt_axis").val(tiles3dLayer.axis)
         } else {
-          getDefined(tilesObject)
+          updateHeightForSurfaceTerrain(locParams)
         }
-
-        getConfig(tilesObject)
-      })
-
-      eventTarget.on("tilesEditor", function (event) {
-        editor(event.data, tilesObject.txtZ)
       })
 
       // 根据改变的位置触发不同的事件
       eventTarget.on("changePoition", function (event) {
-        tilesObject.txtX = event.point.lng
-        tilesObject.txtY = event.point.lat
-        tilesObject.txtZ = event.point.alt
+        $("#txt_x").val(event.center.lng)
+        $("#txt_y").val(event.center.lat)
+        $("#txt_z").val(event.center.alt)
+
+        $("#txt_rotation_z").val(event.rotation.z)
+        $("#txt_rotation_x").val(event.rotation.x)
+        $("#txt_rotation_y").val(event.rotation.y)
       })
 
-      eventTarget.on("changeHeading", function (event) {
-        tilesObject.rotationZ = event.tiles3dLayer.rotation_z
+      eventTarget.on("changeHeight", function (event) {
+        $("#txt_z").val(event.alt)
       })
 
       function initUI(options) {
@@ -268,11 +267,18 @@
         $("#chkTestTerrain").change(function () {
           let val = $(this).is(":checked")
 
+          updateDepthTest(val)
+        })
+
+        //单击高亮构件
+        $("#highlightEnable").change(function () {
+          let val = $(this).is(":checked")
+
           changetilesObjectData()
         })
 
-        $("#chkIsEditng").change(function () {
-          //鼠标拖拽
+        //单击popup弹窗
+        $("#popupEnable").change(function () {
           let val = $(this).is(":checked")
 
           changetilesObjectData()
@@ -281,12 +287,6 @@
         //滑动条
         $("#txt_maximumScreenSpaceError")
           .slider({ min: 1, max: 30.0, step: 1, value: 8.0 })
-          .on("change", (e) => {
-            changetilesObjectData()
-          })
-
-        $("#txt_luminanceAtZenith")
-          .slider({ min: 0.1, max: 3.0, step: 0.1, value: 0.2 })
           .on("change", (e) => {
             changetilesObjectData()
           })
@@ -301,45 +301,7 @@
         initSceneTree()
 
         //加载数据
-        let url = haoutil.system.getRequestByName("url")
-
-        console.log(url)
-        if (url) {
-          // 加载url传入模型地址
-          $("#txtModel").val(url)
-
-          setTimeout(showModel($("#txtModel").val()), 1000)
-        } else {
-          //加载历史数据
-          localforage.getItem("3dtiles_edit").then(function (item) {
-            if (!item?.txtModel) {
-              return
-            }
-            console.log("加载显示历史数据", item)
-
-            $("#txt_maximumScreenSpaceError").slider("setValue", item.maximumScreenSpaceError || 16)
-            $("#txt_luminanceAtZenith").slider("setValue", item.luminanceAtZenith || 0.2)
-            $("#txt_opacity").slider("setValue", item.opacity || 1.0)
-            $("#txt_axis").selectpicker("val", item.axis || "")
-
-            $("#txtModel").val(item.txtModel)
-
-            $("#txt_scale").val(item.scale || 1)
-            $("#txt_x").val(item.txtX || 0)
-            $("#txt_y").val(item.txtY || 0)
-            $("#txt_z").val(item.txtZ || 0)
-
-            $("#txt_rotation_x").val(item.rotationX || 0)
-            $("#txt_rotation_y").val(item.rotationY || 0)
-            $("#txt_rotation_z").val(item.rotationZ || 0)
-
-            setTimeout(showModel($("#txtModel").val()), 1000)
-            changetilesObjectData()
-            // if (item.center) {
-            //   map.setCameraView(item.center)
-            // }
-          })
-        }
+        showModel($("#txtModel").val())
       }
 
       function loadTilesModel() {
@@ -349,43 +311,38 @@
 
       function changetilesObjectData(upDate = true) {
         tilesObject = {
-          txtModel: $("#txtModel").val(),
-          chkProxy: $("#chkIsEditng").is(":checked"),
-          txtX: $("#txt_x").val(),
-          txtY: $("#txt_y").val(),
-          txtZ: $("#txt_z").val(),
-          depthTestAgainstTerrain: $("#chkTestTerrain").is(":checked"),
-          rotationZ: $("#txt_rotation_z").val(),
-          rotationX: $("#txt_rotation_x").val(),
-          rotationY: $("#txt_rotation_y").val(),
+          name: "模型名称",
+          type: "3dtiles",
+          url: $("#txtModel").val(),
+          maximumScreenSpaceError: $("#txt_maximumScreenSpaceError").val(), // 【重要】数值加大，能让最终成像模糊
+          position: {
+            lng: $("#txt_x").val(),
+            lat: $("#txt_y").val(),
+            alt: $("#txt_z").val()
+          },
+          rotation: {
+            z: $("#txt_rotation_z").val(),
+            x: $("#txt_rotation_x").val(),
+            y: $("#txt_rotation_y").val()
+          },
           scale: $("#txt_scale").val(),
-          axis: $("#txt_axis").val(),
-          tilesEditorEnabled: $("#chkIsEditng").is(":checked"), // 鼠标拖拽
-          maximumScreenSpaceError: $("#txt_maximumScreenSpaceError").val(),
-          luminanceAtZenith: $("#txt_luminanceAtZenith").val(),
-          opacity: $("#txt_opacity").val()
+          axis: $("#txt_axis").val() ? $("#txt_axis").val() : undefined,
+          proxy: $("#chkProxy").is(":checked") ? "//server.mars3d.cn/proxy/" : undefined, // 代理
+          opacity: $("#txt_opacity").val(),
+          show: true
         }
-        localforage.setItem("3dtiles_edit", tilesObject)
+        const otherData = { highlightEnable: $("#highlightEnable").is(":checked"), popupEnable: $("#popupEnable").is(":checked") }
 
         if (upDate) {
-          //记录到历史
-          updateModel(tilesObject)
+          updateModel(tilesObject, otherData)
         }
       }
 
       function resetInput() {
-        $("#txt_x").val(0)
-        $("#txt_y").val(0)
-        $("#txt_z").val(0)
-        $("#txt_rotation_x").val(0)
-        $("#txt_rotation_y").val(0)
-        $("#txt_rotation_z").val(0)
-        $("#txt_scale").val(1)
-        $("#txt_axis").selectpicker("val", "")
-
-        $("#txt_maximumScreenSpaceError").slider("setValue", 8)
-        $("#txt_luminanceAtZenith").slider("setValue", 0.2)
         $("#txt_opacity").slider("setValue", 1.0)
+
+        $("#highlightEnable").attr("checked", false)
+        $("#popupEnable").attr("checked", true)
       }
 
       function savemark() {

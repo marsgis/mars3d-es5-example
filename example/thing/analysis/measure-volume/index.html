@@ -102,28 +102,61 @@
 
       function initUI(options) {
         // 添加方量分析
-        $("#measure").click(function () {})
+        $("#measure").click(function () {
+          analysisMeasure()
+          // console.log( "@@@@@",measureVolume.interPolygonObj.list)
+        })
 
         // 清除
-        $("#clear").click(function () {})
+        $("#clear").click(function () {
+          clear()
+        })
 
         // 基准面高
-        $("#txtHeight").change(function () {})
+        $("#txtHeight").change(function () {
+          // 传参
+          baseHeight($("#txtHeight").val() * 1)
+        })
 
-        $("#txtMinHeight").change(function () {})
+        $("#txtMinHeight").change(function () {
+          // 传参
+          txtMinHeight($("#txtMinHeight").val() * 1)
+        })
 
-        $("#txtMaxHeight").change(function () {})
+        $("#txtMaxHeight").change(function () {
+          // 传参
+          txtMaxHeight($("#txtMaxHeight").val() * 1)
+        })
 
-        $("#selHeight").click(function () {})
+        $("#selHeight").click(function () {
+          selHeight()
+        })
 
-        $("#chkShowPolygonInter").change(function () {})
+        // 计算的三角网
+        // let arr = measureVolume.interPolygonObj.list
+
+        $("#chkShowPolygonInter").change(function () {
+          // 传参
+          if ($("#chkShowPolygonInter").prop("checked")) {
+            showInterResult(measureVolume.interPolygonObj.list)
+          } else {
+            clearInterResult()
+          }
+        })
+
+        setTimeout(() => {
+          showHeightVal()
+        }, 3000)
       }
 
-      /* function showHeightVal() {
-        $("#txtHeight").val(measureVolume.height.toFixed(1))
-        $("#txtMinHeight").val(measureVolume.minHeight.toFixed(1))
-        $("#txtMaxHeight").val(getFixedNum(measureVolume.maxHeight))
-      } */
+      function showHeightVal() {
+        let txtHeight = measureVolume.height * 1
+        $("#txtHeight").val(txtHeight.toFixed(1))
+        let txtMinHeight = measureVolume.minHeight * 1
+        $("#txtMinHeight").val(txtMinHeight.toFixed(1))
+        let txtMaxHeight = measureVolume.maxHeight * 1
+        $("#txtMaxHeight").val(getFixedNum(txtMaxHeight))
+      }
     </script>
   </body>
 </html>

@@ -1,9 +1,7 @@
-////// import * as mars3d from "mars3d"
-//// import { TilesEditor } from "./TilesEditor.js"
+// import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
-let tiles3dLayer
-let tilesEditor
+var map // mars3d.Map三维地图对象
+var tiles3dLayer
 
 // 自定义事件
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -16,20 +14,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
-
-  // 鼠标拖拽编辑，定义在js/TilesEditor.js
-  tilesEditor = new TilesEditor({
-    map: map,
-    moveImg: "img/icon/move.png",
-    rotateImg: "img/icon/rotate.png"
-  })
-
-  tilesEditor.on("change", function (data) {
-    tilesEditor.enabled = true
-    eventTarget.fire("tilesEditor", { data })
-  })
 }
 
 /**
@@ -40,14 +25,185 @@ function onUnmounted() {
   map = null
 }
 
+function removeLayer() {
+  if (tiles3dLayer) {
+    map.removeLayer(tiles3dLayer, true)
+    tiles3dLayer = null
+  }
+}
+
+function showModel(url) {
+  removeLayer()
+
+  if (!url) {
+    globalMsg("请输入图层URL！")
+    return
+  }
+
+  tiles3dLayer = new mars3d.layer.TilesetLayer({
+    name: "模型名称",
+    url: url,
+    maximumScreenSpaceError: 16,
+    maximumMemoryUsage: 1024,
+    popup: "all",
+    flyTo: true
+  })
+  map.addLayer(tiles3dLayer)
+
+  // 加载完成事件
+  tiles3dLayer.on(mars3d.EventType.load, function (event) {
+    eventTarget.fire("tiles3dLayerLoad", { layer: tiles3dLayer })
+  })
+
+  // 加载完成事件
+  tiles3dLayer.on(mars3d.EventType.updatePosition, function (event) {
+    eventTarget.fire("changePoition", {
+      center: tiles3dLayer.center,
+      rotation: tiles3dLayer.rotation
+    })
+  })
+
+  tiles3dLayer.bindContextMenu([
+    {
+      text: "开始编辑",
+      icon: "fa fa-edit",
+      show: function (e) {
+        return !tiles3dLayer.isEditing
+      },
+      callback: (e) => {
+        tiles3dLayer.startEditing()
+      }
+    }
+    // {
+    //   text: "停止编辑",
+    //   icon: "fa fa-edit",
+    //   show: function (e) {
+    //     return tiles3dLayer.isEditing
+    //   },
+    //   callback: (e) => {
+    //     tiles3dLayer.stopEditing()
+    //   }
+    // }
+  ])
+}
+
+// 异步求准确高度
+function updateHeightForSurfaceTerrain(position) {
+  // 求地面海拔 (异步)
+  if (Cesium.defined(position) && Cesium.defined(position.alt)) {
+    // 存在历史设置的高度时不用处理
+  } else {
+    mars3d.PointUtil.getSurfaceTerrainHeight(map.scene, tiles3dLayer.orginCenterPosition).then((result) => {
+      if (!Cesium.defined(result.height)) {
+        return
+      }
+      const offsetZ = Math.ceil(result.height - tiles3dLayer.orginCenterPoint.alt + 1)
+      console.log("地面海拔：" + result.height.toFixed(2) + ",需要偏移" + offsetZ)
+
+      tiles3dLayer.height = offsetZ
+
+      eventTarget.fire("changeHeight", { alt: offsetZ })
+    })
+  }
+}
+
+// 修改更改后的参数
+function updateModel(params, pannelData) {
+  tiles3dLayer.setOptions(params)
+
+  // 非参数，调用方法绑定或解绑
+  if (pannelData.highlightEnable) {
+    tiles3dLayer.highlight = {
+      type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
+      outlineEffect: true, // 采用OutlineEffect方式来高亮
+      color: "#00FF00"
+    }
+  } else {
+    tiles3dLayer.highlight = undefined
+  }
+  if (pannelData.popupEnable) {
+    tiles3dLayer.bindPopup("all")
+  } else {
+    tiles3dLayer.unbindPopup()
+  }
+}
+
+// 深度检测
+function updateDepthTest(enabled) {
+  map.scene.globe.depthTestAgainstTerrain = enabled
+}
+
+function locate() {
+  if (tiles3dLayer.tileset?.boundingSphere) {
+    map.camera.flyToBoundingSphere(tiles3dLayer.tileset.boundingSphere, {
+      offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, tiles3dLayer.tileset.boundingSphere.radius * 2)
+    })
+  } else {
+    map.flyToPoint(tiles3dLayer.position, {
+      radius: tiles3dLayer.tileset.boundingSphere.radius * 2
+    })
+  }
+}
+
+// 保存GeoJSON
+function saveBookmark(params) {
+  // 清理参数中无需保存的部分
+  if (params.position.lat === tiles3dLayer.orginCenterPoint.lat) {
+    delete params.position.lat
+  }
+  if (params.position.lng === tiles3dLayer.orginCenterPoint.lng) {
+    delete params.position.lng
+  }
+  if (params.position.alt === tiles3dLayer.orginCenterPoint.alt) {
+    delete params.position.alt
+  }
+  if (Object.keys(params.position).length === 0) {
+    delete params.position
+  }
+
+  if (params.rotation.x === 0) {
+    delete params.rotation.x
+  }
+  if (params.rotation.y === 0) {
+    delete params.rotation.y
+  }
+  if (params.rotation.z === 0) {
+    delete params.rotation.z
+  }
+  if (Object.keys(params.rotation).length === 0) {
+    delete params.rotation
+  }
+  if (params.maximumScreenSpaceError === 16) {
+    delete params.maximumScreenSpaceError
+  }
+  if (params.scale === 1) {
+    delete params.scale
+  }
+  if (params.axis === "" || !params.axis) {
+    delete params.axis
+  }
+  if (!params.proxy) {
+    delete params.proxy
+  }
+  if (params.opacity === 1) {
+    delete params.opacity
+  }
+
+  mars3d.Util.downloadFile("3dtiles图层配置.json", JSON.stringify(params))
+}
+
 // 查看构件
+function checkedTree() {
+  tiles3dLayer.tileset.style = undefined
+}
+
 function showCompTree(model) {
   querySceneTreeData(model)
     .then(function (scene) {
-      var data = []
+      const data = []
       if (scene.scenes) {
         for (let i = 0; i < scene.scenes.length; i++) {
-          var node = scene.scenes[i]
+          const node = scene.scenes[i]
           name2text(node)
           data.push(node)
         }
@@ -74,7 +230,7 @@ function compModelChange(nodeid, nodesphere) {
   center = tiles3dLayer.getPositionByOrginMatrix(center)
 
   // 飞行过去
-  var sphere = new Cesium.BoundingSphere(center, nodesphere[3])
+  const sphere = new Cesium.BoundingSphere(center, nodesphere[3])
   map.camera.flyToBoundingSphere(sphere, {
     offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, nodesphere[3] * 1.5),
     duration: 0.5
@@ -90,241 +246,14 @@ function compModelChange(nodeid, nodesphere) {
     }
   })
 }
-function checkedTree() {
-  tiles3dLayer.tileset.style = undefined
-}
-
-/**
- *
- *
- * @param {string} url 面板中传入的url模型地址
- * @return {*} 无
- */
-function showModel(url) {
-  removeLayer()
-
-  if (!url) {
-    alert("请输入图层URL！")
-    return
-  }
-
-  tiles3dLayer = new mars3d.layer.TilesetLayer({
-    url: url,
-    // 高亮时的样式
-    highlight: {
-      type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
-      outlineEffect: true, // 采用OutlineEffect方式来高亮
-      color: "#00FF00"
-    },
-    popup: "all",
-    flyTo: true
-  })
-  map.addLayer(tiles3dLayer)
-
-  // 加载完成事件
-  tiles3dLayer.on(mars3d.EventType.load, function (event) {
-    var data = event.tileset
-
-    if (tiles3dLayer.transform) {
-      tilesEditor.range = data.boundingSphere.radius * 0.9
-      tilesEditor.heading = tiles3dLayer.rotation_z
-      tilesEditor.position = tiles3dLayer.position
-    } else {
-      tilesEditor.enabled = false
-    }
-
-    // 触发自定义事件，更改面板中的值
-    eventTarget.fire("tiles3dLayerLoad", { data, tiles3dLayer })
-  })
-}
-
-// 异步求准确高度
-function getDefined(data) {
-  var params = getConfig(data)
-  // 求地面海拔 (异步)
-  if (Cesium.defined(params.position) && Cesium.defined(params.position.alt)) {
-    // 存在历史设置的高度时不用处理
-  } else {
-    mars3d.PointUtil.getSurfaceTerrainHeight(map.scene, tiles3dLayer.orginCenterPosition, {
-      asyn: true, // 是否异步求准确高度
-      callback: function (newHeight) {
-        if (newHeight == null) {
-          return
-        }
-        var offsetZ = Math.ceil(newHeight - tiles3dLayer.orginCenterPoint.alt + 1)
-        console.log("地面海拔：" + newHeight.toFixed(2) + ",需要偏移" + offsetZ)
-
-        data.txtZ = offsetZ
-        tiles3dLayer.height = offsetZ
-      }
-    })
-  }
-}
-
-function editor(event, txtZ) {
-  if (Cesium.defined(event.position)) {
-    var pos = event.position
-    var thisZ = txtZ
-    var position = mars3d.PointUtil.setPositionsHeight(pos, thisZ)
-
-    tilesEditor.position = position
-    tiles3dLayer.center = position
-
-    var point = mars3d.LngLatPoint.fromCartesian(position)
-    eventTarget.fire("changePoition", { point })
-  } else if (Cesium.defined(event.heading)) {
-    tiles3dLayer.rotation_z = event.heading
-    eventTarget.fire("changeHeading", { tiles3dLayer })
-  }
-}
-/**
- * 通过面板修改模型，将面板中的参数进行修改
- *
- * @param {object} pannelData 面板改变的值
- * @return {object} params  模型的参数
- */
-function getConfig(pannelData) {
-  let url, maximumScreenSpaceError
-  let tf = false
-  if (pannelData) {
-    url = pannelData.txtModel
-    maximumScreenSpaceError = mars3d.Util.formatNum(pannelData.maximumScreenSpaceError, 1)
-  } else {
-    url = "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json"
-    maximumScreenSpaceError = 8
-    tf = true
-  }
-
-  var params = {
-    name: "模型名称",
-    type: "3dtiles",
-    url: url,
-    maximumScreenSpaceError: maximumScreenSpaceError, // 【重要】数值加大，能让最终成像变模糊
-    maximumMemoryUsage: 1024, // 【重要】内存分配变小有利于倾斜摄影数据回收，提升性能体验
-    // center: map.getCameraView(),
-    show: true
-  }
-  if (tf) {
-    return params
-  }
-
-  var x = mars3d.Util.formatNum(pannelData.txtX, 6)
-  if (x) {
-    params.position = params.position || {}
-    params.position.lng = x
-  }
-
-  var y = mars3d.Util.formatNum(pannelData.txtY, 6)
-  if (y) {
-    params.position = params.position || {}
-    params.position.lat = y
-  }
-
-  var z = mars3d.Util.formatNum(pannelData.txtZ, 6)
-  if (z) {
-    params.position = params.position || {}
-    params.position.alt = z
-  }
-
-  var rotation_x = mars3d.Util.formatNum(pannelData.rotationX, 1)
-  if (rotation_x) {
-    params.rotation = params.rotation || {}
-    params.rotation.x = rotation_x
-  }
-
-  var rotation_y = mars3d.Util.formatNum(pannelData.rotationY, 1)
-  if (rotation_y) {
-    params.rotation = params.rotation || {}
-    params.rotation.y = rotation_y
-  }
-
-  var rotation_z = mars3d.Util.formatNum(pannelData.rotationZ, 1)
-  if (rotation_z) {
-    params.rotation = params.rotation || {}
-    params.rotation.z = rotation_z
-  }
-
-  var luminanceAtZenith = mars3d.Util.formatNum(pannelData.luminanceAtZenith, 1)
-  if (luminanceAtZenith !== 0.2) {
-    params.luminanceAtZenith = luminanceAtZenith
-  }
-
-  var scale = mars3d.Util.formatNum(pannelData.scale || 1, 1)
-  if (scale > 0) {
-    params.scale = scale
-  }
-
-  var axis = pannelData.axis
-  params.axis = axis
-
-  var isProxy = pannelData.chkProxy
-  if (isProxy) {
-    params.proxy = "//server.mars3d.cn/proxy/"
-  }
-
-  return params
-}
-
-// 修改更改后的参数
-function updateModel(pannelData) {
-  // 获取参数
-  var params = getConfig(pannelData)
-
-  params.rotation = params.rotation || {}
-  params.rotation.x = params.rotation.x || 0
-  params.rotation.y = params.rotation.y || 0
-  params.rotation.z = params.rotation.z || 0
-
-  if (tiles3dLayer.transform) {
-    tilesEditor.heading = tiles3dLayer.rotation_z
-    tilesEditor.position = tiles3dLayer.position
-  }
-  tiles3dLayer.tileset.maximumScreenSpaceError = pannelData.maximumScreenSpaceError
-  tiles3dLayer.tileset.luminanceAtZenith = pannelData.luminanceAtZenith
-  tiles3dLayer.opacity = pannelData.opacity
-  tiles3dLayer.setOptions(params)
-  // 深度检测
-  map.scene.globe.depthTestAgainstTerrain = pannelData.depthTestAgainstTerrain
-  // 鼠标拖拽编辑
-  tilesEditor.enabled = pannelData.tilesEditorEnabled
-}
-
-function locate() {
-  if (tiles3dLayer.tileset?.boundingSphere) {
-    map.camera.flyToBoundingSphere(tiles3dLayer.tileset.boundingSphere, {
-      offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, tiles3dLayer.tileset.boundingSphere.radius * 2)
-    })
-  } else {
-    map.flyToPoint(tiles3dLayer.position, {
-      radius: tiles3dLayer.tileset.boundingSphere.radius * 2
-    })
-  }
-}
-
-// 保存GeoJSON
-function saveBookmark(params) {
-  if (params.axis === "") {
-    delete params.axis
-  }
-
-  mars3d.Util.downloadFile("3dtiles图层配置.json", JSON.stringify(getConfig(params)))
-}
-
-function removeLayer() {
-  if (tiles3dLayer) {
-    map.basemap = 2021 // 切换到默认卫星底图
-
-    map.removeLayer(tiles3dLayer, true)
-    tiles3dLayer = null
-  }
-}
 
 // 取构件树数据
 function querySceneTreeData(url) {
-  var scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json"
+  const scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json"
 
   return mars3d.Util.fetchJson({ url: scenetree })
 }
+
 function name2text(o) {
   o.text = o.name
 

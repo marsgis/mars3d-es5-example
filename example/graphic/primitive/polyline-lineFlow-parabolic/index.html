@@ -29,14 +29,22 @@
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
+    <style scoped>
+      .infoview {
+        top: 20px;
+      }
+      .mars-pannel-item-label {
+        margin-left: 16px;
+      }
+    </style>
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <div class="infoview">速度：<input id="txtSpeed" type="text" /></div>
+    <div class="infoview">
+      <div><span class="mars-pannel-item-label"> 速度: &nbsp </span> <input id="txtSpeed" type="text" /></div>
+    </div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>

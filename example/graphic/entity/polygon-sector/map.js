@@ -24,7 +24,10 @@ function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  bindLayerEvent() // 对图层绑定相关事件
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
   bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
@@ -82,10 +85,11 @@ function addDemoGraphic2(graphicLayer) {
       startAngle: 45, // 开始角度(正东方向为0,顺时针到360度)
       endAngle: 170,
       clampToGround: true,
-      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Image, {
+      materialType: mars3d.MaterialType.Image,
+      materialOptions: {
         image: "img/textures/poly-soil.jpg",
         color: Cesium.Color.WHITE.withAlpha(0.8) // 透明度处理
-      })
+      }
     },
     attr: { remark: "示例2" }
   })
@@ -99,16 +103,16 @@ function addDemoGraphic3(graphicLayer) {
       radius: 3000,
       startAngle: 90, // 开始角度(正东方向为0,顺时针到360度)
       endAngle: 20,
-
-      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Water, {
+      materialType: mars3d.MaterialType.Water,
+      materialOptions: {
         normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
-        frequency: 8000.0, // 控制波数的数字。
+        frequency: 80.0, // 控制波数的数字。
         animationSpeed: 0.02, // 控制水的动画速度的数字。
         amplitude: 5.0, // 控制水波振幅的数字。
         specularIntensity: 0.8, // 控制镜面反射强度的数字。
         baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
         blendColor: "#006ab4" // 从水中混合到非水域时使用的rgba颜色对象。
-      })
+      }
     },
     attr: { remark: "示例3" }
   })
@@ -140,31 +144,67 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-// 在图层级处理一些事物
-function bindLayerEvent() {
-  // 在layer上绑定监听事件
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event)
-  })
-  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
-    console.log("监听layer，鼠标移入了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
-    console.log("监听layer，鼠标移出了矢量对象", event)
-  }) */
+// 生成演示数据(测试数据量)
+function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+  graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
-  // 数据编辑相关事件， 用于属性弹窗的交互
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    eventTarget.fire("graphicEditor-start", e)
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      eventTarget.fire("graphicEditor-update", e)
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars3d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const position = result.points[j]
+    const index = j + 1
+
+    const graphic = new mars3d.graphic.Sector({
+      position: position,
+      style: {
+        radius: result.radius,
+        startAngle: Math.random() * 100, // 开始角度(正东方向为0,顺时针到360度)
+        endAngle: Math.random() * 100 + 100,
+        color: Cesium.Color.fromRandom({ alpha: 0.6 })
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  graphicLayer.enabledEvent = true // 恢复事件
+  return result.points.length
+}
+
+// 开始绘制
+function startDrawGraphic() {
+  graphicLayer.startDraw({
+    type: "sector",
+    style: {
+      color: "#29cf34",
+      opacity: 0.5,
+      outline: true,
+      outlineWidth: 3,
+      outlineColor: "#ffffff",
+      label: {
+        text: "我是火星科技",
+        font_size: 18,
+        color: "#ffffff",
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 500000,
+        distanceDisplayCondition_near: 0
+      }
     }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("graphicEditor-stop", e)
+  })
+}
+
+// 开始绘制  绘制立体面
+function startDrawGraphic2() {
+  graphicLayer.startDraw({
+    type: "sector",
+    style: {
+      color: "#00ff00",
+      opacity: 0.5,
+      diffHeight: 300
+    }
   })
 }
 
@@ -188,12 +228,12 @@ function bindLayerContextMenu() {
       icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
+        if (!graphic || !graphic.hasEdit) {
           return false
         }
         return !graphic.isEditing
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -208,18 +248,18 @@ function bindLayerContextMenu() {
       icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
-        if (!graphic) {
+        if (!graphic || !graphic.hasEdit) {
           return false
         }
         return graphic.isEditing
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
         }
         if (graphic) {
-          graphicLayer.stopEditing(graphic)
+          graphic.stopEditing()
         }
       }
     },
@@ -234,12 +274,12 @@ function bindLayerContextMenu() {
           return true
         }
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         if (!graphic) {
           return
         }
-        const parent = graphic._parent // 右击是编辑点时
+        const parent = graphic.parent // 右击是编辑点时
         graphicLayer.removeGraphic(graphic)
         if (parent) {
           graphicLayer.removeGraphic(parent)
@@ -249,7 +289,7 @@ function bindLayerContextMenu() {
     {
       text: "计算周长",
       icon: "fa fa-medium",
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的周长为:" + strDis)
@@ -258,49 +298,11 @@ function bindLayerContextMenu() {
     {
       text: "计算面积",
       icon: "fa fa-reorder",
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         globalAlert("该对象的面积为:" + strArea)
       }
     }
   ])
-}
-
-function updateLayerHasEdit(val) {
-  graphicLayer.hasEdit = val
-}
-
-// 按钮事件
-function startDrawGraphic() {
-  // 开始绘制
-  graphicLayer.startDraw({
-    type: "sector",
-    style: {
-      color: "#29cf34",
-      opacity: 0.5,
-      outline: true,
-      outlineWidth: 3,
-      outlineColor: "#ffffff",
-      label: {
-        text: "我是火星科技",
-        font_size: 18,
-        color: "#ffffff",
-        distanceDisplayCondition: true,
-        distanceDisplayCondition_far: 500000,
-        distanceDisplayCondition_near: 0
-      }
-    }
-  })
-}
-function onClickDrawModelExtruded() {
-  // 开始绘制
-  graphicLayer.startDraw({
-    type: "sector",
-    style: {
-      color: "#00ff00",
-      opacity: 0.5,
-      diffHeight: 300
-    }
-  })
 }

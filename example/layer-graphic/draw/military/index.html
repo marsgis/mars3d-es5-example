@@ -31,8 +31,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
@@ -107,51 +105,10 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
-      eventTarget.on("graphicEditor-start", (e) => {
-        startEditing(e.graphic)
-      })
-
-      eventTarget.on("graphicEditor-update", (e) => {
-        startEditing(e.graphic)
-      })
-      eventTarget.on("graphicEditor-stop", (e) => {
-        stopEditing()
-      })
-
       function initUI() {
         //图层管理的相关处理
         initLayerManager()
       }
-
-      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      let timeTik
-
-      function startEditing(graphic) {
-        if (!graphic) {
-          return
-        }
-        clearTimeout(timeTik)
-
-        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
-        if (plotAttr && plotAttr.isActivate) {
-          plotAttr.startEditing(graphic, graphic.coordinates)
-        } else {
-          mars3d.widget.activate({
-            map: map,
-            uri: "widgets/plotAttr/widget.js",
-            name: "属性编辑",
-            graphic: graphic,
-            lonlats: graphic.coordinates
-          })
-        }
-      }
-
-      function stopEditing() {
-        timeTik = setTimeout(function () {
-          mars3d.widget.disable("widgets/plotAttr/widget.js")
-        }, 200)
-      }
-      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
 
       //在图层级处理一些事物
       function initLayerManager() {
@@ -171,12 +128,12 @@
 
         $("#chkContextMenu").change(function () {
           let val = $(this).is(":checked")
-          bindRinghtMenu(raphicLayer, val)
+          bindRinghtMenu(graphicLayer, val)
         })
 
         $("#chkHasEdit").change(function () {
           let val = $(this).is(":checked")
-          updateLayerHasEdit(val)
+          graphicLayer.hasEdit = val
         })
 
         $("#chkShow").change(function () {
@@ -218,7 +175,63 @@
           let file = this.files[0]
           drawFile(file)
         })
+
+        graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+          let val = $("#chkHasEdit").is(":checked")
+          if (val) {
+            startEditing(e.graphic)
+          }
+        })
+        // 修改了矢量数据
+        graphicLayer.on(
+          [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+          function (e) {
+            let val = $("#chkHasEdit").is(":checked")
+            if (val) {
+              startEditing(e.graphic)
+            }
+          }
+        )
+
+        // 停止编辑
+        graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+          setTimeout(() => {
+            if (!graphicLayer.isEditing) {
+              stopEditing()
+            }
+          }, 100)
+        })
       }
+
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+      let timeTik
+
+      function startEditing(graphic) {
+        if (!graphic) {
+          return
+        }
+        clearTimeout(timeTik)
+
+        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
+        if (plotAttr && plotAttr.isActivate) {
+          plotAttr.startEditing(graphic, graphic.coordinates)
+        } else {
+          mars3d.widget.activate({
+            map: map,
+            uri: "widgets/plotAttr/widget.js",
+            name: "属性编辑",
+            graphic: graphic,
+            lonlats: graphic.coordinates
+          })
+        }
+      }
+
+      function stopEditing() {
+        timeTik = setTimeout(function () {
+          mars3d.widget.disable("widgets/plotAttr/widget.js")
+        }, 200)
+      }
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
     </script>
   </body>
 </html>

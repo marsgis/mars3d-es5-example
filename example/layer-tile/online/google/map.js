@@ -62,8 +62,6 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `按国家测绘主管部门的通知,  目前国家相关部门对未经审核批准的谷歌等地图做了封锁及下架，目前谷歌地图服务暂不可用`)
-
-  eventTarget.fire("mapLoaded")
 }
 
 /**
@@ -77,8 +75,8 @@ function onUnmounted() {
 // 叠加的图层
 let tileLayer
 
-function addLayer() {
-  removeLayer()
+function addTileLayer() {
+  removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.GoogleLayer({
@@ -89,7 +87,7 @@ function addLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeLayer() {
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

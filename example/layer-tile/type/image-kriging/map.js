@@ -18,12 +18,26 @@ var mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+function onUnmounted() {
+  map = null
+}
+
+// 叠加的图层
+let tileLayer
+function addTileLayer() {
+  removeTileLayer()
 
   queryTemperatureData()
     .then(function (geojson) {
       // eslint-disable-next-line no-undef
       const image = loadkriging(geojson.features, kriging_bounds, kriging_colors)
-      const tileLayer = new mars3d.layer.ImageLayer({
+      tileLayer = new mars3d.layer.ImageLayer({
         url: image,
         rectangle: {
           xmin: 73.4766,
@@ -40,12 +54,11 @@ function onMounted(mapInstance) {
     })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
-  map = null
+function removeTileLayer() {
+  if (tileLayer) {
+    map.removeLayer(tileLayer, true)
+    tileLayer = null
+  }
 }
 
 // 数据获取

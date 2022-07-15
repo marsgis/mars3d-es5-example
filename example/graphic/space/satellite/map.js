@@ -1,7 +1,7 @@
 // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
-let weixin
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -17,12 +17,11 @@ var mapOptions = {
   },
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
-    timeline: true, // 是否显示时间线控件
-    compass: { top: "10px", left: "5px" }
+    timeline: true // 是否显示时间线控件
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+let weixin
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -103,7 +102,7 @@ function addGraphicLayer() {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: 10,
       angle2: 5,
-      color: "#6ef500",
+      color: "rgba(0,255,255,0.5)",
       reverse: false,
       show: true
     },

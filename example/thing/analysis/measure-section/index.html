@@ -31,19 +31,16 @@
     <style>
       .sectionChars {
         display: none;
-        width: calc(100% - 220px);
+        width: calc(100% - 300px);
         height: 200px;
         top: auto;
-        left: 100px;
-        right: 100px;
+        left: 56px;
         bottom: 30px;
       }
     </style>
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -110,8 +107,9 @@
         let option = {
           grid: {
             left: 10,
-            right: 10,
+            right: 40,
             bottom: 10,
+            top: 40,
             containLabel: true
           },
           dataZoom: [
@@ -152,6 +150,7 @@
             {
               name: "行程",
               type: "category",
+              nameTextStyle: { color: "rgb(255, 70, 131)" },
               boundaryGap: false,
               axisLine: {
                 show: true
@@ -166,6 +165,7 @@
           yAxis: [
             {
               name: "高程",
+              nameTextStyle: { color: "rgb(255, 70, 131)" },
               type: "value",
               min: getMinZ(arrPoint),
               axisLabel: {

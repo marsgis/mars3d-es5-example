@@ -44,12 +44,13 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // BIM模型处理
-  const layerWorkBIM = map.getLayer(1987, "id")
+  const layerWorkBIM = map.getLayerById(1987)
 
   // 单击事件
   layerWorkBIM.on(mars3d.EventType.click, function (event) {
     console.log("单击了3dtiles图层", event)
   })
+
 
   // 遍历取出所有的feature，并查询其属性
   // layerWorkBIM.readyPromise.then(function (e) {
@@ -59,7 +60,7 @@ function onMounted(mapInstance) {
   //     const featuresLength = content.featuresLength
   //     for (let i = 0; i < featuresLength; i++) {
   //       const feature = content.getFeature(i)
-  //       const attr = layerWorkBIM._getFeatureProperties(feature)
+  //       const attr = mars3d.Util.get3DTileFeatureAttr(feature)
   //       allTileObj[attr.id] = attr
   //     }
   //     // 后续使用allTileObj即可
@@ -92,7 +93,7 @@ function addPlaneClipThing(layerWorkBIM) {
   // 模型裁剪
   tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
     layer: layerWorkBIM,
-    type: mars3d.thing.TilesetPlanClip.Type.ZR,
+    type: mars3d.ClipType.ZR,
     distance: 100,
     clipOutSide: false,
     edgeColor: Cesium.Color.GREY,

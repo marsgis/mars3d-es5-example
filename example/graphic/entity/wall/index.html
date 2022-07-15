@@ -24,7 +24,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d,mars3d-widget"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -37,39 +37,60 @@
       <div>
         图层状态：
         <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkShow" class="styled" type="checkbox" checked />
-          <label for="chkShow"> 显示隐藏 </label>
+          <input id="enabledShowHide" class="styled" type="checkbox" checked />
+          <label for="enabledShowHide"> 显示 </label>
+        </div>
+        <div   class="checkbox checkbox-primary checkbox-inline">
+          透明度：
+          <input id="opacity" style="width: 80px;"/>
         </div>
         <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkPopup" class="styled" type="checkbox" checked />
-          <label for="chkPopup"> Popup绑定 </label>
-        </div>
-        <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkTooltip" class="styled" type="checkbox" />
-          <label for="chkTooltip"> Tooltip绑定 </label>
-        </div>
-        <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkContextMenu" class="styled" type="checkbox" checked />
-          <label for="chkContextMenu"> 右键菜单绑定 </label>
+          <input id="onClickFlyTo" title="视角定位" type="button" class="btn btn-primary" value="定位" />
         </div>
       </div>
+
+      <div>
+        图层交互：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledPopup" class="styled" type="checkbox" checked />
+          <label for="enabledPopup"> 单击Popup </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledTooltip" class="styled" type="checkbox" />
+          <label for="enabledTooltip"> 移入Tooltip </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledRightMenu" class="styled" type="checkbox" />
+          <label for="enabledRightMenu"> 右键菜单绑定 </label>
+        </div>
+      </div>
+
       <div>
         数据维护：
-        <input id="btnStartDraw" type="button" class="btn btn-primary" value="图上标绘" title="在图上绘制新增一个矢量数据" />
-        <input id="btnStartDrawClosure" type="button" class="btn btn-primary" value="闭合墙" />
+        <input onclick="startDrawGraphic()" type="button" class="btn btn-primary" value="绘制墙" title="在图上绘制新增一个矢量数据" />
+        <input onclick="startDrawGraphic2()" type="button" class="btn btn-primary" value="绘制闭合墙" title="在图上绘制新增一个矢量数据" />
 
-        <div class="checkbox checkbox-primary checkbox-inline">
-          <input id="chkHasEdit" class="styled" type="checkbox" />
-          <label for="chkHasEdit"> 是否编辑 </label>
+        <div id="enabledEdit" class="checkbox checkbox-primary checkbox-inline">
+          <input id="hasEdit" class="styled" type="checkbox" />
+          <label for="hasEdit"> 是否编辑 </label>
         </div>
       </div>
-      <div>
-        数据管理：
-        <input id="btnClear" type="button" class="btn btn-danger" value="清除" />
-        <input id="btnExpFile" type="button" class="btn btn-primary" value="保存GeoJSON" title="保存为GeoJSON文件" />
-        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开GeoJSON" title="打开之前保存的GeoJSON文件" />
 
+      <div>
+        数据测试：
+        <input id="count" type="number" value="100" min="1" max="1000000" step="1" class="form-control" style="width: 152px" />条
+
+        <input id="addRandomGraphicByCount" type="button" class="btn btn-primary" value="生成" />
+        <input id="onClickClear" type="button" class="btn btn-danger" value="清除" />
+      </div>
+
+      <div>
+        数据导出：
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开" title="打开GeoJSON" />
         <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
+
+        <input onclick="expGeoJSONFile()" type="button" class="btn btn-primary" value="导出GeoJSON" title="保存GeoJSON" />
+        <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
       </div>
     </div>
 
@@ -78,131 +99,108 @@
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
-    <script src="/js/layer_state.js"></script>
+    <script src="/js/graphic_layer_state.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
-        $("#btnStartDrawClosure").click(function () {
-          onClickDrawModelClosure()
+        bindAttributePannel()
+
+        setTimeout(() => {
+          if (graphicLayer) {
+            $("#enabledShowHide").attr("checked", graphicLayer.show)
+            $("#enabledPopup").attr("checked", graphicLayer.hasPopup())
+            $("#enabledTooltip").attr("checked", graphicLayer.hasTooltip())
+            $("#enabledRightMenu").attr("checked", graphicLayer.hasContextMenu())
+
+            const graphics = graphicLayer.getGraphics()
+            if (graphics.length > 0) {
+              if (!graphics[0].hasOpacity) {
+                $("#enabledOpacity").hide()
+              }
+              if (!graphics[0].hasEdit) {
+                $("#enabledEdit").hide()
+              }
+            }
+          }
+        }, 500)
+
+        // 图层状态
+        $("#enabledShowHide").change(function () {
+          let val = $(this).is(":checked")
+          graphicLayer.show = val
         })
-        initLayerManager()
-      }
-
-      // 属性面板
-      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      let timeTik
-
-      function showEditor(e) {
-        const graphic = e.graphic
-        clearTimeout(timeTik)
-
-        if (!graphic._conventStyleJson) {
-          graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-          graphic._conventStyleJson = true //只处理一次
-        }
-
-        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
-        if (plotAttr && plotAttr.isActivate) {
-          plotAttr.startEditing(graphic, graphic.coordinates)
-        } else {
-          mars3d.widget.activate({
-            map: map,
-            uri: "widgets/plotAttr/widget.js",
-            name: "属性编辑",
-            graphic: graphic,
-            lonlats: graphic.coordinates
+        // 透明度滑动条
+        $("#opacity")
+          .slider({ min: 0.0, max: 1.0, step: 0.1, value: 1 })
+          .on("change", (e) => {
+            if (e?.value) {
+              graphicLayer.opacity = e.value.newValue
+            }
           })
-        }
-      }
-
-      function stopEditing() {
-        timeTik = setTimeout(function () {
-          mars3d.widget.disable("widgets/plotAttr/widget.js")
-        }, 200)
-      }
-
-      eventTarget.on("graphicEditor-start", async (e) => {
-        let val = $("#chkHasEdit").is(":checked")
-        if (val) {
-          showEditor(e)
-        }
-      })
-      // 编辑修改了模型
-      eventTarget.on("graphicEditor-update", async (e) => {
-        let val = $("#chkHasEdit").is(":checked")
-        if (val) {
-          showEditor(e)
-        }
-      })
-
-      // 停止编辑修改模型
-      eventTarget.on("graphicEditor-stop", async (e) => {
-        stopEditing()
-      })
-
-      function initLayerManager() {
-        $("#btnStartDraw").click(function () {
-          startDrawGraphic()
+        $("#onClickFlyTo").click(function () {
+          graphicLayer.flyTo()
         })
 
-        $("#chkPopup").change(function () {
+        // 图层交互
+        $("#enabledPopup").change(function () {
           let val = $(this).is(":checked")
 
           if (val) {
-            bindLayerPopup()
+            bindLayerPopup() //map.js中不绑定Popup,可以使用graphic_layer_state.js中的bindLayerPopup2
           } else {
             graphicLayer.unbindPopup()
           }
         })
-
-        //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
-        $("#chkTooltip").change(function () {
+        $("#enabledTooltip").change(function () {
           let val = $(this).is(":checked")
+
           if (val) {
-            graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+            graphicLayer.bindTooltip(
+              function (event) {
+                const attr = getAttrForEvent(event)
+                attr["类型"] = event.graphic?.type
+                attr["来源"] = "我是layer上绑定的Toolip"
+                attr["备注"] = "我支持鼠标移入交互"
+
+                return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+              },
+              { pointerEvents: true }
+            )
           } else {
             graphicLayer.unbindTooltip()
           }
         })
-
-        //可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-        // bindLayerContextMenu(graphicLayer);
-        $("#chkContextMenu").change(function () {
+        $("#enabledRightMenu").change(function () {
           let val = $(this).is(":checked")
+
           if (val) {
-            bindLayerContextMenu()
+            bindLayerContextMenu() //map.js中不绑定ContextMenu,可以使用graphic_layer_state.js中的bindLayerContextMenu2
           } else {
             graphicLayer.unbindContextMenu(true)
           }
         })
 
-        $("#chkHasEdit").change(function () {
+        // 数据维护
+        $("#hasEdit").change(function () {
           let val = $(this).is(":checked")
-          graphicLayer.hasEdit = val //启用编辑
+          graphicLayer.hasEdit = val
+
+          // 编辑时，为了方便操作自动关闭Popup，真实项目中请按需修改
+          $("#enabledPopup").attr("checked", !val)
+          $("#enabledPopup").change()
         })
 
-        $("#chkShow").change(function () {
-          let val = $(this).is(":checked")
+        // 数据测试 - 生成和清除
+        $("#addRandomGraphicByCount").click(function () {
+          addRandomGraphicByCount($("#count").val())
+          graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
 
-          graphicLayer.show = val //显示隐藏
+                    const graphics = graphicLayer.getGraphics()
+          editorGraphic = graphics[graphics.length - 1]
         })
-
-        $("#btnClear").click(function () {
+        $("#onClickClear").click(function () {
           graphicLayer.clear()
-        })
-
-        $("#btnExpFile").click(function () {
-          // window.layer.msg('该功能在开发完善中……')
-          // return
-
-          if (graphicLayer.length === 0) {
-            window.layer.msg("当前没有标注任何数据，无需保存！")
-            return
-          }
-
-          let geojson = graphicLayer.toGeoJSON()
-          haoutil.file.downloadFile("我的标注.json", JSON.stringify(geojson))
         })
 
         $("#btnImpFile").click(function () {
@@ -210,7 +208,8 @@
         })
 
         $("#input_draw_file").change(function (e) {
-          drawFile(graphicLayer)
+          let file = this.files[0]
+          onClickImpFile(file)
         })
       }
     </script>

@@ -18,14 +18,14 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="https://muyao1987.gitee.io/cdn/marsgis.cn/favicon/favicon.ico" />
-    <title>功能示例 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>积云 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
     <script
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -37,25 +37,81 @@
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
-      大数据加载：
-      <input id="txtCount" type="number" value="1024" min="1" max="10000" step="1" class="form-control" style="width: 80px" />条
+      <div>
+        图层状态：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledShowHide" class="styled" type="checkbox" checked />
+          <label for="enabledShowHide"> 显示 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="onClickFlyTo" title="视角定位" type="button" class="btn btn-primary" value="定位" />
+        </div>
+      </div>
 
-      <input type="button" class="btn btn-primary" value="生成" id="btnAddData" />
-      <input type="button" class="btn btn-primary" value="清除" id="btnClear" />
+      <div>
+        数据维护：
+        <input onclick="startDrawGraphic()" type="button" class="btn btn-primary" value="图上标绘" title="在图上绘制新增一个矢量数据" />
+      </div>
+
+      <div>
+        数据测试：
+        <input id="count" type="number" value="1000" min="1" max="1000000" step="1" class="form-control" style="width: 152px" />条
+
+        <input id="addRandomGraphicByCount" type="button" class="btn btn-primary" value="生成" />
+        <input id="onClickClear" type="button" class="btn btn-danger" value="清除" />
+      </div>
+
+      <div>
+        数据导出：
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开" title="打开GeoJSON" />
+        <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
+
+        <input onclick="expGeoJSONFile()" type="button" class="btn btn-primary" value="导出GeoJSON" title="保存GeoJSON" />
+        <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
+      </div>
     </div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script src="/js/graphic_layer_state.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
-        $("#btnAddData").click(function () {
-          const count = Number($("#txtCount").val())
-          addDemoGraphic(count)
+        setTimeout(() => {
+          if (graphicLayer) {
+            $("#enabledShowHide").attr("checked", graphicLayer.show)
+          }
+        }, 500)
+
+        // 图层状态
+        $("#enabledShowHide").change(function () {
+          let val = $(this).is(":checked")
+          graphicLayer.show = val
         })
-        $("#btnClear").click(function () {
+        $("#onClickFlyTo").click(function () {
+          graphicLayer.flyTo()
+        })
+
+        // 数据测试 - 生成和清除
+        $("#addRandomGraphicByCount").click(function () {
+          addRandomGraphicByCount($("#count").val())
+          graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+
+          const graphics = graphicLayer.getGraphics()
+          editorGraphic = graphics[graphics.length - 1]
+        })
+        $("#onClickClear").click(function () {
           graphicLayer.clear()
+        })
+
+        $("#btnImpFile").click(function () {
+          $("#input_draw_file").click()
+        })
+
+        $("#input_draw_file").change(function (e) {
+          let file = this.files[0]
+          onClickImpFile(file)
         })
       }
     </script>

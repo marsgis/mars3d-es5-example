@@ -30,8 +30,8 @@ function onUnmounted() {
 // 叠加的图层
 let tileLayer
 
-function addLayer() {
-  removeLayer()
+function addTileLayer() {
+  removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.XyzLayer({
@@ -46,7 +46,8 @@ function addLayer() {
   })
   map.addLayer(tileLayer)
 }
-function removeLayer() {
+
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

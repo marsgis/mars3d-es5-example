@@ -62,7 +62,7 @@ function rangeNormalZ(value) {
 
 // 更改切换方向
 function clippingType(type) {
-  modelPlanClip.type = mars3d.thing.ModelPlanClip.Type[type]
+  modelPlanClip.type = mars3d.ClipType[type]
 }
 
 // 绘制线

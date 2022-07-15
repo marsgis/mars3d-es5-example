@@ -43,8 +43,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -62,7 +60,6 @@
         <tbody id="tbPoly"></tbody>
       </table>
     </div>
-
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
@@ -93,6 +90,11 @@
         // 绘制矩形
         $("#btnDrawExtent").click(function () {
           btnDrawExtent()
+        })
+
+        eventTarget.on("addItem", function (event) {
+          let area = event.area
+          addTableItem(area, area.lineId)
         })
       }
 

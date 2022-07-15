@@ -26,10 +26,14 @@
 
   <link href="/css/style.css" rel="stylesheet" />
 </head>
+<style>
+  .LayerPannel{
+    display: flex;
+    margin-top: 10px;
+  }
+</style>
 
 <body class="dark">
-
-
   <div id="mars3dContainer" class="mars3d-container"></div>
 
   <div id="viewSL" class="infoview">
@@ -39,11 +43,95 @@
     <input type="button" class="btn btn-primary" value="风力发电机" onclick="showFenliDemo()" />
     <input type="button" class="btn btn-primary" value="光伏电场" onclick="showGuangfu()" />
     <input type="button" class="btn btn-warning" value="清除" onclick="removeLayer()" />
+
+
+    <div class="LayerPannel">
+      图层交互：
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="enabledShowHide" class="styled" type="checkbox" checked />
+        <label for="enabledShowHide"> 显示 </label>
+      </div>
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="enabledPopup" class="styled" type="checkbox" checked />
+        <label for="enabledPopup"> 单击Popup </label>
+      </div>
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="enabledTooltip" class="styled" type="checkbox" />
+        <label for="enabledTooltip"> 移入Tooltip </label>
+      </div>
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="enabledRightMenu" class="styled" type="checkbox" />
+        <label for="enabledRightMenu"> 右键菜单绑定 </label>
+      </div>
+    </div>
   </div>
+
 
   <script src="/js/common.js"></script>
   <script src="./map.js"></script>
-  <script type="text/javascript">  </script>
+  <script src="/js/graphic_layer_state.js"></script>
+
+  <script type="text/javascript">
+    "use script" //开发环境建议开启严格模式
+    function initUI() {
+      // bindAttributePannel()
+      setTimeout(() => {
+        if (graphicLayer) {
+          $("#enabledShowHide").attr("checked", graphicLayer.show)
+          $("#enabledPopup").attr("checked", graphicLayer.hasPopup())
+          $("#enabledTooltip").attr("checked", graphicLayer.hasTooltip())
+          $("#enabledRightMenu").attr("checked", graphicLayer.hasContextMenu())
+        }
+      }, 500)
+
+      // 图层状态
+      $("#enabledShowHide").change(function () {
+        let val = $(this).is(":checked")
+        graphicLayer.show = val
+      })
+    }
+
+    // 图层交互
+    $("#enabledPopup").change(function () {
+      let val = $(this).is(":checked")
+
+      if (val) {
+        bindLayerPopup() //map.js中不绑定Popup,可以使用graphic_layer_state.js中的bindLayerPopup2
+      } else {
+        graphicLayer.unbindPopup()
+      }
+    })
+
+    $("#enabledTooltip").change(function () {
+      let val = $(this).is(":checked")
+
+      if (val) {
+        graphicLayer.bindTooltip(
+          function (event) {
+            const attr = getAttrForEvent(event)
+            attr["类型"] = event.graphic?.type
+            attr["来源"] = "我是layer上绑定的Toolip"
+            attr["备注"] = "我支持鼠标移入交互"
+
+            return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+          },
+          { pointerEvents: true }
+        )
+      } else {
+        graphicLayer.unbindTooltip()
+      }
+    })
+
+    $("#enabledRightMenu").change(function () {
+      let val = $(this).is(":checked")
+
+      if (val) {
+        bindLayerContextMenu2() //map.js中不绑定ContextMenu,可以使用graphic_layer_state.js中的bindLayerContextMenu2
+      } else {
+        graphicLayer.unbindContextMenu(true)
+      }
+    })
+  </script>
 </body>
 
 </html>

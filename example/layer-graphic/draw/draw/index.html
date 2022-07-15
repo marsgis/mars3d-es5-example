@@ -76,7 +76,7 @@
       <div>
         图层管理：
         <input id="btnClear" type="button" class="btn btn-danger" value="清除" />
-        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开..." />
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开" />
 
         <input id="btnExpFile" type="button" class="btn btn-warning" value="保存GeoJSON" title="保存为GeoJSON文件" />
         <input id="btnSaveKML" type="button" class="btn btn-warning" value="另存KML" />
@@ -223,28 +223,33 @@
         })
 
         $("#input_draw_file").change(function (e) {
-          drawFile(graphicLayer)
+          let file = this.files[0]
+          openGeoJSON(file)
+        })
+
+        graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+          let val = $("#chkHasEdit").is(":checked")
+          if (val) {
+            showEditor(e)
+          }
+        })
+        // 修改了矢量数据
+        graphicLayer.on(
+          [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+          function (e) {
+            showEditor(e)
+          }
+        )
+
+        // 停止编辑
+        graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+          setTimeout(() => {
+            if (!graphicLayer.isEditing) {
+              stopEditing()
+            }
+          }, 100)
         })
       }
-
-      eventTarget.on("graphicEditor-start", async (e) => {
-        let val = $("#chkHasEdit").is(":checked")
-        if (val) {
-          showEditor(e)
-        }
-      })
-      // 编辑修改了模型
-      eventTarget.on("graphicEditor-update", async (e) => {
-        let val = $("#chkHasEdit").is(":checked")
-        if (val) {
-          showEditor(e)
-        }
-      })
-
-      // 停止编辑修改模型
-      eventTarget.on("graphicEditor-stop", async (e) => {
-        stopEditing()
-      })
 
       // 属性面板
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】

@@ -32,12 +32,51 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
     <div class="infoview">
+      <div style="width: 100%; text-align: center; font-size: 16px">数据管理</div>
+      <div>
+        图层状态：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledShowHide" class="styled" type="checkbox" checked />
+          <label for="enabledShowHide"> 显示 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          透明度：
+          <input id="opacity" style="width: 80px" />
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="onClickFlyTo" title="视角定位" type="button" class="btn btn-primary" value="定位" />
+        </div>
+      </div>
+
+      <div>
+        数据维护：
+        <input onclick="startDrawGraphic()" type="button" class="btn btn-primary" value="图上标绘" title="在图上绘制新增一个矢量数据" />
+      </div>
+
+      <div>
+        数据测试：
+        <input id="count" type="number" value="10" min="1" max="1000000" step="1" class="form-control" style="width: 152px" />条
+
+        <input id="addRandomGraphicByCount" type="button" class="btn btn-primary" value="生成" />
+        <input id="onClickClear" type="button" class="btn btn-danger" value="清除" />
+      </div>
+
+      <div>
+        数据导出：
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开" title="打开GeoJSON" />
+        <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
+
+        <input onclick="expGeoJSONFile()" type="button" class="btn btn-primary" value="导出GeoJSON" title="保存GeoJSON" />
+        <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
+      </div>
+    </div>
+
+    <!-- 参数面板 -->
+    <div class="infoview infoview-left">
       <div style="width: 100%; text-align: center; font-size: 16px">参数设置</div>
       <table class="mars-table">
         <tr>
@@ -100,16 +139,82 @@
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script src="/js/graphic_layer_state.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
+      let editorGraphic
       function initUI(options) {
-        //滑动条
+        setTimeout(() => {
+          if (graphicLayer) {
+            $("#enabledShowHide").attr("checked", graphicLayer.show)
+            $("#enabledPopup").attr("checked", graphicLayer.hasPopup())
+            $("#enabledTooltip").attr("checked", graphicLayer.hasTooltip())
+            $("#enabledRightMenu").attr("checked", graphicLayer.hasContextMenu())
+
+            const graphics = graphicLayer.getGraphics()
+            if (graphics.length > 0) {
+              if (!graphics[0].hasOpacity) {
+                $("#enabledOpacity").hide()
+              }
+            }
+            editorGraphic = graphics[graphics.length - 1]
+
+            graphicLayer.on(mars3d.EventType.addGraphic, function (event) {
+              setTimeout(() => {
+                const graphics = graphicLayer.getGraphics()
+                editorGraphic = graphics[graphics.length - 1]
+              }, 50)
+            })
+          }
+        }, 500)
+
+        // 图层状态
+        $("#enabledShowHide").change(function () {
+          let val = $(this).is(":checked")
+          graphicLayer.show = val
+        })
+        // 透明度滑动条
+        $("#opacity")
+          .slider({ min: 0.0, max: 1.0, step: 0.1, value: 1 })
+          .on("change", (e) => {
+            if (e?.value) {
+              graphicLayer.opacity = e.value.newValue
+            }
+          })
+        $("#onClickFlyTo").click(function () {
+          graphicLayer.flyTo()
+        })
+
+        // 数据测试 - 生成和清除
+        $("#addRandomGraphicByCount").click(function () {
+          addRandomGraphicByCount($("#count").val())
+          graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+
+          const graphics = graphicLayer.getGraphics()
+          editorGraphic = graphics[graphics.length - 1]
+        })
+        $("#onClickClear").click(function () {
+          graphicLayer.clear()
+        })
+
+        $("#btnImpFile").click(function () {
+          $("#input_draw_file").click()
+        })
+
+        $("#input_draw_file").change(function (e) {
+          let file = this.files[0]
+          onClickImpFile(file)
+        })
+
+        // 参数设置
         $("#model_heading")
           .slider({ min: 0, max: 360, step: 0.01, value: 0 })
           .on("change", (e) => {
             if (e && e.value) {
-              headingChange(e.value.newValue)
+              if (editorGraphic) {
+                editorGraphic.heading = e.value.newValue
+              }
             }
           })
 
@@ -117,21 +222,27 @@
           .slider({ min: -180, max: 180, step: 0.01, value: 40 })
           .on("change", (e) => {
             if (e && e.value) {
-              pitchChange(e.value.newValue)
+              if (editorGraphic) {
+                editorGraphic.pitch = e.value.newValue
+              }
             }
           })
         $("#model_roll")
           .slider({ min: -180, max: 180, step: 0.01, value: 0 })
           .on("change", (e) => {
             if (e && e.value) {
-              rollChange(e.value.newValue)
+              if (editorGraphic) {
+                editorGraphic.roll = e.value.newValue
+              }
             }
           })
         $("#model_angle1")
           .slider({ min: 0.1, max: 89.9, step: 0.01, value: 5 })
           .on("change", (e) => {
             if (e && e.value) {
-              angle1(e.value.newValue)
+              if (editorGraphic) {
+                editorGraphic.angle1 = e.value.newValue
+              }
             }
           })
 
@@ -139,21 +250,29 @@
           .slider({ min: 0.1, max: 89, step: 0.01, value: 30 })
           .on("change", (e) => {
             if (e && e.value) {
-              angle2(e.value.newValue)
+              if (editorGraphic) {
+                editorGraphic.angle2 = e.value.newValue
+              }
             }
           })
 
         $("#model_length").change(function () {
-          sensorLength(Number($(this).val()))
+          if (editorGraphic) {
+            editorGraphic.length = Number($(this).val())
+          }
         })
 
         $("#chkShowTop").change(function () {
           let val = $(this).is(":checked")
-          sensorTop(val)
+          if (editorGraphic) {
+            editorGraphic.topShow = val
+          }
         })
         $("#chkShow").change(function () {
           let val = $(this).is(":checked")
-          sensorShowHide(val)
+          if (editorGraphic) {
+            editorGraphic.show = val
+          }
         })
       }
     </script>

@@ -80,7 +80,7 @@ function startPoint(type) {
     .startDraw({
       type: "billboard",
       style: {
-        image: "img/marker/start.png",
+        image: "img/marker/route-start.png",
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       }
@@ -113,7 +113,7 @@ function endPoint(type) {
     .startDraw({
       type: "billboard",
       style: {
-        image: "img/marker/end.png",
+        image: "img/marker/route-end.png",
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       }

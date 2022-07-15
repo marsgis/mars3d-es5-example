@@ -46,6 +46,7 @@
       .but_addtxtName {
         height: 80%;
         margin: 8px 10px 0 2px;
+        color: #fff;
         border: 1px solid rgba(0, 225, 255);
         background: rgba(0, 225, 255, 0.199);
         border-radius: 5px;
@@ -131,7 +132,7 @@
     <div class="infoview">
       <div class="bookmarkInput">
         <input class="textInputName" id="txtName" placeholder="输入名称" />
-        <button class="but_addtxtName" id="addtxtName">添加</button>
+        <button class="but_addtxtName" id="addtxtName"> 添加 </button>
       </div>
       <div class="bookmarkView">
         <table>
@@ -202,11 +203,16 @@
           const arrViewItem = {
             id: index++,
             name: item.name,
-            image: item.image
+            image: item.img
           }
 
           arrView.push(arrViewItem)
           addBookmark(arrViewItem)
+
+          // 添加数据时，将添加按钮改为白色
+          if (arrView.length > 0) {
+            $("#addtxtName").css("color", "white")
+          }
         })
       }
 
@@ -238,6 +244,11 @@
           }
           // 将删除之后的记录到历史
           localforage.setItem("bookmark", arrView)
+
+          // 没有数据展示时，将按钮变成黑色
+          if (arrView.length <= 0) {
+            $("#addtxtName").css("color", "black")
+          }
         })
 
         // 飞向视角

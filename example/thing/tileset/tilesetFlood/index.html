@@ -32,8 +32,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -96,7 +94,6 @@
       </div>
     </div>
 
-
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
     <script type="text/javascript">
@@ -105,11 +102,11 @@
       function initUI(options) {
         // 播放暂停按钮
         $("#btn_start").click(function () {
-          if (tilesetFlood.isStart) {
-            tilesetFlood.stop()
+          if (tilesetLayer.flood.isStart) {
+            tilesetLayer.flood.stop()
             $("#btn_start").val("自动播放")
           } else {
-            tilesetFlood.start()
+            tilesetLayer.flood.start()
             $("#btn_start").val("暂停")
           }
         })

@@ -103,6 +103,26 @@
             toYLMS()
           }
         })
+
+        graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+          showEditor(e)
+        })
+        // 修改了矢量数据
+        graphicLayer.on(
+          [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+          function (e) {
+            showEditor(e)
+          }
+        )
+
+        // 停止编辑
+        graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+          setTimeout(() => {
+            if (!graphicLayer.isEditing) {
+              stopEditing()
+            }
+          }, 100)
+        })
       }
 
       // 属性面板
@@ -137,19 +157,6 @@
           mars3d.widget.disable("widgets/plotAttr/widget.js")
         }, 200)
       }
-
-      eventTarget.on("graphicEditor-start", async (e) => {
-        showEditor(e)
-      })
-      // 编辑修改了模型
-      eventTarget.on("graphicEditor-update", async (e) => {
-        showEditor(e)
-      })
-
-      // 停止编辑修改模型
-      eventTarget.on("graphicEditor-stop", async (e) => {
-        stopEditing()
-      })
 
       function clearSelectFile() {
         if (!window.addEventListener) {

@@ -100,29 +100,31 @@
           let tbody = document.getElementById("tbPoly")
           tbody.innerHTML = ""
 
-          showDytDemo($("#chkShowLine").is(":checked"))
+          showDytDemo()
         })
         $("#showTehDemo").click(function () {
           // 清除表格
           let tbody = document.getElementById("tbPoly")
           tbody.innerHTML = ""
 
-          showTehDemo($("#chkShowLine").is(":checked"))
+          showTehDemo()
         })
         $("#showQxShequDemo").click(function () {
           // 清除表格
           let tbody = document.getElementById("tbPoly")
           tbody.innerHTML = ""
 
-          showQxShequDemo($("#chkShowLine").is(":checked"))
+          showQxShequDemo()
         })
 
         // 绘制开挖区域
         $("#btnDraw").click(function () {
-          btnDraw($("#chkShowLine").is(":checked"))
+          let num = Number($(this).val())
+          btnDraw(num)
         })
         $("#btnDrawExtent").click(function () {
-          btnDrawExtent($("#chkShowLine").is(":checked"))
+          let num = Number($(this).val())
+          btnDrawExtent(num)
         })
 
         // 边界线
@@ -145,14 +147,9 @@
         })
       }
 
-      eventTarget.on("dataLoaded", function (event) {
-        event.list.map((item) => {
-          addTable(item)
-        })
-      })
-
       eventTarget.on("addItem", function (event) {
-        addTable(event.data.item, event.data.id)
+        let area = event.area
+        addTable(area, area.lineId)
       })
 
       // 区域表格添加一行记录 item - 压平数据 ；lineId - 压平线id

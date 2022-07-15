@@ -113,7 +113,8 @@ var mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  addLayer()
+
+  addTileLayer()
 }
 
 /**
@@ -126,8 +127,8 @@ function onUnmounted() {
 
 // 叠加的图层
 let arcGisLayer
-function addLayer() {
-  removeLayer()
+function addTileLayer() {
+  removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   arcGisLayer = new mars3d.layer.ArcGisLayer({
@@ -164,7 +165,8 @@ function addLayer() {
     console.log("单击了矢量数据，共" + event.features.length + "条", event)
   })
 }
-function removeLayer() {
+
+function removeTileLayer() {
   if (arcGisLayer) {
     map.removeLayer(arcGisLayer, true)
     arcGisLayer = null
