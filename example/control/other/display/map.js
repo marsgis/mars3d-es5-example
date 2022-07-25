@@ -108,3 +108,8 @@ function bindNav(val) {
 function bindLegend(val) {
   map.controls.distanceLegend.show = val
 }
+
+// 图层
+function bindLayer(val) {
+  document.getElementById("mars-manage-layer-btn").style.display = val ? "inline-block" : "none"
+}

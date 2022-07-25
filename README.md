@@ -1,6 +1,6 @@
  
 <p align="center">
-<img src="https://muyao1987.gitee.io/cdn/mars3d.cn/logo.png" width="300px" />
+<img src="//mars3d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于传统JS技术栈的 Mars3D🌎功能示例</p>
