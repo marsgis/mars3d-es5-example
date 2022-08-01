@@ -5,19 +5,20 @@
 
 <p align="center">基于传统JS技术栈的 Mars3D🌎功能示例</p>
 
-
 <p align="center">
-<a target="_black" href="https://github.com/marsgis/mars3d">
-<img alt="GitHub stars" src="https://img.shields.io/github/stars/marsgis/mars3d?style=flat&logo=github">
-</a>
-<a target="_black" href="https://www.npmjs.com/package/mars3d">
-<img alt="Npm downloads" src="https://img.shields.io/npm/dt/mars3d?style=flat&logo=npm">
-</a>
-<a target="_black" href="https://www.npmjs.com/package/mars3d">
-<img alt="Npm version" src="https://img.shields.io/npm/v/mars3d.svg?style=flat&logo=npm&label=version"/>
-</a>
+  <a target="_black" href="https://www.npmjs.com/package/mars3d">
+    <img alt="Npm version" src="https://img.shields.io/npm/v/mars3d.svg?style=flat&logo=npm&label=版本号" />
+  </a>
+  <a target="_black" href="https://www.npmjs.com/package/mars3d">
+    <img alt="Npm downloads" src="https://img.shields.io/npm/dt/mars3d?style=flat&logo=npm&label=下载量" />
+  </a>
+  <a target="_black" href="https://github.com/marsgis/mars3d">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/marsgis/mars3d?style=flat&logo=github" />
+  </a>
+  <a target="_black" href="https://gitee.com/marsgis/mars3d">
+    <img src="https://gitee.com/marsgis/mars3d/badge/star.svg?theme=dark" alt="star" />
+  </a>
 </p>
-
 
 
 功能示例项目，是基于[Mars3D 平台](http://mars3d.cn)做的一个按每个单独功能进行单页面展示、并且支持修改编辑代码实时运行的一个演示功能的系统。
