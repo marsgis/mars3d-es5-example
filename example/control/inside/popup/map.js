@@ -209,6 +209,7 @@ function bindGraphicDemo1() {
     console.log("移除了popup", container)
   })
 
+
   // 绑定Popup
   graphic.bindPopup(getInnerHtml).openPopup()
 }
@@ -267,7 +268,7 @@ function bindGraphicDemo2() {
   })
 
   // 绑定Popup
-  graphic.bindPopup(innerHtml, { offsetY: -30 }).openPopup()
+  graphic.bindPopup(innerHtml, { offsetY: -30, closeOnClick: false, autoClose: false }).openPopup()
 }
 
 // 只是为了演示，可以单击详情
