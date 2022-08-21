@@ -46,6 +46,75 @@
 <body class="dark">
   <div id="mars3dContainer" class="mars3d-container"></div>
 
+  <div class="infoview">
+    <input id="btnAddLayer" type="button" class="btn btn-primary" value="叠加图层" onclick="addTileLayer()" />
+    <input id="btnRemoveLayer" type="button" class="btn btn-primary" value="移除图层" onclick="removeTileLayer()" />
+
+    <input id="showTable" class="styled" type="checkbox" checked value="显示列表">显示列表</input>
+
+    <!-- 操作单个记录 -->
+    <div id="layerTable">
+      <table class="mars-table flatTable">
+        <thead>
+          <th>名称</th>
+          <th>编辑</th>
+        </thead>
+        <tbody id="tbPoly"></tbody>
+      </table>
+
+      <div id="showEditor">
+        <h4 class="title" id="layerName">底图参数</h4>
+        <table class="mars-table">
+          <tbody>
+            <tr>
+              <td>状态</td>
+              <td>
+                <input id="show" class="styled" type="checkbox" checked value="显示">显示</input>
+              </td>
+            </tr>
+            <tr>
+              <td>亮度</td>
+              <td>
+                <input id="brightness" title="亮度" />
+              </td>
+            </tr>
+            <tr>
+              <td>对比度</td>
+              <td>
+                <input id="contrast" title="对比度" />
+              </td>
+            </tr>
+            <tr>
+              <td>色彩</td>
+              <td>
+                <input id="hue" title="色彩" />
+              </td>
+            </tr>
+            <tr>
+              <td>饱和度</td>
+              <td>
+                <input id="saturation" title="饱和度" />
+              </td>
+            </tr>
+            <tr>
+              <td>伽马值</td>
+              <td>
+                <input id="gamma" title="伽马值" />
+              </td>
+            </tr>
+            <tr>
+              <td>透明度</td>
+              <td>
+                <input id="opacity" title="透明度" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
   <script src="/js/common.js"></script>
   <script src="./map.js"></script>
   <script src="/js/tile_layer_state.js"></script>
