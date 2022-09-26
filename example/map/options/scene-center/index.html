@@ -66,10 +66,71 @@
           <tr>
             <td><input type="button" class="btn btn-primary" value="停止视角定位" onclick="mapCancelFlyTo()" /></td>
           </tr>
+          <tr>
+            <td>经度值：</td>
+            <td>
+              <input id="lngIpt" type="text" value="" required class="form-control" />
+            </td>
+          </tr>
+          <tr>
+            <td>纬度值：</td>
+            <td>
+              <input id="latIpt" type="text" value="" required class="form-control" />
+            </td>
+          </tr>
+          <tr>
+            <td>高度值：</td>
+            <td>
+              <input id="altIpt" type="text" value="" required class="form-control"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>方向角：</td>
+            <td>
+              <input id="headingIpt" type="text" value="" required class="form-control"/>
+            </td>
+          </tr>
+          <tr>
+            <td>俯仰角：</td>
+            <td>
+              <input id="pitchIpt" type="text" value="" required class="form-control"/>
+            </td>
+          </tr>
+          <tr>
+            <td>翻滚角：</td>
+            <td>
+              <input id="rollIpt" type="text" value="" required class="form-control"/>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+
+      function initUI(options) {
+        // 初次赋值
+        const inputObj = map.getCameraView()
+        giveIptValue(inputObj)
+
+        map.on("cameraChanged", function (event) {
+          const inputObj = map.getCameraView()
+          giveIptValue(inputObj)
+        })
+      }
+
+      function giveIptValue(inputObj) {
+        $("#lngIpt").val(inputObj.lng)
+        $("#latIpt").val(inputObj.lat)
+        $("#altIpt").val(inputObj.alt)
+        $("#headingIpt").val(inputObj.heading)
+        $("#pitchIpt").val(inputObj.pitch)
+        $("#rollIpt").val(inputObj.roll)
+      }
+    </script>
   </body>
 </html>

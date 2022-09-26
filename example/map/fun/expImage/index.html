@@ -36,6 +36,12 @@
       .infoview {
         width: 213px;
       }
+
+      .imgShorScreen {
+        margin-bottom: 10px;
+      }
+
+
     </style>
   </head>
 
@@ -55,6 +61,10 @@
       <div class="f-mb">
         <input type="button" class="btn btn-primary" id="downLoadDiv" value="下载场景出图(含DIV部分)" />
       </div>
+      <div>
+        <img class="f-mb imgShorScreen" id="shotScreenImg"  style="display: none; width:100%" />
+        <input type="button" class="btn btn-primary" id="shotScreenBtn" value="截图" />
+      </div>
     </div>
 
     <script src="/js/common.js"></script>
@@ -63,6 +73,7 @@
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
+
         // 查看场景出图
         $("#showMapImg").click(function () {
           showMapImg().then((image) => {
@@ -79,6 +90,7 @@
         })
 
         $("#downLoad").click(function () {
+          console.log("down");
           downLoad()
         })
 
@@ -88,6 +100,17 @@
 
         $("#downLoadDiv").click(function () {
           downLoadDiv()
+        })
+
+        $("#shotScreenBtn").click(function () {
+          shotScreen()
+        })
+      }
+
+      function shotScreen() {
+        showMapImg().then((image) => {
+          $("#shotScreenImg").show()
+          $("#shotScreenImg").attr("src", image)
         })
       }
     </script>

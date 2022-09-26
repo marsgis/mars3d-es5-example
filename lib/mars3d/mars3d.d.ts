@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.4.5
- * 编译日期：2022-08-21 17:12:50
+ * 版本信息：v3.4.8
+ * 编译日期：2022-09-26 09:04:57
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-06-01
  */
@@ -1163,6 +1163,7 @@ declare namespace MaterialType {
      * @property [repeat = new Cesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
      * @property [speed = 10] - 速度，值越大越快
      * @property [axisY = false] - 是否Y轴朝上
+     * @property [mixt = false] - 默认为color颜色，true时color颜色与图片颜色混合
      * @property [hasImage2 = false] - 是否有2张图片的混合模式
      * @property [image2 = Cesium.Material.DefaultImageId] - 第2张背景图片URL地址
      * @property [color2 = new Cesium.Color(1, 1, 1)] - 第2张背景图片颜色
@@ -2141,10 +2142,6 @@ declare class Timeline extends BaseControl {
      * @param stopTime - 结束时间
      */
     zoomTo(startTime: Cesium.JulianDate, stopTime: Cesium.JulianDate): void;
-    /**
-     * 父容器DOM对象
-     */
-    readonly parentContainer: HTMLElement;
 }
 
 declare namespace ToolButton {
@@ -3639,8 +3636,8 @@ declare class BaseGraphic extends BaseClass {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -3751,9 +3748,9 @@ declare class BaseGraphic extends BaseClass {
     /**
      * 是否有绑定的右键菜单
      * @param [hasLayer = true] - 是否判断图层上的右键菜单
-     * @returns 当前对象本身，可以链式调用
+     * @returns 是否有绑定
      */
-    hasContextMenu(hasLayer?: boolean): BaseGraphic | any;
+    hasContextMenu(hasLayer?: boolean): boolean;
     /**
      * 获取绑定的右键菜单数组
      * @param [hasLayer = true] - 是获取图层上的右键菜单
@@ -5043,10 +5040,10 @@ declare class WaterCombine extends PolygonCombine {
     constructor(options: {
         instances?: {
             positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
-            style?: PolygonPrimitive.StyleOptions | any;
+            style?: Water.StyleOptions | any;
             attr?: any;
         }[];
-        style?: PolygonPrimitive.StyleOptions | any;
+        style?: Water.StyleOptions | any;
         highlight?: {
             type?: string;
         };
@@ -5178,7 +5175,7 @@ declare class ArcFrustum extends BasePointPrimitive {
  * @param [options.camera.type] - 视角模式类型，包括：'':无、'gs':跟随视角、'dy':第一视角、'sd':上帝视角
  * @param [options.camera.radius] - 'gs'跟随视角时的 初始俯仰距离值（单位：米）
  * @param [options.camera.heading] - 'gs'跟随视角时的 初始方向角度值，绕垂直于地心的轴旋转角度, 0至360
- * @param [options.camera.pitch] - 'gs'跟随视角时的 初始俯仰角度值，绕纬度线旋转角度, 0至360
+ * @param [options.camera.pitch] - 'gs'跟随视角时的 初始俯仰角度值，绕纬度线旋转角度, -90至90
  * @param [options.camera.followedX = 50] - 'dy'锁定第一视角时，距离运动点的距离（后方）
  * @param [options.camera.followedZ = 10] - 'dy'锁定第一视角或'sd'上帝视角时，距离运动点的高度（上方）
  * @param [options.camera.offsetX = 0] - 'dy'锁定第一视角时，锁定点的本身的X轴方向（前后）偏移值
@@ -5534,7 +5531,7 @@ declare namespace Route {
  * @param [options.camera.type] - 视角模式类型，包括：'':无、'gs':跟随视角、'dy':第一视角、'sd':上帝视角
  * @param [options.camera.radius] - 'gs'跟随视角时的 初始俯仰距离值（单位：米）
  * @param [options.camera.heading] - 'gs'跟随视角时的 初始方向角度值，绕垂直于地心的轴旋转角度, 0至360
- * @param [options.camera.pitch] - 'gs'跟随视角时的 初始俯仰角度值，绕纬度线旋转角度, 0至360
+ * @param [options.camera.pitch] - 'gs'跟随视角时的 初始俯仰角度值，绕纬度线旋转角度, -90至90
  * @param [options.camera.followedX = 50] - 'dy'锁定第一视角时，距离运动点的距离（后方）
  * @param [options.camera.followedZ = 10] - 'dy'锁定第一视角或'sd'上帝视角时，距离运动点的高度（上方）
  * @param [options.camera.offsetX = 0] - 'dy'锁定第一视角时，锁定点的本身的X轴方向（前后）偏移值
@@ -6108,6 +6105,10 @@ declare class DivBoderLabel extends DivGraphic {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+    /**
+     * 设置或获取当前对象对应的Html
+     */
+    html: string | HTMLDivElement;
 }
 
 declare namespace DivGraphic {
@@ -6466,6 +6467,10 @@ declare class DivLightPoint extends DivGraphic {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+    /**
+     * 设置或获取当前对象对应的Html
+     */
+    html: string | HTMLDivElement;
 }
 
 declare namespace DivUpLabel {
@@ -6569,6 +6574,10 @@ declare class DivUpLabel extends DivGraphic {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+    /**
+     * 设置或获取当前对象对应的Html
+     */
+    html: string | HTMLDivElement;
 }
 
 /**
@@ -6630,6 +6639,7 @@ declare namespace Popup {
      * @property [zIndex = "10000000"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
      * @property [depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
      * @property [hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
+     * @property [checkData] - 在多个Popup时，校验是否相同Popup进行判断关闭
      */
     type StyleOptions = any | {
         html?: string;
@@ -6663,6 +6673,7 @@ declare namespace Popup {
         zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
+        checkData?: (...params: any[]) => any;
     };
 }
 
@@ -7112,10 +7123,10 @@ declare class BasePointEntity extends BaseEntity {
     getCoordinate(noAlt: boolean): any[];
     /**
      * 按Cesium.CallbackProperty的方式 更新坐标（更加平滑）
-     * @param position - 坐标
+     * @param [position] - 坐标
      * @returns 当前坐标
      */
-    setCallbackPosition(position: string | any[] | any | Cesium.Cartesian3 | any): Cesium.Cartesian3;
+    setCallbackPosition(position?: string | any[] | any | Cesium.Cartesian3 | any): Cesium.Cartesian3;
     /**
      * 显示隐藏状态
      */
@@ -7255,10 +7266,10 @@ declare class BasePolyEntity extends BaseEntity {
     }): Promise<any>;
     /**
      * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
-     * @param positions - 坐标数组
+     * @param [positions] - 坐标数组
      * @returns 当前坐标集合
      */
-    setCallbackPositions(positions: string[] | any[][] | LngLatPoint[]): Cesium.Cartesian3[];
+    setCallbackPositions(positions?: string[] | any[][] | LngLatPoint[]): Cesium.Cartesian3[];
 }
 
 declare namespace BillboardEntity {
@@ -7568,7 +7579,7 @@ declare class BoxEntity extends BasePointEntity {
 declare namespace CanvasLabelEntity {
     /**
      * Canvas 文本点（label转图片） 支持的样式信息
-     * @property [text = "文字"] - 文本内容，换行可以用换行符'\n'。
+     * @property [text = "文字"] - 文本内容  (提示：暂不支持换行)
      * @property [scale = 1.0] - 指定缩放比例。
      * @property [horizontalOrigin] - 横向方向的定位
      * @property [verticalOrigin] - 垂直方向的定位
@@ -7912,8 +7923,8 @@ declare class CircleEntity extends BasePointEntity {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -9288,10 +9299,10 @@ declare namespace ModelEntity {
      * gltf小模型 支持的样式信息
      * @property [url] - glTF模型的URI的字符串或资源属性。
      * @property [scale = 1] - 比例
-     * @property [heading = 0] - 方向角 （度数值，0-360度）
-     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
-     * @property [roll = 0] - 翻滚角（度数值，0-360度）
-     * @property [noPitchRoll] - 当addDynamicPosition时，设置为true时，可以设置模型只动态更改方向，内部固定模型的Pitch和Roll方向值为0
+     * @property [heading = 0] - 方向角 （度数值，0-360度），优先级高于orientation
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度），优先级高于orientation
+     * @property [roll = 0] - 翻滚角（度数值，0-360度），优先级高于orientation
+     * @property [mergeOrientation = false] - 当存在orientation时（如addDynamicPosition等），设置为true时，是在orientation基础的方式值上加上设置是heading、pitch、roll值，比如用于设置模型不是标准的方向时的纠偏处理
      * @property [radius] - 编辑时，半径圆圈的半径，默认自动
      * @property [minimumPixelSize = 0.0] - 指定模型的近似最小像素大小，而不考虑缩放。
      * @property [maximumScale] - 模型的最大比例尺寸。minimumPixelSize的上限。
@@ -9331,7 +9342,7 @@ declare namespace ModelEntity {
         heading?: number;
         pitch?: number;
         roll?: number;
-        noPitchRoll?: boolean;
+        mergeOrientation?: boolean;
         radius?: number;
         minimumPixelSize?: number;
         maximumScale?: number;
@@ -9384,7 +9395,6 @@ declare namespace ModelEntity {
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.fixedHeading] - 当使用addDynamicPosition设置为动画轨迹位置时，是否使用固定的heading角度，而不用路线的自动方向角度。
  * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
@@ -9424,7 +9434,6 @@ declare class ModelEntity extends BasePointEntity {
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         maxCacheCount?: number;
-        fixedHeading?: boolean;
         forwardExtrapolationType?: Cesium.ExtrapolationType;
         backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
@@ -9464,6 +9473,14 @@ declare class ModelEntity extends BasePointEntity {
      * 模型整体的缩放比例
      */
     scale: number;
+    /**
+     * 获取模型完成解析加载完成的Promise承诺, 等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
+     * @example
+     * model.readyPromise.then(function(layer) {
+     *     console.log("load完成", layer)
+     *   })
+     */
+    readonly readyPromise: Promise<ModelEntity | any>;
     /**
      * 获取模型的当前时间的实际hpr角度(如动态模型)
      * @returns Heading Pitch Roll方向
@@ -9508,8 +9525,8 @@ declare class ModelEntity extends BasePointEntity {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -9698,8 +9715,8 @@ declare class PathEntity extends BasePointEntity {
      * @param [options = {}] - 具有以下属性的对象:
      * @param [options.radius] - 相机距离目标点的距离（单位：米）
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options.duration] - 飞行持续时间（秒）。如果省略，内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.endTransform] - 表示飞行完成后摄像机将位于的参考帧的变换矩阵。
      * @param [options.maximumHeight] - 飞行高峰时的最大高度。
@@ -9999,6 +10016,7 @@ declare namespace PolygonEntity {
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
      * @property [outlineStyle] - 边框的完整自定义样式，会覆盖outlineWidth、outlineColor等参数。
+     * //  * @property {Boolean} [outlineStyle.closure = true] 边线是否闭合
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
@@ -10173,10 +10191,10 @@ declare class PolygonEntity extends BasePolyEntity {
     readonly center: Cesium.Cartesian3;
     /**
      * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
-     * @param positions - 坐标数组
+     * @param [positions] - 坐标数组
      * @returns 当前坐标集合
      */
-    setCallbackPositions(positions: string[] | any[][] | LngLatPoint[]): Cesium.Cartesian3[];
+    setCallbackPositions(positions?: string[] | any[][] | LngLatPoint[]): Cesium.Cartesian3[];
 }
 
 declare namespace PolylineEntity {
@@ -10646,8 +10664,8 @@ declare class RectangleEntity extends BasePolyEntity {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -11726,6 +11744,7 @@ declare class Regular extends PolygonEntity {
  * @param options.style.radius - 扇形区域的半径（单位：米）
  * @param options.style.startAngle - 扇形区域的开始角度(正东方向为0,顺时针到360度)
  * @param options.style.endAngle - 扇形区域的结束角度(正东方向为0,顺时针到360度)
+ * @param [options.style.noCenter] - 不连中心点
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.availability] - 与该对象关联的可用性(如果有的话)。
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
@@ -11751,6 +11770,7 @@ declare class Sector extends PolygonEntity {
             radius: number;
             startAngle: number;
             endAngle: number;
+            noCenter?: boolean;
         };
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -11781,12 +11801,14 @@ declare class Sector extends PolygonEntity {
      * @param options.radius - 扇形区域的半径（单位：米）
      * @param options.startAngle - 扇形区域的开始角度(正东方向为0,顺时针到360度)
      * @param options.endAngle - 扇形区域的结束角度(正东方向为0,顺时针到360度)
+     * @param [options.noCenter] - 不连中心点
      * @returns 边界坐标点
      */
     static getOutlinePositions(center: Cesium.Cartesian3, options: {
         radius: number;
         startAngle: number;
         endAngle: number;
+        noCenter?: boolean;
     }): Cesium.Cartesian3[];
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Cesium.PolygonHierarchy
@@ -13320,8 +13342,8 @@ declare class CirclePrimitive extends BasePointPrimitive {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -14512,10 +14534,10 @@ declare namespace ModelPrimitive {
      * @property [scaleX = 1] - X轴方向缩放比例
      * @property [scaleY = 1] - Y轴方向缩放比例
      * @property [scaleZ = 1] - Z轴方向缩放比例
-     * @property [heading = 0] - 方向角 （度数值，0-360度）
-     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
-     * @property [roll = 0] - 翻滚角（度数值，0-360度）
-     * @property [noPitchRoll] - 当addDynamicPosition时，设置为true时，可以设置模型只动态更改方向，内部固定模型的Pitch和Roll方向值为0
+     * @property [heading = 0] - 方向角 （度数值，0-360度），优先级高于orientation
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度），优先级高于orientation
+     * @property [roll = 0] - 翻滚角（度数值，0-360度），优先级高于orientation
+     * @property [mergeOrientation = false] - 当存在orientation时（如addDynamicPosition等），设置为true时，可以在orientation基础的方式值上叠加设置是heading、pitch、roll值，比如用于设置模型不是标准的方向时的处理
      * @property [minimumPixelSize = 0.0] - 指定模型的近似最小像素大小，而不考虑缩放。
      * @property [maximumScale] - 模型的最大比例尺寸。minimumPixelSize的上限。
      * @property [fill = false] - 是否填充，指定与模型渲染颜色混合
@@ -14573,7 +14595,7 @@ declare namespace ModelPrimitive {
         heading?: number;
         pitch?: number;
         roll?: number;
-        noPitchRoll?: boolean;
+        mergeOrientation?: boolean;
         minimumPixelSize?: number;
         maximumScale?: number;
         fill?: boolean;
@@ -14638,7 +14660,6 @@ declare namespace ModelPrimitive {
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
  * @param [options.attributes] - [cesium原生]每个实例的属性。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.fixedHeading] - 当使用addDynamicPosition设置为动画轨迹位置时，是否使用固定的heading角度，而不用路线的自动方向角度。
  * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
@@ -14666,7 +14687,6 @@ declare class ModelPrimitive extends BasePointPrimitive {
         appearance?: Cesium.Appearance;
         attributes?: Cesium.Appearance;
         maxCacheCount?: number;
-        fixedHeading?: boolean;
         forwardExtrapolationType?: Cesium.ExtrapolationType;
         backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
@@ -16044,9 +16064,9 @@ declare namespace BaseGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16168,9 +16188,9 @@ declare class BaseGraphicLayer extends BaseLayer {
     closeTooltip(): BaseGraphicLayer;
     /**
      * 是否有绑定的右键菜单
-     * @returns 当前对象本身，可以链式调用
+     * @returns 是否有绑定
      */
-    hasContextMenu(): BaseGraphicLayer;
+    hasContextMenu(): boolean;
     /**
      * 获取绑定的右键菜单数组
      * @returns 右键菜单数组
@@ -16268,9 +16288,9 @@ declare class BaseGraphicLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16522,9 +16542,9 @@ declare namespace CzmGeoJsonLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16715,9 +16735,9 @@ declare class CzmGeoJsonLayer extends BaseGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16823,9 +16843,9 @@ declare class CzmlLayer extends CzmGeoJsonLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16922,7 +16942,7 @@ declare class KmlLayer extends CzmGeoJsonLayer {
  * @param [options.maximumLevel] - 图层所支持的最大层级,当地图大于该级别时，平台不去请求服务数据。
  * @param options.rectangle - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -16947,6 +16967,7 @@ declare class KmlLayer extends CzmGeoJsonLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 28] - 圆形图标的整体半径大小（单位：像素）
  * @param [options.clustering.radiusIn = radius-5] - 圆形图标的内圆半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 数字的颜色
@@ -16972,9 +16993,9 @@ declare class KmlLayer extends CzmGeoJsonLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class ArcGisWfsLayer extends LodGraphicLayer {
@@ -17019,6 +17040,7 @@ declare class ArcGisWfsLayer extends LodGraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             radiusIn?: number;
             fontColor?: string;
@@ -17101,9 +17123,9 @@ declare class ArcGisWfsLayer extends LodGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -17218,6 +17240,7 @@ declare class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 26] - 内置样式时，圆形图标的半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 内置样式时，数字的颜色
  * @param [options.clustering.color = 'rgba(181, 226, 140, 0.6)'] - 内置样式时，圆形图标的背景颜色
@@ -17250,9 +17273,9 @@ declare class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -17288,6 +17311,7 @@ declare class BusineDataLayer extends GraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             fontColor?: string;
             color?: string;
@@ -17359,7 +17383,7 @@ declare class BusineDataLayer extends GraphicLayer {
  * @param [options.maximumLevel] - 图层所支持的最大层级,当地图大于该级别时，平台不去请求服务数据。
  * @param options.rectangle - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -17374,6 +17398,7 @@ declare class BusineDataLayer extends GraphicLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 28] - 圆形图标的整体半径大小（单位：像素）
  * @param [options.clustering.radiusIn = radius-5] - 圆形图标的内圆半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 数字的颜色
@@ -17388,9 +17413,9 @@ declare class BusineDataLayer extends GraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -17423,6 +17448,7 @@ declare class GeodePoiLayer extends LodGraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             radiusIn?: number;
             fontColor?: string;
@@ -17559,6 +17585,7 @@ declare namespace GeoJsonLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 26] - 内置样式时，圆形图标的半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 内置样式时，数字的颜色
  * @param [options.clustering.color = 'rgba(181, 226, 140, 0.6)'] - 内置样式时，圆形图标的背景颜色
@@ -17587,9 +17614,9 @@ declare namespace GeoJsonLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -17632,6 +17659,7 @@ declare class GeoJsonLayer extends GraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             fontColor?: string;
             color?: string;
@@ -17709,9 +17737,9 @@ declare class GeoJsonLayer extends GraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GraphicGroupLayer extends GroupLayer {
@@ -17974,6 +18002,7 @@ declare namespace GraphicLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 26] - 内置样式时，圆形图标的半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 内置样式时，数字的颜色
  * @param [options.clustering.color = 'rgba(181, 226, 140, 0.6)'] - 内置样式时，圆形图标的背景颜色
@@ -18002,9 +18031,9 @@ declare namespace GraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -18033,6 +18062,7 @@ declare class GraphicLayer extends BaseGraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             fontColor?: string;
             color?: string;
@@ -18367,9 +18397,9 @@ declare class GraphicLayer extends BaseGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -18465,7 +18495,7 @@ declare namespace LodGraphicLayer {
  * @param [options.maximumLevel] - 图层所支持的最大层级,当地图大于该级别时，平台不去请求服务数据。
  * @param options.rectangle - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -18507,9 +18537,9 @@ declare namespace LodGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -18656,9 +18686,9 @@ declare class LodGraphicLayer extends GraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -18779,9 +18809,10 @@ declare namespace TilesetLayer {
  * 这个值如果设置的过小，导致cesium几乎每帧都在尝试淘汰数据，增加了遍历的时间，也同时增加了崩溃的风险。<br />
  * 这个值如果设置的过大，cesium的淘汰机制失效，那么容易导致显存超过显卡内存，也会导致崩溃。 这个值应该处于最差视角下资源占用 和 显存最大量之间。<br />
  * @param [options.position] - 自定义新的中心点位置（移动模型）
- * @param options.position.lng - 经度值, 180 - 180
- * @param options.position.lat - 纬度值, -90 - 90
- * @param options.position.alt - 高度值（单位：米）
+ * @param [options.position.lng] - 经度值, 180 - 180
+ * @param [options.position.lat] - 纬度值, -90 - 90
+ * @param [options.position.alt] - 高度值（单位：米）
+ * @param [options.position.alt_offset] - 相对于模型本身高度的偏移值（单位：米） ，如果有alt时已alt优先。
  * @param [options.rotation] - 自定义旋转方向（旋转模型）
  * @param options.rotation.x - X方向，角度值0-360
  * @param options.rotation.y - Y方向，角度值0-360
@@ -18857,9 +18888,9 @@ declare namespace TilesetLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TilesetLayer extends BaseGraphicLayer {
@@ -18868,9 +18899,10 @@ declare class TilesetLayer extends BaseGraphicLayer {
         maximumScreenSpaceError?: number;
         maximumMemoryUsage?: number;
         position?: {
-            lng: number;
-            lat: number;
-            alt: number;
+            lng?: number;
+            lat?: number;
+            alt?: number;
+            alt_offset?: number;
         };
         rotation?: {
             x: number;
@@ -19172,10 +19204,6 @@ declare class TilesetLayer extends BaseGraphicLayer {
      */
     stopEditing(): void;
     /**
-     * 透明度，取值范围：0.0-1.0
-     */
-    opacity: number;
-    /**
      * 飞行定位至图层数据所在的视角
      * @param [options = {}] - 参数对象:
      * @param [options.radius] - 点状数据时，相机距离目标点的距离（单位：米）
@@ -19218,7 +19246,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param [options.parameters.sortBy] - 排序的属性名称，默认升序，降序时+D
  * @param [options.parameters.service = 'WFS'] - 服务类型
  * @param [options.parameters.version = '1.0.0'] - 服务版本
- * @param [options.geometryName = 'the_geom'] - geometry字段名称
+ * @param [options.geometryName = 'the_geom'] - geometry字段名称, 比如：geom 或 the_geom
  * @param [options.headers] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
@@ -19228,7 +19256,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param [options.maximumLevel] - 图层所支持的最大层级,当地图大于该级别时，平台不去请求服务数据。
  * @param options.rectangle - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -19252,6 +19280,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param [options.clustering.enabled = false] - 是否开启聚合
  * @param [options.clustering.pixelRange = 20] - 多少像素矩形范围内聚合
  * @param [options.clustering.clampToGround = true] - 是否贴地
+ * @param [options.clustering.style] - 聚合点的样式参数
  * @param [options.clustering.radius = 26] - 内置样式时，圆形图标的半径大小（单位：像素）
  * @param [options.clustering.fontColor = '#ffffff'] - 内置样式时，数字的颜色
  * @param [options.clustering.color = 'rgba(181, 226, 140, 0.6)'] - 内置样式时，圆形图标的背景颜色
@@ -19280,9 +19309,9 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -19338,6 +19367,7 @@ declare class WfsLayer extends LodGraphicLayer {
             enabled?: boolean;
             pixelRange?: number;
             clampToGround?: boolean;
+            style?: BillboardEntity.StyleOptions | any;
             radius?: number;
             fontColor?: string;
             color?: string;
@@ -19397,9 +19427,9 @@ declare class WfsLayer extends LodGraphicLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GroupLayer extends BaseGraphicLayer {
@@ -19572,7 +19602,7 @@ declare class TerrainLayer extends BaseLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -19614,9 +19644,9 @@ declare class TerrainLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class ArcGisCacheLayer extends BaseTileLayer {
@@ -19731,7 +19761,7 @@ declare namespace ArcGisLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -19776,9 +19806,9 @@ declare namespace ArcGisLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class ArcGisLayer extends BaseTileLayer {
@@ -19923,7 +19953,7 @@ declare class ArcGisLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -19965,9 +19995,9 @@ declare class ArcGisLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class ArcGisTileLayer extends BaseTileLayer {
@@ -20064,7 +20094,7 @@ declare class ArcGisTileLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20102,9 +20132,9 @@ declare class ArcGisTileLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class BaiduLayer extends BaseTileLayer {
@@ -20227,7 +20257,7 @@ declare namespace BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20270,9 +20300,9 @@ declare namespace BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class BaseTileLayer extends BaseLayer {
@@ -20485,7 +20515,7 @@ declare class BaseTileLayer extends BaseLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20528,9 +20558,9 @@ declare class BaseTileLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class BingLayer extends BaseTileLayer {
@@ -20627,7 +20657,7 @@ declare class BingLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20640,9 +20670,9 @@ declare class BingLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class EmptyTileLayer extends BaseTileLayer {
@@ -20712,7 +20742,7 @@ declare class EmptyTileLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20753,9 +20783,9 @@ declare class EmptyTileLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GaodeLayer extends BaseTileLayer {
@@ -20842,7 +20872,7 @@ declare class GaodeLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -20884,9 +20914,9 @@ declare class GaodeLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GeeLayer extends BaseTileLayer {
@@ -20979,7 +21009,7 @@ declare class GeeLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21021,9 +21051,9 @@ declare class GeeLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GoogleLayer extends BaseTileLayer {
@@ -21114,7 +21144,7 @@ declare class GoogleLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21148,9 +21178,9 @@ declare class GoogleLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class GridLayer extends BaseTileLayer {
@@ -21227,7 +21257,7 @@ declare class GridLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21266,9 +21296,9 @@ declare class GridLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class ImageLayer extends BaseTileLayer {
@@ -21353,7 +21383,7 @@ declare class ImageLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21396,9 +21426,9 @@ declare class ImageLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class IonLayer extends BaseTileLayer {
@@ -21490,7 +21520,7 @@ declare class IonLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21533,9 +21563,9 @@ declare class IonLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class MapboxLayer extends BaseTileLayer {
@@ -21626,7 +21656,7 @@ declare class MapboxLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21663,9 +21693,9 @@ declare class MapboxLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class OsmLayer extends BaseTileLayer {
@@ -21758,7 +21788,7 @@ declare class OsmLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21798,9 +21828,9 @@ declare class OsmLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TdtLayer extends BaseTileLayer {
@@ -21894,7 +21924,7 @@ declare class TdtLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -21932,9 +21962,9 @@ declare class TdtLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TencentLayer extends BaseTileLayer {
@@ -22018,7 +22048,7 @@ declare class TencentLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -22050,9 +22080,9 @@ declare class TencentLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TileInfoLayer extends BaseTileLayer {
@@ -22124,7 +22154,7 @@ declare class TileInfoLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -22166,9 +22196,9 @@ declare class TileInfoLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TmsLayer extends BaseTileLayer {
@@ -22280,7 +22310,7 @@ declare class TmsLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -22314,9 +22344,9 @@ declare class TmsLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360allowPick
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class WmsLayer extends BaseTileLayer {
@@ -22463,7 +22493,7 @@ declare class WmsLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -22502,9 +22532,9 @@ declare class WmsLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class WmtsLayer extends BaseTileLayer {
@@ -22639,7 +22669,7 @@ declare class WmtsLayer extends BaseTileLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -22695,9 +22725,9 @@ declare class WmtsLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class XyzLayer extends BaseTileLayer {
@@ -22960,9 +22990,9 @@ declare namespace Map {
      * @property center.lng - 经度值, 180 - 180
      * @property center.lat - 纬度值, -90 - 90
      * @property center.alt - 高度值
-     * @property [center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
-     * @property [center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
-     * @property [center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+     * @property [center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+     * @property [center.pitch] - 俯仰角度值，绕纬度线旋转角度,-90至90
+     * @property [center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @property [extent] - 矩形范围 相机视角,与center二选一
      * @property extent.xmin - 最小经度值, -180 至 180
      * @property extent.xmax - 最大经度值, -180 至 180
@@ -23527,6 +23557,10 @@ declare class Map extends BaseClass {
      */
     onlyPickModelPosition: boolean;
     /**
+     * 是否只拾取地形上的点，忽略模型和矢量数据
+     */
+    onlyPickTerrainPosition: boolean;
+    /**
      * 获取鼠标事件控制器
      */
     readonly mouseEvent: MouseEvent;
@@ -23606,7 +23640,7 @@ declare class Map extends BaseClass {
      * 提取地球当前视域边界,示例：{ xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55, height: 0, }
      * @param [options = {}] - 参数对象:
      * @param [options.formatNum = false] - 是否格式化小数位，只保留6位小数
-     * @param [options.scale = 1] - 通过在每个方向上按给定比例扩展当前边界，0.x时返回缩小的比例边界，大于1时返回放大的边界
+     * @param [options.scale = 1] - 在每个方向上按给定比例扩展（大于0）或缩小（-1到0时）当前边界所创建的边界。比率为0.5时，边界在每个方向上扩展了50%。
      * @returns 当前视域边界
      */
     getExtent(options?: {
@@ -23878,7 +23912,7 @@ declare class Map extends BaseClass {
     setPitchRange(max: number, min?: number): void;
     /**
      * 设置相机pitch值，保持地图中心位置不变。
-     * @param pitch - 俯仰角度值， 0至360
+     * @param pitch - 俯仰角度值， -90至90
      * @param [options] - 具有以下属性的对象:
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
      * @param [options.duration] - 飞行持续时间（秒）。如果省略，内部会根据飞行距离计算出理想的飞行时间。
@@ -23913,9 +23947,9 @@ declare class Map extends BaseClass {
      * @param cameraView.lng - 经度值, 180 - 180
      * @param cameraView.lat - 纬度值, -90 - 90
      * @param [cameraView.alt] - 高度值
-     * @param [cameraView.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
-     * @param [cameraView.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
-     * @param [cameraView.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+     * @param [cameraView.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+     * @param [cameraView.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [cameraView.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options = {}] - 参数对象:
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
@@ -23973,8 +24007,8 @@ declare class Map extends BaseClass {
      * @param arr.lat - 纬度值, -90 至 90
      * @param arr.alt - 高度值
      * @param arr.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param arr.pitch - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param arr.roll - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param arr.pitch - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param arr.roll - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [arr.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [arr.stop = 1] - 该步骤飞行结束的停留时间（单位：秒）。
      * @param [arr.onStart] - 该步骤飞行开始前的回调方法
@@ -24041,8 +24075,8 @@ declare class Map extends BaseClass {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度,-90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -24083,8 +24117,8 @@ declare class Map extends BaseClass {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -24129,8 +24163,8 @@ declare class Map extends BaseClass {
      * @param [options.minHeight] - 定位时相机的最小高度值，用于控制避免异常数据
      * @param [options.maxHeight] - 定位时相机的最大高度值，用于控制避免异常数据
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options.duration] - 飞行时间（单位：秒）。如果省略，SDK内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -24173,8 +24207,8 @@ declare class Map extends BaseClass {
      * @param [options = {}] - 具有以下属性的对象:
      * @param [options.radius] - 相机距离目标点的距离（单位：米）
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options.duration] - 飞行持续时间（秒）。如果省略，内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.clampToGround] - 是否贴地对象,true时异步计算实际高度值后进行定位。
      * @param [options.complete] - 飞行完成后要执行的函数。
@@ -24864,6 +24898,7 @@ declare class LineFlowColorMaterialProperty extends BaseMaterialProperty {
  * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
  * @param [options.repeat = new Cesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
  * @param [options.axisY = false] - 是否Y轴朝上
+ * @param [options.mixt = false] - 默认为color颜色，true时color颜色与图片颜色混合
  * @param [options.speed = 10] - 速度
  * @param [options.duration] - 播放总时长，单位：秒 （会覆盖speed参数）
  * @param [options.hasImage2 = false] - 是否有2张图片的混合模式
@@ -24876,6 +24911,7 @@ declare class LineFlowMaterialProperty extends BaseMaterialProperty {
         color?: string | Cesium.Color;
         repeat?: Cesium.Cartesian2;
         axisY?: boolean;
+        mixt?: boolean;
         speed?: number;
         duration?: number;
         hasImage2?: boolean;
@@ -24894,6 +24930,10 @@ declare class LineFlowMaterialProperty extends BaseMaterialProperty {
      * 是否Y轴朝上
      */
     axisY: boolean;
+    /**
+     * 默认为color颜色，true时color颜色与图片颜色混合
+     */
+    mixt: boolean;
     /**
      * 速度
      */
@@ -25868,9 +25908,9 @@ declare class TextMaterial extends Cesium.Material {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class EchartsLayer extends BaseLayer {
@@ -25962,7 +26002,7 @@ declare class EchartsLayer extends BaseLayer {
  * @param [options.positions] - 坐标数据集合（含value热力值），有热力值时，传入LatLngPoint数组，热力值为value字段。示例:[{lat:31.123,lng:103.568,value:1.2},{lat:31.233,lng:103.938,value:2.3}]
  * @param [options.rectangle] - 坐标的矩形区域范围，默认内部自动计算
  * @param options.rectangle.xmin - 最小经度值
- * @param options.rectangle.xmax - 最大纬度值
+ * @param options.rectangle.xmax - 最大经度值
  * @param options.rectangle.ymin - 最小纬度值
  * @param options.rectangle.ymax - 最大纬度值
  * @param [options.max] - 数据集的value值上限，默认内部计算
@@ -25993,9 +26033,9 @@ declare class EchartsLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class HeatLayer extends BaseLayer {
@@ -26122,9 +26162,9 @@ declare class HeatLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  * @param [dataSet] - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
  */
@@ -26475,10 +26515,10 @@ declare namespace CamberRadar {
      * @property [outlineColor = new Cesium.Color(1.0, 0.0, 0.0)] - 边线颜色
      * @property startRadius - 内曲面半径 （单位：米）
      * @property radius - 外曲面半径 （单位：米）
-     * @property [startFovH = Cesium.Math.toRadians(-50)] - 左横截面角度（弧度值）
-     * @property [endFovH = Cesium.Math.toRadians(50)] - 右横截面角度（弧度值）
-     * @property [startFovV = Cesium.Math.toRadians(5)] - 垂直起始角度（弧度值）
-     * @property [endFovV = Cesium.Math.toRadians(85)] - 垂直结束角度（弧度值）
+     * @property [startFovH = -50] - 左横截面角度（角度值）
+     * @property [endFovH = 50] - 右横截面角度（角度值）
+     * @property [startFovV = 5] - 垂直起始角度（角度值）
+     * @property [endFovV = 85] - 垂直结束角度（角度值）
      * @property [segmentH = 60] - 垂直方向(类似经度线)分割数
      * @property [segmentV = 20] - 水平方向(类似纬度线)分割数
      * @property [heading = 0] - 方向角 （度数值，0-360度）
@@ -26537,19 +26577,19 @@ declare class CamberRadar extends BasePointPrimitive {
      */
     radius: number;
     /**
-     * 左横截面角度（弧度值）
+     * 左横截面角度（角度值）
      */
     startFovV: number;
     /**
-     * 右横截面角度（弧度值）
+     * 右横截面角度（角度值）
      */
     endFovV: number;
     /**
-     * 垂直起始角度（弧度值）
+     * 垂直起始角度（角度值）
      */
     startFovH: number;
     /**
-     * 垂直结束角度（弧度值）
+     * 垂直结束角度（角度值）
      */
     endFovH: number;
     /**
@@ -27062,8 +27102,8 @@ declare class Satellite extends BaseGraphic {
      * @param [options = {}] - 具有以下属性的对象:
      * @param [options.scale = 1.5] - 视角离卫星距离的缩放比例，计算公式：视角距离 = scale*卫星当前高度
      * @param [options.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
-     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, 0至360
-     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, 0至360
+     * @param [options.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+     * @param [options.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
      * @param [options.duration] - 飞行持续时间（秒）。如果省略，内部会根据飞行距离计算出理想的飞行时间。
      * @param [options.complete] - 飞行完成后要执行的函数。
      * @param [options.cancel] - 飞行取消时要执行的函数。
@@ -27272,9 +27312,9 @@ declare class SatelliteSensor extends BasePointPrimitive {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class S3MLayer extends BaseLayer {
@@ -27372,7 +27412,7 @@ declare class S3MLayer extends BaseLayer {
  * @param [options.maximumTerrainLevel] - 展示影像图层的最大地形细节级别，大于该级别时，平台不显示影像数据。
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
+ * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
@@ -27412,9 +27452,9 @@ declare class S3MLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class SmImgLayer extends BaseTileLayer {
@@ -27517,9 +27557,9 @@ declare class SmImgLayer extends BaseTileLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class SmMvtLayer extends BaseLayer {
@@ -27604,9 +27644,9 @@ declare class SmMvtLayer extends BaseLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class TdtDmLayer extends BaseLayer {
@@ -28224,9 +28264,9 @@ declare namespace CanvasWindLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class CanvasWindLayer extends BaseLayer {
@@ -28414,9 +28454,9 @@ declare namespace WindLayer {
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
  * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0至360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, -90至90
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, -90至90
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 declare class WindLayer extends BaseLayer {
@@ -28507,7 +28547,7 @@ declare class BaiduPOI {
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 输入建议关键字（支持拼音）
      * @param [queryOptions.location] - 传入location参数后，返回结果将以距离进行排序
-     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
+     * @param [queryOptions.city] - 可以限定查询的行政区
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -28520,6 +28560,42 @@ declare class BaiduPOI {
         citylimit?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 根据ID获取POI点详情
+     * @param queryOptions - 查询参数
+     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    detail(queryOptions: {
+        id: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 按限定区域搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param [queryOptions.graphic] - 限定的搜索区域
+     * @param [queryOptions.limit = false] - 取值为"true"，严格返回限定区域内检索结果
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    query(queryOptions: {
+        text: string;
+        types?: string;
+        graphic?: BaseGraphic | any;
+        limit?: boolean;
+        count?: number;
+        page?: number;
+        error?: (...params: any[]) => any;
+        success?: (...params: any[]) => any;
     }): Promise<any>;
     /**
      * 关键字搜索
@@ -28580,13 +28656,36 @@ declare class BaiduPOI {
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): Promise<any>;
+    /**
+     * 多边形搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param queryOptions.polygon - 经纬度数组，经纬度小数点后不得超过6位。多边形为矩形时，可传入左上右下两顶点坐标对；其他情况下首尾坐标对需相同。
+     * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索的多边形或矩形范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryPolygon(queryOptions: {
+        text: string;
+        types?: string;
+        polygon: any[][];
+        limit?: boolean;
+        count?: number;
+        page?: number;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
 }
 
 /**
  * 高德 POI查询 工具类，
  * 参考文档：{@link https://lbs.amap.com/api/webservice/guide/api/search}
  * @param [options] - 参数对象，包括以下：
- * @param [options.key = mars3d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
+ * @param [options.key = mars3d.Token.gaodeArr] - 高德KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  */
@@ -28622,7 +28721,7 @@ declare class GaodePOI {
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 输入建议关键字（支持拼音）
      * @param [queryOptions.location] - 建议使用location参数，可在此location附近优先返回搜索关键词信息,在请求参数city不为空时生效
-     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
+     * @param [queryOptions.city] - 可以限定查询的行政区
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -28633,6 +28732,19 @@ declare class GaodePOI {
         location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         city?: string;
         citylimit?: boolean;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 根据ID获取POI点详情
+     * @param queryOptions - 查询参数
+     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    detail(queryOptions: {
+        id: string;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): Promise<any>;
@@ -28658,19 +28770,6 @@ declare class GaodePOI {
         count?: number;
         error?: (...params: any[]) => any;
         success?: (...params: any[]) => any;
-    }): Promise<any>;
-    /**
-     * 根据ID获取POI点详情
-     * @param queryOptions - 查询参数
-     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    detail(queryOptions: {
-        id: string;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
     }): Promise<any>;
     /**
      * 关键字搜索
@@ -29035,7 +29134,7 @@ declare class QueryGeoServer extends BaseClass {
      * @param [queryOptions.column] - 检索关键字时，对应的字段名称
      * @param [queryOptions.like = true] - 检索关键字时，是否模糊匹配，false时精确查询
      * @param [queryOptions.graphic] - 限定的搜索区域
-     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
+     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称, 比如：geom 或 the_geom
      * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
      * @param [queryOptions.sortBy] - 排序的属性名称，默认升序，降序时+D
      * @param [queryOptions.更多参数] - WFS服务支持的其他参数，均支持
@@ -29083,6 +29182,177 @@ declare class QueryGeoServer extends BaseClass {
      * @returns 无
      */
     clear(): void;
+}
+
+/**
+ * 天地图 POI查询 工具类，
+ * 参考文档：{@link http://lbs.tianditu.gov.cn/server/search2.html}
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.key = mars3d.Token.tiandituArr] - 天地图KEY,在实际项目中请使用自己申请的天地图KEY，因为我们的key不保证长期有效。
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ */
+declare class TdtPOI {
+    constructor(options?: {
+        key?: string[];
+        headers?: any;
+        proxy?: Cesium.Proxy;
+    });
+    /**
+     * 天地图key数组，内部轮询使用
+     */
+    keys: string[];
+    /**
+     * 轮询取单个key进行使用
+     */
+    readonly key: string;
+    /**
+     * 根据经纬度坐标获取地址，逆地理编码
+     * @param queryOptions - 查询参数
+     * @param [queryOptions.location] - 经纬度坐标
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    getAddress(queryOptions: {
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 天地图搜索提示
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 输入建议关键字（支持拼音）
+     * @param [queryOptions.location] - 建议使用location参数，可在此location附近优先返回搜索关键词信息,在请求参数city不为空时生效
+     * @param [queryOptions.city] - 可以限定查询的行政区
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    autoTip(queryOptions: {
+        text: string;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        city?: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 按限定区域搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param [queryOptions.graphic] - 限定的搜索区域
+     * @param [queryOptions.limit = false] - 取值为"true"，严格返回限定区域内检索结果
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.count = 20] - 单次召回POI数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    query(queryOptions: {
+        text: string;
+        types?: string;
+        graphic?: BaseGraphic | any;
+        limit?: boolean;
+        page?: number;
+        count?: number;
+        error?: (...params: any[]) => any;
+        success?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 关键字搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
+     * @param [queryOptions.level = 18] - 查询的级别,1-18级
+     * @param [queryOptions.mapBound] - 查询的地图范围: "minx,miny,maxx,maxy"
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回300条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryText(queryOptions: {
+        text: string;
+        types?: string;
+        city?: string;
+        level?: string;
+        mapBound?: string;
+        count?: number;
+        page?: number;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 周边搜索(圆形搜索)
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param [queryOptions.location] - 圆形区域检索中心点，取值范围:0-50000。规则：大于50000按默认值，单位：米
+     * @param [queryOptions.radius = 3000] - 圆形区域检索半径，单位为米。（增加区域内数据召回权重，如需严格限制召回数据在区域内，请搭配使用radiuslimit参数），当半径过大，超过中心点所在城市边界时，会变为城市范围检索，检索范围为中心点所在城市
+     * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索半径范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryCircle(queryOptions: {
+        text: string;
+        types?: string;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        radius?: number;
+        limit?: boolean;
+        count?: number;
+        page?: number;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 多边形搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param queryOptions.polygon - 经纬度数组，经纬度小数点后不得超过6位。多边形为矩形时，可传入左上右下两顶点坐标对；其他情况下首尾坐标对需相同。
+     * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索的多边形或矩形范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryPolygon(queryOptions: {
+        text: string;
+        types?: string;
+        polygon: any[][];
+        limit?: boolean;
+        count?: number;
+        page?: number;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
+    /**
+     * 视野内搜索
+     * @param queryOptions - 查询参数
+     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
+     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
+     * @param queryOptions.extent - 可传入左上右下两顶点坐标对；
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryExtent(queryOptions: {
+        text: string;
+        types?: string;
+        extent: any[][];
+        count?: number;
+        page?: number;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
 }
 
 declare namespace Measure {
@@ -30818,6 +31088,11 @@ declare class TilesetEditBase extends BaseThing {
      * @returns 添加区域的记录对象
      */
     addArea(positions: string[] | any[][] | LngLatPoint[] | Cesium.Cartesian3[]): any;
+    /**
+     * 转为Json简单对象，用于存储后再传参加载
+     * @returns Json简单对象
+     */
+    toJSON(): any;
 }
 
 /**
@@ -30901,6 +31176,11 @@ declare class TilesetFlat extends TilesetEditBase {
      * @returns 无
      */
     removeArea(item: number | any): void;
+    /**
+     * 转为Json简单对象，用于存储后再传参加载
+     * @returns Json简单对象
+     */
+    toJSON(): any;
     /**
      * 清除分析
      * @returns 无
@@ -31118,6 +31398,11 @@ declare class TilesetPlanClip extends BaseThing {
      * @returns 无
      */
     updateAllNormalZ(val: number): void;
+    /**
+     * 转为Json简单对象，用于存储后再传参加载
+     * @returns Json简单对象
+     */
+    toJSON(): any;
 }
 
 /**
@@ -33357,7 +33642,7 @@ declare namespace Util {
     }): Cesium.Resource;
     /**
      * 文字转base64图片
-     * @param text - 文字内容
+     * @param text - 文字内容 (提示：暂不支持换行)
      * @param [textStyle = {}] - 参数对象:
      * @param [textStyle.font = '10px sans-serif'] - 使用的CSS字体。
      * @param [textStyle.textBaseline = 'bottom'] - 文本的基线。
