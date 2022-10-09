@@ -64,8 +64,8 @@ function onUnmounted() {
 }
 
 // 查看场景出图
-function showMapImg() {
-  return map.expImage({ download: false }).then((result) => {
+function showMapImg(options = {}) {
+  return map.expImage({ download: false, ...options }).then((result) => {
     return result.image
   })
 }
@@ -79,6 +79,7 @@ function downLoad() {
 function downLoad2() {
   map.expImage({
     height: 300, // 指定 高度 或 宽度(指定1种就行，对应的自动缩放)
+    // width: 300, //同时指定后去裁剪中间部分
     download: true
   })
 }

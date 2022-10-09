@@ -114,11 +114,11 @@
 
       function initUI(options) {
         // 初次赋值
-        const inputObj = map.getCameraView()
+        const inputObj = map.getCameraView({ simplify: false })
         giveIptValue(inputObj)
 
         map.on("cameraChanged", function (event) {
-          const inputObj = map.getCameraView()
+          const inputObj = map.getCameraView({ simplify: false })
           giveIptValue(inputObj)
         })
       }
