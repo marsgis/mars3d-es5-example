@@ -26,7 +26,7 @@ var mapOptions = {
       icon: "img/basemaps/blackMarble.png",
       type: "image",
       url: "//data.mars3d.cn/file/img/world/night2.jpg",
-      dayAlpha: 0.1,
+      dayAlpha: 0.0,
       nightAlpha: 1.0,
       brightness: 3.5,
       show: true
@@ -171,7 +171,7 @@ function addSatellite() {
   let isUp = -1
 
   const update_old = saomiaoSensor.update
-  saomiaoSensor.update = function (frameState) {
+  saomiaoSensor.update = function(frameState) {
     if (currPitch <= -maxHeight && isUp !== 1) {
       isUp = 1
     } else if (currPitch >= maxHeight && isUp !== -1) {
@@ -180,7 +180,7 @@ function addSatellite() {
     currPitch += step * isUp
     saomiaoSensor.pitch = currPitch
 
-    return update_old.bind(this)(frameState)
+   return update_old.bind(this)(frameState)
   }
 }
 
