@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+function onMounted (mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -50,12 +50,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+function onUnmounted () {
   map = null
 }
 
 // 绘制面
-function drawPolygon() {
+function drawPolygon () {
   // 开始绘制
   graphicLayer.startDraw({
     type: "polygon",
@@ -75,7 +75,7 @@ function drawPolygon() {
 }
 
 // 旋转面
-function spinPolygons(angle) {
+function spinPolygons (angle) {
   clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
@@ -99,7 +99,7 @@ function spinPolygons(angle) {
 }
 
 // 平移面
-function translationPolygons(offset) {
+function translationPolygons (offset) {
   clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
@@ -121,7 +121,7 @@ function translationPolygons(offset) {
 }
 
 // 缩放面
-function zoomPolygons(scale) {
+function zoomPolygons (scale) {
   clearGraphic()
 
   if (scale === 0) {
@@ -132,21 +132,23 @@ function zoomPolygons(scale) {
   const poly = graphic.toGeoJSON({ closure: true })
 
   // truf缩放操作
-  const rotatedPoly = turf.transformScale(poly, scale)
+  if (poly.geometry.coordinates[0].length !== 0) {
+    const rotatedPoly = turf.transformScale(poly, scale)
+    const spinGraphic = mars3d.Util.geoJsonToGraphics(rotatedPoly, {
+      style: {
+        color: "#ff0000",
+        opacity: 0.5,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#ffffff"
+      }
+    })
+    polygonsLayer.addGraphic(spinGraphic)
+  }
 
-  const spinGraphic = mars3d.Util.geoJsonToGraphics(rotatedPoly, {
-    style: {
-      color: "#ff0000",
-      opacity: 0.5,
-      outline: true,
-      outlineWidth: 2,
-      outlineColor: "#ffffff"
-    }
-  })
-  polygonsLayer.addGraphic(spinGraphic)
 }
 
-function clearGraphic() {
+function clearGraphic () {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 }
@@ -154,7 +156,7 @@ function clearGraphic() {
 // 颜色
 let index = 0
 const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
-function getColor() {
+function getColor () {
   const i = index++ % colors.length
   return colors[i]
 }
