@@ -116,12 +116,14 @@
     "use script" //开发环境建议开启严格模式
 
     let drawGraphicId // 画出范围的graphic的id
-    let pointsArr = [] // 画出范围的graphic的位置数组
     let currentHouseType // 当前房屋的位置
     let hasDraw // 是否已经画出区域
-    let maxHeight // 最高高
-    let minHeight // 最低高
-    let floorCount // 楼层数
+    let dthPara = {
+      maxHeight: 0,// 最高高
+      minHeight: 0,// 最低高
+      floorCount: 1,// 楼层数
+      positions: []// 画出范围的graphic的位置数组
+    }
     let isEditing // 处于编辑状态
     let tableData = [] // 表格数据
 
@@ -132,11 +134,12 @@
 
         addData().then((data) => {
           drawGraphicId = data.id
-          pointsArr = []
+          // pointsArr = []
+          dthPara.positions = []
           data.points.forEach((item) => {
-            pointsArr.push([item.lng, item.lat])
+            dthPara.positions.push([item.lng, item.lat])
           })
-          currentHouseType = pointsArr[0][0]
+          currentHouseType = dthPara.positions
           hasDraw = true
           $("#drawArea").attr("disabled", true)
           $("#hasBorder").html("已绘制")
@@ -154,72 +157,41 @@
       // 拾取底部高度
       $("#getMinHeight").click(function (data) {
         getBuildingHeight().then((data) => {
-          minHeight = data.height
-          $("#minHeight").val(minHeight)
+          dthPara.minHeight = data.height
+          $("#minHeight").val(dthPara.minHeight)
         })
       })
 
       const clearPannelData = () => {
         maxHeight = 0
         $("#maxHeight").val(0)
-        minHeight = 0
+        dthPara.minHeight = 0
         $("#minHeight").val(0)
-        floorCount = 1
+        dthPara.floorCount = 1
         $("#floorCount").val(1)
         isEditing = false
       }
 
+      // 根据楼高生成每层
       $("#produceData").click(function () {
-        floorCount = $("#floorCount").val()
-        maxHeight = $("#maxHeight").val()
-        minHeight = $("#minHeight").val()
+        dthPara.floorCount = $("#floorCount").val()
+        dthPara.maxHeight = $("#maxHeight").val()
+        dthPara.minHeight = $("#minHeight").val()
 
         if (isEditing) {
           return editProduceData()
         }
 
-        if (!hasDraw && pointsArr.length === "0") {
+        if (!hasDraw && dthPara.positions.length === 0) {
           return $message("请先绘制区域")
         }
-        if (floorCount === "0") {
-          return $message("楼层数不能为0")
-        }
-        if (maxHeight === "0") {
-          return $message("最高高度不能为0")
-        }
-        if (minHeight === "0") {
-          return $message("最低高度不能为0")
-        }
-
-        console.log(floorCount, maxHeight, minHeight)
-        if (tableData.length !== 0) {
-          let item
-          for (let i = 0; i < tableData.length; i++) {
-            item = tableData[i]
-            console.log("item", item, item.position[0][0], currentHouseType)
-
-            if (item.position[0][0] === currentHouseType) {
-              console.log("jingru zheli")
-
-              item.floorCount = floorCount
-              const resultData = produceData(drawGraphicId, item.position, floorCount, minHeight, maxHeight, item.generateGraphicIdArr)
-              drawGraphicId = ""
-              if (resultData) {
-                item.generateGraphicIdArr = resultData.generateGraphicIdArr
-                break
-              }
-            }
-          }
-          produce()
-        } else {
-          produce()
-        }
+        produce()
       })
 
       const produce = () => {
         console.log("drawGraphicId应该是绘制的值", drawGraphicId)
 
-        const produceObj = produceData(drawGraphicId, pointsArr, floorCount, minHeight, maxHeight)
+        const produceObj = produceData(drawGraphicId, dthPara)
 
         drawGraphicId = ""
         console.log("生成的数据produceObj", produceObj)
@@ -227,12 +199,9 @@
         if (produceObj) {
           tableData.push({
             houseType: produceObj.houseTypeCount + "号户型",
-            floorCount: produceObj.floorCount,
             floorHeight: produceObj.floorHeight,
-            minHeight: produceObj.minHeight,
-            maxHeight: produceObj.maxHeight,
-            position: pointsArr,
-            generateGraphicIdArr: produceObj.generateGraphicIdArr
+            generateGraphicIdArr: produceObj.generateGraphicIdArr,
+            ...dthPara
           })
 
           hasDraw = false
@@ -281,25 +250,23 @@
         }
 
         saveGeoJSON()
-
-        // let geojson = map.graphicLayer.toGeoJSON()
-        // haoutil.file.downloadFile("我的标注.json", JSON.stringify(geojson))
       })
 
       // 导入
       $("#loadHouseType").click(function () {
         $("#input_import_file").click()
-        clearAllData()
       })
       $("#input_import_file").change(function (e) {
         let file = this.files[0]
         if (file) {
+          $("#addPannel").hide()
+          clearAllData()
+          $("#clearHouseDraw").attr("disabled", false)
           openGeoJSON(file, openGeoJSONEnd)
         }
       })
 
       $("#quitDrawBtn").click(function () {
-        // console.log("aa")
         quitDrawBtn()
         $("#drawArea").attr("disabled", false)
         $("#hasBorder").html("无")
@@ -350,7 +317,7 @@
 
       //绑定单击事件 定位
       tr.querySelector(".flyTo").addEventListener("click", function (e) {
-        map.flyToPositions(item.position)
+        map.flyToPositions(item.positions)
       })
 
       // 删除房型
@@ -362,29 +329,28 @@
         $("#hasBorder").html("无")
       })
 
+      // 编辑
       tr.querySelector(".edit").addEventListener("click", function (e) {
         console.log("item----", item)
         isEditing = true
         // 打开面板
         $("#addPannel").show()
-        floorCount = item.floorCount
-        minHeight = item.minHeight
-        maxHeight = item.maxHeight
-        $("#maxHeight").val(maxHeight)
-        $("#minHeight").val(minHeight)
-        $("#floorCount").val(floorCount)
-        pointsArr = item.position
-        currentHouseType = pointsArr[0][0]
+        dthPara.floorCount = item.floorCount
+        dthPara.minHeight = item.minHeight
+        dthPara.maxHeight = item.maxHeight
+        $("#maxHeight").val(dthPara.maxHeight)
+        $("#minHeight").val(dthPara.minHeight)
+        $("#floorCount").val(dthPara.floorCount)
+        dthPara.positions = item.positions
+        currentHouseType = dthPara.positions
       })
     }
 
     // 删除房型
     function deleteTableItem(data) {
-      console.log("aaa", tableData)
-      console.log("aaa", data)
 
       tableData = tableData.filter((item) => {
-        if (item.position[0][0] !== data.position[0][0]) {
+        if (item.positions[0][0] !== data.positions[0][0]) {
           return true
         } else {
           // 删除图层数据
@@ -406,59 +372,60 @@
       }
     }
 
-    function openGeoJSONEnd(result) {
-      const data = result.data
-      const graphics = result.graphics
-      console.log("获取到的data", data)
-      console.log(data.features.length)
+    function openGeoJSONEnd(graphics) {
 
-      const tableLoadDataArr = []
-      if (data.features.length !== 0) {
-        tableLoadDataArr.push(pushLoadDataToTable(data.features[0]))
-        let positionFlag = data.features[0].properties.positionArr[0][0]
-        console.log("positionFlag", positionFlag)
-
-        // 将同一栋楼的不同层，放在表格同一行 (观察发现导入的数据，同一栋的数据是在一起的)
-        for (let i = 0; i < data.features.length; i++) {
-          const itemPosition = data.features[i].properties.positionArr[0][0]
-          if (positionFlag === itemPosition) {
-            continue
+      // 查看共所有号房型
+      const houseTypeCounts = graphics
+        .map((graphic) => {
+          return graphic.attr.houseTypeCount
+        })
+        .reduce((pre, cur) => {
+          if (pre.includes(cur)) {
+            return pre
           } else {
-            positionFlag = itemPosition
-            tableLoadDataArr.push(pushLoadDataToTable(data.features[i]))
+            return pre.concat(cur)
           }
-        }
+        }, [])
 
-        graphics.forEach((item) => {
-          tableLoadDataArr.forEach((ele) => {
-            if (item.points[0].lng === ele.position[0][0]) {
-              ele.generateGraphicIdArr.push(item.id)
-            }
-          })
-        })
+      console.log("houseTypeCounts", houseTypeCounts);
+      console.log("graphics", graphics);
 
-        // tableData.value = tableLoadDataArr
-        tableData = []
-        tableLoadDataArr.forEach((item) => {
-          tableData.push(item)
-        })
-
-        let tbody = document.getElementById("tbPoly")
-        // 清空表格
-        var child = tbody.lastElementChild
-        while (child) {
-          tbody.removeChild(child)
-          child = tbody.lastElementChild
-        }
-
-        tableData.forEach((item) => {
-          addTableItem(item)
-        })
-
-        $("#clearHouseDraw").attr("disabled", false)
-        console.log("表格中的数据", tableLoadDataArr)
+      tableData = []
+      let tbody = document.getElementById("tbPoly")
+      // 清空表格
+      var child = tbody.lastElementChild;
+      while (child) {
+        tbody.removeChild(child);
+          child = tbody.lastElementChild;
       }
+
+
+      houseTypeCounts.forEach((houseType) => {
+        let dthPara = {
+          floorCount: 0,
+          generateGraphicIdArr: []
+        }
+        graphics
+          .filter((graphic) => graphic.attr.houseTypeCount === houseType)
+          .map((graphic) => {
+            dthPara = {
+              ...dthPara,
+              ...graphic.attr,
+              floorCount: graphic.attr.allFloor
+            }
+
+            dthPara.generateGraphicIdArr.push(graphic.id)
+            return graphic
+          })
+        tableData.push(dthPara)
+      })
+
+      tableData.forEach( item => {
+        addTableItem(item)
+      })
+
     }
+
 
     const pushLoadDataToTable = (data) => {
       console.log("获取到的data--------", data)
@@ -479,7 +446,6 @@
     const closePanle = () => {
       clearPannelData()
       quitDraw(drawGraphicId)
-      // showAddDataPannel.value = false
       $("#addPannel").hide()
       hasDraw = false
       isEditing = false
@@ -489,11 +455,11 @@
 
     const clearPannelData = () => {
       console.log("sss")
-      maxHeight = 0
+      dthPara.maxHeight = 0
       $("#maxHeight").val(null)
-      minHeight = 0
+      dthPara.minHeight = 0
       $("#minHeight").val(null)
-      floorCount = 1
+      dthPara.floorCount = 1
       $("#floorCount").val(null)
       isEditing = false
     }
@@ -506,16 +472,17 @@
     const editProduceData = () => {
       console.log("编辑中的生成")
       tableData.forEach((item) => {
-        if (item.position[0][0] === currentHouseType) {
-          console.log("编辑之后", floorCount)
-          item.floorCount = floorCount
-          const resultData = produceData(drawGraphicId, item.position, floorCount, minHeight, maxHeight, item.generateGraphicIdArr)
+        if (item.positions === currentHouseType) {
+          console.log("编辑之后", dthPara.floorCount)
+          item.floorCount = dthPara.floorCount
+          const resultData = produceData(drawGraphicId, dthPara, item.generateGraphicIdArr)
           if (resultData) {
             item.generateGraphicIdArr = resultData.generateGraphicIdArr
-            item.maxHeight = resultData.maxHeight
-            item.minHeight = resultData.minHeight
-            item.floorCount = resultData.floorCount
             item.floorHeight = resultData.floorHeight
+
+            item.maxHeight = dthPara.maxHeight
+            item.minHeight = dthPara.minHeight
+            item.floorCount = dthPara.floorCount
           }
         }
       })

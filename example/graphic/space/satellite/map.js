@@ -3,6 +3,7 @@
 var map // mars3d.Map三维地图对象
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {
@@ -21,7 +22,7 @@ var mapOptions = {
   }
 }
 
-let weixin
+var weixin
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -72,11 +73,10 @@ function addGraphicLayer() {
     model: {
       url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
       scale: 1,
-      minimumPixelSize: 90,
-      autoHeading: true,
-      show: true
+      minimumPixelSize: 90
     },
     label: {
+      text: "高分1号",
       color: "#ffffff",
       opacity: 1,
       font_family: "楷体",
@@ -95,24 +95,19 @@ function addGraphicLayer() {
       scaleByDistance_far: 10000000,
       scaleByDistance_farValue: 0.4,
       scaleByDistance_near: 100000,
-      scaleByDistance_nearValue: 1,
-      show: true
+      scaleByDistance_nearValue: 1
     },
     cone: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: 10,
       angle2: 5,
-      color: "rgba(0,255,255,0.5)",
-      reverse: false,
-      show: true
+      color: "rgba(0,255,255,0.5)"
     },
     path: {
-      show: true,
       color: "#00ff00",
       opacity: 0.5,
       width: 1
     },
-    fixedFrameTransform: Cesium.Transforms.localFrameToFixedFrameGenerator("east", "south"),
     attr: { name: "高分1号" }
   })
   graphicLayer.addGraphic(weixin)
@@ -147,8 +142,8 @@ function chkShowModelMatrix(val) {
 }
 // 凝视目标
 function selPoint() {
-  if (weixin.lookAt) {
-    weixin.lookAt = null
+  if (weixin.cone.lookAt) {
+    weixin.cone.lookAt = null
   } else {
     map.graphicLayer.startDraw({
       type: "point",
@@ -160,7 +155,7 @@ function selPoint() {
         const position = graphic.positionShow
         map.graphicLayer.clear()
 
-        weixin.lookAt = position
+        weixin.cone.lookAt = position
       }
     })
   }
@@ -185,20 +180,20 @@ function chkSensorType(value) {
 
 // 俯仰角
 function pitchChange(value) {
-  weixin.pitch = value
+  weixin.model.pitch = value
 }
 
 // 左右角
 function rollChange(value) {
-  weixin.roll = value
+  weixin.model.roll = value
 }
 
 // 夹角1
 function angle1(value) {
-  weixin.angle1 = value
+  weixin.cone.angle1 = value
 }
 
 // 夹角2
 function angle2(value) {
-  weixin.angle2 = value
+  weixin.cone.angle2 = value
 }

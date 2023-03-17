@@ -43,7 +43,6 @@ function onMounted(mapInstance) {
   bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
-  const arrModel = []
   // 加一些演示数据
   for (let i = 0; i < 20; i++) {
     const graphic = new mars3d.graphic.ModelPrimitive({
@@ -78,17 +77,10 @@ function onMounted(mapInstance) {
 
       clampToTileset: true, // 贴模型，但效率不高，车多就卡
       frameRateHeight: 30 // 控制贴模型的效率，多少帧计算一次
-      // objectsToExclude: [] // 排除的不进行贴模型计算的模型对象
     })
     graphicLayer.addGraphic(graphic)
-
-    arrModel.push(graphic.czmObject)
   }
 
-  // 排除的不进行贴模型计算的模型对象
-  graphicLayer.eachGraphic((graphic) => {
-    graphic.objectsToExclude = arrModel
-  })
 
   // 设置动态位置
   graphicLayer.eachGraphic((graphic) => {
@@ -127,6 +119,8 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+
+
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -138,6 +132,8 @@ function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
+
+
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
@@ -167,3 +163,5 @@ function bindLayerContextMenu() {
     }
   ])
 }
+
+

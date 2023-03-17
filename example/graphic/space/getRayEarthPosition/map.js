@@ -141,16 +141,16 @@ function centerPoint(angle1) {
       const pt1 = weixin.position
 
       const hpr = new Cesium.HeadingPitchRoll(
-        Cesium.Math.toRadians(weixin.heading),
-        Cesium.Math.toRadians(weixin.pitch),
-        Cesium.Math.toRadians(weixin.roll + angle1)
+        Cesium.Math.toRadians(weixin.model.heading),
+        Cesium.Math.toRadians(weixin.model.pitch),
+        Cesium.Math.toRadians(weixin.model.roll + angle1)
       )
       const ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true)
 
       const hdr2 = new Cesium.HeadingPitchRoll(
-        Cesium.Math.toRadians(weixin.heading),
-        Cesium.Math.toRadians(weixin.pitch),
-        Cesium.Math.toRadians(weixin.roll - angle1)
+        Cesium.Math.toRadians(weixin.model.heading),
+        Cesium.Math.toRadians(weixin.model.pitch),
+        Cesium.Math.toRadians(weixin.model.roll - angle1)
       )
       const ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true)
 
@@ -171,17 +171,17 @@ function centerPoint(angle1) {
 
 // 俯仰角
 function pitchChange(value) {
-  weixin.pitch = value
+  weixin.model.pitch = value
 }
 
 // 左右角
 function rollChange(value) {
-  weixin.roll = value
+  weixin.model.roll = value
 }
 
 function angle(value) {
-  weixin.angle1 = value
-  centerPoint(weixin.angle1)
+  weixin.cone.angle1 = value
+  centerPoint(weixin.cone.angle1)
 }
 
 function chkShowModelMatrix(val) {

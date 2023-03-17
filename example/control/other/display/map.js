@@ -28,6 +28,11 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
+
+  const control = map.getControl("navigationHelpButton", "type")
+  control.on(mars3d.EventType.click, function (event) {
+    console.log("您单击了帮助按钮", event)
+  })
 }
 
 /**
@@ -90,13 +95,7 @@ function bindClock(val) {
 
 // 时间刻度线
 function bindTimeLine(val) {
-  if (map.controls.timeline) {
-    map.controls.timeline.show = val
-  }
-
-  map.controls.locationBar.setStyle({
-    bottom: val ? "25px" : "0px"
-  })
+  map.controls.timeline.show = val
 }
 
 // 导航球

@@ -191,6 +191,11 @@ function onChangeHeading(value) {
     selectedView.heading = value
   }
 }
+function onChangeMirror(value) {
+  if (selectedView) {
+    selectedView.flipx = value
+  }
+}
 
 function onClickSelView() {
   if (!selectedView) {
