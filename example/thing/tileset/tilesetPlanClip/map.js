@@ -29,8 +29,8 @@ function onMounted(mapInstance) {
         [117.251193, 31.843746, 47.7]
       ],
       edgeColor: Cesium.Color.GREY,
-      edgeWidth: 2.0
-      // showPlane: true
+      edgeWidth: 2.0,
+      showPlane: true
     },
     flyTo: true
   })
@@ -142,9 +142,12 @@ function clippingType(type) {
 function rangeDistance(value) {
   tilesetLayer.planClip.distance = value
 }
-// 偏移量
-function rangeNormalZ(value) {
-  tilesetLayer.planClip.normalZ = value
+
+function rangeAngle1(value) {
+  tilesetLayer.planClip.angle1 = value
+}
+function rangeAngle2(value) {
+  tilesetLayer.planClip.angle2 = value
 }
 
 function clear() {
