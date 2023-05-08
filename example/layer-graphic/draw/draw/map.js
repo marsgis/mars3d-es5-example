@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
-// // import kgUtil from "kml-geojson"
+import * as mars3d from "mars3d"
+// import kgUtil from "kml-geojson"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var mapOptions = {
+export const mapOptions = {
   // scene: {
   //   center: { lat: 30.846849, lng: 116.335307, alt: 739, heading: 360, pitch: -45 }
   // },
@@ -39,7 +39,7 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -47,7 +47,7 @@ var eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer({
@@ -117,11 +117,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
+export function drawPoint() {
   // graphicLayer.isContinued = true
   graphicLayer.startDraw({
     type: "point",
@@ -141,7 +141,7 @@ function drawPoint() {
   })
 }
 
-function drawMarker() {
+export function drawMarker() {
   graphicLayer.startDraw({
     type: "billboard",
     style: {
@@ -161,7 +161,7 @@ function drawMarker() {
   })
 }
 
-function drawLabel() {
+export function drawLabel() {
   graphicLayer.startDraw({
     type: "label",
     style: {
@@ -175,7 +175,7 @@ function drawLabel() {
   })
 }
 
-function startDrawModel() {
+export function startDrawModel() {
   graphicLayer.startDraw({
     type: "model",
     style: {
@@ -185,7 +185,7 @@ function startDrawModel() {
   })
 }
 
-function drawPolyline(clampToGround) {
+export function drawPolyline(clampToGround) {
   // map.highlightEnabled = false
   // map.popup.enabled = false
 
@@ -196,14 +196,20 @@ function drawPolyline(clampToGround) {
       width: 3,
       clampToGround: clampToGround
     }
+    // 外部自定义校验坐标，return false 时坐标无效，不参与绘制
+    // validDrawPosition: function (position, graphic) {
+    //   const point = mars3d.LngLatPoint.fromCartesian(position)
+    //   return (point.lng > 115 && point.lng < 117)
+    // }
   })
+
   // .then(() => {
   //   map.highlightEnabled = true
   //   map.popup.enabled = true
   // })
 }
 
-function drawPolygon(clampToGround) {
+export function drawPolygon(clampToGround) {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -217,7 +223,7 @@ function drawPolygon(clampToGround) {
   })
 }
 
-function drawCurve(clampToGround) {
+export function drawCurve(clampToGround) {
   graphicLayer.startDraw({
     type: "curve",
     style: {
@@ -228,7 +234,7 @@ function drawCurve(clampToGround) {
   })
 }
 
-function drawCorridor(clampToGround) {
+export function drawCorridor(clampToGround) {
   graphicLayer.startDraw({
     type: "corridor",
     style: {
@@ -240,7 +246,7 @@ function drawCorridor(clampToGround) {
   })
 }
 
-function drawEllipse(clampToGround) {
+export function drawEllipse(clampToGround) {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -254,7 +260,7 @@ function drawEllipse(clampToGround) {
   })
 }
 
-function drawRectangle(clampToGround) {
+export function drawRectangle(clampToGround) {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -268,7 +274,7 @@ function drawRectangle(clampToGround) {
   })
 }
 
-function draPlane() {
+export function draPlane() {
   graphicLayer.startDraw({
     type: "plane",
     style: {
@@ -281,7 +287,7 @@ function draPlane() {
   })
 }
 
-function draWall(closure) {
+export function draWall(closure) {
   graphicLayer.startDraw({
     type: "wall",
     style: {
@@ -293,7 +299,7 @@ function draWall(closure) {
   })
 }
 
-function drawBox() {
+export function drawBox() {
   graphicLayer.startDraw({
     type: "box",
     style: {
@@ -306,7 +312,7 @@ function drawBox() {
   })
 }
 
-function drawCylinder() {
+export function drawCylinder() {
   graphicLayer.startDraw({
     type: "cylinder",
     style: {
@@ -318,7 +324,7 @@ function drawCylinder() {
   })
 }
 
-function drawEllipsoid() {
+export function drawEllipsoid() {
   graphicLayer.startDraw({
     type: "ellipsoid",
     style: {
@@ -329,7 +335,7 @@ function drawEllipsoid() {
   })
 }
 
-function drawExtrudedPolygon() {
+export function drawExtrudedPolygon() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -340,7 +346,7 @@ function drawExtrudedPolygon() {
   })
 }
 
-function drawExtrudedRectangle() {
+export function drawExtrudedRectangle() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -351,7 +357,7 @@ function drawExtrudedRectangle() {
   })
 }
 
-function drawExtrudedCircle() {
+export function drawExtrudedCircle() {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -363,7 +369,7 @@ function drawExtrudedCircle() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -374,7 +380,7 @@ function bindLayerPopup() {
   })
 }
 
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -522,7 +528,7 @@ function bindLayerContextMenu() {
  * @param {Boolean} value 是否仅在模型上标绘
  * @returns {void}
  */
-function updateOnlyPickModelPosition(value) {
+export function updateOnlyPickModelPosition(value) {
   map.onlyPickModelPosition = value
 }
 
@@ -533,7 +539,7 @@ function updateOnlyPickModelPosition(value) {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -587,7 +593,7 @@ function simplifyGeoJSON(geojson) {
 }
 
 // 点击保存GeoJSON
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -597,7 +603,7 @@ function saveGeoJSON() {
 }
 
 // 点击保存KML
-function saveKML() {
+export function saveKML() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -620,7 +626,7 @@ function saveKML() {
 }
 
 // 点击保存WKT
-function saveWKT() {
+export function saveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
