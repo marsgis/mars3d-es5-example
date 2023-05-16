@@ -21,6 +21,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
     <title>日照分析 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
+    <style>
+      .shadow-btn {
+        margin-left:5px;
+      }
+    </style>
+
     <script
       type="text/javascript"
       src="/lib/include-lib.js"
@@ -46,7 +52,10 @@
       </div>
       <div class="rowview clearfix"><span>当前时间:</span><span id="lbl_rzfx_nowTime"></span></div>
       <div class="rowview clearfix center">
-        <input id="btn_rzfx_btn_rzfx_pause" type="button" class="btn btn-primary" value="播放" />
+        <span>当前时间:</span><input id="btn_rzfx_btn_rzfx_pause" type="button" class="btn btn-primary" value="播放" />
+      </div>
+      <div class="rowview clearfix center">
+        <span>阴影分析:</span><input id="btn_rzfx_btn_rzfx_draw" type="button" class="btn btn-primary shadow-btn" value="绘制" /><input id="btn_rzfx_btn_rzfx_clear" type="button" class="btn btn-primary shadow-btn" value="清除" />
       </div>
     </div>
 
@@ -100,6 +109,18 @@
 
             $("#btn_rzfx_btn_rzfx_pause").val("暂停")
           }
+        })
+
+        $("#btn_rzfx_btn_rzfx_draw").click(function () {
+
+            var year = dateTime.getFullYear();
+            var month = dateTime.getMonth() + 1;
+            var date = dateTime.getDate();
+            const data = `${year}-${month}-${date}`
+            drawArea(data)
+        })
+        $("#btn_rzfx_btn_rzfx_clear").click(function () {
+          clearArea()
         })
       }
 
