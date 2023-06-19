@@ -1,4 +1,5 @@
 // import * as mars3d from "mars3d"
+// import * as mapv from "mapv"
 
 var map // mars3d.Map三维地图对象
 
@@ -85,7 +86,7 @@ function createMapvLayer() {
 
   // 自定义数据
   for (let i = 1; i < 500; i++) {
-    const cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter = mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     nodeData[i] = {
       x: cityCenter.lng - 5 + Math.random() * 10,
       y: cityCenter.lat - 5 + Math.random() * 10
@@ -96,7 +97,7 @@ function createMapvLayer() {
     })
   }
 
-  const fbundling = this.mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
+  const fbundling = mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
 
   const results = fbundling()
 
@@ -139,6 +140,7 @@ function createMapvLayer() {
   const mapVLayer1 = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer1)
 
+
   const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.9)",
     globalCompositeOperation: "lighter",
@@ -159,4 +161,5 @@ function createMapvLayer() {
   // 创建MapV图层
   const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
+
 }

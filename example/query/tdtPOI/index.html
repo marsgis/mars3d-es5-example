@@ -104,11 +104,11 @@
     let lastQueryOptions
     //上一次请求参数，用于 下一页使用
 
-    function initUI (options) {
+    function initUI(options) {
       bindViewEvent([])
     }
 
-    function bindViewEvent (data) {
+    function bindViewEvent(data) {
       $("#txtCity").citypicker({
         simple: true,
         level: "city",
@@ -184,13 +184,13 @@
       })
 
       // 读取JSON数据
-      function fetchAttrJson () {
+      function fetchAttrJson() {
         $.ajax({
           type: "get",
           dataType: "json",
           url: "//data.mars3d.cn/file/geojson/areas/config.json",
           success: function (data) {
-            console.log(data);
+            console.log(data)
             // return data
             let serverName = $.trim($("#queryText").val())
             let province = $("#txtCity")[0].value.split("/")[0]
@@ -200,20 +200,18 @@
               if (item.label === province) {
                 item.children.forEach((ele) => {
                   if (ele.label === city) {
-                    console.log("chuandi", ele.value);
+                    console.log("chuandi", ele.value)
                     query(selectType, ele.value, serverName)
                   }
                 })
               }
             })
-            console.log("aaa", province, city);
+            console.log("aaa", province, city)
           }
         })
       }
 
-      function getCityValue (arr, name) {
-
-      }
+      function getCityValue(arr, name) {}
 
       $("#query").click(function () {
         $("#tab_check").show()
@@ -247,7 +245,7 @@
       })
     }
 
-    function clear (noClearDraw) {
+    function clear(noClearDraw) {
       clearAll(true)
 
       bootstrapList = []

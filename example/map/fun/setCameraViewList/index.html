@@ -32,14 +32,36 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
-    <!-- <div class="infoview"> </div> -->
+    <div class="infoview">
+      <div class="btn-group">
+        <button id="btn_pause" type="button" class="btn btn-primary" onclick="clickPause()"><i class="fa fa-pause-circle-o"></i>暂停</button>
+        <button id="btn_proceed" type="button" class="btn btn-primary" onclick="clickProceed()"><i class="fa fa-play-circle-o"></i>继续</button>
+      </div>
+    </div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+      //UI界面相关
+      function initUI() {
+        $("#btn_proceed").hide()
+      }
+
+      function clickPause() {
+        $("#btn_pause").hide()
+        $("#btn_proceed").show()
+        pauseCameraViewList()
+      }
+
+      function clickProceed() {
+        $("#btn_proceed").hide()
+        $("#btn_pause").show()
+        proceedCameraViewList()
+      }
+    </script>
   </body>
 </html>

@@ -26,7 +26,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
     ></script>
 
     <script src="/lib/video/flv/flv.min.js"></script>
@@ -113,6 +113,7 @@
           </tr>
         </tbody>
       </table>
+      <table id="graphicTable"></table>
     </div>
 
     <video id="trailer" style="display: none" muted="muted" autoplay="autoplay" loop="loop" crossorigin="" controls="">
@@ -129,6 +130,7 @@
       let shouldAnimate = false
 
       function initUI(options) {
+        bindAttributePannel()
         setTimeout(() => {
           if (graphicLayer) {
             $("#enabledShowHide").attr("checked", graphicLayer.show)

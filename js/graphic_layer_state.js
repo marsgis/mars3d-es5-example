@@ -292,6 +292,12 @@ function expJSONFile() {
 //  ***************************** 属性面板 ***********************  //
 // 绑定事件，激活属性面板
 function bindAttributePannel() {
+  // 初始化表格数据
+  if ($("#graphicTable")) {
+    graphicLayer.readyPromise.then(function (layer) {
+      getTableData(graphicLayer)
+    })
+  }
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
     let val = $("#hasEdit").is(":checked")
     if (val) {
@@ -354,3 +360,157 @@ function stopEditing() {
   }, 200)
 }
 //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+
+//  ***************************** 数据列表 ***********************  //
+
+let tableEventTarget = new mars3d.BaseClass()
+
+function tableInit(data) {
+  $("#graphicTable").bootstrapTable({
+    data: data,
+    pagination: true,
+    singleSelect: false,
+    checkboxHeader: false,
+    columns: [
+      {
+        title: "是否显示",
+        field: "show",
+        align: "center",
+        checkbox: true,
+        width: 50,
+        formatter: function (value, row, index) {
+          return {
+            checked: true
+          }
+        }
+      },
+      {
+        field: "name",
+        title: "名称"
+      },
+      {
+        title: "操作",
+        align: "center",
+        width: 80,
+        events: {
+          "click .remove": function (e, value, row, index) {
+            const graphic = graphicLayer.getGraphicById(row.id)
+            graphicLayer.removeGraphic(graphic)
+          },
+          "click .edit": function (e, value, row, index) {
+            const graphic = graphicLayer.getGraphicById(row.id)
+            showEditor({ graphic })
+          }
+        },
+        formatter: function (value, row, index) {
+          return [
+            '<a class="edit" href="javascript:void(0)" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;',
+            '<a class="remove" href="javascript:void(0)" title="删除"><i class="fa fa-trash"></i></a>'
+          ].join("")
+        }
+      }
+    ],
+    //定位区域
+    onClickRow: function (row) {
+      flyToTableItem(row.id)
+    },
+    //勾选显示
+    onCheck: function (row) {
+      onSelectTableItem(row.id, true)
+    },
+    //取消勾选显示
+    onUncheck: function (row) {
+      onSelectTableItem(row.id, false)
+    }
+  })
+}
+
+// 更新表格数据
+function refreshTabel(layer) {
+  const newData = getDataByLayer(layer)
+  $("#graphicTable").bootstrapTable("load", newData)
+}
+
+// 删除表格中的指定项
+function removeTableItem(id) {
+  $("#graphicTable").bootstrapTable("remove", { field: "id", values: id })
+}
+
+// tableEventTarget.on("graphicList", function (event) {
+//   tableInit(event.graphicList)
+// })
+// tableEventTarget.on("removeGraphic", function (event) {
+//   removeTableItem(event.graphicId)
+// })
+
+function flyToTableItem(id) {
+  const graphic = graphicLayer.getGraphicById(id)
+  if (graphic) {
+    graphic.flyTo()
+  }
+}
+
+function onSelectTableItem(id, selected) {
+  const graphic = graphicLayer.getGraphicById(id)
+  if (!graphic) {
+    return
+  }
+  if (selected) {
+    graphic.show = true
+    graphic.flyTo()
+  } else {
+    graphic.show = false
+  }
+}
+
+// 获取图层数据，填充表格数据，同时监听图层操作
+function getTableData(graphicLayer) {
+  graphicLayer.on(mars3d.EventType.removeGraphic, function (event) {
+    const graphicId = event.graphic.id
+    removeTableItem(graphicId)
+  })
+
+  // 图上标绘触发事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (event) {
+    refreshTabel(graphicLayer)
+  })
+
+  const graphicList = getDataByLayer(graphicLayer)
+  tableInit(graphicList)
+}
+
+let graphicIndex = 0
+function getItemName(graphic) {
+  if (graphic?.style?.label?.text) {
+    return `${graphic.type} - ${graphic.style.label.text}`
+  }
+
+  if (graphic.name) {
+    return `${graphic.type} - ${graphic.name}`
+  }
+  if (graphic.attr.remark) {
+    return `${graphic.type} - ${graphic.attr.remark}`
+  }
+
+  graphic.name = `未命名${++graphicIndex}`
+  return `${graphic.type} - ${graphic.name}`
+}
+
+// 将layer中的数据转为表格中的数据
+function getDataByLayer(graphicLayer) {
+  const graphics = graphicLayer.getGraphics()
+
+  let graphicList = []
+
+  graphics.forEach((graphic) => {
+    const itemObj = {
+      id: graphic.id,
+      name: getItemName(graphic),
+      type: graphic.type,
+      show: true
+    }
+    graphicList.push(itemObj)
+  })
+
+  return graphicList
+}

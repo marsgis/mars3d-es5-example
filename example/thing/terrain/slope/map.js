@@ -29,7 +29,7 @@ function onUnmounted() {
 }
 
 function addSlope() {
-  // 剖度坡向
+  // 坡度坡向
   slope = new mars3d.thing.Slope({
     arrow: {
       scale: 0.3, // 箭头长度的比例（范围0.1-0.9）
@@ -55,8 +55,8 @@ function addSlope() {
     console.log("分析完成", event)
 
     const positions = event.positions
-    if (positions.length > 2) {
-      positions[0] = mars3d.PointUtil.setPositionsHeight(positions[0], event.minHeight - 100)
+    if (positions.length >= 2) {
+      positions[0] = mars3d.PointUtil.setPositionsHeight(positions[0], event.minHeight - 1000)
       positions[positions.length - 1] = mars3d.PointUtil.setPositionsHeight(positions[positions.length - 1], event.maxHeight + 100)
       contourLine.positions = positions
     }

@@ -37,8 +37,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -54,10 +52,9 @@
       </div>
       <div>
         面插值数:
-        <input id="interPolygonByDepthId" type="number" value="10" step="1" min="1" max="999" class="form-control" style="width: 100px" />
+        <input id="interPolygonByDepthId" type="number" value="300" step="1" min="1" max="999" class="form-control" style="width: 100px" />
         <input type="button" class="btn btn-primary" value="面插值(离屏渲染方式)" onclick="interPolygonByDepthFn()" />
       </div>
-
 
       <div>
         面内插点:
@@ -65,17 +62,16 @@
         <input type="button" class="btn btn-primary" value="面插点" onclick="interPolygonGridFn()" />
       </div>
 
-
       <div>
         线插值数:
-        <input id="inputNumberPolylineId" type="number" value="10" step="1" min="1" max="999" class="form-control" style="width: 100px" />
+        <input id="inputNumberPolylineId" type="number" value="100" step="1" min="1" max="999" class="form-control" style="width: 100px" />
         <input type="button" class="btn btn-primary" value="线插值" onclick="interPolylineFn()" />
         <input type="button" class="btn btn-primary" value="线插值(高度等分)" onclick="interLineFn()" />
       </div>
 
       <div>
         线插值数:
-        <input id="interLineByDepthId" type="number" value="100" step="1" min="1" max="9999" class="form-control" style="width: 100px" />
+        <input id="interLineByDepthId" type="number" value="300" step="1" min="1" max="9999" class="form-control" style="width: 100px" />
 
         <input type="button" class="btn btn-primary" value="线插值(离屏渲染方式)" onclick="interLineByDepthFn()" />
       </div>
@@ -97,12 +93,10 @@
         interPolygonByDepth(val)
       }
 
-
       function interPolygonGridFn() {
         let val = Number($("#interPolygonGridId").val())
         interPolygonGrid(val)
       }
-
 
       function interPolylineFn() {
         let val = Number($("#inputNumberPolylineId").val())
@@ -117,8 +111,6 @@
         let val = Number($("#inputNumberPolylineId").val())
         interLineByDepth(val)
       }
-
-
     </script>
   </body>
 </html>

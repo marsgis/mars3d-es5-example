@@ -21,11 +21,11 @@
     <title>大数据圆(合并渲染) | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
     <script
-    type="text/javascript"
-    src="/lib/include-lib.js"
-    libpath="/lib/"
-    include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
-  ></script>
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
+    ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
   </head>
@@ -40,9 +40,9 @@
           <input id="enabledShowHide" class="styled" type="checkbox" checked />
           <label for="enabledShowHide"> 显示 </label>
         </div>
-        <div   class="checkbox checkbox-primary checkbox-inline">
+        <div class="checkbox checkbox-primary checkbox-inline">
           透明度：
-          <input id="opacity" style="width: 80px;"/>
+          <input id="opacity" style="width: 80px" />
         </div>
         <div class="checkbox checkbox-primary checkbox-inline">
           <input id="onClickFlyTo" title="视角定位" type="button" class="btn btn-primary" value="定位" />
@@ -81,6 +81,7 @@
         <input onclick="expGeoJSONFile()" type="button" class="btn btn-primary" value="导出GeoJSON" title="保存GeoJSON" />
         <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
       </div>
+      <table id="graphicTable"></table>
     </div>
 
     <script src="/js/common.js"></script>
@@ -90,6 +91,7 @@
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
+        bindAttributePannel()
         setTimeout(() => {
           if (graphicLayer) {
             $("#enabledShowHide").attr("checked", graphicLayer.show)
@@ -180,7 +182,7 @@
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
 
-                    const graphics = graphicLayer.getGraphics()
+          const graphics = graphicLayer.getGraphics()
           editorGraphic = graphics[graphics.length - 1]
         })
         $("#onClickClear").click(function () {

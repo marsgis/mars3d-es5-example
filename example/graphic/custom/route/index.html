@@ -37,8 +37,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -107,6 +105,25 @@
                   return "挖掘机"
                 }
                 return ""
+              }
+            },
+            {
+              title: "操作",
+              align: "center",
+              width: 80,
+              events: {
+                "click .remove": function (e, value, row, index) {
+                  // thisWidget.deleteGraphic(row.id)
+                },
+                "click .edit": function (e, value, row, index) {
+                  // that.showTableItem(row)
+                }
+              },
+              formatter: function (value, row, index) {
+                return [
+                  '<a class="edit" href="javascript:void(0)" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;',
+                  '<a class="remove" href="javascript:void(0)" title="删除"><i class="fa fa-trash"></i></a>'
+                ].join("")
               }
             }
           ],

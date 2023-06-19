@@ -24,7 +24,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -91,6 +91,7 @@
         <input onclick="expGeoJSONFile()" type="button" class="btn btn-primary" value="导出GeoJSON" title="保存GeoJSON" />
         <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
       </div>
+      <table id="graphicTable"></table>
     </div>
 
     <!-- 切换视角到模型或地形（山区）的快捷按钮 -->
@@ -195,7 +196,7 @@
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
 
-                    const graphics = graphicLayer.getGraphics()
+          const graphics = graphicLayer.getGraphics()
           editorGraphic = graphics[graphics.length - 1]
         })
         $("#onClickClear").click(function () {
