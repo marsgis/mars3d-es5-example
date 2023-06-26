@@ -262,9 +262,9 @@ function showFrustum(isCheckde) {
 }
 
 // 改变视频透明度
-function onChangeOpacity(value) {
+function onChangeOpacity(opacity) {
   if (video2D) {
-    video2D.opacity = value
+    video2D.setOpacity(opacity)
   }
 }
 

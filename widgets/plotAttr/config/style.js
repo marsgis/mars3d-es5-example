@@ -2225,8 +2225,8 @@ const styleConfig = {
       { name: "width", label: "墙厚度", type: "number", step: 1, defval: 9999.0 },
       { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
       { name: "opacity", label: "透明度", type: "number", step: 0.1, min: 0.0, max: 1.0, defval: 1.0 },
-      { name: "closure", label: "是否闭合", type: "radio", defval: false }, 
-      { name: "hasShadows", label: "是否阴影", type: "radio", defval: false }, 
+      { name: "closure", label: "是否闭合", type: "radio", defval: false },
+      { name: "hasShadows", label: "是否阴影", type: "radio", defval: false }
     ]
   },
   diffuseWall: {

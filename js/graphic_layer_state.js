@@ -399,7 +399,11 @@ function tableInit(data) {
           },
           "click .edit": function (e, value, row, index) {
             const graphic = graphicLayer.getGraphicById(row.id)
-            showEditor({ graphic })
+            if ($("#infoview-left")) {
+              showInfoViewLeft(graphic)
+            } else {
+              showEditor({ graphic })
+            }
           }
         },
         formatter: function (value, row, index) {

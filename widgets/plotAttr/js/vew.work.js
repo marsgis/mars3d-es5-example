@@ -23,8 +23,7 @@ function initWidgetView(_thisWidget) {
   thisWidget.startEditing()
 }
 
-
-let newAttr = {}// 解决的问题：在updateAttr捕获到内容改变后，会导致仅保留最后一次更改的属性数据
+let newAttr = {} // 解决的问题：在updateAttr捕获到内容改变后，会导致仅保留最后一次更改的属性数据
 
 //属性编辑相关
 var plotEdit = {
@@ -101,7 +100,7 @@ var plotEdit = {
     }
     this._last_attr = attr
 
-    let config = window.styleConfig[attr.type] || window.styleConfig[attr.styleType] || {}
+    let config = window.styleConfig[attr.styleType] || window.styleConfig[attr.type] || {}
     config.style = config.style || {}
 
     function getViewShow(cfg, styleOptions) {
@@ -467,7 +466,8 @@ var plotEdit = {
     switch (edit.type) {
       default:
       case "label":
-        inHtml = attrVal
+        // html文件直接显示
+        inHtml = `<xmp class="mp_label">${attrVal}</xmp>`
         break
       case "text":
         inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '"    class="mp_input" />'

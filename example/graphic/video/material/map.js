@@ -234,7 +234,7 @@ function videoStop() {
  */
 function angleChange(value) {
   videoGraphic?.setStyle({
-    rotationDegree: value
+    stRotationDegree: value
   })
 }
 

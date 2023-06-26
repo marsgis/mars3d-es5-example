@@ -105,7 +105,7 @@
       <table id="graphicTable"></table>
     </div>
 
-    <div class="infoview infoview-left">
+    <div class="infoview infoview-left" id="infoview-left">
       <table class="mars-table">
         <tbody>
           <tr>
@@ -200,8 +200,12 @@
         videoRotate: 0
       }
 
+      let showLeft = false
+
       function initUI(options) {
         bindAttributePannel()
+
+        $("#infoview-left").hide()
         setTimeout(() => {
           if (graphicLayer) {
             $("#enabledShowHide").attr("checked", graphicLayer.show)
@@ -287,7 +291,12 @@
         // 数据维护
         $("#hasEdit").change(function () {
           let val = $(this).is(":checked")
-          graphicLayer.hasEdit = val
+          // graphicLayer.hasEdit = val   使用这个示例左边的弹出框
+          if (val && showLeft) {
+            $("#infoview-left").show()
+          } else {
+            $("#infoview-left").hide()
+          }
 
           // 编辑时，为了方便操作自动关闭Popup，真实项目中请按需修改
           $("#enabledPopup").attr("checked", !val)
@@ -302,6 +311,7 @@
         })
         $("#onClickClear").click(function () {
           graphicLayer.clear()
+          $("#infoview-left").hide()
           dynamicRiver = null
         })
 
@@ -414,6 +424,17 @@
         video.opcity = data.opcity
         video.heading = data.heading
       })
+
+      function showInfoViewLeft(graphic) {
+        $("#infoview-left").show()
+      }
+
+      setTimeout(() => {
+        graphicLayer.on(mars3d.EventType.click, function (event) {
+          showLeft = true
+          $("#infoview-left").show()
+        })
+      }, 100)
     </script>
   </body>
 </html>
