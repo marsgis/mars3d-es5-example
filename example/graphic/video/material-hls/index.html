@@ -88,7 +88,7 @@
 
       <div>
         数据维护：
-        <input onclick="startDrawGraphic1()" type="button" class="btn btn-primary" value="贴地矩形" title="在图上绘制新增一个矢量数据" />
+        <input onclick="startDrawGraphic()" type="button" class="btn btn-primary" value="贴地矩形" title="在图上绘制新增一个矢量数据" />
         <input onclick="startDrawGraphic2()" type="button" class="btn btn-primary" value="立体面" title="在图上绘制新增一个矢量数据" />
         <div id="enabledEdit" class="checkbox checkbox-primary checkbox-inline">
           <input id="hasEdit" class="styled" type="checkbox" />
@@ -98,12 +98,13 @@
 
       <table class="mars-table">
         <tbody>
-          <tr>
+          <!-- 放在编辑的弹出框里面进行修改 -->
+          <!-- <tr>
             <td>方向:</td>
             <td>
               <input id="txtAngle" />
             </td>
-          </tr>
+          </tr> -->
           <tr>
             <td>状态:</td>
             <td>
@@ -226,7 +227,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
-
+          refreshTabelFn()
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
         $("#onClickClear").click(function () {
@@ -265,6 +266,12 @@
               })
             }
           })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

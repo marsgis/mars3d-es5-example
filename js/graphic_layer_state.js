@@ -344,19 +344,23 @@ function showEditor(e) {
   if (plotAttr && plotAttr.isActivate) {
     plotAttr.startEditing(graphic, graphic.coordinates)
   } else {
-    mars3d.widget.activate({
-      map: map,
-      uri: "widgets/plotAttr/widget.js",
-      name: "属性编辑",
-      graphic: graphic,
-      lonlats: graphic.coordinates
-    })
+    // 左侧没有弹出的修改面板时，弹出widget
+    $("#infoview-left").length === 0 &&
+      mars3d.widget.activate({
+        map: map,
+        uri: "widgets/plotAttr/widget.js",
+        name: "属性编辑",
+        graphic: graphic,
+        lonlats: graphic.coordinates
+      })
   }
 }
 
 function stopEditing() {
   timeTik = setTimeout(function () {
-    mars3d.widget.disable("widgets/plotAttr/widget.js")
+    if (mars3d.widget) {
+      mars3d.widget.disable("widgets/plotAttr/widget.js")
+    }
   }, 200)
 }
 //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
@@ -396,11 +400,16 @@ function tableInit(data) {
           "click .remove": function (e, value, row, index) {
             const graphic = graphicLayer.getGraphicById(row.id)
             graphicLayer.removeGraphic(graphic)
+            if ($("#infoview-left").length > 0) {
+              $("#infoview-left").hide()
+            }
           },
           "click .edit": function (e, value, row, index) {
-            const graphic = graphicLayer.getGraphicById(row.id)
-            if ($("#infoview-left")) {
-              showInfoViewLeft(graphic)
+            // const graphic = graphicLayer.getGraphicById(row.id)
+            const graphic = getGraphic(row.id)
+            graphic.hasEdit && graphic.startEditing()
+            if ($("#infoview-left").length > 0) {
+              $("#infoview-left").show()
             } else {
               showEditor({ graphic })
             }

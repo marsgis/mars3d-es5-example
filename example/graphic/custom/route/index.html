@@ -49,7 +49,6 @@
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
-    <script src="/js/graphic_layer_state.js"></script>
 
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
@@ -154,6 +153,11 @@
         addLog(event.path)
       })
 
+      eventTarget.on("removeCar", function (event) {
+        removeTableItem(event.id)
+      })
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+      let timeTik
       function showEditor(e) {
         const graphic = e.graphic
         clearTimeout(timeTik)

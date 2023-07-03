@@ -99,12 +99,13 @@
 
       <table class="mars-table">
         <tbody>
-          <tr>
+          <!-- 在编辑的弹出框中修改方向 -->
+          <!-- <tr>
             <td>方向:</td>
             <td>
               <input id="txtAngle" />
             </td>
-          </tr>
+          </tr> -->
           <tr>
             <td>状态:</td>
             <td>
@@ -226,7 +227,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
-
+          refreshTabelFn()
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
         $("#onClickClear").click(function () {
@@ -261,6 +262,12 @@
               angleChange(e.value.newValue)
             }
           })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

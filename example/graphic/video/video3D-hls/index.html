@@ -95,7 +95,7 @@
       <div>
         数据维护：
         <input onclick="startDrawGraphic()" type="button" class="btn btn-primary" value="绘制投射视频" title="在图上绘制新增一个矢量数据" />
-        <input onclick="startDrawGraphic2()" type="button" class="btn btn-primary" value="按当前相机投射视频" title="在图上绘制新增一个矢量数据" />
+        <input onclick="startDrawGraphic2Fn()" type="button" class="btn btn-primary" value="按当前相机投射视频" title="在图上绘制新增一个矢量数据" />
         <div id="enabledEdit" class="checkbox checkbox-primary checkbox-inline">
           <input id="hasEdit" class="styled" type="checkbox" />
           <label for="hasEdit"> 是否编辑 </label>
@@ -103,7 +103,8 @@
       </div>
       <table id="graphicTable"></table>
     </div>
-    <div class="infoview infoview-left">
+    <div class="infoview infoview-left" id="infoview-left">
+      <div class="closeBtn" id="closeBtn">x</div>
       <table class="mars-table">
         <tbody>
           <tr>
@@ -196,8 +197,10 @@
         videoRotate: 0
       }
 
+      let showLeft = false
       function initUI(options) {
         bindAttributePannel()
+        $("#infoview-left").hide()
         setTimeout(() => {
           if (graphicLayer) {
             $("#enabledShowHide").attr("checked", graphicLayer.show)
@@ -283,7 +286,12 @@
         // 数据维护
         $("#hasEdit").change(function () {
           let val = $(this).is(":checked")
-          graphicLayer.hasEdit = val
+          if (val && showLeft) {
+            $("#infoview-left").show()
+          } else {
+            $("#infoview-left").hide()
+          }
+          showLeft = val
 
           // 编辑时，为了方便操作自动关闭Popup，真实项目中请按需修改
           $("#enabledPopup").attr("checked", !val)
@@ -293,11 +301,12 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
-
+          refreshTabelFn()
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
         $("#onClickClear").click(function () {
           graphicLayer.clear()
+          $("#infoview-left").hide()
           dynamicRiver = null
         })
 
@@ -387,6 +396,11 @@
           onClickSelView()
         })
 
+        $("#closeBtn").click(function () {
+          lastGraphic && lastGraphic.stopEditing()
+          $("#infoview-left").hide()
+        })
+
         $("#btnLocate").click(function () {
           locate()
         })
@@ -410,6 +424,29 @@
         video.opcity = data.opcity
         video.heading = data.heading
       })
+
+      let lastGraphic
+      setTimeout(() => {
+        graphicLayer.on(mars3d.EventType.click, function (event) {
+          lastGraphic && lastGraphic.stopEditing()
+          lastGraphic = event.graphic
+          lastGraphic.startEditing()
+          if (showLeft) {
+            $("#infoview-left").show()
+          }
+        })
+      }, 100)
+
+      function startDrawGraphic2Fn() {
+        const graphic = startDrawGraphic2()
+        refreshTabelFn()
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
+      }
     </script>
   </body>
 </html>

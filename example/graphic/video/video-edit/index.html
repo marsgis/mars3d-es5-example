@@ -126,7 +126,7 @@
         编辑Canvas
         <input id="startDraw" onclick="draw()" type="button" class="btn btn-primary" value="开始绘制" />
         <input id="stopDraw" onclick="draw()" type="button" class="btn btn-primary" value="停止绘制" />
-        <input onclick="clear()" type="button" class="btn btn-primary" value="清除" />
+        <input id="clearBtn" type="button" class="btn btn-primary" value="清除" />
         <div class="checkbox checkbox-primary checkbox-inline">
           <input id="isEdit" class="styled" type="checkbox" />
           <label for="isEdit"> 编辑点 </label>
@@ -163,6 +163,13 @@
         [0, 0]
       ]
       let isEdit = true
+
+      let lastList = [
+        [0, 1],
+        [1, 1],
+        [1, 0],
+        [0, 0]
+      ]
 
       function initUI(options) {
         bindAttributePannel()
@@ -271,6 +278,10 @@
           onClickImpFile(file)
         })
 
+        $("#clearBtn").click(function () {
+          clear()
+        })
+
         bindEvnet()
       }
 
@@ -281,9 +292,9 @@
         const drawVideo = document.getElementById("drawVideo")
         drawVideoCanvas = new CanvasEdit(drawVideo)
         drawVideo.addEventListener("mousemove", () => {
-          if (uvList.length !== drawVideoCanvas.uvList.length && uvList.length >= 3) {
-            updateROI(drawVideoCanvas.uvList)
-            uvList = drawVideoCanvas.uvList
+          const list = drawVideoCanvas.uvList
+          if (list.length >= 3 && isSame(list, lastList)) {
+            updateROI(lastList)
           }
         })
 
@@ -298,6 +309,21 @@
           let val = $(this).is(":checked")
           choosePoint(val)
         })
+      }
+
+      function isSame(leftList, rightList) {
+        if (leftList.length !== rightList.length) {
+          lastList = leftList
+          return true
+        }
+
+        for (let i = 0; i < leftList.length; i++) {
+          if (leftList[i][0] !== rightList[i][0] || leftList[i][1] !== rightList[i][1]) {
+            lastList = leftList
+            return true
+          }
+        }
+        return false
       }
 
       let isDrawing = false

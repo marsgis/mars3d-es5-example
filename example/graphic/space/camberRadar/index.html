@@ -77,7 +77,7 @@
     </div>
 
     <!-- 参数面板 -->
-    <div class="infoview infoview-left">
+    <!-- <div class="infoview infoview-left">
       <div style="width: 100%; text-align: center; font-size: 16px">参数设置</div>
       <table class="mars-table">
         <tr>
@@ -137,7 +137,7 @@
           </td>
         </tr>
       </table>
-    </div>
+    </div> -->
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
@@ -193,6 +193,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
+          refreshTabelFn()
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
 
           const graphics = graphicLayer.getGraphics()
@@ -289,6 +290,12 @@
             editorGraphic.startRadius = val
           }
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

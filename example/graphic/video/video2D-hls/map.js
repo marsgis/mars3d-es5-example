@@ -214,6 +214,7 @@ function startDrawGraphic2() {
     }
   })
   graphicLayer.addGraphic(video2D)
+  return video2D
 }
 
 function playOrpause() {
@@ -265,7 +266,7 @@ function showFrustum(isCheckde) {
 // 修改视频的透明度   opacity 透明度数值
 function onChangeOpacity(opacity) {
   if (selectedView) {
-    selectedView.opacity = opacity
+    selectedView.setOpacity(opacity)
   }
 }
 
