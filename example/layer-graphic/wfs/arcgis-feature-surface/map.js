@@ -24,7 +24,6 @@ function onMounted(mapInstance) {
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: 80 },
     maximumScreenSpaceError: 1,
-    maximumMemoryUsage: 1024
   })
   map.addLayer(tiles3dLayer)
 

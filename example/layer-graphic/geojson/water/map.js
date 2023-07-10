@@ -17,7 +17,6 @@ var mapOptions = {
       url: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
       position: { alt: 15.2 },
       maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
       show: true
     },
     {
@@ -105,7 +104,7 @@ function onUnmounted() {
 const minHeight = 16
 let timeInv
 // 高度更新
-function updateHeight(height) {
+ function updateHeight(height) {
   graphic.height = height // 阀门高度
   waterLayer.eachGraphic((graphic) => {
     graphic.updateHeight(height) // 水域高度变化

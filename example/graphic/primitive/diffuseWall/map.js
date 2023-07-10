@@ -25,7 +25,6 @@ function onMounted(mapInstance) {
     name: "上海市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 8,
-    maximumMemoryUsage: 1024,
     marsJzwStyle: true,
     style: {
       color: {
@@ -84,6 +83,7 @@ function addDemoGraphic1() {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(diffuseWallGlow)
+
 }
 
 // 立体围墙扩散效果,圆状
@@ -134,6 +134,7 @@ function addRandomGraphicByCount(count) {
     })
     graphicLayer.addGraphic(graphic)
   }
+
 
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length

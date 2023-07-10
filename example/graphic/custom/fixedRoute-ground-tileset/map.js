@@ -20,7 +20,6 @@ var mapOptions = {
       url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
       position: { alt: 120 },
       maximumScreenSpaceError: 2,
-      maximumMemoryUsage: 1024,
       flyTo: true,
       show: true
     }
