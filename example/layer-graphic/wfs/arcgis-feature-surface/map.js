@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: 80 },
-    maximumScreenSpaceError: 1,
+    maximumScreenSpaceError: 1
   })
   map.addLayer(tiles3dLayer)
 

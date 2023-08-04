@@ -92,7 +92,11 @@ function addDemoGraphic2(graphicLayer) {
       materialOptions: {
         text: "火星科技",
         font_size: 70,
-        color: "#3388cc",
+        fill: true,
+        color: "#00FFFF",
+        // stroke: true,
+        // strokeColor: "#FF0000",
+        // strokeWidth: 3,
         outline: true,
         outlineWidth: 4,
         onCustomCanvas: onCustomCanvas // 对Canvas做自定义处理
@@ -283,6 +287,7 @@ function onClickDrawPoint() {
       if (graphicLayer.hasEdit) {
         rectangleEntity.startEditing()
       }
+      eventTarget.fire("addTableData", { graphicLayer })
     }
   })
 }
@@ -375,4 +380,7 @@ function bindLayerContextMenu() {
       }
     }
   ])
+}
+function getGraphic(graphicId) {
+  return graphicLayer.getGraphicById(graphicId)
 }

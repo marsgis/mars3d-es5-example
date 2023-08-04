@@ -57,13 +57,13 @@ function onUnmounted() {
 }
 
 // 绘制矩形
-function btnDrawExtent(callback) {
+function btnDrawExtent(callback, floodColor) {
   clearDraw()
 
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
-      color: "rgba(0, 123, 230, 0.5)"
+      color: floodColor || "rgba(0, 123, 230, 0.5)"
       // clampToGround: true
     },
     success: function (graphic) {
@@ -80,13 +80,13 @@ function btnDrawExtent(callback) {
 }
 
 // 绘制多边形
-function btnDraw(callback) {
+function btnDraw(callback, floodColor) {
   clearDraw()
 
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
-      color: "rgba(0, 123, 230, 0.5)",
+      color: floodColor || "rgba(0, 123, 230, 0.5)",
       outline: false
       // clampToGround: true
     },

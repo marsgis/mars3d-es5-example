@@ -98,9 +98,10 @@ var plotEdit = {
         ...attr.attr
       }
     }
+
     this._last_attr = attr
 
-    let config = window.styleConfig[attr.styleType] || window.styleConfig[attr.type] || {}
+    let config = window.styleConfig[attr.type] || window.styleConfig[attr.styleType] || {}
     config.style = config.style || {}
 
     function getViewShow(cfg, styleOptions) {
@@ -466,8 +467,7 @@ var plotEdit = {
     switch (edit.type) {
       default:
       case "label":
-        // html文件直接显示
-        inHtml = `<xmp class="mp_label">${attrVal}</xmp>`
+        inHtml = attrVal
         break
       case "text":
         inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '"    class="mp_input" />'

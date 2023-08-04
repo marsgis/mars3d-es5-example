@@ -241,6 +241,17 @@
           }, 100)
         })
       }
+
+      eventTarget.on("addTableData", function (event) {
+        const graphicLayer = event.graphicLayer
+        refreshTabelFn(graphicLayer)
+      })
+
+      function refreshTabelFn(graphicLayer) {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
+      }
     </script>
   </body>
 </html>

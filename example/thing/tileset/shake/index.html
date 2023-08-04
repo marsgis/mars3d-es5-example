@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars3d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <!-- 标题及搜索关键字 -->
+    <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+    <title>淹没分析（globe材质） | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,layer,toastr,jquery.minicolors,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d"
+    ></script>
+
+    <style>
+      .unit_txt {
+        margin-left: 5px;
+      }
+      .shake-input {
+        width: 91%;
+      }
+    </style>
+
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="dark">
+    <div id="mars3dContainer" class="mars3d-container"></div>
+
+    <!-- 面板 -->
+    <div class="infoview">
+      <table id="paramView" class="mars-table">
+        <tr>
+          <td class="nametd">绘制区域</td>
+          <td>
+            <button type="button" id="btnDrawExtent" class="btn btn-default">绘制区域</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="nametd">最大摇晃距离：</td>
+          <td>
+            <input id="maxDistance" value="5" type="number" class="form-control shake-input" onchange="changeMaxDistance()" /><span class="unit_txt"
+              >米</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="nametd">摇晃一次时间：</td>
+          <td>
+            <input id="duration" value="1000" type="number" class="form-control shake-input" onchange="changeDuration()" /><span class="unit_txt"
+              >毫秒</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="nametd">最大高度：</td>
+          <td>
+            <input id="maxHeight" value="120" type="number" class="form-control shake-input" onchange="changeMaxHeight()" /><span class="unit_txt"
+              >米</span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="nametd">范围内颜色</td>
+          <td>
+            <input type="text" id="txtColor" style="width: 100px" />
+          </td>
+        </tr>
+        <tr>
+          <td class="nametd">范围外颜色</td>
+          <td>
+            <input type="text" id="txtOutColor" style="width: 100px" />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI(options) {
+        // 绘制矩形
+        $("#btnDrawExtent").click(function () {
+          drawArea()
+        })
+      }
+
+      let inColor = $("#txtColor").val()
+      $("#txtColor").minicolors({
+        position: "bottom left",
+        control: "saturation",
+        format: "rgb",
+        defaultValue: "rgb(255, 0, 0)",
+        change: function (inColor) {
+          tilesetShake.inRangeColor = inColor
+        }
+      })
+
+      $("#txtOutColor").minicolors({
+        position: "bottom left",
+        control: "saturation",
+        format: "rgb",
+        defaultValue: "rgb(252, 249, 249)",
+        change: function (outRangeColor) {
+          tilesetShake.outRangeColor = outRangeColor
+        }
+      })
+
+      function changeMaxDistance() {
+        tilesetShake.maxDistance = $("#maxDistance").val()
+      }
+      function changeDuration() {
+        tilesetShake.duration = $("#duration").val()
+      }
+      function changeMaxHeight() {
+        tilesetShake.maxHeight = $("#maxHeight").val()
+      }
+    </script>
+  </body>
+</html>

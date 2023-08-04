@@ -216,6 +216,7 @@ function onClickImpFile(file) {
         graphicLayer.loadGeoJSON(geojson, { flyTo: true })
       }
       clearSelectFile()
+      refreshTabel(graphicLayer)
     }
   } else if (fileType == "kml") {
     let reader = new FileReader()
@@ -373,6 +374,7 @@ function tableInit(data) {
   $("#graphicTable").bootstrapTable({
     data: data,
     pagination: true,
+    pageList: [3, 5, 10],
     singleSelect: false,
     checkboxHeader: false,
     columns: [
@@ -407,7 +409,8 @@ function tableInit(data) {
           "click .edit": function (e, value, row, index) {
             // const graphic = graphicLayer.getGraphicById(row.id)
             const graphic = getGraphic(row.id)
-            graphic.hasEdit && graphic.startEditing()
+            // 矢量数据不能处于编辑状态，否则点光源示例点击编辑时会失去光
+            // graphic.hasEdit && graphic.startEditing()
             if ($("#infoview-left").length > 0) {
               $("#infoview-left").show()
             } else {
