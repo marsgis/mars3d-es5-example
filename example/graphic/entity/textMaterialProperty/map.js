@@ -263,7 +263,7 @@ function onClickDrawPoint() {
       color: "#ffff00",
       clampToGround: true
     },
-    success: function (graphic) {
+    success: async function (graphic) {
       const position = graphic.positionShow
       const positions = mars3d.PolyUtil.getRectPositionsByCenter({
         center: position,
@@ -282,11 +282,12 @@ function onClickDrawPoint() {
           clampToGround: true
         }
       })
-      graphicLayer.addGraphic(rectangleEntity)
+      await graphicLayer.addGraphic(rectangleEntity)
 
       if (graphicLayer.hasEdit) {
         rectangleEntity.startEditing()
       }
+
       eventTarget.fire("addTableData", { graphicLayer })
     }
   })
@@ -381,6 +382,7 @@ function bindLayerContextMenu() {
     }
   ])
 }
+
 function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

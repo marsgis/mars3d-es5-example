@@ -266,6 +266,8 @@ function onClickDrawPoint() {
         }
       })
       graphicLayer.addGraphic(rectangle)
+
+      graphicLayer.fire(mars3d.EventType.drawCreated, { graphic: rectangle })
     })
 }
 
