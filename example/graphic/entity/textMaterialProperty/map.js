@@ -263,7 +263,7 @@ function onClickDrawPoint() {
       color: "#ffff00",
       clampToGround: true
     },
-    success: async function (graphic) {
+    success: function (graphic) {
       const position = graphic.positionShow
       const positions = mars3d.PolyUtil.getRectPositionsByCenter({
         center: position,
@@ -282,7 +282,7 @@ function onClickDrawPoint() {
           clampToGround: true
         }
       })
-      await graphicLayer.addGraphic(rectangleEntity)
+      graphicLayer.addGraphic(rectangleEntity)
 
       if (graphicLayer.hasEdit) {
         rectangleEntity.startEditing()

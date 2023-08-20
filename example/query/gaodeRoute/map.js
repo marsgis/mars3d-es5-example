@@ -100,7 +100,7 @@ function startPoint(type) {
  * 终点按钮
  *
  * @export
- * @param {string} type 不同方式路线查询
+ * @param {number} type 不同方式路线查询
  * @returns {string}
  */
 function endPoint(type) {
