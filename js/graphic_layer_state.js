@@ -407,8 +407,8 @@ function tableInit(data) {
             }
           },
           "click .edit": function (e, value, row, index) {
-            // const graphic = graphicLayer.getGraphicById(row.id)
-            const graphic = getGraphic(row.id)
+            const graphic = graphicLayer.getGraphicById(row.id)
+            // const graphic = getGraphic(row.id)
             // 矢量数据不能处于编辑状态，否则点光源示例点击编辑时会失去光
             // graphic.hasEdit && graphic.startEditing()
             if ($("#infoview-left").length > 0) {

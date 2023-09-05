@@ -31,11 +31,34 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
+    <!-- 面板 -->
+    <div class="infoview">
+      <table class="mars-table">
+        <tr>
+          <td>状态</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkShowEffect" class="styled" type="checkbox" checked />
+              <label for="chkShowEffect"> 开启效果 </label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
     <script src="/js/common.js"></script>
-<script src="./map.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI(options) {
+        $("#chkShowEffect").change(function () {
+          let val = $(this).is(":checked")
+          changeState(val)
+        })
+      }
+    </script>
   </body>
 </html>

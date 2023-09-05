@@ -19,24 +19,176 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
     <title>对象描边 | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <style>
+      .widthInput {
+        margin-left: -20px;
+      }
+    </style>
 
     <!--第三方lib-->
     <script
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,jquery.minicolors,font-awesome,bootstrap,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
+    <!-- 面板 -->
+    <div class="infoview">
+      <table class="mars-table">
+        <tr>
+          <td>开启效果</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkShowEffect" class="styled" type="checkbox" checked />
+              <label for="chkShowEffect"> </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>发光</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkGlow" class="styled" type="checkbox" />
+              <label for="chkGlow"> </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>只显示选中</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkOnlySelected" class="styled" type="checkbox" />
+              <label for="chkOnlySelected"> </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>边缘平面</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkShowPlane" class="styled" type="checkbox" />
+              <label for="chkShowPlane"> </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>线宽</td>
+          <td>
+            <div class="checkbox checkbox-primary widthInput">
+              <input id="chkWidth" class="styled" value="6" />
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>发光强度</td>
+          <td>
+            <input id="txt_glowPower" />
+          </td>
+        </tr>
+        <tr>
+          <td>发光增量</td>
+          <td>
+            <input id="txt_glowStrength" />
+          </td>
+        </tr>
+        <tr>
+          <td>法线夹角</td>
+          <td>
+            <input id="txt_planeAngle" />
+          </td>
+        </tr>
+        <tr>
+          <td>轮廓线颜色</td>
+          <td>
+            <input id="txtColor" class="form-control" style="width: 100px" value="#fff" />
+          </td>
+        </tr>
+        <tr>
+          <td>被遮挡轮廓线颜色</td>
+          <td>
+            <input id="colorHidden" class="form-control" style="width: 100px" value="#fff" />
+          </td>
+        </tr>
+      </table>
+    </div>
+
     <script src="/js/common.js"></script>
-<script src="./map.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI(options) {
+        $("#chkShowEffect").change(function () {
+          let val = $(this).is(":checked")
+
+          changeState(val)
+        })
+
+        $("#chkGlow").change(function () {
+          let val = $(this).is(":checked")
+          changeGlow(val)
+        })
+        $("#chkOnlySelected").change(function () {
+          let val = $(this).is(":checked")
+          changeOnlySelected(val)
+        })
+        $("#chkShowPlane").change(function () {
+          let val = $(this).is(":checked")
+          changeShowPlane(val)
+        })
+
+        // 绑定input事件
+        $("#chkWidth").on("input", function () {
+          // 获取文本框的值
+          var val = $(this).val()
+          changeWidth(val)
+        })
+
+        $("#txt_glowPower")
+          .slider({ min: 0.0, max: 10.0, step: 0.01, value: 1.0 })
+          .on("change", (e) => {
+            if (e?.value) {
+              changeGlowPower(e.value.newValue)
+            }
+          })
+        $("#txt_glowStrength")
+          .slider({ min: 0.0, max: 10.0, step: 0.01, value: 3.0 })
+          .on("change", (e) => {
+            if (e?.value) {
+              changeGlowStrength(e.value.newValue)
+            }
+          })
+        $("#txt_planeAngle")
+          .slider({ min: 0.0, max: 360.0, step: 0.01, value: 10.0 })
+          .on("change", (e) => {
+            if (e?.value) {
+              changePlaneAngle(e.value.newValue)
+            }
+          })
+
+        $("#txtColor").minicolors({
+          position: "bottom left",
+          control: "saturation",
+          change: function (color, opacity) {
+            changeColor(color)
+          }
+        })
+        $("#colorHidden").minicolors({
+          position: "bottom left",
+          control: "saturation",
+          change: function (color, opacity) {
+            changeColorHidden(color)
+          }
+        })
+      }
+    </script>
   </body>
 </html>
