@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 34.213866, lng: 108.956499, alt: 832, heading: 22, pitch: -35 }
   },
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = null
 
@@ -50,8 +50,19 @@ function onMounted(mapInstance) {
   })
   map.addControl(mapSplit)
 
+  mapSplit.on(mars3d.EventType.mouseMove, function (event) {
+    console.log("拖动了mapSplit控件", event)
+  })
 
   window.mapSplit = mapSplit // only for test
+
+  // 增加2个div文本
+  const addHTML = `
+    <div style="position: absolute;top: 20px;left: -335px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 左侧影像：2021年8月卫星遥感影像 </div>
+    <div style="position: absolute;top: 20px;left: 45px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 右侧影像：2022年8月卫星遥感影像 </div>
+  `
+  const splitter = mars3d.DomUtil.parseDom(addHTML, true)
+  mapSplit.container.appendChild(splitter)
 
   // 加载模型图层 [也支持setLayerSplitDirection方法来设置图层]
   // const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -66,6 +77,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
