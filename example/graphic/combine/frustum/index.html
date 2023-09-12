@@ -24,7 +24,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"
+      include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,es5-widget"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -184,7 +184,7 @@
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
 
-                    const graphics = graphicLayer.getGraphics()
+          const graphics = graphicLayer.getGraphics()
           editorGraphic = graphics[graphics.length - 1]
         })
         $("#onClickClear").click(function () {

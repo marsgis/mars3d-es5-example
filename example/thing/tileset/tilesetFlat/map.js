@@ -1,17 +1,17 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let lineLayer // 矢量图层对象,用于graphic绑定展示
 let tilesetLayer // 3dtiles模型；添加模型选择
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 34.215539, lng: 108.959582, alt: 817, heading: 2, pitch: -46 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,7 +19,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -36,11 +36,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function showDytDemo() {
+function showDytDemo() {
   removeLayer()
 
   // 加模型
@@ -72,7 +72,7 @@ export function showDytDemo() {
   tilesetLayer.flat.on(mars3d.EventType.addItem, onAddFlatArea)
 }
 
-export function showTehDemo() {
+function showTehDemo() {
   removeLayer()
 
   // 以下数据为cesiumlab v3处理，目前其材质有做偏移处理，不知道内部逻辑及具体值，无法平整压平。
@@ -112,7 +112,7 @@ function removeLayer() {
 }
 
 // 添加矩形
-export function btnDrawExtent(height) {
+function btnDrawExtent(height) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -133,7 +133,7 @@ export function btnDrawExtent(height) {
   })
 }
 // 绘制多边形
-export function btnDraw(height) {
+function btnDraw(height) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -153,7 +153,7 @@ export function btnDraw(height) {
   })
 }
 // 清除
-export function removeAll() {
+function removeAll() {
   tilesetLayer.flat.clear()
 
   map.graphicLayer.clear()
@@ -161,16 +161,16 @@ export function removeAll() {
 }
 
 // 改变压平的高度
-export function changeFlatHeight(val) {
+function changeFlatHeight(val) {
   tilesetLayer.flat.updateHeight(val)
 }
 
 // 是否显示测试边界线
-export function chkShowLine(val) {
+function chkShowLine(val) {
   lineLayer.show = val
 }
 
-export function showHideArea(id, selected) {
+function showHideArea(id, selected) {
   if (selected) {
     tilesetLayer.flat.showArea(id)
   } else {
@@ -179,13 +179,13 @@ export function showHideArea(id, selected) {
 }
 
 // 定位至模型
-export function flyToGraphic(item) {
+function flyToGraphic(item) {
   const graphic = tilesetLayer.flat.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 // 删除模型
-export function deletedGraphic(areaId, lineId) {
+function deletedGraphic(areaId, lineId) {
   tilesetLayer.flat.removeArea(areaId)
 
   const graphicLine = lineLayer.getGraphicById(lineId)

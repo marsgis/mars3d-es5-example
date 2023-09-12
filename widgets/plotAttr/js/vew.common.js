@@ -16,7 +16,16 @@ $(function () {
       localforage.setItem(storageName, _id)
     }
   })
-  $("#tab_attr").click()
+
+  $("#tab_attr").click(function () {
+    $(".mp_tab_ava").hide()
+    $(".mp_tab_con").show()
+  })
+
+  $("#tab_availability").click(function () {
+    $(".mp_tab_con").hide()
+    $(".mp_tab_ava").show()
+  })
 
   // mp_tree
   $(".open").click(changeOpenShowHide)

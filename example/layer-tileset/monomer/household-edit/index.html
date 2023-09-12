@@ -21,7 +21,7 @@
   <title>分层分户矢量单体化编辑|Mars3D|三维地图| 火星科技|合肥火星科技|合肥火星科技有限公司</title>
 
   <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
-    include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-widget"></script>
+    include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,es5-widget"></script>
 
   <link href="/css/style.css" rel="stylesheet" />
 
@@ -119,10 +119,10 @@
     let currentHouseType // 当前房屋的位置
     let hasDraw // 是否已经画出区域
     let dthPara = {
-      maxHeight: 0,// 最高高
-      minHeight: 0,// 最低高
-      floorCount: 1,// 楼层数
-      positions: []// 画出范围的graphic的位置数组
+      maxHeight: 0, // 最高高
+      minHeight: 0, // 最低高
+      floorCount: 1, // 楼层数
+      positions: [] // 画出范围的graphic的位置数组
     }
     let isEditing // 处于编辑状态
     let tableData = [] // 表格数据
@@ -348,7 +348,6 @@
 
     // 删除房型
     function deleteTableItem(data) {
-
       tableData = tableData.filter((item) => {
         if (item.positions[0][0] !== data.positions[0][0]) {
           return true
@@ -373,7 +372,6 @@
     }
 
     function openGeoJSONEnd(graphics) {
-
       // 查看共所有号房型
       const houseTypeCounts = graphics
         .map((graphic) => {
@@ -387,18 +385,17 @@
           }
         }, [])
 
-      console.log("houseTypeCounts", houseTypeCounts);
-      console.log("graphics", graphics);
+      console.log("houseTypeCounts", houseTypeCounts)
+      console.log("graphics", graphics)
 
       tableData = []
       let tbody = document.getElementById("tbPoly")
       // 清空表格
-      var child = tbody.lastElementChild;
+      var child = tbody.lastElementChild
       while (child) {
-        tbody.removeChild(child);
-          child = tbody.lastElementChild;
+        tbody.removeChild(child)
+        child = tbody.lastElementChild
       }
-
 
       houseTypeCounts.forEach((houseType) => {
         let dthPara = {
@@ -420,12 +417,10 @@
         tableData.push(dthPara)
       })
 
-      tableData.forEach( item => {
+      tableData.forEach((item) => {
         addTableItem(item)
       })
-
-    }
-
+}
 
     const pushLoadDataToTable = (data) => {
       console.log("获取到的data--------", data)

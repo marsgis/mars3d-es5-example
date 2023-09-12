@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measure
 
 /**
@@ -9,7 +9,7 @@ let measure
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改编辑点样式，比如大小
@@ -43,21 +43,21 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function onlyPickModelPosition(val) {
+function onlyPickModelPosition(val) {
   // 控制鼠标只取模型上的点，忽略地形上的点的拾取
   map.onlyPickModelPosition = val
 }
 
-export function removeAll() {
+function removeAll() {
   measure.clear()
 }
 
 // 空间距离
-export function measureLength() {
+function measureLength() {
   measure.distance({
     showAddText: true,
     label: {
@@ -81,7 +81,7 @@ export function measureLength() {
   })
 }
 // 贴地距离
-export function measureSurfaceLength() {
+function measureSurfaceLength() {
   measure.distanceSurface({
     showAddText: true,
     exact: false // 是否进行精确计算， 传false时是否快速概略计算方式，该方式计算精度较低，但计算速度快，仅能计算在当前视域内坐标的高度
@@ -94,7 +94,7 @@ export function measureSurfaceLength() {
   })
 }
 // 水平面积
-export function measureArea() {
+function measureArea() {
   measure.area({
     // style: {
     //   color: '#00fff2',
@@ -107,7 +107,7 @@ export function measureArea() {
   })
 }
 // 贴地面积
-export function measureSurfaceeArea() {
+function measureSurfaceeArea() {
   measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -117,22 +117,22 @@ export function measureSurfaceeArea() {
   })
 }
 // 高度差
-export function measureHeight() {
+function measureHeight() {
   measure.height()
 }
 
 // 三角测量
-export function measureTriangleHeight() {
+function measureTriangleHeight() {
   measure.heightTriangle()
 }
 
 // 方位角
-export function measureAngle() {
+function measureAngle() {
   measure.angle()
 }
 
 // 坐标测量
-export function measurePoint() {
+function measurePoint() {
   measure.point()
 }
 
