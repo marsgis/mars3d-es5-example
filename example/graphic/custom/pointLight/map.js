@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
-    position: { alt: 11.5 },
+    position: { alt: 148.2 },
     maximumScreenSpaceError: 1,
     dynamicScreenSpaceError: true,
     cullWithChildrenBounds: false,
@@ -149,6 +149,7 @@ function addRandomGraphicByCount(count) {
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length
 }
+
 function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

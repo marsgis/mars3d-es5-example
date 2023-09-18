@@ -593,6 +593,18 @@ function startDrawGraphic2() {
   })
 }
 
+// 开始绘制 自由曲线
+function startDrawBrushLine() {
+  graphicLayer.startDraw({
+    type: "brushLine",
+    style: {
+      color: "#55ff33",
+      width: 3,
+      clampToGround: false
+    }
+  })
+}
+
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
