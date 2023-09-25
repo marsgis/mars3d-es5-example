@@ -48,9 +48,11 @@ function onUnmounted() {
 function createMap() {
   if (map) {
     globalMsg("地图已存在,请勿重复创建!")
-    return
+    return map
   }
   map = new mars3d.Map("mars3dContainer", mapOptions)
+
+  return map
 }
 
 function destroyMap() {

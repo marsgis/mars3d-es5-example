@@ -141,7 +141,9 @@ function getGraphic(graphicId) {
 
 function updatePosition(x, y, z) {
   const position = Cesium.Cartesian3.fromDegrees(x, y, z)
-  modelGraphic.position = position
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.position = position
+  }
   if (satelliteSensor) {
     satelliteSensor.position = position
   }
@@ -153,7 +155,9 @@ function locate() {
 
 // 方向角改变
 function headingChange(value) {
-  modelGraphic.heading = value
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.heading = value
+  }
   if (satelliteSensor) {
     satelliteSensor.heading = value
   }
@@ -161,7 +165,9 @@ function headingChange(value) {
 
 // 俯仰角
 function pitchChange(value) {
-  modelGraphic.pitch = value
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.pitch = value
+  }
   if (satelliteSensor) {
     satelliteSensor.pitch = value
   }
@@ -169,7 +175,9 @@ function pitchChange(value) {
 
 // 左右角
 function rollChange(value) {
-  modelGraphic.roll = value
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.roll = value
+  }
   if (satelliteSensor) {
     satelliteSensor.roll = value
   }
@@ -191,7 +199,9 @@ function angle2(value) {
 
 // 参考轴系显示与隐藏
 function chkShowModelMatrix(val) {
-  modelGraphic.debugAxis = val
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.debugAxis = val
+  }
 }
 
 // 视椎体状态
@@ -219,7 +229,9 @@ function chkSensorType(value) {
 }
 
 function lengthChange(value) {
-  modelGraphic.debugAxisLength = value * 1000
+  if (modelGraphic && modelGraphic.state !== "destroy") {
+    modelGraphic.debugAxisLength = value * 1000
+  }
 }
 
 function updateColor(value) {
