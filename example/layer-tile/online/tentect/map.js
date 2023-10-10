@@ -2,6 +2,9 @@
 
 var map // mars3d.Map三维地图对象
 
+const creditHtml = `©2023 Tencent - <span>审图号：GS(2023)1号</span>
+- <a target="_blank" href="https://lbs.qq.com/terms.html">服务条款</a>`
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {
@@ -15,7 +18,8 @@ var mapOptions = {
       icon: "img/basemaps/gaode_vec.png",
       type: "tencent",
       layer: "vec",
-      show: true
+      show: true,
+      credit: creditHtml
     },
     {
       name: "腾讯影像",
@@ -24,14 +28,16 @@ var mapOptions = {
       layers: [
         { name: "底图", type: "tencent", layer: "img_d" },
         { name: "注记", type: "tencent", layer: "img_z" }
-      ]
+      ],
+      credit: creditHtml
     },
     {
       name: "腾讯深蓝色",
       icon: "img/basemaps/bd-c-midnight.png",
       type: "tencent",
       layer: "custom",
-      style: "4"
+      style: "4",
+      credit: creditHtml
     }
   ]
 }
@@ -46,6 +52,9 @@ var eventTarget = new mars3d.BaseClass()
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  addCreditDOM()
+
+
 }
 
 /**
@@ -53,6 +62,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  removeCreditDOM()
   map = null
 }
 
@@ -74,5 +84,31 @@ function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
+  }
+}
+
+
+
+// 在下侧状态栏增加一个额外div展示图层版权信息
+let creditDOM
+function addCreditDOM() {
+  const locationBar = map.controls.locationBar?.container
+  if (locationBar) {
+    creditDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", locationBar)
+    creditDOM.style["pointer-events"] = "all"
+    creditDOM.style.float = "left"
+    creditDOM.style.marginLeft = "20px"
+
+    creditDOM.innerHTML = map.basemap?.options?.credit || ""
+
+    map.on(mars3d.EventType.changeBasemap, function (event) {
+      creditDOM.innerHTML = event.layer?.options?.credit || ""
+    })
+  }
+}
+function removeCreditDOM() {
+  if (creditDOM) {
+    mars3d.DomUtil.remove(creditDOM)
+    creditDOM = null
   }
 }

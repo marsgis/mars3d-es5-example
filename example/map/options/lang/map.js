@@ -30,6 +30,8 @@ var mapOptions = {
   },
   lang: mars3d.LangType.EN // 使用英文
 }
+ // 其他语言，可以引入 CustomLang.js 后修改 英文为其他语言即可
+
 
 var eventTarget = new mars3d.BaseClass()
 
