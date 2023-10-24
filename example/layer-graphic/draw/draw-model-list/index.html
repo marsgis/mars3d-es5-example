@@ -276,11 +276,11 @@
           graphic._conventStyleJson = true //只处理一次
         }
 
-        let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
+        let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
         if (plotAttr && plotAttr.isActivate) {
           plotAttr.startEditing(graphic, graphic.coordinates)
         } else {
-          mars3d.widget.activate({
+          es5widget.activate({
             map: map,
             uri: "widgets/plotAttr/widget.js",
             name: "属性编辑",
@@ -292,7 +292,7 @@
 
       function stopEditing() {
         timeTik = setTimeout(function () {
-          mars3d.widget.disable("widgets/plotAttr/widget.js")
+          es5widget.disable("widgets/plotAttr/widget.js")
         }, 200)
       }
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】

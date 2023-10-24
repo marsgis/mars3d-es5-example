@@ -118,7 +118,7 @@ function drawClear() {
 // 清除效果
 function clearResult() {
   tableList = []
-  map.graphicLayer.clear()
+  drawClear()
 }
 
 //= ===============卫星过境===================================

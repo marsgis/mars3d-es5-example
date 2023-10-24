@@ -69,11 +69,11 @@ function showEditor(graphic) {
     graphic._conventStyleJson = true //只处理一次
   }
 
-  let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
+  let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {
     plotAttr.startEditing(graphic, graphic.coordinates)
   } else {
-    mars3d.widget.activate({
+    es5widget.activate({
       map: map,
       uri: "widgets/plotAttr/widget.js",
       name: "属性编辑",

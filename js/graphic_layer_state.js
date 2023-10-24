@@ -341,13 +341,13 @@ function showEditor(e) {
     graphic._conventStyleJson = true //只处理一次
   }
 
-  let plotAttr = mars3d.widget.getClass("widgets/plotAttr/widget.js")
+  let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {
     plotAttr.startEditing(graphic, graphic.coordinates)
   } else {
     // 左侧没有弹出的修改面板时，弹出widget
     $("#infoview-left").length === 0 &&
-      mars3d.widget.activate({
+      es5widget.activate({
         map: map,
         uri: "widgets/plotAttr/widget.js",
         name: "属性编辑",
@@ -359,8 +359,8 @@ function showEditor(e) {
 
 function stopEditing() {
   timeTik = setTimeout(function () {
-    if (mars3d.widget) {
-      mars3d.widget.disable("widgets/plotAttr/widget.js")
+    if (es5widget) {
+      es5widget.disable("widgets/plotAttr/widget.js")
     }
   }, 200)
 }

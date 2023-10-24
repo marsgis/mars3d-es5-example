@@ -26,7 +26,7 @@ function init() {
         window.initUI()
       }
 
-      if (mars3d.widget) {
+      if (window.es5widget) {
         initWidget(map)
       }
     })
@@ -54,7 +54,7 @@ function globalInitMap(options) {
 //初始化widget相关
 function initWidget(map) {
   //初始化widget管理器
-  mars3d.widget.init(
+  es5widget.init(
     map,
     {
       defaultOptions: {

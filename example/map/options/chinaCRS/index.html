@@ -32,44 +32,9 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
-    <!-- 面板 -->
-    <div class="infoview">
-      Tip: The default language is Chinese中文简体, you can switch to English, etc.
-      <div>
-        Plot:
-        <input type="button" class="btn btn-primary" value="point" onclick=" startDraw('point')" />
-        <input type="button" class="btn btn-primary" value="polyline" onclick=" startDraw('polyline')" />
-        <input type="button" class="btn btn-primary" value="polygon" onclick=" startDraw('polygon')" />
-        <input type="button" class="btn btn-primary" value="circle" onclick="startDraw('circle')" />
-        <input type="button" class="btn btn-primary" value="rectangle" onclick="startDraw('rectangle')" />
-        <input type="button" class="btn btn-primary" value="wall" onclick=" startDraw('wall')" />
-        <input type="button" class="btn btn-primary" value="cylinder" onclick="startDraw('cylinder')" />
-      </div>
-
-      <div>
-        Measurement:
-        <input type="button" class="btn btn-primary" value="distance" onclick="distance()" />
-        <input type="button" class="btn btn-primary" value="area" onclick="area()" />
-        <input type="button" class="btn btn-primary" value="height" id="height" />
-        <input type="button" class="btn btn-primary" value="coordinate" onclick="coordinate()" />
-        <input type="button" class="btn btn-primary" value="angle" onclick="angle()" />
-      </div>
-    </div>
-
     <script src="/js/common.js"></script>
-    <script src="./CustomLang.js"></script>
     <script src="./map.js"></script>
-
-    <script type="text/javascript">
-      function initUI(options) {
-        $("#height").click(function () {
-          height()
-        })
-      }
-    </script>
   </body>
 </html>
