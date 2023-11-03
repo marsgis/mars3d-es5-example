@@ -99,13 +99,11 @@ function addGraphicLayer() {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: 20,
       angle2: 10,
-      heading: 0,
-      pitch: 0,
-      roll: 0,
       color: "rgba(110,245,0,0.5)"
     }
   })
   graphicLayer.addGraphic(satelliteSensor)
+
 
   // 地面站 展示
   const localStart = Cesium.Cartesian3.fromDegrees(109.51856, 18.258736, 2000)

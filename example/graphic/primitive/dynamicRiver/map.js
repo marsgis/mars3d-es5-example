@@ -152,7 +152,7 @@ function addHeight() {
     globalMsg("上次操作未完成")
     return
   }
-  dynamicRiver.offsetHeight(30, 5) // 5秒内抬高30米
+  dynamicRiver.setOffsetHeight(30, 5) // 5秒内抬高30米
   throttle()
 }
 
@@ -165,7 +165,7 @@ function lowerHeight() {
     globalMsg("上次操作未完成")
     return
   }
-  dynamicRiver.offsetHeight(-30, 5) // 5秒内降低30米
+  dynamicRiver.setOffsetHeight(-30, 5) // 5秒内降低30米
   throttle()
 }
 
