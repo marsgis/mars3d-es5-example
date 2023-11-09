@@ -32,13 +32,16 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
     <div class="infoview">
       Tip: The default language is Chinese中文简体, you can switch to English, etc.
+      <div>
+        语言切换:
+        <input type="button" class="btn btn-primary" value="English" onclick=" toCustomLang()" />
+        <input type="button" class="btn btn-primary" value="中文简体" onclick=" toDefaultLange()" />
+      </div>
       <div>
         Plot:
         <input type="button" class="btn btn-primary" value="point" onclick=" startDraw('point')" />
