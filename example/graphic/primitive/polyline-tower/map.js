@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var echartTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const echartTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 29.526546, lng: 119.823425, alt: 803, heading: 178, pitch: -27 },
     fxaa: true
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -43,7 +43,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -63,9 +63,9 @@ function showData(arrdata) {
     const height = Number(item.height)
 
     const originPoint = {
-      longitude: longitude,
-      latitude: latitude,
-      height: height
+      longitude,
+      latitude,
+      height
     }
     const position = Cesium.Cartesian3.fromDegrees(originPoint.longitude, originPoint.latitude, originPoint.height)
 
@@ -137,7 +137,7 @@ function showData(arrdata) {
 // 绘制电线塔模型
 function drawWireTowerModel(position, degree, inthtml) {
   const graphic = new mars3d.graphic.ModelPrimitive({
-    position: position,
+    position,
     style: {
       url: "//data.mars3d.cn/gltf/mars/tower/tower.glb",
       heading: degree,
@@ -152,10 +152,10 @@ function drawWireTowerModel(position, degree, inthtml) {
 
 function drawGuideLine(positions, color) {
   const graphic = new mars3d.graphic.PolylinePrimitive({
-    positions: positions,
+    positions,
     style: {
       width: 4,
-      color: color
+      color
     }
   })
   graphicLayer.addGraphic(graphic)

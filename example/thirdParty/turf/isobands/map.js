@@ -1,7 +1,7 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var mapOptions = {
+export let map // mars3d.Map三维地图对象
+export const mapOptions = {
   scene: {
     center: { lat: 23.359088, lng: 116.19963, alt: 1262727, heading: 2, pitch: -60 }
   },
@@ -14,7 +14,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.imageryLayers._layers.forEach(function (layer, index, arr) {
@@ -35,7 +35,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -96,7 +96,7 @@ function showWindLine(arr) {
         const val = Number(attr.speed.split("-")[0] || 0)
         const color = getColor(val)
         return {
-          color: color
+          color
         }
       }
     }

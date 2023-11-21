@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let routeLayer
 let gaodeRoute
 
@@ -11,14 +11,14 @@ let poiLayer
 let queryGaodePOI
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
   }
 }
 
 // 自定义事件
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -26,7 +26,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -74,12 +74,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 起点
-function startPoint() {
+export function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -105,7 +105,7 @@ function startPoint() {
 }
 
 // 终点
-function endPoint() {
+export function endPoint() {
   showLoading()
   routeLayer.clear()
   poiLayer.clear()
@@ -139,7 +139,7 @@ function endPoint() {
 }
 
 // 开始分析
-function btnAnalyse(type, count) {
+export function btnAnalyse(type, count) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -159,7 +159,7 @@ function queryRoute(type) {
 
   gaodeRoute.queryArr({
     type: Number(type), // GaodeRouteType枚举类型
-    points: points,
+    points,
     success: function (data) {
       hideLoading()
 
@@ -247,7 +247,7 @@ function addEndPointEntity(arr) {
 }
 
 let lastRoute
-function centerAtRoute(id) {
+export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
 
   if (lastRoute) {
@@ -269,7 +269,7 @@ function centerAtRoute(id) {
 }
 
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null

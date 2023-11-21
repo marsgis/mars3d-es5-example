@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 26.163233, lng: 77.849567, alt: 17754541, heading: 0, pitch: -90 },
     sceneMode: 2
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
@@ -44,7 +44,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -66,7 +66,7 @@ function showRoad(arr, options) {
     if (item.icon) {
       const billboardPrimitive = new mars3d.graphic.BillboardPrimitive({
         name: item.name,
-        position: position,
+        position,
         style: {
           image: "img/country/" + item.icon,
           scale: 0.7,
@@ -100,7 +100,7 @@ function showRoad(arr, options) {
   positions.push(arrPosition[arrPosition.length - 1])
 
   const graphic = new mars3d.graphic.PolylinePrimitive({
-    positions: positions,
+    positions,
     style: {
       width: 4,
       materialType: mars3d.MaterialType.LineFlow,

@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 11.135847, lng: 127.745201, alt: 24250944, heading: 53, pitch: -90 },
     clock: {
@@ -28,7 +28,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   addGraphicLayer()
@@ -38,7 +38,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -53,7 +53,7 @@ function addGraphicLayer() {
   // 绘制轨道
   const graphic = new mars3d.graphic.PathEntity({
     position: property,
-    orientation: orientation,
+    orientation,
     style: {
       leadTime: 0,
       resolution: 1,
@@ -75,7 +75,7 @@ function addGraphicLayer() {
   // 视锥体 展示
   const satelliteSensor = new mars3d.graphic.SatelliteSensor({
     position: property,
-    orientation: orientation,
+    orientation,
     style: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: 20,

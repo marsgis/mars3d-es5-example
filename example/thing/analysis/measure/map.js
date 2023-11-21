@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measure
 
 /**
@@ -9,7 +9,7 @@ let measure
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改编辑点样式，比如大小
@@ -43,21 +43,21 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function onlyPickModelPosition(val) {
+export function onlyPickModelPosition(val) {
   // 控制鼠标只取模型上的点，忽略地形上的点的拾取
   map.onlyPickModelPosition = val
 }
 
-function removeAll() {
+export function removeAll() {
   measure.clear()
 }
 
 // 空间距离
-function measureLength() {
+export function measureLength() {
   measure.distance({
     showAddText: true,
     label: {
@@ -81,7 +81,7 @@ function measureLength() {
   })
 }
 // 贴地距离
-function measureSurfaceLength() {
+export function measureSurfaceLength() {
   measure.distanceSurface({
     showAddText: true,
     exact: false // 是否进行精确计算， 传false时是否快速概略计算方式，该方式计算精度较低，但计算速度快，仅能计算在当前视域内坐标的高度
@@ -94,7 +94,7 @@ function measureSurfaceLength() {
   })
 }
 // 水平面积
-function measureArea() {
+export function measureArea() {
   measure.area({
     // style: {
     //   color: '#00fff2',
@@ -107,7 +107,7 @@ function measureArea() {
   })
 }
 // 贴地面积
-function measureSurfaceeArea() {
+export function measureSurfaceeArea() {
   measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -117,22 +117,22 @@ function measureSurfaceeArea() {
   })
 }
 // 高度差
-function measureHeight() {
+export function measureHeight() {
   measure.height()
 }
 
 // 三角测量
-function measureTriangleHeight() {
+export function measureTriangleHeight() {
   measure.heightTriangle()
 }
 
 // 方位角
-function measureAngle() {
+export function measureAngle() {
   measure.angle()
 }
 
 // 坐标测量
-function measurePoint() {
+export function measurePoint() {
   measure.point()
 }
 
@@ -186,7 +186,7 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function openJSON(file) {
+export function openJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -211,7 +211,7 @@ function openJSON(file) {
   }
 }
 
-function saveJSON() {
+export function saveJSON() {
   if (measure.graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

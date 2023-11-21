@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 29.792325, lng: 121.480055, alt: 146, heading: 198, pitch: -54 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型
@@ -52,7 +52,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   graphicLayer.clear()
 }
@@ -166,7 +166,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -186,7 +186,7 @@ function addRandomGraphicByCount(count) {
     const graphic = new mars3d.graphic.WallPrimitive({
       positions: [pt1, pt2],
       style: {
-        diffHeight: diffHeight,
+        diffHeight,
         materialType: mars3d.MaterialType.Text,
         materialOptions: {
           text: "第" + index + "个",
@@ -194,7 +194,7 @@ function addRandomGraphicByCount(count) {
           color: "#00ffff"
         }
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -204,7 +204,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "wallP",
     maxPointNum: 2,
@@ -222,7 +222,7 @@ function startDrawGraphic() {
 }
 
 // 绘制贴地矩形
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   graphicLayer.startDraw({
     type: "rectangleP",
     style: {
@@ -236,7 +236,7 @@ function startDrawGraphic2() {
 }
 
 // 根据中心点来计算矩形
-function onClickDrawPoint() {
+export function onClickDrawPoint() {
   graphicLayer
     .startDraw({
       type: "point",
@@ -256,7 +256,7 @@ function onClickDrawPoint() {
       })
 
       const rectangle = new mars3d.graphic.RectanglePrimitive({
-        positions: positions,
+        positions,
         style: {
           materialType: mars3d.MaterialType.Text,
           materialOptions: {
@@ -272,19 +272,19 @@ function onClickDrawPoint() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

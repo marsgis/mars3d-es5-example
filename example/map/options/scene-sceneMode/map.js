@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.692469, lng: 116.341333, alt: 16567, heading: 0, pitch: -30 },
     sceneMode: Cesium.SceneMode.SCENE3D,
@@ -20,7 +20,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个标识
@@ -59,7 +59,7 @@ function onMounted(mapInstance) {
   map.on(mars3d.EventType.morphComplete, function (event) {
     if (lastCenterPoint) {
       const radius = map.camera.positionCartographic.height
-      map.flyToPoint(lastCenterPoint, { radius: radius, duration: 0 })
+      map.flyToPoint(lastCenterPoint, { radius, duration: 0 })
     }
   })
 }
@@ -68,21 +68,21 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 切换为二维视图
-function to2d() {
+export function to2d() {
   map.scene.morphTo2D(0)
 }
 
 // 切换为三维视图
-function to3d() {
+export function to3d() {
   map.scene.morphTo3D(0)
 }
 
 // 切换为2.5D维视图
-function toGLB() {
+export function toGLB() {
   map.scene.morphToColumbusView(0)
 }

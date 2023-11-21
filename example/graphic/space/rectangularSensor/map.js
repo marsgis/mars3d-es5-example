@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     fxaa: true,
     center: { lat: 30.834006, lng: 118.779512, alt: 306743, heading: 313, pitch: -58 },
@@ -17,7 +17,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -25,7 +25,7 @@ var eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `该矢量对象不支持拾取`)
@@ -42,11 +42,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function addDemoGraphic1() {
+export function addDemoGraphic1() {
 
   const rectangularSensor = new mars3d.graphic.RectangularSensor({
     position: [117.218875, 31.817812, 138],
@@ -90,7 +90,7 @@ function addDemoGraphic1() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -103,7 +103,7 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.RectangularSensor({
-      position: position,
+      position,
       style: {
         radius: result.radius, // 传感器的半径
         xHalfAngleDegree: 50, // 传感器水平半角
@@ -114,7 +114,7 @@ function addRandomGraphicByCount(count) {
         showScanPlane: false, // 是否显示扫描面
         depthTest: true
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -124,7 +124,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制 相阵控雷达
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "rectangularSensor",
     style: {

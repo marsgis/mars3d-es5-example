@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.83456, lng: 117.219861, alt: 83, heading: 46, pitch: -35 },
     fxaa: true
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("操作提示", `Q 逆时针摆动、 A 顺时针摆动`)
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -41,7 +41,7 @@ function addDemo() {
   const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
 
   const meshVisualizer = new MeshVisualizer({
-    modelMatrix: modelMatrix,
+    modelMatrix,
     up: { y: 1 },
     referenceAxisParameter: {
       length: 100,

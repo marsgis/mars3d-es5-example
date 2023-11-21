@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let drawGraphic
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: -13.151771, lng: 55.60413, alt: 30233027, heading: 154, pitch: -89 },
     cameraController: {
@@ -24,7 +24,7 @@ var mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -32,7 +32,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   // 创建矢量数据图层
@@ -51,7 +51,7 @@ function onMounted(mapInstance) {
     attr["类型"] = event.graphic.type
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr })
   })
 
   creatSatellite()
@@ -61,7 +61,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -156,7 +156,7 @@ function creatSatellite() {
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   drawClear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -173,7 +173,7 @@ function drawRectangle() {
   })
 }
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   drawClear()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -190,7 +190,7 @@ function drawCircle() {
   })
 }
 // 框选查询   多边
-function drawPolygon() {
+export function drawPolygon() {
   drawClear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -207,7 +207,7 @@ function drawPolygon() {
   })
 }
 // 清除
-function drawClear() {
+export function drawClear() {
   map.graphicLayer.clear()
   drawGraphic = null
 }

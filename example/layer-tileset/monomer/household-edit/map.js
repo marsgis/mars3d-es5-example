@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
   }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 模型
@@ -47,12 +47,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 添加单体化数据
-function addData() {
+export function addData() {
   return map.graphicLayer.startDraw({
     type: "polygonP",
     style: {
@@ -71,7 +71,7 @@ function addData() {
 let houseTypeCount = 0
 
 // 生成表格数据，绘制每层
-function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
+export function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
   if (dthPara.floorCount === 0) {
     globalMsg("楼层不能为0 ！")
     return
@@ -116,13 +116,13 @@ function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
       positions: dthPara.positions,
       minHeight: dthPara.minHeight,
       maxHeight: dthPara.maxHeight,
-      houseTypeCount: houseTypeCount
+      houseTypeCount
     }
     const graphic = new mars3d.graphic.PolygonPrimitive({
       positions: dthPara.positions,
       style: {
-        height: height,
-        extrudedHeight: extrudedHeight,
+        height,
+        extrudedHeight,
         // 单体化默认显示样式
         color: getColor(),
         opacity: 0.3,
@@ -130,7 +130,7 @@ function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
         // 单体化鼠标移入或单击后高亮的样式
         highlight: {
           type: mars3d.EventType.click,
-          color: color,
+          color,
           opacity: 0.6
         }
       },
@@ -148,7 +148,7 @@ function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
   }
 }
 
-function getBuildingHeight() {
+export function getBuildingHeight() {
   return map.graphicLayer.startDraw({
     type: "point",
     style: {
@@ -167,7 +167,7 @@ function getBuildingHeight() {
 }
 
 // 取消绘制
-function quitDraw(id) {
+export function quitDraw(id) {
   const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
   quitGraphic && geoJsonLayerDTH.removeGraphic(quitGraphic)
 }
@@ -181,7 +181,7 @@ function getColor() {
 }
 
 // 清除所有graphic数据
-function clearAllData() {
+export function clearAllData() {
   geoJsonLayerDTH.clear(true)
 }
 
@@ -192,7 +192,7 @@ function clearAllData() {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-function openGeoJSON(file, resolve) {
+export function openGeoJSON(file, resolve) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -211,7 +211,7 @@ function openGeoJSON(file, resolve) {
 }
 
 // 点击保存GeoJSON
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (geoJsonLayerDTH.length === 0) {
     globalMsg("当前没有任何数据，无需保存！")
     return

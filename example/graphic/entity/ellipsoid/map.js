@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass()
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.606438, lng: 116.329605, alt: 53280, heading: 0, pitch: -60 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -51,7 +51,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -404,7 +404,7 @@ function addDemoGraphic14(graphicLayer) {
   const position = new mars3d.LngLatPoint(116.5, 30.8, 1000)
   const graphic = new mars3d.graphic.EllipsoidEntity({
     name: "土星",
-    position: position,
+    position,
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       color: new Cesium.Color(0.95, 0.82, 0.49)
@@ -415,7 +415,7 @@ function addDemoGraphic14(graphicLayer) {
 
   const graphicNei = new mars3d.graphic.EllipsoidEntity({
     name: "土星的内圈",
-    position: position,
+    position,
     style: {
       radii: new Cesium.Cartesian3(4000.0, 4000.0, 4000.0),
       innerRadii: new Cesium.Cartesian3(3000.0, 3000.0, 3000.0),
@@ -430,7 +430,7 @@ function addDemoGraphic14(graphicLayer) {
 
   const graphicWai = new mars3d.graphic.EllipsoidEntity({
     name: "土星外圈",
-    position: position,
+    position,
     style: {
       radii: new Cesium.Cartesian3(4600.0, 4600.0, 4600.0),
       innerRadii: new Cesium.Cartesian3(4150.0, 4150.0, 4150.0),
@@ -445,7 +445,7 @@ function addDemoGraphic14(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -460,12 +460,12 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.EllipsoidEntity({
-      position: position,
+      position,
       style: {
         radii: new Cesium.Cartesian3(radius, radius, radius),
         color: Cesium.Color.fromRandom({ alpha: 0.6 })
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -475,7 +475,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "ellipsoid",
     style: {
@@ -485,19 +485,19 @@ function startDrawGraphic() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

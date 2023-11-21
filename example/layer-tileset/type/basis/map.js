@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map
+export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: {
       lat: 28.440864,
@@ -28,7 +28,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -107,7 +107,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -135,18 +135,18 @@ function isPCBroswer() {
 }
 
 // 绑定事件
-function bindTestTerrain(val) {
+export function bindTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
-function bindWireframe(val) {
+export function bindWireframe(val) {
   // 三角网
   tiles3dLayer.tileset.debugWireframe = val
 }
-function bindBoundbox(val) {
+export function bindBoundbox(val) {
   // 包围盒
   tiles3dLayer.tileset.debugShowBoundingVolume = val
 }
-function bindGfirstperson(val) {
+export function bindGfirstperson(val) {
   // 键盘漫游
   map.keyboardRoam.enabled = val
 }
@@ -169,10 +169,10 @@ function removeLayer() {
 /**
  * 倾斜摄影 县城社区
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxShequDemo() {
+export function showQxShequDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -233,10 +233,10 @@ function showQxShequDemo() {
 /**
  * 倾斜摄影 景区文庙
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxSimiaoDemo() {
+export function showQxSimiaoDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -280,7 +280,7 @@ function showQxSimiaoDemo() {
  * 城市白膜建筑物 合肥市区
  * @returns {void}
  */
-function showJzwHefeiDemo() {
+export function showJzwHefeiDemo() {
   removeLayer()
 
   map.basemap = 2017 // 切换到蓝色底图
@@ -324,7 +324,7 @@ function showJzwHefeiDemo() {
 }
 
 // 示例：点云数据 塔杆
-function showPntsGantaDemo() {
+export function showPntsGantaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -360,10 +360,10 @@ function showPntsGantaDemo() {
 /**
  * 人工建模 石化工厂
  *
- * @showMaxShihuaDemo 石化工厂模型
+ * @export showMaxShihuaDemo 石化工厂模型
  * @returns {void}
  */
-function showMaxShihuaDemo() {
+export function showMaxShihuaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -399,7 +399,7 @@ function showMaxShihuaDemo() {
   tiles3dLayer.bindPopup(function (event) {
     const attr = event.graphic.attr
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-    return mars3d.Util.getTemplateHtml({ title: "石化工厂", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "石化工厂", template: "all", attr })
   })
 
   // 单击事件
@@ -411,10 +411,10 @@ function showMaxShihuaDemo() {
 /**
  * BIM 桥梁
  *
- * @showBimQiaoliangDemo 桥梁模型
+ * @export showBimQiaoliangDemo 桥梁模型
  * @returns {void}
  */
-function showBimQiaoliangDemo() {
+export function showBimQiaoliangDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -451,22 +451,30 @@ function showBimQiaoliangDemo() {
   // 可以绑定Popup弹窗，回调方法中任意处理
   tiles3dLayer.bindPopup(function (event) {
     const attr = event.graphic.attr
-    return mars3d.Util.getTemplateHtml({ title: "桥梁", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "桥梁", template: "all", attr })
   })
 
   // 单击事件
   tiles3dLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了3dtiles图层", event)
   })
+
+  // 在指定时间范围显示对象 0-10，20-30,40-max
+  const now = map.clock.currentTime
+  tiles3dLayer.availability = [
+    { start: now, stop: Cesium.JulianDate.addSeconds(now, 10, new Cesium.JulianDate()) },
+    { start: Cesium.JulianDate.addSeconds(now, 20, new Cesium.JulianDate()), stop: Cesium.JulianDate.addSeconds(now, 30, new Cesium.JulianDate()) },
+    { start: Cesium.JulianDate.addSeconds(now, 40, new Cesium.JulianDate()), stop: "2999-01-01 00:00:00" }
+  ]
 }
 
 /**
  * BIM 桥梁
  *
- * @showBimDitiezhanDemo 桥梁模型
+ * @export showBimDitiezhanDemo 桥梁模型
  * @returns {void}
  */
-function showBimDitiezhanDemo() {
+export function showBimDitiezhanDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({

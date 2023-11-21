@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -8,7 +8,7 @@ var map // mars3d.Map三维地图对象
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   startAnimation()
@@ -18,11 +18,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function startAnimation() {
+export function startAnimation() {
   map.flyHome({ duration: 0 })
 
   // 开场动画
@@ -35,6 +35,6 @@ function startAnimation() {
   })
 }
 
-function stopAnimation() {
+export function stopAnimation() {
   map.camera.cancelFlight()
 }

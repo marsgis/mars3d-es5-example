@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 地图API: http://lbs.tianditu.gov.cn/server/MapService.html
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   terrain: false
   // 方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
   // terrain: {
@@ -23,7 +23,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 方式2：在创建地球后更新terrainProvider
@@ -38,11 +38,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 是否开启三角网
-function checkedTriangulation(enabled) {
+export function checkedTriangulation(enabled) {
   map.scene.globe._surface.tileProvider._debug.wireframe = enabled // 三角网
 }

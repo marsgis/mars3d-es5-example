@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.81456, lng: 117.231868, alt: 275.7, heading: 268.2, pitch: -12.5 }
   }
 }
 
-var graphicLayer
+export let graphicLayer
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ var graphicLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -35,7 +35,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -141,8 +141,8 @@ function addDemoGraphic3(graphicLayer) {
     const life = normalSize * (maxLife - minLife) + minLife
 
     const particleSystem = new mars3d.graphic.ParticleSystem({
-      modelMatrix: modelMatrix,
-      emitterModelMatrix: emitterModelMatrix,
+      modelMatrix,
+      emitterModelMatrix,
       updateCallback: force,
       style: {
         image: getImage(),
@@ -153,8 +153,8 @@ function addDemoGraphic3(graphicLayer) {
         imageSize: particlePixelSize,
         emissionRate: 0,
         emitter: new Cesium.SphereEmitter(0.1),
-        bursts: bursts,
-        lifetime: lifetime
+        bursts,
+        lifetime
       },
       attr: { remark: "烟花粒子效果" }
     })
@@ -259,7 +259,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -272,7 +272,7 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.ParticleSystem({
-      position: position,
+      position,
       style: {
         image: "./img/particle/fire2.png",
         particleSize: 5, // 粒子大小（单位：像素）
@@ -285,7 +285,7 @@ function addRandomGraphicByCount(count) {
         minimumSpeed: 7.0, // 最小速度（单位：米/秒）
         maximumSpeed: 9.0 // 最大速度（单位：米/秒）
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -295,7 +295,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "particleSystem",
     style: {
@@ -317,7 +317,7 @@ function startDrawGraphic() {
   })
 }
 
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   graphicLayer.startDraw({
     type: "particleSystem",
     style: {
@@ -338,19 +338,19 @@ function startDrawGraphic2() {
 }
 
 let particleGraphic
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   particleGraphic = graphicLayer.getGraphicById(graphicId)
   return particleGraphic
 }
 
 // 修改样式
-function setStylyToGraphic(style) {
+export function setStylyToGraphic(style) {
   particleGraphic.setStyle(style)
 }
 
 // 修改位置
 let particlePosition
-function btnSelectPosition() {
+export function btnSelectPosition() {
   map.graphicLayer.startDraw({
     type: "point",
     success: function (graphic) {

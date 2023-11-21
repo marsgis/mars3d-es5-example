@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.808137, lng: 116.411699, alt: 23221, heading: 347, pitch: -40 },
     clock: {
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -44,7 +44,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -80,7 +80,7 @@ function addDemoGraphic2(graphicLayer) {
   const position = [116.28782, 30.971557, 5000]
   // 加个飞机
   const graphic = new mars3d.graphic.ModelPrimitive({
-    position: position,
+    position,
     style: {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
       scale: 1,
@@ -92,7 +92,7 @@ function addDemoGraphic2(graphicLayer) {
 
   // 圆锥追踪体
   coneTrack = new mars3d.graphic.ConeTrack({
-    position: position,
+    position,
     // targetPosition: [116.317411, 30.972581, 1439.7], // 可选
     style: {
       length: 4000,
@@ -107,7 +107,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 // 修改飞机追踪的目标点
-function onClickSelPoint() {
+export function onClickSelPoint() {
   map.graphicLayer.startDraw({
     type: "point",
     style: {
@@ -248,7 +248,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -261,14 +261,14 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.ConeTrack({
-      position: position,
+      position,
       style: {
         length: result.radius * 2,
         topRadius: 0.0,
         bottomRadius: result.radius,
         color: Cesium.Color.fromRandom({ alpha: 0.6 })
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -278,19 +278,19 @@ function addRandomGraphicByCount(count) {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

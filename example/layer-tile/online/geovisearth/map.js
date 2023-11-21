@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</span>
 -  甲测资字11111577 - <a href="https://geovisearth.com/declaration#/user" target="_blank" trace="tos">服务条款</a> `
@@ -8,7 +8,7 @@ const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</sp
 // 星图官方地址：https://datacloud.geovisearth.com/support/map/summary
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.675177, lng: 117.323257, alt: 81193, heading: 0, pitch: -79 },
     highDynamicRange: false
@@ -49,7 +49,7 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -57,7 +57,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addCreditDOM()
 }
@@ -66,14 +66,14 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   removeCreditDOM()
   map = null
 }
 
 // 叠加的图层
 let tileLayer
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -86,7 +86,7 @@ function addTileLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

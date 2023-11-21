@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.841762, lng: 116.26537, alt: 3281, heading: 39, pitch: -63 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
@@ -23,11 +23,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
 
   clearInterResult()
@@ -40,7 +40,7 @@ function removeAll() {
  * @param {number} val 步长
  * @returns {void}
  */
-function interPolygon(val) {
+export function interPolygon(val) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -56,7 +56,7 @@ function interPolygon(val) {
 
       mars3d.PolyUtil.interPolygon({
         scene: map.scene,
-        positions: positions,
+        positions,
         splitNum: val // splitNum插值分割的个数
       }).then((resultInter) => {
         showInterPolygonResult(resultInter.list)
@@ -134,7 +134,7 @@ function showInterPolygonResult(list) {
   interGraphicLayer.addGraphic(primitiveLine)
 }
 
-function interPolygonGrid(val) {
+export function interPolygonGrid(val) {
   clearInterResult()
 
   map.graphicLayer.startDraw({
@@ -171,7 +171,7 @@ function interPolygonGrid(val) {
  * @param {number} val 步长
  * @returns {void}
  */
-function interPolygonByDepth(val) {
+export function interPolygonByDepth(val) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -188,7 +188,7 @@ function interPolygonByDepth(val) {
       updateAllGraphicShow(map, false)
       mars3d.PolyUtil.interPolygonByDepth({
         scene: map.scene,
-        positions: positions,
+        positions,
         splitNum: val // splitNum插值分割的个数
       }).then((resultInter) => {
         updateAllGraphicShow(map, true)
@@ -243,7 +243,7 @@ function showInterPolygonByDepthResult(resultInter) {
 }
 
 // 线插值
-function interPolyline(val) {
+export function interPolyline(val) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -257,7 +257,7 @@ function interPolyline(val) {
 
       const arrLine = mars3d.PolyUtil.interPolyline({
         scene: map.scene,
-        positions: positions,
+        positions,
         splitNum: val // 插值分割的个数
       })
 
@@ -267,7 +267,7 @@ function interPolyline(val) {
 }
 
 // 高度等分
-function interLine(val) {
+export function interLine(val) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -287,7 +287,7 @@ function interLine(val) {
   })
 }
 
-function interLineByDepth(val) {
+export function interLineByDepth(val) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -301,7 +301,7 @@ function interLineByDepth(val) {
       updateAllGraphicShow(map, false)
       mars3d.PolyUtil.interPolylineByDepth({
         scene: map.scene,
-        positions: positions,
+        positions,
         splitNum: val // 插值分割的个数
       }).then((resultInter) => {
         updateAllGraphicShow(map, true)
@@ -349,7 +349,7 @@ function showInterLineResult(list) {
       positions: [pt1, pt2],
       style: {
         width: 3,
-        color: color,
+        color,
         depthFailColor: color
       },
       attr: {

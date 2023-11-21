@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.221078, lng: 117.305076, alt: 136530, heading: 10, pitch: -68 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   showWeiVectorTileLayer()
 }
@@ -24,7 +24,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 /**
@@ -49,7 +49,7 @@ function showWeiVectorTileLayer() {
       source: files,
       removeDuplicate: false,
       zIndex: 2,
-      encoding: "gbk",
+      encoding: "utf-8",
       defaultStyle: {
         // 参考api文档的Cesium.VectorStyle类
         tileCacheSize: 200,
@@ -66,13 +66,13 @@ function showWeiVectorTileLayer() {
         // markerImage: "img/marker/lace-red.png",
 
         showCenterLabel: false
-        // showCenterLabel: true, //是否显示文本，仅对线和面数据有效
-        // centerLabelPropertyName: 'NAME',
-        // fontColor: 'rgba(255,255,255,1)',
-        // fontSize: 23,
-        // fontFamily: '楷体',
+        // showCenterLabel: true, // 是否显示文本，仅对线和面数据有效
+        // centerLabelPropertyName: "name",
+        // fontColor: "rgba(255,255,255,0.8)",
+        // fontSize: 16,
+        // fontFamily: "楷体",
         // labelOffsetX: -10,
-        // labelOffsetY: -5,
+        // labelOffsetY: -5
       },
       maximumLevel: 20,
       minimumLevel: 1,
@@ -80,7 +80,7 @@ function showWeiVectorTileLayer() {
       allowPick: true, // 允许单击
       // 以下为mars3d参数,API参考http://mars3d.cn/api/BaseTileLayer.html#.ConstructorOptions
       maxLength: -1,
-      popup: "名称：{name} <br /> 日期：{address}",
+      popup: "all",
       flyTo: true
     })
     map.addLayer(tileLayer)

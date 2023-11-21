@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 图层
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.422407, lng: 115.820222, alt: 3498, heading: 67, pitch: -32 },
     globe: {
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -42,7 +42,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   clear()
 }
@@ -70,7 +70,7 @@ function addDemoGraphic1() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -93,7 +93,7 @@ function addRandomGraphicByCount(count) {
         height: 30,
         speed: 10
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -103,7 +103,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "dynamicRiver",
     style: {
@@ -116,27 +116,27 @@ function startDrawGraphic() {
 }
 
 let dynamicRiver
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   dynamicRiver = graphicLayer.getGraphicById(graphicId)
   return dynamicRiver
 }
 
 // 宽发生改变
-function widthChange(value) {
+export function widthChange(value) {
   if (dynamicRiver) {
     dynamicRiver.width = value
   }
 }
 
 // 高发生改变
-function heightChange(value) {
+export function heightChange(value) {
   if (dynamicRiver) {
     dynamicRiver.height = value
   }
 }
 
 // 速度发生改变
-function speedChange(value) {
+export function speedChange(value) {
   if (dynamicRiver) {
     dynamicRiver.speed = value
   }
@@ -144,7 +144,7 @@ function speedChange(value) {
 
 let onOff = true
 // 升高30米动画
-function addHeight() {
+export function addHeight() {
   if (!dynamicRiver) {
     return
   }
@@ -157,7 +157,7 @@ function addHeight() {
 }
 
 // 下降30米动画
-function lowerHeight() {
+export function lowerHeight() {
   if (!dynamicRiver) {
     return
   }
@@ -178,24 +178,24 @@ function throttle() {
 }
 
 // 清除
-function clear() {
+export function clear() {
   graphicLayer.clear()
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",

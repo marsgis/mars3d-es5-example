@@ -1,16 +1,16 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 let video2D
 let videoElement
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.844188, lng: 117.205321, alt: 143, heading: 175, pitch: -26 }
   }
@@ -22,8 +22,10 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+  globalNotify("已知问题提示", `(1) flv在线链接已失效，自行替换自己的服务地址。`)
 
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -69,7 +71,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -109,17 +111,17 @@ function createVideoDom() {
   }, 3000)
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   video2D = graphicLayer.getGraphicById(graphicId)
   return video2D
 }
 
-function setViedoGraphic(graphic) {
+export function setViedoGraphic(graphic) {
   video2D = graphic
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -132,7 +134,7 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.Video2D({
-      position: position,
+      position,
       style: {
         container: videoElement,
         angle: 46.3,
@@ -142,7 +144,7 @@ function addRandomGraphicByCount(count) {
         distance: 1178,
         showFrustum: true
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -169,7 +171,7 @@ function addDemoGraphic1() {
 }
 
 // 投射视频
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.clear()
   // 开始绘制
   graphicLayer.startDraw({
@@ -187,7 +189,7 @@ function startDrawGraphic() {
 }
 
 // 按当前相机投射视频
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   graphicLayer.clear()
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
@@ -200,7 +202,7 @@ function startDrawGraphic2() {
   // 构造投射体
   video2D = new mars3d.graphic.Video2D({
     position: cameraPosition,
-    targetPosition: targetPosition,
+    targetPosition,
     style: {
       container: videoElement,
       angle: 46.3,
@@ -214,40 +216,40 @@ function startDrawGraphic2() {
   graphicLayer.addGraphic(video2D)
 }
 
-function playOrpause() {
+export function playOrpause() {
   video2D.play = !video2D.play
 }
 
 // 改变水平角度
-function onChangeAngle(value) {
+export function onChangeAngle(value) {
   if (video2D) {
     video2D.angle = value
   }
 }
 
 // 改变垂直角度
-function onChangeAngle2(value) {
+export function onChangeAngle2(value) {
   if (video2D) {
     video2D.angle2 = value
   }
 }
 
 // 改变投射距离
-function onChangeDistance(value) {
+export function onChangeDistance(value) {
   if (video2D) {
     video2D.distance = value
   }
 }
 
 // 改变四周距离
-function onChangeHeading(value) {
+export function onChangeHeading(value) {
   if (video2D) {
     video2D.heading = value
   }
 }
 
 // 改变俯仰角度
-function onChangePitch(value) {
+export function onChangePitch(value) {
   if (video2D) {
     video2D.pitch = value
   }
@@ -259,14 +261,14 @@ function onChangePitch(value) {
  * @param {boolean} isCheckde 线框是否显示
  * @returns {void}
  */
-function showFrustum(isCheckde) {
+export function showFrustum(isCheckde) {
   if (video2D) {
     video2D.showFrustum = isCheckde
   }
 }
 
 // 改变视频透明度
-function onChangeOpacity(opacity) {
+export function onChangeOpacity(opacity) {
   if (video2D) {
     video2D.setOpacity(opacity)
   }
@@ -278,27 +280,27 @@ function onChangeOpacity(opacity) {
  * @param {number} num 0-360°
  * @returns {void}
  */
-function rotateDeg(num) {
+export function rotateDeg(num) {
   if (video2D) {
     video2D.setStyle({ stRotationDegree: num })
   }
 }
 
 // 定位至视频位置
-function locate() {
+export function locate() {
   if (video2D) {
     video2D.setView()
   }
 }
 // 打印参数
-function printParameters() {
+export function printParameters() {
   if (video2D) {
     const params = video2D.toJSON()
     console.log("Video2D构造参数为", JSON.stringify(params))
   }
 }
 // 视频位置
-function selCamera() {
+export function selCamera() {
   if (video2D == null) {
     return
   }
@@ -315,7 +317,7 @@ function selCamera() {
 }
 
 // 四周视角选点
-function onClickSelView() {
+export function onClickSelView() {
   if (!video2D) {
     return
   }

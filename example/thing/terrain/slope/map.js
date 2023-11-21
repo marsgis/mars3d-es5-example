@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let slope
 let contourLine
 let graphicLayer
@@ -11,7 +11,7 @@ let graphicLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -24,7 +24,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -73,7 +73,7 @@ function addSlope() {
 }
 
 // 添加矩形
-function btnDrawExtent(splitNum) {
+export function btnDrawExtent(splitNum) {
   clearAll()
   graphicLayer.startDraw({
     type: "rectangle",
@@ -91,7 +91,7 @@ function btnDrawExtent(splitNum) {
 
       contourLine.positions = positions
       slope.add(positions, {
-        splitNum: splitNum, // splitNum插值分割的个数
+        splitNum, // splitNum插值分割的个数
         radius: 1, // 缓冲半径（影响坡度坡向的精度）
         count: 4 // 缓冲的数量（影响坡度坡向的精度）会求周边(count*4)个点
       })
@@ -100,7 +100,7 @@ function btnDrawExtent(splitNum) {
 }
 
 // 绘制多边形
-function btnDraw(splitNum) {
+export function btnDraw(splitNum) {
   clearAll()
   graphicLayer.startDraw({
     type: "polygon",
@@ -120,7 +120,7 @@ function btnDraw(splitNum) {
 
       contourLine.positions = positions
       slope.add(positions, {
-        splitNum: splitNum, // splitNum插值分割的个数
+        splitNum, // splitNum插值分割的个数
         radius: 1, // 缓冲半径（影响坡度坡向的精度）
         count: 4 // 缓冲的数量（影响坡度坡向的精度）会求周边(count*4)个点
       })
@@ -129,7 +129,7 @@ function btnDraw(splitNum) {
 }
 
 // 添加点
-function btnDrawPoint() {
+export function btnDrawPoint() {
   clearAll()
 
   graphicLayer.startDraw({
@@ -146,11 +146,11 @@ function btnDrawPoint() {
   })
 }
 // 改变阴影
-function changeShadingType(val) {
+export function changeShadingType(val) {
   contourLine.shadingType = val
 }
 
-function clearAll() {
+export function clearAll() {
   slope.clear()
   contourLine.clear()
 }

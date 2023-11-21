@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
-var fixedRoute
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let fixedRoute
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.824853, lng: 117.221414, alt: 1452, heading: 355, pitch: -54 }
   },
@@ -22,11 +22,20 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   map.clock.multiplier = 1
+
+  // 修改文本
+  map.setLangText({
+    _米: "m",
+    _公里: "km",
+    _秒: "s ",
+    _分钟: "m ",
+    _小时: "h "
+  })
 
   addGraphicLayer()
 }
@@ -35,7 +44,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -148,12 +157,12 @@ function bindPopup(fixedRoute) {
 
     const lblAllLen = container.querySelector("#lblAllLen")
     if (lblAllLen) {
-      lblAllLen.innerHTML = mars3d.MeasureUtil.formatDistance(params.distance_all)
+      lblAllLen.innerHTML = formatDistance(params.distance_all)
     }
 
     const lblAllTime = container.querySelector("#lblAllTime")
     if (lblAllTime) {
-      lblAllTime.innerHTML = mars3d.Util.formatTime(params.second_all / map.clock.multiplier)
+      lblAllTime.innerHTML = formatTime(params.second_all / map.clock.multiplier)
     }
 
     const lblStartTime = container.querySelector("#lblStartTime")
@@ -163,19 +172,27 @@ function bindPopup(fixedRoute) {
 
     const lblRemainTime = container.querySelector("#lblRemainTime")
     if (lblRemainTime) {
-      lblRemainTime.innerHTML = mars3d.Util.formatTime((params.second_all - params.second) / map.clock.multiplier)
+      lblRemainTime.innerHTML = formatTime((params.second_all - params.second) / map.clock.multiplier)
     }
 
     const lblRemainLen = container.querySelector("#lblRemainLen")
     if (lblRemainLen) {
-      lblRemainLen.innerHTML = mars3d.MeasureUtil.formatDistance(params.distance_all - params.distance)
+      lblRemainLen.innerHTML = formatDistance(params.distance_all - params.distance)
     }
   })
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export function formatDistance(val) {
+  return mars3d.MeasureUtil.formatDistance(val, { getLangText })
+}
+export function formatTime(val) {
+  return mars3d.Util.formatTime(val, { getLangText })
+}
+
+function getLangText(text) {
+  return map.getLangText(text)
+}
 
 // 节流
 function throttled(fn, delay) {

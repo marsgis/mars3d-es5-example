@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let lineLayer
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -33,11 +33,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawLine() {
+export function drawLine() {
   clearLayer()
 
   lineLayer.startDraw({
@@ -51,7 +51,7 @@ function drawLine() {
 }
 
 // 计算曲线
-function calculationCurve() {
+export function calculationCurve() {
   graphicLayer.clear()
 
   let line = lineLayer.getGraphics()
@@ -65,7 +65,7 @@ function calculationCurve() {
   const positions = curved.geometry.coordinates
 
   const graphic = new mars3d.graphic.PolylineEntity({
-    positions: positions,
+    positions,
     style: {
       width: 4,
       color: "#00ffff"
@@ -75,7 +75,7 @@ function calculationCurve() {
 }
 
 // 计算平行线
-function parallelLines(distance) {
+export function parallelLines(distance) {
   let line = lineLayer.getGraphics()
   if (line.length === 0) {
     globalMsg("请绘制线！")
@@ -90,7 +90,7 @@ function parallelLines(distance) {
   const positions = offsetLine.geometry.coordinates
 
   const graphic = new mars3d.graphic.PolylineEntity({
-    positions: positions,
+    positions,
     style: {
       width: 4,
       color: "#ff0000"
@@ -99,7 +99,7 @@ function parallelLines(distance) {
   graphicLayer.addGraphic(graphic)
 }
 
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   lineLayer.clear()
 }

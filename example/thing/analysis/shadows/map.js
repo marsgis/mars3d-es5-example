@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let shadows
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 33.596051, lng: 119.031383, alt: 359, heading: 180, pitch: -43 },
     fxaa: true,
@@ -13,7 +13,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -21,7 +21,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `模型上日照阴影可能存在锯齿。`)
@@ -54,11 +54,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function stopPlay() {
+export function stopPlay() {
   if (shadows && shadows.isStart) {
     shadows.pause()
   }
@@ -72,7 +72,7 @@ function stopPlay() {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-function startPlay(date, hours, minutes) {
+export function startPlay(date, hours, minutes) {
   const currentTime = setShadows(date, hours, minutes)
   const startDate = new Date(date + " 00:00:00")
   const endDate = new Date(date + " 23:59:59")
@@ -89,19 +89,19 @@ function startPlay(date, hours, minutes) {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-function setShadows(date, hours, minutes) {
+export function setShadows(date, hours, minutes) {
   const dateTime = new Date(`${date} ${hours}:${minutes}:00`)
   shadows.time = dateTime
 
   return dateTime
 }
 
-function clearArea() {
+export function clearArea() {
   map.graphicLayer.clear()
   shadows.clear()
 }
 
-function drawArea(date) {
+export function drawArea(date) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -124,7 +124,7 @@ function drawArea(date) {
           startDate: new Date(date + " 08:00:00"),
           endDate: new Date(date + " 18:00:00"),
 
-          positions: positions,
+          positions,
           step: 3,
           minHeight: 20
           // maxHeight: 30 //可以多层

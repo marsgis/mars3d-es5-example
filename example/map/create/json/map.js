@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-var map
+import * as mars3d from "mars3d"
+export let map
 
 function initMap() {
   // 读取 config.json 配置文件

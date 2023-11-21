@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let poiLayer
 let queryTdtPOI
@@ -10,13 +10,13 @@ let lastQueryOptions // 上一次请求参数，用于 下一页使用
 let graphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -24,7 +24,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted (mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -83,7 +83,7 @@ function onMounted (mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted () {
+export function onUnmounted() {
   map = null
 }
 
@@ -96,7 +96,7 @@ function onUnmounted () {
  * @param {string} text 关键字
  * @returns {void}
  */
-function query (radioFanwei, cityShi, text) {
+export function query(radioFanwei, cityShi, text) {
   resultList = []
   switch (radioFanwei) {
     case "2": {
@@ -144,7 +144,7 @@ function query (radioFanwei, cityShi, text) {
   }
 }
 
-function loadData (queryOptions, text) {
+function loadData(queryOptions, text) {
   if (!text) {
     globalMsg("请输入 名称 关键字筛选数据！")
     return
@@ -154,7 +154,7 @@ function loadData (queryOptions, text) {
   lastQueryOptions = {
     ...queryOptions,
     count: 25, // count 每页数量
-    text: text,
+    text,
     success: function (res) {
       const data = res.list
       if (data.length <= 1) {
@@ -175,7 +175,7 @@ function loadData (queryOptions, text) {
   queryTdtPOI.query(lastQueryOptions)
 }
 
-function clearAll (noClearDraw) {
+export function clearAll(noClearDraw) {
   lastQueryOptions = null
   resultList = []
   poiLayer.clear()
@@ -186,7 +186,7 @@ function clearAll (noClearDraw) {
   }
 }
 
-function addDemoGraphics (arr) {
+function addDemoGraphics(arr) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 
@@ -225,7 +225,7 @@ function addDemoGraphics (arr) {
 }
 
 // 框选查询 矩形
-function drawRectangle () {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -245,7 +245,7 @@ function drawRectangle () {
 }
 
 // 框选查询   圆
-function drawCircle () {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -264,7 +264,7 @@ function drawCircle () {
 }
 
 // 框选查询   多边行
-function drawPolygon () {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -282,7 +282,7 @@ function drawPolygon () {
   })
 }
 
-function flyToGraphic (graphic) {
+export function flyToGraphic(graphic) {
   graphic.openHighlight()
   graphic.flyTo({
     radius: 1000, // 点数据：radius控制视距距离

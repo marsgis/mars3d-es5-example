@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let limitHeight
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.794547, lng: 117.21215, alt: 1672, heading: 18, pitch: -33 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -76,17 +76,17 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 滑动条
-function currHeight(value) {
+export function currHeight(value) {
   limitHeight.height = value
 }
 
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -106,7 +106,7 @@ function drawExtent() {
 }
 
 // 绘制面
-function drawPolygon() {
+export function drawPolygon() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -126,7 +126,7 @@ function drawPolygon() {
   })
 }
 
-function clear() {
+export function clear() {
   limitHeight.clear()
   map.graphicLayer.clear()
 }

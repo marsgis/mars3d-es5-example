@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: {
       lat: 31.799613,
@@ -22,7 +22,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 时间控制参数
 const args = {
@@ -38,7 +38,7 @@ const args = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -49,7 +49,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -186,7 +186,7 @@ function inintRoad(positionsSJ, positionsTD) {
 
   const availability = new Cesium.TimeIntervalCollection([
     new Cesium.TimeInterval({
-      start: start,
+      start,
       stop: Cesium.JulianDate.addSeconds(start, counts, new Cesium.JulianDate())
     })
   ])
@@ -235,9 +235,9 @@ function inintRoad(positionsSJ, positionsTD) {
 function addTrainHead(position, availability, rotatePI) {
   const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车头",
-    position: position,
+    position,
     orientation: new Cesium.VelocityOrientationProperty(position),
-    availability: availability,
+    availability,
     style: {
       url: "//data.mars3d.cn/gltf/mars/train/heada.glb",
       scale: 0.001,
@@ -254,9 +254,9 @@ function addTrainHead(position, availability, rotatePI) {
 function addTrainBody(position, availability) {
   const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车身",
-    position: position,
+    position,
     orientation: new Cesium.VelocityOrientationProperty(position),
-    availability: availability,
+    availability,
     style: {
       url: "//data.mars3d.cn/gltf/mars/train/body.glb",
       scale: 0.001,
@@ -312,10 +312,10 @@ function addRailway(graphicHead, mpoints) {
         const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
           const graphicModel = new mars3d.graphic.ModelEntity({
-            id: id,
+            id,
             position: positions[i],
             orientation: orientations[i],
-            availability: availability,
+            availability,
             style: {
               url: "//data.mars3d.cn/gltf/mars/railway/suidao.glb",
               scale: 0.001
@@ -332,10 +332,10 @@ function addRailway(graphicHead, mpoints) {
       const graphic = graphicLayer.getGraphicById(id)
       if (!graphic) {
         const graphicModel = new mars3d.graphic.ModelEntity({
-          id: id,
+          id,
           position: positions[i],
           orientation: orientations[i],
-          availability: availability,
+          availability,
           style: {
             url: "//data.mars3d.cn/gltf/mars/railway/railway.glb",
             scale: 0.001
@@ -352,10 +352,10 @@ function addRailway(graphicHead, mpoints) {
         const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
           const graphicModel = new mars3d.graphic.ModelEntity({
-            id: id,
+            id,
             position: positions[i],
             orientation: orientations[i],
-            availability: availability,
+            availability,
             style: {
               url: "//data.mars3d.cn/gltf/mars/railway/bridge.glb",
               scale: 0.001
@@ -373,10 +373,10 @@ function addRailway(graphicHead, mpoints) {
         const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
           const graphicModel = new mars3d.graphic.ModelEntity({
-            id: id,
+            id,
             position: positions[i],
             orientation: orientations[i],
-            availability: availability,
+            availability,
             style: {
               url: "//data.mars3d.cn/gltf/mars/railway/jiazi.glb",
               scale: 0.001

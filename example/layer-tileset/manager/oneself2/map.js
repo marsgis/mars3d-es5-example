@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayer
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   option = {
     scene: {
       center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
@@ -51,7 +51,7 @@ var mapOptions = function (option) {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.container.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
@@ -63,7 +63,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -75,7 +75,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(_url) {
+export function showModel(_url) {
   removeLayer()
   if (!_url) {
     return
@@ -105,6 +105,6 @@ function showModel(_url) {
   })
 }
 
-function flyTo() {
+export function flyTo() {
   tiles3dLayer.flyTo()
 }

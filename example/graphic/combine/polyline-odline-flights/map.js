@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.059099, lng: 120.440855, alt: 5467418, heading: 343, pitch: -75 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = "黑色底图"
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -86,7 +86,7 @@ function initPath(routePaths) {
     if (!attr) {
       return false
     }
-    return mars3d.Util.getTemplateHtml({ title: "航线", template: "{startName} - {endName}", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "航线", template: "{startName} - {endName}", attr })
   })
 
   const arrData = []
@@ -94,7 +94,7 @@ function initPath(routePaths) {
     const positions = mars3d.PolyUtil.getLinkedPointList(item.startPoint, item.endPoint, 5000, 30)
 
     arrData.push({
-      positions: positions,
+      positions,
       style: {
         width: 2.0,
         materialType: mars3d.MaterialType.ODLine,
@@ -117,7 +117,7 @@ function initPath(routePaths) {
   graphicLayer.addGraphic(graphic)
 }
 
-function getAirData() {
+export function getAirData() {
   // 每年度航班统计
   const AirNum = [
     {

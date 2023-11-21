@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
   }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加三维模型
@@ -55,18 +55,22 @@ function onMounted(mapInstance) {
     popup: "房号：{name}<br/>楼层：第{thisFloor}层 (共{allFloor}层)<br/>班级：{remark}<br/>说明：教学楼"
   })
   map.addLayer(tiles3dLayerDTH)
+
+  tiles3dLayerDTH.on(mars3d.EventType.click, function (event) {
+    console.log("单击了模型单体", event.graphic?.attr)
+  })
 }
 
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 各层颜色显示
-function chkShowColor(val) {
+export function chkShowColor(val) {
   if (val) {
     tiles3dLayerDTH.style = {
       color: {

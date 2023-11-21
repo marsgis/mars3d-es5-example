@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.750173, lng: 116.904665, alt: 353676.9, heading: 1.4, pitch: -50 }
   }
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -41,7 +41,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -80,8 +80,8 @@ function addDemoGraphic1(data) {
       zmin: data.zmin, // 最小高度
       zmax: data.zmax // 最大高度
     },
-    steps: steps,
-    colors: colors
+    steps,
+    colors
     // flyTo: true
   })
   graphicLayer.addGraphic(volumeCloud)

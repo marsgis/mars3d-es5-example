@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let shortestPathLayer
 
@@ -8,7 +8,7 @@ let polygonZAM
 let pointQD
 let pointZD
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
   }
@@ -20,7 +20,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -35,12 +35,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制障碍面
-function drawPolygon() {
+export function drawPolygon() {
   if (polygonZAM) {
     polygonZAM.remove()
     polygonZAM = null
@@ -60,7 +60,7 @@ function drawPolygon() {
   })
 }
 // 绘制起点
-function startPoint() {
+export function startPoint() {
   if (pointQD) {
     pointQD.remove()
     pointQD = null
@@ -86,7 +86,7 @@ function startPoint() {
 }
 
 // 绘制终点
-function endPoint() {
+export function endPoint() {
   if (pointZD) {
     pointZD.remove()
     pointZD = null
@@ -112,7 +112,7 @@ function endPoint() {
 }
 
 // 计算最短路径
-function shortestPath() {
+export function shortestPath() {
   if (!polygonZAM) {
     globalMsg("请绘制障碍面")
     return
@@ -139,7 +139,7 @@ function shortestPath() {
 
   const positions = path.geometry.coordinates
   const polyonLine = new mars3d.graphic.PolylineEntity({
-    positions: positions,
+    positions,
     style: {
       color: " #55ff33"
     }
@@ -147,7 +147,7 @@ function shortestPath() {
   shortestPathLayer.addGraphic(polyonLine)
 }
 
-function clearLayer() {
+export function clearLayer() {
   polygonZAM = null
   pointQD = null
   pointZD = null

@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.438455, lng: 119.479268, alt: 435.3, heading: 30.3, pitch: -53.6 },
     globe: {
@@ -21,7 +21,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加参考三维模型
@@ -49,7 +49,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -103,7 +103,7 @@ function addDemoGraphic3() {
 }
 
 // 添加
-function startDrawGraphic() {
+export function startDrawGraphic() {
   // 开始绘制
   graphicLayer.startDraw({
     type: "pointLight",
@@ -114,7 +114,7 @@ function startDrawGraphic() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -127,12 +127,12 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.PointLight({
-      position: position,
+      position,
       style: {
         intensity: 3000,
         radius: 500
       },
-      attr: { index: index },
+      attr: { index },
       testPoint: true
     })
     graphicLayer.addGraphic(graphic)
@@ -150,6 +150,6 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

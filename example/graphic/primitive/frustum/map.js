@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let graphicFrustum
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.841529, lng: 116.389494, alt: 28201.5, heading: 357, pitch: -58.6 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.hasTerrain = false
 
@@ -42,7 +42,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -51,7 +51,7 @@ function addDemoGraphic1(graphicLayer) {
 
   // 加个飞机
   const graphicFJ = new mars3d.graphic.ModelPrimitive({
-    position: position,
+    position,
     style: {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
       scale: 1,
@@ -64,7 +64,7 @@ function addDemoGraphic1(graphicLayer) {
 
   // 四凌锥追踪体
   graphicFrustum = new mars3d.graphic.FrustumPrimitive({
-    position: position,
+    position,
     targetPosition: [116.317411, 30.972581, 1439.7], // 可选
     style: {
       angle: 10,
@@ -135,7 +135,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 // 追踪目标点
-function onClickSelPoint() {
+export function onClickSelPoint() {
   map.graphicLayer.startDraw({
     type: "point",
     style: {
@@ -151,11 +151,11 @@ function onClickSelPoint() {
   })
 }
 
-function clear() {
+export function clear() {
   map.graphicLayer.clear()
 }
 
-function getRayEarthPositions() {
+export function getRayEarthPositions() {
   map.graphicLayer.clear()
 
   if (graphicFrustum.isDestroy) {
@@ -167,7 +167,7 @@ function getRayEarthPositions() {
 
   // 添加地面矩形
   const graphic = new mars3d.graphic.PolygonPrimitive({
-    positions: positions,
+    positions,
     style: {
       color: new Cesium.Color(1.0, 0.0, 0.0, 0.3),
       // image: "img/tietu/gugong.jpg",
@@ -179,7 +179,7 @@ function getRayEarthPositions() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -192,7 +192,7 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars3d.graphic.FrustumPrimitive({
-      position: position,
+      position,
       style: {
         angle: 10,
         angle2: 5,
@@ -202,7 +202,7 @@ function addRandomGraphicByCount(count) {
 
         color: Cesium.Color.fromRandom({ alpha: 0.6 })
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -212,19 +212,19 @@ function addRandomGraphicByCount(count) {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "frustum",
     style: {
@@ -239,7 +239,7 @@ function startDrawGraphic() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

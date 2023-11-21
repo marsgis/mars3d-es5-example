@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 36.873519, lng: 106.863496, alt: 19999205, heading: 354, pitch: -89 },
     orderIndependentTranslucency: false,
@@ -26,7 +26,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
@@ -34,22 +34,22 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function show() {
+export function show() {
   map.container.style.backgroundImage = "none"
 }
 
-function show1() {
+export function show1() {
   map.container.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
 }
 
-function show2() {
+export function show2() {
   map.container.style.backgroundImage = "url(//data.mars3d.cn/file/img/world/world.jpg)"
 }
 
-function show3() {
+export function show3() {
   map.container.style.backgroundImage = "url(/img/tietu/bg4.jpg)"
 }

@@ -1,13 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 let videoElement
 let videoGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.441852, lng: 119.481567, alt: 241, heading: 174, pitch: -35 }
   }
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
@@ -55,7 +55,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -111,7 +111,7 @@ function createVideoDom() {
   }, 3000)
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   videoGraphic = graphicLayer.getGraphicById(graphicId)
   return videoGraphic
 }
@@ -155,7 +155,7 @@ function addDemoGraphic2() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -180,7 +180,7 @@ function addRandomGraphicByCount(count) {
         stRotationDegree: 130, // 视频旋转角度
         clampToGround: true
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -189,7 +189,7 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "rectangle",
     styleType: "video", // 属性编辑框使用
@@ -200,7 +200,7 @@ function startDrawGraphic() {
   })
 }
 
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   graphicLayer.startDraw({
     type: "wall",
     maxPointNum: 2,
@@ -213,12 +213,12 @@ function startDrawGraphic2() {
 }
 
 // 播放暂停
-function videoPlay() {
+export function videoPlay() {
   if (!map.clock.shouldAnimate) {
     map.clock.shouldAnimate = true
   }
 }
-function videoStop() {
+export function videoStop() {
   if (map.clock.shouldAnimate) {
     map.clock.shouldAnimate = false
   }
@@ -231,26 +231,26 @@ function videoStop() {
  * @param {number} value  范围在0-360°
  * @returns {void}
  */
-function angleChange(value) {
+export function angleChange(value) {
   videoGraphic?.setStyle({
     stRotationDegree: value
   })
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

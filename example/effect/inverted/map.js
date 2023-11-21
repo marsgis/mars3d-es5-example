@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 33.591733, lng: 119.032381, alt: 32, heading: 331, pitch: -21 },
     globe: {
@@ -20,7 +20,7 @@ let invertedEffect
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", "(1) 目前为实验示例，镜面效果一般。 (2) 模型越平整效果越好 ")
@@ -44,10 +44,10 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function changeState(val) {
+export function changeState(val) {
   invertedEffect.enabled = val
 }

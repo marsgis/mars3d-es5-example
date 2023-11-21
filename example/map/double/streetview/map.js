@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tileLayer
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", "(1) 百度街景目前限制使用，需要自行申请全景地图服务使用权限Key替换 ")
@@ -43,11 +43,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function chooseStree() {
+export function chooseStree() {
   if (markerStreet) {
     graphicLayer.removeGraphic(markerStreet, true)
     markerStreet = null
@@ -95,7 +95,7 @@ function creatDom() {
 let typeView = 0
 
 // 3d显示
-function viewTo3d() {
+export function viewTo3d() {
   typeView = 0
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
@@ -107,7 +107,7 @@ function viewTo3d() {
 }
 
 // // 街景显示
-function streetscape() {
+export function streetscape() {
   typeView = 1
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
@@ -117,7 +117,7 @@ function streetscape() {
 }
 
 // 分屏显示
-function splitScreen() {
+export function splitScreen() {
   typeView = 2
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
@@ -146,7 +146,7 @@ function updateMarker(position) {
     markerStreet.position = position
   } else {
     markerStreet = new mars3d.graphic.BillboardEntity({
-      position: position,
+      position,
       style: {
         image: "img/marker/street.png",
         scale: 1,

@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let currSkyBox // 当前生效的Skybox
 let defaultSkybox // cesium自带的Skybox
@@ -39,7 +39,7 @@ const lantianSkybox = new mars3d.GroundSkyBox({
 })
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.830035, lng: 117.159801, alt: 409, heading: 41, pitch: 0 }
     // scene: {
@@ -64,7 +64,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   defaultSkybox = map.scene.skyBox
@@ -91,22 +91,22 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function sunny() {
+export function sunny() {
   currSkyBox = qingtianSkybox
 }
 
-function sunsetGlow() {
+export function sunsetGlow() {
   currSkyBox = wanxiaSkybox
 }
 
-function blueSky() {
+export function blueSky() {
   currSkyBox = lantianSkybox
 }
 
-function defaultSky() {
+export function defaultSky() {
   currSkyBox = defaultSkybox
 }

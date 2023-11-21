@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 13.474941, lng: 117.364073, alt: 2774097, heading: 6, pitch: -62 }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -25,12 +25,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 let echartsLayer
-function createEchartsLayer(val) {
+export function createEchartsLayer(val) {
   const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
 
@@ -45,7 +45,7 @@ function createEchartsLayer(val) {
 }
 
 // 启用echars交互
-function chkPointerEvents(val) {
+export function chkPointerEvents(val) {
   echartsLayer.pointerEvents = val
 }
 
@@ -406,7 +406,7 @@ function getEchartsOption() {
         itemStyle: {
           color: "#ddb926"
         },
-        data: data
+        data
       }
     ]
   }

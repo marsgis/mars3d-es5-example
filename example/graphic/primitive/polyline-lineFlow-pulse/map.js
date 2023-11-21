@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 17.372658, lng: 109.327197, alt: 3459173, heading: 12, pitch: -69 },
     fxaa: true
@@ -27,7 +27,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 一线以上城市地理位置
@@ -71,7 +71,7 @@ function onMounted(mapInstance) {
 
     // 城市名字
     const graphic = new mars3d.graphic.DivGraphic({
-      position: position,
+      position,
       style: {
         html: `<div class ="textName">${item.name}</div>`,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -122,6 +122,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

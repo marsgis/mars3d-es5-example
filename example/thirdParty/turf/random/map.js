@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -43,16 +43,16 @@ function getColor() {
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
-function randomPoints() {
+export function randomPoints() {
   graphicLayer.clear()
 
-  const points = turf.randomPoint(100, { bbox: bbox })
+  const points = turf.randomPoint(100, { bbox })
 
   points.features.forEach((e, index) => {
     const position = e.geometry.coordinates
 
     const graphic = new mars3d.graphic.BillboardPrimitive({
-      position: position,
+      position,
       style: {
         image: "img/marker/mark-blue.png",
         scale: 1,
@@ -66,14 +66,14 @@ function randomPoints() {
   })
 }
 
-function randomPolylines() {
+export function randomPolylines() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
   numVertices = numVertices < 3 ? 3 : numVertices
 
   const polylines = turf.randomLineString(100, {
-    bbox: bbox,
+    bbox,
     num_vertices: numVertices, // 每个 LineString 将包含多少个坐标。
     max_length: 0.01 // 大小
   })
@@ -82,7 +82,7 @@ function randomPolylines() {
     const positions = e.geometry.coordinates
 
     const graphic = new mars3d.graphic.PolylinePrimitive({
-      positions: positions,
+      positions,
       style: {
         width: 4,
         color: getColor(),
@@ -95,14 +95,14 @@ function randomPolylines() {
   })
 }
 
-function randomPolygons() {
+export function randomPolygons() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
   numVertices = numVertices < 3 ? 3 : numVertices
 
   const polygons = turf.randomPolygon(100, {
-    bbox: bbox,
+    bbox,
     num_vertices: numVertices, // 坐标个数,必须多于或等于四个
     max_radial_length: 0.01 // 大小
   })
@@ -110,7 +110,7 @@ function randomPolygons() {
   polygons.features.forEach((e, index) => {
     const positions = e.geometry.coordinates
     const graphic = new mars3d.graphic.PolygonPrimitive({
-      positions: positions,
+      positions,
       style: {
         color: getColor(),
         opacity: 0.6,
@@ -122,6 +122,6 @@ function randomPolygons() {
   })
 }
 
-function clearAll() {
+export function clearAll() {
   graphicLayer.clear()
 }

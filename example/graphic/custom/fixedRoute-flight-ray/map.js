@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.344715, lng: 115.783073, alt: 10056, heading: 158, pitch: -55 },
     globe: {
@@ -23,7 +23,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.hasTerrain = false
 
@@ -36,7 +36,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -107,17 +107,17 @@ function addGraphicLayer() {
   }
 }
 
-function setMoelStyle(style) {
+export function setMoelStyle(style) {
   fixedRoute.model.setStyle(style)
 }
 
-function clearMoelPitchRoll () {
+export function clearMoelPitchRoll () {
   fixedRoute.model.style.pitch = undefined
   fixedRoute.model.style.roll = undefined
 }
 
 
-function clearGroundLayer() {
+export function clearGroundLayer() {
   groundLayer.clear()
 }
 
@@ -234,7 +234,7 @@ function addPolygon() {
   lastPositions = thisPositions
 
   const graphic = new mars3d.graphic.PolygonPrimitive({
-    positions: positions,
+    positions,
     style: {
       color: "#ff0000",
       opacity: 0.3
@@ -296,8 +296,8 @@ function bindPopup(fixedRoute) {
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export const formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatTime = mars3d.Util.formatTime
 
 // 节流
 function throttled(fn, delay) {

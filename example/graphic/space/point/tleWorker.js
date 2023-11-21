@@ -1,3 +1,5 @@
+
+
 // eslint-disable-next-line no-undef
 importScripts("/lib/mars3d/plugins/space/worker/mars3d-tle-worker.js")
 
@@ -23,6 +25,6 @@ self.onmessage = function (e) {
   }
 
   // self代表子线程自身
-  self.postMessage({ time: time, positionObj: positionObj })
+  self.postMessage({ time, positionObj })
   // self.close()
 }
