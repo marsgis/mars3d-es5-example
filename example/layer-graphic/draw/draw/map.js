@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
-// import kgUtil from "kml-geojson"
+// import * as mars3d from "mars3d"
+// // import kgUtil from "kml-geojson"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   // scene: {
   //   center: { lat: 30.846849, lng: 116.335307, alt: 739, heading: 360, pitch: -45 }
   // },
@@ -39,7 +39,7 @@ export const mapOptions = {
   ]
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -47,7 +47,7 @@ export const eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 设置编辑点样式
@@ -143,11 +143,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawPoint() {
+function drawPoint() {
   // graphicLayer.isContinued = true
   graphicLayer.startDraw({
     type: "point",
@@ -167,7 +167,7 @@ export function drawPoint() {
   })
 }
 
-export function drawMarker() {
+function drawMarker() {
   graphicLayer.startDraw({
     type: "billboard",
     style: {
@@ -187,7 +187,7 @@ export function drawMarker() {
   })
 }
 
-export function drawLabel() {
+function drawLabel() {
   graphicLayer.startDraw({
     type: "label",
     style: {
@@ -201,7 +201,7 @@ export function drawLabel() {
   })
 }
 
-export function startDrawModel() {
+function startDrawModel() {
   graphicLayer.startDraw({
     type: "model",
     style: {
@@ -211,7 +211,7 @@ export function startDrawModel() {
   })
 }
 
-export function drawPolyline(clampToGround) {
+function drawPolyline(clampToGround) {
   // map.highlightEnabled = false
   // map.popup.enabled = false
 
@@ -235,7 +235,7 @@ export function drawPolyline(clampToGround) {
   // })
 }
 
-export function drawBrushLine(clampToGround) {
+function drawBrushLine(clampToGround) {
   graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -246,7 +246,7 @@ export function drawBrushLine(clampToGround) {
   })
 }
 
-export function drawPolygon(clampToGround) {
+function drawPolygon(clampToGround) {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -260,7 +260,7 @@ export function drawPolygon(clampToGround) {
   })
 }
 
-export function drawCurve(clampToGround) {
+function drawCurve(clampToGround) {
   graphicLayer.startDraw({
     type: "curve",
     style: {
@@ -271,7 +271,7 @@ export function drawCurve(clampToGround) {
   })
 }
 
-export function drawCorridor(clampToGround) {
+function drawCorridor(clampToGround) {
   graphicLayer.startDraw({
     type: "corridor",
     style: {
@@ -283,7 +283,7 @@ export function drawCorridor(clampToGround) {
   })
 }
 
-export function drawEllipse(clampToGround) {
+function drawEllipse(clampToGround) {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -297,7 +297,7 @@ export function drawEllipse(clampToGround) {
   })
 }
 
-export function drawRectangle(clampToGround) {
+function drawRectangle(clampToGround) {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -311,7 +311,7 @@ export function drawRectangle(clampToGround) {
   })
 }
 
-export function draPlane() {
+function draPlane() {
   graphicLayer.startDraw({
     type: "plane",
     style: {
@@ -324,7 +324,7 @@ export function draPlane() {
   })
 }
 
-export function draWall(closure) {
+function draWall(closure) {
   graphicLayer.startDraw({
     type: "wall",
     style: {
@@ -336,7 +336,7 @@ export function draWall(closure) {
   })
 }
 
-export function drawBox() {
+function drawBox() {
   graphicLayer.startDraw({
     type: "box",
     style: {
@@ -349,7 +349,7 @@ export function drawBox() {
   })
 }
 
-export function drawCylinder() {
+function drawCylinder() {
   graphicLayer.startDraw({
     type: "cylinder",
     style: {
@@ -361,7 +361,7 @@ export function drawCylinder() {
   })
 }
 
-export function drawEllipsoid() {
+function drawEllipsoid() {
   graphicLayer.startDraw({
     type: "ellipsoid",
     style: {
@@ -372,7 +372,7 @@ export function drawEllipsoid() {
   })
 }
 
-export function drawExtrudedPolygon() {
+function drawExtrudedPolygon() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -383,7 +383,7 @@ export function drawExtrudedPolygon() {
   })
 }
 
-export function drawExtrudedRectangle() {
+function drawExtrudedRectangle() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -394,7 +394,7 @@ export function drawExtrudedRectangle() {
   })
 }
 
-export function drawExtrudedCircle() {
+function drawExtrudedCircle() {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -405,7 +405,7 @@ export function drawExtrudedCircle() {
   })
 }
 
-export function drawSatellite() {
+function drawSatellite() {
   graphicLayer
     .startDraw({
       type: "satellite",
@@ -429,7 +429,7 @@ export function drawSatellite() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -440,7 +440,7 @@ export function bindLayerPopup() {
   })
 }
 
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -588,7 +588,7 @@ export function bindLayerContextMenu() {
  * @param {Boolean} value 是否仅在模型上标绘
  * @returns {void}
  */
-export function updateOnlyPickModelPosition(value) {
+function updateOnlyPickModelPosition(value) {
   map.onlyPickModelPosition = value
 }
 
@@ -599,7 +599,7 @@ export function updateOnlyPickModelPosition(value) {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -653,7 +653,7 @@ function simplifyGeoJSON(geojson) {
 }
 
 // 点击保存GeoJSON
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -663,7 +663,7 @@ export function saveGeoJSON() {
 }
 
 // 点击保存KML
-export function saveKML() {
+function saveKML() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -686,7 +686,7 @@ export function saveKML() {
 }
 
 // 点击保存WKT
-export function saveWKT() {
+function saveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

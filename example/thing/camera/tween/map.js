@@ -1,14 +1,14 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 22.740833, lng: 108.379371, alt: 88.7, heading: 41.6, pitch: -30.4 }
   }
 }
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,7 +19,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 
 let roaming
 
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -64,24 +64,24 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function start() {
+function start() {
   console.log("开始")
   roaming.start()
 }
 
-export function pause() {
+function pause() {
   console.log("暂停")
   roaming.pause()
 }
-export function resume() {
+function resume() {
   console.log("继续")
   roaming.resume()
 }
-export function stop() {
+function stop() {
   console.log("停止")
   roaming.stop()
 }

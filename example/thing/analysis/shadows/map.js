@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let shadows
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 33.596051, lng: 119.031383, alt: 359, heading: 180, pitch: -43 },
     fxaa: true,
@@ -13,7 +13,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -21,7 +21,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `模型上日照阴影可能存在锯齿。`)
@@ -54,11 +54,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function stopPlay() {
+function stopPlay() {
   if (shadows && shadows.isStart) {
     shadows.pause()
   }
@@ -72,7 +72,7 @@ export function stopPlay() {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-export function startPlay(date, hours, minutes) {
+function startPlay(date, hours, minutes) {
   const currentTime = setShadows(date, hours, minutes)
   const startDate = new Date(date + " 00:00:00")
   const endDate = new Date(date + " 23:59:59")
@@ -89,19 +89,19 @@ export function startPlay(date, hours, minutes) {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-export function setShadows(date, hours, minutes) {
+function setShadows(date, hours, minutes) {
   const dateTime = new Date(`${date} ${hours}:${minutes}:00`)
   shadows.time = dateTime
 
   return dateTime
 }
 
-export function clearArea() {
+function clearArea() {
   map.graphicLayer.clear()
   shadows.clear()
 }
 
-export function drawArea(date) {
+function drawArea(date) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",

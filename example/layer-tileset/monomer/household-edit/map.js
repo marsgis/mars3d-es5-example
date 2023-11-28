@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 模型
@@ -47,12 +47,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 添加单体化数据
-export function addData() {
+function addData() {
   return map.graphicLayer.startDraw({
     type: "polygonP",
     style: {
@@ -71,7 +71,7 @@ export function addData() {
 let houseTypeCount = 0
 
 // 生成表格数据，绘制每层
-export function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
+function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
   if (dthPara.floorCount === 0) {
     globalMsg("楼层不能为0 ！")
     return
@@ -148,7 +148,7 @@ export function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
   }
 }
 
-export function getBuildingHeight() {
+function getBuildingHeight() {
   return map.graphicLayer.startDraw({
     type: "point",
     style: {
@@ -167,7 +167,7 @@ export function getBuildingHeight() {
 }
 
 // 取消绘制
-export function quitDraw(id) {
+function quitDraw(id) {
   const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
   quitGraphic && geoJsonLayerDTH.removeGraphic(quitGraphic)
 }
@@ -181,7 +181,7 @@ function getColor() {
 }
 
 // 清除所有graphic数据
-export function clearAllData() {
+function clearAllData() {
   geoJsonLayerDTH.clear(true)
 }
 
@@ -192,7 +192,7 @@ export function clearAllData() {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-export function openGeoJSON(file, resolve) {
+function openGeoJSON(file, resolve) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -211,7 +211,7 @@ export function openGeoJSON(file, resolve) {
 }
 
 // 点击保存GeoJSON
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (geoJsonLayerDTH.length === 0) {
     globalMsg("当前没有任何数据，无需保存！")
     return

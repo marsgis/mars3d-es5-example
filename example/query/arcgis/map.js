@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -21,7 +21,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   showGeoJsonLayer()
@@ -31,11 +31,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function query(keyWords) {
+function query(keyWords) {
   queryMapserver.query({
     column: "项目名称",
     text: keyWords,
@@ -106,7 +106,7 @@ function showGeoJsonLayer() {
 }
 
 // 框选查询 矩形
-export function drawRectangle() {
+function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -126,7 +126,7 @@ export function drawRectangle() {
 }
 
 // 框选查询   圆
-export function drawCircle() {
+function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -145,7 +145,7 @@ export function drawCircle() {
 }
 
 // 框选查询   多边行
-export function drawPolygon() {
+function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -163,7 +163,7 @@ export function drawPolygon() {
   })
 }
 
-export function flyToGraphic(graphic) {
+function flyToGraphic(graphic) {
   graphic.openHighlight()
   graphic.flyTo({
     radius: 1000, // 点数据：radius控制视距距离
@@ -174,21 +174,21 @@ export function flyToGraphic(graphic) {
   })
 }
 
-export function clearAll() {
+function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()
 }
 
 // 首页
-export function showFirstPage() {
+function showFirstPage() {
   queryMapserver.showFirstPage()
 }
 // 上一页
-export function showPretPage() {
+function showPretPage() {
   queryMapserver.showPretPage()
 }
 // 下一页
-export function showNextPage() {
+function showNextPage() {
   queryMapserver.showNextPage()
 }

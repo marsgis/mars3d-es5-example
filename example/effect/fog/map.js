@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let fogEffect
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.251138, lng: 121.463588, alt: 1730, heading: 111, pitch: -25 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建gltf模型，
@@ -52,25 +52,25 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 是否开始雾效果
-export function setFogEffect(val) {
+function setFogEffect(val) {
   fogEffect.enabled = val
 }
 
 // 改变雾的颜色
-export function setColor(color) {
+function setColor(color) {
   fogEffect.color = Cesium.Color.fromCssColorString(color)
 }
 
 // 修改近距离和远距离
-export function setDistanceX(val) {
+function setDistanceX(val) {
   fogEffect.fogByDistance.x = val
 }
 
-export function setDistanceZ(val) {
+function setDistanceZ(val) {
   fogEffect.fogByDistance.z = val
 }

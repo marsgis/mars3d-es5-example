@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
-import { CanvasBillboard } from "CanvasBillboard.js"
+// import * as mars3d from "mars3d"
+// import { CanvasBillboard } from "CanvasBillboard.js"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载油田联合站模型
@@ -50,7 +50,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -85,7 +85,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -116,7 +116,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "canvasBillboard",
     style: {
@@ -133,6 +133,6 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

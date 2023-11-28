@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -43,7 +43,7 @@ function getColor() {
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
-export function randomPoints() {
+function randomPoints() {
   graphicLayer.clear()
 
   const points = turf.randomPoint(100, { bbox })
@@ -66,7 +66,7 @@ export function randomPoints() {
   })
 }
 
-export function randomPolylines() {
+function randomPolylines() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
@@ -95,7 +95,7 @@ export function randomPolylines() {
   })
 }
 
-export function randomPolygons() {
+function randomPolygons() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
@@ -122,6 +122,6 @@ export function randomPolygons() {
   })
 }
 
-export function clearAll() {
+function clearAll() {
   graphicLayer.clear()
 }

@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let tiles3dLayer
+var map // mars3d.Map三维地图对象
+var tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     showSun: false,
     showMoon: false,
@@ -30,7 +30,7 @@ export const mapOptions = {
 }
 
 // 自定义事件
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -38,7 +38,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -70,7 +70,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -81,7 +81,7 @@ function removeLayer() {
   }
 }
 const storageName = "layer-tileset-manager-edit"
-export function showModel(url) {
+function showModel(url) {
   removeLayer()
 
   if (!url) {
@@ -146,7 +146,7 @@ export function showModel(url) {
 }
 
 // 异步求准确高度
-export function updateHeightForSurfaceTerrain(position) {
+function updateHeightForSurfaceTerrain(position) {
   // 求地面海拔 (异步)
   if (Cesium.defined(position) && Cesium.defined(position.alt)) {
     // 存在历史设置的高度时不用处理
@@ -166,7 +166,7 @@ export function updateHeightForSurfaceTerrain(position) {
 }
 
 // 修改更改后的参数
-export function updateModel(params, pannelData) {
+function updateModel(params, pannelData) {
   tiles3dLayer.setOptions(params)
 
   // 非参数，调用方法绑定或解绑
@@ -187,11 +187,11 @@ export function updateModel(params, pannelData) {
 }
 
 // 深度检测
-export function updateDepthTest(enabled) {
+function updateDepthTest(enabled) {
   map.scene.globe.depthTestAgainstTerrain = enabled
 }
 
-export function locate() {
+function locate() {
   if (tiles3dLayer.tileset?.boundingSphere) {
     map.camera.flyToBoundingSphere(tiles3dLayer.tileset.boundingSphere, {
       offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, tiles3dLayer.tileset.boundingSphere.radius * 2)
@@ -204,7 +204,7 @@ export function locate() {
 }
 
 // 保存GeoJSON
-export function saveBookmark(params) {
+function saveBookmark(params) {
   // 清理参数中无需保存的部分
   if (params.position.lat === tiles3dLayer.orginCenterPoint.lat) {
     delete params.position.lat
@@ -258,11 +258,11 @@ export function saveBookmark(params) {
 }
 
 // 查看构件
-export function checkedTree() {
+function checkedTree() {
   tiles3dLayer.tileset.style = undefined
 }
 
-export function showCompTree(model) {
+function showCompTree(model) {
   querySceneTreeData(model)
     .then(function (scene) {
       const data = []
@@ -284,7 +284,7 @@ export function showCompTree(model) {
     })
 }
 
-export function compModelChange(nodeid, nodesphere) {
+function compModelChange(nodeid, nodesphere) {
   if (nodesphere[3] <= 0) {
     return
   }

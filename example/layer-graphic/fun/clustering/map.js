@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 24.688611, lng: 119.260277, alt: 1673759, heading: 348, pitch: -69 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // addGraphicLayer()
@@ -238,7 +238,7 @@ function addBusinessLayer() {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   graphicLayer.remove()
   graphicLayer = null
 
@@ -246,7 +246,7 @@ export function onUnmounted() {
 }
 
 // 计算贴地高度示例代码，可以将获取到的高度更新到数据库内，后续不用重复计算。
-export function getDataSurfaceHeight() {
+function getDataSurfaceHeight() {
   if (graphicLayer.length === 0) {
     globalMsg("数据尚未加载成功！")
     return
@@ -272,10 +272,10 @@ export function getDataSurfaceHeight() {
   })
 }
 
-export function enabledAggressive(val) {
+function enabledAggressive(val) {
   graphicLayer.clustering = val
 }
 
-export function layerShowChange(val) {
+function layerShowChange(val) {
   graphicLayer.show = val
 }

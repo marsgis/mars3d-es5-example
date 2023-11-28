@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.250697, lng: 121.468373, alt: 1768.9, heading: 116.2, pitch: -30.5 }
   }
 }
 
-export let tilesetShake
-export let tiles3dLayer
+var tilesetShake
+var tiles3dLayer
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -21,7 +21,7 @@ export let tiles3dLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2013 // 无底图
 
@@ -53,11 +53,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawArea() {
+function drawArea() {
   map.graphicLayer.startDraw({
     type: "polygonP",
     style: {

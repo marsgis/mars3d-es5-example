@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -26,7 +26,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -34,25 +34,25 @@ const turfOptions = { units: "kilometers" }
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
 // 蜂窝网格
-export function hexGrid(cellSide) {
+function hexGrid(cellSide) {
   const geojson = turf.hexGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 点网格
-export function pointGrid(cellSide) {
+function pointGrid(cellSide) {
   const geojson = turf.pointGrid(bbox, cellSide, turfOptions)
   drawPoint(geojson)
 }
 
 // 正方形网格
-export function squareGrid(cellSide) {
+function squareGrid(cellSide) {
   const geojson = turf.squareGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 三角形网格
-export function triangleGrid(cellSide) {
+function triangleGrid(cellSide) {
   const geojson = turf.triangleGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
@@ -84,7 +84,7 @@ function drawPolyon(geojson) {
 }
 
 // 点网格
-export function drawPoint(geojson) {
+function drawPoint(geojson) {
   graphicLayer.clear()
 
   const points = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson

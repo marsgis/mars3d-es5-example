@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let floodByGraphic
 let drawPotions
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 基于polygon矢量面抬高模拟，只支持单个区域
@@ -42,7 +42,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   clearDraw()
   floodByGraphic.remove()
   floodByGraphic = null
@@ -51,7 +51,7 @@ export function onUnmounted() {
 }
 
 // 绘制矩形
-export function btnDrawExtent(callback) {
+function btnDrawExtent(callback) {
   clearDraw()
 
   map.graphicLayer.startDraw({
@@ -85,7 +85,7 @@ export function btnDrawExtent(callback) {
   })
 }
 // 绘制多边形
-export function btnDraw(callback) {
+function btnDraw(callback) {
   clearDraw()
 
   map.graphicLayer.startDraw({
@@ -117,7 +117,7 @@ export function btnDraw(callback) {
   })
 }
 
-export function clearDraw() {
+function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
 
@@ -127,7 +127,7 @@ export function clearDraw() {
 }
 
 // 开始分析
-export function begin(data, callback) {
+function begin(data, callback) {
   if (drawPotions == null) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -146,12 +146,12 @@ export function begin(data, callback) {
 }
 
 // 高度选择
-export function onChangeHeight(height) {
+function onChangeHeight(height) {
   floodByGraphic.height = height
 }
 
 // 自动播放
-export function startPlay() {
+function startPlay() {
   if (floodByGraphic.isStart) {
     floodByGraphic.stop()
   } else {

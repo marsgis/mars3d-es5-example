@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let drawLayer
 let measure
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   control: {
     homeButton: true,
     sceneModePicker: true,
@@ -77,7 +77,7 @@ export const mapOptions = {
   lang: CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -85,7 +85,7 @@ export const eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -141,11 +141,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function toCustomLang() {
+function toCustomLang() {
   map.options.basemaps.forEach((item) => {
     item.name = item.name_en
   })
@@ -159,7 +159,7 @@ export function toCustomLang() {
   map.lang = CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
 }
 
-export function toDefaultLange() {
+function toDefaultLange() {
   map.options.basemaps.forEach((item) => {
     item.name = item.name_cn
   })
@@ -172,26 +172,26 @@ export function toDefaultLange() {
   map.lang = mars3d.Lang // 使用默认配置
 }
 
-export function distance() {
+function distance() {
   drawLayer.stopDraw()
   measure.distance()
 }
 
-export function area() {
+function area() {
   drawLayer.stopDraw()
   measure.area()
 }
 
-export function height() {
+function height() {
   drawLayer.stopDraw()
   measure.heightTriangle()
 }
 
-export function coordinate() {
+function coordinate() {
   drawLayer.stopDraw()
   measure.point()
 }
-export function angle() {
+function angle() {
   drawLayer.stopDraw()
   measure.angle()
 }
@@ -199,11 +199,11 @@ export function angle() {
 /**
  *开始标绘
  *
- * @export startDraw
+ * @startDraw
  * @param { string } type 矢量数据类型
  * @returns {void} 无
  */
-export function startDraw(type) {
+function startDraw(type) {
   measure.stopDraw()
   drawLayer.startDraw({
     type,

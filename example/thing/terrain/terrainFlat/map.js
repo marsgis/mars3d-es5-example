@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let terrainFlat
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 0, pitch: -56 }
   }
@@ -11,7 +11,7 @@ export const mapOptions = {
 
 let lineLayer // 矢量图层对象,用于graphic绑定展示
 
-export const eventTabel = new mars3d.BaseClass()
+var eventTabel = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,7 +19,7 @@ export const eventTabel = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
 
@@ -33,11 +33,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function addTerrainClip() {
+function addTerrainClip() {
   terrainFlat = new mars3d.thing.TerrainFlat()
   map.addThing(terrainFlat)
 
@@ -73,7 +73,7 @@ export function addTerrainClip() {
 }
 
 // 添加矩形
-export function btnDrawExtent(height) {
+function btnDrawExtent(height) {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -94,7 +94,7 @@ export function btnDrawExtent(height) {
   })
 }
 // 添加多边形
-export function btnDraw(height) {
+function btnDraw(height) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -116,19 +116,19 @@ export function btnDraw(height) {
 }
 
 // 清除
-export function removeAll() {
+function removeAll() {
   terrainFlat.clear() // 清除挖地区域
   table = []
   lineLayer.clear()
 }
 
 // 改变切割的深度
-export function changeClipHeight(val) {
+function changeClipHeight(val) {
   terrainFlat.height = val
 }
 
 // 是否挖地
-export function chkClippingPlanes(val) {
+function chkClippingPlanes(val) {
   terrainFlat.enabled = val
 }
 
@@ -141,17 +141,17 @@ function addTableItem(item) {
 
   eventTabel.fire("tableObject", { table })
 }
-export function changeTable(data) {
+function changeTable(data) {
   table = data
 }
 
 // 表格操作
-export function flyToGraphic(item) {
+function flyToGraphic(item) {
   const graphic = terrainFlat.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
-export function deletedGraphic(areaId, lineId) {
+function deletedGraphic(areaId, lineId) {
   const graphic = terrainFlat.getAreaById(areaId)
   terrainFlat.removeArea(graphic)
 
@@ -161,7 +161,7 @@ export function deletedGraphic(areaId, lineId) {
   }
 }
 
-export function showHideArea(id, selected) {
+function showHideArea(id, selected) {
   if (selected) {
     terrainFlat.showArea(id)
   } else {
@@ -170,7 +170,7 @@ export function showHideArea(id, selected) {
 }
 
 // 是否显示测试边界线
-export function chkShowLine(val) {
+function chkShowLine(val) {
   lineLayer.show = val
 }
 

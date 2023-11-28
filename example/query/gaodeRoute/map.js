@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let routeLayer // 矢量数据图层
 let gaodeRoute // 高德 路径规划
 
@@ -8,13 +8,13 @@ let gaodeRoute // 高德 路径规划
 let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -22,7 +22,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -36,12 +36,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 开始分析按钮
-export function btnAnalyse(type) {
+function btnAnalyse(type) {
   if (!startGraphic || !endGraphic) {
     globalMsg("请设置起点和终点")
     return
@@ -50,7 +50,7 @@ export function btnAnalyse(type) {
 }
 
 // 清除按钮
-export function removeAll() {
+function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -70,7 +70,7 @@ export function removeAll() {
  * @param {number} type 不同方式路线查询
  * @returns {string}
  */
-export function startPoint(type) {
+function startPoint(type) {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -103,7 +103,7 @@ export function startPoint(type) {
  * @param {number} type 不同方式路线查询
  * @returns {string}
  */
-export function endPoint(type) {
+function endPoint(type) {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -181,7 +181,7 @@ function queryRoute(type) {
 }
 
 // 点击保存GeoJSON
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (routeLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

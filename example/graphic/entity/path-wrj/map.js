@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let pathEntity = null
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 32.550222, lng: 117.366824, alt: 2696, heading: 273, pitch: -67 }
   },
@@ -21,7 +21,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -41,12 +41,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 改变视角  跟踪，上方和侧方
-export function viewAircraft() {
+function viewAircraft() {
   map.trackedEntity = pathEntity.entity
 
   pathEntity.flyToPoint({
@@ -56,7 +56,7 @@ export function viewAircraft() {
     duration: 0.01
   })
 }
-export function viewTopDown() {
+function viewTopDown() {
   map.trackedEntity = undefined
 
   map.flyToPoint(pathEntity.positionShow, {
@@ -65,7 +65,7 @@ export function viewTopDown() {
     pitch: -89
   })
 }
-export function viewSide() {
+function viewSide() {
   map.trackedEntity = undefined
 
   map.flyToPoint(pathEntity.positionShow, {

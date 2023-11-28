@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let modelPlanClip
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
     fxaa: true
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -48,25 +48,25 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function rangeDistance(value) {
+function rangeDistance(value) {
   modelPlanClip.distance = value
 }
 
-export function rangeNormalZ(value) {
+function rangeNormalZ(value) {
   modelPlanClip.normalZ = value
 }
 
 // 更改切换方向
-export function clippingType(type) {
+function clippingType(type) {
   modelPlanClip.type = mars3d.ClipType[type]
 }
 
 // 绘制线
-export function drawLine() {
+function drawLine() {
   modelPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -87,7 +87,7 @@ export function drawLine() {
   })
 }
 // 绘制矩形
-export function drawExtent() {
+function drawExtent() {
   modelPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -109,7 +109,7 @@ export function drawExtent() {
 }
 
 // 绘制面
-export function drawPoly() {
+function drawPoly() {
   modelPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -131,7 +131,7 @@ export function drawPoly() {
   })
 }
 // 绘制面(外切)
-export function drawPoly2() {
+function drawPoly2() {
   modelPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -153,6 +153,6 @@ export function drawPoly2() {
   })
 }
 
-export function clear() {
+function clear() {
   modelPlanClip.clear()
 }

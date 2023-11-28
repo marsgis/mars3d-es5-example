@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let sightline
 
 let positionSXT
@@ -8,13 +8,13 @@ let positionDM
 let positionJD // 与地面的交点
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.841574, lng: 116.18792, alt: 6828, heading: 215, pitch: -28 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -22,7 +22,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   creatTestData()
@@ -32,7 +32,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -128,7 +128,7 @@ function creatTestData() {
 }
 
 // 计算与地面焦点
-export function analysisIntersection() {
+function analysisIntersection() {
   if (!positionSXT || !positionDM) {
     return []
   }
@@ -138,7 +138,7 @@ export function analysisIntersection() {
 }
 
 // 设置摄像头位置
-export function sePoint() {
+function sePoint() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "point",
@@ -161,7 +161,7 @@ export function sePoint() {
   })
 }
 
-export function testTerrain(val) {
+function testTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
   if (val) {
     globalMsg("深度监测打开后，您将无法看到地下或被地形遮挡的对象")
@@ -169,7 +169,7 @@ export function testTerrain(val) {
 }
 
 // 更新模型数据
-export function updateModel(params) {
+function updateModel(params) {
   if (!positionSXT) {
     return
   }

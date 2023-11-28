@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let weixin
 let graphicLayer
 let graphicTriangle
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     // 此处参数会覆盖config.json中的对应配置
     center: { lat: 5.459746, lng: 68.238291, alt: 36261079, heading: 143, pitch: -89 },
@@ -23,7 +23,7 @@ export const mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -31,7 +31,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -46,7 +46,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -132,7 +132,7 @@ function addSatellite() {
   })
 }
 
-export function centerPoint(angle1) {
+function centerPoint(angle1) {
   if (graphicTriangle) {
     graphicTriangle.show = false
   }
@@ -170,24 +170,24 @@ export function centerPoint(angle1) {
 }
 
 // 俯仰角
-export function pitchChange(value) {
+function pitchChange(value) {
   weixin.model.pitch = value
 }
 
 // 左右角
-export function rollChange(value) {
+function rollChange(value) {
   weixin.model.roll = value
 }
 
-export function angle(value) {
+function angle(value) {
   weixin.cone.angle1 = value
   centerPoint(weixin.cone.angle1)
 }
 
-export function chkShowModelMatrix(val) {
+function chkShowModelMatrix(val) {
   weixin.coneShow = val // 显示关闭视锥体
 }
 
-export function locate() {
+function locate() {
   weixin.flyTo()
 }

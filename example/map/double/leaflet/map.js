@@ -1,4 +1,4 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 let map3d
 let map2d
@@ -9,7 +9,7 @@ let map2d
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map3d = mapInstance // 记录map
   map3d.camera.percentageChanged = 0.001
 
@@ -22,7 +22,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   unbind3dEvent()
   unbind2dEvent()
 
@@ -114,7 +114,7 @@ function camera_moveEndHandler(e) {
   bind2dEvent()
 }
 
-export function viewTo3d() {
+function viewTo3d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to2dDom.style.display = "none"
@@ -123,7 +123,7 @@ export function viewTo3d() {
   to3dDom.style.width = "100%"
 }
 
-export function viewTo2d() {
+function viewTo2d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.display = "none"
@@ -135,7 +135,7 @@ export function viewTo2d() {
   }
 }
 
-export function viewTo23D() {
+function viewTo23D() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.width = "50%"

@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let geoJsonLayer
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.722018, lng: 117.251926, alt: 8378, heading: 0, pitch: -33 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 切换到蓝色底图
 
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -77,13 +77,13 @@ function addLayer() {
 }
 
 // 保存为Geojson文件
-export function toGeojson() {
+function toGeojson() {
   const geojson = geoJsonLayer.toGeoJSON()
   mars3d.Util.downloadFile("hfty-point-含高度值.json", JSON.stringify(geojson))
 }
 
 // 计算贴地高度示例代码，可以将获取到的高度更新到数据库内，后续不用重复计算。
-export function getDataSurfaceHeight() {
+function getDataSurfaceHeight() {
   if (geoJsonLayer.length === 0) {
     globalMsg("数据尚未加载成功！")
     return

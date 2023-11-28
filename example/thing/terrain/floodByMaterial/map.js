@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let floodByMaterial
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     showSun: false,
     showMoon: false,
@@ -17,7 +17,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -25,7 +25,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 基于地球材质，可以多个区域
@@ -52,12 +52,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制矩形
-export function btnDrawExtent(callback, floodColor) {
+function btnDrawExtent(callback, floodColor) {
   clearDraw()
 
   map.graphicLayer.startDraw({
@@ -80,7 +80,7 @@ export function btnDrawExtent(callback, floodColor) {
 }
 
 // 绘制多边形
-export function btnDraw(callback, floodColor) {
+function btnDraw(callback, floodColor) {
   clearDraw()
 
   map.graphicLayer.startDraw({
@@ -117,7 +117,7 @@ function updateHeightRange(graphic, positions, callback) {
 }
 
 // 开始分析
-export function begin(data) {
+function begin(data) {
   if (floodByMaterial.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -137,17 +137,17 @@ export function begin(data) {
 }
 
 // 高度选择
-export function onChangeHeight(height) {
+function onChangeHeight(height) {
   floodByMaterial.height = height
 }
 
 // 颜色发生改变
-export function onChangeColor(color) {
+function onChangeColor(color) {
   floodByMaterial.color = color
 }
 
 // 自动播放
-export function startPlay() {
+function startPlay() {
   if (floodByMaterial.isStart) {
     floodByMaterial.stop()
   } else {
@@ -156,11 +156,11 @@ export function startPlay() {
 }
 
 // 是否显示非淹没区域
-export function onChangeElse(val) {
+function onChangeElse(val) {
   floodByMaterial.showElseArea = val
 }
 
-export function clearDraw() {
+function clearDraw() {
   floodByMaterial.clear()
   map.graphicLayer.clear()
 }

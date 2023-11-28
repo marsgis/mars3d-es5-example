@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 28.438455, lng: 119.479268, alt: 435.3, heading: 30.3, pitch: -53.6 },
     globe: {
@@ -21,7 +21,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) 目前会存在锯齿。(2) 视角变化时可能有锯齿抖动。`)
@@ -51,7 +51,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -105,7 +105,7 @@ function addDemoGraphic3() {
 }
 
 // 添加
-export function startDrawGraphic() {
+function startDrawGraphic() {
   // 开始绘制
   graphicLayer.startDraw({
     type: "coneVisibility",
@@ -116,7 +116,7 @@ export function startDrawGraphic() {
   })
 }
 
-export function startDrawGraphic2() {
+function startDrawGraphic2() {
   // 开始绘制
   graphicLayer.startDraw({
     type: "pointVisibility",
@@ -128,7 +128,7 @@ export function startDrawGraphic2() {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -163,6 +163,6 @@ export function addRandomGraphicByCount(count) {
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length
 }
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

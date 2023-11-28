@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.772337, lng: 117.213784, alt: 12450, heading: 0, pitch: -66 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -46,7 +46,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -86,7 +86,7 @@ function updateSelect(drawGraphic) {
   })
 }
 
-export function removeAll() {
+function removeAll() {
   map.graphicLayer.clear()
 
   for (let i = 0; i < selectGraphic.length; i++) {
@@ -98,7 +98,7 @@ export function removeAll() {
   selectGraphic = []
 }
 
-export function drawPolygon() {
+function drawPolygon() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -113,7 +113,7 @@ export function drawPolygon() {
   })
 }
 
-export function drawCircle() {
+function drawCircle() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -128,7 +128,7 @@ export function drawCircle() {
   })
 }
 
-export function drawRectangle() {
+function drawRectangle() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "rectangle",

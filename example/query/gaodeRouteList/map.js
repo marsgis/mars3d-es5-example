@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let routeLayer
 let gaodeRoute
 
@@ -11,14 +11,14 @@ let poiLayer
 let queryGaodePOI
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
   }
 }
 
 // 自定义事件
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -26,7 +26,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -74,12 +74,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 起点
-export function startPoint() {
+function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -105,7 +105,7 @@ export function startPoint() {
 }
 
 // 终点
-export function endPoint() {
+function endPoint() {
   showLoading()
   routeLayer.clear()
   poiLayer.clear()
@@ -139,7 +139,7 @@ export function endPoint() {
 }
 
 // 开始分析
-export function btnAnalyse(type, count) {
+function btnAnalyse(type, count) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -247,7 +247,7 @@ function addEndPointEntity(arr) {
 }
 
 let lastRoute
-export function centerAtRoute(id) {
+function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
 
   if (lastRoute) {
@@ -269,7 +269,7 @@ export function centerAtRoute(id) {
 }
 
 // 清除按钮
-export function removeAll() {
+function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
