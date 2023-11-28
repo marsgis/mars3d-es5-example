@@ -817,17 +817,17 @@ function changeAvali() {
         `)
     const table = $(
       `<table id='ava-table' class='mars-table'>
-          <tbody>
-            <tr>
-              <td>开始时间</td>
-              <td><input type='text' class='form-control' id='startTime${index + 1}' placeholder='YYYY-MM-DD' /></td>
-          </tr>
+        <tbody>
           <tr>
-              <td>结束时间</td>
-              <td><input type='text' class='form-control' id='endTime${index + 1}' placeholder='YYYY-MM-DD' /></td>
-          </tr>
-          </tbody>
-          </table>`
+            <td>开始时间</td>
+            <td><input type='text' class='form-control' id='startTime${index + 1}' placeholder='YYYY-MM-DD' /></td>
+        </tr>
+        <tr>
+            <td>结束时间</td>
+            <td><input type='text' class='form-control' id='endTime${index + 1}' placeholder='YYYY-MM-DD' /></td>
+        </tr>
+        </tbody>
+        </table>`
     )
     $("#table-box").append(span)
     $("#table-box").append(table)
@@ -848,7 +848,6 @@ function changeAvali() {
           availabilityList[index].start = obj.val
           thisWidget.availabilityChange(availabilityList)
         } else {
-          console.log("message", message)
           toastr.warning(message)
           $(obj.elem).val(availabilityList[index].start)
         }
@@ -871,7 +870,6 @@ function changeAvali() {
           availabilityList[index].stop = obj.val
           thisWidget.availabilityChange(availabilityList)
         } else {
-          console.log("message", message)
           toastr.warning(message)
           $(obj.elem).val(availabilityList[index].stop)
         }
@@ -935,8 +933,10 @@ function getMinData(avaList, index, key, val) {
 
   if (val) {
     if (startTime && new Date(val) < new Date(startTime)) {
+      console.log(`选中时间小于开始时间！\n选中：${val}\n 开始时间：${startTime}`)
       return { isChange: false, message: `请重新选择时间，须大于${startTime}` }
     } else if (endTime && new Date(val) > new Date(endTime)) {
+      console.log(`选中时间大于结束时间！\n选中：${val}\n 结束时间：${endTime}`)
       return { isChange: false, message: `请重新选择时间，须小于${endTime}` }
     } else {
       return { isChange: true, message: "" }

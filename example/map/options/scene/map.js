@@ -26,6 +26,7 @@ export function onMounted(mapInstance) {
   map.setCameraView(center)
 }
 
+
 // 视图切换
 export function sceneMode(name) {
   const value = Number(name)

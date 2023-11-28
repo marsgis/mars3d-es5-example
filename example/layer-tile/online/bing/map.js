@@ -72,6 +72,8 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+
 }
 
 /**
