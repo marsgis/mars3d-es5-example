@@ -23,6 +23,9 @@
       .widthInput {
         margin-left: -20px;
       }
+      .mars-table tr td:first-child {
+        text-align: right;
+      }
     </style>
 
     <!--第三方lib-->
@@ -43,7 +46,7 @@
     <div class="infoview">
       <table class="mars-table">
         <tr>
-          <td>开启效果</td>
+          <td>开启:</td>
           <td>
             <div class="checkbox checkbox-primary checkbox-inline">
               <input id="chkShowEffect" class="styled" type="checkbox" checked />
@@ -51,26 +54,30 @@
             </div>
           </td>
         </tr>
+
         <tr>
-          <td>发光</td>
+          <td>轮廓线颜色:</td>
           <td>
-            <div class="checkbox checkbox-primary checkbox-inline">
-              <input id="chkGlow" class="styled" type="checkbox" />
-              <label for="chkGlow"> </label>
-            </div>
+            <input id="txtColor" class="form-control" style="width: 100px" value="#ffff00" />
           </td>
         </tr>
+
         <tr>
-          <td>只显示选中</td>
+          <td>被遮挡线颜色：</td>
           <td>
-            <div class="checkbox checkbox-primary checkbox-inline">
-              <input id="chkOnlySelected" class="styled" type="checkbox" />
-              <label for="chkOnlySelected"> </label>
-            </div>
+            <input id="colorHidden" class="form-control" style="width: 100px" value="#ffff00" />
           </td>
         </tr>
+
         <tr>
-          <td>边缘平面</td>
+          <td>线宽：</td>
+          <td>
+            <input id="txt_width" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>是否显示边缘:</td>
           <td>
             <div class="checkbox checkbox-primary checkbox-inline">
               <input id="chkShowPlane" class="styled" type="checkbox" />
@@ -78,43 +85,34 @@
             </div>
           </td>
         </tr>
+
         <tr>
-          <td>线宽</td>
+          <td>边缘法线夹角:</td>
           <td>
-            <div class="checkbox checkbox-primary widthInput">
-              <input id="chkWidth" class="styled" value="6" />
+            <input id="txt_planeAngle" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>发光:</td>
+          <td>
+            <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="chkGlow" class="styled" type="checkbox" />
+              <label for="chkGlow"> </label>
             </div>
           </td>
         </tr>
 
         <tr>
-          <td>发光强度</td>
+          <td>发光强度:</td>
           <td>
             <input id="txt_glowPower" />
           </td>
         </tr>
         <tr>
-          <td>发光增量</td>
+          <td>发光增量:</td>
           <td>
             <input id="txt_glowStrength" />
-          </td>
-        </tr>
-        <tr>
-          <td>法线夹角</td>
-          <td>
-            <input id="txt_planeAngle" />
-          </td>
-        </tr>
-        <tr>
-          <td>轮廓线颜色</td>
-          <td>
-            <input id="txtColor" class="form-control" style="width: 100px" value="#fff" />
-          </td>
-        </tr>
-        <tr>
-          <td>被遮挡轮廓线颜色</td>
-          <td>
-            <input id="colorHidden" class="form-control" style="width: 100px" value="#fff" />
           </td>
         </tr>
       </table>
@@ -136,21 +134,19 @@
           let val = $(this).is(":checked")
           changeGlow(val)
         })
-        $("#chkOnlySelected").change(function () {
-          let val = $(this).is(":checked")
-          changeOnlySelected(val)
-        })
         $("#chkShowPlane").change(function () {
           let val = $(this).is(":checked")
           changeShowPlane(val)
         })
 
         // 绑定input事件
-        $("#chkWidth").on("input", function () {
-          // 获取文本框的值
-          var val = $(this).val()
-          changeWidth(val)
-        })
+        $("#txt_width")
+          .slider({ min: 0.1, max: 10.0, step: 0.1, value: 6.0 })
+          .on("change", (e) => {
+            if (e?.value) {
+              changeWidth(e.value.newValue)
+            }
+          })
 
         $("#txt_glowPower")
           .slider({ min: 0.0, max: 10.0, step: 0.01, value: 1.0 })
@@ -167,7 +163,7 @@
             }
           })
         $("#txt_planeAngle")
-          .slider({ min: 0.0, max: 360.0, step: 0.01, value: 10.0 })
+          .slider({ min: 0.1, max: 10.0, step: 0.1, value: 10.0 })
           .on("change", (e) => {
             if (e?.value) {
               changePlaneAngle(e.value.newValue)

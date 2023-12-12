@@ -2693,7 +2693,6 @@ const styleConfig = {
         defval: "#ffffff",
         show(style, allStyle, graphicType) {
           return style.outline && (style.diffHeight || !style.outlineStyle)
-
         }
       },
 
@@ -2930,7 +2929,8 @@ const styleConfig = {
         label: "半径",
         type: "number",
         step: 0.1,
-        defval: 0.0
+        defval: 0.0,
+        toFixed: 2
       },
       {
         name: "startAngle",

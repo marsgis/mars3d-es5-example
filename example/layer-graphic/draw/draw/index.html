@@ -26,11 +26,8 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,font-awesome,web-icons,bootstrap,bootstrap-checkbox,layer,toastr,haoutil,terraformer,mars3d,es5-widget"
+      include="jquery,layer,toastr,font-awesome,web-icons,bootstrap,bootstrap-checkbox,layer,toastr,haoutil,terraformer,mars3d,kmlGeojson,es5-widget"
     ></script>
-
-    <!-- KML/KMZ 转 GeoJSON 格式 -->
-    <script type="text/javascript" src="/lib/kml/kml-geojson.js"></script>
 
     <link href="/css/style.css" rel="stylesheet" />
     <style>
@@ -69,7 +66,7 @@
         </div>
         <div class="checkbox checkbox-primary checkbox-inline" title="屏蔽拾取地形坐标，避免穿透3dtiles模型">
           <input id="chk_onlyPickModelPosition" class="styled" type="checkbox" />
-          <label for="chk_onlyPickModelPosition"> 仅在3dtiles上标绘 </label>
+          <label for="chk_onlyPickModelPosition"> 仅在模型或矢量上拾取 </label>
         </div>
       </div>
 

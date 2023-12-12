@@ -528,7 +528,11 @@ var plotEdit = {
         }
         break
       case "number":
-        inHtml = '<input id="' + parname + attrName + '" type="number" value="' + (attrVal || 0) + '"    class="mp_input"/>'
+        if (edit.toFixed) {
+          attrVal = attrVal.toFixed(edit.toFixed)
+        }
+
+        inHtml = '<input id="' + parname + attrName + '" type="number" value="' + (attrVal || 0) + '" step="0.01"   class="mp_input"/>'
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).on("input propertychange", function (e) {
             let attrVal = Number($(this).val())

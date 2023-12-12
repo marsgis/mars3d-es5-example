@@ -336,3 +336,73 @@ function initGraphicManager(graphic) {
     })
   }
 }
+
+//  ***************************** 属性面板 ***********************  //
+// 绑定事件，激活属性面板
+function bindAttributePannel() {
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    let val = $("#hasEdit").is(":checked")
+    if (val) {
+      showEditor(e)
+    }
+  })
+  // 修改了矢量数据
+  graphicLayer.on(
+    [
+      mars3d.EventType.editStart,
+      mars3d.EventType.editStyle,
+      mars3d.EventType.editAddPoint,
+      mars3d.EventType.editMovePoint,
+      mars3d.EventType.editRemovePoint
+    ],
+    function (e) {
+      showEditor(e)
+    }
+  )
+
+  // 停止编辑
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    setTimeout(() => {
+      if (!graphicLayer.isEditing) {
+        stopEditing()
+      }
+    }, 100)
+  })
+}
+
+//附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+let timeTik
+
+function showEditor(e) {
+  const graphic = e.graphic
+  clearTimeout(timeTik)
+
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true //只处理一次
+  }
+
+  let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
+  if (plotAttr && plotAttr.isActivate) {
+    plotAttr.startEditing(graphic, graphic.coordinates)
+  } else {
+    // 左侧没有弹出的修改面板时，弹出widget
+    $("#infoview-left").length === 0 &&
+      es5widget.activate({
+        map: map,
+        uri: "widgets/plotAttr/widget.js",
+        name: "属性编辑",
+        graphic: graphic,
+        lonlats: graphic.coordinates
+      })
+  }
+}
+
+function stopEditing() {
+  timeTik = setTimeout(function () {
+    if (es5widget) {
+      es5widget.disable("widgets/plotAttr/widget.js")
+    }
+  }, 200)
+}
+//附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
