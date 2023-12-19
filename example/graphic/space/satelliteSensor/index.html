@@ -29,6 +29,12 @@
       include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-space,es5-widget"
     ></script>
 
+    <style>
+      .infoview-left {
+        display: none;
+      }
+    </style>
+
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
@@ -75,17 +81,20 @@
         <input onclick="expJSONFile()" type="button" class="btn btn-primary" value="导出构造JSON" title="导出构造参数Json" />
       </div>
 
-      <div style="width: 100%; margin-top: 30px; text-align: center; font-size: 16px">参数设置</div>
-      <input type="button" class="btn btn-primary" value="定位至卫星" onclick="locate()" />
-
-      <a href="editor-es5.html?id=graphic/space/satelliteSensor-multi" target="_blank" class="btn btn-link">双椎体示例</a>
       <table id="graphicTable"></table>
     </div>
 
     <!-- 参数面板 -->
-    <div class="infoview infoview-left">
+    <div id="infoview-left" class="infoview infoview-left">
       <div style="width: 100%; text-align: center; font-size: 16px">参数设置</div>
+
       <table class="mars-table">
+        <tr>
+          <td><input type="button" class="btn btn-primary" value="定位至卫星" onclick="flyToSatellite()" /></td>
+          <td>
+            <a href="editor-es5.html?id=graphic/space/satelliteSensor-multi" target="_blank" class="btn btn-link">双椎体示例</a>
+          </td>
+        </tr>
         <tr>
           <td>经度</td>
           <td colspan="2">
@@ -278,12 +287,16 @@
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+          refreshTabelFn()
 
           const graphics = graphicLayer.getGraphics()
           editorGraphic = graphics[graphics.length - 1]
         })
         $("#onClickClear").click(function () {
+          $("#infoview-left").hide()
           graphicLayer.clear()
+          satelliteSensorGraphic = null
+          editorGraphic = null
         })
 
         $("#btnImpFile").click(function () {
@@ -448,6 +461,22 @@
         $("#btnRemoveAll").click(function () {
           clearAll()
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
+      }
+
+      function flyToSatellite() {
+        if (satelliteSensorGraphic) {
+          getGraphic(satelliteSensorGraphic.id)
+          locate()
+        } else if (editorGraphic) {
+          getGraphic(editorGraphic.id)
+          locate()
+        }
       }
 
       function updatePoi() {

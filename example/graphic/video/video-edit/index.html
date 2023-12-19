@@ -261,6 +261,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
+          refreshTabelFn()
 
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
@@ -349,6 +350,12 @@
       function clear() {
         drawVideoCanvas.clear()
         clearROI()
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

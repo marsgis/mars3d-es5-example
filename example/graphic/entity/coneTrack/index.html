@@ -188,6 +188,7 @@
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+          refreshTabelFn()
 
           const graphics = graphicLayer.getGraphics()
           editorGraphic = graphics[graphics.length - 1]
@@ -204,6 +205,12 @@
           let file = this.files[0]
           onClickImpFile(file)
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

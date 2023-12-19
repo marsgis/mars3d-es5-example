@@ -17,21 +17,21 @@
   margin-bottom: 10px;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group {
   display: inline-block;
   margin-left: -1px !important;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group>.btn {
   border-radius: 0;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group:first-child > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group:first-child>.btn {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group:last-child > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group:last-child>.btn {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -194,6 +194,7 @@
   overflow-x: auto;
   overflow-y: auto;
   height: 100%;
+  max-height: 350px;
 }
 
 .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading {
@@ -283,42 +284,42 @@
   margin-bottom: 10px;
 } */
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .pagination-info {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .pagination-info {
   line-height: 34px;
   margin-right: 5px;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list {
   display: inline-block;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list .btn-group {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list .btn-group {
   position: relative;
   display: inline-block;
   vertical-align: middle;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list .btn-group .dropdown-menu {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list .btn-group .dropdown-menu {
   margin-bottom: 0;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination {
   margin: 0;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a {
   color: #c8c8c8;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a::before {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a::before {
   content: "\2B05";
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a::after {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a::after {
   content: "\27A1";
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.disabled a {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.disabled a {
   pointer-events: none;
   cursor: default;
 }
@@ -366,9 +367,11 @@ div.fixed-table-scroll-outer {
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }

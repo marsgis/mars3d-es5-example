@@ -194,6 +194,8 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
+          refreshTabelFn()
+
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
         $("#onClickClear").click(function () {
@@ -223,6 +225,12 @@
         $("#num").on("input propertychange", function (e) {
           onHeightChange(e.target.value)
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
 
       // 井的深度发生改变

@@ -202,6 +202,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           onClickAddRandomGraohic($("#count").val())
+          refreshTabelFn()
         })
         $("#onClickClear").click(function () {
           graphicLayer.clear()
@@ -241,6 +242,12 @@
             }
           }, 100)
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

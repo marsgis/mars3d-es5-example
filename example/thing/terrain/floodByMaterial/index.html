@@ -38,8 +38,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -131,6 +129,10 @@
         })
 
         $("#begin").click(function () {
+          if (floodByMaterial.length === 0) {
+            globalMsg("请首先绘制分析区域！")
+            return
+          }
           begin({
             minHeight: Number($("#minHeight").val()),
             maxHeight: Number($("#maxHeight").val()),
@@ -190,15 +192,15 @@
       })
 
       let color = $("#txtColor").val()
-        $("#txtColor").minicolors({
-          position: "bottom left",
-          control: "saturation",
-          format: "rgb",
-          opacity: 0.5,
-          change: function (color) {
-            onChangeColor(color)
-          }
-        })
+      $("#txtColor").minicolors({
+        position: "bottom left",
+        control: "saturation",
+        format: "rgb",
+        opacity: 0.5,
+        change: function (color) {
+          onChangeColor(color)
+        }
+      })
     </script>
   </body>
 </html>

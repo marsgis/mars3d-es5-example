@@ -115,7 +115,7 @@
 
     <script src="/js/common.js"></script>
     <script src="/js/graphic_layer_state.js"></script>
-    
+
     <script src="./map.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
@@ -216,6 +216,7 @@
         // 数据测试 - 生成和清除
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
+          refreshTabelFn()
 
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
         })
@@ -266,6 +267,12 @@
           let speed = Number($("#txtSpeed").val())
           startDrawGraphic(width, height, speed)
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>

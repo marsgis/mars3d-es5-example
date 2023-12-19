@@ -204,6 +204,7 @@
         $("#addRandomGraphicByCount").click(function () {
           addRandomGraphicByCount($("#count").val())
           graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+          refreshTabelFn()
 
           const graphics = graphicLayer.getGraphics()
           road = graphics[graphics.length - 1]
@@ -247,6 +248,12 @@
           const alphaValue = Number($("#txtAlpha").val())
           startDrawGraphic(widthValue, heightValue, alphaValue)
         })
+      }
+
+      function refreshTabelFn() {
+        setTimeout(() => {
+          refreshTabel(graphicLayer)
+        }, 100)
       }
     </script>
   </body>
