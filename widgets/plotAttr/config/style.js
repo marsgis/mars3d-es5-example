@@ -2999,7 +2999,7 @@ const styleConfig = {
         type: "color",
         defval: "#ffffff",
         show: (style) => {
-          return style.outline
+          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 
