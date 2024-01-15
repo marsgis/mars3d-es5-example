@@ -64,8 +64,6 @@ function removeLayer() {
   }
 }
 
-
-
 // 示例：
 function showCar() {
   removeLayer()
@@ -96,8 +94,8 @@ function showAircraft() {
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "飞行编队",
     url: "//data.mars3d.cn/file/czml/flight2.czml",
-    popup: "all",
-    flyTo: true
+    popup: "all"
+    // flyTo: true
   })
   map.addLayer(graphicLayer)
 
@@ -118,8 +116,8 @@ function showShip() {
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "船舶编队",
     url: "//data.mars3d.cn/file/czml/ship2.czml",
-    popup: "all",
-    flyTo: true
+    popup: "all"
+    // flyTo: true
   })
   map.addLayer(graphicLayer)
 
@@ -137,6 +135,8 @@ function showShip() {
 function showBDSatellite() {
   removeLayer()
 
+  map.setCameraView({ lat: 51.630551, lng: 165.640607, alt: 110141973.7, heading: 360, pitch: -89.9 })
+
   // 更新地球参数
   map.setSceneOptions({
     cameraController: {
@@ -147,8 +147,8 @@ function showBDSatellite() {
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "北斗卫星",
     url: "//data.mars3d.cn/file/czml/satellite.czml",
-    center: { lng: 10, lat: 111.833884, z: 150000000, heading: 0, pitch: -90, roll: 0 },
-    flyTo: true
+    center: { lng: 10, lat: 111.833884, z: 150000000, heading: 0, pitch: -90, roll: 0 }
+    // flyTo: true
   })
   map.addLayer(graphicLayer)
 

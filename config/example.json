@@ -1512,6 +1512,22 @@
             "hasPannel": true
           },
           {
+            "name": "DivPlane 三维DIV面板",
+            "thumbnail": "graphic-divGraphic-divPlane.jpg",
+            "main": "graphic/divGraphic/divPlane",
+            "hasPannel": true,
+            "new": true,
+            "resources": ["/temp/css/divGraphic.css"]
+          },
+          {
+            "name": "可拖拽的DIV",
+            "thumbnail": "graphic-divGraphic-divIndicator.jpg",
+            "main": "graphic/divGraphic/divIndicator",
+            "hasPannel": true,
+            "new": true,
+            "resources": ["DivIndicator.js", "DivIndicator.css"]
+          },
+          {
             "name": "动态效果点(南京高校)",
             "thumbnail": "graphic-divGraphic-divLightPoint.gif",
             "main": "graphic/divGraphic/divLightPoint",
@@ -1761,6 +1777,22 @@
             "hasPannel": true
           },
           {
+            "name": "自定义干扰雷达",
+            "thumbnail": "graphic-space-jammingRadar.jpg",
+            "main": "graphic/space/jammingRadar",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-space"],
+            "new": true
+          },
+          {
+            "name": "固定算法的干扰雷达",
+            "thumbnail": "graphic-space-jammingRadar-fixed.jpg",
+            "main": "graphic/space/jammingRadar-fixed",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-space"],
+            "new": true
+          },
+          {
             "name": "CamberRadar 双曲面雷达范围",
             "thumbnail": "graphic-space-camberRadar.jpg",
             "main": "graphic/space/camberRadar",
@@ -1992,7 +2024,7 @@
             "thumbnail": "layerg-draw-draw.jpg",
             "main": "layer-graphic/draw/draw",
             "hasPannel": true,
-            "libs": ["mars3d", "kmlGeojson", "terraformer"]
+            "libs": ["mars3d", "mars3d-space", "kmlGeojson", "terraformer"]
           },
           {
             "name": "标绘数据展示(马拉松)",
@@ -2350,12 +2382,14 @@
             "name": "单模型场景(无地球)",
             "thumbnail": "layer3d-manager-oneself.jpg",
             "main": "layer-tileset/manager/oneself",
+            "libs": ["mars3d", "localforage"],
             "hasPannel": true
           },
           {
             "name": "单模型场景(无地球+背景图片)",
             "thumbnail": "layer3d-manager-oneself2.jpg",
             "main": "layer-tileset/manager/oneself2",
+            "libs": ["mars3d", "localforage"],
             "hasPannel": true
           }
         ]
@@ -2406,7 +2440,7 @@
             "thumbnail": "map-fun-expImage.jpg",
             "main": "map/fun/expImage",
             "hasPannel": true,
-            "resources": ["/temp/css/divGraphic.css", "/lib/dom2img/dom-to-image.js"]
+            "resources": ["/temp/css/divGraphic.css", "/lib/dom2img/dom-to-image.js", "/lib/dom2img/html2canvas.js"]
           },
           {
             "name": "自定义空间背景图",

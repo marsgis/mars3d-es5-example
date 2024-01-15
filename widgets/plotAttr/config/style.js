@@ -512,7 +512,6 @@ const styleConfig = {
     primitive: true,
     extends: ["divBillboard", "canvasBillboard"],
     style: [
-      { name: "image", label: "图标", type: "label", defval: "" },
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
       { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
       { name: "rotationDegree", label: "旋转角度", type: "number", step: 1, defval: 0.0 },
@@ -625,12 +624,14 @@ const styleConfig = {
           return !style.diffHeight || style.diffHeight !== 0
         }
       },
-      { name: "visibleDepth", label: "是否被遮挡", type: "radio", defval: true }
+      { name: "visibleDepth", label: "是否被遮挡", type: "radio", defval: true },
+
+      { name: "image", label: "图标", type: "label", defval: "" }
     ]
   },
   div: {
     name: "DIV点标记",
-    extends: ["divBoderLabel", "divLightPoint", "divUpLabel", "popup", "tooltip"],
+    extends: ["divBoderLabel", "divLightPoint", "divUpLabel", "popup", "tooltip", "divIndicator"],
     style: [
       {
         name: "color",
@@ -1137,6 +1138,26 @@ const styleConfig = {
 
       { name: "outline", label: "是否边框", type: "radio", defval: false },
       {
+        name: "outlineWidth",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.outlineStyle
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#ffffff",
+        show(style, allStyle, graphicType) {
+          return style.outline && (style.diffHeight || !style.outlineStyle)
+        }
+      },
+      {
         name: "outlineStyle",
         next: "width",
         label: "边框宽度",
@@ -1169,26 +1190,6 @@ const styleConfig = {
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
-        }
-      },
-      {
-        name: "outlineWidth",
-        label: "边框宽度",
-        type: "number",
-        min: 0,
-        step: 1,
-        defval: 1.0,
-        show(style, allStyle, graphicType) {
-          return style.outline && !style.outlineStyle
-        }
-      },
-      {
-        name: "outlineColor",
-        label: "边框颜色",
-        type: "color",
-        defval: "#ffffff",
-        show(style, allStyle, graphicType) {
-          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 
@@ -1312,6 +1313,26 @@ const styleConfig = {
 
       { name: "outline", label: "是否边框", type: "radio", defval: false },
       {
+        name: "outlineWidth",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1,
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.outlineStyle
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#ffffff",
+        show(style, allStyle, graphicType) {
+          return style.outline && (style.diffHeight || !style.outlineStyle)
+        }
+      },
+      {
         name: "outlineStyle",
         next: "width",
         label: "边框宽度",
@@ -1344,26 +1365,6 @@ const styleConfig = {
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
-        }
-      },
-      {
-        name: "outlineWidth",
-        label: "边框宽度",
-        type: "number",
-        min: 0,
-        step: 1,
-        defval: 1,
-        show(style, allStyle, graphicType) {
-          return style.outline && !style.outlineStyle
-        }
-      },
-      {
-        name: "outlineColor",
-        label: "边框颜色",
-        type: "color",
-        defval: "#ffffff",
-        show(style, allStyle, graphicType) {
-          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 
@@ -2030,7 +2031,7 @@ const styleConfig = {
         name: "color",
         label: "颜色",
         type: "color",
-        defval: "#00FF00",
+        defval: "rgba(255,0,0,0.5)",
         show(style, allStyle, graphicType) {
           return !style.autoColor
         }
@@ -2045,7 +2046,7 @@ const styleConfig = {
         name: "outlineColor",
         label: "边线颜色",
         type: "color",
-        defval: "#00FF00",
+        defval: "#ffffff",
         show(style, allStyle, graphicType) {
           return !style.autoColor
         }
@@ -2068,20 +2069,113 @@ const styleConfig = {
     name: "卫星",
     primitive: false,
     style: [
-      { name: "tle1", label: "tle1", type: "text", defval: "" },
-      { name: "tle2", label: "tle2", type: "text", defval: "" },
+      { name: "tle1", label: "tle1", type: "label", defval: "" },
+      { name: "tle2", label: "tle2", type: "label", defval: "" },
+      {
+        name: "path_show",
+        label: "是否显示路径",
+        type: "radio",
+        defval: false
+      },
+      {
+        name: "path_width",
+        label: "路径线宽",
+        type: "number",
+        step: 1,
+        defval: 4.0,
+        show(style, allStyle, graphicType) {
+          return style.path_show
+        }
+      },
+      {
+        name: "path_color",
+        label: "路径颜色",
+        type: "color",
+        defval: "#3388ff",
+        show(style, allStyle, graphicType) {
+          return style.path_show
+        }
+      },
 
-      { name: "path_width", label: "线宽", type: "number", step: 1, defval: 4.0 },
-      { name: "path_color", label: "颜色", type: "color", defval: "#3388ff" },
-
-      { name: "model_url", label: "路径", type: "text", defval: "" },
-      { name: "model_scale", label: "比例", type: "number", step: 1, defval: 1.0 },
-      { name: "model_minimumPixelSize", label: "最小像素大小", type: "number", step: 1, defval: 0.0 },
+      {
+        name: "model_show",
+        label: "是否显示模型",
+        type: "radio",
+        defval: false
+      },
+      {
+        name: "model_url",
+        label: "模型路径",
+        type: "label",
+        defval: "",
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
+      {
+        name: "model_heading",
+        label: "方向角",
+        type: "slider",
+        min: 0.0,
+        max: 360.0,
+        step: 0.01,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
+      {
+        name: "model_pitch",
+        label: "俯仰角",
+        type: "slider",
+        min: 0.0,
+        max: 360.0,
+        step: 0.01,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
+      {
+        name: "model_roll",
+        label: "翻滚角",
+        type: "slider",
+        min: 0.0,
+        max: 360.0,
+        step: 0.01,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
+      {
+        name: "model_scale",
+        label: "比例",
+        type: "number",
+        step: 1,
+        defval: 1.0,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
+      {
+        name: "model_minimumPixelSize",
+        label: "最小像素大小",
+        type: "number",
+        step: 1,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
+      },
       {
         name: "model_distanceDisplayCondition",
         label: "是否按视距显示",
         type: "radio",
-        defval: false
+        defval: false,
+        show(style, allStyle, graphicType) {
+          return style.model_show
+        }
       },
       {
         name: "model_distanceDisplayCondition_far",
@@ -2090,7 +2184,7 @@ const styleConfig = {
         step: 1,
         defval: 100000.0,
         show(style, allStyle, graphicType) {
-          return style.model_distanceDisplayCondition
+          return style.model_show && style.model_distanceDisplayCondition
         }
       },
       {
@@ -2100,7 +2194,46 @@ const styleConfig = {
         step: 1,
         defval: 0.0,
         show(style, allStyle, graphicType) {
-          return style.model_distanceDisplayCondition
+          return style.model_show && style.model_distanceDisplayCondition
+        }
+      },
+      {
+        name: "cone_show",
+        label: "是否显示视椎体",
+        type: "radio",
+        defval: false
+      },
+      {
+        name: "cone_angle1",
+        label: "视椎体半场角1",
+        type: "slider",
+        min: 0.1,
+        max: 80,
+        step: 0.01,
+        defval: 5,
+        show(style, allStyle, graphicType) {
+          return style.cone_show
+        }
+      },
+      {
+        name: "cone_angle2",
+        label: "视椎体半场角2",
+        type: "slider",
+        min: 0.1,
+        max: 80,
+        step: 0.01,
+        defval: 5,
+        show(style, allStyle, graphicType) {
+          return style.cone_show
+        }
+      },
+      {
+        name: "cone_color",
+        label: "视椎体颜色",
+        type: "color",
+        defval: "rgba(255,255,0,0.4)",
+        show(style, allStyle, graphicType) {
+          return style.cone_show
         }
       }
     ]
@@ -2747,6 +2880,26 @@ const styleConfig = {
 
       { name: "outline", label: "是否边框", type: "radio", defval: false },
       {
+        name: "outlineWidth",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1,
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.outlineStyle
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#ffffff",
+        show(style, allStyle, graphicType) {
+          return style.outline && (style.diffHeight || !style.outlineStyle)
+        }
+      },
+      {
         name: "outlineStyle",
         next: "width",
         label: "边框宽度",
@@ -2779,26 +2932,6 @@ const styleConfig = {
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
-        }
-      },
-      {
-        name: "outlineWidth",
-        label: "边框宽度",
-        type: "number",
-        min: 0,
-        step: 1,
-        defval: 1,
-        show(style, allStyle, graphicType) {
-          return style.outline && !style.outlineStyle
-        }
-      },
-      {
-        name: "outlineColor",
-        label: "边框颜色",
-        type: "color",
-        defval: "#ffffff",
-        show(style, allStyle, graphicType) {
-          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 
@@ -2948,6 +3081,26 @@ const styleConfig = {
 
       { name: "outline", label: "是否边框", type: "radio", defval: false },
       {
+        name: "outlineWidth",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        show: (style) => {
+          return style.outline && !style.outlineStyle
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#ffffff",
+        show: (style) => {
+          return style.outline && (style.diffHeight || !style.outlineStyle)
+        }
+      },
+      {
         name: "outlineStyle",
         next: "width",
         label: "边框宽度",
@@ -2980,26 +3133,6 @@ const styleConfig = {
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
-        }
-      },
-      {
-        name: "outlineWidth",
-        label: "边框宽度",
-        type: "number",
-        min: 0,
-        step: 1,
-        defval: 1.0,
-        show: (style) => {
-          return style.outline && !style.outlineStyle
-        }
-      },
-      {
-        name: "outlineColor",
-        label: "边框颜色",
-        type: "color",
-        defval: "#ffffff",
-        show: (style) => {
-          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 
@@ -3069,9 +3202,9 @@ const styleConfig = {
         name: "radius",
         label: "半径",
         type: "number",
+        toFixed: 2,
         step: 0.1,
-        defval: 0.0,
-        toFixed: 2
+        defval: 0.0
       },
       {
         name: "startAngle",
@@ -3155,6 +3288,26 @@ const styleConfig = {
 
       { name: "outline", label: "是否边框", type: "radio", defval: false },
       {
+        name: "outlineWidth",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        show: (style) => {
+          return style.outline && !style.outlineStyle
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#ffffff",
+        show: (style) => {
+          return style.outline && (style.diffHeight || !style.outlineStyle)
+        }
+      },
+      {
         name: "outlineStyle",
         next: "width",
         label: "边框宽度",
@@ -3187,26 +3340,6 @@ const styleConfig = {
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
-        }
-      },
-      {
-        name: "outlineWidth",
-        label: "边框宽度",
-        type: "number",
-        min: 0,
-        step: 1,
-        defval: 1.0,
-        show: (style) => {
-          return style.outline && !style.outlineStyle
-        }
-      },
-      {
-        name: "outlineColor",
-        label: "边框颜色",
-        type: "color",
-        defval: "#ffffff",
-        show: (style) => {
-          return style.outline && (style.diffHeight || !style.outlineStyle)
         }
       },
 

@@ -141,7 +141,7 @@ function getGraphic(graphicId) {
 
 function updatePosition(x, y, z) {
   const position = Cesium.Cartesian3.fromDegrees(x, y, z)
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.position = position
   }
   if (satelliteSensor) {
@@ -155,7 +155,7 @@ function locate() {
 
 // 方向角改变
 function headingChange(value) {
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.heading = value
   }
   if (satelliteSensor) {
@@ -165,7 +165,7 @@ function headingChange(value) {
 
 // 俯仰角
 function pitchChange(value) {
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.pitch = value
   }
   if (satelliteSensor) {
@@ -175,7 +175,7 @@ function pitchChange(value) {
 
 // 左右角
 function rollChange(value) {
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.roll = value
   }
   if (satelliteSensor) {
@@ -199,7 +199,7 @@ function angle2(value) {
 
 // 参考轴系显示与隐藏
 function chkShowModelMatrix(val) {
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.debugAxis = val
   }
 }
@@ -229,7 +229,7 @@ function chkSensorType(value) {
 }
 
 function lengthChange(value) {
-  if (modelGraphic && modelGraphic.state !== "destroy") {
+  if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.debugAxisLength = value * 1000
   }
 }

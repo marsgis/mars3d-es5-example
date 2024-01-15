@@ -29,12 +29,6 @@
       include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars3d,mars3d-space,es5-widget"
     ></script>
 
-    <style>
-      .infoview-left {
-        display: none;
-      }
-    </style>
-
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
@@ -234,7 +228,6 @@
       }
 
       let editorGraphic
-      let satelliteSensorGraphic
       function initUI(options) {
         bindAttributePannel()
 
@@ -253,14 +246,13 @@
                 $("#enabledOpacity").hide()
               }
             }
-            editorGraphic = graphics[graphics.length - 1]
-            satelliteSensorGraphic = graphics[0]
+            editorGraphic = graphics.filter((item) => item.type === "satelliteSensor")[0]
             console.log("aaaa", graphics)
 
             graphicLayer.on(mars3d.EventType.addGraphic, function (event) {
               setTimeout(() => {
                 const graphics = graphicLayer.getGraphics()
-                editorGraphic = graphics[graphics.length - 1]
+                editorGraphic = graphics.filter((item) => item.type === "satelliteSensor")[0]
               }, 50)
             })
           }
@@ -295,7 +287,6 @@
         $("#onClickClear").click(function () {
           $("#infoview-left").hide()
           graphicLayer.clear()
-          satelliteSensorGraphic = null
           editorGraphic = null
         })
 
@@ -323,7 +314,7 @@
           let value = Number($(this).val())
           $("#model_heading").slider("setValue", value)
           if (editorGraphic) {
-            editorGraphic.heading = e.value.newValue
+            editorGraphic.heading = value
           }
         })
 
@@ -341,7 +332,7 @@
           let value = Number($(this).val())
           $("#model_pitch").slider("setValue", value)
           if (editorGraphic) {
-            editorGraphic.pitch = e.value.newValue
+            editorGraphic.pitch = value
           }
         })
 
@@ -441,18 +432,18 @@
           if (this.value === "1") {
             $("#tr_angle2").hide()
             if (editorGraphic) {
-              editorGraphic.rayEllipsoid = mars3d.graphic.SatelliteSensor.Type.Conic
+              editorGraphic.sensorType = mars3d.graphic.SatelliteSensor.Type.Conic
             }
           } else {
             $("#tr_angle2").show()
             if (editorGraphic) {
-              editorGraphic.rayEllipsoid = mars3d.graphic.SatelliteSensor.Type.Rect
+              editorGraphic.sensorType = mars3d.graphic.SatelliteSensor.Type.Rect
             }
           }
         })
 
         $("#btnGetRegion").click(function () {
-          getGraphic(satelliteSensorGraphic.id)
+          getGraphic(editorGraphic.id)
           getRegion()
         })
         $("#btnGetCenter").click(function () {
@@ -470,10 +461,7 @@
       }
 
       function flyToSatellite() {
-        if (satelliteSensorGraphic) {
-          getGraphic(satelliteSensorGraphic.id)
-          locate()
-        } else if (editorGraphic) {
+        if (editorGraphic) {
           getGraphic(editorGraphic.id)
           locate()
         }

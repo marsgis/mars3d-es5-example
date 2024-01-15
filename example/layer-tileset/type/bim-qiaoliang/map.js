@@ -131,6 +131,7 @@ function terrainClips(heightVal) {
       [117.097776, 31.853494, 42.56],
       [117.096176, 31.853494, 42.56]
     ],
+    exact: true,
     diffHeight: heightVal, // 高度
     image: "./img/textures/poly-stone.jpg",
     imageBottom: "./img/textures/poly-soil.jpg",
@@ -208,11 +209,11 @@ function distanceChange(value) {
 
 // 切顶
 function clipTop() {
-  tilesetPlanClip.type = mars3d.ClipType.ZR
+  tilesetPlanClip.clipType = mars3d.ClipType.ZR
 }
 // 起点
 function clipBottom() {
-  tilesetPlanClip.type = mars3d.ClipType.Z
+  tilesetPlanClip.clipType = mars3d.ClipType.Z
 }
 // 切线
 function clipLine() {
@@ -294,7 +295,6 @@ function clipPoly2() {
   //     tilesetPlanClip.positions = positions
   //   }
   // })
-
 
   map.graphicLayer.startDraw({
     type: "rectangle",
