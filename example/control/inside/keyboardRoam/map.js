@@ -44,8 +44,8 @@ function onMounted(mapInstance) {
     moveStep: 10, // 平移步长 (米)。
     dirStep: 25, // 相机原地旋转步长，值越大步长越小。
     rotateStep: 1.0, // 相机围绕目标点旋转速率，0.3-2.0
-    minPitch: 0.1, // 最小仰角  0-1
-    maxPitch: 0.95 // 最大仰角  0-1
+    minPitch: -89, // 最小仰角
+    maxPitch: 0 // 最大仰角
   })
 
   // 不按键一直自动往前走，调用stopMoveForward停止。

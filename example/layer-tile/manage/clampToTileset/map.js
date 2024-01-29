@@ -24,9 +24,8 @@ function onMounted(mapInstance) {
 
   globalNotify(
     "已知问题提示",
-    `(1)不支持图层亮度对比度等样式属性和鼠标单击交互；
-    (2)多个图层调整时会全部重新渲染；
-    (3)目前不支持EPSG:3857 Web墨卡托投影坐标系的瓦片进行贴模型。`
+    `(1)多个图层调整时会全部重新渲染；
+    (2)目前不支持EPSG:3857 Web墨卡托投影坐标系的瓦片进行贴模型。`
   )
 
   // const graphic = new mars3d.graphic.RectanglePrimitive({
