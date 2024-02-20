@@ -524,7 +524,7 @@ function bindLayerContextMenu() {
         globalAlert("该对象的长度为:" + strDis)
       }
     },
-   {
+    {
       text: "计算围合面积",
       icon: "fa fa-reorder",
       show: (event) => {

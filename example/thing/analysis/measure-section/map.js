@@ -87,8 +87,6 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-
-
 function removeAll() {
   measureObj.clear()
   hideTipMarker()

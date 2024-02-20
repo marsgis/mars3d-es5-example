@@ -285,7 +285,6 @@ function throttled(fn, delay) {
   }
 }
 
-
 function addVideoDemo() {
   const video2D = new mars3d.graphic.Video2D({
     position: new Cesium.CallbackProperty((time) => {

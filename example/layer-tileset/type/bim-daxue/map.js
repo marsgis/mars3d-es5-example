@@ -50,7 +50,6 @@ function onMounted(mapInstance) {
     console.log("单击了3dtiles图层", event)
   })
 
-
   // 遍历取出所有的feature，并查询其属性
   // layerWorkBIM.readyPromise.then(function (e) {
   //   const allTileObj = {}

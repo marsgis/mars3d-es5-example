@@ -189,9 +189,6 @@ function removeTileLayer() {
   }
 }
 
-
-
-
 // 在下侧状态栏增加一个额外div展示图层版权信息
 let creditDOM
 function addCreditDOM() {

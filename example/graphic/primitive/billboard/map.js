@@ -384,10 +384,10 @@ function buildProgress(progress, options) {
   }px" viewBox="0 0 ${width} 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
       <path d="M8,0 L${74 + reduce},0 C${78.418278 + reduce},-8.11624501e-16 ${82 + reduce},3.581722 ${82 + reduce},8 L${82 + reduce},35 C${
-        82 + reduce
-      },39.418278 ${78.418278 + reduce},43 ${74 + reduce},43 L${49.6878172 + reduce},43 L${49.6878172 + reduce / 2},43 L${41 + reduce / 2},50 L${
-        32.3121828 + reduce / 2
-      },43 L8,43 C3.581722,43 5.41083001e-16,39.418278 0,35 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="path-1"></path>
+    82 + reduce
+  },39.418278 ${78.418278 + reduce},43 ${74 + reduce},43 L${49.6878172 + reduce},43 L${49.6878172 + reduce / 2},43 L${41 + reduce / 2},50 L${
+    32.3121828 + reduce / 2
+  },43 L8,43 C3.581722,43 5.41083001e-16,39.418278 0,35 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="path-1"></path>
       <filter x="-7.9%" y="-13.0%" width="115.9%" height="126.0%" filterUnits="objectBoundingBox" id="filter-3">
           <feGaussianBlur stdDeviation="0.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
           <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>

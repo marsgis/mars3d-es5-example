@@ -213,7 +213,6 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-
 // 生成演示数据(测试数据量)
 function addRandomGraphicByCount(count) {
   graphicLayer.clear()

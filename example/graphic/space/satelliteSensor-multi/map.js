@@ -7,7 +7,6 @@ let satelliteSensor
 let satelliteSensor2
 let modelGraphic
 
-
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {

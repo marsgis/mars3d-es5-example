@@ -150,7 +150,6 @@ function addDemoGraphic2(graphicLayer) {
   graphic.entity.orientation = new Cesium.CallbackProperty((time) => {
     return Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Z, angle)
   }, false)
-
 }
 
 function addDemoGraphic3(graphicLayer) {

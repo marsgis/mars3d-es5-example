@@ -67,9 +67,8 @@ function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
-// 仅在模型上编辑
-function onlyPickModelPosition(val) {
-  map.onlyPickModelPosition = val
+function onlyVertexPosition(val) {
+  map.onlyVertexPosition = val
 }
 
 function deleteAll() {

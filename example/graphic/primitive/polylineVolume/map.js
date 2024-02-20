@@ -233,7 +233,6 @@ function addDemoGraphic5(graphicLayer) {
 }
 
 function addDemoGraphic6(graphicLayer) {
-
   const graphic = new mars3d.graphic.PolylineVolumePrimitive({
     positions: [
       [117.285686, 31.770871, 16.4],

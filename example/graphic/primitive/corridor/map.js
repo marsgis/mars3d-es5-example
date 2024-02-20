@@ -197,7 +197,6 @@ function addDemoGraphic4(graphicLayer) {
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
-
   // 演示：平滑移动高度
   let height = 0
   setInterval(() => {

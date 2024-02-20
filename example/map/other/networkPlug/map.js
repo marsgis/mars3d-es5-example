@@ -32,7 +32,6 @@ function onMounted(mapInstance) {
 
   globalMsg("请 F12 查看 network 请求情况")
 
-
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",

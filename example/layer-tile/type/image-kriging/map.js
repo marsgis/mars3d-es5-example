@@ -63,8 +63,6 @@ function removeTileLayer() {
   }
 }
 
-
-
 // 根据 克里金法 插值绘制图片
 function loadkriging(tempture, bounds, colors) {
   // let canvas = document.createElement("canvas")

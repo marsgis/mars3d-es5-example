@@ -64,9 +64,9 @@
           <input id="chkHasEdit" class="styled" type="checkbox" checked />
           <label for="chkHasEdit"> 是否编辑 </label>
         </div>
-        <div class="checkbox checkbox-primary checkbox-inline" title="屏蔽拾取地形坐标，避免穿透3dtiles模型">
-          <input id="chk_onlyPickModelPosition" class="styled" type="checkbox" />
-          <label for="chk_onlyPickModelPosition"> 仅在模型或矢量上拾取 </label>
+        <div class="checkbox checkbox-primary checkbox-inline"  >
+          <input id="chk_onlyVertexPosition" class="styled" type="checkbox" />
+          <label for="chk_onlyVertexPosition"> 开启顶点吸附 </label>
         </div>
       </div>
 
@@ -136,11 +136,11 @@
       function initUI(options) {
         //图层管理的相关处理
 
-        $("#chk_onlyPickModelPosition").change(function () {
+        $("#chk_onlyVertexPosition").change(function () {
           let val = $(this).is(":checked")
 
           //控制鼠标只取模型上的点，忽略地形上的点的拾取
-          updateOnlyPickModelPosition(val)
+          updateonlyVertexPosition(val)
         })
 
         $("#btnSaveKML").click(function () {

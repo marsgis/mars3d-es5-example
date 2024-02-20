@@ -65,7 +65,6 @@ function onUnmounted() {
 // 叠加的图层
 let tileLayer
 
-
 // 改wms请求的大小写
 // Cesium.Resource.ReplaceUrl = function (url) {
 //   if (this._url.startsWith("//server.mars3d.cn/geoserver/mars/wms")) {
@@ -74,7 +73,6 @@ let tileLayer
 //     return url
 //   }
 // }
-
 
 function addTileLayer() {
   removeTileLayer()
@@ -133,7 +131,6 @@ function addTileLayer() {
   tileLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了矢量数据，共" + event.features.length + "条", event)
   })
-
 }
 
 function addTileLayer2() {

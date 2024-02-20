@@ -195,7 +195,6 @@ function addDemoGraphic4(graphicLayer) {
     attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
-
 }
 
 // 生成演示数据(测试数据量)

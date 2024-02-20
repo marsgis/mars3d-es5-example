@@ -74,8 +74,6 @@ function addDemoGraphic1() {
   graphicLayer.addGraphic(graphic)
 }
 
-
-
 function addDemoGraphic2() {
   const graphic = new mars3d.graphic.ThickWall({
     positions: [
@@ -308,7 +306,6 @@ function addDemoGraphic10() {
   graphicLayer.addGraphic(graphic)
 }
 
-
 // 生成演示数据(测试数据量)
 function addRandomGraphicByCount(count) {
   graphicLayer.clear()
@@ -455,7 +452,7 @@ function bindLayerContextMenu() {
         globalAlert("该对象的长度为:" + strDis)
       }
     },
-   {
+    {
       text: "计算围合面积",
       icon: "fa fa-reorder",
       show: (event) => {

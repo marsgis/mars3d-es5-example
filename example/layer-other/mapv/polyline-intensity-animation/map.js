@@ -37,7 +37,6 @@ function onUnmounted() {
   map = null
 }
 
-
 function createMapvLayer(rs) {
   const data = []
   const timeData = []

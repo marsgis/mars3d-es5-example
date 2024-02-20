@@ -46,7 +46,6 @@ function onMounted(mapInstance) {
   })
   map.addThing(shadows)
 
-
   shadows.on(mars3d.EventType.change, function () {
     const shadowTime = shadows.time
     eventTarget.fire("changeShadows", { shadowTime })

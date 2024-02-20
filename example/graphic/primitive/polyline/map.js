@@ -191,8 +191,6 @@ function addDemoGraphic2_1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-
-
 function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.PolylinePrimitive({
     positions: [

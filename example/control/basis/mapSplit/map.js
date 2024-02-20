@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   createControl()
-  
+
   // 加载模型图层 [也支持setLayerSplitDirection方法来设置图层]
   // const tiles3dLayer = new mars3d.layer.TilesetLayer({
   //   url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",

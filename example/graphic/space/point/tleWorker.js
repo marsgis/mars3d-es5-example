@@ -1,5 +1,3 @@
-
-
 // eslint-disable-next-line no-undef
 importScripts("/lib/mars3d/plugins/space/worker/mars3d-tle-worker.js")
 

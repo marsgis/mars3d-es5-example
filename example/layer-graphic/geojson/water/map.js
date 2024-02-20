@@ -107,7 +107,7 @@ function updateHeight(height) {
   zmGraphic.height = 16 + height // 阀门高度
 
   waterLayer.eachGraphic((graphic) => {
-    graphic.offsetHeight = height// 水域高度变化
+    graphic.offsetHeight = height // 水域高度变化
   })
 }
 

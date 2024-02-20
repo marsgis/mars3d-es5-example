@@ -90,7 +90,7 @@ function addBusinessLayer() {
       opacity: 1,
       // getImage是完全自定义方式
       getImage: async function (count, result) {
-        const key = "type1-" + count// 唯一标识，不同图层需要设置不一样
+        const key = "type1-" + count // 唯一标识，不同图层需要设置不一样
 
         let image = singleDigitPins[key]
         if (image) {

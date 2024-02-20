@@ -340,7 +340,6 @@ function addDemoGraphic15(graphicLayer) {
     attr: { remark: "示例15-label" }
   })
   groupGraphic.addGraphic(graphicLabel)
-
 }
 
 // 绑定右键菜单

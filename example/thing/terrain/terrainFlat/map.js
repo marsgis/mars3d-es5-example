@@ -22,11 +22,9 @@ var eventTabel = new mars3d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-
   // 创建矢量数据图层
   lineLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(lineLayer)
-
 }
 
 /**

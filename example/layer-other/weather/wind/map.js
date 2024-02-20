@@ -38,9 +38,7 @@ function onMounted(mapInstance) {
   // map.scene.skyAtmosphere.saturationShift = 0.1
   // map.scene.skyAtmosphere.brightnessShift = 0.08 // 地面0.08 海底
 
-
   globalNotify("已知问题提示", `(1) 当前示例仅支持WebGL1渲染，暂不支持WebGL2。`)
-
 
   addLayer()
 }

@@ -101,7 +101,7 @@ function addDemoGraphic1() {
   })
   graphicLayer.addGraphic(rectSensor)
 
-  rectSensor.on(mars3d.EventType.remove, function() {
+  rectSensor.on(mars3d.EventType.remove, function () {
     graphicLayer.removeGraphic(testLine)
   })
 }
@@ -175,7 +175,6 @@ function changeLookAt() {
     })
   }
 }
-
 
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {

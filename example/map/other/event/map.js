@@ -74,4 +74,3 @@ function map_dblClickHandler(event) {
 function map_cameraChangedHandler(event) {
   console.log("相机位置完成", event)
 }
-

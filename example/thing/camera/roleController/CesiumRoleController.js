@@ -156,7 +156,6 @@ class CesiumRoleController {
           break
       }
     }
-
   }
 
   validateKey(value) {

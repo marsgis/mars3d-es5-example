@@ -53,8 +53,6 @@ var eventTarget = new mars3d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addCreditDOM()
-
-
 }
 
 /**
@@ -86,8 +84,6 @@ function removeTileLayer() {
     tileLayer = null
   }
 }
-
-
 
 // 在下侧状态栏增加一个额外div展示图层版权信息
 let creditDOM

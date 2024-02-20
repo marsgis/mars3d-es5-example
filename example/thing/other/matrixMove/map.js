@@ -67,7 +67,6 @@ function addDemoGraphic1(graphicLayer) {
   })
 }
 
-
 function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     position: new mars3d.LngLatPoint(116.317108, 30.974377, 1528.3),
@@ -90,5 +89,3 @@ function addDemoGraphic2(graphicLayer) {
     graphic.position = event.position
   })
 }
-
-

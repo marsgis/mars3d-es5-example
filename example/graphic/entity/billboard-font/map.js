@@ -195,7 +195,6 @@ function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length
 }

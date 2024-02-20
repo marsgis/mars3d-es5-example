@@ -83,7 +83,6 @@ function addDemoGraphic1() {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(diffuseWallGlow)
-
 }
 
 // 立体围墙扩散效果,圆状
@@ -134,7 +133,6 @@ function addRandomGraphicByCount(count) {
     })
     graphicLayer.addGraphic(graphic)
   }
-
 
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length

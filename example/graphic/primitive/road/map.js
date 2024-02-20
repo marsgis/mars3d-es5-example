@@ -131,9 +131,6 @@ function heightChange(value) {
   }
 }
 
-
-
-
 // 清除
 function clearLayer() {
   graphicLayer.clear()

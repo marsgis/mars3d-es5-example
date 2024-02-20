@@ -149,7 +149,6 @@ function rangeAngle2(value) {
   tilesetLayer.planClip.angle2 = value
 }
 
-
 function clear() {
   tilesetLayer.planClip.clear()
 }

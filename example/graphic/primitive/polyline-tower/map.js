@@ -101,7 +101,6 @@ function showData(arrdata) {
 
       positions = mars3d.PolyUtil.getLinkedPointList(polylines4[polylines4.length - 1], newPoint4, angularityFactor, num) // 计算曲线点
       polylines4 = polylines4.concat(positions)
-
     }
 
     const html = mars3d.Util.getTemplateHtml({
@@ -190,7 +189,6 @@ function computeSurfacePointsHeight(polylines) {
     echartTarget.fire("addEchart", { heightArry, heightTDArray, distanceArray })
   })
 }
-
 
 // function downloadNewFile(res) {
 //   const polylinesTB = []

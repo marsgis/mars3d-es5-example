@@ -209,7 +209,6 @@ function inintRoad(positionsSJ, positionsTD) {
   // // 设置相机的视角跟随的Entity实例
   // map.trackedEntity = graphicHead
 
-
   // ==============更新echarts================
   let lastDistance
 

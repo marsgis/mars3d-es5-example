@@ -41,7 +41,6 @@ function onUnmounted() {
 
 let modelGraphic
 
-
 // 初始化创建一个卫星视锥体
 function addDemoGraphic1(sensorParams) {
   const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)

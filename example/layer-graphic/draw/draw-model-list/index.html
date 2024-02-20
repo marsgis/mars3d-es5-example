@@ -120,9 +120,9 @@
         <input id="chkTestTerrain" class="styled" type="checkbox" />
         <label for="chkTestTerrain"> 深度检测 </label>
       </div>
-      <div class="checkbox checkbox-primary checkbox-inline" title="屏蔽拾取地形坐标，避免穿透3dtiles模型">
-        <input id="chk_onlyPickModelPosition" class="styled" type="checkbox" />
-        <label for="chk_onlyPickModelPosition"> 仅在模型或矢量上拾取 </label>
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="chk_onlyVertexPosition" class="styled" type="checkbox" />
+        <label for="chk_onlyVertexPosition"> 开启顶点吸附 </label>
       </div>
 
       <input id="btnImpFile" type="button" class="btn btn-primary" value="打开" />
@@ -161,9 +161,9 @@
           let val = $(this).is(":checked")
           chkTestTerrain(val)
         })
-        $("#chk_onlyPickModelPosition").change(function () {
+        $("#chk_onlyVertexPosition").change(function () {
           let val = $(this).is(":checked")
-          onlyPickModelPosition(val)
+          onlyVertexPosition(val)
         })
 
         $("#input_plot_file").change(function (e) {

@@ -49,9 +49,9 @@
         <!-- <input type="button" class="btn btn-info" value="结束(等同双击)" onclick="endDraw()" /> -->
         <!-- <span style="color: #cad1d1;">提示：单击下面按钮激活绘制，按提示操作即可。</span> -->
 
-        <div class="checkbox checkbox-primary checkbox-inline" title="屏蔽拾取地形坐标，避免穿透3dtiles模型">
-          <input id="chk_onlyPickModelPosition" class="styled" type="checkbox" />
-          <label for="chk_onlyPickModelPosition"> 仅测量模型(不拾取地形) </label>
+        <div class="checkbox checkbox-primary checkbox-inline"  >
+          <input id="chk_onlyVertexPosition" class="styled" type="checkbox" />
+          <label for="chk_onlyVertexPosition">开启顶点吸附 </label>
         </div>
       </div>
 
@@ -81,11 +81,11 @@
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
-        $("#chk_onlyPickModelPosition").change(function () {
+        $("#chk_onlyVertexPosition").change(function () {
           let val = $(this).is(":checked")
 
           //控制鼠标只取模型上的点，忽略地形上的点的拾取
-          onlyPickModelPosition(val)
+          onlyVertexPosition(val)
         })
 
         $("#btnImpFile").click(function () {

@@ -146,7 +146,6 @@ function addDemoGraphic4(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-
 function addDemoGraphic5(graphicLayer) {
   const graphic = new mars3d.graphic.Sector({
     position: [117.237446, 31.753303, 23.1],
@@ -169,7 +168,6 @@ function addDemoGraphic5(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-
 function addDemoGraphic6(graphicLayer) {
   const graphic = new mars3d.graphic.Sector({
     position: [117.172735, 31.660464, 17],
@@ -190,7 +188,6 @@ function addDemoGraphic6(graphicLayer) {
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
-
 
 // 生成演示数据(测试数据量)
 function addRandomGraphicByCount(count) {

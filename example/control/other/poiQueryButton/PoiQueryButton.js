@@ -117,14 +117,14 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     this.parentContainer.appendChild(this._queryInputContainer)
 
     // 搜索框移除
-    this._queryInputContainer.addEventListener("mouseover", (e) => { 
+    this._queryInputContainer.addEventListener("mouseover", (e) => {
       if (numTime) {
         clearTimeout(numTime)
         numTime = null
       }
     })
 
-    this._queryInputContainer.addEventListener("input", (e) => { 
+    this._queryInputContainer.addEventListener("input", (e) => {
       if (numTime) {
         clearTimeout(numTime)
         numTime = null
@@ -137,13 +137,13 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       this.toolSearchNoShow("block")
     })
     this._queryInputContainer.addEventListener("mouseout", (e) => {
-      numTime = setTimeout(() => { 
+      numTime = setTimeout(() => {
         cacheTarget = null
 
         const queryVal = this._queryInputContainer.querySelector(".searchInput").value
         if (queryVal.length === 0) {
           this.clear()
-          this.toolSearchNoShow("none") 
+          this.toolSearchNoShow("none")
         }
       }, 500)
     })

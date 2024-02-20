@@ -51,7 +51,6 @@ function setStyle1() {
 }
 
 function setStyle2() {
-
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
     fragmentShaderText: `

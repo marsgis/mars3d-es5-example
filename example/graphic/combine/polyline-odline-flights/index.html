@@ -20,7 +20,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
     <title>民航航线(OD线) | Mars3D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
-
     <!--第三方lib-->
     <script
       type="text/javascript"
@@ -49,36 +48,36 @@
 
       .chartOne h6 {
         margin-top: 5px;
-          width: 10px;
-          height: 5px;
-          color: white;
+        width: 10px;
+        height: 5px;
+        color: white;
       }
 
       .chartTwo h6 {
         margin-top: 5px;
-          width: 10px;
-          height: 5px;
-          color: white;
+        width: 10px;
+        height: 5px;
+        color: white;
       }
       .chartThree h6 {
         margin-top: 5px;
-          width: 10px;
-          height: 5px;
-          color: white;
+        width: 10px;
+        height: 5px;
+        color: white;
       }
 
       .chartTwo_ulgnhx,
-        .chartThree_ulhbtj {
-          width: 84%;
-          height: 90%;
-          position: absolute;
-          left: 8%;
-          bottom: 5px;
-        }
+      .chartThree_ulhbtj {
+        width: 84%;
+        height: 90%;
+        position: absolute;
+        left: 8%;
+        bottom: 5px;
+      }
 
       .chartTwo {
         height: 300px;
-        width:100%
+        width: 100%;
       }
 
       .chartOne {
@@ -86,7 +85,7 @@
       }
 
       .echarts_HX {
-        width:360px;
+        width: 360px;
       }
 
       .hx ._item_row {
@@ -158,7 +157,6 @@
               </div>
             </div>
 
-
             <div>
               <mars-icon icon="take-off" :width="35" class="icon" />
               <airplane theme="outline" size="43" fill="#333" />
@@ -167,7 +165,6 @@
                 <div class="right_sub_title">国际航班</div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -200,8 +197,8 @@
 
         let guonei = airData.guonei
         let guoji = airData.guoji
-        $("#guoneiLine").text(guonei+'(条)')
-        $("#guojiLine").text(guoji+ '(条)')
+        $("#guoneiLine").text(guonei + "(条)")
+        $("#guojiLine").text(guoji + "(条)")
 
         route = airData.route
         flight = airData.flight
@@ -219,7 +216,7 @@
           })
         })
 
-        console.log("---", GNHX);
+        console.log("---", GNHX)
 
         const myChart = echarts.init(GNHX)
         const option = {
@@ -247,71 +244,70 @@
           ]
         }
         myChart.setOption(option)
-  }
+      }
 
-  function initCharts_Three() {
-    const year = []
-    const domestic = [] // 国内航班
-    const international = [] // 国际航班
+      function initCharts_Three() {
+        const year = []
+        const domestic = [] // 国内航班
+        const international = [] // 国际航班
 
-    flight.forEach((item) => {
-      year.push(item.year)
-      domestic.push(item.domestic)
-      international.push(item.international)
-    })
+        flight.forEach((item) => {
+          year.push(item.year)
+          domestic.push(item.domestic)
+          international.push(item.international)
+        })
 
-    const myChart = echarts.init(HBTJ)
+        const myChart = echarts.init(HBTJ)
 
-    const option = {
-      tooltip: {
-        trigger: "axis",
-        axisPointer: {
-          type: "shadow"
+        const option = {
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow"
+            }
+          },
+          grid: {
+            left: "8%",
+            right: "0%",
+            bottom: "6%",
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: "category",
+              data: year,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: "value"
+            }
+          ],
+          series: [
+            {
+              name: "国内航班",
+              type: "bar",
+              barWidth: "30%",
+              data: domestic
+            },
+            {
+              name: "国际航班",
+              type: "bar",
+              barWidth: "30%",
+              data: international
+            }
+          ]
         }
-      },
-      grid: {
-        left: "8%",
-        right: "0%",
-        bottom: "6%",
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: "category",
-          data: year,
-          axisTick: {
-            alignWithLabel: true
-          }
-        }
-      ],
-      yAxis: [
-        {
-          type: "value"
-        }
-      ],
-      series: [
-        {
-          name: "国内航班",
-          type: "bar",
-          barWidth: "30%",
-          data: domestic
-        },
-        {
-          name: "国际航班",
-          type: "bar",
-          barWidth: "30%",
-          data: international
-        }
-      ]
-    }
 
-    myChart.setOption(option)
+        myChart.setOption(option)
 
-    window.addEventListener("resize", function () {
-      myChart.resize()
-    })
-  }
-  </script>
-
+        window.addEventListener("resize", function () {
+          myChart.resize()
+        })
+      }
+    </script>
   </body>
 </html>
