@@ -45,6 +45,7 @@ function onMounted(mapInstance) {
 
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
+    eventTarget.fire("floodEnd")
   })
 }
 

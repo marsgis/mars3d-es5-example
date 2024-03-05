@@ -235,13 +235,20 @@ class PoiQueryButton extends mars3d.control.BaseControl {
         const pois = result.list
         if (pois.length > 0) {
           result.list.forEach((item, index) => {
-            if (!item.x || !item.y) {
+            let point = null
+            if (item.lng && item.lat) {
+              point = [item.lng, item.lat]
+            }
+            if (item.x && item.y) {
+              point = [item.x, item.y]
+            }
+            if (!point) {
               return
             }
             // 在地图上将搜寻的结果展现为矢量数据
             const graphic = new mars3d.graphic.PointEntity({
               id: item.id,
-              position: [item.x, item.y],
+              position: point,
               style: {
                 name: item.name,
                 pixelSize: 10,
@@ -318,7 +325,15 @@ class PoiQueryButton extends mars3d.control.BaseControl {
 
     result.list.forEach((item, index) => {
       const name = item.name
-      if (!item.x || !item.y) {
+
+      let point = null
+      if (item.lng && item.lat) {
+        point = [item.lng, item.lat]
+      }
+      if (item.x && item.y) {
+        point = [item.x, item.y]
+      }
+      if (!point) {
         return
       }
 

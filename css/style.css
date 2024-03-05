@@ -311,8 +311,25 @@ html {
 }
 
 .cesium-toolbar-button img {
-  height: 100%;
-  vertical-align: middle;
+  width:22px;
+}
+.cesium-toolbar-button:hover img {
+  width:28px;
+}
+.cesium-svgPath-svg{
+  scale: 0.8;
+}
+.cesium-svgPath-svg:hover{
+  scale: 1.0;
+}
+
+
+.cesium-button .cesium-baseLayerPicker-selected {
+  width: 100%;
+}
+
+.cesium-button:hover .cesium-baseLayerPicker-selected {
+  width: 100%;
 }
 
 .cesium-viewer-toolbar>.cesium-toolbar-button,
@@ -324,16 +341,25 @@ html {
   text-align: center;
 }
 
+.cesium-viewer-geocoderContainer form .cesium-geocoder-input{
+  border-width: 1px;
+  border-image: url("/img/svg/border.svg") 1 round stretch;
+}
+
 .cesium-button {
-  background-color: rgba(23, 49, 71, 0.7);
-  border: none;
+  background-color: rgba(39, 44, 54, 0.8);
+
+  border-radius: 2px;
+  border-width: 1px;
+  border-image: url("/img/svg/border.svg") 1 round stretch;
+
   color: #ffffff;
   fill: #e6e6e6;
-  line-height: 32px;
+  line-height: 38px;
 }
 
 .cesium-button:hover {
-  background-color: rgba(0, 138, 255, 0.7);
+  background-color: rgba(51, 133, 255, 1);
   box-shadow: none;
   border: none;
 }
@@ -344,7 +370,7 @@ html {
   left: 40px;
   max-height: 700px;
   margin-bottom: 5px;
-  background-color: rgba(23, 49, 71, 0.7);
+  background-color: rgba(39, 44, 54, 0.8);
 }
 
 /**cesium 帮助面板*/
@@ -354,13 +380,15 @@ html {
   left: 40px;
   transform-origin: left bottom;
 }
+
 .cesium-navigation-help-instructions,
 .cesium-navigation-button {
   background-color: rgba(23, 49, 71, 0.8);
 }
+
 .cesium-navigation-button-selected,
 .cesium-navigation-button-unselected:hover {
-  background-color: rgba(23, 49, 71, 1);
+  background-color: rgba(1, 35, 22, 1);
 }
 
 /**cesium 二维三维切换*/
@@ -382,10 +410,18 @@ html {
 }
 
 .cesium-geocoder-searchButton {
-  background-color: rgba(23, 49, 71, 0.8);
+  width:38px;
+  height:38px;
+  background-color: rgba(39, 44, 54, 0.8);
+  border-radius: 2px;
+  border-width: 1px;
+  border-image: url("/img/svg/border.svg") 1 round stretch;
+  fill: #e6e6e6;
 }
 
 .cesium-viewer-geocoderContainer .cesium-geocoder-input {
+  height:40px;
+  width:40px;
   background-color: rgba(63, 72, 84, 0.7);
 }
 
@@ -425,16 +461,20 @@ html {
   left: 10px;
   right: auto;
 }
-.cesium-cesiumInspector{
+
+.cesium-cesiumInspector {
   background-color: rgba(23, 49, 71, 0.8);
 }
 
-
-
 /**覆盖mars3d内部控件的颜色等样式*/
 .mars3d-compass .mars3d-compass-outer {
-  fill: rgba(23, 49, 71, 0.8);
+  fill: rgba(39, 44, 54, 0.8);
 }
+.mars3d-compass .mars3d-compass-inner {
+  background: rgba(39, 44, 54, 0.8);
+  fill: #fff;
+}
+
 .mars3d-contextmenu-ul,
 .mars3d-sub-menu {
   background-color: rgba(23, 49, 71, 0.8);
