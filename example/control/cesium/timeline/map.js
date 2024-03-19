@@ -5,7 +5,7 @@ var map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
   option.control = {
-    timeline: { zoom: false, enabled: false }, // 方式1：options中添加控件 ; zoom - 禁止缩放
+    // timeline: { zoom: false, enabled: false }, // 方式1：options中添加控件 ; zoom - 禁止缩放
     animation: false
   }
   return option
@@ -22,10 +22,7 @@ function onMounted(mapInstance) {
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
   // zoom - 禁止缩放
-  const timeline = new mars3d.control.Timeline({
-    zoom: false
-    // style: { top: "10px", left: 0 } // 改变位置
-  })
+  const timeline = new mars3d.control.Timeline()
   map.addControl(timeline)
 }
 
