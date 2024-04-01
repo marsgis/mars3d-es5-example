@@ -46,6 +46,11 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
 
 // 加载图层
 function createTileLayer(options) {
+  if (!options.url) {
+    globalMsg("请输入图层URL地址！")
+    return
+  }
+
   const params = {
     type: options.type, // 类型
     url: options.url, // 图层url
@@ -127,26 +132,25 @@ function dataUpdate(params) {
 }
 
 // 绘制和清除区域
-function btnDrawExtent(options) {
+async function btnDrawExtent(options) {
   if (tileLayer) {
     tileLayer.rectangle = null
   }
   map.graphicLayer.clear()
-  map.graphicLayer.startDraw({
+
+  const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fill: false,
       outline: true,
       outlineWidth: 3,
       outlineColor: "#ff0000"
-    },
-    success: function (graphic) {
-      const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
-      options.rectangle = rectangle
-      eventTarget.fire("rectangle", { rectangle })
-      createTileLayer(options)
     }
   })
+  const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
+  options.rectangle = rectangle
+  eventTarget.fire("rectangle", { rectangle })
+  createTileLayer(options)
 }
 function btnClearExtent() {
   map.graphicLayer.clear()

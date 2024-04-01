@@ -250,20 +250,16 @@ function onChangeMirror(value) {
   }
 }
 
-function onClickSelView() {
+async function onClickSelView() {
   if (!selectedView) {
     return
   }
 
-  map.graphicLayer.startDraw({
-    type: "point",
-    success: (graphic) => {
-      const point = graphic.point
-      graphic.remove() // 删除绘制的点
+  const graphic = await map.graphicLayer.startDraw({ type: "point" })
+  const point = graphic.point
+  graphic.remove() // 删除绘制的点
 
-      selectedView.targetPosition = point
-    }
-  })
+  selectedView.targetPosition = point
 }
 
 function onChangePitch(value) {
@@ -310,20 +306,16 @@ function printParameters() {
 }
 
 // 视频位置
-function selCamera() {
+async function selCamera() {
   if (!selectedView) {
     return
   }
 
-  map.graphicLayer.startDraw({
-    type: "point",
-    success: (graphic) => {
-      const point = graphic.point
-      graphic.remove() // 删除绘制的点
+  const graphic = await map.graphicLayer.startDraw({ type: "point" })
+  const point = graphic.point
+  graphic.remove() // 删除绘制的点
 
-      selectedView.position = point
-    }
-  })
+  selectedView.position = point
 }
 
 function draWall() {

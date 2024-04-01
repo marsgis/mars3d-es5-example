@@ -153,23 +153,21 @@ function chkShowModelMatrix(val) {
   weixin.debugAxis = val
 }
 // 凝视目标
-function selPoint() {
+async function selPoint() {
   if (weixin.cone.lookAt) {
     weixin.cone.lookAt = null
   } else {
-    map.graphicLayer.startDraw({
+    const graphic = await map.graphicLayer.startDraw({
       type: "point",
       style: {
         pixelSize: 12,
         color: "#ffff00"
-      },
-      success: function (graphic) {
-        const position = graphic.positionShow
-        map.graphicLayer.clear()
-
-        weixin.cone.lookAt = position
       }
     })
+    const position = graphic.positionShow
+    map.graphicLayer.clear()
+
+    weixin.cone.lookAt = position
   }
 }
 

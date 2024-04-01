@@ -123,20 +123,18 @@ function getGraphic(graphicId) {
   return selectedView
 }
 
-function selCamera() {
+async function selCamera() {
   if (!selectedView) {
     return
   }
 
-  map.graphicLayer.startDraw({
-    type: "point",
-    success: (graphic) => {
-      const point = graphic.point
-      graphic.remove() // 删除绘制的点
-
-      selectedView.position = point
-    }
+  const graphic = await map.graphicLayer.startDraw({
+    type: "point"
   })
+  const point = graphic.point
+  graphic.remove() // 删除绘制的点
+
+  selectedView.position = point
 }
 
 // 修改水平角度
@@ -189,18 +187,16 @@ function onChangeOpacity(opacity) {
 }
 
 // 四周视角选点
-function onClickSelView() {
+async function onClickSelView() {
   if (!selectedView) {
     return
   }
 
-  map.graphicLayer.startDraw({
-    type: "point",
-    success: (graphic) => {
-      const point = graphic.point
-      graphic.remove() // 删除绘制的点
-
-      selectedView.targetPosition = point
-    }
+  const graphic = await map.graphicLayer.startDraw({
+    type: "point"
   })
+  const point = graphic.point
+  graphic.remove() // 删除绘制的点
+
+  selectedView.targetPosition = point
 }

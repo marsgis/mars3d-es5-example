@@ -38,38 +38,33 @@ function onUnmounted() {
 }
 
 // 绘制线
-function drawLine() {
+async function drawLine() {
   if (pointLayer) {
     pointLayer.clear()
   }
   graphicLayer.clear()
 
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type: "polyline",
     style: {
       color: "#55ff33",
       width: 3,
       clampToGround: true
-    },
-    success: function () {
-      // 绘制成功之后回调
     }
   })
 }
 
 // 绘制点
-function drawPoint() {
+async function drawPoint() {
   pointLayer.clear()
-  pointLayer.startDraw({
+  const graphic = await pointLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 10,
       color: "red"
-    },
-    success: function () {
-      nearPoint()
     }
   })
+  nearPoint()
 }
 
 // 最近点计算

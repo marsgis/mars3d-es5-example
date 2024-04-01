@@ -26,8 +26,9 @@ function initMap() {
         name: "离线地图",
         icon: "img/basemaps/mapboxSatellite.png",
         type: "xyz",
-        url: "//data.mars3d.cn/tile/googleImg/{z}/{x}/{y}.jpg",
-        maximumLevel: 12
+        url: "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
+        minimumLevel: 0,
+        maximumLevel: 13
       },
       {
         name: "单张图片",

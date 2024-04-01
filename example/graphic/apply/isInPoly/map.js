@@ -99,47 +99,41 @@ function removeAll() {
   selectGraphic = []
 }
 
-function drawPolygon() {
+async function drawPolygon() {
   removeAll()
-  map.graphicLayer.startDraw({
+  const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
       color: "#ffff00",
       opacity: 0.2,
       clampToGround: true
-    },
-    success: function (graphic) {
-      updateSelect(graphic)
     }
   })
+  updateSelect(graphic)
 }
 
-function drawCircle() {
+async function drawCircle() {
   removeAll()
-  map.graphicLayer.startDraw({
+  const graphic = await map.graphicLayer.startDraw({
     type: "circle",
     style: {
       color: "#ffff00",
       opacity: 0.2,
       clampToGround: true
-    },
-    success: function (graphic) {
-      updateSelect(graphic)
     }
   })
+  updateSelect(graphic)
 }
 
-function drawRectangle() {
+async function drawRectangle() {
   removeAll()
-  map.graphicLayer.startDraw({
+  const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       color: "#ffff00",
       opacity: 0.2,
       clampToGround: true
-    },
-    success: function (graphic) {
-      updateSelect(graphic)
     }
   })
+  updateSelect(graphic)
 }

@@ -47,7 +47,7 @@ function onUnmounted() {
   map = null
 }
 
-function chooseStree() {
+async function chooseStree() {
   if (markerStreet) {
     graphicLayer.removeGraphic(markerStreet, true)
     markerStreet = null
@@ -62,7 +62,7 @@ function chooseStree() {
   //   viewTo3d()
   // }
 
-  graphicLayer.startDraw({
+  markerStreet = await graphicLayer.startDraw({
     type: "billboard",
     style: {
       image: "img/marker/street.png",
@@ -75,9 +75,6 @@ function chooseStree() {
         outlineColor: "#000000",
         pixelOffsetY: -50
       }
-    },
-    success: function (graphic) {
-      markerStreet = graphic
     }
   })
 

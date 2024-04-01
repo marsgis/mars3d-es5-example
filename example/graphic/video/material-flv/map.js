@@ -174,18 +174,16 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function startDrawGraphic() {
-  graphicLayer.startDraw({
+async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     styleType: "video", // 属性编辑框使用
     style: {
       material: videoElement,
       clampToGround: true
-    },
-    success: function (graphic) {
-      graphic.entityGraphic.material = videoElement
     }
   })
+  graphic.entityGraphic.material = videoElement
 }
 
 function startDrawGraphic2() {

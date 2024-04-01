@@ -181,8 +181,8 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
-  graphicLayer.startDraw({
+async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
     type: "canvasLabel",
     style: {
       text: "火星科技Mars3D平台",
@@ -193,11 +193,9 @@ function startDrawGraphic() {
       stroke: true,
       strokeColor: "#ffffff",
       strokeWidth: 2
-    },
-    success: function (graphic) {
-      console.log("绘制完成", graphic)
     }
   })
+  console.log("绘制完成", graphic)
 }
 
 function onClickStartBounce() {

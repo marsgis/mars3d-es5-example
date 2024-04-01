@@ -57,20 +57,18 @@ function onUnmounted() {
   map = null
 }
 
-function drawArea() {
-  map.graphicLayer.startDraw({
+async function drawArea() {
+  const graphic = await map.graphicLayer.startDraw({
     type: "polygonP",
     style: {
       color: "#00FF00",
       opacity: 0.3,
       outline: true,
       outlineColor: "#ffffff"
-    },
-    success: function (graphic) {
-      const positions = graphic.positionsShow
-      map.graphicLayer.removeGraphic(graphic)
-
-      tilesetShake.positions = positions
     }
   })
+  const positions = graphic.positionsShow
+  map.graphicLayer.removeGraphic(graphic)
+
+  tilesetShake.positions = positions
 }

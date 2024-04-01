@@ -101,7 +101,7 @@ function addDemoGraphic1() {
   })
   graphicLayer.addGraphic(rectSensor)
 
-  rectSensor.on(mars3d.EventType.remove, function () {
+  rectSensor.on(mars3d.EventType.remove, function() {
     graphicLayer.removeGraphic(testLine)
   })
 }
@@ -155,26 +155,25 @@ function startDrawGraphic() {
 }
 
 // 凝视目标
-function changeLookAt() {
+async function changeLookAt() {
   const cone = graphicLayer.graphics[0]
   if (cone.lookAt) {
     cone.lookAt = null
   } else {
-    map.graphicLayer.startDraw({
+    const graphic = await map.graphicLayer.startDraw({
       type: "point",
       style: {
         pixelSize: 12,
         color: "#ffff00"
-      },
-      success: function (graphic) {
-        const position = graphic.positionShow
-        map.graphicLayer.clear()
-
-        cone.lookAt = position
       }
     })
+    const position = graphic.positionShow
+    map.graphicLayer.clear()
+
+    cone.lookAt = position
   }
 }
+
 
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {

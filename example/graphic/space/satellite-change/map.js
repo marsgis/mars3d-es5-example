@@ -156,9 +156,9 @@ function creatSatellite() {
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+async function drawRectangle() {
   drawClear()
-  map.graphicLayer.startDraw({
+  drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       color: "#ffff00",
@@ -166,16 +166,13 @@ function drawRectangle() {
       outline: true,
       outlineColor: "#ffffff",
       outlineWidth: 2
-    },
-    success: function (graphic) {
-      drawGraphic = graphic
     }
   })
 }
 // 框选查询   圆
-function drawCircle() {
+async function drawCircle() {
   drawClear()
-  map.graphicLayer.startDraw({
+  drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
     style: {
       color: "#ffff00",
@@ -183,16 +180,13 @@ function drawCircle() {
       outline: true,
       outlineColor: "#ffffff",
       outlineWidth: 2
-    },
-    success: function (graphic) {
-      drawGraphic = graphic
     }
   })
 }
 // 框选查询   多边
-function drawPolygon() {
+async function drawPolygon() {
   drawClear()
-  map.graphicLayer.startDraw({
+  drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
       color: "#ffff00",
@@ -200,9 +194,6 @@ function drawPolygon() {
       outline: true,
       outlineColor: "#ffffff",
       outlineWidth: 2
-    },
-    success: function (graphic) {
-      drawGraphic = graphic
     }
   })
 }

@@ -161,29 +161,27 @@ function txtMaxHeight(num) {
   measureVolume.maxHeight = num
 }
 
-function selHeight() {
+async function selHeight() {
   if (!measureVolume || !measure) {
     globalMsg("请先开始方量分析")
     return
   }
 
   // 拾取高度
-  map.graphicLayer.startDraw({
+  const graphic = await map.graphicLayer.startDraw({
     type: "point",
     style: {
       color: "#00fff2"
-    },
-    success: (graphic) => {
-      const height = graphic.point?.alt
-      map.graphicLayer.removeGraphic(graphic)
-
-      if (!height) {
-        return
-      }
-
-      measureVolume.height = height
-
-      showHeightVal(height)
     }
   })
+  const height = graphic.point?.alt
+  map.graphicLayer.removeGraphic(graphic)
+
+  if (!height) {
+    return
+  }
+
+  measureVolume.height = height
+
+  showHeightVal(height)
 }

@@ -138,9 +138,9 @@ function analysisIntersection() {
 }
 
 // 设置摄像头位置
-function sePoint() {
+async function sePoint() {
   map.graphicLayer.clear()
-  map.graphicLayer.startDraw({
+  const graphic = await map.graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 8,
@@ -153,12 +153,10 @@ function sePoint() {
         outlineColor: "#000000",
         pixelOffsetY: -20
       }
-    },
-    success: function (graphic) {
-      positionSXT = graphic.positionShow
-      positionSXT = mars3d.PointUtil.addPositionsHeight(positionSXT, 5.0) // 增加杆子高度
     }
   })
+  positionSXT = graphic.positionShow
+  positionSXT = mars3d.PointUtil.addPositionsHeight(positionSXT, 5.0) // 增加杆子高度
 }
 
 function testTerrain(val) {

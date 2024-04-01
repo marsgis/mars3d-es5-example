@@ -104,11 +104,10 @@ function setStyle3() {
         type: Cesium.UniformType.SAMPLER_2D
       }
     },
-    vertexShaderText: /* glsl */ `
-    void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput){
+    vertexShaderText: `void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput){
         v_mars3d_normalMC = vsInput.attributes.normalMC;
       }`,
-    fragmentShaderText: /* glsl 如果贴图方向不对，用下面这个 */ `
+    fragmentShaderText: `
     void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
       vec3 positionMC = fsInput.attributes.positionMC;
       if (dot(vec3(0.0, 0.0, 1.0), v_mars3d_normalMC) > 0.95) {
