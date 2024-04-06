@@ -148,16 +148,16 @@
 
       // 拾取顶部高度
       $("#getMaxHeight").click(function (data) {
-        getBuildingHeight().then((data) => {
-          maxHeight = data.height
+        getBuildingHeight().then((height) => {
+          maxHeight = height
           $("#maxHeight").val(maxHeight)
         })
       })
 
       // 拾取底部高度
       $("#getMinHeight").click(function (data) {
-        getBuildingHeight().then((data) => {
-          dthPara.minHeight = data.height
+        getBuildingHeight().then((height) => {
+          dthPara.minHeight = height
           $("#minHeight").val(dthPara.minHeight)
         })
       })
