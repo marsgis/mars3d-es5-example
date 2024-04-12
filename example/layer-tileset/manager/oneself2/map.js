@@ -17,6 +17,7 @@ var mapOptions = function (option) {
       backgroundColor: "rgba(0,0,0,0)",
       backgroundImage: "url(/img/tietu/backGroundImg.jpg)",
       orderIndependentTranslucency: false,
+      contextOptions: { webgl: { antialias: mars3d.Util.isPCBroswer() } },
       globe: {
         show: false, // 不显示地球
         showGroundAtmosphere: false,
