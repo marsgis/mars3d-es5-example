@@ -83,6 +83,9 @@ function onUnmounted() {
 function currHeight(value) {
   limitHeight.height = value
 }
+function setDiffHeight(value) {
+  limitHeight.diffHeight = value
+}
 
 // 绘制矩形
 async function drawExtent() {
