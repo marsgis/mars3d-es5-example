@@ -1,16 +1,33 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   }
+  // layers: [
+  //   {
+  //     name: "高程点",
+  //     type: "geojson_shp",
+  //     url: "http://data.mars3d.cn/file/shp/yuexi_point.zip",
+  //     symbol: {
+  //       type: "pointP",
+  //       merge: true,
+  //       styleOptions: {
+  //         color: "#ff0000",
+  //         pixelSize: 6,
+  //         addHeight: 500
+  //       }
+  //     },
+  //     popup: "all"
+  //   }
+  // ]
 }
 
-var treeEvent = new mars3d.BaseClass()
+export const treeEvent = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -18,7 +35,7 @@ var treeEvent = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   shoXZM()
@@ -28,12 +45,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // flyTo至目标
-function flyToEntity(entity) {
+export function flyToEntity(entity) {
   map.flyTo(entity)
 }
 
@@ -46,7 +63,7 @@ function removeLayer() {
 }
 
 // 示例：乡镇面
-function shoXZM() {
+export function shoXZM() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Shp2JsonLayer({
@@ -92,7 +109,7 @@ function shoXZM() {
 }
 
 // 示例：高程点
-function shoGCD() {
+export function shoGCD() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Shp2JsonLayer({

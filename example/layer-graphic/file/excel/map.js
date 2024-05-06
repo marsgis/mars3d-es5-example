@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
-// import * as XLSX from "xlsx"
+import * as mars3d from "mars3d"
+import * as XLSX from "xlsx"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -36,25 +36,25 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function downloadCsvModel() {
+export function downloadCsvModel() {
   const url = window.currentPath + "data/graphic.csv" // currentPath为当前目录，内置在示例框架中
   window.open(url)
 }
 
-function downloadExcelModel() {
+export function downloadExcelModel() {
   const url = window.currentPath + "data/graphic.xlsx" // currentPath为当前目录，内置在示例框架中
   window.open(url)
 }
 
-function clearData() {
+export function clearData() {
   graphicLayer.clear()
 }
 
-function openFile(file) {
+export function openFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -66,7 +66,7 @@ function openFile(file) {
     }
   } else if (fileType === "csv") {
     const reader = new FileReader()
-    reader.readAsText(file, "GB2312")
+    reader.readAsText(file, "utf-8")
     reader.onloadend = function (e) {
       importCsvData(this.result)
     }
@@ -78,7 +78,7 @@ function openFile(file) {
 async function importCsvData(result) {
   console.log("导入csv数据", result)
 
-  const rows = result.split("\r\n")
+  const rows = result.split("\n")
   const heads = rows[0].trim().split(",") // 列头
 
   const arrData = []
@@ -96,7 +96,7 @@ async function importCsvData(result) {
   }
   addGraphics(arrData)
 }
-function downloadCsvData() {
+export function downloadCsvData() {
   if (graphicLayer.length === 0) {
     globalAlert("当前没有标注任何数据，无需保存！")
     return
@@ -130,7 +130,7 @@ function downloadCsvData() {
   }
   console.log("导出csv数据", result)
 
-  mars3d.Util.downloadFile("标注点.csv", result.join("\n"))
+  mars3d.Util.downloadFile("标注点.csv", result.join("\n"), "text/csv")
 }
 
 function importExcelData(result) {
@@ -143,7 +143,7 @@ function importExcelData(result) {
   addGraphics(jsonData)
 }
 
-function downloadExcelData() {
+export function downloadExcelData() {
   if (graphicLayer.length === 0) {
     globalAlert("当前没有标注任何数据，无需保存！")
     return
@@ -206,7 +206,7 @@ function addGraphics(points) {
 }
 
 let indexCache = 0
-function startDrawGraphic() {
+export function startDrawGraphic() {
   const name = "我是手动标绘的" + ++indexCache
   graphicLayer.startDraw({
     type: "billboardP",
