@@ -204,8 +204,8 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
-  graphicLayer.startDraw({
+async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
     type: "wallP",
     maxPointNum: 2,
     style: {
@@ -222,8 +222,8 @@ function startDrawGraphic() {
 }
 
 // 绘制贴地矩形
-function startDrawGraphic2() {
-  graphicLayer.startDraw({
+async function startDrawGraphic2() {
+  const graphic = await graphicLayer.startDraw({
     type: "rectangleP",
     style: {
       materialType: mars3d.MaterialType.Text,
@@ -236,39 +236,36 @@ function startDrawGraphic2() {
 }
 
 // 根据中心点来计算矩形
-function onClickDrawPoint() {
-  graphicLayer
-    .startDraw({
-      type: "point",
-      style: {
-        color: "#ffff00",
-        clampToGround: true
-      }
-    })
-    .then((graphic) => {
-      const position = graphic.positionShow
-      graphic.remove()
+async function onClickDrawPoint() {
+  const graphic = await graphicLayer.startDraw({
+    type: "point",
+    style: {
+      color: "#ffff00",
+      clampToGround: true
+    }
+  })
+  const position = graphic.positionShow
+  graphic.remove(true)
 
-      const positions = mars3d.PolyUtil.getRectPositionsByCenter({
-        center: position,
-        width: 60,
-        height: 10
-      })
+  const positions = mars3d.PolyUtil.getRectPositionsByCenter({
+    center: position,
+    width: 60,
+    height: 10
+  })
 
-      const rectangle = new mars3d.graphic.RectanglePrimitive({
-        positions,
-        style: {
-          materialType: mars3d.MaterialType.Text,
-          materialOptions: {
-            text: "Mars3D三维可视化平台"
-          },
-          clampToGround: true
-        }
-      })
-      graphicLayer.addGraphic(rectangle)
+  const rectangle = new mars3d.graphic.RectanglePrimitive({
+    positions: [positions[0], positions[2]],
+    style: {
+      materialType: mars3d.MaterialType.Text,
+      materialOptions: {
+        text: "Mars3D三维可视化平台"
+      },
+      clampToGround: true
+    }
+  })
+  graphicLayer.addGraphic(rectangle)
 
-      graphicLayer.fire(mars3d.EventType.drawCreated, { graphic: rectangle })
-    })
+  graphicLayer.fire(mars3d.EventType.drawCreated, { graphic: rectangle })
 }
 
 // 在图层绑定Popup弹窗

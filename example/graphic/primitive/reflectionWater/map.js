@@ -52,7 +52,7 @@ function onUnmounted() {
 }
 
 function addDemoGraphic1() {
-  const volumeCloud = new mars3d.graphic.ReflectionWater({
+  const reflectionWater = new mars3d.graphic.ReflectionWater({
     positions: [
       [117.216386, 31.815376, 35.16],
       [117.222533, 31.81729, 29.21],
@@ -69,8 +69,9 @@ function addDemoGraphic1() {
     },
     attr: { remark: "示例1" }
   })
-  graphicLayer.addGraphic(volumeCloud)
+  graphicLayer.addGraphic(reflectionWater)
 }
+
 
 // 生成演示数据(测试数据量)
 function addRandomGraphicByCount(count) {
@@ -107,6 +108,7 @@ function addRandomGraphicByCount(count) {
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length
 }
+
 
 // 开始绘制
 function startDrawGraphic() {

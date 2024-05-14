@@ -1,4 +1,6 @@
 // import * as mars3d from "mars3d"
+// import * as GeoTIFF from "geotiff"
+
 
 var map // mars3d.Map三维地图对象
 
@@ -71,6 +73,7 @@ async function tif2img2(url) {
   const canvas = mars3d.DomUtil.create("canvas")
 
   // plotty文档：http://santilland.github.io/plotty/
+  // eslint-disable-next-line no-undef
   const plot = new plotty.plot({
     canvas,
     data: red,
