@@ -99,8 +99,20 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 function addDemoGraphic3(graphicLayer) {
+  const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
+  let tempTime
+
+  // 起点
+  tempTime = map.clock.currentTime // 飞行开始时间
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.152749, 31.77278, 24.1))
+  // 移动到的第1个目标点
+  tempTime = Cesium.JulianDate.addSeconds(tempTime, 40, new Cesium.JulianDate())
+  property.addSample(tempTime, Cesium.Cartesian3.fromDegrees(117.377432, 31.641834, 24.1))
+
   const graphic = new mars3d.graphic.Sector({
-    position: [117.152749, 31.77278, 24.1],
+    position: property,
     style: {
       radius: 3000,
       startAngle: 90, // 开始角度(正东方向为0,顺时针到360度)

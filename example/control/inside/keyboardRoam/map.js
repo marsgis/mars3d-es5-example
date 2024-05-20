@@ -12,6 +12,9 @@ var mapOptions = {
   },
   control: {
     infoBox: false
+    // keyboardRoam: {
+    //   enabled: true
+    // }
   },
   layers: [
     {
