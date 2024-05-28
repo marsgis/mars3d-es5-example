@@ -1,7 +1,7 @@
 // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
-let terrainPlanClip
+
 let tilesetPlanClip // 模型裁剪事件
 let underground
 let terrainClip
@@ -81,16 +81,6 @@ function addPlanClipThing(tiles3dLayer) {
     edgeWidth: 2.0
   })
   map.addThing(tilesetPlanClip)
-
-  terrainPlanClip = new mars3d.thing.TerrainPlanClip({
-    positions: [
-      [117.096176, 31.851189, 42.56],
-      [117.097776, 31.851189, 42.56],
-      [117.097776, 31.853494, 42.56],
-      [117.096176, 31.853494, 42.56]
-    ]
-  })
-  map.addThing(terrainPlanClip)
 }
 
 // 是否开启地下模式
@@ -118,7 +108,6 @@ function alphaChange(value) {
 // 是否开挖
 function chkClippingPlanes(val) {
   terrainClip.enabled = val
-  terrainPlanClip.enabled = val
 }
 
 function terrainClips(heightVal) {
@@ -146,7 +135,6 @@ function heightChange(num) {
 // 绘制矩形
 async function drawExtent() {
   terrainClip.clear() // 清除挖地区域
-  terrainPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -163,14 +151,11 @@ async function drawExtent() {
 
   // 挖地区域
   terrainClip.positions = positions
-
-  terrainPlanClip.positions = positions
 }
 
 // 绘制多边形
 async function drawPolygon() {
   terrainClip.clear() // 清除挖地区域
-  terrainPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -187,12 +172,10 @@ async function drawPolygon() {
 
   // 挖地区域
   terrainClip.positions = positions
-  terrainPlanClip.positions = positions
 }
 
 function clearWJ() {
   terrainClip.clear() // 清除挖地区域
-  terrainPlanClip.clear()
 }
 
 //= ========================================
