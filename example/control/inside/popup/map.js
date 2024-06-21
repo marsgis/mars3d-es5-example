@@ -354,4 +354,10 @@ function bindGraphicDynamicAttrDemo() {
     }
   })
   graphicLayer.addGraphic(graphic)
+
+  // 测试 graphic.toJSON
+  setTimeout(() => {
+    console.log("graphic.toJSON", graphic.toJSON())
+  }, 5000)
+  window.graphic = graphic
 }
