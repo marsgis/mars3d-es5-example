@@ -1,8 +1,10 @@
+
+
 // eslint-disable-next-line no-undef
 importScripts("/lib/mars3d/plugins/space/worker/mars3d-tle-worker.js")
 
 // eslint-disable-next-line no-undef
-const mars3d = mars3dTle
+const mars3d = this["mars3d-tle-worker"]
 
 self.onmessage = function (e) {
   const arr = e.data.list
