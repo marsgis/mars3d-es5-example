@@ -204,13 +204,13 @@
       }
 
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      let timeTik
+      let militaryTimeTik
 
       function startEditing(graphic) {
         if (!graphic) {
           return
         }
-        clearTimeout(timeTik)
+        clearTimeout(militaryTimeTik)
 
         let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
         if (plotAttr && plotAttr.isActivate) {
@@ -227,7 +227,7 @@
       }
 
       function stopEditing() {
-        timeTik = setTimeout(function () {
+        militaryTimeTik = setTimeout(function () {
           es5widget.disable("widgets/plotAttr/widget.js")
         }, 200)
       }

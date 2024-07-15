@@ -41,6 +41,7 @@ function onUnmounted() {
 
 let modelGraphic
 
+
 // 初始化创建一个卫星视锥体
 function addDemoGraphic1(sensorParams) {
   const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
@@ -71,6 +72,7 @@ function addDemoGraphic1(sensorParams) {
     backwardExtrapolationType: Cesium.ExtrapolationType.HOLD,
     style: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
+      length: 1000000,
       angle1: sensorParams.angleValue1,
       angle2: sensorParams.angleValue2,
       heading: sensorParams.headingValue,
