@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 
@@ -51,7 +51,7 @@ function onUnmounted() {
 function showGeoJsonVectorTile(geojson) {
   const tileLayer = new mars3d.layer.WeiVectorTileLayer({
     source: geojson,
-    zIndex: 2,
+    zIndex: 20,
     removeDuplicate: false,
     allowPick: true, // 允许单击
     defaultStyle: {

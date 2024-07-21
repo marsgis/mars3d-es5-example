@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import "./index.css"
+// // import * as mars3d from "mars3d"
+// // import "./index.css"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer

@@ -1,7 +1,7 @@
 // 原理是利用dom-to-image.js将DIV转为IMG图片
 // 更多字体样式，可以前往生成：https://www.iconfont.cn
 
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象

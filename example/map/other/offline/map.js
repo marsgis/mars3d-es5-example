@@ -1,6 +1,6 @@
 // 需要将下面的  data.mars3d.cn 改为本地实际发布的IP地址,如 192.168.0.115/mars3d-data
 
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 

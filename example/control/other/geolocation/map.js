@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import { Geolocation } from "./Geolocation.js"
+// // import * as mars3d from "mars3d"
+// // import { Geolocation } from "./Geolocation.js"
 
 var map // mars3d.Map三维地图对象
 

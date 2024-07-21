@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import { PoiQueryButton } from "./PoiQueryButton"
+// // import * as mars3d from "mars3d"
+// // import { PoiQueryButton } from "./PoiQueryButton"
 
 var map // mars3d.Map三维地图对象
 

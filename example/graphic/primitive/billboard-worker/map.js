@@ -1,6 +1,6 @@
 // AQI来源：https://aqicn.org
 
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象

@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
@@ -170,7 +170,8 @@ function addDemoGraphic2() {
       angle2: 15.5,
       heading: 88.5,
       pitch: -49.5,
-      showFrustum: true
+      showFrustum: true,
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1000)
     },
     attr: { remark: "示例2" }
   })

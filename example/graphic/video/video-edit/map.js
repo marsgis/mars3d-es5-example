@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import { CanvasEdit } from "./CanvasEdit"
+// // import * as mars3d from "mars3d"
+// // import { CanvasEdit } from "./CanvasEdit"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象

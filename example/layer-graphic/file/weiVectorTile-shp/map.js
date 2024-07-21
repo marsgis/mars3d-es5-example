@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 
@@ -48,7 +48,7 @@ function showWeiVectorTileLayer() {
     const tileLayer = new mars3d.layer.WeiVectorTileLayer({
       source: files,
       removeDuplicate: false,
-      zIndex: 2,
+      zIndex: 20,
       encoding: "utf-8",
       defaultStyle: {
         // 参考api文档的Cesium.VectorStyle类

@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
@@ -65,7 +65,7 @@ function addLayer() {
     positions: arrPoints,
     // 以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
     heatStyle: {
-      radius: 60,
+      radius: 40,
       blur: 0.85
     },
     // 以下为矩形矢量对象的样式参数

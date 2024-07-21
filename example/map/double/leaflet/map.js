@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 let map3d
 let map2d

@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import * as mapv from "mapv"
+// // import * as mars3d from "mars3d"
+// // import * as mapv from "mapv"
 
 var map // mars3d.Map三维地图对象
 

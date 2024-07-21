@@ -2,8 +2,8 @@
  * 该示例由 刘博方 开发，
  * 开源地址： https://github.com/ShareQiu1994/CesiumRoleController/
  */
-// import * as mars3d from "mars3d"
-// import { CesiumRoleController } from "./CesiumRoleController.js"
+// // import * as mars3d from "mars3d"
+// // import { CesiumRoleController } from "./CesiumRoleController.js"
 
 var map // mars3d.Map三维地图对象
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中

@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
@@ -184,6 +184,12 @@ function addDemoGraphic3(graphicLayer) {
         color: "#ffff00",
         repeat: 30.0,
         thickness: 0.2
+      },
+      label: {
+        text: "HX2017",
+        font_size: 8,
+        background: true,
+        visibleDepth: true
       }
     }
   })

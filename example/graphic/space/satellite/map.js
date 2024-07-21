@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+// // import * as mars3d from "mars3d"
 
 var map // mars3d.Map三维地图对象
 var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中

@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import kriging from "./krigingConfig"
+// // import * as mars3d from "mars3d"
+// // import kriging from "./krigingConfig"
 
 var map // mars3d.Map三维地图对象
 

@@ -1,5 +1,5 @@
-// import * as mars3d from "mars3d"
-// import { HuxingLayer } from "./HuxingLayer.js"
+// // import * as mars3d from "mars3d"
+// // import { HuxingLayer } from "./HuxingLayer.js"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
