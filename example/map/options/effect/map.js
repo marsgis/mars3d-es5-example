@@ -1,4 +1,4 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加控件有2种方式:

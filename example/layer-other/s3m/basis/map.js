@@ -1,5 +1,5 @@
 // 仅mars3d v3.4 + cesium1.95之前版本支持超图图层
-// // // import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 var map
 

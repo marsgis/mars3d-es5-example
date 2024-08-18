@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   control: {
     homeButton: {
       icon: "/img/svg/homeButton.svg"
@@ -32,7 +32,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -46,76 +46,76 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 按钮
-function bindPOI(val) {
+export function bindPOI(val) {
   map.control.geocoder.show = val
 }
 
 // 视角复位
-function bindView(val) {
+export function bindView(val) {
   map.control.homeButton.show = val
 }
 
 // 基础的地图切换
-function bindBaseLayerPicker(val) {
+export function bindBaseLayerPicker(val) {
   map.control.baseLayerPicker.show = val
 }
 
 // 全屏切换
-function bindFullScreen(val) {
+export function bindFullScreen(val) {
   map.control.fullscreenButton.show = val
 }
 
 // VR
-function bindVR(val) {
+export function bindVR(val) {
   map.control.vrButton.show = val
 }
 
 // 帮助按钮
-function bindHelpButton(val) {
+export function bindHelpButton(val) {
   map.control.navigationHelpButton.show = val
 }
 
 // 二三维切换
-function bindSceneModePicker(val) {
+export function bindSceneModePicker(val) {
   map.control.sceneModePicker.show = val
 }
 
-function bindZoom(val) {
+export function bindZoom(val) {
   map.control.zoom.show = val
 }
 
 // 面板：
 // 信息状态栏
-function bindLocation(val) {
+export function bindLocation(val) {
   map.control.locationBar.show = val
 }
 
 // 时钟
-function bindClock(val) {
+export function bindClock(val) {
   map.control.clockAnimate.show = val
 }
 
 // 时间刻度线
-function bindTimeLine(val) {
+export function bindTimeLine(val) {
   map.control.timeline.show = val
 }
 
 // 导航球
-function bindNav(val) {
+export function bindNav(val) {
   map.control.compass.show = val
 }
 
 // 比例尺
-function bindLegend(val) {
+export function bindLegend(val) {
   map.control.distanceLegend.show = val
 }
 
 // 图层
-function bindLayer(val) {
+export function bindLayer(val) {
   document.getElementById("mars-manage-layer-btn").style.display = val ? "inline-block" : "none"
 }

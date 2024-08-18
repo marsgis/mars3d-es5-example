@@ -1,18 +1,18 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
   }
 }
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -20,7 +20,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   showGeoJsonLayer()
 }
@@ -29,11 +29,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function query(text) {
+export function query(text) {
   queryMapserver.query({
     column: "项目名称",
     text,
@@ -103,7 +103,7 @@ function showGeoJsonLayer() {
 }
 
 // 框选查询 矩形
-async function drawRectangle() {
+export async function drawRectangle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -119,7 +119,7 @@ async function drawRectangle() {
 }
 
 // 框选查询   圆
-async function drawCircle() {
+export async function drawCircle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -135,7 +135,7 @@ async function drawCircle() {
 }
 
 // 框选查询   多边行
-async function drawPolygon() {
+export async function drawPolygon() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -150,7 +150,7 @@ async function drawPolygon() {
   console.log("多边行：", drawGraphic.toGeoJSON())
 }
 
-function clearAll(noClearDraw) {
+export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     map.graphicLayer.clear()
@@ -158,7 +158,7 @@ function clearAll(noClearDraw) {
   geoJsonLayer.clear()
 }
 
-function flyToGraphic(graphic) {
+export function flyToGraphic(graphic) {
   graphic.openHighlight()
   graphic.flyTo({
     radius: 1000, // 点数据：radius控制视距距离

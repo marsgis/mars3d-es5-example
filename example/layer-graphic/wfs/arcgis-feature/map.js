@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.810597, lng: 117.220617, alt: 1038, heading: 13, pitch: -30 }
   },
@@ -49,7 +49,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.basemap = 2017 // 蓝色底图
@@ -63,7 +63,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -151,6 +151,6 @@ function addArcGisWFSLayer2() {
 }
 
 // 图层状态 在组件中进行管理的图层
-function getManagerLayer() {
+export function getManagerLayer() {
   return map.getLayerByAttr("建筑物面矢量图层", "name")
 }

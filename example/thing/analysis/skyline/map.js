@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let skyline
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },
     globe: {
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型，观看效果更佳
@@ -40,18 +40,18 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function changeColor() {
+export function changeColor() {
   skyline.color = Cesium.Color.fromRandom()
 }
 
-function lineWidth(val) {
+export function lineWidth(val) {
   skyline.width = val
 }
 
-function isVChecked(value) {
+export function isVChecked(value) {
   skyline.enabled = value
 }

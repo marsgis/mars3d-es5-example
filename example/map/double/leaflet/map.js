@@ -1,4 +1,4 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 let map3d
 let map2d
@@ -9,9 +9,19 @@ let map2d
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map3d = mapInstance // 记录map
   map3d.camera.percentageChanged = 0.001
+
+  // map3d.on(mars3d.EventType.addLayer, function (event) {
+  //   if (map2d) {
+  //     const layerOptions = event.layer.toJSON() // 转为参数
+  //     const newLayer = mars2d.LayerUtil.create(layerOptions) // 创建图层(部分可能不支持的，需要此处加代码判断处理)
+  //     if (newLayer) {
+  //       map2d.addLayer(newLayer)
+  //     }
+  //   }
+  // })
 
   globalNotify("已知问题提示", `三维事件目前监听不灵敏，视角同步不够平滑。 `)
 
@@ -22,7 +32,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   unbind3dEvent()
   unbind2dEvent()
 
@@ -53,6 +63,8 @@ function creatMap2D() {
       _map2d_extentChangeHandler()
 
       viewTo23D() // 默认
+
+      // showJsonLayer()
 
       hideLoading()
     })
@@ -114,7 +126,7 @@ function camera_moveEndHandler(e) {
   bind2dEvent()
 }
 
-function viewTo3d() {
+export function viewTo3d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to2dDom.style.display = "none"
@@ -123,7 +135,7 @@ function viewTo3d() {
   to3dDom.style.width = "100%"
 }
 
-function viewTo2d() {
+export function viewTo2d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.display = "none"
@@ -135,7 +147,7 @@ function viewTo2d() {
   }
 }
 
-function viewTo23D() {
+export function viewTo23D() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.width = "50%"
@@ -148,3 +160,14 @@ function viewTo23D() {
     map2d.invalidateSize(false)
   }
 }
+
+// // 下面演示数据同步
+// function showJsonLayer() {
+//   const graphicLayer = new mars3d.layer.GeoJsonLayer({
+//     name: "标绘示例数据",
+//     url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
+//     popup: "{type} {name}",
+//     flyTo: false
+//   })
+//   map3d.addLayer(graphicLayer)
+// }

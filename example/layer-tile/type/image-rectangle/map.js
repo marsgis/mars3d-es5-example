@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   option.scene.center = { lat: 31.839403, lng: 117.257352, alt: 2540, heading: 0, pitch: -90 }
 
   // 方式1：在创建地球前的参数中配置
@@ -25,7 +25,7 @@ var mapOptions = function (option) {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   addTileLayer()
@@ -35,14 +35,14 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
 
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -56,7 +56,7 @@ function addTileLayer() {
 }
 
 // 移除图层
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

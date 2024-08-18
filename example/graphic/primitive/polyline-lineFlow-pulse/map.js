@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 17.372658, lng: 109.327197, alt: 3459173, heading: 12, pitch: -69 },
     fxaa: true
@@ -27,7 +27,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 一线以上城市地理位置
@@ -39,11 +39,11 @@ function onMounted(mapInstance) {
     { name: "成都", position: [104.067923463, 30.6799428454] },
     { name: "杭州", position: [120.219375416, 30.2592444615] },
     { name: "重庆", position: [106.530635013, 29.5446061089] },
-    { name: "苏州", position: [113.64964385, 34.7566100641] },
+    { name: "苏州", position: [120.616667, 31.316667] },
     { name: "武汉", position: [114.316200103, 30.5810841269] },
     { name: "南京", position: [118.778074408, 32.0572355018] },
     { name: "天津", position: [117.210813092, 39.1439299033] },
-    { name: "郑州", position: [113.64964385, 34.7566100641] },
+    { name: "郑州", position: [113.651078, 34.718228] },
     { name: "长沙", position: [112.979352788, 28.2134782309] },
     { name: "东莞", position: [113.763433991, 23.0430238154] },
     { name: "佛山", position: [113.134025635, 23.0350948405] },
@@ -122,6 +122,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

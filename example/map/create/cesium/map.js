@@ -1,4 +1,4 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 function initMap() {
   // 构造地球（可以使用原生Cesium或第3方SDK方式去构造Viewer）

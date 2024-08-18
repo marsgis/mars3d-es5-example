@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.309522, lng: 116.275765, alt: 69659, heading: 0, pitch: -45 },
     contextOptions: {
@@ -31,7 +31,7 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -39,7 +39,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
@@ -69,24 +69,24 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 查看场景出图
-function showMapImg(options = {}) {
+export function showMapImg(options = {}) {
   return map.expImage({ download: false, ...options }).then((result) => {
     return result.image
   })
 }
 
 // 下载场景出图
-function downLoad() {
+export function downLoad() {
   map.expImage()
 }
 
 // 下载场景缩略图
-function downLoad2() {
+export function downLoad2() {
   map.expImage({
     height: 300, // 指定 高度 或 宽度(指定1种就行，对应的自动缩放)
     // width: 300, //同时指定后去裁剪中间部分
@@ -94,7 +94,7 @@ function downLoad2() {
   })
 }
 
-async function downLoadDiv() {
+export async function downLoadDiv() {
   // 地图DIV的webgl
   const mapImg = await map.expImage({ download: false })
   console.log("downLoadDiv：1. 地图部分截图成功")

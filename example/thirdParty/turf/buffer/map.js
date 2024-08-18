@@ -1,14 +1,14 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
     fxaa: true
   }
 }
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let pointLayer
 
 const pointStyle = {
@@ -28,7 +28,7 @@ const pointStyle = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   pointLayer = new mars3d.layer.GeoJsonLayer({
@@ -68,11 +68,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
+export function drawPoint() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -84,7 +84,7 @@ function drawPoint() {
   })
 }
 
-function drawPolyline() {
+export function drawPolyline() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -97,7 +97,7 @@ function drawPolyline() {
   })
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -113,7 +113,7 @@ function drawPolygon() {
   })
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
   map.graphicLayer.clear()
   lastgeojson = null
@@ -121,7 +121,7 @@ function deleteAll() {
 }
 
 let width
-function radiusChange(val) {
+export function radiusChange(val) {
   width = val * 1000 // km
   if (lastgeojson) {
     updateBuffer()
@@ -179,7 +179,7 @@ function updateSelect(drawGraphic) {
   })
 }
 
-function removeSelect() {
+export function removeSelect() {
   for (let i = 0; i < selectGraphic.length; i++) {
     const graphic = selectGraphic[i]
     graphic.setStyle({

@@ -1,10 +1,10 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let geoJsonLayer // 矢量图层对象,用于layer绑定展示
 let graphicLayer // 矢量图层对象,用于graphic绑定展示
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ var eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -35,11 +35,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function removeDemoLayer() {
+export function removeDemoLayer() {
   graphicLayer.clear()
 
   if (geoJsonLayer) {
@@ -49,7 +49,7 @@ function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Popup单击弹窗
-function bindMapDemo() {
+export function bindMapDemo() {
   removeDemoLayer()
 
   // 关闭弹窗
@@ -61,7 +61,7 @@ function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Popup单击弹窗
-function bindLayerDemo() {
+export function bindLayerDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -104,7 +104,7 @@ function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义Popup单击弹窗
-function bindLayerDemo2() {
+export function bindLayerDemo2() {
   removeDemoLayer()
 
   window.test_formatFun = function (value) {
@@ -134,7 +134,7 @@ function bindLayerDemo2() {
 }
 
 // 2.在layer图层上绑定Popup单击弹窗
-function bindLayerTemplateDemo() {
+export function bindLayerTemplateDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -170,7 +170,7 @@ function bindLayerTemplateDemo() {
 }
 
 // 3.在graphic数据上绑定Popup单击弹窗局部刷新
-function bindGraphicDemo1() {
+export function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars3d.graphic.BoxEntity({
@@ -225,7 +225,7 @@ function bindGraphicDemo1() {
 }
 
 // 4.在graphic数据上绑定Popup单击弹窗
-function bindGraphicDemo2() {
+export function bindGraphicDemo2() {
   removeDemoLayer()
 
   const graphic = new mars3d.graphic.BillboardEntity({
@@ -288,7 +288,7 @@ function showXQ() {
 }
 
 // 在原始ceisum对象绑定popup
-function bindCesiumEntityDemo() {
+export function bindCesiumEntityDemo() {
   const blueBox = map.viewer.entities.add({
     name: "Blue box",
     position: Cesium.Cartesian3.fromDegrees(116.316945, 30.893873, 1000),
@@ -311,7 +311,7 @@ function bindCesiumEntityDemo() {
   }
 }
 
-function bindGraphicDynamicAttrDemo() {
+export function bindGraphicDynamicAttrDemo() {
   removeDemoLayer()
   map.setCameraView({ lat: 31.743008, lng: 117.007592, alt: 7773.8, heading: 355.1, pitch: -31.8 })
 

@@ -1,14 +1,14 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 let tleArr
 let drawGraphic
 let tableList = []
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 21.105826, lng: 108.202174, alt: 4426845, heading: 0, pitch: -77 },
     cameraController: {
@@ -17,7 +17,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -25,7 +25,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -39,7 +39,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -57,7 +57,7 @@ function queryTleChinaApiData() {
 
 // 框选查询 矩形
 
-async function drawRectangle() {
+export async function drawRectangle() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -66,13 +66,14 @@ async function drawRectangle() {
       color: "#ffff00",
       opacity: 0.2,
       outline: true,
-      outlineColor: "#ffffff"
+      outlineColor: "#ffffff",
+      clampToGround: true
     }
   })
 }
 
 // 框选查询   多边
-async function drawPolygon() {
+export async function drawPolygon() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -81,13 +82,14 @@ async function drawPolygon() {
       color: "#ffff00",
       opacity: 0.2,
       outline: true,
-      outlineColor: "#ffffff"
+      outlineColor: "#ffffff",
+      clampToGround: true
     }
   })
 }
 
 // 框选查询   圆
-async function drawCircle() {
+export async function drawCircle() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -96,18 +98,19 @@ async function drawCircle() {
       color: "#ffff00",
       opacity: 0.2,
       outline: true,
-      outlineColor: "#ffffff"
+      outlineColor: "#ffffff",
+      clampToGround: true
     }
   })
 }
 
-function drawClear() {
+export function drawClear() {
   map.graphicLayer.clear()
   drawGraphic = null
 }
 
 // 清除效果
-function clearResult() {
+export function clearResult() {
   tableList = []
   drawClear()
 }
@@ -123,7 +126,7 @@ const pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7)
  * @param {time} endTimes 结束时间
  * @returns {void}
  */
-function startFX(startTimes, endTimes) {
+export function startFX(startTimes, endTimes) {
   if (!drawGraphic) {
     globalMsg("请先在图上绘制区域")
     return
@@ -160,47 +163,52 @@ function fxOneSatellite(item, options) {
   const graphic = options.graphic
   const startTimes = options.startTimes
   const endTimes = options.endTimes
-  const step = 10 * 1000 // 插值数
+
+  const tle = new mars3d.Tle(item.tle1, item.tle2)
+  const period_time = tle.period // 卫星绕地球一周的运行时长（单位：分钟）
+  let step = Math.floor(period_time / 10)
+  if (step < 1000) {
+    step = 1000
+  }
 
   let nowTime = startTimes
 
   let position
   while (nowTime <= endTimes) {
     // 根据时间计算卫星的位置
-    const position = mars3d.Tle.getEcfPosition(item.tle1, item.tle2, nowTime)
+    const position = tle.getPoint(nowTime, true)
     if (!position) {
       break
     }
     // 显示点[参考比较结果是否正确]
-    // let timeStr = new Date(nowTime).format("yyyy-MM-dd HH:mm:ss")
+    const timeStr = mars3d.Util.formatDate(new Date(nowTime))
     const pointPrimitive = new mars3d.graphic.PointPrimitive({
-      position,
+      position: position,
       style: {
         color: pointClr,
         pixelSize: 3
       },
-      attr: item
-      // tooltip: `编号：${item.norad} <br />卫星：${item.name} <br />时间：${timeStr}`
+      attr: item,
+      popup: `编号：${item.norad} <br />卫星：${item.name} <br />时间：${timeStr}`
     })
     map.graphicLayer.addGraphic(pointPrimitive)
+
 
     // 判断是卫星否在缓冲区内
     const isInPoly = graphic.isInPoly(position)
 
-    // console.log(`${item.name},时间：${timeStr},结果：${isInPoly}`);
-
-    if (lastObj && !lastObj.isInPoly && isInPoly) {
+    if (isInPoly && (!lastObj || !lastObj.isInPoly)) {
       // 表示进入范围
       inAreaPath.push({
-        lastPosition: lastObj.position,
-        lastTime: lastObj.time,
+        lastPosition: lastObj?.position,
+        lastTime: lastObj?.time ?? nowTime,
         time: nowTime,
         position,
         inOrOut: "in"
       })
     }
 
-    if (lastObj && lastObj.isInPoly && !isInPoly) {
+    if (!isInPoly && lastObj?.isInPoly) {
       // 表示出范围
       inAreaPath.push({
         position,
@@ -209,6 +217,7 @@ function fxOneSatellite(item, options) {
         time: nowTime,
         inOrOut: "out"
       })
+      lastObj = null
       break
     }
 
@@ -230,6 +239,8 @@ function fxOneSatellite(item, options) {
       inOrOut: "out"
     })
   }
+
+  console.log(inAreaPath)
 
   return inAreaPath
 }
@@ -277,7 +288,6 @@ function showResult(newSatelliteArr) {
             distance: mars3d.MeasureUtil.formatDistance(Cesium.Cartesian3.distance(positions[1], positions[0]))
           }
           tableList.push(data)
-
 
           showCorridor(data)
         }

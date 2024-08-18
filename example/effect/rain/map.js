@@ -1,10 +1,10 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let rainEffect
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.789209, lng: 117.214049, alt: 603, heading: 10, pitch: -11 }
   }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 大气层外光圈
@@ -48,26 +48,26 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 是否开启特效
-function setEffect(val) {
+export function setEffect(val) {
   rainEffect.enabled = val
 }
 
 // 粒子速度
-function setSpeed(value) {
+export function setSpeed(value) {
   rainEffect.speed = value
 }
 
 // 粒子大小
-function setSize(value) {
+export function setSize(value) {
   rainEffect.size = value
 }
 
 // 粒子方向
-function setDirection(value) {
+export function setDirection(value) {
   rainEffect.direction = value
 }

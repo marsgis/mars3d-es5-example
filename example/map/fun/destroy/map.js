@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   layers: [
     {
       type: "geojson",
@@ -29,7 +29,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.on(mars3d.EventType.load, function (event) {
@@ -41,11 +41,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   destroyMap()
 }
 
-function createMap() {
+export function createMap() {
   if (map) {
     globalMsg("地图已存在,请勿重复创建!")
     return map
@@ -55,7 +55,7 @@ function createMap() {
   return map
 }
 
-function destroyMap() {
+export function destroyMap() {
   if (!map) {
     globalMsg("地图已销毁,无需重复销毁!")
     return

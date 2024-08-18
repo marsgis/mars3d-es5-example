@@ -1,4 +1,4 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加控件有2种方式:
@@ -25,7 +25,7 @@ function initMap() {
         diffHeight: 50,
         image: "img/textures/poly-stone.jpg",
         imageBottom: "img/textures/poly-soil.jpg",
-        splitNum: 80,
+        splitNum: 100,
         area: [
           {
             exact: true,

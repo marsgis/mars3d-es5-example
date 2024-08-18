@@ -1,9 +1,9 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let terrainFlat
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 0, pitch: -56 }
   }
@@ -11,7 +11,7 @@ var mapOptions = {
 
 let lineLayer // 矢量图层对象,用于graphic绑定展示
 
-var eventTabel = new mars3d.BaseClass()
+export const eventTabel = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,7 +19,7 @@ var eventTabel = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -31,11 +31,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function addTerrainClip() {
+export function addTerrainClip() {
   terrainFlat = new mars3d.thing.TerrainFlat()
   map.addThing(terrainFlat)
 
@@ -71,7 +71,7 @@ function addTerrainClip() {
 }
 
 // 添加矩形
-async function btnDrawExtent(height) {
+export async function btnDrawExtent(height) {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -89,7 +89,7 @@ async function btnDrawExtent(height) {
   addTableItem(areaItem)
 }
 // 添加多边形
-async function btnDraw(height) {
+export async function btnDraw(height) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -108,18 +108,18 @@ async function btnDraw(height) {
 }
 
 // 清除
-function removeAll() {
+export function removeAll() {
   terrainFlat.clear() // 清除挖地区域
   lineLayer.clear()
 }
 
 // 改变切割的深度
-function changeClipHeight(val) {
+export function changeClipHeight(val) {
   terrainFlat.height = val
 }
 
 // 是否挖地
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainFlat.enabled = val
 }
 
@@ -130,12 +130,12 @@ function addTableItem(item) {
   eventTabel.fire("tableObject", { tableItem: { key: item.id, name: "压平区域" + item.id, lineId: item.lineId, show: item.show } })
 }
 // 表格操作
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = terrainFlat.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
-function deletedGraphic(areaId, lineId) {
+export function deletedGraphic(areaId, lineId) {
   const graphic = terrainFlat.getAreaById(areaId)
   terrainFlat.removeArea(graphic)
 
@@ -145,7 +145,7 @@ function deletedGraphic(areaId, lineId) {
   }
 }
 
-function showHideArea(id, selected) {
+export function showHideArea(id, selected) {
   if (selected) {
     terrainFlat.showArea(id)
   } else {
@@ -154,7 +154,7 @@ function showHideArea(id, selected) {
 }
 
 // 是否显示测试边界线
-function chkShowLine(val) {
+export function chkShowLine(val) {
   lineLayer.show = val
 }
 

@@ -1,13 +1,13 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let tiles3dLayer
 let brightnessEffect
 let bloomEffect
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.795446, lng: 117.219725, alt: 1816, heading: 15, pitch: -34 }
     // sceneMode: 2
@@ -56,7 +56,7 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -64,7 +64,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 切换到蓝色底图
 
@@ -106,12 +106,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 开启亮度
-function addbrightnessEffect(brightness) {
+export function addbrightnessEffect(brightness) {
   brightnessEffect = new mars3d.effect.BrightnessEffect({
     enabled: false,
     brightness
@@ -119,7 +119,7 @@ function addbrightnessEffect(brightness) {
   map.addEffect(brightnessEffect)
 }
 
-function setStyleDef() {
+export function setStyleDef() {
   if (tiles3dLayer) {
     tiles3dLayer.remove()
   }
@@ -139,7 +139,7 @@ function setStyleDef() {
 }
 
 // mars3d 内置marsJzwStyle属性
-function setStyle1() {
+export function setStyle1() {
   tiles3dLayer.customShader = undefined
 
   tiles3dLayer.marsJzwStyle = true // 打开建筑物特效（内置Shader代码）
@@ -152,7 +152,7 @@ function setStyle1() {
 }
 
 // customShader参数方式
-function setStyle2() {
+export function setStyle2() {
   tiles3dLayer.marsJzwStyle = false
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
@@ -185,7 +185,7 @@ function setStyle2() {
 }
 
 // customShader参数方式 夜景贴图
-function setStyle3() {
+export function setStyle3() {
   tiles3dLayer.marsJzwStyle = false
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
@@ -229,7 +229,7 @@ function setStyle3() {
 }
 
 // 颜色改变
-function changeColor(color) {
+export function changeColor(color) {
   tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [["true", `color("${color}")`]]
@@ -238,12 +238,12 @@ function changeColor(color) {
 }
 
 // 开启泛光
-function chkBloom(val) {
+export function chkBloom(val) {
   bloomEffect.enabled = val
 }
 
 // 开启光照
-function chkShadows(val) {
+export function chkShadows(val) {
   map.viewer.shadows = val
   if (val) {
     setTimeout(function () {
@@ -254,10 +254,10 @@ function chkShadows(val) {
 }
 
 // 调整亮度
-function chkBrightness(val) {
+export function chkBrightness(val) {
   brightnessEffect.enabled = val
 }
 
-function alphaChange(value) {
+export function alphaChange(value) {
   brightnessEffect.brightness = value
 }

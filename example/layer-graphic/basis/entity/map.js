@@ -1,7 +1,7 @@
-// // import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量数据图层
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量数据图层
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -9,7 +9,7 @@ var graphicLayer // 矢量数据图层
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 1.在map上绑定监听事件
@@ -57,7 +57,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -346,7 +346,7 @@ function addDemoGraphic15(graphicLayer) {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -492,7 +492,7 @@ function bindLayerContextMenu() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
