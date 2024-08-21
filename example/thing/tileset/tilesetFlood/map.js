@@ -1,14 +1,14 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
-export const mapOptions = {
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var mapOptions = {
   scene: {
     center: { lat: 31.797067, lng: 117.21963, alt: 1512, heading: 360, pitch: -36 }
   }
 }
 
-export let tilesetLayer
+var tilesetLayer
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -16,7 +16,7 @@ export let tilesetLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -37,7 +37,7 @@ export function onUnmounted() {
 // false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重
 const precise = false
 
-export function showDytDemo() {
+function showDytDemo() {
   removeLayer()
 
   // 加模型
@@ -69,7 +69,7 @@ export function showDytDemo() {
   })
 }
 
-export function showTehDemo() {
+function showTehDemo() {
   removeLayer()
 
   // 加模型
@@ -115,7 +115,7 @@ export function showTehDemo() {
   })
 }
 
-export function showXianDemo() {
+function showXianDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
@@ -159,12 +159,12 @@ function removeLayer() {
 }
 
 // 高度选择
-export function onChangeHeight(height) {
+function onChangeHeight(height) {
   tilesetLayer.flood.height = height
 }
 
 // 修改分析方式
-export function changeFloodType(val) {
+function changeFloodType(val) {
   if (val === "1") {
     tilesetLayer.flood.floodAll = true
   } else {
@@ -173,7 +173,7 @@ export function changeFloodType(val) {
 }
 
 // 绘制矩形
-export async function btnDrawExtent() {
+async function btnDrawExtent() {
   stop()
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
@@ -189,7 +189,7 @@ export async function btnDrawExtent() {
   tilesetLayer.flood.addArea(positions)
 }
 // 绘制多边形
-export async function btnDraw() {
+async function btnDraw() {
   stop()
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
@@ -208,7 +208,7 @@ export async function btnDraw() {
 }
 
 // 开始分析
-export function begin(data) {
+function begin(data) {
   if (!tilesetLayer.flood.floodAll && tilesetLayer.flood.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return false
@@ -238,6 +238,6 @@ export function begin(data) {
   return true
 }
 
-export function stop() {
+function stop() {
   tilesetLayer.flood.clear()
 }

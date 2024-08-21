@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.648141, lng: 117.07114, alt: 943.1, heading: 27.6, pitch: -34.7 }
   }
@@ -17,7 +17,7 @@ let bloomTargetEffect
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加模型
@@ -151,7 +151,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -200,46 +200,46 @@ function processContentFeatures(content, callback) {
   }
 }
 
-export function setBloomTargetEffect(val) {
+function setBloomTargetEffect(val) {
   bloomTargetEffect.enabled = val
 }
 
-export function setBrightness(val) {
+function setBrightness(val) {
   bloomTargetEffect.brightness = val
 }
 
-export function setDelta(val) {
+function setDelta(val) {
   bloomTargetEffect.delta = val
 }
 
-export function setStep(val) {
+function setStep(val) {
   bloomTargetEffect.stepSize = val
 }
 
-export function setSigma(val) {
+function setSigma(val) {
   bloomTargetEffect.sigma = val
 }
 
-export function setContrast(val) {
+function setContrast(val) {
   bloomTargetEffect.contrast = val
 }
 
-export function setBlurSamples(val) {
+function setBlurSamples(val) {
   bloomTargetEffect.blurSamples = val
 }
 
-export function setThreshole(val) {
+function setThreshole(val) {
   bloomTargetEffect.threshole = val
 }
 
-export function setRatio(val) {
+function setRatio(val) {
   bloomTargetEffect.ratio = val
 }
 
-export function setSmoothWidth(val) {
+function setSmoothWidth(val) {
   bloomTargetEffect.smoothWidth = val
 }
 
-export function setColor(val) {
+function setColor(val) {
   bloomTargetEffect.color = val
 }

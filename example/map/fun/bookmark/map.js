@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.628661, lng: 117.251952, alt: 46390, heading: 2, pitch: -68 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ export const eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const graphicLayer = new mars3d.layer.GraphicLayer()
@@ -28,12 +28,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 添加书签
-export function butAddTxtName(name) {
+function butAddTxtName(name) {
   // 动态的获取index
   const item = {
     name,
@@ -52,6 +52,6 @@ export function butAddTxtName(name) {
 }
 
 // 飞向视角
-export function flytoView(center) {
+function flytoView(center) {
   map.setCameraView(center)
 }

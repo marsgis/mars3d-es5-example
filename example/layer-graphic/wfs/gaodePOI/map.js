@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.783013, lng: 117.221851, alt: 2307, heading: 1, pitch: -29 }
   },
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `(1) 高德的token如果访问失效或超流量了，请您自行申请替换mars3d.Token.updateGaode("key value")。`)
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -77,6 +77,6 @@ function createGeodePoiLayer() {
 }
 
 // 图层状态 在组件中进行管理的图层
-export function getManagerLayer() {
+function getManagerLayer() {
   return geodePoiLayer
 }

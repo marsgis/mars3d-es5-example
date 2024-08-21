@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.830035, lng: 117.159801, alt: 409, heading: 41, pitch: 0 },
     showSkyAtmosphere: false, // 需要关闭
@@ -27,7 +27,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // map.scene.skyAtmosphere.show = false
 }
@@ -36,11 +36,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function sunny() {
+function sunny() {
   map.scene.skyBox = new mars3d.GroundSkyBox({
     sources: {
       positiveX: "/img/skybox_near/qingtian/rightav9.jpg",
@@ -53,7 +53,7 @@ export function sunny() {
   })
 }
 
-export function sunsetGlow() {
+function sunsetGlow() {
   map.scene.skyBox = new mars3d.GroundSkyBox({
     sources: {
       positiveX: "/img/skybox_near/wanxia/SunSetRight.png",
@@ -66,7 +66,7 @@ export function sunsetGlow() {
   })
 }
 
-export function blueSky() {
+function blueSky() {
   // map.scene.skyBox = new mars3d.GroundSkyBox({
   //   sources: {
   //     positiveX: "/img/skybox_near/lantian/Right.jpg",
@@ -96,7 +96,7 @@ export function blueSky() {
   })
 }
 
-export function defaultSky() {
+function defaultSky() {
   // 修改方式二，map.setOptions方法
   map.setOptions({
     scene: {

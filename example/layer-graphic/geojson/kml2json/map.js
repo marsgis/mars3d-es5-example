@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   },
@@ -20,7 +20,7 @@ export const mapOptions = {
         }
       },
       popup: "all",
-      show: false
+      show: true
     },
     {
       name: "省界线",
@@ -33,12 +33,12 @@ export const mapOptions = {
         }
       },
       popup: "all",
-      show: false
+      show: true
     }
   ]
 }
 
-export const treeEvent = new mars3d.BaseClass()
+var treeEvent = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -46,21 +46,21 @@ export const treeEvent = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  showExpressway()
+  shoRailway()
 }
 
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // flyTo至目标
-export function flyToEntity(entity) {
+function flyToEntity(entity) {
   map.flyTo(entity)
 }
 
@@ -73,11 +73,40 @@ function removeLayer() {
 }
 
 // 示例：
-export function shoRailway() {
+function shoRailway() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({
-    url: "/config/layer0.kmz",
+    url: "//data.mars3d.cn/file/kml/hftl.kml",
+    symbol: function (attr, style, featue) {
+      return {
+        color: "#00ffff",
+        opacity: 0.8,
+        width: 3,
+        arcType: Cesium.ArcType.GEODESIC,
+        clampToGround: true,
+        // 标记文字
+        label: {
+          text: "{name}",
+          opacity: 1,
+          font_size: 30,
+          color: "#ffffff",
+
+          font_family: "楷体",
+          outline: true,
+          outlineColor: "#000000",
+          outlineWidth: 3,
+
+          scaleByDistance: true,
+          scaleByDistance_far: 20000,
+          scaleByDistance_farValue: 0.1,
+          scaleByDistance_near: 100,
+          scaleByDistance_nearValue: 1,
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 20000)
+        }
+      }
+    },
+    center: { lat: 31.653222, lng: 117.273592, alt: 35183, heading: 358, pitch: -63 },
     popup: "all",
     flyTo: true
   })
@@ -96,13 +125,12 @@ export function shoRailway() {
 }
 
 // 示例：
-export function showExpressway() {
+function showExpressway() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({
     name: "路线",
-    // url: "//data.mars3d.cn/file/kml/bslx.kmz",
-    url: "/config/layer0.kmz",
+    url: "//data.mars3d.cn/file/kml/bslx.kmz",
     popup: "all",
     flyTo: true
   })
@@ -119,7 +147,7 @@ export function showExpressway() {
 }
 
 // 示例：
-export function showSafetyNotice() {
+function showSafetyNotice() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({
@@ -166,7 +194,7 @@ export function showSafetyNotice() {
 }
 
 // 示例：
-export function showMeteorological() {
+function showMeteorological() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({
@@ -190,7 +218,7 @@ export function showMeteorological() {
 }
 
 // 示例：
-export function showGDP() {
+function showGDP() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({

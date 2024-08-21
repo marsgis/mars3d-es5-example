@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
-import "./index.css"
+// import * as mars3d from "mars3d"
+// import "./index.css"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
-export let lineLayer
-export let satelliteLayer
-const Cesium = mars3d.Cesium
+var map // mars3d.Map三维地图对象
+var graphicLayer
+var lineLayer
+var satelliteLayer
+
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -13,7 +13,7 @@ const Cesium = mars3d.Cesium
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 42.126999, lng: 98.685654, alt: 16560060, heading: 5.6, pitch: -89 }
   },
@@ -23,7 +23,7 @@ export const mapOptions = {
   }
 }
 
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   // 创建矢量数据图层
@@ -43,7 +43,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 const posArr = [
@@ -138,7 +138,7 @@ const posArr = [
 ]
 
 // 初始化场景
-export function initScene() {
+function initScene() {
   for (let index = 0; index < posArr.length; index++) {
     const scenePos = posArr[index]
     // 加模型
@@ -171,7 +171,7 @@ export function initScene() {
 
 // 需求受理
 
-export function acceptance() {
+function acceptance() {
   satelliteLayer.clear() // 清除卫星数据
   map.setCameraView(
     { lat: 39.869944, lng: 115.884115, alt: 17452.2, heading: 65, pitch: -28.3 },
@@ -205,7 +205,7 @@ function accepAction() {
 }
 
 // 任务编排
-export function task() {
+function task() {
   satelliteLayer.clear() // 清除卫星数据
   const cameraView = { lat: 40.051583, lng: 116.238469, alt: 1672.4, heading: 7.8, pitch: -27.7 }
   const html = `<div class="info">
@@ -218,7 +218,7 @@ export function task() {
 }
 
 // 任务上注
-export function startTask() {
+function startTask() {
   map.setCameraView({ lat: 23.644034, lng: 66.747739, alt: 4865177.6, heading: 358, pitch: -63 }, { complete: () => addTask() })
 }
 
@@ -249,7 +249,7 @@ function addTask() {
 }
 
 // 卫星观测
-export function satelliteLook() {
+function satelliteLook() {
   map.setCameraView({ lat: 30.560391, lng: 58.246962, alt: 4113469.4, heading: 358, pitch: -63 }, { complete: () => lookAction() })
 }
 
@@ -275,7 +275,7 @@ function lookAction() {
 }
 
 // 数据接收
-export function sendDataAction() {
+function sendDataAction() {
   map.setCameraView({ lat: 23.644034, lng: 66.747739, alt: 4865177.6, heading: 358, pitch: -63 }, { complete: () => sendData() })
 }
 
@@ -307,7 +307,7 @@ function sendData() {
 }
 
 // 数据传输
-export function transferringData() {
+function transferringData() {
   satelliteLayer.clear() // 清除卫星数据
 
   // 场景视角
@@ -335,7 +335,7 @@ function transferringAction() {
 }
 
 // 产品生产
-export function production() {
+function production() {
   const cameraView = { lat: 40.070515, lng: 116.23878, alt: 2213.5, heading: 3, pitch: -68.8 }
 
   const html = ` <div class="info">
@@ -347,7 +347,7 @@ export function production() {
 }
 
 // 产品分发
-export function distribution() {
+function distribution() {
   clearGraphicLayer()
   map.setCameraView({ lat: 39.869944, lng: 115.884115, alt: 17452.2, heading: 65, pitch: -28.3 }) // 改变相机视角
   // 线
@@ -397,7 +397,7 @@ function addDivGraphic(cameraView, divhtml) {
 
 let weixin
 function addSatelliteGrahic() {
-  if (!weixin) {
+  if (!weixin || !weixin.isAdded) {
     map.clock.currentTime = Cesium.JulianDate.fromIso8601("2019-07-15T18:48:48.36721000009856652Z")
     map.clock.multiplier = 2 // 速度
     weixin = new mars3d.graphic.Satellite({
@@ -451,7 +451,7 @@ function clearGraphicLayer() {
   }
 }
 
-export function clearAll() {
+function clearAll() {
   lineLayer.clear() // 线矢量数据
   satelliteLayer.clear() // 清除卫星数据
   graphicLayer.clear()

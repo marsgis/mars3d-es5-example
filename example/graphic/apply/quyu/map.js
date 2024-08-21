@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 let graphicLayer
 let terrainClip
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并)
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.773023, lng: 116.473055, alt: 133111.3, heading: 40.4, pitch: -47.9 },
     orderIndependentTranslucency: false,
@@ -32,7 +32,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017
 
@@ -125,7 +125,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

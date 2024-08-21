@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 },
     scene3DOnly: true
@@ -19,7 +19,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -43,7 +43,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -79,6 +79,7 @@ function addLayer() {
   map.addLayer(windLayer)
 
   loadNetCDF("//data.mars3d.cn/file/apidemo/wind.nc").then((data) => {
+    console.log("数据加载解析完成", data)
     windLayer.setData(data)
   })
 }
@@ -86,7 +87,7 @@ function addLayer() {
 let canrefresh
 
 // 参数调整面板
-export function onParticleSystemOptionsChange(options) {
+function onParticleSystemOptionsChange(options) {
   clearTimeout(canrefresh)
   canrefresh = setTimeout(() => {
     windLayer.setOptions(options)
@@ -145,6 +146,6 @@ function loadNetCDF(filePath) {
 }
 
 // 改变颜色
-export function changeColor(color) {
+function changeColor(color) {
   windLayer.colors = [color]
 }

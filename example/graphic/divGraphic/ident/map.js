@@ -1,7 +1,7 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
@@ -14,7 +14,7 @@ const arrData = [
 ]
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
   }
@@ -24,7 +24,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载油田联合站模型
@@ -54,7 +54,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -62,7 +62,7 @@ export function onUnmounted() {
 }
 
 // 效果一
-export function divGraphicYellow() {
+function divGraphicYellow() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
@@ -106,7 +106,7 @@ export function divGraphicYellow() {
 }
 
 // 效果二
-export function divGraphicBule() {
+function divGraphicBule() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
@@ -128,7 +128,7 @@ export function divGraphicBule() {
 }
 
 // 效果三
-export function divGraphicWhite() {
+function divGraphicWhite() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
@@ -151,7 +151,7 @@ export function divGraphicWhite() {
 }
 
 // 效果四
-export function divGraphicHotSpot() {
+function divGraphicHotSpot() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
@@ -176,7 +176,7 @@ export function divGraphicHotSpot() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type

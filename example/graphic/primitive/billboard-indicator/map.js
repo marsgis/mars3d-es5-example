@@ -1,24 +1,29 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.530403, lng: 117.315144, alt: 38555.2, heading: 360, pitch: -45 }
   }
 }
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+  globalNotify(
+    "已知问题提示",
+    `考虑大批量渲染性能，BillboardIndicator类存在限制：  (1)多个数据不同样式仅使用第一个style来同样式渲染;  (2)不支持setStyle更新部分样式。`
+  )
 
   // 创建DIV数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -41,7 +46,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -52,7 +57,8 @@ function addDemoGraphic1(graphicLayer) {
       // 文本
       label: {
         text: "自动连线最近角",
-        font: "40px 楷体",
+        font_size: 40,
+        font_family: "楷体",
         color: "#ffffff"
       },
       // 矩形（可拖拽的）
@@ -83,7 +89,8 @@ function addDemoGraphic2(graphicLayer) {
       // 文本
       label: {
         text: "连线位置固定",
-        font: "20px 楷体",
+        font_size: 20,
+        font_family: "楷体",
         color: "#ffffff"
       },
       // 连线（自动的）
@@ -96,7 +103,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
   graphicLayer.clear()
 
@@ -116,7 +123,8 @@ export function addRandomGraphicByCount(count) {
         // 文本
         label: {
           text: "数据" + index,
-          font: "20px 楷体",
+          font_size: 20,
+          font_family: "楷体",
           color: "#ffffff"
         },
         // 矩形（可拖拽的）
@@ -147,14 +155,15 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "billboardIndicator",
     style: {
       // 矩形内文本
       label: {
         text: "我是文本信息",
-        font: "20px 楷体",
+        font_size: 20,
+        font_family: "楷体",
         color: "#ffffff"
       },
       // 矩形（可拖拽的）
@@ -175,7 +184,7 @@ export function startDrawGraphic() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -187,7 +196,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
