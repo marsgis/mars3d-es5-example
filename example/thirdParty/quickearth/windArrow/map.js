@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 const { bufferExtent, consts, DAPService, getGridPosIndex, MemoryWindDataProvider, p2h, resourceService } = window.QE // quickearth.core.js
 const { CWindArrowLayer } = window.QEC // quickearth.cesium.js
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 22.585851, lng: 134.468486, alt: 812431.8, heading: 335.5, pitch: -58.1 }
   }
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 let layer
@@ -131,53 +131,53 @@ const load = async (uiConfig, reloadData = false) => {
   layer = arrowLayer
 }
 
-var changePointCount = (pointCount) => {
+export const changePointCount = (pointCount) => {
   uiConfig.pointCount = pointCount
   load(uiConfig)
 }
 
-var changeTransparent = (transparent) => {
+export const changeTransparent = (transparent) => {
   uiConfig.transparent = transparent
   load(uiConfig)
 }
 
-var changeRange = (range) => {
+export const changeRange = (range) => {
   uiConfig.range = range
   load(uiConfig, true)
 }
 
-var changeUseW = (useW) => {
+export const changeUseW = (useW) => {
   uiConfig.useW = useW
   load(uiConfig, true)
 }
 
-var changeShapeScale = (shapeScale) => {
+export const changeShapeScale = (shapeScale) => {
   uiConfig.shapeScale = shapeScale
   layer.setDrawOptions({
     shapeScale
   })
 }
 
-var changeVdataScale = (vDataScale) => {
+export const changeVdataScale = (vDataScale) => {
   uiConfig.vDataScale = vDataScale
   layer.setDrawOptions({
     vDataScale
   })
 }
 
-var changeShininess = (shininess) => {
+export const changeShininess = (shininess) => {
   uiConfig.shininess = shininess
   layer.setDrawOptions({
     shininess
   })
 }
-var changeSpecular = (specular) => {
+export const changeSpecular = (specular) => {
   uiConfig.specular = specular
   layer.setDrawOptions({
     specular
   })
 }
-var changeColor = (emission) => {
+export const changeColor = (emission) => {
   uiConfig.emission = emission
   layer.setDrawOptions({
     emission

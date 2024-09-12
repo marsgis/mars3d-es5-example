@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
-var fixedRoute
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let fixedRoute
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.824853, lng: 117.221414, alt: 1452, heading: 355, pitch: -54 }
   },
@@ -22,7 +22,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -44,7 +44,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -183,10 +183,10 @@ function bindPopup(fixedRoute) {
 }
 
 // ui层使用
-function formatDistance(val) {
+export function formatDistance(val) {
   return mars3d.MeasureUtil.formatDistance(val, { getLangText })
 }
-function formatTime(val) {
+export function formatTime(val) {
   return mars3d.Util.formatTime(val, { getLangText })
 }
 

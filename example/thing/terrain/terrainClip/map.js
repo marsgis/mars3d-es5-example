@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let terrainClip
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 0, pitch: -56 }
   }
 }
 
-var eventTabel = new mars3d.BaseClass()
+export const eventTabel = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ var eventTabel = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
@@ -25,11 +25,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function addTerrainClip(height) {
+export function addTerrainClip(height) {
   terrainClip = new mars3d.thing.TerrainClip({
     diffHeight: height, // 井的深度
     image: "img/textures/poly-stone.jpg",
@@ -68,7 +68,7 @@ function addTerrainClip(height) {
 }
 
 // 添加矩形
-async function btnDrawExtent(isShow) {
+export async function btnDrawExtent(isShow) {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -86,7 +86,7 @@ async function btnDrawExtent(isShow) {
   addTableItem(areaItem, isShow)
 }
 // 添加多边形
-async function btnDraw(isShow) {
+export async function btnDraw(isShow) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -105,27 +105,27 @@ async function btnDraw(isShow) {
 }
 
 // 清除
-function removeAll() {
+export function removeAll() {
   terrainClip.clear() // 清除挖地区域
 }
 
 // 改变切割的深度
-function changeClipHeight(val) {
+export function changeClipHeight(val) {
   terrainClip.diffHeight = val
 }
 
 // 是否挖地
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainClip.enabled = val
 }
 
 // 是否外切割
-function chkUnionClippingRegions(val) {
+export function chkUnionClippingRegions(val) {
   terrainClip.clipOutSide = val
 }
 
 // 是否深度检测
-function chkTestTerrain(val) {
+export function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
@@ -135,17 +135,17 @@ function addTableItem(item) {
 }
 
 // 表格操作
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = terrainClip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
-function deletedGraphic(item) {
+export function deletedGraphic(item) {
   const graphic = terrainClip.getAreaById(item)
   terrainClip.removeArea(graphic)
 }
 
-function showHideArea(id, selected) {
+export function showHideArea(id, selected) {
   if (selected) {
     terrainClip.showArea(id)
   } else {

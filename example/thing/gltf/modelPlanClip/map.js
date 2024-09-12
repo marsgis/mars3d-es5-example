@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let modelPlanClip
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
     fxaa: true
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -48,25 +48,25 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function rangeDistance(value) {
+export function rangeDistance(value) {
   modelPlanClip.distance = value
 }
 
-function rangeNormalZ(value) {
+export function rangeNormalZ(value) {
   modelPlanClip.normalZ = value
 }
 
 // 更改切换方向
-function clippingType(clipType) {
+export function clippingType(clipType) {
   modelPlanClip.clipType = mars3d.ClipType[clipType]
 }
 
 // 绘制线
-async function drawLine() {
+export async function drawLine() {
   modelPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -84,7 +84,7 @@ async function drawLine() {
   modelPlanClip.positions = positions
 }
 // 绘制矩形
-async function drawExtent() {
+export async function drawExtent() {
   modelPlanClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -103,7 +103,7 @@ async function drawExtent() {
 }
 
 // 绘制面
-async function drawPoly() {
+export async function drawPoly() {
   modelPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -122,7 +122,7 @@ async function drawPoly() {
   modelPlanClip.positions = positions
 }
 // 绘制面(外切)
-async function drawPoly2() {
+export async function drawPoly2() {
   modelPlanClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -141,6 +141,6 @@ async function drawPoly2() {
   modelPlanClip.positions = positions
 }
 
-function clear() {
+export function clear() {
   modelPlanClip.clear()
 }

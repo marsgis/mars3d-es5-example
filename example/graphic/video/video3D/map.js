@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 let selectedView
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.843175, lng: 117.205295, alt: 223, heading: 178, pitch: -75 },
     globe: {
@@ -24,7 +24,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("操作提示：", `请鼠标单击地图任意处，浏览器安全机制需要鼠标操作才能自动开始播放视频。`)
@@ -64,17 +64,17 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   selectedView = graphicLayer.getGraphicById(graphicId)
   return selectedView
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -106,7 +106,7 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function startDrawGraphic() {
+export function startDrawGraphic() {
   // 开始绘制
   graphicLayer.startDraw({
     type: "video3D",
@@ -119,7 +119,7 @@ function startDrawGraphic() {
   })
 }
 
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
@@ -222,36 +222,36 @@ function getSampledPositionProperty(points) {
   return property
 }
 
-function onChangeAngle(value) {
+export function onChangeAngle(value) {
   if (selectedView) {
     selectedView.angle = value
   }
 }
 
-function onChangeAngle2(value) {
+export function onChangeAngle2(value) {
   if (selectedView) {
     selectedView.angle2 = value
   }
 }
 
-function onChangeDistance(value) {
+export function onChangeDistance(value) {
   if (selectedView) {
     selectedView.distance = value
   }
 }
 
-function onChangeHeading(value) {
+export function onChangeHeading(value) {
   if (selectedView) {
     selectedView.heading = value
   }
 }
-function onChangeMirror(value) {
+export function onChangeMirror(value) {
   if (selectedView) {
     selectedView.flipx = value
   }
 }
 
-async function onClickSelView() {
+export async function onClickSelView() {
   if (!selectedView) {
     return
   }
@@ -263,41 +263,41 @@ async function onClickSelView() {
   selectedView.targetPosition = point
 }
 
-function onChangePitch(value) {
+export function onChangePitch(value) {
   if (selectedView) {
     selectedView.pitch = value
   }
 }
 
 // 线框是否显示
-function showFrustum(ckd) {
+export function showFrustum(ckd) {
   if (selectedView) {
     selectedView.showFrustum = ckd
   }
 }
 
-function onChangeOpacity(value) {
+export function onChangeOpacity(value) {
   if (selectedView) {
     selectedView.opacity = value
   }
 }
 
 // 播放暂停
-function playOrpause() {
+export function playOrpause() {
   if (selectedView) {
     selectedView.play = !selectedView.play
   }
 }
 
 // 定位至视频位置
-function locate() {
+export function locate() {
   if (selectedView) {
     selectedView.setView()
   }
 }
 
 // 打印参数
-function printParameters() {
+export function printParameters() {
   if (!selectedView) {
     return
   }
@@ -307,7 +307,7 @@ function printParameters() {
 }
 
 // 视频位置
-async function selCamera() {
+export async function selCamera() {
   if (!selectedView) {
     return
   }
@@ -319,7 +319,7 @@ async function selCamera() {
   selectedView.position = point
 }
 
-function draWall() {
+export function draWall() {
   map.graphicLayer.startDraw({
     type: "wall",
     style: {

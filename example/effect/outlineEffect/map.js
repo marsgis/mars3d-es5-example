@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.653633, lng: 117.075814, alt: 310, heading: 33, pitch: -29 }
   }
@@ -17,7 +17,7 @@ let outlineEffect
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加模型
@@ -123,7 +123,8 @@ function onMounted(mapInstance) {
   outlineEffect = new mars3d.effect.OutlineEffect({
     color: "#FFFF00",
     width: 4,
-    eventType: mars3d.EventType.click
+    eventType: mars3d.EventType.click,
+    closeOnClick: true
   })
   map.addEffect(outlineEffect)
 
@@ -142,7 +143,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -192,36 +193,36 @@ function processTileFeatures(tile, callback) {
   }
 }
 
-function changeState(val) {
+export function changeState(val) {
   outlineEffect.enabled = val
 }
-function changeWidth(val) {
+export function changeWidth(val) {
   outlineEffect.width = val
 }
 
-function changeColor(val) {
+export function changeColor(val) {
   outlineEffect.color = val
 }
 
-function changeColorHidden(val) {
+export function changeColorHidden(val) {
   outlineEffect.colorHidden = val
 }
 
-function changeShowPlane(val) {
+export function changeShowPlane(val) {
   outlineEffect.showPlane = val
 }
 
-function changePlaneAngle(val) {
+export function changePlaneAngle(val) {
   outlineEffect.planeAngle = val
 }
 
-function changeGlow(val) {
+export function changeGlow(val) {
   outlineEffect.glow = val
 }
-function changeGlowPower(val) {
+export function changeGlowPower(val) {
   outlineEffect.glowPower = val
 }
 
-function changeGlowStrength(val) {
+export function changeGlowStrength(val) {
   outlineEffect.glowStrength = val
 }

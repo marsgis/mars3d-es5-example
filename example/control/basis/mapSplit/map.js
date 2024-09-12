@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let mapSplit
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 34.213866, lng: 108.956499, alt: 832, heading: 22, pitch: -35 }
   },
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   createControl()
@@ -37,30 +37,21 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function createControl() {
+export function createControl() {
   if (mapSplit) {
     return
   }
   map.basemap = null
   mapSplit = new mars3d.control.MapSplit({
-    rightLayer: [
-      { name: "天地图卫星", type: "tdt", layer: "img_d" },
-      {
-        name: "大雁塔",
-        type: "3dtiles",
-        url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
-        position: { alt: -27 }
-      }
-    ],
     leftLayer: [
       { name: "天地图电子", type: "tdt", layer: "vec_d" },
       { name: "天地图注记", type: "tdt", layer: "vec_z" },
       {
-        name: "大雁塔",
+        name: "大雁塔left",
         type: "3dtiles",
         url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
         position: { alt: -27 },
@@ -68,7 +59,18 @@ function createControl() {
           color: {
             conditions: [["true", "rgba(255,255,0,0.8)"]]
           }
-        }
+        },
+        popup: "我是left侧模型"
+      }
+    ],
+    rightLayer: [
+      { name: "天地图卫星", type: "tdt", layer: "img_d" },
+      {
+        name: "大雁塔right",
+        type: "3dtiles",
+        url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
+        position: { alt: -27 },
+        popup: "我是right侧模型"
       }
     ]
   })
@@ -77,6 +79,32 @@ function createControl() {
   mapSplit.on(mars3d.EventType.mouseMove, function (event) {
     console.log("拖动了mapSplit控件", event)
   })
+
+  // mapSplit.leftLayer[2].bindContextMenu([
+  //   {
+  //     text: "删除left图层",
+  //     icon: "fa fa-trash-o",
+  //     callback: (e) => {
+  //       const layer = e.layer
+  //       if (layer) {
+  //         layer.remove()
+  //       }
+  //     }
+  //   }
+  // ])
+
+  // mapSplit.rightLayer[1].bindContextMenu([
+  //   {
+  //     text: "删除right图层",
+  //     icon: "fa fa-trash-o",
+  //     callback: (e) => {
+  //       const layer = e.layer
+  //       if (layer) {
+  //         layer.remove()
+  //       }
+  //     }
+  //   }
+  // ])
 
   window.mapSplit = mapSplit // only for test
 
@@ -89,7 +117,7 @@ function createControl() {
   mapSplit.container.appendChild(splitter)
 }
 
-function destroyControl() {
+export function destroyControl() {
   if (mapSplit) {
     map.removeControl(mapSplit)
     mapSplit = null

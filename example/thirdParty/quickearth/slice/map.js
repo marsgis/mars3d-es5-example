@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 29.533638, lng: 116.580224, alt: 194274.9, heading: 31.1, pitch: -31.4 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
@@ -25,7 +25,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -75,7 +75,7 @@ async function initDemoData() {
   map.scene.primitives.add(collection)
 }
 
-function changeScale(scale) {
+export function changeScale(scale) {
   for (let index = 0; index < collection.length; index++) {
     const item = collection.get(index)
     item.setDrawOptions({

@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let slope
 let contourLine
 let graphicLayer
@@ -11,7 +11,7 @@ let graphicLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -24,7 +24,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -84,7 +84,7 @@ function addSlope() {
 // }
 
 // 添加矩形
-async function btnDrawExtent(splitNum) {
+export async function btnDrawExtent(splitNum) {
   clearAll()
   const graphic = await graphicLayer.startDraw({
     type: "rectangle",
@@ -108,7 +108,7 @@ async function btnDrawExtent(splitNum) {
 }
 
 // 绘制多边形
-async function btnDraw(splitNum) {
+export async function btnDraw(splitNum) {
   clearAll()
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
@@ -134,7 +134,7 @@ async function btnDraw(splitNum) {
 }
 
 // 添加点
-async function btnDrawPoint() {
+export async function btnDrawPoint() {
   clearAll()
 
   const graphic = await graphicLayer.startDraw({
@@ -149,11 +149,11 @@ async function btnDrawPoint() {
   slope.add(positions)
 }
 // 改变阴影
-function changeShadingType(val) {
+export function changeShadingType(val) {
   contourLine.shadingType = val
 }
 
-function clearAll() {
+export function clearAll() {
   slope.clear()
   contourLine.clear()
 }

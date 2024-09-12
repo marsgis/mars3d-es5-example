@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.471758, lng: 117.20494, alt: 47660, heading: 4, pitch: -45 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -56,7 +56,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   graphicLayer.remove()
   graphicLayer = null
@@ -155,6 +155,7 @@ function addDemoGraphic2(graphicLayer) {
     ],
     style: {
       width: 6,
+      arcType: Cesium.ArcType.GEODESIC,
       materialType: mars3d.MaterialType.PolylineOutline,
       materialOptions: {
         color: Cesium.Color.ORANGE,
@@ -624,7 +625,7 @@ function addDemoGraphic18(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -655,7 +656,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "polyline",
     // maxPointNum: 2, //可以限定最大点数，2个点绘制后自动结束
@@ -676,7 +677,7 @@ function startDrawGraphic() {
 }
 
 // 开始绘制
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -688,7 +689,7 @@ function startDrawGraphic2() {
 }
 
 // 开始绘制 自由曲线
-function startDrawBrushLine() {
+export function startDrawBrushLine() {
   graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -700,7 +701,7 @@ function startDrawBrushLine() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -712,7 +713,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

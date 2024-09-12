@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.859438, lng: 116.304605, alt: 1515, heading: 301, pitch: -50 }
   },
@@ -14,7 +14,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到组件中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到组件中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -22,7 +22,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -33,11 +33,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-var fixedRoute
+export let fixedRoute
 
 function addGraphicLayer() {
   // 创建矢量数据图层
@@ -193,7 +193,7 @@ function addGraphicLayer() {
 }
 
 // 改变视角模式
-function updateCameraSetting(data) {
+export function updateCameraSetting(data) {
   const cameraType = data.select
   const followedX = data.followedX
   const followedZ = data.followedZ
@@ -261,8 +261,8 @@ function bindPopup(fixedRoute) {
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export const formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatTime = mars3d.Util.formatTime
 
 // 节流
 function throttled(fn, delay) {
