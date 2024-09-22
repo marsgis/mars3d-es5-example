@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.667593, lng: 117.163634, alt: 5394.7, heading: 358.7, pitch: -55.8 }
   },
   terrain: false
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 let graphicLayer
 let graphic1
@@ -22,7 +22,7 @@ let graphic3
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -62,15 +62,15 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function removeAll() {
+function removeAll() {
   hideTipMarker()
 }
 
-export function measureSection() {
+function measureSection() {
   graphicLayer
     .startDraw({
       type: "polyline",
@@ -87,7 +87,7 @@ export function measureSection() {
     })
 }
 
-export const formatDistance = mars3d.MeasureUtil.formatDistance
+var formatDistance = mars3d.MeasureUtil.formatDistance
 
 async function computeStepSurfaceLine(positions) {
   const newPositions = mars3d.PolyUtil.interPolyline({
@@ -187,7 +187,7 @@ let tipGraphic
  * @param {html} inthtml html
  * @returns {void}
  */
-export function showTipMarker(point, z, inthtml) {
+function showTipMarker(point, z, inthtml) {
   const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
@@ -208,7 +208,7 @@ export function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-export function hideTipMarker() {
+function hideTipMarker() {
   if (!tipGraphic) {
     return
   }

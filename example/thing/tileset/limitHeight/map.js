@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let limitHeight
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.794547, lng: 117.21215, alt: 1672, heading: 18, pitch: -33 }
   }
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -75,20 +75,20 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 滑动条
-export function currHeight(value) {
+function currHeight(value) {
   limitHeight.height = value
 }
-export function setDiffHeight(value) {
+function setDiffHeight(value) {
   limitHeight.diffHeight = value
 }
 
 // 绘制矩形
-export async function drawExtent() {
+async function drawExtent() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -105,7 +105,7 @@ export async function drawExtent() {
 }
 
 // 绘制面
-export async function drawPolygon() {
+async function drawPolygon() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -122,7 +122,7 @@ export async function drawPolygon() {
   console.log("绘制坐标为", JSON.stringify(mars3d.LngLatArray.toArray(positions))) // 方便测试拷贝坐标
 }
 
-export function clear() {
+function clear() {
   limitHeight.clear()
   map.graphicLayer.clear()
 }

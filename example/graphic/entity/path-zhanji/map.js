@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let linePositions
 let graphicPath
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 20.803452, lng: 116.629014, alt: 1734203, heading: 3, pitch: -57 }
   }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addDemoGraphics()
@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -132,13 +132,13 @@ function addDemoGraphics() {
 }
 
 // 顶视图
-export function viewSeeTop() {
+function viewSeeTop() {
   map.trackedEntity = undefined
 
   map.flyToPositions(linePositions, { pitch: -90 })
 }
 // 侧视图
-export function viewSeeCe() {
+function viewSeeCe() {
   map.trackedEntity = graphicPath
 
   graphicPath.flyToPoint({
@@ -148,7 +148,7 @@ export function viewSeeCe() {
   })
 }
 // 主视图
-export function viewSeeHome() {
+function viewSeeHome() {
   map.trackedEntity = graphicPath
 
   graphicPath.flyToPoint({

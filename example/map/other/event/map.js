@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   layers: [
     {
       type: "geojson",
@@ -30,7 +30,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   map.on(mars3d.EventType.load, function (event) {
@@ -54,23 +54,23 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 let clickTimeId // 双击会触发两次单击事件的解决
-export function map_clickHandler(event) {
+function map_clickHandler(event) {
   clearTimeout(clickTimeId)
   clickTimeId = setTimeout(function () {
     console.log("鼠标单击", event)
   }, 250)
 }
 
-export function map_dblClickHandler(event) {
+function map_dblClickHandler(event) {
   clearTimeout(clickTimeId)
   console.log("鼠标双击地图", event)
 }
 
-export function map_cameraChangedHandler(event) {
+function map_cameraChangedHandler(event) {
   console.log("相机位置完成", event)
 }

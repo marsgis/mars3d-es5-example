@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 36.873519, lng: 106.863496, alt: 19999205, heading: 354, pitch: -89 },
     cameraController: {
@@ -28,7 +28,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
@@ -36,11 +36,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function show1() {
+function show1() {
   // 修改天空盒
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
@@ -54,7 +54,7 @@ export function show1() {
   })
 }
 
-export function show2() {
+function show2() {
   // 修改天空盒
   // map.scene.skyBox = new Cesium.SkyBox({
   //   sources: {
@@ -84,7 +84,7 @@ export function show2() {
   })
 }
 
-export function show3() {
+function show3() {
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
       negativeX: "img/skybox/3/tycho2t3_80_mx.jpg",
@@ -97,7 +97,7 @@ export function show3() {
   })
 }
 
-export function show4() {
+function show4() {
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
       negativeX: "img/skybox/4/tycho2t3_80_mx.jpg",
@@ -110,7 +110,7 @@ export function show4() {
   })
 }
 
-export function show5() {
+function show5() {
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
       negativeX: "img/skybox/5/tycho2t3_80_mx.jpg",
@@ -123,7 +123,7 @@ export function show5() {
   })
 }
 
-export function show6() {
+function show6() {
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
       negativeX: "img/skybox/6/tycho2t3_80_mx.jpg",

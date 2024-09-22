@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export { mars3d }
+{ mars3d }
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -13,7 +13,7 @@ export const eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -51,7 +51,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -434,7 +434,7 @@ function getSampledPositionProperty(points) {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -463,7 +463,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "billboard",
     style: {
@@ -483,7 +483,7 @@ export function startDrawGraphic() {
   })
 }
 
-export function btnStartBounce() {
+function btnStartBounce() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.startBounce) {
       graphic.startBounce()
@@ -491,7 +491,7 @@ export function btnStartBounce() {
   })
 }
 
-export function btnStartBounce2() {
+function btnStartBounce2() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.startBounce) {
       graphic.startBounce({
@@ -503,7 +503,7 @@ export function btnStartBounce2() {
   })
 }
 
-export function btnStopBounce() {
+function btnStopBounce() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.stopBounce) {
       graphic.stopBounce()
@@ -512,7 +512,7 @@ export function btnStopBounce() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     if (event.graphics?.length > 1) {
       return `您单击了重叠图标，该区域有${event.graphics.length}个对象` // 如果存在坐标完全相同的图标点时
@@ -528,7 +528,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

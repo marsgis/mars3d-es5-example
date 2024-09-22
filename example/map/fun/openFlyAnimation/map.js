@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.309522, lng: 116.275765, alt: 69659, heading: 0, pitch: -45 }
   }
@@ -20,7 +20,7 @@ export const mapOptions = {
 }
 
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 
 /**
@@ -29,7 +29,7 @@ export let map // mars3d.Map三维地图对象
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   startAnimation()
@@ -39,23 +39,22 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function startAnimation() {
+function startAnimation() {
   map.flyHome({ duration: 0 })
 
   // 开场动画
   map.openFlyAnimation({
     // duration1:4,
     // easingFunction1: Cesium.EasingFunction.QUINTIC_IN_OUT,
-    callback: function () {
-      // 动画播放完成后回调
-    }
+  }).then(() => {
+    // 动画播放完成后回调
   })
 }
 
-export function stopAnimation() {
+function stopAnimation() {
   map.camera.cancelFlight()
 }
