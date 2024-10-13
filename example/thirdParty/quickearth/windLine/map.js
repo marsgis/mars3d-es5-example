@@ -155,8 +155,8 @@ const load = async (uiConfig, reloadData = false) => {
   }
   const layerInfo = await new CTracingService().tracingStreamLinesAsync(tracingOptions)
   const primitive = new CGeometryLayer(layerInfo)
-  primitive.setDataSource(windProvider)
-  primitive.setDrawOptions({
+  primitive?.setDataSource(windProvider)
+  primitive?.setDrawOptions({
     fillColor: "color-wind#res",
     fillMode: GridDataGLFillMode.pixel1,
     zScale: zScale,
@@ -193,19 +193,19 @@ var changeUseW = (useW) => {
 
 var changeShininess = (shininess) => {
   uiConfig.shininess = shininess
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     shininess
   })
 }
 var changeSpecular = (specular) => {
   uiConfig.specular = specular
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     specular
   })
 }
 var changeColor = (emission) => {
   uiConfig.emission = emission
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     emission
   })
 }

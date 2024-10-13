@@ -118,8 +118,8 @@ const load = async (uiConfig, reloadData = false) => {
 
   const zScale = 10
   const arrowLayer = new CWindArrowLayer({ debugShowPerformance: true })
-  arrowLayer.setDataSource(windProvider)
-  arrowLayer.setDrawOptions({
+  arrowLayer?.setDataSource(windProvider)
+  arrowLayer?.setDrawOptions({
     fillColor: "color-wind#res",
     zScale,
     shapeScale: uiConfig.shapeScale,
@@ -153,33 +153,33 @@ var changeUseW = (useW) => {
 
 var changeShapeScale = (shapeScale) => {
   uiConfig.shapeScale = shapeScale
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     shapeScale
   })
 }
 
 var changeVdataScale = (vDataScale) => {
   uiConfig.vDataScale = vDataScale
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     vDataScale
   })
 }
 
 var changeShininess = (shininess) => {
   uiConfig.shininess = shininess
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     shininess
   })
 }
 var changeSpecular = (specular) => {
   uiConfig.specular = specular
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     specular
   })
 }
 var changeColor = (emission) => {
   uiConfig.emission = emission
-  layer.setDrawOptions({
+  layer?.setDrawOptions({
     emission
   })
 }

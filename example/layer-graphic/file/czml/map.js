@@ -243,8 +243,8 @@ function showFireDrill() {
 }
 
 function flytoModel(id) {
-  const graphic = graphicLayer.getGraphicById(id)
-  if (graphic) {
-    graphic.flyTo()
+  const entity = graphicLayer.getEntityById(id)
+  if (entity) {
+    map.flyTo(entity)
   }
 }
