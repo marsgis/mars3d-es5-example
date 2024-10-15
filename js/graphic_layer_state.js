@@ -407,15 +407,7 @@ function tableInit(data) {
             }
           },
           "click .edit": function (e, value, row, index) {
-            const graphic = graphicLayer.getGraphicById(row.id)
-            // const graphic = getGraphic(row.id)
-            // 矢量数据不能处于编辑状态，否则点光源示例点击编辑时会失去光
-            // graphic.hasEdit && graphic.startEditing()
-            if ($("#infoview-left").length > 0) {
-              $("#infoview-left").show()
-            } else {
-              showEditor({ graphic })
-            }
+            startEditGraphic(row.id)
           }
         },
         formatter: function (value, row, index) {
@@ -439,6 +431,18 @@ function tableInit(data) {
       onSelectTableItem(row.id, false)
     }
   })
+}
+
+function startEditGraphic(id) {
+  const graphic = graphicLayer.getGraphicById(id)
+  // const graphic = getGraphic(row.id)
+  // 矢量数据不能处于编辑状态，否则点光源示例点击编辑时会失去光
+  // graphic.hasEdit && graphic.startEditing()
+  if ($("#infoview-left").length > 0) {
+    $("#infoview-left").show()
+  } else {
+    showEditor({ graphic })
+  }
 }
 
 // 更新表格数据
@@ -493,6 +497,11 @@ function getTableData(graphicLayer) {
 
   const graphicList = getDataByLayer(graphicLayer)
   tableInit(graphicList)
+
+  // 当加载矢量只有一条时，自动打开编辑面板
+  if (graphicList.length === 1) {
+    startEditGraphic(graphicList[0].id)
+  }
 }
 
 function getItemName(graphic) {
