@@ -183,8 +183,10 @@
     }
 
     eventTabel.on("tableObject", function (event) {
-      dataSource = event.table
-      addTable(dataSource[dataSource.length - 1])
+      if (!event.tableItem) {
+        return
+      }
+      addTable(event.tableItem)
     })
   </script>
 </body>

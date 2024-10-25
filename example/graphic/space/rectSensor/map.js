@@ -189,6 +189,24 @@ function startDrawGraphic() {
   })
 }
 
+// 开始绘制
+async function startDrawGraphic2() {
+  const graphic = await graphicLayer.startDraw({
+    type: "rectSensor",
+    style: {
+      angle1: 30,
+      angle2: 30,
+      length: 100,
+      pitch: 180,
+      color: "rgba(0,255,0,0.4)",
+      outline: true,
+      topShow: true,
+      topSteps: 2
+    }
+  })
+  graphic.position = mars3d.PointUtil.addPositionsHeight(graphic.position, 100)
+}
+
 // 凝视目标
 async function changeLookAt() {
   const cone = graphicLayer.graphics[0]

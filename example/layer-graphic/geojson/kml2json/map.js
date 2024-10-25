@@ -1,4 +1,5 @@
 // import * as mars3d from "mars3d"
+// import { Kml2JsonLayer } from "./Kml2JsonLayer.js"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
@@ -76,7 +77,7 @@ function removeLayer() {
 function shoRailway() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Kml2JsonLayer({
+  graphicLayer = new Kml2JsonLayer({
     url: "//data.mars3d.cn/file/kml/hftl.kml",
     symbol: function (attr, style, featue) {
       return {
@@ -128,7 +129,7 @@ function shoRailway() {
 function showExpressway() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Kml2JsonLayer({
+  graphicLayer = new Kml2JsonLayer({
     name: "路线",
     url: "//data.mars3d.cn/file/kml/bslx.kmz",
     popup: "all",
@@ -150,7 +151,7 @@ function showExpressway() {
 function showSafetyNotice() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Kml2JsonLayer({
+  graphicLayer = new Kml2JsonLayer({
     name: "海上安全警告",
     url: "//data.mars3d.cn/file/kml/NAVWARN.kmz",
     symbol: function (attr, style, featue) {
@@ -197,7 +198,7 @@ function showSafetyNotice() {
 function showMeteorological() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Kml2JsonLayer({
+  graphicLayer = new Kml2JsonLayer({
     name: "气象数据",
     url: "//data.mars3d.cn/file/kml/dg8.kml",
     opacity: 0.7,
@@ -221,7 +222,7 @@ function showMeteorological() {
 function showGDP() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Kml2JsonLayer({
+  graphicLayer = new Kml2JsonLayer({
     name: "全球各国GDP",
     url: "//data.mars3d.cn/file/kml/gdpPerCapita2008.kmz",
     symbol: function (attr, style, featue) {

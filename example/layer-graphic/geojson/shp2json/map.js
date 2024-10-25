@@ -1,4 +1,5 @@
 // import * as mars3d from "mars3d"
+// import { Shp2JsonLayer } from "./Shp2JsonLayer.js"
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
@@ -66,7 +67,7 @@ function removeLayer() {
 function shoXZM() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Shp2JsonLayer({
+  graphicLayer = new Shp2JsonLayer({
     url: "http://data.mars3d.cn/file/shp/hefei_xz.zip",
     encoding: "utf-8",
     simplify: { tolerance: 0.0001 },
@@ -112,7 +113,7 @@ function shoXZM() {
 function shoGCD() {
   removeLayer()
 
-  graphicLayer = new mars3d.layer.Shp2JsonLayer({
+  graphicLayer = new Shp2JsonLayer({
     url: "http://data.mars3d.cn/file/shp/yuexi_point.zip",
     symbol: {
       type: "pointP",

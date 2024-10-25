@@ -80,10 +80,11 @@
   <script type="text/javascript">
     "use script" //开发环境建议开启严格模式
 
-    let dataSource = []
     eventTabel.on("tableObject", function (event) {
-      dataSource = event.table
-      addTable(dataSource[dataSource.length - 1])
+      if (!event.tableItem) {
+        return
+      }
+      addTable(event.tableItem)
     })
 
     function initUI(options) {
