@@ -497,7 +497,7 @@ function bindLayerContextMenu() {
       icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
-        if (!graphic || graphic.isDestroy) {
+        if (!graphic || graphic.isDestroy || graphic.graphicIds) {
           return false
         } else {
           return true
@@ -516,6 +516,33 @@ function bindLayerContextMenu() {
       }
     },
     {
+      text: "查看聚合列表",
+      icon: "fa fa-info",
+      show: (event) => {
+        const graphic = event.graphic
+        if (graphic.graphicIds) {
+          return true
+        } else {
+          return false
+        }
+      },
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        if (graphics) {
+          const names = []
+          for (let index = 0; index < graphics.length; index++) {
+            const g = graphics[index]
+            names.push(g.attr.name || g.attr.text || g.id)
+          }
+          return globalAlert(`${names.join(",")}`, `共${graphics.length}个聚合对象`)
+        }
+      }
+    },
+    {
       text: "计算长度",
       icon: "fa fa-medium",
       callback: (e) => {
@@ -524,7 +551,7 @@ function bindLayerContextMenu() {
         globalAlert("该对象的长度为:" + strDis)
       }
     },
-    {
+   {
       text: "计算围合面积",
       icon: "fa fa-reorder",
       show: (event) => {
