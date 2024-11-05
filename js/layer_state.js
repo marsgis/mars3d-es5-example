@@ -221,7 +221,7 @@ function drawFile() {
           //   let geoType = featue.geometry?.type
           //   if (geoType == 'Point') {
           //     return {
-          //       image: 'img/marker/di3.png',
+          //       image: '//data.mars3d.cn/img/marker/lace-red.png',
           //       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           //       scale: 0.4,
           //       label: {

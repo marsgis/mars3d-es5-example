@@ -338,7 +338,7 @@ function initEditorJS(map) {
             material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineFlow, {
               color: Cesium.Color.YELLOW,
               speed: 3, //控制速度
-              url: "img/textures/line-color-yellow.png"
+              url: "//data.mars3d.cn/img/textures/line-color-yellow.png"
             })
           },
           tooltip: "山脊线"
@@ -435,7 +435,7 @@ function initEditorJS(map) {
             material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineFlow, {
               color: Cesium.Color.AQUA,
               speed: 3, //控制速度
-              url: "img/textures/line-color-yellow.png"
+              url: "//data.mars3d.cn/img/textures/line-color-yellow.png"
             })
           },
           tooltip: "山谷线"
@@ -542,7 +542,7 @@ function initEditorJS(map) {
           material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineFlow, {
             color: Cesium.Color.MAGENTA,
             speed: 3, //控制速度
-            url: "img/textures/line-color-yellow.png"
+            url: "//data.mars3d.cn/img/textures/line-color-yellow.png"
           })
         }
       })

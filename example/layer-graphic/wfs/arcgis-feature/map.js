@@ -21,7 +21,7 @@ var mapOptions = {
       symbol: {
         type: "billboardP",
         styleOptions: {
-          image: "img/marker/mark-blue.png",
+          image: "//data.mars3d.cn/img/marker/mark-blue.png",
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           clampToGround: true,
           label: {
