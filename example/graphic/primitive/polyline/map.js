@@ -616,7 +616,7 @@ function bindLayerContextMenu() {
       text: "开始编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        const graphic = e.graphic
+        const graphic = e.graphic_parent ?? e.graphic
         if (!graphic || !graphic.hasEdit) {
           return false
         }
@@ -636,7 +636,7 @@ function bindLayerContextMenu() {
       text: "停止编辑对象",
       icon: "fa fa-edit",
       show: function (e) {
-        const graphic = e.graphic
+        const graphic = e.graphic_parent ?? e.graphic
         if (!graphic || !graphic.hasEdit) {
           return false
         }
