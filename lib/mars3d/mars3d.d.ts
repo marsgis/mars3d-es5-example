@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.8.7
- * 编译日期：2024-11-14 18:36
+ * 编译日期：2024-11-17 22:48
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2024-08-01
  */
@@ -21354,6 +21354,12 @@ declare class BaseLayer extends BaseClass {
      */
     show: boolean;
     /**
+     * 获取当前对象真实实际的显示状态
+     * @param time - 当前时间
+     * @returns 真实的实时显示状态，当时序范围外，被聚合时返回的是false
+     */
+    getRealShow(time: Cesium.JulianDate): boolean;
+    /**
      * 是否可以调整透明度
      */
     readonly hasOpacity: boolean;
@@ -36338,7 +36344,7 @@ declare class RotatePoint extends BaseThing {
  * 1、右键拖拽，以相机视角为中心进行旋转;
  * 2、中键拖拽，可以升高或降低相机高度;
  * 3、左键双击，飞行定位到该点;
- * 4、右键双击，围绕该点旋转。
+ * 4、右键双击，围绕该点旋转(再次右键单击停止旋转)。
  * @param [options] - 参数对象，包括以下：
  * @param [options.rotateSpeed = 30] - 右键拖拽时，旋转速度，正负控制方向。
  * @param [options.heightStep = 0.2] - 中键拖拽时，高度移动比例，控制升高或降低相机高度的速度
@@ -39855,7 +39861,7 @@ declare namespace PolyUtil {
      * 抽析简化点数量
      * @param positions - 坐标数组
      * @param [options] - 控制参数
-     * @param [options.tolerance = 0.0001] - 简化的程度，传值是经纬度的小数位
+     * @param [options.tolerance = 0.0001] - 简化的程度，传值是经纬度的小数位，比如0.000001、0.00001、0.0001、0.001、0.01
      * @param [options.highQuality = true] - 是否花更多的时间用不同的算法创建更高质量的简化
      * @param [options.mutate = true] - 是否允许对输入进行变异（如果为true，则显著提高性能）
      * @returns 坐标数组
