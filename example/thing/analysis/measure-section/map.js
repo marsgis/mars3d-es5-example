@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measureObj
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   measureObj = new mars3d.thing.Measure({
@@ -62,7 +62,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -95,12 +95,12 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function removeAll() {
+export function removeAll() {
   measureObj.clear()
   hideTipMarker()
 }
 
-function measureSection() {
+export function measureSection() {
   measureObj.section({
     // maxPointNum:2,
     splitNum: 300, // 插值次数
@@ -108,7 +108,7 @@ function measureSection() {
   })
 }
 
-function calculation(params) {
+export function calculation(params) {
   const len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
   const hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
 
@@ -125,7 +125,7 @@ let tipGraphic
  * @param {html} inthtml html
  * @returns {void}
  */
-function showTipMarker(point, z, inthtml) {
+export function showTipMarker(point, z, inthtml) {
   const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
@@ -146,7 +146,7 @@ function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-function hideTipMarker() {
+export function hideTipMarker() {
   if (!tipGraphic) {
     return
   }

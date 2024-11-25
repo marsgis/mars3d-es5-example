@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let terrainPlanClip
 let tilesetLayer
@@ -11,7 +11,7 @@ let tilesetLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
 
@@ -53,13 +53,13 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   clear()
   map = null
 }
 
 // 绘制线
-async function drawLine() {
+export async function drawLine() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -80,7 +80,7 @@ async function drawLine() {
 }
 
 // 绘制矩形
-async function drawExtent() {
+export async function drawExtent() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -100,7 +100,7 @@ async function drawExtent() {
 }
 
 // 绘制面
-async function drawPoly() {
+export async function drawPoly() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -119,7 +119,7 @@ async function drawPoly() {
 }
 
 // 绘制面(外切)
-async function drawPoly2() {
+export async function drawPoly2() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -139,24 +139,24 @@ async function drawPoly2() {
 }
 
 // 更改切换方向
-function clippingType(type) {
+export function clippingType(type) {
   tilesetLayer.planClip.clipType = mars3d.ClipType[type]
 }
 
 // 距离
-function rangeDistance(value) {
+export function rangeDistance(value) {
   tilesetLayer.planClip.distance = value
 }
 
-function rangeAngle1(value) {
+export function rangeAngle1(value) {
   tilesetLayer.planClip.angle1 = value
 }
-function rangeAngle2(value) {
+export function rangeAngle2(value) {
   tilesetLayer.planClip.angle2 = value
 }
 
 
-function clear() {
+export function clear() {
   tilesetLayer.planClip.clear()
   terrainPlanClip.clear()
 }

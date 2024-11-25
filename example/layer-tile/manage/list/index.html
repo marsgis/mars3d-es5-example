@@ -49,10 +49,35 @@
       }
 
       //===========================树控件处理============================
-      let layers = []
-      let layersObj = {}
-
       function initTree() {
+        const result = getLayrsTree({
+          basemaps: true, // 是否取config.json中的basempas
+          filter: function (layer) {
+            if (!layer.name) {
+              console.log("未命名图层不加入图层管理", layer)
+              return false // 未命名图层不在管理器展示
+            }
+            return true
+          },
+          forEach: function (item, layer) {
+            let node = {
+              id: item.id,
+              pId: item.pid ?? -1,
+              name: item.name,
+              checked: item.show
+            }
+
+            if (item.group) {
+              node.icon = item.layers?.length > 0 ? "/lib/jquery/ztree/css/mars/images/layerGroup.png" : "/lib/jquery/ztree/css/mars/images/folder.png"
+              node.open = item.open !== false
+            } else {
+              node.icon = "/lib/jquery/ztree/css/mars/images/layer.png"
+            }
+            return node
+          }
+        })
+        console.log("图层树信息", result)
+
         //初始化树
         let setting = {
           check: {
@@ -68,61 +93,9 @@
             onDblClick: treeOverlays_onDblClick
           }
         }
-
-        let zNodes = []
-        layers = getLayers()
-
-        //遍历出config.json中所有的basempas和layers
-        for (let i = layers.length - 1; i >= 0; i--) {
-          let node = _getNodeConfig(layers[i])
-          if (node) {
-            zNodes.push(node)
-          }
-        }
-
-        //
-        $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
+        $.fn.zTree.init($("#treeOverlays"), setting, result.list)
       }
 
-      function _getNodeConfig(layer) {
-        if (layer == null || layer.isPrivate) {
-          return
-        }
-
-        let item = layer.options
-
-        if (item.name == "未命名") {
-          return
-        }
-
-        let node = {
-          id: layer.id,
-          pId: layer.pid,
-          name: layer.name
-        }
-
-        if (layer.hasEmptyGroup) {
-          //空数组
-          node.icon = "/lib/jquery/ztree/css/mars/images/folder.png"
-          node.open = item.open == null ? true : item.open
-          layersObj[node.id] = layer
-        } else if (layer.hasChildLayer) {
-          //有子节点的数组
-          node.icon = "/lib/jquery/ztree/css/mars/images/layerGroup.png"
-          node.open = item.open == null ? true : item.open
-          layersObj[node.id] = layer
-        } else {
-          node.icon = "/lib/jquery/ztree/css/mars/images/layer.png"
-          node.checked = layer.isAdded && layer.show
-
-          if (layer.parent) {
-            node._parentId = layer.parent.id
-          }
-          //记录图层
-          layersObj[node.id] = layer
-        }
-        return node
-      }
       function treeOverlays_onCheck(e, treeId, chktreeNode) {
         let treeObj = $.fn.zTree.getZTreeObj(treeId)
         //获得所有改变check状态的节点
@@ -140,7 +113,7 @@
             continue
           }
 
-          let layer = layersObj[treeNode.id]
+          let layer = getLayerById(treeNode.id)
           if (layer == null) {
             continue
           }
@@ -156,27 +129,11 @@
         }
       }
 
-      //更新图层:显示隐藏状态
-      function updateLayerShow(layer, show) {
-        layer.show = show
-
-        if (show) {
-          if (!layer.isAdded) {
-            addLayer(layer)
-            layer.flyTo()
-          }
-        } else {
-          if (layer.isAdded) {
-            layer.show = false
-          }
-        }
-      }
-
       function treeOverlays_onDblClick(event, treeId, treeNode) {
         if (treeNode == null || treeNode.id == null) {
           return
         }
-        let layer = layersObj[treeNode.id]
+        let layer = getLayerById(treeNode.id)
         if (layer == null) {
           return
         }

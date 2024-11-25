@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let queryMapserver
 let drawGraphic
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 }
   },
@@ -15,7 +15,7 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -23,7 +23,7 @@ var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 用于参考
@@ -68,12 +68,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 框选查询 矩形
-async function drawRectangle() {
+export async function drawRectangle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -88,7 +88,7 @@ async function drawRectangle() {
   })
 }
 // 框选查询   圆
-async function drawCircle() {
+export async function drawCircle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -103,7 +103,7 @@ async function drawCircle() {
   })
 }
 // 框选查询   多边行
-async function drawPolygon() {
+export async function drawPolygon() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -118,14 +118,14 @@ async function drawPolygon() {
   })
 }
 // 清除数据
-function clearAll() {
+export function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()
 }
 
 // 查询数据
-function queryData(queryVal) {
+export function queryData(queryVal) {
   if (drawGraphic == null) {
     globalMsg("请绘制查询区域！")
     return

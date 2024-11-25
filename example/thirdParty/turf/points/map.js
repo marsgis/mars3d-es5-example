@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let pointsLayer
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -32,13 +32,13 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 // 生成50个随机点
-function randomPoints() {
+export function randomPoints() {
   clearlayer()
 
   const points = turf.randomPoint(50, { bbox }) // 50个随机点
@@ -62,7 +62,7 @@ function randomPoints() {
 }
 
 // 计算包围面
-function convexPolygon() {
+export function convexPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -88,7 +88,7 @@ function convexPolygon() {
 }
 
 // 泰森多边形
-function voronoiPolygon() {
+export function voronoiPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -120,7 +120,7 @@ function voronoiPolygon() {
 }
 
 // 计算TIN多边形
-function tinPolygon() {
+export function tinPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -156,7 +156,7 @@ function tinPolygon() {
 }
 
 // 清除所有矢量图层
-function clearlayer() {
+export function clearlayer() {
   graphicLayer.clear()
   pointsLayer.clear()
 }

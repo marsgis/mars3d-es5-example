@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 属性参数，将覆盖config.json中的对应配置
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 36.045934, lng: 113.942816, alt: 1663, heading: 2, pitch: -25 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -36,7 +36,7 @@ let polyline2
 let contourLine
 
 // 山顶点
-function workPoint1Sdd() {
+export function workPoint1Sdd() {
   clearPoint()
   clearLine()
   map.setCameraView({ lat: 36.061395, lng: 113.94298, alt: 1903, heading: 0, pitch: -57.5 })
@@ -53,7 +53,7 @@ function workPoint1Sdd() {
 }
 
 // 特征点：鞍部点
-function workPoint2Abd() {
+export function workPoint2Abd() {
   clearPoint()
   clearLine()
   // 视角定位
@@ -85,7 +85,7 @@ function workPoint2Abd() {
 }
 
 // 特征点：坡度变换点
-function workPoint3Pdbhd() {
+export function workPoint3Pdbhd() {
   clearPoint()
   clearLine()
   // 视角定位
@@ -102,7 +102,7 @@ function workPoint3Pdbhd() {
 }
 
 // 特征点：山脚点
-function workPoint4Sjd() {
+export function workPoint4Sjd() {
   clearPoint()
   clearLine()
   // 视角定位
@@ -118,7 +118,7 @@ function workPoint4Sjd() {
 }
 
 // 特征点：山脚坡度变化点
-function workPoint5Sjpdbhd() {
+export function workPoint5Sjpdbhd() {
   clearPoint()
   clearLine()
   // 视角定位
@@ -134,7 +134,7 @@ function workPoint5Sjpdbhd() {
 }
 
 // 特征点：倾斜变换点
-function workPoint6Qxbhd() {
+export function workPoint6Qxbhd() {
   clearPoint()
   clearLine()
   // 视角定位
@@ -158,7 +158,7 @@ function workPoint6Qxbhd() {
 }
 
 // 特征线：山脊线
-function workLine1Sjx() {
+export function workLine1Sjx() {
   clearPoint()
   map.setCameraView({
     lat: 36.05982,
@@ -273,7 +273,7 @@ function workLine1Sjx() {
 }
 
 // 特征线：山谷线
-function workLine2Sgx() {
+export function workLine2Sgx() {
   clearPoint()
   map.setCameraView({ lat: 36.05648, lng: 113.944653, alt: 2092, heading: 354.4, pitch: -44.6 })
 
@@ -349,13 +349,13 @@ function workLine2Sgx() {
 }
 
 // 特征线：俯瞰
-function workLine3Fk() {
+export function workLine3Fk() {
   clearPoint()
   map.setCameraView({ lat: 36.070613, lng: 113.943032, alt: 3059, heading: 0.6, pitch: -88.9 })
 }
 
 // 绘制过程：计算通过点
-function workDgx1Point() {
+export function workDgx1Point() {
   clearPoint()
   map.setCameraView({ lat: 36.06874, lng: 113.948078, alt: 811.62, heading: 292.6, pitch: -39.6 })
 
@@ -400,7 +400,7 @@ function workDgx1Point() {
 }
 
 // 绘制过程：等高线绘制
-function workDgx2Line() {
+export function workDgx2Line() {
   clearPoint()
   map.setCameraView({ lat: 36.069792, lng: 113.944474, alt: 1708, heading: 357, pitch: -82 })
 
@@ -489,7 +489,7 @@ function workDgx2Line() {
 }
 
 // 绘制过程：等高线结果
-function workDgx3End() {
+export function workDgx3End() {
   clearPoint()
   map.setCameraView(
     { lat: 36.064736, lng: 113.935567, alt: 1276.68, heading: 52.4, pitch: -44.5, roll: 0, duration: 3 },
@@ -516,7 +516,7 @@ function workDgx3End() {
 }
 
 // 创建点 公共方法
-function createArrPoint(arrPoint) {
+export function createArrPoint(arrPoint) {
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
@@ -554,7 +554,7 @@ function createArrPoint(arrPoint) {
 }
 
 // 创建文本指示  公共方法
-function createArrText(arrPoint, name) {
+export function createArrText(arrPoint, name) {
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
@@ -580,7 +580,7 @@ function createArrText(arrPoint, name) {
 
 // 绕点飞行
 let rotatePoint
-function startRotatePoint(center) {
+export function startRotatePoint(center) {
   if (!rotatePoint) {
     rotatePoint = new mars3d.thing.RotatePoint({
       direction: false, // 方向 true逆时针，false顺时针
@@ -592,19 +592,19 @@ function startRotatePoint(center) {
   rotatePoint.start(center)
 }
 
-function stopRotatePoint() {
+export function stopRotatePoint() {
   if (rotatePoint) {
     rotatePoint.stop()
   }
 }
 
 // 清除页面
-function clear() {
+export function clear() {
   clearPoint()
   clearLine()
 }
 
-function clearPoint() {
+export function clearPoint() {
   pointLayer && pointLayer.destroy()
   textLayer && textLayer.destroy()
   pointLayer = null
@@ -612,7 +612,7 @@ function clearPoint() {
   stopRotatePoint()
 }
 
-function clearLine() {
+export function clearLine() {
   polyLineLayer && polyLineLayer.destroy()
   lineGraphic && lineGraphic.remove()
   polyline1 && polyline1.remove()
@@ -627,6 +627,6 @@ function clearLine() {
 }
 
 // 停止视角定位操作
-function cancelFlight() {
+export function cancelFlight() {
   map.cancelFlight()
 }

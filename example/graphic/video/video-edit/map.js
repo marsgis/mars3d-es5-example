@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
-// import { CanvasEdit } from "./CanvasEdit"
+import * as mars3d from "mars3d"
+import { CanvasEdit } from "./CanvasEdit"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.842839, lng: 117.204275, alt: 269.9, heading: 179, pitch: -77.7 }
   }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -39,14 +39,14 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 
   graphicLayer.remove()
   graphicLayer = null
 }
 
-function creatCanvas(drawVideo) {
+export function creatCanvas(drawVideo) {
   return new CanvasEdit(drawVideo)
 }
 
@@ -70,7 +70,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -101,21 +101,21 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function updateROI(uvROI) {
+export function updateROI(uvROI) {
   if (!videoPolygon || videoPolygon.isDestroy) {
     return
   }
   videoPolygon.rois = uvROI
 }
 
-function clearROI() {
+export function clearROI() {
   if (!videoPolygon || videoPolygon.isDestroy) {
     return
   }
   videoPolygon.rois = undefined
 }
 
-var choosePoint = (isChoosePoint) => {
+export const choosePoint = (isChoosePoint) => {
   if (!videoPolygon || videoPolygon.isDestroy) {
     return
   }
@@ -128,7 +128,7 @@ var choosePoint = (isChoosePoint) => {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer
     .startDraw({
       type: "videoP",
@@ -143,7 +143,7 @@ function startDrawGraphic() {
 }
 
 // 按当前相机投射视频
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   const positions = mars3d.PolyUtil.getMapExtentPositions(map.scene)
   if (positions.length < 3) {
     return
@@ -161,7 +161,7 @@ function startDrawGraphic2() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -173,7 +173,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

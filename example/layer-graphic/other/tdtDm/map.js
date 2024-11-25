@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 23.816631, lng: 111.688366, alt: 4605984, heading: 355, pitch: -80 }
   },
@@ -44,7 +44,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `(1) 使用国家测绘局天地图在线地名服务。(2) 如未显示地名，可能是服务不稳定造成`)
@@ -64,6 +64,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

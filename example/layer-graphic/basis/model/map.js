@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.799033, lng: 117.177563, alt: 4324.03, heading: 0, pitch: -45, roll: 0 },
     fxaa: true
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -30,11 +30,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function removeLayer() {
+export function removeLayer() {
   map.trackedEntity = null
   if (graphicLayer) {
     map.removeLayer(graphicLayer, true)
@@ -51,7 +51,7 @@ function removeLayer() {
 }
 
 // 示例：上海
-function showShanghaiDemo() {
+export function showShanghaiDemo() {
   removeLayer()
 
   // 创建gltf模型，
@@ -81,7 +81,7 @@ function showShanghaiDemo() {
 }
 
 // 示例：骨骼动画
-function showDonghuaDemo() {
+export function showDonghuaDemo() {
   removeLayer()
 
   // 创建gltf模型
@@ -121,7 +121,7 @@ function showDonghuaDemo() {
 }
 
 // 风力发电机
-function showFenliDemo() {
+export function showFenliDemo() {
   removeLayer()
 
   const positions = [
@@ -182,7 +182,7 @@ function showFenliDemo() {
 }
 
 // 光伏电场
-function showGuangfu() {
+export function showGuangfu() {
   removeLayer()
 
   // 创建图层

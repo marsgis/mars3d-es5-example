@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.823874, lng: 117.223976, alt: 3509, heading: 0, pitch: -90 }
   },
@@ -19,7 +19,7 @@ var mapOptions = {
 let bloomEffect
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -27,7 +27,7 @@ var eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   console.log("onMounted执行了")
   map = mapInstance // 记录首次创建的map
 
@@ -35,9 +35,6 @@ function onMounted(mapInstance) {
   bloomEffect = new mars3d.effect.BloomEffect()
   map.addEffect(bloomEffect)
 
-  eventTarget.fire("init", {
-    value: 10
-  })
   queryTilesetData()
 }
 
@@ -45,7 +42,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   console.log("onUnmounted执行了")
   map.graphicLayer.clear()
   map.removeEffect(bloomEffect, true)
@@ -54,7 +51,7 @@ function onUnmounted() {
 }
 
 // 绘制矩形（演示map.js与index.vue的交互）
-async function drawExtent() {
+export async function drawExtent() {
   map.graphicLayer.clear()
   // 绘制矩形
   const graphic = await map.graphicLayer.startDraw({
@@ -72,7 +69,7 @@ async function drawExtent() {
 }
 
 // 是否运行地图鼠标交互
-function enableMapMouseController(value) {
+export function enableMapMouseController(value) {
   map.setSceneOptions({
     cameraController: {
       enableZoom: value,
@@ -84,28 +81,46 @@ function enableMapMouseController(value) {
 }
 
 // 调整亮度 （演示滑动条）
-function updateBrightness(val) {
+export function updateBrightness(val) {
   bloomEffect.brightness = val
 }
 
 // 调整对比度 （演示滑动条）
-function updateContrast(val) {
+export function updateContrast(val) {
   bloomEffect.contrast = val
 }
 
 // 创建图层
-function createLayer(layer) {
+export function createLayer(layer) {
   return mars3d.LayerUtil.create(layer)
 }
 
 // 数据获取
-function queryTilesetData() {
-  mars3d.Util.fetchJson({ url: "config/tileset.json" })
-    .then(function (arr) {
-      const modelData = arr.layers
-      eventTarget.fire("loadTypeList", { modelData })
-    })
-    .catch(function (error) {
-      console.log("加载JSON出错", error)
-    })
+async function queryTilesetData() {
+  const result = await mars3d.Util.fetchJson({ url: "config/tileset.json" })
+  map.setLayersOptions(result.layers)
+
+  eventTarget.fire("initTree")
+}
+
+export function getLayrsTree(params) {
+  return map.getLayrsTree(params)
+}
+
+export function getLayerById(id) {
+  return map.getLayerById(id)
+}
+
+// 更新图层勾选状态
+export function updateLayerShow(layer, show) {
+  if (show) {
+    if (!layer.isAdded) {
+      map.addLayer(layer)
+    }
+    layer.show = true
+
+    layer.flyTo() // 如果不想勾选定位，注释该行
+  } else {
+    layer.show = false
+  }
 }

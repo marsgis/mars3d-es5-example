@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 const { consts, getBinary, resourceService, BinaryGridDataProvider, MemoryGridDataProvider } = window.QE // quickearth.core.js
 const { CPixelLayer } = window.QEC // quickearth.cesium.js
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass()
 
-var graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 26.658143, lng: 119.039029, alt: 489487, heading: 351.2, pitch: -39.3 }
   }
@@ -21,7 +21,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -37,7 +37,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -197,7 +197,7 @@ function addGraphics(gridOptions) {
 
 let mapEx // 对比的地图
 let selPoint // 单击选中的坐标
-function createControl() {
+export function createControl() {
   // 修改已有地图为50%
   const mapOld = document.getElementById("centerDiv3D")
   mapOld.style.width = "50%"
@@ -279,7 +279,7 @@ function addOnePixelLayerToExMap() {
   mapEx.scene.primitives.add(layer2D)
 }
 
-function setActiveHighIdx(idx) {
+export function setActiveHighIdx(idx) {
   activeHighIdx = idx
 
   const rectangleEntity = graphicLayer.getGraphicById("redRectangle")

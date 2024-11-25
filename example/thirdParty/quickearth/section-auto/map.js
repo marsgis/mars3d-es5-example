@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 const { consts, getBinary, resourceService, MicapsDiamond131GridDataProvider, getCR, GridDataGLFillMode } = window.QE // quickearth.core.js
 const { CPixelLayer, CSectionLayer, CFixedPlane } = window.QEC // quickearth.cesium.js
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 22.971408, lng: 107.530316, alt: 727504.3, heading: 349.2, pitch: -48.1 }
   }
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -92,11 +92,11 @@ function updateSectionPath() {
 
 let timeTik
 let enabled = true
-function setEnabled(val) {
+export function setEnabled(val) {
   enabled = val
 }
 
-function setGradations(value) {
+export function setGradations(value) {
   clearInterval(timeTik)
   timeTik = setInterval(() => {
     if (!enabled) {

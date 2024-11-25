@@ -1,8 +1,8 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass()
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -10,7 +10,7 @@ var eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -37,7 +37,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -285,7 +285,7 @@ function addDemoGraphic6(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -315,7 +315,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "cylinder",
     style: {
@@ -327,7 +327,7 @@ function startDrawGraphic() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -339,7 +339,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

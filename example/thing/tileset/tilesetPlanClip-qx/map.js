@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tilesetLayer
 
 /**
@@ -9,7 +9,7 @@ let tilesetLayer
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加模型
@@ -47,11 +47,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-async function drawPoly() {
+export async function drawPoly() {
   tilesetLayer.planClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -69,7 +69,7 @@ async function drawPoly() {
   tilesetLayer.planClip.positions = positions
 }
 
-async function drawPoly2() {
+export async function drawPoly2() {
   tilesetLayer.planClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -88,7 +88,7 @@ async function drawPoly2() {
   tilesetLayer.planClip.positions = positions
 }
 
-async function drawExtent() {
+export async function drawExtent() {
   tilesetLayer.planClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -106,7 +106,7 @@ async function drawExtent() {
   tilesetLayer.planClip.positions = positions
 }
 
-async function drawExtent2() {
+export async function drawExtent2() {
   tilesetLayer.planClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -125,6 +125,6 @@ async function drawExtent2() {
   tilesetLayer.planClip.positions = positions
 }
 
-function clear() {
+export function clear() {
   tilesetLayer.planClip.clear()
 }
