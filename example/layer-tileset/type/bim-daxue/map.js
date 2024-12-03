@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetPlanClip
 let terrainPlanClip
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.842658, lng: 117.251492, alt: 249, heading: 358, pitch: -59 },
     globe: {
@@ -39,7 +39,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // BIM模型处理
@@ -100,7 +100,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -132,26 +132,26 @@ function addPlaneClipThing(layerWorkBIM) {
   map.addThing(terrainPlanClip)
 }
 
-export function centerAtDX1() {
+function centerAtDX1() {
   map.setCameraView({ lat: 31.843703, lng: 117.251038, alt: 33, heading: 50, pitch: -6 })
 }
 
-export function centerAtDX2() {
+function centerAtDX2() {
   map.setCameraView({ lat: 31.843816, lng: 117.250978, alt: 34, heading: 308, pitch: -8 })
 }
 
-export function centerAtDX3() {
+function centerAtDX3() {
   map.setCameraView({ lat: 31.843789, lng: 117.251188, alt: 42, heading: 6, pitch: -31 })
 }
 
 // 通过控制distance的值  1~5以及全部显示
-export function showModel(num) {
+function showModel(num) {
   terrainPlanClip.show = false
   tilesetPlanClip.distance = num
 }
 
 // D1层显示
-export function showD1() {
+function showD1() {
   terrainPlanClip.show = true
   tilesetPlanClip.distance = -3.6
 }

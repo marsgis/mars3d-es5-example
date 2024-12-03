@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层
 let graphic // 矢量数据
 
@@ -10,7 +10,7 @@ let graphic // 矢量数据
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   bindMapDemo()
@@ -81,7 +81,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -90,7 +90,7 @@ function rotatePoint_onChangeHandler(event) {
 }
 
 // 在map地图上绑定右键菜单
-export function bindMapDefault() {
+function bindMapDefault() {
   // const defaultContextmenuItems = map.getDefaultContextMenu() // 内置的默认右键菜单获取方法
   // map.bindContextMenu(defaultContextmenuItems) // 可以删减defaultContextmenuItems数组内值
 
@@ -100,7 +100,7 @@ export function bindMapDefault() {
 }
 
 // 在map地图上绑定右键菜单
-export function bindMapDemo() {
+function bindMapDemo() {
   window._test_show = function (e) {
     return Cesium.defined(e.cartesian)
   }
@@ -180,12 +180,12 @@ window.flyToForContextmenuClick = function (event) {
 }
 
 // 解除Map已绑定的右键菜单
-export function unBindMapDemo() {
+function unBindMapDemo() {
   map.unbindContextMenu()
 }
 
 // 在layer图层上绑定右键菜单
-export function bindLayerDemo() {
+function bindLayerDemo() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
@@ -260,12 +260,12 @@ export function bindLayerDemo() {
 }
 
 // 解除Map已绑定的右键菜单
-export function unBindLayerDemo() {
+function unBindLayerDemo() {
   graphicLayer.unbindContextMenu()
 }
 
 //  在graphic数据上绑定右键菜单
-export function bindGraphicDemo() {
+function bindGraphicDemo() {
   graphic.bindContextMenu([
     {
       text: "开始编辑对象[graphic绑定的]",
@@ -301,6 +301,6 @@ export function bindGraphicDemo() {
 }
 
 // 解除Map已绑定的右键菜单
-export function unBindGraphicDemo() {
+function unBindGraphicDemo() {
   graphic.unbindContextMenu()
 }

@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let lineLayer
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
   }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -33,11 +33,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawLine() {
+function drawLine() {
   clearLayer()
 
   lineLayer.startDraw({
@@ -51,7 +51,7 @@ export function drawLine() {
 }
 
 // 计算曲线
-export function calculationCurve() {
+function calculationCurve() {
   graphicLayer.clear()
 
   let line = lineLayer.getGraphics()
@@ -75,7 +75,7 @@ export function calculationCurve() {
 }
 
 // 计算平行线
-export function parallelLines(distance) {
+function parallelLines(distance) {
   let line = lineLayer.getGraphics()
   if (line.length === 0) {
     globalMsg("请绘制线！")
@@ -99,7 +99,7 @@ export function parallelLines(distance) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function clearLayer() {
+function clearLayer() {
   graphicLayer.clear()
   lineLayer.clear()
 }

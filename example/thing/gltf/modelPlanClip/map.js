@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let modelPlanClip
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
     fxaa: true
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -48,25 +48,25 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function rangeDistance(value) {
+function rangeDistance(value) {
   modelPlanClip.distance = value
 }
 
-export function rangeNormalZ(value) {
+function rangeNormalZ(value) {
   modelPlanClip.normalZ = value
 }
 
 // 更改切换方向
-export function clippingType(clipType) {
+function clippingType(clipType) {
   modelPlanClip.clipType = mars3d.ClipType[clipType]
 }
 
 // 绘制线
-export async function drawLine() {
+async function drawLine() {
   modelPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -84,7 +84,7 @@ export async function drawLine() {
   modelPlanClip.positions = positions
 }
 // 绘制矩形
-export async function drawExtent() {
+async function drawExtent() {
   modelPlanClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -103,7 +103,7 @@ export async function drawExtent() {
 }
 
 // 绘制面
-export async function drawPoly() {
+async function drawPoly() {
   modelPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -122,7 +122,7 @@ export async function drawPoly() {
   modelPlanClip.positions = positions
 }
 // 绘制面(外切)
-export async function drawPoly2() {
+async function drawPoly2() {
   modelPlanClip.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -141,6 +141,6 @@ export async function drawPoly2() {
   modelPlanClip.positions = positions
 }
 
-export function clear() {
+function clear() {
   modelPlanClip.clear()
 }

@@ -1,16 +1,16 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let video2D
 let videoElement
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.844188, lng: 117.205321, alt: 143, heading: 175, pitch: -26 }
   }
@@ -22,7 +22,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `如视频未播放或服务URL访问超时，可能是在线演示URL链接已失效，您可以替换代码中URL为本地服务后使用。`)
@@ -71,7 +71,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -114,17 +114,17 @@ function createVideoDom() {
   }, 3000)
 }
 
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   video2D = graphicLayer.getGraphicById(graphicId)
   return video2D
 }
 
-export function setViedoGraphic(graphic) {
+function setViedoGraphic(graphic) {
   video2D = graphic
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -174,7 +174,7 @@ function addDemoGraphic1() {
 }
 
 // 投射视频
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.clear()
   // 开始绘制
   graphicLayer.startDraw({
@@ -192,7 +192,7 @@ export function startDrawGraphic() {
 }
 
 // 按当前相机投射视频
-export function startDrawGraphic2() {
+function startDrawGraphic2() {
   graphicLayer.clear()
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
@@ -219,40 +219,40 @@ export function startDrawGraphic2() {
   graphicLayer.addGraphic(video2D)
 }
 
-export function playOrpause() {
+function playOrpause() {
   video2D.play = !video2D.play
 }
 
 // 改变水平角度
-export function onChangeAngle(value) {
+function onChangeAngle(value) {
   if (video2D) {
     video2D.angle = value
   }
 }
 
 // 改变垂直角度
-export function onChangeAngle2(value) {
+function onChangeAngle2(value) {
   if (video2D) {
     video2D.angle2 = value
   }
 }
 
 // 改变投射距离
-export function onChangeDistance(value) {
+function onChangeDistance(value) {
   if (video2D) {
     video2D.distance = value
   }
 }
 
 // 改变四周距离
-export function onChangeHeading(value) {
+function onChangeHeading(value) {
   if (video2D) {
     video2D.heading = value
   }
 }
 
 // 改变俯仰角度
-export function onChangePitch(value) {
+function onChangePitch(value) {
   if (video2D) {
     video2D.pitch = value
   }
@@ -264,14 +264,14 @@ export function onChangePitch(value) {
  * @param {boolean} isCheckde 线框是否显示
  * @returns {void}
  */
-export function showFrustum(isCheckde) {
+function showFrustum(isCheckde) {
   if (video2D) {
     video2D.showFrustum = isCheckde
   }
 }
 
 // 改变视频透明度
-export function onChangeOpacity(opacity) {
+function onChangeOpacity(opacity) {
   if (video2D) {
     video2D.setOpacity(opacity)
   }
@@ -283,27 +283,27 @@ export function onChangeOpacity(opacity) {
  * @param {number} num 0-360°
  * @returns {void}
  */
-export function rotateDeg(num) {
+function rotateDeg(num) {
   if (video2D) {
     video2D.setStyle({ stRotationDegree: num })
   }
 }
 
 // 定位至视频位置
-export function locate() {
+function locate() {
   if (video2D) {
     video2D.setView()
   }
 }
 // 打印参数
-export function printParameters() {
+function printParameters() {
   if (video2D) {
     const params = video2D.toJSON()
     console.log("Video2D构造参数为", JSON.stringify(params))
   }
 }
 // 视频位置
-export async function selCamera() {
+async function selCamera() {
   if (video2D == null) {
     return
   }
@@ -316,7 +316,7 @@ export async function selCamera() {
 }
 
 // 四周视角选点
-export async function onClickSelView() {
+async function onClickSelView() {
   if (!video2D) {
     return
   }

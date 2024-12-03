@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.587977, lng: 120.714577, alt: 580.9, heading: 4.8, pitch: -56.3 }
   }
 }
 
-export const treeEvent = new mars3d.BaseClass()
+var treeEvent = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ export const treeEvent = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/wkt-demo.json" })
@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -64,8 +64,7 @@ function addWktData(arr) {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    const data = event.list
-    treeEvent.fire("tree", { data })
+    treeEvent.fire("refTree")
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -92,4 +91,12 @@ function getPoint(item) {
     geometry: geojson,
     properties: item
   }
+}
+
+function getGraphicsTree(options) {
+  return graphicLayer.getGraphicsTree(options)
+}
+
+function getGraphicById(id) {
+  return graphicLayer.getGraphicById(id)
 }

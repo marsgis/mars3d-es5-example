@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.773622, lng: 117.077444, alt: 5441, heading: 359, pitch: -57 }
   },
@@ -14,7 +14,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -22,7 +22,7 @@ export const eventTarget = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 演示数据的时间
@@ -46,7 +46,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -256,7 +256,7 @@ function getPathList(beginTime, endTime) {
     })
 }
 
-export function onSelect(id, selected) {
+function onSelect(id, selected) {
   const car = graphicLayer.getGraphicById(id)
   if (!car) {
     return
@@ -269,7 +269,7 @@ export function onSelect(id, selected) {
   }
 }
 
-export function onChange(data) {
+function onChange(data) {
   data.forEach((item) => {
     const car = graphicLayer.getGraphicById(item)
     if (car) {
@@ -279,7 +279,7 @@ export function onChange(data) {
 }
 
 // 点击行
-export function flyToModel(id) {
+function flyToModel(id) {
   const car = graphicLayer.getGraphicById(id)
   if (car) {
     car.flyToPoint({ radius: 900 })

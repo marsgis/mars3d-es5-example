@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.811646, lng: 117.22232, alt: 842.4, heading: 358.5, pitch: -45 }
   }
@@ -18,7 +18,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -48,13 +48,13 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
   deleteAll()
 }
 
 // 绘制模型
-export function startDrawModel(style) {
+function startDrawModel(style) {
   graphicLayer.startDraw({
     type: "model",
     drawShow: true, // 绘制时，是否显示模型，可避免在3dtiles上拾取坐标存在问题。
@@ -63,23 +63,23 @@ export function startDrawModel(style) {
 }
 
 // 深度检测
-export function chkTestTerrain(val) {
+function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
-export function onlyVertexPosition(val) {
+function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-export function deleteAll() {
+function deleteAll() {
   graphicLayer.clear()
 }
 
-export function changeItemImage(item) {
+function changeItemImage(item) {
   return mars3d.Util.template(item.image, map.templateValues)
 }
 
-export function changeItemUrl(item) {
+function changeItemUrl(item) {
   return mars3d.Util.template(item.style.url, map.templateValues)
 }
 
@@ -90,7 +90,7 @@ export function changeItemUrl(item) {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -112,6 +112,7 @@ export function openGeoJSON(file) {
       const graphic = new mars3d.graphic.ModelPrimitive({
         position: [117.221674, 31.823752, 34.7],
         style: {
+          basePath: fileName,
           url: new Uint8Array(arrayBuffer),
           scale: 1,
           minimumPixelSize: 50
@@ -128,7 +129,7 @@ export function openGeoJSON(file) {
 }
 
 // 保存文件
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

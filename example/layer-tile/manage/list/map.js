@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass()
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.623553, lng: 117.322405, alt: 123536, heading: 359, pitch: -81 }
   },
@@ -19,7 +19,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -27,20 +27,20 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function getLayrsTree(params) {
+function getLayrsTree(params) {
   return map.getLayrsTree(params)
 }
 
-export function getLayerById(id) {
+function getLayerById(id) {
   return map.getLayerById(id)
 }
 
 // 更新图层勾选状态
-export function updateLayerShow(layer, show) {
+function updateLayerShow(layer, show) {
   if (show) {
     if (!layer.isAdded) {
       map.addLayer(layer)

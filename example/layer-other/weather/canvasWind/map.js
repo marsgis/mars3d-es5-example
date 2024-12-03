@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let canvasWindLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 24.677182, lng: 107.044123, alt: 20407002, heading: 0, pitch: -90 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
   map.hasTerrain = false
@@ -44,41 +44,41 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 滑动条事件
 // 修改粒子数量
-export function changeCount(val) {
+function changeCount(val) {
   if (val) {
     canvasWindLayer.particlesNumber = val
   }
 }
 
 // 修改存活时间
-export function changeAge(val) {
+function changeAge(val) {
   if (val) {
     canvasWindLayer.maxAge = val
   }
 }
 
 // 修改移动速率
-export function changeSpeed(val) {
+function changeSpeed(val) {
   if (val) {
     canvasWindLayer.speedRate = val
   }
 }
 
 // 修改线宽
-export function changeLinewidth(val) {
+function changeLinewidth(val) {
   if (val) {
     canvasWindLayer.lineWidth = val
   }
 }
 
 // 改变颜色
-export function changeColor(color) {
+function changeColor(color) {
   canvasWindLayer.color = color
 }
 
@@ -86,7 +86,7 @@ export function changeColor(color) {
 let earthWindData
 // 加载气象
 let dongnanWindData
-export function loadEarthData() {
+function loadEarthData() {
   map.flyHome()
 
   canvasWindLayer.speedRate = 50
@@ -116,7 +116,7 @@ export function loadEarthData() {
     })
 }
 // 加载局部数据
-export function loadDongnanData() {
+function loadDongnanData() {
   map.setCameraView({ lat: 30.484229, lng: 116.627601, alt: 1719951, heading: 0, pitch: -90, roll: 0 })
 
   canvasWindLayer.speedRate = 85

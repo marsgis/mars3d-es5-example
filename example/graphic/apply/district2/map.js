@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 const color = "#363635"
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 25.845231, lng: 117.57678, alt: 488175, heading: 358, pitch: -42 },
     showSun: false,
@@ -33,7 +33,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加矢量图层
@@ -50,7 +50,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

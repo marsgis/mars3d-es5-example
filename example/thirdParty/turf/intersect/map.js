@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let graphic1
 let graphic2
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.715325, lng: 117.233867, alt: 21228, heading: 2, pitch: -60 }
   },
@@ -19,7 +19,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addEntity()
 }
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -75,7 +75,7 @@ function addEntity() {
 
 // 求交
 let intersectGraphic
-export function intersect() {
+function intersect() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null
@@ -107,7 +107,7 @@ export function intersect() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null

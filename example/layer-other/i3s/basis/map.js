@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 50.096737, lng: 8.670794, alt: 1148.6, heading: 28.9, pitch: -44.9 }
   },
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   // map.basemap = "ArcGIS影像"
@@ -34,7 +34,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   removeLayer()
   map = null
 }
@@ -48,7 +48,7 @@ function removeLayer() {
 }
 
 // 示例：
-export function showNewYorkDemo() {
+function showNewYorkDemo() {
   removeLayer()
 
   i3sLayer = new mars3d.layer.I3SLayer({
@@ -76,7 +76,7 @@ export function showNewYorkDemo() {
   })
 }
 
-export function showSanFranciscoDemo() {
+function showSanFranciscoDemo() {
   removeLayer()
 
   i3sLayer = new mars3d.layer.I3SLayer({
@@ -92,7 +92,7 @@ export function showSanFranciscoDemo() {
   map.addLayer(i3sLayer)
 }
 
-export function showFrankfurtDemo() {
+function showFrankfurtDemo() {
   removeLayer()
 
   i3sLayer = new mars3d.layer.I3SLayer({

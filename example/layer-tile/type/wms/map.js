@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.816469, lng: 117.188323, alt: 6109.8, heading: 358.1, pitch: -64.6 }
   },
@@ -39,6 +39,12 @@ export const mapOptions = {
       type: "image",
       url: "//data.mars3d.cn/img/map/world/world.jpg",
       show: true
+    },
+    {
+      name: "瓦片测试信息",
+      type: "tileinfo",
+      color: "rgba(255,255,0,0.6)",
+      show: true
     }
   ]
 }
@@ -48,7 +54,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   addTileLayer()
@@ -58,7 +64,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -74,7 +80,7 @@ let tileLayer
 //   }
 // }
 
-export function addTileLayer() {
+function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -129,11 +135,14 @@ export function addTileLayer() {
     }, 6000)
   })
   tileLayer.on(mars3d.EventType.click, function (event) {
-    console.log("单击了矢量数据，共" + event.features.length + "条", event)
+    console.log("单击了WMS图层，共" + event.features.length + "条", event)
+
+    const imagery = pickImageryHelper(map.scene, event.cartesian)
+    console.log("单击的对应瓦片", imagery)
   })
 }
 
-export function addTileLayer2() {
+function addTileLayer2() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -184,13 +193,89 @@ export function addTileLayer2() {
     console.log("加载了GetCapabilities", event)
   })
   tileLayer.on(mars3d.EventType.click, function (event) {
-    console.log("单击了矢量数据，共" + event.features.length + "条", event)
+    console.log("单击了WMS图层，共" + event.features.length + "条", event)
+
+    const imagery = pickImageryHelper(map.scene, event.cartesian)
+    console.log("单击的对应瓦片", imagery)
   })
 }
 
-export function removeTileLayer() {
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
+  }
+}
+
+// 获取对应坐标处的瓦片
+const applicableRectangleScratch = new Cesium.Rectangle()
+function pickImageryHelper(scene, cartesian) {
+  const pickedLocation = Cesium.Cartographic.fromCartesian(cartesian)
+  // Find the terrain tile containing the picked location.
+  const tilesToRender = scene.globe._surface._tilesToRender
+  let mars3dTile
+
+  for (let textureIndex = 0; !Cesium.defined(mars3dTile) && textureIndex < tilesToRender.length; ++textureIndex) {
+    const tile = tilesToRender[textureIndex]
+    if (Cesium.Rectangle.contains(tile.rectangle, pickedLocation)) {
+      mars3dTile = tile
+    }
+  }
+
+  if (!Cesium.defined(mars3dTile)) {
+    return
+  }
+
+  // Pick against all attached imagery tiles containing the pickedLocation.
+  const imageryTiles = mars3dTile.data.imagery
+
+  for (let i = imageryTiles.length - 1; i >= 0; --i) {
+    const terrainImagery = imageryTiles[i]
+    const imagery = terrainImagery.readyImagery
+    if (!Cesium.defined(imagery) || imagery.level === 0) {
+      continue
+    }
+    if (!imagery.imageryLayer.ready) {
+      continue
+    }
+    // const provider = imagery.imageryLayer.imageryProvider
+    // if (pickFeatures && !Cesium.defined(provider.pickFeatures)) {
+    //   continue
+    // }
+
+    if (!Cesium.Rectangle.contains(imagery.rectangle, pickedLocation)) {
+      continue
+    }
+
+    // If this imagery came from a parent, it may not be applicable to its entire rectangle.
+    // Check the textureCoordinateRectangle for Mars3D.
+    const applicableRectangle = applicableRectangleScratch
+
+    const epsilon = 1 / 1024 // 1/4 of a pixel in a typical 256x256 tile.
+    applicableRectangle.west = Cesium.Math.lerp(
+      mars3dTile.rectangle.west,
+      mars3dTile.rectangle.east,
+      terrainImagery.textureCoordinateRectangle.x - epsilon
+    )
+    applicableRectangle.east = Cesium.Math.lerp(
+      mars3dTile.rectangle.west,
+      mars3dTile.rectangle.east,
+      terrainImagery.textureCoordinateRectangle.z + epsilon
+    )
+    applicableRectangle.south = Cesium.Math.lerp(
+      mars3dTile.rectangle.south,
+      mars3dTile.rectangle.north,
+      terrainImagery.textureCoordinateRectangle.y - epsilon
+    )
+    applicableRectangle.north = Cesium.Math.lerp(
+      mars3dTile.rectangle.south,
+      mars3dTile.rectangle.north,
+      terrainImagery.textureCoordinateRectangle.w + epsilon
+    )
+    if (!Cesium.Rectangle.contains(applicableRectangle, pickedLocation)) {
+      continue
+    }
+
+    return imagery
   }
 }

@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
-import * as GeoTIFF from "geotiff"
+// import * as mars3d from "mars3d"
+// import * as GeoTIFF from "geotiff"
 
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.836837, lng: 117.13503, alt: 2526, heading: 0, pitch: -90 }
   }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `(1)浏览器端直接加载TIF只适合小数据，大数据请发布WMS、WMTS等服务方式；`)
@@ -29,14 +29,14 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
 
-export async function addTileLayer() {
+async function addTileLayer() {
   removeTileLayer()
 
   const result = await tif2img2("//data.mars3d.cn/img/map/rjy.tif")
@@ -53,7 +53,7 @@ export async function addTileLayer() {
 }
 
 // 移除图层
-export function removeTileLayer() {
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

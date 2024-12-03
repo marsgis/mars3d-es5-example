@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 let allCount
 let lastSelectWX
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 29.646563, lng: 96.25028, alt: 150004581, heading: 352, pitch: -90 },
     cameraController: {
@@ -26,7 +26,7 @@ export const mapOptions = {
   },
   terrain: false
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -34,7 +34,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -74,7 +74,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -291,7 +291,7 @@ function weixingStyle(item) {
 // Orbital altitude definitions.
 
 // 重置
-export function resetGraphic() {
+function resetGraphic() {
   // 循环所有卫星
   if (!graphicLayer) {
     globalMsg("当前数据正在加载")
@@ -322,7 +322,7 @@ const LANDSAT = [25682, 39084]
 const DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115]
 
 // 判断卫星数据
-export function selectSatellites(data) {
+function selectSatellites(data) {
   if (!graphicLayer) {
     return
   }
@@ -838,7 +838,7 @@ function getCountryName(code) {
 }
 
 // 清除卫星的点击事件,隐藏卫星的面板
-export function highlightSatellite() {
+function highlightSatellite() {
   lastSelectWX.remove()
   lastSelectWX = null
 }

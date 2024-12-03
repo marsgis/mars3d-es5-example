@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.609076, lng: 117.292797, alt: 17106, heading: 350, pitch: -51 }
   }
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
 }
 
 // 图层状态 在组件中进行管理的图层
-export function getManagerLayer() {
+function getManagerLayer() {
   return map.getLayerByAttr("马拉松", "name")
 }
 
@@ -35,21 +35,21 @@ export function getManagerLayer() {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function startPoint() {
+function startPoint() {
   map.setCameraView({ lat: 31.77566, lng: 117.226039, alt: 413, heading: 47, pitch: -48 })
 }
 
-export function halfWayPoint() {
+function halfWayPoint() {
   map.setCameraView({ lat: 31.723314, lng: 117.247933, alt: 159, heading: 270, pitch: -31 })
 }
-export function endPoint() {
+function endPoint() {
   map.setCameraView({ lat: 31.712765, lng: 117.294325, alt: 377, heading: 336, pitch: -56 })
 }
 
-export function allLine() {
+function allLine() {
   map.setCameraView({ lat: 31.609076, lng: 117.292797, alt: 17106, heading: 350, pitch: -51 })
 }

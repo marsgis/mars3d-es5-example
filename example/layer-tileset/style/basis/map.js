@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.786828, lng: 117.181704, alt: 3393, heading: 38, pitch: -34 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = 2017 // 切换到蓝色底图
@@ -53,15 +53,15 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function setStyle1() {
+function setStyle1() {
   tiles3dLayer.style = undefined
 }
 
-export function setStyle2() {
+function setStyle2() {
   tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [
@@ -78,7 +78,7 @@ export function setStyle2() {
   })
 }
 
-export function selectColor(col) {
+function selectColor(col) {
   tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [["true", `color("${col}")`]]

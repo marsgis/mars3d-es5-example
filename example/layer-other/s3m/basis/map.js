@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: {
       lat: 28.440864,
@@ -34,7 +34,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -47,7 +47,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   removeLayer()
   map = null
 }
@@ -63,7 +63,7 @@ function removeLayer() {
 }
 
 // 示例：人工建模 鸟巢
-export function showMaxNiaochaoDemo() {
+function showMaxNiaochaoDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -87,7 +87,7 @@ export function showMaxNiaochaoDemo() {
 }
 
 // 示例：人工建模 CBD
-export function showMaxCBDDemo() {
+function showMaxCBDDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -99,7 +99,7 @@ export function showMaxCBDDemo() {
 }
 
 // 示例：  地下管网
-export function showMaxPipeDemo() {
+function showMaxPipeDemo() {
   removeLayer()
   globalMsg("插件版暂不支持 “fillForeColor” 参数的修改")
 
@@ -146,7 +146,7 @@ export function showMaxPipeDemo() {
 }
 
 // 示例：BIM
-export function showBIMQiaoDemo() {
+function showBIMQiaoDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -173,7 +173,7 @@ export function showBIMQiaoDemo() {
 }
 
 // 示例：倾斜摄影 哈尔滨索菲亚教堂
-export function showQxSuofeiyaDemo() {
+function showQxSuofeiyaDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -196,7 +196,7 @@ export function showQxSuofeiyaDemo() {
 }
 
 // 示例：倾斜摄影 萨尔茨堡
-export function showQxSrsbDemo() {
+function showQxSrsbDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -220,7 +220,7 @@ export function showQxSrsbDemo() {
   })
 }
 
-export function showCqbmDemo() {
+function showCqbmDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({
@@ -238,7 +238,7 @@ export function showCqbmDemo() {
   })
 }
 
-export function showCloudDemo() {
+function showCloudDemo() {
   removeLayer()
 
   s3mLayer = new mars3d.layer.S3MLayer({

@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 const { consts, getBinary, resourceService, MicapsDiamond131GridDataProvider, getCR, GridDataGLFillMode } = window.QE // quickearth.core.js
 const { CPixelLayer, CSectionLayer, CFixedPlane } = window.QEC // quickearth.cesium.js
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 27.148458, lng: 104.934276, alt: 238162.1, heading: 359.5, pitch: -41.4 }
   }
@@ -18,7 +18,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -75,7 +75,7 @@ async function initDemoData() {
   hideLoading()
 }
 
-export async function drawLine() {
+async function drawLine() {
   const graphic = await map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -89,7 +89,7 @@ export async function drawLine() {
   map.graphicLayer.removeGraphic(graphic)
 }
 
-export async function drawCircle() {
+async function drawCircle() {
   const graphic = await map.graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -105,7 +105,7 @@ export async function drawCircle() {
   map.graphicLayer.removeGraphic(graphic)
 }
 
-export async function drawRectangle() {
+async function drawRectangle() {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -120,6 +120,6 @@ export async function drawRectangle() {
   map.graphicLayer.removeGraphic(graphic)
 }
 
-export async function removeSectionPath() {
+async function removeSectionPath() {
   sectionLayer?.removeSectionPath()
 }

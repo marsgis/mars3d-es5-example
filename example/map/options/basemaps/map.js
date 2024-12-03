@@ -1,4 +1,4 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 function initMap() {
   // 在创建地球前的传参中配置basemaps参数
