@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 默认是无偏坐标系，内部已纠偏，当前示例演示偏移坐标系
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   method: {
     chinaCRS: mars3d.ChinaCRS.GCJ02 // 标识坐标系
   },
@@ -15,7 +15,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "天地图影像",
-      icon: "//data.mars3d.cn/img/control/basemap/tdt_img.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
       type: "group",
       layers: [
         { name: "底图", type: "tdt", layer: "img_d" },
@@ -25,7 +25,7 @@ var mapOptions = {
     {
       name: "高德影像",
       type: "group",
-      icon: "//data.mars3d.cn/img/control/basemap/gaode_img.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/gaode_img.png",
       layers: [
         { name: "底图", type: "gaode", layer: "img_d" },
         { name: "注记", type: "gaode", layer: "img_z" }
@@ -41,7 +41,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.hasTerrain = false
 
@@ -81,6 +81,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

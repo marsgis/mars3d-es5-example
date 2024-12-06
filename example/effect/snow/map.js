@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let snowEffect
 let snowCover
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 33.591015, lng: 119.032697, alt: 73, heading: 343, pitch: -21 },
     globe: {
@@ -20,7 +20,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 雾化效果
@@ -54,30 +54,30 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 是否开启下雪效果
-function setSnow(val) {
+export function setSnow(val) {
   snowEffect.enabled = val
 }
 
 // 速度
-function setSpeed(value) {
+export function setSpeed(value) {
   snowEffect.speed = value
 }
 //
-function setScale(value) {
+export function setScale(value) {
   snowEffect.scale = value
 }
 
 // 是否开启积雪效果
-function setCover(val) {
+export function setCover(val) {
   snowCover.enabled = val
 }
 
 // 积雪厚度
-function setAlpha(value) {
+export function setAlpha(value) {
   snowCover.alpha = value
 }

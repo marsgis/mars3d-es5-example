@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.649617, lng: 117.081721, alt: 444, heading: 348, pitch: -25 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载石化工厂模型
@@ -53,10 +53,10 @@ function onMounted(mapInstance) {
   )
 
   // 添加数据
-  addRandomGraphicByCount(graphicLayer, [117.080397, 31.656139, 33.3])
-  addRandomGraphicByCount(graphicLayer, [117.078006, 31.65649, 49.4])
   addRandomGraphicByCount(graphicLayer, [117.080571, 31.657898, 50.2])
+  addRandomGraphicByCount(graphicLayer, [117.078006, 31.65649, 49.4])
   addRandomGraphicByCount(graphicLayer, [117.078331, 31.660016, 47.2])
+  addRandomGraphicByCount(graphicLayer, [117.080397, 31.656139, 33.3]).openPopup()
 
   // console.log("导出数据测试", graphicLayer.toJSON())
   // const layer = mars3d.LayerUtil.create(json)
@@ -66,7 +66,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -85,6 +85,7 @@ function addRandomGraphicByCount(graphicLayer, position) {
     },
     popup: `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`,
     popupOptions: {
+      useGraphicPostion: true,
       offsetY: -170, // 显示Popup的偏移值，是DivGraphic本身的像素高度值
       template: `<div class="marsBlackPanel animation-spaceInDown">
                         <div class="marsBlackPanel-text">{content}</div>
@@ -95,4 +96,6 @@ function addRandomGraphicByCount(graphicLayer, position) {
     }
   })
   graphicLayer.addGraphic(graphicImg)
+
+  return graphicImg
 }

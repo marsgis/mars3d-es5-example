@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 32.432718, lng: 115.602003, alt: 108, heading: 237, pitch: -31 },
     globe: {
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 显示水域
@@ -52,7 +52,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -104,14 +104,14 @@ function addWaterGate() {
 }
 
 // 单个闸门控制
-function onChangeGate(id, checked) {
+export function onChangeGate(id, checked) {
   const particleSystem = graphicLayer.getGraphicById(id)
   if (particleSystem) {
     particleSystem.show = !checked
   }
 }
 // 全部闸门的控制
-function bindShowAll(val) {
+export function bindShowAll(val) {
   graphicLayer.eachGraphic((graphic) => {
     graphic.show = val
   })

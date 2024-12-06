@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.931953, lng: 117.352307, alt: 207201, heading: 0, pitch: -64 }
   },
@@ -11,7 +11,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "ArcGIS影像",
-      icon: "//data.mars3d.cn/img/control/basemap/esriWorldImagery.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/esriWorldImagery.png",
       type: "arcgis",
       url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
       enablePickFeatures: false,
@@ -19,21 +19,21 @@ var mapOptions = {
     },
     {
       name: "ArcGIS电子街道",
-      icon: "//data.mars3d.cn/img/control/basemap/google_vec.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
       type: "arcgis",
       url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
       enablePickFeatures: false
     },
     {
       name: "ArcGIS NatGeo",
-      icon: "//data.mars3d.cn/img/control/basemap/esriWorldStreetMap.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/esriWorldStreetMap.png",
       type: "arcgis",
       url: "https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer",
       enablePickFeatures: false
     },
     {
       name: "蓝色底图",
-      icon: "//data.mars3d.cn/img/control/basemap/bd-c-midnight.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/bd-c-midnight.png",
       type: "arcgis",
       url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
       enablePickFeatures: false,
@@ -48,7 +48,7 @@ var mapOptions = {
     },
     {
       name: "灰色底图",
-      icon: "//data.mars3d.cn/img/control/basemap/bd-c-grayscale.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/bd-c-grayscale.png",
       type: "arcgis",
       url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
       enablePickFeatures: false,
@@ -70,7 +70,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -78,7 +78,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -89,7 +89,7 @@ function onUnmounted() {
  * @returns {void}
  */
 let arcGisLayer
-function addLayer() {
+export function addLayer() {
   removeLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -130,7 +130,7 @@ function addLayer() {
 }
 
 // 移除图层
-function removeLayer() {
+export function removeLayer() {
   if (arcGisLayer) {
     map.removeLayer(arcGisLayer, true)
     arcGisLayer = null

@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
-// import { PoiQueryButton } from "./PoiQueryButton"
+import * as mars3d from "mars3d"
+import { PoiQueryButton } from "./PoiQueryButton"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.805875, lng: 117.237115, alt: 11874, heading: 1, pitch: -69 }
   },
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const poiQueryButton = new PoiQueryButton({
@@ -31,6 +31,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

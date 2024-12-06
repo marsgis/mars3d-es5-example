@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.516143, lng: 117.282937, alt: 46242, heading: 2, pitch: -49 }
   }
@@ -18,7 +18,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -39,11 +39,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function startDrawModel(url, isProxy) {
+export function startDrawModel(url, isProxy) {
   if (isProxy) {
     url = "//server.mars3d.cn/proxy/" + url
   }
@@ -59,19 +59,19 @@ function startDrawModel(url, isProxy) {
 }
 
 // 地形
-function chkHasTerrain(isStkTerrain) {
+export function chkHasTerrain(isStkTerrain) {
   map.hasTerrain = isStkTerrain
 }
 
 // 深度检测
-function chkTestTerrain(val) {
+export function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
   if (val) {
     globalMsg("深度监测打开后，您将无法看到地下或被地形遮挡的对象。")
   }
 }
 
-function onlyVertexPosition(val) {
+export function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
@@ -82,7 +82,7 @@ function onlyVertexPosition(val) {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -122,7 +122,7 @@ function openGeoJSON(file) {
   }
 }
 
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

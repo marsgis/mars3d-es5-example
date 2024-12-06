@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let lineLayer
 let pointLayer
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
   }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加线 矢量数据图层
@@ -46,11 +46,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawLine() {
+export function drawLine() {
   // 开始绘制
   lineLayer.startDraw({
     type: "polyline",
@@ -62,7 +62,7 @@ function drawLine() {
   })
 }
 
-function crossPoint() {
+export function crossPoint() {
   lineLayer.stopDraw()
   pointLayer.clear()
 
@@ -99,7 +99,7 @@ function crossPoint() {
   }
 }
 
-function clearAll() {
+export function clearAll() {
   pointLayer.clear()
   lineLayer.clear()
 }

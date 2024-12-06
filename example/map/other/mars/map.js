@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
 Cesium.Ellipsoid.default = ellipsoid
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: -3.501681, lng: -45.33971, alt: 18894275, heading: 0, pitch: -90 },
     contextOptions: { webgl: { alpha: true } }, // 允许透明，只能Map初始化传入 [关键代码]
@@ -40,7 +40,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "火星影像图",
-      icon: "//data.mars3d.cn/img/control/basemap/tdt_img.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
       type: "xyz",
       url: "https://moon.bao.ac.cn/gis3globleMarsMoon/tiles/getTiles/MarsTile/1000/jpg/{z}/{reverseY}/{x}",
       crs: "EPSG:4326",
@@ -83,7 +83,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的服务存在异常。`)
@@ -93,6 +93,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

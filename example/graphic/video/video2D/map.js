@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 let selectedView
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.844146, lng: 117.20555, alt: 125, heading: 184, pitch: -17 }
   }
@@ -21,7 +21,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加参考三维模型
@@ -68,7 +68,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -100,13 +100,13 @@ function addDemoGraphic1() {
   // }, 10000)
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   selectedView = graphicLayer.getGraphicById(graphicId)
   return selectedView
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -139,7 +139,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 投射视频
-function startDrawGraphic() {
+export function startDrawGraphic() {
   // 开始绘制
   graphicLayer.startDraw({
     type: "video2D",
@@ -156,7 +156,7 @@ function startDrawGraphic() {
 }
 
 // 按当前相机投射视频
-function startDrawGraphic2() {
+export function startDrawGraphic2() {
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
@@ -185,60 +185,60 @@ function startDrawGraphic2() {
 }
 
 // 播放暂停
-function playOrpause() {
+export function playOrpause() {
   selectedView.play = !selectedView.play
 }
 
 // 修改水平角度
-function onChangeAngle(value) {
+export function onChangeAngle(value) {
   if (selectedView) {
     selectedView.angle = value
   }
 }
 
 // 修改垂直角度
-function onChangeAngle2(value) {
+export function onChangeAngle2(value) {
   if (selectedView) {
     selectedView.angle2 = value
   }
 }
 
 // 修改投射距离
-function onChangeDistance(value) {
+export function onChangeDistance(value) {
   if (selectedView) {
     selectedView.distance = value
   }
 }
 
 // 修改四周距离 value 修改后的数值
-function onChangeHeading(value) {
+export function onChangeHeading(value) {
   if (selectedView) {
     selectedView.heading = value
   }
 }
 
 //  修改俯仰角数值   value 修改后的数值
-function onChangePitch(value) {
+export function onChangePitch(value) {
   if (selectedView) {
     selectedView.pitch = value
   }
 }
 
 //   线框是否显示   isCheckde 修改后的数值
-function showFrustum(isCheckde) {
+export function showFrustum(isCheckde) {
   if (selectedView) {
     selectedView.showFrustum = isCheckde
   }
 }
 
 // 修改视频的透明度   opacity 透明度数值
-function onChangeOpacity(opacity) {
+export function onChangeOpacity(opacity) {
   if (selectedView) {
     selectedView.setOpacity(opacity)
   }
 }
 
-function onChangeMirror(value) {
+export function onChangeMirror(value) {
   if (selectedView) {
     selectedView.flipx = value
   }
@@ -250,21 +250,21 @@ function onChangeMirror(value) {
  * @param {number} num 0-360°
  * @returns {void}
  */
-function rotateDeg(num) {
+export function rotateDeg(num) {
   if (selectedView) {
     selectedView.setStyle({ stRotationDegree: num })
   }
 }
 
 // 视角定位
-function locate() {
+export function locate() {
   if (selectedView) {
     selectedView.setView()
   }
 }
 
 // 打印参数
-function printParameters() {
+export function printParameters() {
   if (selectedView) {
     const params = selectedView.toJSON()
     console.log(JSON.stringify(params))
@@ -272,7 +272,7 @@ function printParameters() {
 }
 
 // 视频位置
-async function selCamera() {
+export async function selCamera() {
   if (!selectedView) {
     return
   }
@@ -287,7 +287,7 @@ async function selCamera() {
 }
 
 // 四周视角选点
-async function onClickSelView() {
+export async function onClickSelView() {
   if (!selectedView) {
     return
   }

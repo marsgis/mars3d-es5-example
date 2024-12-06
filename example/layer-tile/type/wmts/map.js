@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 36.468047, lng: 104.069505, alt: 16801717, heading: 0, pitch: -88 }
   },
@@ -11,7 +11,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "山西天地图",
-      icon: "//data.mars3d.cn/img/control/basemap/blackMarble.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
       type: "wmts",
       url: "http://shanxi.tianditu.gov.cn/service/SX_DOM/wmts",
       layer: "WD_DOM",
@@ -23,7 +23,7 @@ var mapOptions = {
     },
     {
       name: "单张图片",
-      icon: "//data.mars3d.cn/img/control/basemap/offline.png",
+      icon: "//data.mars3d.cn/img/thumbnail/basemap/offline.png",
       type: "image",
       url: "//data.mars3d.cn/img/map/world/world.jpg",
       show: false
@@ -37,7 +37,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -45,13 +45,13 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 0, pitch: -67 })
@@ -84,7 +84,7 @@ function addTileLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

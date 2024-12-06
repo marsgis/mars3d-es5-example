@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 /**
  * 合并属性参数，可覆盖config.json中的对应配置
  * @type {object}
  */
-var mapOptions = {
+export const mapOptions = {
   // 方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
   terrain: {
     url: "http://data.mars3d.cn/terrain",
@@ -24,7 +24,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.on(mars3d.EventType.terrainLoadSuccess, function (event) {
@@ -50,11 +50,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function radioTerrain(type) {
+export function radioTerrain(type) {
   switch (type) {
     case "none": // 无地形
       map.terrainProvider = mars3d.LayerUtil.getNoTerrainProvider()
@@ -105,12 +105,12 @@ function radioTerrain(type) {
 }
 
 // 可以开启和关闭地形
-function enabledTerrain(val) {
+export function enabledTerrain(val) {
   map.hasTerrain = val
 }
 
 // 是否开启三角网
-function enabledTerrainSJW(val) {
+export function enabledTerrainSJW(val) {
   map.scene.globe._surface.tileProvider._debug.wireframe = val
 }
 
@@ -119,7 +119,7 @@ function getTerrainProviderViewModelsArr() {
     new Cesium.ProviderViewModel({
       name: "无地形",
       tooltip: "WGS84标准球体",
-      iconUrl: "//data.mars3d.cn/img/control/basemap/TerrainEllipsoid.png",
+      iconUrl: "//data.mars3d.cn/img/thumbnail/basemap/TerrainEllipsoid.png",
       creationFunction: function () {
         return mars3d.LayerUtil.getNoTerrainProvider()
       }
@@ -127,7 +127,7 @@ function getTerrainProviderViewModelsArr() {
     new Cesium.ProviderViewModel({
       name: "中国地形",
       tooltip: "由 火星科技 提供的中国国内地形",
-      iconUrl: "//data.mars3d.cn/img/control/basemap/TerrainSTK.png",
+      iconUrl: "//data.mars3d.cn/img/thumbnail/basemap/TerrainSTK.png",
       creationFunction: function () {
         return mars3d.LayerUtil.createTerrainProvider({
           url: "http://data.mars3d.cn/terrain"
@@ -137,7 +137,7 @@ function getTerrainProviderViewModelsArr() {
     new Cesium.ProviderViewModel({
       name: "ArcGIS地形",
       tooltip: "由 火星科技 提供的中国国内地形",
-      iconUrl: "//data.mars3d.cn/img/control/basemap/TerrainSTK.png",
+      iconUrl: "//data.mars3d.cn/img/thumbnail/basemap/TerrainSTK.png",
       creationFunction: function () {
         return mars3d.LayerUtil.createTerrainProvider({
           type: "arcgis",
@@ -148,7 +148,7 @@ function getTerrainProviderViewModelsArr() {
     new Cesium.ProviderViewModel({
       name: "全球地形",
       tooltip: "由 Cesium官方 提供的高分辨率全球地形",
-      iconUrl: "//data.mars3d.cn/img/control/basemap/TerrainSTK.png",
+      iconUrl: "//data.mars3d.cn/img/thumbnail/basemap/TerrainSTK.png",
       creationFunction: function () {
         return mars3d.LayerUtil.createTerrainProvider({
           type: "ion",

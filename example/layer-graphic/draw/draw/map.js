@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
-// // import kgUtil from "kml-geojson"
+import * as mars3d from "mars3d"
+// import kgUtil from "kml-geojson"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var mapOptions = {
+export const mapOptions = {
   // scene: {
   //   center: { lat: 30.846849, lng: 116.335307, alt: 739, heading: 360, pitch: -45 }
   // },
@@ -38,7 +38,7 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 let keyDownCode // 一直按着的键对应的code
 
@@ -48,7 +48,7 @@ let keyDownCode // 一直按着的键对应的code
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 设置编辑点样式
@@ -158,11 +158,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-async function drawPoint() {
+export async function drawPoint() {
   const graphic = await graphicLayer.startDraw({
     type: "point",
     style: {
@@ -182,7 +182,7 @@ async function drawPoint() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawMarker() {
+export async function drawMarker() {
   const graphic = await graphicLayer.startDraw({
     type: "billboard",
     style: {
@@ -203,7 +203,7 @@ async function drawMarker() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawLabel() {
+export async function drawLabel() {
   const graphic = await graphicLayer.startDraw({
     type: "label",
     style: {
@@ -218,7 +218,7 @@ async function drawLabel() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function startDrawModel() {
+export async function startDrawModel() {
   const graphic = await graphicLayer.startDraw({
     type: "model",
     style: {
@@ -229,7 +229,7 @@ async function startDrawModel() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawPolyline(clampToGround) {
+export async function drawPolyline(clampToGround) {
   // map.highlightEnabled = false
   // map.popup.enabled = false
 
@@ -278,7 +278,7 @@ function updateDrawPosition(thisPoint, lastPoint, type) {
   return thisPoint.toCartesian()
 }
 
-async function drawBrushLine(clampToGround) {
+export async function drawBrushLine(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -290,7 +290,7 @@ async function drawBrushLine(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawPolygon(clampToGround) {
+export async function drawPolygon(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -305,7 +305,7 @@ async function drawPolygon(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawCurve(clampToGround) {
+export async function drawCurve(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "curve",
     style: {
@@ -317,7 +317,7 @@ async function drawCurve(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawCorridor(clampToGround) {
+export async function drawCorridor(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "corridor",
     style: {
@@ -330,7 +330,7 @@ async function drawCorridor(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawEllipse(clampToGround) {
+export async function drawEllipse(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -345,7 +345,7 @@ async function drawEllipse(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawRectangle(clampToGround) {
+export async function drawRectangle(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -360,7 +360,7 @@ async function drawRectangle(clampToGround) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function draPlane() {
+export async function draPlane() {
   const graphic = await graphicLayer.startDraw({
     type: "plane",
     style: {
@@ -374,7 +374,7 @@ async function draPlane() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function draWall(closure) {
+export async function draWall(closure) {
   const graphic = await graphicLayer.startDraw({
     type: "wall",
     style: {
@@ -387,7 +387,7 @@ async function draWall(closure) {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawBox() {
+export async function drawBox() {
   const graphic = await graphicLayer.startDraw({
     type: "box",
     style: {
@@ -401,7 +401,7 @@ async function drawBox() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawCylinder() {
+export async function drawCylinder() {
   const graphic = await graphicLayer.startDraw({
     type: "cylinder",
     style: {
@@ -414,7 +414,7 @@ async function drawCylinder() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawEllipsoid() {
+export async function drawEllipsoid() {
   const graphic = await graphicLayer.startDraw({
     type: "ellipsoid",
     style: {
@@ -426,7 +426,7 @@ async function drawEllipsoid() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawExtrudedPolygon() {
+export async function drawExtrudedPolygon() {
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -438,7 +438,7 @@ async function drawExtrudedPolygon() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawExtrudedRectangle() {
+export async function drawExtrudedRectangle() {
   const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -450,7 +450,7 @@ async function drawExtrudedRectangle() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawExtrudedCircle() {
+export async function drawExtrudedCircle() {
   const graphic = await graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -462,7 +462,7 @@ async function drawExtrudedCircle() {
   console.log("完成了draw标绘", graphic)
 }
 
-async function drawSatellite() {
+export async function drawSatellite() {
   const graphic = await graphicLayer.startDraw({
     type: "satellite",
     style: {
@@ -485,7 +485,7 @@ async function drawSatellite() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -496,7 +496,7 @@ function bindLayerPopup() {
   })
 }
 
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -798,7 +798,7 @@ function bindLayerContextMenu() {
   ])
 }
 
-function updateOnlyVertexPosition(value) {
+export function updateOnlyVertexPosition(value) {
   map.onlyVertexPosition = value
 }
 
@@ -809,7 +809,7 @@ function updateOnlyVertexPosition(value) {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -851,7 +851,7 @@ function openGeoJSON(file) {
 }
 
 // 点击保存JSON
-function saveJSON() {
+export function saveJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -861,7 +861,7 @@ function saveJSON() {
 }
 
 // 点击保存GeoJSON
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -871,7 +871,7 @@ function saveGeoJSON() {
 }
 
 // 点击保存KML
-function saveKML() {
+export function saveKML() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -894,7 +894,7 @@ function saveKML() {
 }
 
 // 点击保存WKT
-function saveWKT() {
+export function saveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

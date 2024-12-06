@@ -1,13 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 const { consts, getBinary, resourceService, BinaryGridDataProvider, getCR, mcb, GridDataGLFillMode } = window.QE // quickearth.core.js
 const { CPixelLayer, CSectionLayer, CFixedPlane, mcbLayerCreator } = window.QEC // quickearth.cesium.js
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.131549, lng: 116.779484, alt: 30738.7, heading: 49.3, pitch: -21.5 }
   }
@@ -19,7 +19,7 @@ var mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -82,7 +82,7 @@ async function initDemoData() {
   addSectionLayer()
 }
 
-async function drawRectangle(value) {
+export async function drawRectangle(value) {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -122,7 +122,7 @@ async function drawRectangle(value) {
   }
 }
 
-function clearDraw() {
+export function clearDraw() {
   for (let index = map.scene.primitives.length - 1; index >= 0; index--) {
     const layer = map.scene.primitives.get(index)
     if (layer.isQuickearth) {
@@ -148,7 +148,7 @@ function addSectionLayer() {
     })
   map.scene.primitives.add(sectionLayer)
 }
-async function drawLine() {
+export async function drawLine() {
   const graphic = await map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -162,6 +162,6 @@ async function drawLine() {
 
   map.graphicLayer.removeGraphic(graphic)
 }
-async function removeSectionPath() {
+export async function removeSectionPath() {
   sectionLayer?.removeSectionPath()
 }

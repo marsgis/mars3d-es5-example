@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加控件有2种方式:
@@ -11,7 +11,7 @@ function initMap() {
     basemaps: [
       {
         name: "天地图影像",
-        icon: "//data.mars3d.cn/img/control/basemap/tdt_img.png",
+        icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
         type: "group",
         layers: [
           { name: "底图", type: "tdt", layer: "img_d" },
