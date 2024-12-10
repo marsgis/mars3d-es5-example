@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = function (option) {
+var mapOptions = function (option) {
   option.scene.clock = {
     startTime: "2017/08/25 08:00:00",
     stopTime: "2017/08/25 08:05:30",
@@ -27,7 +27,7 @@ export const mapOptions = function (option) {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addDemoData()
@@ -56,15 +56,15 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function setCurrentTime(currentTime) {
+function setCurrentTime(currentTime) {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date(currentTime))
 }
 
-export function setClockAnimateTime(startTimes, stopTimes) {
+function setClockAnimateTime(startTimes, stopTimes) {
   const startTime = Cesium.JulianDate.fromDate(new Date(startTimes))
   const stopTime = Cesium.JulianDate.fromDate(new Date(stopTimes))
 

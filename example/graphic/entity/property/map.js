@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.81506, lng: 117.23734, alt: 1768, heading: 322, pitch: -33 },
     fxaa: true
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量图层
@@ -29,11 +29,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function demoSampleProperty() {
+function demoSampleProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -60,7 +60,7 @@ export function demoSampleProperty() {
   marsBox.setStyle({ dimensions: property })
 }
 
-export function demoTimeIntervalCollectionProperty() {
+function demoTimeIntervalCollectionProperty() {
   graphicLayer.clear()
 
   // 指定固定时间 ，方便写演示代码。
@@ -115,7 +115,7 @@ export function demoTimeIntervalCollectionProperty() {
   marsBox.setStyle({ dimensions: property })
 }
 
-export function demoConstantProperty() {
+function demoConstantProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -141,7 +141,7 @@ export function demoConstantProperty() {
 }
 
 //
-export function demoCompositeProperty() {
+function demoCompositeProperty() {
   graphicLayer.clear()
 
   // 指定固定时间 ，方便写演示代码。
@@ -222,7 +222,7 @@ export function demoCompositeProperty() {
 }
 
 // 使盒子进行移动
-export function demoSampledPositionProperty() {
+function demoSampledPositionProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -248,7 +248,7 @@ export function demoSampledPositionProperty() {
 }
 
 //
-export function demoColorMaterialProperty() {
+function demoColorMaterialProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -270,7 +270,7 @@ export function demoColorMaterialProperty() {
   }, 3000)
 }
 
-export function demoColorMaterialProperty2() {
+function demoColorMaterialProperty2() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -296,7 +296,7 @@ export function demoColorMaterialProperty2() {
 }
 
 //
-export function demoCallbackProperty() {
+function demoCallbackProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -331,7 +331,7 @@ export function demoCallbackProperty() {
 }
 
 //
-export function demoReferenceProperty() {
+function demoReferenceProperty() {
   graphicLayer.clear()
 
   // 创建蓝色盒子
@@ -373,7 +373,7 @@ export function demoReferenceProperty() {
 }
 
 //
-export function demoPropertyBag() {
+function demoPropertyBag() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -404,7 +404,7 @@ export function demoPropertyBag() {
 }
 
 //
-export function demoVelocityVectorProperty() {
+function demoVelocityVectorProperty() {
   graphicLayer.clear()
 
   const propertyFJ = getSampledPositionProperty([

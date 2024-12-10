@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -11,7 +11,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
   removeLayer()
 }
@@ -44,17 +44,17 @@ function removeLayer() {
 }
 
 // 是否有地形
-export function chkHasTerrain(isStkTerrain) {
+function chkHasTerrain(isStkTerrain) {
   map.hasTerrain = isStkTerrain
 }
 
 // 深度检测
-export function chkTestTerrain(val) {
+function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
 // 当前页面业务相关
-export function showModel(modelUrl) {
+function showModel(modelUrl) {
   removeLayer()
   if (!modelUrl) {
     return
@@ -80,7 +80,7 @@ export function showModel(modelUrl) {
   })
 }
 
-export function setTranslation(x, y, z) {
+function setTranslation(x, y, z) {
   const translation = Cesium.Cartesian3.fromArray([x, y, z])
   const modelMatrix = Cesium.Matrix4.fromTranslation(translation)
   tiles3dLayer.tileset.modelMatrix = modelMatrix

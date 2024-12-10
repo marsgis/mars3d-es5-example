@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.826361, lng: 117.223374, alt: 805, heading: 206, pitch: -38 }
   }
@@ -18,7 +18,7 @@ let terrainClip
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -41,7 +41,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -49,7 +49,7 @@ export function onUnmounted() {
 // false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重
 const precise = true
 
-export function showDytDemo() {
+function showDytDemo() {
   removeLayer()
 
   // 加模型
@@ -70,7 +70,7 @@ export function showDytDemo() {
   tilesetLayer.clip.on(mars3d.EventType.addItem, onAddClipArea)
 }
 
-export function showTehDemo() {
+function showTehDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
@@ -112,7 +112,7 @@ export function showTehDemo() {
   tilesetLayer.clip.on(mars3d.EventType.addItem, onAddClipArea)
 }
 
-export function showXianDemo() {
+function showXianDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
@@ -158,7 +158,7 @@ function onAddClipArea(event) {
 }
 
 // 绘制矩形
-export async function btnDrawExtent() {
+async function btnDrawExtent() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -176,7 +176,7 @@ export async function btnDrawExtent() {
   tilesetLayer.clip.addArea(positions)
 }
 // 绘制裁剪区
-export async function btnDraw() {
+async function btnDraw() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -194,7 +194,7 @@ export async function btnDraw() {
   tilesetLayer.clip.addArea(positions)
 }
 // 清除
-export function removeAll() {
+function removeAll() {
   map.graphicLayer.clear()
   tilesetLayer.clip.clear()
 
@@ -202,18 +202,18 @@ export function removeAll() {
 }
 
 // 定位至模型
-export function flyToGraphic(item) {
+function flyToGraphic(item) {
   const graphic = tilesetLayer.clip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 // 删除模型
-export function deletedGraphic(item) {
+function deletedGraphic(item) {
   tilesetLayer.clip.removeArea(item)
   terrainClip.removeArea(item)
 }
 
-export function showHideArea(id, selected) {
+function showHideArea(id, selected) {
   if (selected) {
     tilesetLayer.clip.showArea(id)
     terrainClip.showArea(id)

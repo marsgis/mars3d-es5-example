@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.795446, lng: 117.219725, alt: 1816, heading: 15, pitch: -34 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -33,15 +33,15 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function setStyleDef() {
+function setStyleDef() {
   tiles3dLayer.customShader = undefined
 }
 
-export function setStyle1() {
+function setStyle1() {
   globalMsg(`当前效果是：根据视角距离，模型呈现不同颜色`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
@@ -55,7 +55,7 @@ export function setStyle1() {
   })
 }
 
-export function setStyle2() {
+function setStyle2() {
   globalMsg(`当前效果是：动态渐变+动态光环的特效`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
@@ -88,7 +88,7 @@ export function setStyle2() {
 }
 
 //  夜景贴图
-export function setStyle3() {
+function setStyle3() {
   globalMsg(`当前效果是：夜景贴图的特效`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
@@ -132,7 +132,7 @@ export function setStyle3() {
 }
 
 //
-export function setStyle4() {
+function setStyle4() {
   globalMsg(`当前效果是：色彩动态变化的特效`)
 
   // 特效

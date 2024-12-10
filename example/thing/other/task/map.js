@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 29.093038, lng: 108.804459, alt: 23321232.7, heading: 0, pitch: -90 },
     clock: {
@@ -28,7 +28,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 演示数据
@@ -160,16 +160,16 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function startPlay() {
+function startPlay() {
   map.clock.currentTime = map.clock.startTime // 设置当前时间 = 开始时间
   map.clock.shouldAnimate = true
 }
 
-export function updateShouldAnimate(value) {
+function updateShouldAnimate(value) {
    map.clock.shouldAnimate = value
 }
 

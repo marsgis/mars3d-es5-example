@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
-import FloorGraphic from "./FloorGraphic"
+// import * as mars3d from "mars3d"
+// import FloorGraphic from "./FloorGraphic"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let floorGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.832215, lng: 117.219965, alt: 195, heading: 31, pitch: -36 }
   }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -44,27 +44,27 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 展开
-export function openFloorModel() {
+function openFloorModel() {
   const height = 5 // 展开的每层间隔高度，单位：米
   floorGraphic.openAll(height)
 }
 
 // 合并
-export function mergeFloorModel() {
+function mergeFloorModel() {
   floorGraphic.mergeAll()
 }
 
 // 还原
-export function resetModel() {
+function resetModel() {
   floorGraphic.reset()
 }
 
 // 楼层显示
-export function showFloorModel(floorNum) {
+function showFloorModel(floorNum) {
   floorGraphic.showFloor(floorNum)
 }

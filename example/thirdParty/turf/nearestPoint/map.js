@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let pointLayer
 let graphicLayer
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
     fxaa: true
@@ -28,7 +28,7 @@ const pointStyle = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   pointLayer = new mars3d.layer.GeoJsonLayer({
@@ -56,11 +56,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawPoint() {
+function drawPoint() {
   clearAll()
 
   graphicLayer
@@ -146,7 +146,7 @@ function clickPoint(position) {
   endPoint.openPopup()
 }
 
-export function clearAll() {
+function clearAll() {
   removeSelect()
   graphicLayer.clear()
 }
@@ -163,7 +163,7 @@ function updateSelect(graphic) {
   }
 }
 
-export function removeSelect() {
+function removeSelect() {
   if (!selectGraphic) {
     return
   }

@@ -1,8 +1,8 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphic
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var graphic
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -10,7 +10,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -21,7 +21,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -147,7 +147,7 @@ function addRockets() {
 }
 
 // 设置参数效果
-export function setArticulationStage(groupName, stageName, current) {
+function setArticulationStage(groupName, stageName, current) {
   const name = groupName + " " + stageName
   model.setArticulationStage(name, Number(current))
   model.applyArticulations()

@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
-import { Kml2JsonLayer } from "./Kml2JsonLayer.js"
+// import * as mars3d from "mars3d"
+// import { Kml2JsonLayer } from "./Kml2JsonLayer.js"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   },
@@ -39,7 +39,7 @@ export const mapOptions = {
   ]
 }
 
-export const treeEvent = new mars3d.BaseClass()
+var treeEvent = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -47,7 +47,7 @@ export const treeEvent = new mars3d.BaseClass()
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   shoRailway()
 }
@@ -56,12 +56,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // flyTo至目标
-export function flyToEntity(entity) {
+function flyToEntity(entity) {
   map.flyTo(entity)
 }
 
@@ -74,7 +74,7 @@ function removeLayer() {
 }
 
 // 示例：
-export function shoRailway() {
+function shoRailway() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -125,7 +125,7 @@ export function shoRailway() {
 }
 
 // 示例：
-export function showExpressway() {
+function showExpressway() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -147,7 +147,7 @@ export function showExpressway() {
 }
 
 // 示例：
-export function showSafetyNotice() {
+function showSafetyNotice() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -194,7 +194,7 @@ export function showSafetyNotice() {
 }
 
 // 示例：
-export function showMeteorological() {
+function showMeteorological() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -217,7 +217,7 @@ export function showMeteorological() {
 }
 
 // 示例：
-export function showGDP() {
+function showGDP() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -257,10 +257,10 @@ export function showGDP() {
   })
 }
 
-export function getGraphicsTree(options) {
+function getGraphicsTree(options) {
   return graphicLayer.getGraphicsTree(options)
 }
 
-export function getGraphicById(id) {
+function getGraphicById(id) {
   return graphicLayer.getGraphicById(id)
 }

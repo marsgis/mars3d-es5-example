@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.309522, lng: 116.275765, alt: 69659, heading: 0, pitch: -45 },
     contextOptions: {
@@ -31,7 +31,7 @@ export const mapOptions = {
   ]
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -39,7 +39,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
@@ -69,94 +69,28 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 查看场景出图
-export function showMapImg(options = {}) {
+function showMapImg(options = {}) {
   return map.expImage({ download: false, ...options }).then((result) => {
     return result.image
   })
 }
 
 // 下载场景出图
-export function downLoad() {
+function downLoad() {
   map.expImage()
 }
 
 // 下载场景缩略图
-export function downLoad2() {
+function downLoad2() {
   map.expImage({
     height: 300, // 指定 高度 或 宽度(指定1种就行，对应的自动缩放)
     // width: 300, //同时指定后去裁剪中间部分
     download: true
-  })
-}
-
-export async function downLoadDiv() {
-  // 地图DIV的webgl
-  const mapImg = await map.expImage({ download: false })
-  console.log("downLoadDiv：1. 地图部分截图成功")
-
-  // 其他部分DIV，使用 lib/dom2img/dom-to-image.js
-  const divImg = await window.domtoimage.toPng(map.container, {
-    filter: function (node) {
-      const className = node.className
-      if (className && (className.indexOf("cesium-viewer-cesiumWidgetContainer") !== -1 || className.indexOf("cesium-viewer-toolbar") !== -1)) {
-        return true
-      }
-      return false
-    }
-  })
-  console.log("downLoadDiv：2.DIV部分截图成功")
-
-  // 其他部分DIV，使用 lib/dom2img/html2canvas.js
-  // const divImg = await window.html2canvas(map.container, {
-  //   ignoreElements: function (node) {
-  //     const className = node.className
-  //     if (className && (className.indexOf("cesium-viewer-cesiumWidgetContainer") !== -1 || className.indexOf("cesium-viewer-toolbar") !== -1)) {
-  //       return false
-  //     }
-  //     return true
-  //   },
-  //   backgroundColor: null,
-  //   allowTaint: true
-  // })
-  // console.log("downLoadDiv：2.DIV部分截图成功")
-
-  // 合并
-  const newImg = await mergeImage(mapImg.image, divImg, mapImg.width, mapImg.height)
-  console.log("downLoadDiv：3.合并2个图片完成")
-
-  mars3d.Util.downloadBase64Image("场景出图_含DIV.png", newImg) // 下载图片
-}
-
-// 合并2张图片
-function mergeImage(base1, base2, width, height) {
-  return new Promise((resolve, reject) => {
-    const canvas = document.createElement("canvas")
-    canvas.width = width
-    canvas.height = height
-    const ctx = canvas.getContext("2d")
-
-    const image = new Image() // MAP图片
-    image.crossOrigin = "Anonymous" // 支持跨域图片
-    image.onload = () => {
-      ctx.drawImage(image, 0, 0, width, height)
-
-      const image2 = new Image() // div图片
-      image2.crossOrigin = "Anonymous" // 支持跨域图片
-      image2.onload = () => {
-        ctx.drawImage(image2, 0, 0, width, height)
-
-        // 合并后的图片
-        const base64 = canvas.toDataURL("image/png")
-        resolve(base64)
-      }
-      image2.src = base2
-    }
-    image.src = base1
   })
 }
 

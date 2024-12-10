@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measureObj
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +17,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   measureObj = new mars3d.thing.Measure({
@@ -62,7 +62,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -95,12 +95,12 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function removeAll() {
+function removeAll() {
   measureObj.clear()
   hideTipMarker()
 }
 
-export function measureSection() {
+function measureSection() {
   measureObj.section({
     // maxPointNum:2,
     splitNum: 300, // 插值次数
@@ -108,7 +108,7 @@ export function measureSection() {
   })
 }
 
-export function calculation(params) {
+function calculation(params) {
   const len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
   const hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
 
@@ -125,7 +125,7 @@ let tipGraphic
  * @param {html} inthtml html
  * @returns {void}
  */
-export function showTipMarker(point, z, inthtml) {
+function showTipMarker(point, z, inthtml) {
   const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
@@ -146,7 +146,7 @@ export function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-export function hideTipMarker() {
+function hideTipMarker() {
   if (!tipGraphic) {
     return
   }

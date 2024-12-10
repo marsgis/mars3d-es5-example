@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 20.772952, lng: 82.609338, alt: 22604251, heading: 0, pitch: -90 }
   }
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 2也可以通过下面方法获取center参数
@@ -27,12 +27,12 @@ export function onMounted(mapInstance) {
 }
 
 // 视图切换
-export function sceneMode(name) {
+function sceneMode(name) {
   const value = Number(name)
   setSceneOptions("sceneMode", value)
 }
 
-export function setSceneOptions(name, value) {
+function setSceneOptions(name, value) {
   const options = {}
   options[name] = value
 
@@ -40,7 +40,7 @@ export function setSceneOptions(name, value) {
   map.setSceneOptions(options)
 }
 
-export function setSceneGlobeOptions(name, value) {
+function setSceneGlobeOptions(name, value) {
   const options = { globe: {} }
   options.globe[name] = value
 
@@ -48,7 +48,7 @@ export function setSceneGlobeOptions(name, value) {
   map.setSceneOptions(options)
 }
 
-export function setSceneCameraControllerOptions(name, value) {
+function setSceneCameraControllerOptions(name, value) {
   const options = { cameraController: {} }
   options.cameraController[name] = value
 
@@ -61,7 +61,7 @@ export function setSceneCameraControllerOptions(name, value) {
 }
 
 // 是否显示底图
-export function showBaseMap(val) {
+function showBaseMap(val) {
   if (val === "1") {
     map.basemap = 2021
   } else {

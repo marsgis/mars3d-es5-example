@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
-import { WeiVectorTileLayer } from "../../../../../public/lib/mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
+// import * as mars3d from "mars3d"
+// import { WeiVectorTileLayer } from "../../../../../public/lib/mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.221078, lng: 117.305076, alt: 136530, heading: 10, pitch: -68 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // turf v6.5升级到v7.1的使用到的API方法名称变更
@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 /**

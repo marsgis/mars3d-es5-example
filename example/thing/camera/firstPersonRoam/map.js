@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let firstPersonRoam
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.929546, lng: 116.172289, alt: 559, heading: 168, pitch: -11 }
   }
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   firstPersonRoam = new mars3d.thing.FirstPersonRoam()
@@ -29,21 +29,21 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 是否开启漫游
-export function chkOpen(value) {
+function chkOpen(value) {
   firstPersonRoam.enabled = value
 }
 
 // 开始自动漫游
-export function startAuto() {
+function startAuto() {
   firstPersonRoam.startAutoForward()
 }
 
 // 停止自动漫游
-export function stopAuto() {
+function stopAuto() {
   firstPersonRoam.stopAutoForward()
 }

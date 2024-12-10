@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var graphicLayer
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.784488, lng: 117.16699, alt: 9030, heading: 1, pitch: -57 },
     cameraController: {
@@ -23,7 +23,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -38,11 +38,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function addDemoGraphic1() {
+function addDemoGraphic1() {
   const radarParsms = {
     outerRadius: 2000,
     innerRadius: 500,
@@ -96,7 +96,7 @@ function addDemoGraphic2() {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -133,7 +133,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制 相阵控雷达
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "camberRadar",
     style: {
@@ -162,70 +162,70 @@ function getLastGraphic() {
   }
 }
 
-export function headingChange(value) {
+function headingChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.heading = value
   }
 }
 
-export function pitchChange(value) {
+function pitchChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.pitch = value
   }
 }
 
-export function rollChange(value) {
+function rollChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.roll = value
   }
 }
 
-export function outerRadiusChange(val) {
+function outerRadiusChange(val) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.radius = val
   }
 }
 
-export function innerRadiusChange(val) {
+function innerRadiusChange(val) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.startRadius = val
   }
 }
 
-export function startFovHChange(value) {
+function startFovHChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.startFovH = value
   }
 }
 
-export function endFovHChange(value) {
+function endFovHChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.endFovH = value
   }
 }
 
-export function startFovVChange(value) {
+function startFovVChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.startFovV = value
   }
 }
 
-export function endFovVChange(value) {
+function endFovVChange(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.endFovV = value
   }
 }
 
-export function updateColor(value) {
+function updateColor(value) {
   const camberRadar = getLastGraphic()
   if (camberRadar) {
     camberRadar.color = value

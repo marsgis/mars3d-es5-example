@@ -1,13 +1,13 @@
-import * as mars3d from "mars3d"
-// import { FeRadarJamming } from "./FeRadarJamming"
+// import * as mars3d from "mars3d"
+// // import { FeRadarJamming } from "./FeRadarJamming"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
-export let graphicLayer
-export let radarJamming // 雷达primitive
+var graphicLayer
+var radarJamming // 雷达primitive
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.27994, lng: 117.241137, alt: 92227, heading: 0, pitch: -53 }
   }
@@ -19,7 +19,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -89,7 +89,7 @@ function getVertexs() {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -121,7 +121,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "jammingRadar",
     vertexs: getVertexs(),

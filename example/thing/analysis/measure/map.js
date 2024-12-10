@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measure
 
 /**
@@ -9,7 +9,7 @@ let measure
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改编辑点样式，比如大小
@@ -46,20 +46,20 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function onlyVertexPosition(val) {
+function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-export function removeAll() {
+function removeAll() {
   measure.clear()
 }
 
 // 空间距离
-export async function measureLength() {
+async function measureLength() {
   const graphic = await measure.distance({
     showAddText: true,
     label: {
@@ -84,7 +84,7 @@ export async function measureLength() {
 }
 
 // 贴地距离
-export async function measureSurfaceLength() {
+async function measureSurfaceLength() {
   const graphic = await measure.distanceSurface({
     showAddText: true,
     exact: false // 是否进行精确计算， 传false时是否快速概略计算方式，该方式计算精度较低，但计算速度快，仅能计算在当前视域内坐标的高度
@@ -98,7 +98,7 @@ export async function measureSurfaceLength() {
 }
 
 // 水平面积
-export async function measureArea() {
+async function measureArea() {
   const graphic = await measure.area({
     // style: {
     //   color: '#00fff2',
@@ -119,7 +119,7 @@ export async function measureArea() {
 }
 
 // 贴地面积
-export async function measureSurfaceeArea() {
+async function measureSurfaceeArea() {
   const graphic = await measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -129,22 +129,22 @@ export async function measureSurfaceeArea() {
   })
 }
 // 高度差
-export async function measureHeight() {
+async function measureHeight() {
   const graphic = await measure.height()
 }
 
 // 三角测量
-export async function measureTriangleHeight() {
+async function measureTriangleHeight() {
   const graphic = await measure.heightTriangle()
 }
 
 // 方位角
-export async function measureAngle() {
+async function measureAngle() {
   const graphic = await measure.angle()
 }
 
 // 坐标测量
-export async function measurePoint() {
+async function measurePoint() {
   const graphic = await measure.point({
     // popup: function (point, graphic) {
     //   return `<div class="mars3d-template-title">位置信息</div>
@@ -207,7 +207,7 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function openJSON(file) {
+function openJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -217,22 +217,16 @@ export function openJSON(file) {
     console.log(reader)
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      const geojson = JSON.parse(this.result)
-      console.log("打开了json文件", geojson)
-
-      if (geojson.type === "graphic" && geojson.data) {
-        measure.graphicLayer.addGraphic(geojson.data)
-        measure.graphicLayer.flyTo()
-      } else {
-        measure.graphicLayer.loadGeoJSON(geojson, { flyTo: true })
-      }
+      const json = JSON.parse(this.result)
+      console.log("打开了json文件", json)
+      measure.graphicLayer.loadJSON(json, { flyTo: true, clear: true })
     }
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
   }
 }
 
-export function saveJSON() {
+function saveJSON() {
   if (measure.graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

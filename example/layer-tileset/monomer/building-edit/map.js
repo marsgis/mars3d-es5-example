@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 43.822109, lng: 125.14311, alt: 890, heading: 337, pitch: -50 }
   },
@@ -15,7 +15,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -23,7 +23,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
@@ -95,7 +95,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -103,7 +103,7 @@ export function onUnmounted() {
  * 绑定右键菜单功能，开始编辑，删除等
  *@returns {void} 无
  */
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -283,7 +283,7 @@ export function bindLayerContextMenu() {
 }
 
 // 切换到预览模式
-export function toYLMS() {
+function toYLMS() {
   const geojson = graphicLayer.toGeoJSON()
 
   geoJsonLayerDTH.load({ data: geojson })
@@ -293,17 +293,17 @@ export function toYLMS() {
 }
 
 // 切换到编辑模式
-export function toBJMS() {
+function toBJMS() {
   geoJsonLayerDTH.clear()
   graphicLayer.hasEdit = true
   graphicLayer.show = true
 }
 
-export function deleteAll() {
+function deleteAll() {
   graphicLayer.clear()
 }
 
-export function drawPolygon() {
+function drawPolygon() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -323,7 +323,7 @@ export function drawPolygon() {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -332,10 +332,8 @@ export function openGeoJSON(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const json = this.result
-      graphicLayer.loadGeoJSON(json, {
-        clear: true,
-        flyTo: true
-      })
+      console.log("打开了json文件", json)
+      graphicLayer.loadJSON(json, { flyTo: true, clear: true })
     }
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
@@ -343,7 +341,7 @@ export function openGeoJSON(file) {
 }
 
 // 保存JSON文件
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 26.339073, lng: 118.495643, alt: 937783, heading: 355, pitch: -58 }
   }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -92,10 +92,10 @@ function getColor() {
   return arrColor[++index % arrColor.length]
 }
 
-export function getGraphicsTree(options) {
+function getGraphicsTree(options) {
   return geoJsonLayer.getGraphicsTree(options)
 }
 
-export function getGraphicById(id) {
+function getGraphicById(id) {
   return geoJsonLayer.getGraphicById(id)
 }
