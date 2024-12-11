@@ -54,13 +54,14 @@ function onMounted(mapInstance) {
         center: { lat: 30.461755, lng: 116.280775, alt: 36600.2, heading: 0.8, pitch: -39.7 }
       },
       {
-        type: "flickerEntity",
+        type: "graphicStyle",
         name: "高亮矢量对象",
         start: 12,
         duration: 6,
         layerId: "20241101",
-        graphicId: "M-4492C7B1-F860-4F4B-A30D-3863A83F99C5",
-        color: "#ffff00"
+        graphicIds: ["M-4492C7B1-F860-4F4B-A30D-3863A83F99C5"],
+        interval: true,
+        style: { color: "#ffff00" }
       },
       {
         type: "camera",

@@ -12,7 +12,7 @@ function init() {
   // 读取 config.json 配置文件
   mars3d.Util.fetchJson({ url: "/config/config.json" })
     .then(function (json) {
-      console.log("读取 config.json 配置文件完成", json) // 打印测试信息
+      mars3d.Log.logInfo("读取 config.json 配置文件完成", json) // 打印测试信息
 
       //创建三维地球场景
       const initMapFun = window.initMap ? window.initMap : globalInitMap
@@ -45,7 +45,7 @@ function init() {
       }
     })
     .catch(function (error) {
-      console.log("加载JSON出错", error)
+      mars3d.Log.logInfo("加载JSON出错", error)
       globalAlert(error ? error.message : "加载JSON出错")
     })
 }
