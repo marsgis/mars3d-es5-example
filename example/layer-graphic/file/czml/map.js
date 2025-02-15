@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 0, pitch: -48 }
     // cameraController: {
@@ -18,10 +18,10 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -44,7 +44,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -57,7 +57,7 @@ function removeLayer() {
 }
 
 // 示例：
-export function showCar() {
+function showCar() {
   removeLayer()
 
   map.setCameraView({ lat: 40.893923, lng: 121.917192, alt: 691, heading: 64, pitch: -46 })
@@ -80,7 +80,7 @@ export function showCar() {
 }
 
 // 示例：
-export function showAircraft() {
+function showAircraft() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.CzmlLayer({
@@ -102,7 +102,7 @@ export function showAircraft() {
 }
 
 // 示例：
-export function showShip() {
+function showShip() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.CzmlLayer({
@@ -124,7 +124,7 @@ export function showShip() {
 }
 
 // 示例：
-export function showBDSatellite() {
+function showBDSatellite() {
   removeLayer()
 
   map.setCameraView({ lat: 51.630551, lng: 165.640607, alt: 110141973.7, heading: 360, pitch: -89.9 })
@@ -155,7 +155,7 @@ export function showBDSatellite() {
   })
 }
 
-export function showSatellite() {
+function showSatellite() {
   removeLayer()
 
   // 更新地球参数
@@ -185,7 +185,7 @@ export function showSatellite() {
 }
 
 // 示例：
-export function showRocket() {
+function showRocket() {
   removeLayer()
 
   map.basemap = "ArcGIS影像"
@@ -212,7 +212,7 @@ export function showRocket() {
 }
 
 // 示例：
-export function showFireDrill() {
+function showFireDrill() {
   removeLayer()
 
   map.setCameraView({ lat: 32.891559, lng: 117.360875, alt: 378, heading: 18, pitch: -62 })
@@ -234,7 +234,7 @@ export function showFireDrill() {
   })
 }
 
-export function flytoModel(id) {
+function flytoModel(id) {
   const entity = graphicLayer.getEntityById(id)
   if (entity) {
     map.flyTo(entity)

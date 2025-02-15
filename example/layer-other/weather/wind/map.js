@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let windLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: -7.267841, lng: 102.947683, alt: 1960633.4, heading: 0.4, pitch: -70.1 },
     scene3DOnly: true
@@ -16,7 +16,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -89,18 +89,18 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 参数调整面板
-export function setLayerOptions(options) {
+function setLayerOptions(options) {
   console.log("setOptions更新了图层", options)
   windLayer.setOptions(options)
 }
 
 // 加载局部数据1
-export async function loadHongkongData() {
+async function loadHongkongData() {
   map.setCameraView({ lat: 19.658703, lng: 114.870135, alt: 357062.4, heading: 341.1, pitch: -52.9 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -119,7 +119,7 @@ export async function loadHongkongData() {
 }
 
 // 加载局部数据2
-export async function loadDongnanData1() {
+async function loadDongnanData1() {
   map.setCameraView({ lat: -8.188301, lng: 103.011488, alt: 1423712.3, heading: 4.8, pitch: -59.5 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -137,7 +137,7 @@ export async function loadDongnanData1() {
 }
 
 // 加载局部数据
-export async function loadDongnanData2() {
+async function loadDongnanData2() {
   map.setCameraView({ lat: -8.188301, lng: 103.011488, alt: 1423712.3, heading: 4.8, pitch: -59.5 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -155,7 +155,7 @@ export async function loadDongnanData2() {
 }
 
 // 加载全球数据
-export async function loadEarthData() {
+async function loadEarthData() {
   map.setCameraView({ lat: 15.026094, lng: 112.896676, alt: 13975128, heading: 0, pitch: -89 }, { duration: 0 })
   showLoading()
 

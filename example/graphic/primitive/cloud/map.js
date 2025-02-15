@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.791477, lng: 116.348231, alt: 6351, heading: 10, pitch: -36 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", "(1) 删除单个数据时Cesium内部偶尔会删除2个数据")
@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -101,7 +101,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 批量生成测试数据
-export function addRandomGraphicByCount(num) {
+function addRandomGraphicByCount(num) {
   graphicLayer.clear()
 
   for (let j = 0; j < num; ++j) {
@@ -137,7 +137,7 @@ function getRandomNumberInRange(minValue, maxValue) {
 }
 
 // 开始绘制
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "cloud",
     style: {

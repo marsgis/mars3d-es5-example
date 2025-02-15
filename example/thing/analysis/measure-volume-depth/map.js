@@ -1,20 +1,20 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measure
-export let measureVolume
+var measureVolume
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 },
     globe: { depthTestAgainstTerrain: true }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 基于深度图的方量分析 需要注意：
@@ -52,7 +52,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -121,7 +121,7 @@ function getFixedNum(val) {
 }
 
 // 方量分析
-export async function analysisMeasure() {
+async function analysisMeasure() {
   // 手动绘制的方式分析
   measureVolume = await measure.volume({
     depth: true // 使用离屏渲染深度图的方式
@@ -130,19 +130,19 @@ export async function analysisMeasure() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   measure.clear()
   measureVolume = null
 }
 
 // 修改基础高度
-export function baseHeight(num) {
+function baseHeight(num) {
   measureVolume.height = num
   showHeightVal()
 }
 
 // 修改底高
-export function txtMinHeight(num) {
+function txtMinHeight(num) {
   if (num > measureVolume.height) {
     globalMsg("墙底部高度不能高于基准面高")
     return
@@ -151,7 +151,7 @@ export function txtMinHeight(num) {
 }
 
 // 修改顶高
-export function txtMaxHeight(num) {
+function txtMaxHeight(num) {
   // const maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
   // if (num < maxHeight) {
   //   globalMsg("墙顶部高度不能低于区域内的地表高" + maxHeight)
@@ -165,7 +165,7 @@ export function txtMaxHeight(num) {
   measureVolume.maxHeight = num
 }
 
-export async function selHeight() {
+async function selHeight() {
   if (!measureVolume || !measure) {
     globalMsg("请先开始方量分析")
     return

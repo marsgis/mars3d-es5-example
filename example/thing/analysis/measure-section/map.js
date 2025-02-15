@@ -1,18 +1,18 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measureObj
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   measureObj = new mars3d.thing.Measure({
@@ -54,7 +54,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic1(measureObj.graphicLayer)
 }
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -87,12 +87,12 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function removeAll() {
+function removeAll() {
   measureObj.clear()
   hideTipMarker()
 }
 
-export function measureSection() {
+function measureSection() {
   measureObj.section({
     // maxPointNum:2,
     splitNum: 300, // 插值次数
@@ -100,7 +100,7 @@ export function measureSection() {
   })
 }
 
-export function calculation(params) {
+function calculation(params) {
   const len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
   const hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
 
@@ -117,7 +117,7 @@ let tipGraphic
  * @param {html} inthtml html
  * @returns {void}
  */
-export function showTipMarker(point, z, inthtml) {
+function showTipMarker(point, z, inthtml) {
   const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
@@ -138,7 +138,7 @@ export function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-export function hideTipMarker() {
+function hideTipMarker() {
   if (!tipGraphic) {
     return
   }

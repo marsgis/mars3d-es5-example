@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
-// import kgUtil from "kml-geojson"
+// import * as mars3d from "mars3d"
+// // import kgUtil from "kml-geojson"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const mapOptions = {
+var mapOptions = {
   // scene: {
   //   center: { lat: 30.846849, lng: 116.335307, alt: 739, heading: 360, pitch: -45 }
   // },
@@ -38,12 +38,12 @@ export const mapOptions = {
   ]
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 let keyDownCode // 一直按着的键对应的code
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 设置编辑点样式
@@ -154,7 +154,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   if (graphicLayer) {
     graphicLayer.destroy() // 销毁内部会释放所有事件及数据
     graphicLayer = null
@@ -174,11 +174,11 @@ function closeGraphicOptionsWidget(e) {
 
 let isEntityPrimitive = true
 
-export function changeDrawEntity(value) {
+function changeDrawEntity(value) {
   isEntityPrimitive = value
 }
 
-export async function drawPoint() {
+async function drawPoint() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "point" : "pointP",
     style: {
@@ -199,7 +199,7 @@ export async function drawPoint() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawMarker() {
+async function drawMarker() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "billboard" : "billboardP",
     style: {
@@ -221,7 +221,7 @@ export async function drawMarker() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawLabel() {
+async function drawLabel() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "label" : "labelP",
     style: {
@@ -237,7 +237,7 @@ export async function drawLabel() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function startDrawModel() {
+async function startDrawModel() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "model" : "modelP",
     style: {
@@ -249,7 +249,7 @@ export async function startDrawModel() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawPolyline(clampToGround) {
+async function drawPolyline(clampToGround) {
   // map.highlightEnabled = false
   // map.popup.enabled = false
 
@@ -299,7 +299,7 @@ function updateDrawPosition(thisPoint, lastPoint, type) {
   return thisPoint.toCartesian()
 }
 
-export async function drawBrushLine(clampToGround) {
+async function drawBrushLine(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -312,7 +312,7 @@ export async function drawBrushLine(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawPolygon(clampToGround) {
+async function drawPolygon(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "polygon" : "polygonP",
     style: {
@@ -328,7 +328,7 @@ export async function drawPolygon(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawCurve(clampToGround) {
+async function drawCurve(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: "curve",
     style: {
@@ -341,7 +341,7 @@ export async function drawCurve(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawCorridor(clampToGround) {
+async function drawCorridor(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "corridor" : "corridorP",
     style: {
@@ -355,7 +355,7 @@ export async function drawCorridor(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawEllipse(clampToGround) {
+async function drawEllipse(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "circle" : "circleP",
     style: {
@@ -371,7 +371,7 @@ export async function drawEllipse(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawRectangle(clampToGround) {
+async function drawRectangle(clampToGround) {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "rectangle" : "rectangleP",
     style: {
@@ -387,7 +387,7 @@ export async function drawRectangle(clampToGround) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function draPlane() {
+async function draPlane() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "plane" : "planeP",
     style: {
@@ -402,7 +402,7 @@ export async function draPlane() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function draWall(closure) {
+async function draWall(closure) {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "wall" : "wallP",
     style: {
@@ -416,7 +416,7 @@ export async function draWall(closure) {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawBox() {
+async function drawBox() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "box" : "boxP",
     style: {
@@ -431,7 +431,7 @@ export async function drawBox() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawCylinder() {
+async function drawCylinder() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "cylinder" : "cylinderP",
     style: {
@@ -445,7 +445,7 @@ export async function drawCylinder() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawEllipsoid() {
+async function drawEllipsoid() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "ellipsoid" : "ellipsoidP",
     style: {
@@ -458,7 +458,7 @@ export async function drawEllipsoid() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawExtrudedPolygon() {
+async function drawExtrudedPolygon() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "polygon" : "polygonP",
     style: {
@@ -471,7 +471,7 @@ export async function drawExtrudedPolygon() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawExtrudedRectangle() {
+async function drawExtrudedRectangle() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "rectangle" : "rectangleP",
     style: {
@@ -484,7 +484,7 @@ export async function drawExtrudedRectangle() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawExtrudedCircle() {
+async function drawExtrudedCircle() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityPrimitive ? "circle" : "circleP",
     style: {
@@ -497,7 +497,7 @@ export async function drawExtrudedCircle() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function drawSatellite() {
+async function drawSatellite() {
   const graphic = await graphicLayer.startDraw({
     type: "satellite",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
@@ -522,7 +522,7 @@ export async function drawSatellite() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -533,7 +533,7 @@ export function bindLayerPopup() {
   })
 }
 
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -831,7 +831,7 @@ export function bindLayerContextMenu() {
   ])
 }
 
-export function updateOnlyVertexPosition(value) {
+function updateOnlyVertexPosition(value) {
   map.onlyVertexPosition = value
 }
 
@@ -842,7 +842,7 @@ export function updateOnlyVertexPosition(value) {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -878,7 +878,7 @@ export function openGeoJSON(file) {
 }
 
 // 点击保存JSON
-export function saveJSON() {
+function saveJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -888,7 +888,7 @@ export function saveJSON() {
 }
 
 // 点击保存GeoJSON
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -898,7 +898,7 @@ export function saveGeoJSON() {
 }
 
 // 点击保存KML
-export function saveKML() {
+function saveKML() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -921,7 +921,7 @@ export function saveKML() {
 }
 
 // 点击保存WKT
-export function saveWKT() {
+function saveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

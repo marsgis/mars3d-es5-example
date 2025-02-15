@@ -1,20 +1,20 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
-export const kgUtil = window.kgUtil
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
+var kgUtil = window.kgUtil
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.516143, lng: 117.282937, alt: 46242, heading: 2, pitch: -49 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   if (graphicLayer) {
     graphicLayer.destroy() // 销毁内部会释放所有事件及数据
     graphicLayer = null
@@ -57,7 +57,7 @@ function closeGraphicOptionsWidget(e) {
 }
 
 // 绘制
-export async function drawPolygon(type) {
+async function drawPolygon(type) {
   const graphic = await graphicLayer.startDraw({
     type,
     styleType: "polygon",
@@ -74,7 +74,7 @@ export async function drawPolygon(type) {
 }
 
 // 绘制(带高度)
-export async function drawExtrudedPolygon(type) {
+async function drawExtrudedPolygon(type) {
   const graphic = await graphicLayer.startDraw({
     type,
     styleType: "polygon",
@@ -88,7 +88,7 @@ export async function drawExtrudedPolygon(type) {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -100,7 +100,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -277,7 +277,7 @@ export function bindLayerContextMenu() {
 }
 
 // 保存GeoJSON
-export function downloadJsonFile() {
+function downloadJsonFile() {
   const geojson = graphicLayer.toGeoJSON()
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
@@ -289,7 +289,7 @@ export function downloadJsonFile() {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 

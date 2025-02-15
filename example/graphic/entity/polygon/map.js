@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.622151, lng: 117.274595, alt: 28451, heading: 2, pitch: -49 },
     logarithmicDepthBuffer: false // 对数深度缓冲区[当 贴地面 出现 阴影体 时设置下]
   }
 }
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -40,7 +40,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -350,7 +350,7 @@ function addDemoGraphic9(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -383,7 +383,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -407,7 +407,7 @@ export async function startDrawGraphic() {
 }
 
 // 开始绘制 立体面
-export async function startDrawGraphic2() {
+async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -420,7 +420,7 @@ export async function startDrawGraphic2() {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -432,7 +432,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

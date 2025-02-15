@@ -1,17 +1,17 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let canvasWindLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 24.677182, lng: 107.044123, alt: 20407002, heading: 0, pitch: -90 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
   map.hasTerrain = false
@@ -58,46 +58,46 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 滑动条事件
 // 修改粒子数量
-export function changeCount(val) {
+function changeCount(val) {
   if (val) {
     canvasWindLayer.particlesNumber = val
   }
 }
 
 // 修改存活时间
-export function changeAge(val) {
+function changeAge(val) {
   if (val) {
     canvasWindLayer.maxAge = val
   }
 }
 
 // 修改移动速率
-export function changeSpeed(val) {
+function changeSpeed(val) {
   if (val) {
     canvasWindLayer.speedRate = val
   }
 }
 
 // 修改线宽
-export function changeLinewidth(val) {
+function changeLinewidth(val) {
   if (val) {
     canvasWindLayer.lineWidth = val
   }
 }
 
 // 改变颜色
-export function changeColor(color) {
+function changeColor(color) {
   canvasWindLayer.color = color
 }
 
 // 加载局部数据1
-export async function loadHongkongData() {
+async function loadHongkongData() {
   map.setCameraView({ lat: 19.658703, lng: 114.870135, alt: 357062.4, heading: 341.1, pitch: -52.9 }, { duration: 0 })
 
   canvasWindLayer.setOptions({
@@ -110,7 +110,7 @@ export async function loadHongkongData() {
   canvasWindLayer.setData(res)
 }
 // 加载局部数据2
-export async function loadDongnanData1() {
+async function loadDongnanData1() {
   map.setCameraView({ lat: -8.188301, lng: 103.011488, alt: 1423712.3, heading: 4.8, pitch: -59.5 }, { duration: 0 })
 
   canvasWindLayer.setOptions({
@@ -134,7 +134,7 @@ export async function loadDongnanData1() {
 }
 
 // 加载局部数据
-export async function loadDongnanData2() {
+async function loadDongnanData2() {
   map.setCameraView({ lat: -8.188301, lng: 103.011488, alt: 1423712.3, heading: 4.8, pitch: -59.5 }, { duration: 0 })
 
   canvasWindLayer.setOptions({
@@ -148,7 +148,7 @@ export async function loadDongnanData2() {
 }
 
 // 加载全球数据
-export async function loadEarthData() {
+async function loadEarthData() {
   map.setCameraView({ lat: 15.026094, lng: 112.896676, alt: 13975128, heading: 0, pitch: -89 }, { duration: 0 })
   showLoading()
 

@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
-import { Typhoon, PlayTyphoon } from "./Typhoon"
+// import * as mars3d from "mars3d"
+// import { Typhoon, PlayTyphoon } from "./Typhoon"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 8.560501, lng: 111.849127, alt: 10725692, heading: 358, pitch: -87 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 绘制24/48小时警戒线
@@ -21,7 +21,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -32,7 +32,7 @@ const typhoonListObj = {}
 let selectTyphoon
 
 // 勾选台风
-export function selectOneTyphoon(row) {
+function selectOneTyphoon(row) {
   stopPlay()
 
   const id = row.id
@@ -48,7 +48,7 @@ export function selectOneTyphoon(row) {
 }
 
 // 取消勾选台风
-export function unSelectOneTyphoon(id) {
+function unSelectOneTyphoon(id) {
   const typhoon = typhoonListObj[id]
   if (!typhoon) {
     return
@@ -63,7 +63,7 @@ export function unSelectOneTyphoon(id) {
 }
 
 // 定位到台风
-export function clickTyRow(row) {
+function clickTyRow(row) {
   const typhoon = typhoonListObj[row.id]
   if (typhoon) {
     typhoon.flyTo()
@@ -71,7 +71,7 @@ export function clickTyRow(row) {
 }
 
 // 定位到轨迹点
-export function clickPathRow(row) {
+function clickPathRow(row) {
   selectTyphoon.showPointFQ(row)
   const graphic = selectTyphoon.getPointById(row.id)
   if (graphic) {
@@ -85,7 +85,7 @@ export function clickPathRow(row) {
 }
 
 // 开始播放
-export function startPlay() {
+function startPlay() {
   if (!selectTyphoon) {
     return
   }
@@ -99,7 +99,7 @@ export function startPlay() {
 }
 
 // 停止播放
-export function stopPlay() {
+function stopPlay() {
   if (selectTyphoon?.playTyphoon) {
     selectTyphoon.playTyphoon.stop()
     selectTyphoon.show = true
@@ -185,4 +185,4 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(textWarning48)
 }
 
-export const formatDate = mars3d.Util.formatDate
+var formatDate = mars3d.Util.formatDate
