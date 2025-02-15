@@ -1,28 +1,23 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.170953, lng: 121.485939, alt: 7473, heading: 10, pitch: -40 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
 
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 8,
     marsJzwStyle: true,
     style: {
@@ -46,11 +41,8 @@ function onMounted(mapInstance) {
   addDemoGraphic5(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -111,15 +103,16 @@ function addDemoGraphic4(graphicLayer) {
   let _rotation = Math.random()
 
   const graphic = new mars3d.graphic.CircleEntity({
-    position: Cesium.Cartesian3.fromDegrees(121.504242, 31.23805, 27.88),
+    position: Cesium.Cartesian3.fromDegrees(121.503472, 31.236675, 24.1),
     style: {
-      radius: 1500.0,
-      // 扫描材质
-      materialType: mars3d.MaterialType.CircleScan,
+      radius: 700.0,
+      materialType: mars3d.MaterialType.Image2,
       materialOptions: {
-        image: "//data.mars3d.cn/img/textures/circle-scan.png",
+        image: "https://data.mars3d.cn/img/textures/circle-scan.png",
+        noWhite: false,
         color: "#00ff00"
       },
+      // 扫描的实现
       stRotation: new Cesium.CallbackProperty(function (e) {
         _rotation -= 0.1
         return _rotation
@@ -138,12 +131,12 @@ function addDemoGraphic5(graphicLayer) {
     position: new mars3d.LngLatPoint(121.526215, 31.245237, 123.5),
     style: {
       radius: 700.0,
-      materialType: mars3d.MaterialType.CircleScan,
+      materialType: mars3d.MaterialType.Image2,
       materialOptions: {
-        // 扫描材质
-        image: "//data.mars3d.cn/img/textures/circle-two.png",
-        color: "#5fc4ee"
+        image: "https://data.mars3d.cn/img/textures/circle-two.png"
+        // color: "#5fc4ee"
       },
+      // 扫描的实现
       stRotation: new Cesium.CallbackProperty(function (e) {
         _rotation += 0.1
         return _rotation

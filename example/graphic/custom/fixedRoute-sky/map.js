@@ -1,15 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -18,14 +13,17 @@ function onMounted(mapInstance) {
 
   const fixedRoute = new mars3d.graphic.FixedRoute({
     name: "空中漫游",
-    timeField: "datatime",
-    positions: [
-      { lng: 117.217898, lat: 31.80021, alt: 500, datatime: "2021/3/25 0:01:00" },
-      { lng: 117.217535, lat: 31.815032, alt: 500, datatime: "2021/3/25 0:01:30" },
-      { lng: 117.21596, lat: 31.853067, alt: 500, datatime: "2021/3/25 0:02:10" }
-    ],
+    position: {
+      type: "time", // 时序动态坐标
+      timeField: "datatime",
+      list: [
+        { lng: 117.217898, lat: 31.80021, alt: 500, datatime: "2021/3/25 0:01:00" },
+        { lng: 117.217535, lat: 31.815032, alt: 500, datatime: "2021/3/25 0:01:30" },
+        { lng: 117.21596, lat: 31.853067, alt: 500, datatime: "2021/3/25 0:02:10" }
+      ],
+      interpolation: true // setInterpolationOptions插值
+    },
     clockLoop: true, // 是否循环播放
-    interpolation: true, // setInterpolationOptions插值
     camera: {
       type: "dy",
       followedX: 50,
@@ -35,10 +33,13 @@ function onMounted(mapInstance) {
   graphicLayer.addGraphic(fixedRoute)
 
   // ui面板信息展示
-  fixedRoute.on(mars3d.EventType.change, mars3d.Util.funThrottle((event) => {
-    // 取实时信息，可以通过  fixedRoute.info
-    eventTarget.fire("roamLineChange", event)
-  }, 500))
+  fixedRoute.on(
+    mars3d.EventType.change,
+    mars3d.Util.funThrottle((event) => {
+      // 取实时信息，可以通过  fixedRoute.info
+      eventTarget.fire("roamLineChange", event)
+    }, 500)
+  )
 
   // 开始漫游
   fixedRoute.start()
@@ -46,11 +47,8 @@ function onMounted(mapInstance) {
   addDivPoint(fixedRoute.property)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -103,5 +101,5 @@ function addDivPoint(position) {
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export const formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatTime = mars3d.Util.formatTime

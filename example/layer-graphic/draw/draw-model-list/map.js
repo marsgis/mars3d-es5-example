@@ -1,24 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.811646, lng: 117.22232, alt: 842.4, heading: 358.5, pitch: -45 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -33,6 +28,11 @@ function onMounted(mapInstance) {
     console.log("监听layer，单击了矢量对象", event)
   })
 
+  const editUpdateFun = mars3d.Util.funDebounce(openGraphicOptionsWidget, 500)
+  graphicLayer.on([mars3d.EventType.click, mars3d.EventType.drawCreated, mars3d.EventType.editStart, mars3d.EventType.editStyle], editUpdateFun)
+  const removeFun = mars3d.Util.funDebounce(closeGraphicOptionsWidget, 500)
+  graphicLayer.on(mars3d.EventType.removeGraphic, removeFun)
+
   // 加载模型列表
   const configUrl = "//data.mars3d.cn/gltf/list.json"
   mars3d.Util.fetchJson({ url: configUrl })
@@ -44,43 +44,46 @@ function onMounted(mapInstance) {
     })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
+  if (graphicLayer) {
+    graphicLayer.destroy() // 销毁内部会释放所有事件及数据
+    graphicLayer = null
+  }
+
   map = null
-  deleteAll()
+}
+
+// 修改样式，修改点，删除点等操作去激活或更新面板
+function openGraphicOptionsWidget(e) {
+  eventTarget.fire("updateGraphicOptionsWidget", { graphicId: e.graphic.id, layerId: graphicLayer.id })
+}
+
+function closeGraphicOptionsWidget(e) {
+  eventTarget.fire("updateGraphicOptionsWidget", { disable: true })
 }
 
 // 绘制模型
-function startDrawModel(style) {
-  graphicLayer.startDraw({
+export async function startDrawModel(style) {
+  const graphic = await graphicLayer.startDraw({
     type: "model",
     drawShow: true, // 绘制时，是否显示模型，可避免在3dtiles上拾取坐标存在问题。
     style
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 深度检测
-function chkTestTerrain(val) {
+export function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
-function onlyVertexPosition(val) {
+export function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
-}
-
-function changeItemImage(item) {
-  return mars3d.Util.template(item.image, map.templateValues)
-}
-
-function changeItemUrl(item) {
-  return mars3d.Util.template(item.style.url, map.templateValues)
 }
 
 /**
@@ -90,7 +93,7 @@ function changeItemUrl(item) {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -129,7 +132,7 @@ function openGeoJSON(file) {
 }
 
 // 保存文件
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

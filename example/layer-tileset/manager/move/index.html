@@ -45,7 +45,7 @@
         <tr>
           <td>模型URL：</td>
           <td colspan="3">
-            <input id="txtModel" type="text" value="//data.mars3d.cn/3dtiles/qx-dyt/tileset.json" class="form-control" style="width: 450px" />
+            <input id="txtModel" type="text" value="https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json" class="form-control" style="width: 450px" />
           </td>
           <td>
             <input type="button" class="btn btn-primary" value="加载模型" onclick="showMd()" />
@@ -94,7 +94,7 @@
     <script src="./map.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
-      let url = "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
+      let url = "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
       function initUI(options) {
         setTimeout(() => {
           showModel(url)
@@ -124,7 +124,7 @@
           url = modelUrl
           $("#txtModel").val(url)
         } else {
-          url = "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
+          url = "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
           $("#txtModel").val(url)
         }
       }

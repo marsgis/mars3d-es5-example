@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map
+export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: {
       lat: 28.440864,
@@ -16,19 +16,23 @@ var mapOptions = {
     fxaa: true,
     requestRenderMode: true // 显式渲染
   },
+  thing: {
+    keyboardRoam: {
+      moveStep: 0.1, // 平移步长 (米)。
+      dirStep: 50, // 相机原地旋转步长，值越大步长越小。
+      rotateStep: 0.3, // 相机围绕目标点旋转速率，0.3-2.0
+      minPitch: 0.1, // 最小仰角  0-1
+      maxPitch: 0.95 // 最大仰角  0-1
+    }
+  },
   control: {
     infoBox: false
   },
   layers: []
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -103,11 +107,8 @@ function onMounted(mapInstance) {
   }
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -135,20 +136,20 @@ function isPCBroswer() {
 }
 
 // 绑定事件
-function bindTestTerrain(val) {
+export function bindTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
-function bindWireframe(val) {
+export function bindWireframe(val) {
   // 三角网
   tiles3dLayer.tileset.debugWireframe = val
 }
-function bindBoundbox(val) {
+export function bindBoundbox(val) {
   // 包围盒
   tiles3dLayer.tileset.debugShowBoundingVolume = val
 }
-function bindGfirstperson(val) {
+export function bindGfirstperson(val) {
   // 键盘漫游
-  map.keyboardRoam.enabled = val
+  map.thing.keyboardRoam.enabled = val
 }
 
 let tiles3dLayer
@@ -169,15 +170,15 @@ function removeLayer() {
 /**
  * 倾斜摄影 县城社区
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxShequDemo() {
+export function showQxShequDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
-    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 148.2 },
     maximumScreenSpaceError: 1,
     maxMemory: 1024, // 最大缓存内存大小(MB)
@@ -231,15 +232,15 @@ function showQxShequDemo() {
 /**
  * 倾斜摄影 景区文庙
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxSimiaoDemo() {
+export function showQxSimiaoDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "文庙",
-    url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 38.8 },
     maximumScreenSpaceError: 1,
     // "skipLevelOfDetail": true,
@@ -278,14 +279,14 @@ function showQxSimiaoDemo() {
  * 城市白膜建筑物 合肥市区
  * @returns {void}
  */
-function showJzwHefeiDemo() {
+export function showJzwHefeiDemo() {
   removeLayer()
 
   map.basemap = 2017 // 切换到蓝色底图
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
     maximumScreenSpaceError: 1,
     // marsJzwStyle: true, // 打开建筑物特效（内置Shader代码）
     marsJzwStyle: {
@@ -322,12 +323,12 @@ function showJzwHefeiDemo() {
 }
 
 // 示例：点云数据 塔杆
-function showPntsGantaDemo() {
+export function showPntsGantaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "高压线塔杆",
-    url: "//data.mars3d.cn/3dtiles/pnts-ganta/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/pnts-ganta/tileset.json",
     maximumScreenSpaceError: 1,
     position: { alt: 31 },
     style: {
@@ -358,15 +359,15 @@ function showPntsGantaDemo() {
 /**
  * 人工建模 石化工厂
  *
- * @showMaxShihuaDemo 石化工厂模型
+ * @export showMaxShihuaDemo 石化工厂模型
  * @returns {void}
  */
-function showMaxShihuaDemo() {
+export function showMaxShihuaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
-    url: "//data.mars3d.cn/3dtiles/max-shihua/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/max-shihua/tileset.json",
     position: { lng: 117.077158, lat: 31.659116, alt: -2.0 },
     maximumScreenSpaceError: 1,
     // shadows: Cesium.ShadowMode.DISABLED,
@@ -408,15 +409,15 @@ function showMaxShihuaDemo() {
 /**
  * BIM 桥梁
  *
- * @showBimQiaoliangDemo 桥梁模型
+ * @export showBimQiaoliangDemo 桥梁模型
  * @returns {void}
  */
-function showBimQiaoliangDemo() {
+export function showBimQiaoliangDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "桥梁",
-    url: "//data.mars3d.cn/3dtiles/bim-qiaoliang/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/bim-qiaoliang/tileset.json",
 
     // 以下参数可以参考用于3dtiles总数据大，清晰度过高情况下进行性能优化。这不是一个通用的解决方案，但可以以此为参考。
     maximumScreenSpaceError: 16, // 【重要】数值加大，能让最终成像变模糊
@@ -468,15 +469,15 @@ function showBimQiaoliangDemo() {
 /**
  * BIM 桥梁
  *
- * @showBimDitiezhanDemo 桥梁模型
+ * @export showBimDitiezhanDemo 桥梁模型
  * @returns {void}
  */
-function showBimDitiezhanDemo() {
+export function showBimDitiezhanDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "轻轨地铁站",
-    url: "//data.mars3d.cn/3dtiles/bim-ditiezhan/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/bim-ditiezhan/tileset.json",
     maximumScreenSpaceError: 16,
     position: { lng: 117.203994, lat: 31.857999, alt: 28.9 },
     rotation: { z: 168.1 },

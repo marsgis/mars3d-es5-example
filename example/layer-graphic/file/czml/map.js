@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 0, pitch: -48 }
     // cameraController: {
@@ -14,21 +14,16 @@ var mapOptions = {
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true,
-    compass: { top: "10px", left: "5px" }
+    compass: { style: { top: "10px", right: "5px" } }
   }
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
+  // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
   // url传入模型地址
   const type = mars3d.Util.getRequestByName("data")
@@ -48,11 +43,8 @@ function onMounted(mapInstance) {
   }
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -65,14 +57,14 @@ function removeLayer() {
 }
 
 // 示例：
-function showCar() {
+export function showCar() {
   removeLayer()
 
   map.setCameraView({ lat: 40.893923, lng: 121.917192, alt: 691, heading: 64, pitch: -46 })
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "汽车",
-    url: "//data.mars3d.cn/file/czml/car.czml"
+    url: "https://data.mars3d.cn/file/czml/car.czml"
     // flyTo: true,
   })
   map.addLayer(graphicLayer)
@@ -88,12 +80,12 @@ function showCar() {
 }
 
 // 示例：
-function showAircraft() {
+export function showAircraft() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "飞行编队",
-    url: "//data.mars3d.cn/file/czml/flight2.czml",
+    url: "https://data.mars3d.cn/file/czml/flight2.czml",
     popup: "all"
     // flyTo: true
   })
@@ -110,12 +102,12 @@ function showAircraft() {
 }
 
 // 示例：
-function showShip() {
+export function showShip() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "船舶编队",
-    url: "//data.mars3d.cn/file/czml/ship2.czml",
+    url: "https://data.mars3d.cn/file/czml/ship2.czml",
     popup: "all"
     // flyTo: true
   })
@@ -132,7 +124,7 @@ function showShip() {
 }
 
 // 示例：
-function showBDSatellite() {
+export function showBDSatellite() {
   removeLayer()
 
   map.setCameraView({ lat: 51.630551, lng: 165.640607, alt: 110141973.7, heading: 360, pitch: -89.9 })
@@ -146,7 +138,7 @@ function showBDSatellite() {
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "北斗卫星",
-    url: "//data.mars3d.cn/file/czml/satellite.czml",
+    url: "https://data.mars3d.cn/file/czml/satellite.czml",
     center: { lng: 10, lat: 111.833884, z: 150000000, heading: 0, pitch: -90, roll: 0 }
     // flyTo: true
   })
@@ -163,7 +155,7 @@ function showBDSatellite() {
   })
 }
 
-function showSatellite() {
+export function showSatellite() {
   removeLayer()
 
   // 更新地球参数
@@ -175,7 +167,7 @@ function showSatellite() {
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "卫星",
-    url: "//data.mars3d.cn/file/czml/satellite-simple.czml",
+    url: "https://data.mars3d.cn/file/czml/satellite-simple.czml",
     center: { lat: -20.236138, lng: -144.262661, alt: 41875827, heading: 339, pitch: -90 },
     flyTo: true
   })
@@ -193,7 +185,7 @@ function showSatellite() {
 }
 
 // 示例：
-function showRocket() {
+export function showRocket() {
   removeLayer()
 
   map.basemap = "ArcGIS影像"
@@ -201,7 +193,7 @@ function showRocket() {
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "火箭发射",
-    url: "//data.mars3d.cn/file/czml/space.czml",
+    url: "https://data.mars3d.cn/file/czml/space.czml",
     flyTo: true
   })
   map.addLayer(graphicLayer)
@@ -220,14 +212,14 @@ function showRocket() {
 }
 
 // 示例：
-function showFireDrill() {
+export function showFireDrill() {
   removeLayer()
 
   map.setCameraView({ lat: 32.891559, lng: 117.360875, alt: 378, heading: 18, pitch: -62 })
 
   graphicLayer = new mars3d.layer.CzmlLayer({
     name: "消防演练",
-    url: "//data.mars3d.cn/file/czml/firedrill.czml"
+    url: "https://data.mars3d.cn/file/czml/firedrill.czml"
     // flyTo: true
   })
   map.addLayer(graphicLayer)
@@ -242,7 +234,7 @@ function showFireDrill() {
   })
 }
 
-function flytoModel(id) {
+export function flytoModel(id) {
   const entity = graphicLayer.getEntityById(id)
   if (entity) {
     map.flyTo(entity)

@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.826361, lng: 117.223374, alt: 805, heading: 206, pitch: -38 }
   }
@@ -12,20 +12,15 @@ var mapOptions = {
 let tilesetLayer
 let terrainClip
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   terrainClip = new mars3d.thing.TerrainClip({
     diffHeight: 50, // 井的深度
-    image: "//data.mars3d.cn/img/textures/poly-stone.jpg",
-    imageBottom: "//data.mars3d.cn/img/textures/poly-soil.jpg",
+    image: "https://data.mars3d.cn/img/textures/poly-stone.jpg",
+    imageBottom: "https://data.mars3d.cn/img/textures/poly-soil.jpg",
     splitNum: 80 // 井边界插值数
   })
   map.addThing(terrainClip)
@@ -37,11 +32,8 @@ function onMounted(mapInstance) {
   showTehDemo()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -49,13 +41,13 @@ function onUnmounted() {
 // false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重
 const precise = true
 
-function showDytDemo() {
+export function showDytDemo() {
   removeLayer()
 
   // 加模型
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "大雁塔",
-    url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
     position: { alt: -27 },
     maximumScreenSpaceError: 1, // 可传入TilesetFlat构造参数，下面是演示压平区域
     clip: {
@@ -70,13 +62,13 @@ function showDytDemo() {
   tilesetLayer.clip.on(mars3d.EventType.addItem, onAddClipArea)
 }
 
-function showTehDemo() {
+export function showTehDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
-    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-teh/tileset.json",
     position: { lng: 117.218434, lat: 31.81807, alt: 163 },
     maximumScreenSpaceError: 16,
     maxMemory: 2048, // 最大缓存内存大小(MB)
@@ -112,12 +104,12 @@ function showTehDemo() {
   tilesetLayer.clip.on(mars3d.EventType.addItem, onAddClipArea)
 }
 
-function showXianDemo() {
+export function showXianDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
-    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 148.2 },
     maximumScreenSpaceError: 1,
     skipLevelOfDetail: true,
@@ -158,7 +150,7 @@ function onAddClipArea(event) {
 }
 
 // 绘制矩形
-async function btnDrawExtent() {
+export async function btnDrawExtent() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -176,7 +168,7 @@ async function btnDrawExtent() {
   tilesetLayer.clip.addArea(positions)
 }
 // 绘制裁剪区
-async function btnDraw() {
+export async function btnDraw() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -194,7 +186,7 @@ async function btnDraw() {
   tilesetLayer.clip.addArea(positions)
 }
 // 清除
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
   tilesetLayer.clip.clear()
 
@@ -202,18 +194,18 @@ function removeAll() {
 }
 
 // 定位至模型
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = tilesetLayer.clip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
 // 删除模型
-function deletedGraphic(item) {
+export function deletedGraphic(item) {
   tilesetLayer.clip.removeArea(item)
   terrainClip.removeArea(item)
 }
 
-function showHideArea(id, selected) {
+export function showHideArea(id, selected) {
   if (selected) {
     tilesetLayer.clip.showArea(id)
     terrainClip.showArea(id)

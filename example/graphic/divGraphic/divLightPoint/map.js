@@ -1,30 +1,25 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.314417, lng: 118.82149, alt: 78939, heading: 358, pitch: -46 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017
 
   // 显示边界
   const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "南京市",
-    url: "//data.mars3d.cn/file/geojson/areas/320100_full.json",
+    url: "https://data.mars3d.cn/file/geojson/areas/320100_full.json",
     symbol: {
       type: "wall",
       styleOptions: {
@@ -33,7 +28,7 @@ function onMounted(mapInstance) {
         materialType: mars3d.MaterialType.LineFlow,
         materialOptions: {
           speed: 10, // 速度
-          image: "//data.mars3d.cn/img/textures/fence.png", // 图片
+          image: "https://data.mars3d.cn/img/textures/fence.png", // 图片
           repeatX: 1, // 重复数量
           axisY: true, // 竖直方向
           color: "#00ffff", // 颜色
@@ -69,21 +64,18 @@ function onMounted(mapInstance) {
   bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addDemoGraphic1(graphicLayer)
+  addDemoGraphic1()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 显示高校点
-function addDemoGraphic1(graphicLayer) {
+function addDemoGraphic1() {
   const pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"]
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/gaoxiao.json" })
+  mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/gaoxiao.json" })
     .then(function (arr) {
       for (let i = 0, len = arr.length; i < len; i++) {
         const item = arr[i]
@@ -104,7 +96,7 @@ function addDemoGraphic1(graphicLayer) {
             size: item["主管部门"] === "教育部" ? 15 : 10,
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 200000) // 按视距距离显示
             // billboard: {
-            //   image: "//data.mars3d.cn/img/marker/lace-blue.png",
+            //   image: "https://data.mars3d.cn/img/marker/lace-blue.png",
             //   horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
             //   verticalOrigin: Cesium.VerticalOrigin.BOTTOM
             // }
@@ -117,7 +109,7 @@ function addDemoGraphic1(graphicLayer) {
         })
         graphicLayer.addGraphic(graphic)
       }
-      eventTarget.fire("addTableData", { graphicLayer })
+      eventTarget.fire("addTableData")
     })
     .catch(function (error) {
       console.log("加载JSON出错", error)
@@ -127,7 +119,7 @@ function addDemoGraphic1(graphicLayer) {
 // BusineDataLayer 业务数据(通过API接口获取)图层
 // function addDemoGraphic2() {
 //   const dataLayer = new mars3d.layer.BusineDataLayer({
-//     url: "//data.mars3d.cn/file/apidemo/gaoxiao.json",
+//     url: "https://data.mars3d.cn/file/apidemo/gaoxiao.json",
 //     symbol: {
 //       type: "divLightPoint",
 //       styleOptions: {
@@ -153,7 +145,7 @@ function addDemoGraphic1(graphicLayer) {
 // }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -180,17 +172,18 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
-  graphicLayer.startDraw({
+export async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
     type: "divLightPoint",
     style: {
       color: "#f33349"
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -202,7 +195,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

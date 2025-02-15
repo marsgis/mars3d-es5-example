@@ -32,7 +32,7 @@
     <link href="/example/map/other/backgroundImg/background.css" rel="stylesheet" />
     <style>
       .mars3d-container {
-        background-image: url(img/tietu/backGroundImg.jpg);
+        /* background-image: url(img/tietu/backGroundImg.jpg);s */
         background-repeat: no-repeat;
         background-size: 100% 100%;
       }
@@ -40,17 +40,17 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <div class="infoview">
       <div>
         <div class="btn-group" role="group">
-          <input type="button" class="btn btn-primary" value="无" id="bntShow0" />
-          <input type="button" class="btn btn-primary active" value="背景1" id="bntShow1" />
-          <input type="button" class="btn btn-primary" value="背景2" id="bntShow2" />
-          <input type="button" class="btn btn-primary" value="背景3" id="bntShow3" />
+          <input type="button" class="btn btn-primary" value="无" id="img0" />
+          <input type="button" class="btn btn-primary active" value="背景1" id="img1" />
+          <input type="button" class="btn btn-primary" value="背景2" id="img2" />
+          <input type="button" class="btn btn-primary" value="背景3" id="img3" />
+          <input type="button" class="btn btn-primary" value="颜色" id="color" />
+          <input type="button" class="btn btn-primary" value="天空盒" id="skybox" />
         </div>
       </div>
     </div>
@@ -61,56 +61,51 @@
       "use script" //开发环境建议开启严格模式
 
       function initUI(options) {
-        $("#bntShow0").click(function () {
+        // 无
+        $("#img0").click(function () {
           $(".active").removeClass("active")
           $(this).addClass("active")
 
-          // 第一种方式
-          $(".mars3d-container").css({
-            "background-image": "none"
-          })
+          showImgNone()
+        })
+        //背景1
+        $("#img1").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
 
-          // 第二种方式
-          // show()
+          showImg1()
         })
 
-        $("#bntShow1").click(function () {
+        // 背景2
+        $("#img2").click(function () {
           $(".active").removeClass("active")
           $(this).addClass("active")
 
-          // 第一种方式
-          $(".mars3d-container").css({
-            "background-image": "url(img/tietu/backGroundImg.jpg)"
-          })
-
-          // 第二种方式
-          // show1()
+          showImg2()
         })
 
-        $("#bntShow2").click(function () {
+        // 背景3
+        $("#img3").click(function () {
           $(".active").removeClass("active")
           $(this).addClass("active")
 
-          // 第一种方式
-          $(".mars3d-container").css({
-            "background-image": "url(//data.mars3d.cn/img/map/world/world.jpg)"
-          })
-
-          // 第二种方式
-          // show2()
+          showImg3()
         })
 
-        $("#bntShow3").click(function () {
+        // 颜色
+        $("#color").click(function () {
           $(".active").removeClass("active")
           $(this).addClass("active")
 
-          // 第一种方式
-          $(".mars3d-container").css({
-            "background-image": "url(img/tietu/bg4.jpg)"
-          })
+          showColor()
+        })
 
-          // 第二种方式
-          // show3()
+        // 天空盒
+        $("#skybox").click(function () {
+          $(".active").removeClass("active")
+          $(this).addClass("active")
+
+          showSkybox()
         })
       }
     </script>

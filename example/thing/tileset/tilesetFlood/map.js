@@ -1,22 +1,17 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
-var mapOptions = {
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const mapOptions = {
   scene: {
     center: { lat: 31.797067, lng: 117.21963, alt: 1512, heading: 360, pitch: -36 }
   }
 }
 
-var tilesetLayer
+export let tilesetLayer
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -25,11 +20,8 @@ function onMounted(mapInstance) {
   showDytDemo()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -37,13 +29,13 @@ function onUnmounted() {
 // false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重
 const precise = false
 
-function showDytDemo() {
+export function showDytDemo() {
   removeLayer()
 
   // 加模型
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "大雁塔",
-    url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
     position: { alt: -27 },
     maximumScreenSpaceError: 1,
     flood: {
@@ -69,14 +61,14 @@ function showDytDemo() {
   })
 }
 
-function showTehDemo() {
+export function showTehDemo() {
   removeLayer()
 
   // 加模型
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
-    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-teh/tileset.json",
     position: { lng: 117.218434, lat: 31.81807, alt: 163 },
     maximumScreenSpaceError: 16,
     maxMemory: 2048, // 最大缓存内存大小(MB)
@@ -114,12 +106,12 @@ function showTehDemo() {
   })
 }
 
-function showXianDemo() {
+export function showXianDemo() {
   removeLayer()
 
   tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
-    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 148.2 },
     maximumScreenSpaceError: 1,
     skipLevelOfDetail: true,
@@ -158,12 +150,12 @@ function removeLayer() {
 }
 
 // 高度选择
-function onChangeHeight(height) {
+export function onChangeHeight(height) {
   tilesetLayer.flood.height = height
 }
 
 // 修改分析方式
-function changeFloodType(val) {
+export function changeFloodType(val) {
   if (val === "1") {
     tilesetLayer.flood.floodAll = true
   } else {
@@ -172,7 +164,7 @@ function changeFloodType(val) {
 }
 
 // 绘制矩形
-async function btnDrawExtent() {
+export async function btnDrawExtent() {
   stop()
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
@@ -188,7 +180,7 @@ async function btnDrawExtent() {
   tilesetLayer.flood.addArea(positions)
 }
 // 绘制多边形
-async function btnDraw() {
+export async function btnDraw() {
   stop()
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
@@ -207,7 +199,7 @@ async function btnDraw() {
 }
 
 // 开始分析
-function begin(data) {
+export function begin(data) {
   if (!tilesetLayer.flood.floodAll && tilesetLayer.flood.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return false
@@ -237,6 +229,6 @@ function begin(data) {
   return true
 }
 
-function stop() {
+export function stop() {
   tilesetLayer.flood.clear()
 }

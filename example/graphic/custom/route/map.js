@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.773622, lng: 117.077444, alt: 5441, heading: 359, pitch: -57 }
   },
@@ -14,15 +14,10 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 演示数据的时间
@@ -30,7 +25,7 @@ function onMounted(mapInstance) {
 
   // 加载车辆
   mars3d.Util.fetchJson({
-    url: "//data.mars3d.cn/file/apidemo/car-list.json"
+    url: "https://data.mars3d.cn/file/apidemo/car-list.json"
   })
     .then(function (res) {
       const tableData = res.data
@@ -42,11 +37,8 @@ function onMounted(mapInstance) {
     })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -121,13 +113,13 @@ function showCarList(arr) {
       case 1:
         modelParam = {
           scale: 2,
-          url: "//data.mars3d.cn/gltf/mars/car/tufangche.glb"
+          url: "https://data.mars3d.cn/gltf/mars/car/tufangche.glb"
         }
         break
       case 2:
         modelParam = {
           scale: 1,
-          url: "//data.mars3d.cn/gltf/mars/car/wajueji.glb"
+          url: "https://data.mars3d.cn/gltf/mars/car/wajueji.glb"
         }
         break
       default:
@@ -148,7 +140,7 @@ function showCarList(arr) {
         clampToGround: true
       },
       // billboard: {
-      //   image: "//data.mars3d.cn/img/marker/svg/huojian.svg",
+      //   image: "https://data.mars3d.cn/img/marker/svg/huojian.svg",
       //   scale: 0.5,
       //   alignedAxis: true
       // },
@@ -221,7 +213,7 @@ function updatePath() {
 // 读取车辆gps坐标路径的接口
 function getPathList(beginTime, endTime) {
   mars3d.Util.fetchJson({
-    url: "//data.mars3d.cn/file/apidemo/car-path.json"
+    url: "https://data.mars3d.cn/file/apidemo/car-path.json"
   })
     .then((res) => {
       const listALL = res.data || []
@@ -247,16 +239,17 @@ function getPathList(beginTime, endTime) {
 
         path.forEach((item) => {
           const point = new mars3d.LngLatPoint(item.lon, item.lat, 0)
-          car.addDynamicPosition(point, item.time)
+          car.addTimePosition(point, item.time)
         })
       })
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log(e)
       globalMsg("实时查询车辆路径信息失败，请稍候再试")
     })
 }
 
-function onSelect(id, selected) {
+export function onSelect(id, selected) {
   const car = graphicLayer.getGraphicById(id)
   if (!car) {
     return
@@ -269,7 +262,7 @@ function onSelect(id, selected) {
   }
 }
 
-function onChange(data) {
+export function onChange(data) {
   data.forEach((item) => {
     const car = graphicLayer.getGraphicById(item)
     if (car) {
@@ -279,9 +272,20 @@ function onChange(data) {
 }
 
 // 点击行
-function flyToModel(id) {
+export function flyToModel(id) {
   const car = graphicLayer.getGraphicById(id)
   if (car) {
     car.flyToPoint({ radius: 900 })
+
+    // map
+    //   .flyToPoint(car.position, {
+    //     radius: 1000,
+    //     pitch: -70,
+    //     heading: Cesium.Math.toDegrees(car.hpr?.heading || 0),
+    //     duration: 0
+    //   })
+    //   .then(() => {
+    //     map.trackedEntity = car.trackedEntity
+    //   })
   }
 }

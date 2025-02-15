@@ -1,14 +1,14 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 let tleArr
 let drawGraphic
 let tableList = []
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 21.105826, lng: 108.202174, alt: 4426845, heading: 0, pitch: -77 },
     cameraController: {
@@ -17,15 +17,10 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -35,11 +30,8 @@ function onMounted(mapInstance) {
   queryTleChinaApiData()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -57,7 +49,7 @@ function queryTleChinaApiData() {
 
 // 框选查询 矩形
 
-async function drawRectangle() {
+export async function drawRectangle() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -73,7 +65,7 @@ async function drawRectangle() {
 }
 
 // 框选查询   多边
-async function drawPolygon() {
+export async function drawPolygon() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -89,7 +81,7 @@ async function drawPolygon() {
 }
 
 // 框选查询   圆
-async function drawCircle() {
+export async function drawCircle() {
   map.graphicLayer.clear()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -104,13 +96,13 @@ async function drawCircle() {
   })
 }
 
-function drawClear() {
+export function drawClear() {
   map.graphicLayer.clear()
   drawGraphic = null
 }
 
 // 清除效果
-function clearResult() {
+export function clearResult() {
   tableList = []
   drawClear()
 }
@@ -126,7 +118,7 @@ const pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7)
  * @param {time} endTimes 结束时间
  * @returns {void}
  */
-function startFX(startTimes, endTimes) {
+export function startFX(startTimes, endTimes) {
   if (!drawGraphic) {
     globalMsg("请先在图上绘制区域")
     return

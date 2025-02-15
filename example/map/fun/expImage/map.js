@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.309522, lng: 116.275765, alt: 69659, heading: 0, pitch: -45 },
     contextOptions: {
@@ -16,14 +16,14 @@ var mapOptions = {
     {
       type: "geojson",
       name: "示例数据",
-      url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
+      url: "https://data.mars3d.cn/file/geojson/mars3d-draw.json",
       popup: "{type} {name}",
       show: true
     },
     {
       type: "3dtiles",
       name: "测试模型",
-      url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
+      url: "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
       position: { lng: 116.313536, lat: 31.217297, alt: 80 },
       scale: 100,
       show: true
@@ -31,20 +31,15 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
-    url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
     position: { alt: 38.8 },
     maximumScreenSpaceError: 1
   })
@@ -65,28 +60,25 @@ function onMounted(mapInstance) {
   addGraphic_09(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 查看场景出图
-function showMapImg(options = {}) {
+export function showMapImg(options = {}) {
   return map.expImage({ download: false, ...options }).then((result) => {
     return result.image
   })
 }
 
 // 下载场景出图
-function downLoad() {
+export function downLoad() {
   map.expImage()
 }
 
 // 下载场景缩略图
-function downLoad2() {
+export function downLoad2() {
   map.expImage({
     height: 300, // 指定 高度 或 宽度(指定1种就行，对应的自动缩放)
     // width: 300, //同时指定后去裁剪中间部分

@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 const creditHtml = `©2023 Tencent - <span>审图号：GS(2023)1号</span>
 - <a target="_blank" href="https://lbs.qq.com/terms.html">服务条款</a>`
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.82034, lng: 117.411297, alt: 56459, heading: 0, pitch: -87 },
     highDynamicRange: false
@@ -15,7 +15,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "腾讯电子",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
       type: "tencent",
       layer: "vec",
       show: true,
@@ -23,7 +23,7 @@ var mapOptions = {
     },
     {
       name: "腾讯影像",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/gaode_img.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_img.png",
       type: "group",
       layers: [
         { name: "底图", type: "tencent", layer: "img_d" },
@@ -33,7 +33,7 @@ var mapOptions = {
     },
     {
       name: "腾讯深蓝色",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/bd-c-midnight.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/bd-c-midnight.png",
       type: "tencent",
       layer: "custom",
       style: "4",
@@ -42,26 +42,18 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addCreditDOM()
 
 
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   removeCreditDOM()
   map = null
 }
@@ -69,7 +61,7 @@ function onUnmounted() {
 // 叠加的图层
 let tileLayer
 
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -80,7 +72,7 @@ function addTileLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

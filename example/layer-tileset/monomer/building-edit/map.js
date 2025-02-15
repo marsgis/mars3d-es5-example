@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 43.822109, lng: 125.14311, alt: 890, heading: 337, pitch: -50 }
   },
@@ -15,22 +15,17 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "校园",
-    url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
     position: { alt: 279.0 },
     maximumScreenSpaceError: 1
   })
@@ -65,8 +60,7 @@ function onMounted(mapInstance) {
   mars3d.DrawUtil.setEditPointStyle(mars3d.EditPointType.Control, { has3dtiles: true }) // 编辑点贴模型
 
   graphicLayer = new mars3d.layer.GraphicLayer({
-    hasEdit: true,
-    isAutoEditing: true, // 绘制完成后是否自动激活编辑
+    isAutoEditing: true, // 自动激活编辑
     symbol: {
       type: "polygonP",
       merge: true, // 是否合并并覆盖json中已有的style，默认不合并
@@ -78,8 +72,13 @@ function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
+  const editUpdateFun = mars3d.Util.funDebounce(openGraphicOptionsWidget, 500)
+  graphicLayer.on([mars3d.EventType.click, mars3d.EventType.drawCreated, mars3d.EventType.editStart, mars3d.EventType.editStyle], editUpdateFun)
+  const removeFun = mars3d.Util.funDebounce(closeGraphicOptionsWidget, 500)
+  graphicLayer.on(mars3d.EventType.removeGraphic, removeFun)
+
   // 加载数据
-  const configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
+  const configUrl = "https://data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
   mars3d.Util.fetchJson({ url: configUrl })
     .then(function (result) {
       graphicLayer.loadGeoJSON(result)
@@ -91,19 +90,30 @@ function onMounted(mapInstance) {
   bindLayerContextMenu()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
+  if (graphicLayer) {
+    graphicLayer.destroy() // 销毁内部会释放所有事件及数据
+    graphicLayer = null
+  }
+
   map = null
+}
+
+// 修改样式，修改点，删除点等操作去激活或更新面板
+function openGraphicOptionsWidget(e) {
+  eventTarget.fire("updateGraphicOptionsWidget", { graphicId: e.graphic.id, layerId: graphicLayer.id })
+}
+
+function closeGraphicOptionsWidget(e) {
+  eventTarget.fire("updateGraphicOptionsWidget", { disable: true })
 }
 
 /**
  * 绑定右键菜单功能，开始编辑，删除等
  *@returns {void} 无
  */
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -231,18 +241,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {
@@ -283,28 +289,28 @@ function bindLayerContextMenu() {
 }
 
 // 切换到预览模式
-function toYLMS() {
+export function toYLMS() {
   const geojson = graphicLayer.toGeoJSON()
 
   geoJsonLayerDTH.load({ data: geojson })
 
-  graphicLayer.hasEdit = false
+  graphicLayer.isAutoEditing = false
   graphicLayer.show = false
 }
 
 // 切换到编辑模式
-function toBJMS() {
+export function toBJMS() {
   geoJsonLayerDTH.clear()
-  graphicLayer.hasEdit = true
+  graphicLayer.isAutoEditing = true
   graphicLayer.show = true
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
 }
 
-function drawPolygon() {
-  graphicLayer.startDraw({
+export async function drawPolygon() {
+  const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
       color: "#ffff00",
@@ -314,6 +320,7 @@ function drawPolygon() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 /**
@@ -323,7 +330,7 @@ function drawPolygon() {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -341,7 +348,7 @@ function openGeoJSON(file) {
 }
 
 // 保存JSON文件
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

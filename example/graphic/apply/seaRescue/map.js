@@ -1,27 +1,22 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 20.772952, lng: 82.609338, alt: 22604251, heading: 0, pitch: -90 }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 let moveGraphicObj
 const tiles3dLayerArr = []
 let removeGraphicArr
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型，效果更NB
@@ -389,7 +384,7 @@ const heatMapPoints = [
 ]
 
 // 添加矢量数据
-function addGraphics() {
+export function addGraphics() {
   map.setCameraView({ lat: 18, lng: 126, alt: 800000, heading: 354.2109524366, pitch: -29.3531104185 })
 
   // 后面会移动的矢量数据
@@ -404,7 +399,7 @@ function addGraphics() {
   buildPositions.forEach((e) => {
     const tiles3dLayer = new mars3d.layer.TilesetLayer({
       name: e.name,
-      url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
+      url: "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
       position: e,
       scale: 1000,
       popup: e.name
@@ -458,7 +453,7 @@ function addGraphics() {
       name: e.name,
       position: e.position,
       style: {
-        url: "//data.mars3d.cn/gltf/mars/leida.glb",
+        url: "https://data.mars3d.cn/gltf/mars/leida.glb",
         scale: 1,
         minimumPixelSize: 40,
         clampToGround: true,
@@ -482,7 +477,7 @@ function addGraphics() {
     name: "救援卫星",
     position: [120, 36, 550000],
     style: {
-      url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
+      url: "https://data.mars3d.cn/gltf/mars/weixin.gltf",
       scale: 100,
       label: {
         text: "救援卫星",
@@ -503,22 +498,25 @@ function addGraphics() {
     name: "飞机1",
     position: [129, 36, 550000],
     style: {
-      url: "//data.mars3d.cn/gltf/mars/wrj.glb",
+      url: "https://data.mars3d.cn/gltf/mars/wrj.glb",
       scale: 100
     }
   })
   graphicLayer.addGraphic(plane1)
 
   const plane = new mars3d.graphic.FixedRoute({
-    name: "飞行飞机",
-    speed: 500000,
     id: "rescuePlane",
-    positions: [
-      [123, 36, 550000],
-      [127, 31.83, 10000]
-    ],
+    name: "飞行飞机",
+    position: {
+      type: "time", // 时序动态坐标
+      speed: 500000,
+      list: [
+        [123, 36, 550000],
+        [127, 31.83, 10000]
+      ]
+    },
     model: {
-      url: "//data.mars3d.cn/gltf/mars/wrj.glb",
+      url: "https://data.mars3d.cn/gltf/mars/wrj.glb",
       scale: 100,
       pitch: 15
     }
@@ -564,16 +562,19 @@ function addGraphics() {
   shipPositions.forEach((e) => {
     if (e.name === "医疗船") {
       yiLiaoShip = new mars3d.graphic.FixedRoute({
-        name: "医疗船",
         id: "treatShip",
-        speed: 500000,
-        positions: [
-          [121.94, 27.03],
-          [125.989481, 27.620443],
-          [126.787149, 31.205917]
-        ],
+        name: "医疗船",
+        position: {
+          type: "time", // 时序动态坐标
+          speed: 500000,
+          list: [
+            [121.94, 27.03],
+            [125.989481, 27.620443],
+            [126.787149, 31.205917]
+          ]
+        },
         model: {
-          url: "//data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
+          url: "https://data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
           scale: 5000
         },
         label: {
@@ -590,16 +591,19 @@ function addGraphics() {
       graphicLayer.addGraphic(yiLiaoShip)
     } else if (e.name === "救援船2") {
       jiuYuanShip = new mars3d.graphic.FixedRoute({
-        name: "救援船2",
-        speed: 500000,
         id: "rescueShip",
-        positions: [
-          [122.54, 29.03],
-          [123.547133, 31.293979],
-          [127, 31.8]
-        ],
+        name: "救援船2",
+        position: {
+          type: "time", // 时序动态坐标
+          speed: 500000,
+          list: [
+            [122.54, 29.03],
+            [123.547133, 31.293979],
+            [127, 31.8]
+          ]
+        },
         model: {
-          url: "//data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
+          url: "https://data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
           scale: 5000
         },
         label: {
@@ -619,7 +623,7 @@ function addGraphics() {
         name: e.name,
         position: e.position,
         style: {
-          url: "//data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
+          url: "https://data.mars3d.cn/gltf/imap/a64cb3926a024fd8bc2638da6f7ebe32/gltf/gltf2.gltf",
           scale: 5000,
           label: {
             text: e.name,
@@ -655,11 +659,8 @@ function addGraphics() {
   moveGraphicObj = { yiLiaoShip, jiuYuanShip, plane }
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -705,7 +706,7 @@ const removeGraphic = (graphicArr, canClear) => {
 }
 
 // 第一步 发送信号
-function firstStep() {
+export function firstStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 23.232027, lng: 131.178867, alt: 1126670.6, heading: 343.9, pitch: -39.3 })
   const firstPannel = new mars3d.graphic.DivGraphic({
@@ -727,7 +728,7 @@ function firstStep() {
     position: new mars3d.LngLatPoint(126.320842, 31.97364, 14000),
     id: "rescueIcon",
     style: {
-      image: "//data.mars3d.cn/img/marker/warn.png",
+      image: "https://data.mars3d.cn/img/marker/warn.png",
       scale: 0.5,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -759,7 +760,7 @@ function firstStep() {
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
         color: "rgba(255, 204, 102 , .5)",
-        image: "//data.mars3d.cn/img/textures/line-tarans.png",
+        image: "https://data.mars3d.cn/img/textures/line-tarans.png",
         speed: 8
       }
     }
@@ -772,7 +773,7 @@ function firstStep() {
 }
 
 // 第二步 传送信号
-function secondStep() {
+export function secondStep() {
   removeGraphic(removeGraphicArr, true)
 
   map.setCameraView({ lat: 40.471932, lng: 123.393843, alt: 873577.9, heading: 237.2, pitch: -45.5 })
@@ -806,7 +807,7 @@ function secondStep() {
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
         color: "rgba(255, 204, 102 , .5)",
-        image: "//data.mars3d.cn/img/textures/line-tarans.png",
+        image: "https://data.mars3d.cn/img/textures/line-tarans.png",
         speed: 8
       }
     }
@@ -817,7 +818,7 @@ function secondStep() {
 }
 
 // 第三步 下达指令
-function thirdStep() {
+export function thirdStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 36.976138, lng: 122.494085, alt: 551666.1, heading: 257.4, pitch: -48 })
 
@@ -863,7 +864,7 @@ function thirdStep() {
 }
 
 // 第四步 准备出发
-function forthStep() {
+export function forthStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 29.097887, lng: 110.576537, alt: 653281.5, heading: 65.1, pitch: -28.3 })
 
@@ -961,7 +962,7 @@ function forthStep() {
       width: 20,
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
-        image: "//data.mars3d.cn/img/textures/line-arrow-blue.png"
+        image: "https://data.mars3d.cn/img/textures/line-arrow-blue.png"
       }
     },
     name: "救援船救援路线",
@@ -980,7 +981,7 @@ function forthStep() {
       width: 20,
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
-        image: "//data.mars3d.cn/img/textures/line-arrow-blue.png"
+        image: "https://data.mars3d.cn/img/textures/line-arrow-blue.png"
       }
     },
     name: "补给船救援路线",
@@ -1002,7 +1003,7 @@ function forthStep() {
 }
 
 // 第五步,添加飞行动画 出发
-function fifthStep() {
+export function fifthStep() {
   removeGraphic(removeGraphicArr)
   map.setCameraView({ lat: 22.221019, lng: 127.76867, alt: 492335.3, heading: 341.9, pitch: -24 })
 
@@ -1021,7 +1022,7 @@ function fifthStep() {
 }
 
 // 第六步,添加活性炭 处理泄露
-function sixthStep() {
+export function sixthStep() {
   removeGraphic(removeGraphicArr)
   map.setCameraView({ lat: 28.263862, lng: 128.114428, alt: 351171.2, heading: 345.9, pitch: -40.8 })
 
@@ -1052,20 +1053,20 @@ function sixthStep() {
 }
 
 // 第七步，清除油污范围 完成营救
-var seventhStep = () => {
+export const seventhStep = () => {
   removeGraphic(removeGraphicArr)
 
   graphicLayer.getGraphicById("油污范围").show = false
 }
 
-var clear = () => {
+export const clear = () => {
   graphicLayer.remove()
   tiles3dLayerArr.forEach((layer) => {
     layer.remove()
   })
 }
 
-var stop = () => {
+export const stop = () => {
   removeGraphicArr.push(graphicLayer.getGraphicById("rescuePlane"))
   removeGraphicArr.push(graphicLayer.getGraphicById("rescueIcon"))
   removeGraphicArr.push(graphicLayer.getGraphicById("rescueLine"))

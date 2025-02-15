@@ -1,24 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let videoElement
 let videoGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     // 此处参数会覆盖config.json中的对应配置
     center: { lat: 28.441587, lng: 119.482898, alt: 222, heading: 227, pitch: -28 }
   }
 }
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `如视频未播放或服务URL访问超时，可能是在线演示URL链接已失效，您可以替换代码中URL为本地服务后使用。`)
@@ -26,7 +21,7 @@ function onMounted(mapInstance) {
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
-    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     maximumScreenSpaceError: 1,
     position: { alt: 148.2 }
   })
@@ -53,11 +48,8 @@ function onMounted(mapInstance) {
   addDemoGraphic2()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -74,7 +66,7 @@ function createVideoDom() {
   videoElement.style.display = "none"
 
   // const sourceContainer = mars3d.DomUtil.create("source", "", videoElement)
-  // sourceContainer.setAttribute("src", "//data.mars3d.cn/file/video/lukou.mp4")
+  // sourceContainer.setAttribute("src", "https://data.mars3d.cn/file/video/lukou.mp4")
   // sourceContainer.setAttribute("type", "video/mp4")
 
   if (window.Hls.isSupported()) {
@@ -118,7 +110,7 @@ function playVideo() {
   }
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   videoGraphic = graphicLayer.getGraphicById(graphicId)
   return videoGraphic
 }
@@ -162,7 +154,7 @@ function addDemoGraphic2() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -196,8 +188,8 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-function startDrawGraphic() {
-  graphicLayer.startDraw({
+export async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     styleType: "video", // 属性编辑框使用
     style: {
@@ -205,10 +197,11 @@ function startDrawGraphic() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
-function startDrawGraphic2() {
-  graphicLayer.startDraw({
+export async function startDrawGraphic2() {
+  const graphic = await graphicLayer.startDraw({
     type: "wall",
     maxPointNum: 2,
     styleType: "video", // 属性编辑框使用
@@ -217,18 +210,19 @@ function startDrawGraphic2() {
       material: videoElement
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 播放暂停
-function videoPlay() {
+export function videoPlay() {
   videoElement.play()
 }
-function videoStop() {
+export function videoStop() {
   videoElement.pause()
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -240,7 +234,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -368,18 +362,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {

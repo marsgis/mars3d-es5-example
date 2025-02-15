@@ -1,41 +1,33 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   showGeoJsonLayer()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function query(keyWords) {
+export function query(keyWords) {
   queryMapserver.query({
     column: "项目名称",
     text: keyWords,
@@ -68,7 +60,7 @@ function showGeoJsonLayer() {
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     symbol: {
       styleOptions: {
-        image: "//data.mars3d.cn/img/marker/mark-blue.png",
+        image: "https://data.mars3d.cn/img/marker/mark-blue.png",
         scale: 1,
         scaleByDistance: true,
         scaleByDistance_far: 20000,
@@ -76,7 +68,7 @@ function showGeoJsonLayer() {
         scaleByDistance_near: 1000,
         scaleByDistance_nearValue: 1,
         clampToGround: true,
-        highlight: { type: "click", image: "//data.mars3d.cn/img/marker/mark-red.png" },
+        highlight: { type: "click", image: "https://data.mars3d.cn/img/marker/mark-red.png" },
         label: {
           text: "{项目名称}",
           font_size: 25,
@@ -106,7 +98,7 @@ function showGeoJsonLayer() {
 }
 
 // 框选查询 矩形
-async function drawRectangle() {
+export async function drawRectangle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -122,7 +114,7 @@ async function drawRectangle() {
 }
 
 // 框选查询   圆
-async function drawCircle() {
+export async function drawCircle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -138,7 +130,7 @@ async function drawCircle() {
 }
 
 // 框选查询   多边行
-async function drawPolygon() {
+export async function drawPolygon() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -153,7 +145,8 @@ async function drawPolygon() {
   console.log("框选多边行：", drawGraphic.toGeoJSON())
 }
 
-function flyToGraphic(graphic) {
+export function flyToGraphic(graphicId) {
+  const graphic = geoJsonLayer.getGraphicById(graphicId)
   graphic.openHighlight()
   graphic.flyTo({
     radius: 1000, // 点数据：radius控制视距距离
@@ -164,21 +157,21 @@ function flyToGraphic(graphic) {
   })
 }
 
-function clearAll() {
+export function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()
 }
 
 // 首页
-function showFirstPage() {
+export function showFirstPage() {
   queryMapserver.showFirstPage()
 }
 // 上一页
-function showPretPage() {
+export function showPretPage() {
   queryMapserver.showPretPage()
 }
 // 下一页
-function showNextPage() {
+export function showNextPage() {
   queryMapserver.showNextPage()
 }

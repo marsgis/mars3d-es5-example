@@ -1,18 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let floodByGraphic
 let drawPotions
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 基于polygon矢量面抬高模拟，只支持单个区域
@@ -38,11 +33,8 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   clearDraw()
   floodByGraphic.remove()
   floodByGraphic = null
@@ -51,7 +43,7 @@ function onUnmounted() {
 }
 
 // 绘制矩形
-async function btnDrawExtent(callback) {
+export async function btnDrawExtent(callback) {
   clearDraw()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -81,7 +73,7 @@ async function btnDrawExtent(callback) {
   }
 }
 // 绘制多边形
-async function btnDraw(callback) {
+export async function btnDraw(callback) {
   clearDraw()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -110,7 +102,7 @@ async function btnDraw(callback) {
   }
 }
 
-function clearDraw() {
+export function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
 
@@ -120,7 +112,7 @@ function clearDraw() {
 }
 
 // 开始分析
-function begin(data, callback) {
+export function begin(data, callback) {
   if (drawPotions == null) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -139,12 +131,12 @@ function begin(data, callback) {
 }
 
 // 高度选择
-function onChangeHeight(height) {
+export function onChangeHeight(height) {
   floodByGraphic.height = height
 }
 
 // 自动播放
-function startPlay() {
+export function startPlay() {
   if (floodByGraphic.isStart) {
     floodByGraphic.stop()
   } else {

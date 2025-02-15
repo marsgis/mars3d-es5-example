@@ -36,16 +36,31 @@
       .infoview {
         padding: 0;
       }
-      .infoview div {
+      /* .infoview div {
         margin-top: 0;
+      } */
+
+      .control {
+        position: absolute;
+        top: 52px;
+        right: 0;
       }
     </style>
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
+
+    <!-- 面板 -->
+    <div class="infoview">
+      <div>
+        <button id="btnGetCenter" class="btn btn-primary" onclick="loadHongkongData()">香港</button>
+        <button id="btnGetCenter" class="btn btn-primary" onclick="loadDongnanData1()">新加坡</button>
+        <button id="btnGetCenter" class="btn btn-primary" onclick="loadDongnanData2()">洋流</button>
+        <button id="btnGetCenter" class="btn btn-primary" onclick="loadEarthData()">全球</button>
+      </div>
+    </div>
+    <div class="control"></div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
@@ -55,15 +70,25 @@
 
       let windLayerObj // gui的面板数据，与windLayer数据相同
       function initUI(options) {
+        let minLineWidth = 1
+        let maxLineWidth = 5
+
+        let minLineLength = 20
+        let maxLineLength = 100
         windLayerObj = {
-          particlesNumber: 9000,
+          particlesNumber: 100, // 粒子总数
+          minLineWidth: 1, // 轨迹宽度
+          maxLineWidth: 5,
+          minLineLength: 20, // 轨迹长度
+          maxLineLength: 100,
+          speedFactor: 0.5, // 速度系数
+          dropRate: 0.003, // 粒子消失率
+          dropRateBump: 0.01, // 额外消失率
+          flipY: false, // 翻转Y坐标
+
+          lineColor: "#FF0000",
           fixedHeight: 1.0,
-          fadeOpacity: 0.996,
-          dropRate: 0.003,
-          dropRateBump: 0.01,
-          speedFactor: 0.2,
-          lineWidth: 4.0,
-          lineColor: "#FF0000"
+          fadeOpacity: 0.996
         }
 
         // eslint-disable-next-line no-undef
@@ -71,16 +96,31 @@
           autoPlace: false
         })
         // 根据windLayerObj整体修改，也可以单个数据修改
-        gui.add(windLayerObj, "particlesNumber", 1, 256 * 256, 1).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "fixedHeight", 1, 10000, 1).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "fadeOpacity", 0.9, 0.999, 0.001).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "dropRate", 0.0, 0.1).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "dropRateBump", 0, 0.2).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "speedFactor", 0.05, 1).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.add(windLayerObj, "lineWidth", 0.01, 16.0).onFinishChange((e) => onParticleSystemOptionsChange(windLayerObj))
-        gui.addColor(windLayerObj, "lineColor").onFinishChange((color) => changeColor(color))
+        gui.add(windLayerObj, "particlesNumber", 1, 1000, 1).onFinishChange((e) => setLayerOptions({ particlesTextureSize: e }))
+        gui.add(windLayerObj, "minLineWidth", 1, 10, 0.1).onFinishChange((e) => {
+          minLineWidth = e
+          setLayerOptions({ lineWidth: { min: e, max: maxLineWidth } })
+        })
+        gui.add(windLayerObj, "maxLineWidth", 1, 10, 0.1).onFinishChange((e) => {
+          maxLineWidth = e
+          setLayerOptions({ lineWidth: { min: minLineWidth, max: e } })
+        })
+        gui.add(windLayerObj, "minLineLength", 1, 200, 1).onFinishChange((e) => {
+          minLineLength = e
+          setLayerOptions({ lineWidth: { min: e, max: maxLineWidth } })
+        })
+        gui.add(windLayerObj, "maxLineLength", 1, 200, 1).onFinishChange((e) => {
+          maxLineLength = e
+          setLayerOptions({ lineWidth: { min: minLineWidth, max: e } })
+        })
+        gui.add(windLayerObj, "speedFactor", 0.1, 20, 0.1).onFinishChange((e) => setLayerOptions({ speedFactor: e }))
 
-        gui.domElement.classList.add("infoview")
+        gui.add(windLayerObj, "dropRate", 0.0001, 0.01, 0.0001).onFinishChange((e) => setLayerOptions({ dropRate: e }))
+        gui.add(windLayerObj, "dropRateBump", 0, 0.2, 0.001).onFinishChange((e) => setLayerOptions({ dropRateBump: e }))
+        gui.add(windLayerObj, "flipY").onChange((value) => setLayerOptions({ flipY: value }))
+        gui.addColor(windLayerObj, "lineColor").onFinishChange((color) => setLayerOptions({ colors: [color] }))
+
+        gui.domElement.classList.add("control")
         document.body.appendChild(gui.domElement)
       }
     </script>

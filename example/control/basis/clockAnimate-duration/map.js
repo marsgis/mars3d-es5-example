@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   option.scene.clock = {
     startTime: "2017/08/25 08:00:00",
     stopTime: "2017/08/25 08:05:30",
@@ -16,18 +16,13 @@ var mapOptions = function (option) {
   option.control = {
     timeline: { format: "duration" },
     clockAnimate: false,
-    distanceLegend: { left: "100px", bottom: "27px" }
+    distanceLegend: { style: { left: "10px", bottom: "27px" } }
   }
   return option
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addDemoData()
@@ -52,19 +47,16 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function setCurrentTime(currentTime) {
+export function setCurrentTime(currentTime) {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date(currentTime))
 }
 
-function setClockAnimateTime(startTimes, stopTimes) {
+export function setClockAnimateTime(startTimes, stopTimes) {
   const startTime = Cesium.JulianDate.fromDate(new Date(startTimes))
   const stopTime = Cesium.JulianDate.fromDate(new Date(stopTimes))
 
@@ -99,7 +91,7 @@ function addDemoData() {
   const graphic = new mars3d.graphic.BillboardEntity({
     position: [116.313736, 30.86082, 420],
     style: {
-      image: "//data.mars3d.cn/img/marker/lace-blue.png",
+      image: "https://data.mars3d.cn/img/marker/lace-blue.png",
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM
     },
@@ -137,7 +129,7 @@ function addDemoData() {
   // 图层
   const graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "标绘示例数据",
-    url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
+    url: "https://data.mars3d.cn/file/geojson/mars3d-draw.json",
     popup: "{type} {name}",
     availability: [
       { start: 0, stop: 10, isStartIncluded: true, isStopIncluded: false },

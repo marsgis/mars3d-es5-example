@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let shortestPathLayer
 
@@ -8,19 +8,14 @@ let polygonZAM
 let pointQD
 let pointZD
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -31,16 +26,13 @@ function onMounted(mapInstance) {
   map.addLayer(shortestPathLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 绘制障碍面
-async function drawPolygon() {
+export async function drawPolygon() {
   if (polygonZAM) {
     polygonZAM.remove()
     polygonZAM = null
@@ -57,7 +49,7 @@ async function drawPolygon() {
   })
 }
 // 绘制起点
-async function startPoint() {
+export async function startPoint() {
   if (pointQD) {
     pointQD.remove()
     pointQD = null
@@ -80,7 +72,7 @@ async function startPoint() {
 }
 
 // 绘制终点
-async function endPoint() {
+export async function endPoint() {
   if (pointZD) {
     pointZD.remove()
     pointZD = null
@@ -103,7 +95,7 @@ async function endPoint() {
 }
 
 // 计算最短路径
-function shortestPath() {
+export function shortestPath() {
   if (!polygonZAM) {
     globalMsg("请绘制障碍面")
     return
@@ -120,8 +112,8 @@ function shortestPath() {
   shortestPathLayer.clear()
 
   const polygon = polygonZAM.toGeoJSON({ closure: true }) // 障碍面
-  const startPoint = pointQD.coordinate // 起点
-  const endPoint = pointZD.coordinate // 终点
+  const startPoint = pointQD.coord // 起点
+  const endPoint = pointZD.coord // 终点
 
   const options = {
     obstacles: polygon.geometry,
@@ -140,7 +132,7 @@ function shortestPath() {
   shortestPathLayer.addGraphic(polyonLine)
 }
 
-function clearLayer() {
+export function clearLayer() {
   polygonZAM = null
   pointQD = null
   pointZD = null

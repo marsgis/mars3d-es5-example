@@ -16,7 +16,7 @@ function init() {
 
       //创建三维地球场景
       const initMapFun = window.initMap ? window.initMap : globalInitMap
-      var map = initMapFun(json.map3d)
+      var map = initMapFun(json)
       if (map.then) {
         map.then(function (map) {
           if (window.onMounted) {

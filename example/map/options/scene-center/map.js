@@ -1,21 +1,16 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map
+export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 25.389914, lng: 119.084961, alt: 1179575, heading: 346, pitch: -60 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.camera.percentageChanged = 0.01
 
@@ -41,45 +36,42 @@ function onMounted(mapInstance) {
   // })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // **************************** 景点视角演示********************** //
-function changeView1() {
+export function changeView1() {
   map.setCameraView({ lat: 39.904128, lng: 116.391643, alt: 1054, heading: 0, pitch: -39 })
 }
 
-function changeView2() {
+export function changeView2() {
   map.setCameraView({ lat: 28.13059, lng: 86.835138, alt: 7627, heading: 148, pitch: -7 })
 }
 
-function changeView3() {
+export function changeView3() {
   map.setCameraView({ lat: 34.560392, lng: 110.052393, alt: 1724, heading: 171, pitch: -5 })
 }
 
-function changeView4() {
+export function changeView4() {
   map.setCameraView({ lat: 30.83463, lng: 115.86774, alt: 710, heading: 303, pitch: -7 })
 }
 
 // **************************** 相机和视角控制********************** //
-function mapGetCameraView() {
+export function mapGetCameraView() {
   const camera = map.getCameraView()
   globalAlert(JSON.stringify(camera), "当前视角参数")
 }
 
-function mapSetCameraView() {
+export function mapSetCameraView() {
   map.graphicLayer.clear()
 
   map.setCameraView({ lat: 26.8764, lng: 91.148781, alt: 223798, heading: 0, pitch: -45 })
 }
 
-function mapSetCameraViewList() {
+export function mapSetCameraViewList() {
   map.graphicLayer.clear()
 
   // 视角切换（分步执行）, stop设置停留在该视角的时间
@@ -91,13 +83,13 @@ function mapSetCameraViewList() {
   ])
 }
 
-function mapFlyHome() {
+export function mapFlyHome() {
   map.graphicLayer.clear()
   map.flyHome()
 }
 
 let graphic
-function mapFlyToGraphic() {
+export function mapFlyToGraphic() {
   map.graphicLayer.clear()
 
   if (!graphic || graphic.isDestory) {
@@ -132,7 +124,7 @@ function mapFlyToGraphic() {
   map.flyToGraphic(graphic, { radius: 10000 })
 }
 
-function mapFlyToExtent() {
+export function mapFlyToExtent() {
   map.graphicLayer.clear()
 
   // const extent = { xmin: 115.779965422, xmax: 123.584853, ymin: 29.097413, ymax: 50.245553 }
@@ -152,7 +144,7 @@ function mapFlyToExtent() {
   map.graphicLayer.addGraphic(graphic)
 }
 
-function mapFlyToPositions() {
+export function mapFlyToPositions() {
   map.graphicLayer.clear()
 
   const positions = [
@@ -180,7 +172,7 @@ function mapFlyToPositions() {
   }
 }
 
-function mapFlyToPoint() {
+export function mapFlyToPoint() {
   map.graphicLayer.clear()
 
   const position = [113.939351, 36.068144, 350.9]
@@ -199,6 +191,6 @@ function mapFlyToPoint() {
   map.graphicLayer.addGraphic(graphic)
 }
 
-function mapCancelFlyTo() {
+export function mapCancelFlyTo() {
   map.cancelFlyTo()
 }

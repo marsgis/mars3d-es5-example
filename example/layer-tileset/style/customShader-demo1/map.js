@@ -1,24 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayer
 let tiles3dLayerOutline
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.224168, lng: 121.539945, alt: 1866.8, heading: 298.4, pitch: -27.4 }
   },
   terrain: { show: false }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -29,21 +24,21 @@ function onMounted(mapInstance) {
   // 白膜建筑
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 1,
     popup: "all",
     customShader: new Cesium.CustomShader({
       uniforms: {
         u_envTexture: {
           value: new Cesium.TextureUniform({
-            url: "//data.mars3d.cn/img/textures/buildings-kj.jpg"
+            url: "https://data.mars3d.cn/img/textures/buildings-kj.jpg"
           }),
           type: Cesium.UniformType.SAMPLER_2D
         },
         u_build1: {
           type: Cesium.UniformType.SAMPLER_2D,
           value: new Cesium.TextureUniform({
-            url: "//data.mars3d.cn/img/textures/buildings-colors.png"
+            url: "https://data.mars3d.cn/img/textures/buildings-colors.png"
           })
         },
         u_lerp: {
@@ -181,7 +176,7 @@ function onMounted(mapInstance) {
   // 白膜建筑线框渲染
   tiles3dLayerOutline = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 1,
     debugWireframe: true,
     enableDebugWireframe: true,
@@ -224,11 +219,8 @@ function onMounted(mapInstance) {
   bindEvent()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -287,15 +279,15 @@ function bindEvent() {
 }
 
 let isPlay
-function changePlay(value) {
+export function changePlay(value) {
   isPlay = value
 }
 
-function changeOutline(value) {
+export function changeOutline(value) {
   tiles3dLayer.customShader.uniforms.u_play.value = value
   tiles3dLayerOutline.customShader.uniforms.u_play.value = value
 }
 
-function changeHeight(value) {
+export function changeHeight(value) {
   tiles3dLayer.customShader.uniforms.u_lerp.value = value
 }

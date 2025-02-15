@@ -1,23 +1,18 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 29.620733, lng: 119.509245, alt: 657931, heading: 0, pitch: -80 }
   }
 }
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) 当在180度经线或南北极时,存在渲染错乱问题。`)
@@ -45,13 +40,11 @@ function onMounted(mapInstance) {
   addDemoGraphic9(graphicLayer)
   addDemoGraphic10(graphicLayer)
   addDemoGraphic11(graphicLayer)
+  addDemoGraphic12(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -219,12 +212,66 @@ function addDemoGraphic8(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-// 该方法演示 自定义点状军标（png或svg图片即可），复杂的也可以Canvas绘制，参考  graphic\entity\billboard-canvas\CanvasBillboard.js
+
 function addDemoGraphic9(graphicLayer) {
+  const startTime = map.clock.startTime
+
+  const graphicTriangle = new mars3d.graphic.AttackArrowYW({
+    positions: {
+      type: "time", // 时序动态坐标
+      speed: 260,
+      list: [
+        {
+          time: Cesium.JulianDate.addSeconds(startTime, 5, new Cesium.JulianDate()), // 也可以是 时间字符串
+          positions: [
+            [116.146959, 30.679276, 326.9],
+            [115.772659, 30.513065, 74],
+            [116.297582, 30.265435, 59.9],
+            [117.020524, 30.131104, 57.3]
+          ]
+        },
+        {
+          time: Cesium.JulianDate.addSeconds(startTime, 10, new Cesium.JulianDate()), // 也可以是 时间字符串
+          positions: [
+            [116.146959, 30.679276, 326.9],
+            [115.772659, 30.513065, 74],
+            [116.505745, 30.227261, 53.4],
+            [117.587161, 30.105014, 155.1]
+          ]
+        },
+        {
+          time: Cesium.JulianDate.addSeconds(startTime, 15, new Cesium.JulianDate()), // 也可以是 时间字符串
+          positions: [
+            [116.088611, 30.658878, 364.8],
+            [115.647116, 30.140971, 61.7],
+            [118.217808, 30.209116, 276.3],
+            [119.809601, 29.747937, 382]
+          ]
+        }
+      ],
+      interpolation: true,
+      forwardExtrapolationType: Cesium.ExtrapolationType.HOLD, // 在第1个开始时间之前，NONE时不显示，HOLD时显示开始时间对应坐标位置
+      backwardExtrapolationType: Cesium.ExtrapolationType.NONE // 在最后1个结束时间之后，NONE时不显示，HOLD时显示结束时间对应坐标位置
+    },
+    style: {
+      color: "#FF0000",
+      opacity: 0.6,
+      outline: true,
+      outlineWidth: 3,
+      outlineColor: "#ffffff"
+    }
+  })
+  graphicLayer.addGraphic(graphicTriangle)
+}
+
+
+
+// 该方法演示 自定义点状军标（png或svg图片即可），复杂的也可以Canvas绘制，参考  graphic\entity\billboard-canvas\CanvasBillboard.js
+function addDemoGraphic10(graphicLayer) {
   const graphic = new mars3d.graphic.BillboardEntity({
     position: [116.699972, 29.004322],
     style: {
-      image: "//data.mars3d.cn/img/marker/qianjin.png",
+      image: "//data.mars3d.cn/img/marker/military/qianjin.png",
       horizontalOrigin: Cesium.HorizontalOrigin.LEFT, // 横向的定位点，LEFT左侧
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM // 竖向的定位点，BOTTOM底部
     },
@@ -234,7 +281,7 @@ function addDemoGraphic9(graphicLayer) {
 }
 
 // 该方法演示 自定义线状军标（定义在 CurveEntity.js 中） ，可以参考自行扩展算法实现相关标号
-function addDemoGraphic10(graphicLayer) {
+function addDemoGraphic11(graphicLayer) {
   // eslint-disable-next-line no-undef
   const graphic = new CurveEntity({
     positions: [
@@ -254,7 +301,7 @@ function addDemoGraphic10(graphicLayer) {
 }
 
 // 该方法演示 自定义面状军标（定义在 CloseVurveEntity.js 中） ，可以参考自行扩展算法实现相关标号
-function addDemoGraphic11(graphicLayer) {
+function addDemoGraphic12(graphicLayer) {
   // eslint-disable-next-line no-undef
   const graphic = new CloseVurveEntity({
     positions: [
@@ -275,7 +322,7 @@ function addDemoGraphic11(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -308,9 +355,9 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-function startDrawGraphic() {
-  graphicLayer.startDraw({
-    type: "fineArrow",
+export async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
+    type: "attackArrowYW",
     style: {
       color: "#ff0000",
       opacity: 0.6,
@@ -320,11 +367,12 @@ function startDrawGraphic() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 开始绘制  绘制立体面
-function startDrawGraphic2() {
-  graphicLayer.startDraw({
+export async function startDrawGraphic2() {
+  const graphic = await graphicLayer.startDraw({
     type: "fineArrowYW",
     style: {
       color: "#ff0000",
@@ -335,10 +383,11 @@ function startDrawGraphic2() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -350,7 +399,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -478,18 +527,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {

@@ -1,17 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let cameraHistory
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   cameraHistory = new mars3d.thing.CameraHistory()
@@ -22,16 +17,13 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 上一条视角
-function lastView() {
+export function lastView() {
   const result = cameraHistory.goLast()
 
   if (!result) {
@@ -39,7 +31,7 @@ function lastView() {
   }
 }
 // 下一条视角
-function nextView() {
+export function nextView() {
   const result = cameraHistory.goNext()
   if (!result) {
     globalMsg("当前已是最后一条记录了")
@@ -47,7 +39,7 @@ function nextView() {
 }
 
 // 回到当前视角
-function lastOneView() {
+export function lastOneView() {
   const result = cameraHistory.goNow()
   if (!result) {
     globalMsg("当前已是最后一条记录了")

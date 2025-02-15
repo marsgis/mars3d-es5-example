@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 36.468047, lng: 104.069505, alt: 16801717, heading: 0, pitch: -88 }
   },
@@ -11,7 +11,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "山西天地图",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
       type: "wmts",
       url: "http://shanxi.tianditu.gov.cn/service/SX_DOM/wmts",
       layer: "WD_DOM",
@@ -23,35 +23,35 @@ var mapOptions = {
     },
     {
       name: "单张图片",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/offline.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/offline.png",
       type: "image",
-      url: "//data.mars3d.cn/img/map/world/world.jpg",
+      url: "https://data.mars3d.cn/img/map/world/world.jpg",
       show: false
     }
+  ],
+  layers: [
+    // {
+    //   name: "瓦片测试信息",
+    //   type: "tileinfo",
+    //   color: "rgba(255,255,0,0.6)",
+    //   show: true
+    // }
   ]
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 0, pitch: -67 })
@@ -64,7 +64,10 @@ function addTileLayer() {
     tileMatrixSetID: "EPSG:4326",
     crs: "EPSG:4326",
     alpha: 0.8,
-
+    minimumLevel: 1,
+    maximumLevel: 14,
+    minimumTerrainLevel: 1,
+    maximumTerrainLevel: 14,
     pickFeaturesUrl: "//server.mars3d.cn/geoserver/mars/wms",
     popup: "all",
     highlight: {
@@ -72,7 +75,7 @@ function addTileLayer() {
       diffHeight: 100,
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
-        image: "//data.mars3d.cn/img/textures/fence.png",
+        image: "https://data.mars3d.cn/img/textures/fence.png",
         color: "#ffff00",
         speed: 10, // 速度，建议取值范围1-100
         axisY: true
@@ -84,7 +87,7 @@ function addTileLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

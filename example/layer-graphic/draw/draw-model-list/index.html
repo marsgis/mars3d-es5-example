@@ -241,8 +241,8 @@
         for (let i = 0; i < arr.length; i++) {
           let item = arr[i]
 
-          item.image = mars3d.Util.template(item.image, { gltfServerUrl: "//data.mars3d.cn/gltf" })
-          item.style.url = mars3d.Util.template(item.style.url, { gltfServerUrl: "//data.mars3d.cn/gltf" })
+          item.image = mars3d.Util.template(item.image, { gltfServerUrl: "https://data.mars3d.cn/gltf" })
+          item.style.url = mars3d.Util.template(item.style.url, { gltfServerUrl: "https://data.mars3d.cn/gltf" })
 
           gltfItemObj[i] = item
 
@@ -278,14 +278,14 @@
 
         let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
         if (plotAttr && plotAttr.isActivate) {
-          plotAttr.startEditing(graphic, graphic.coordinates)
+          plotAttr.startEditing(graphic, graphic.coord)
         } else {
           es5widget.activate({
             map: map,
             uri: "widgets/plotAttr/widget.js",
             name: "属性编辑",
             graphic: graphic,
-            lonlats: graphic.coordinates
+            lonlats: graphic.coord
           })
         }
       }

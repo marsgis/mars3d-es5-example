@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.344715, lng: 115.783073, alt: 10056, heading: 158, pitch: -55 },
     globe: {
@@ -17,13 +17,8 @@ var mapOptions = {
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.hasTerrain = false
 
@@ -32,11 +27,8 @@ function onMounted(mapInstance) {
   addGraphicLayer()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -49,13 +41,16 @@ function addGraphicLayer() {
 
   fixedRoute = new mars3d.graphic.FixedRoute({
     name: "飞机航线",
-    speed: 200,
-    positions: [
-      [115.833866, 31.311451, 4000],
-      [115.785116, 31.293944, 4000],
-      [115.748115, 31.266263, 4000],
-      [115.711031, 31.216472, 4000]
-    ],
+    position: {
+      type: "time", // 时序动态坐标
+      speed: 200,
+      list: [
+        [115.833866, 31.311451, 4000],
+        [115.785116, 31.293944, 4000],
+        [115.748115, 31.266263, 4000],
+        [115.711031, 31.216472, 4000]
+      ]
+    },
     clockLoop: true, // 是否循环播放
     camera: {
       type: "zy",
@@ -108,17 +103,18 @@ function addGraphicLayer() {
   }
 }
 
-function setMoelStyle(style) {
-  fixedRoute.model.setStyle(style)
+export function setMoelStyle(style) {
+  fixedRoute.model.style.pitch = style.pitch
+  fixedRoute.model.style.roll = style.roll
 }
 
-function clearMoelPitchRoll () {
+export function clearMoelPitchRoll () {
   fixedRoute.model.style.pitch = undefined
   fixedRoute.model.style.roll = undefined
 }
 
 
-function clearGroundLayer() {
+export function clearGroundLayer() {
   groundLayer.clear()
 }
 
@@ -297,5 +293,5 @@ function bindPopup(fixedRoute) {
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export const formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatTime = mars3d.Util.formatTime

@@ -1,14 +1,14 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
     fxaa: true
   }
 }
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let pointLayer
 
 const pointStyle = {
@@ -22,22 +22,17 @@ const pointStyle = {
   clampToGround: true
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   pointLayer = new mars3d.layer.GeoJsonLayer({
     name: "体育设施点",
-    url: "//data.mars3d.cn/file/geojson/hfty-point.json",
+    url: "https://data.mars3d.cn/file/geojson/hfty-point.json",
     symbol: {
       styleOptions: {
         ...pointStyle,
-        image: "//data.mars3d.cn/img/marker/mark-blue.png"
+        image: "https://data.mars3d.cn/img/marker/mark-blue.png"
       }
     },
     popup: "{项目名称}",
@@ -64,30 +59,28 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
+export async function drawPoint() {
   deleteAll()
 
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 12,
       color: "#ffff00"
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
-function drawPolyline() {
+export async function drawPolyline() {
   deleteAll()
 
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type: "polyline",
     style: {
       color: "#ffff00",
@@ -95,12 +88,13 @@ function drawPolyline() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
-function drawPolygon() {
+export async function drawPolygon() {
   deleteAll()
 
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
       color: "#ffff00",
@@ -111,9 +105,10 @@ function drawPolygon() {
       clampToGround: true
     }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
   map.graphicLayer.clear()
   lastgeojson = null
@@ -121,7 +116,7 @@ function deleteAll() {
 }
 
 let width
-function radiusChange(val) {
+export function radiusChange(val) {
   width = val * 1000 // km
   if (lastgeojson) {
     updateBuffer()
@@ -172,18 +167,18 @@ function updateSelect(drawGraphic) {
     const isInArea = drawGraphic.isInPoly(position)
     if (isInArea) {
       graphic.setStyle({
-        image: "//data.mars3d.cn/img/marker/mark-red.png"
+        image: "https://data.mars3d.cn/img/marker/mark-red.png"
       })
       selectGraphic.push(graphic)
     }
   })
 }
 
-function removeSelect() {
+export function removeSelect() {
   for (let i = 0; i < selectGraphic.length; i++) {
     const graphic = selectGraphic[i]
     graphic.setStyle({
-      image: "//data.mars3d.cn/img/marker/mark-blue.png"
+      image: "https://data.mars3d.cn/img/marker/mark-blue.png"
     })
   }
   selectGraphic = []

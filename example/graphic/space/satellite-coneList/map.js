@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let weixin
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
     globe: { enableLighting: true },
@@ -18,15 +18,15 @@ var mapOptions = {
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true, // 是否显示时间线控件
-    compass: { top: "10px", left: "5px" }
+    compass: { style: { top: "10px", right: "5px" } }
   },
   terrain: false,
   layers: [
     {
       name: "夜晚图片",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
       type: "image",
-      url: "//data.mars3d.cn/img/map/world/night2.jpg",
+      url: "https://data.mars3d.cn/img/map/world/night2.jpg",
       dayAlpha: 0.0,
       nightAlpha: 1.0,
       brightness: 3.5,
@@ -34,27 +34,19 @@ var mapOptions = {
     }
   ]
 }
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
-  map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map  map.control.toolbar.container.style.bottom = "55px"// 修改toolbar控件的样式
 
   map.clock.shouldAnimate = true
   map.clock.multiplier = 1 // 速度
   addSatellite()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -79,7 +71,7 @@ function addSatellite() {
     tle1: "1 38775U 12050B   19233.58396017  .00000002  00000-0  00000+0 0  9996",
     tle2: "2 38775  54.9682 146.4459 0022572 250.3518 274.6095  1.86232229 47268",
     model: {
-      url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
+      url: "https://data.mars3d.cn/gltf/mars/weixin.gltf",
       scale: 1,
       minimumPixelSize: 150
     },
@@ -184,11 +176,11 @@ function addSatellite() {
 }
 
 // 定位至卫星
-function locate() {
+export function locate() {
   weixin.flyTo()
 }
 
 // 参考轴系显示与隐藏
-function chkShowModelMatrix(val) {
+export function chkShowModelMatrix(val) {
   weixin.debugAxis = val
 }

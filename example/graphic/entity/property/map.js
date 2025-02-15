@@ -1,23 +1,18 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.81506, lng: 117.23734, alt: 1768, heading: 322, pitch: -33 },
     fxaa: true
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量图层
@@ -25,15 +20,12 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function demoSampleProperty() {
+export function demoSampleProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -60,7 +52,7 @@ function demoSampleProperty() {
   marsBox.setStyle({ dimensions: property })
 }
 
-function demoTimeIntervalCollectionProperty() {
+export function demoTimeIntervalCollectionProperty() {
   graphicLayer.clear()
 
   // 指定固定时间 ，方便写演示代码。
@@ -115,7 +107,7 @@ function demoTimeIntervalCollectionProperty() {
   marsBox.setStyle({ dimensions: property })
 }
 
-function demoConstantProperty() {
+export function demoConstantProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -141,7 +133,7 @@ function demoConstantProperty() {
 }
 
 //
-function demoCompositeProperty() {
+export function demoCompositeProperty() {
   graphicLayer.clear()
 
   // 指定固定时间 ，方便写演示代码。
@@ -222,7 +214,7 @@ function demoCompositeProperty() {
 }
 
 // 使盒子进行移动
-function demoSampledPositionProperty() {
+export function demoSampledPositionProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -239,7 +231,7 @@ function demoSampledPositionProperty() {
   // 指定固定时间 ，方便写演示代码。
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00"))
 
-  // 演示属性机制
+  // 演示属性机制,【这是cesium原生写法，mars3d有更简单的position: { type: "time", list: positions }写法】
   const property = new Cesium.SampledPositionProperty()
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:00")), Cesium.Cartesian3.fromDegrees(117.198461, 31.834956, 40.2))
   property.addSample(Cesium.JulianDate.fromDate(new Date("2017-08-25 08:00:20")), Cesium.Cartesian3.fromDegrees(117.231979, 31.833411, 35.6))
@@ -248,7 +240,7 @@ function demoSampledPositionProperty() {
 }
 
 //
-function demoColorMaterialProperty() {
+export function demoColorMaterialProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -270,7 +262,7 @@ function demoColorMaterialProperty() {
   }, 3000)
 }
 
-function demoColorMaterialProperty2() {
+export function demoColorMaterialProperty2() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -296,7 +288,7 @@ function demoColorMaterialProperty2() {
 }
 
 //
-function demoCallbackProperty() {
+export function demoCallbackProperty() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -331,7 +323,7 @@ function demoCallbackProperty() {
 }
 
 //
-function demoReferenceProperty() {
+export function demoReferenceProperty() {
   graphicLayer.clear()
 
   // 创建蓝色盒子
@@ -373,7 +365,7 @@ function demoReferenceProperty() {
 }
 
 //
-function demoPropertyBag() {
+export function demoPropertyBag() {
   graphicLayer.clear()
 
   // 创建盒子
@@ -404,7 +396,7 @@ function demoPropertyBag() {
 }
 
 //
-function demoVelocityVectorProperty() {
+export function demoVelocityVectorProperty() {
   graphicLayer.clear()
 
   const propertyFJ = getSampledPositionProperty([
@@ -424,6 +416,7 @@ function demoVelocityVectorProperty() {
 }
 
 // 计算演示的SampledPositionProperty轨迹
+// 【这是cesium原生写法，mars3d有更简单的position: { type: "time", list: positions }写法】
 function getSampledPositionProperty(points) {
   const property = new Cesium.SampledPositionProperty()
 

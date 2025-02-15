@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.648141, lng: 117.07114, alt: 943.1, heading: 27.6, pitch: -34.7 }
   }
@@ -11,19 +11,14 @@ var mapOptions = {
 
 let bloomTargetEffect
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
-    url: "//data.mars3d.cn/3dtiles/max-shihua/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/max-shihua/tileset.json",
     position: { lng: 117.077158, lat: 31.659116, alt: -2.0 },
     maximumScreenSpaceError: 1,
     flyTo: true
@@ -43,7 +38,7 @@ function onMounted(mapInstance) {
     name: "汽车",
     position: Cesium.Cartesian3.fromDegrees(117.074035, 31.660459, 40),
     style: {
-      url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
+      url: "https://data.mars3d.cn/gltf/mars/qiche.gltf",
       scale: 1,
       minimumPixelSize: 50
     }
@@ -147,11 +142,8 @@ function onMounted(mapInstance) {
   // })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -200,46 +192,46 @@ function processContentFeatures(content, callback) {
   }
 }
 
-function setBloomTargetEffect(val) {
+export function setBloomTargetEffect(val) {
   bloomTargetEffect.enabled = val
 }
 
-function setBrightness(val) {
+export function setBrightness(val) {
   bloomTargetEffect.brightness = val
 }
 
-function setDelta(val) {
+export function setDelta(val) {
   bloomTargetEffect.delta = val
 }
 
-function setStep(val) {
+export function setStep(val) {
   bloomTargetEffect.stepSize = val
 }
 
-function setSigma(val) {
+export function setSigma(val) {
   bloomTargetEffect.sigma = val
 }
 
-function setContrast(val) {
+export function setContrast(val) {
   bloomTargetEffect.contrast = val
 }
 
-function setBlurSamples(val) {
+export function setBlurSamples(val) {
   bloomTargetEffect.blurSamples = val
 }
 
-function setThreshole(val) {
+export function setThreshole(val) {
   bloomTargetEffect.threshole = val
 }
 
-function setRatio(val) {
+export function setRatio(val) {
   bloomTargetEffect.ratio = val
 }
 
-function setSmoothWidth(val) {
+export function setSmoothWidth(val) {
   bloomTargetEffect.smoothWidth = val
 }
 
-function setColor(val) {
+export function setColor(val) {
   bloomTargetEffect.color = val
 }

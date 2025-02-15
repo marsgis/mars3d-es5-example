@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 0.072832, lng: 151.409367, alt: 29330818, heading: 10, pitch: -90 }
   },
@@ -15,13 +15,8 @@ var mapOptions = {
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) SatelliteSensor性能比较差，后期会尝试优化，非投射需求时建议用conicSensor或rectSensor`)
@@ -31,25 +26,22 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 let modelGraphic
 
 // 初始化创建一个卫星视锥体
-function addDemoGraphic1(sensorParams) {
+export function addDemoGraphic1(sensorParams) {
   const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
   // 加个模型
   modelGraphic = new mars3d.graphic.ModelPrimitive({
     name: "卫星模型",
     position: position,
-    forwardExtrapolationType: Cesium.ExtrapolationType.HOLD,
-    backwardExtrapolationType: Cesium.ExtrapolationType.HOLD,
+    backwardExtrapolationType: Cesium.ExtrapolationType.HOLD, // 在第1个开始时间之前，NONE时不显示，HOLD时显示开始时间对应坐标位置
+    forwardExtrapolationType: Cesium.ExtrapolationType.HOLD, // 在最后1个结束时间之后，NONE时不显示，HOLD时显示结束时间对应坐标位置
     style: {
       url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
       scale: 1,
@@ -67,8 +59,8 @@ function addDemoGraphic1(sensorParams) {
   // 视锥体
   const satelliteSensor = new mars3d.graphic.SatelliteSensor({
     position: position,
-    forwardExtrapolationType: Cesium.ExtrapolationType.HOLD,
-    backwardExtrapolationType: Cesium.ExtrapolationType.HOLD,
+    backwardExtrapolationType: Cesium.ExtrapolationType.HOLD, // 在第1个开始时间之前，NONE时不显示，HOLD时显示开始时间对应坐标位置
+    forwardExtrapolationType: Cesium.ExtrapolationType.HOLD, // 在最后1个结束时间之后，NONE时不显示，HOLD时显示结束时间对应坐标位置
     style: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: sensorParams.angleValue1,
@@ -86,7 +78,7 @@ function addDemoGraphic1(sensorParams) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -116,7 +108,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制 相阵控雷达
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "satelliteSensor",
     style: {
@@ -127,15 +119,16 @@ async function startDrawGraphic() {
     }
   })
   graphic.position = mars3d.PointUtil.addPositionsHeight(graphic.position, 100)
+  console.log("标绘完成", graphic.toJSON())
 }
 
 let satelliteSensor
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   satelliteSensor = graphicLayer.getGraphicById(graphicId)
   return satelliteSensor
 }
 
-function updatePosition(x, y, z) {
+export function updatePosition(x, y, z) {
   const position = Cesium.Cartesian3.fromDegrees(x, y, z)
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.position = position
@@ -145,12 +138,12 @@ function updatePosition(x, y, z) {
   }
 }
 
-function locate() {
+export function locate() {
   satelliteSensor.flyTo({ radius: satelliteSensor.alt * 2 })
 }
 
 // 方向角改变
-function headingChange(value) {
+export function headingChange(value) {
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.heading = value
   }
@@ -160,7 +153,7 @@ function headingChange(value) {
 }
 
 // 俯仰角
-function pitchChange(value) {
+export function pitchChange(value) {
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.pitch = value
   }
@@ -170,7 +163,7 @@ function pitchChange(value) {
 }
 
 // 左右角
-function rollChange(value) {
+export function rollChange(value) {
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.roll = value
   }
@@ -180,41 +173,41 @@ function rollChange(value) {
 }
 
 // 夹角1
-function angle1(value) {
+export function angle1(value) {
   if (satelliteSensor) {
     satelliteSensor.angle1 = value
   }
 }
 
 // 夹角2
-function angle2(value) {
+export function angle2(value) {
   if (satelliteSensor) {
     satelliteSensor.angle2 = value
   }
 }
 
 // 参考轴系显示与隐藏
-function chkShowModelMatrix(val) {
+export function chkShowModelMatrix(val) {
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.debugAxis = val
   }
 }
 
 // 视椎体状态
-function sensorShowHide(val) {
+export function sensorShowHide(val) {
   if (satelliteSensor) {
     satelliteSensor.show = val
   }
 }
 // 是否与地球相交
-function chkUnderground(val) {
+export function chkUnderground(val) {
   if (satelliteSensor) {
     satelliteSensor.rayEllipsoid = val
   }
 }
 
 // 类型选择
-function chkSensorType(value) {
+export function chkSensorType(value) {
   if (satelliteSensor) {
     if (value === "1") {
       satelliteSensor.sensorType = mars3d.graphic.SatelliteSensor.Type.Conic
@@ -224,20 +217,20 @@ function chkSensorType(value) {
   }
 }
 
-function lengthChange(value) {
+export function lengthChange(value) {
   if (modelGraphic && !modelGraphic.isDestroy) {
     modelGraphic.debugAxisLength = value * 1000
   }
 }
 
-function updateColor(value) {
+export function updateColor(value) {
   if (satelliteSensor) {
     satelliteSensor.color = value
   }
 }
 
 // 获取边界值
-function getRegion() {
+export function getRegion() {
   map.graphicLayer.clear()
   if (!satelliteSensor) {
     return
@@ -266,7 +259,7 @@ function getRegion() {
   })
 }
 
-function getCenter() {
+export function getCenter() {
   map.graphicLayer.clear()
 
   if (!satelliteSensor) {
@@ -296,6 +289,6 @@ function getCenter() {
   globalMsg(point.toString())
 }
 
-function clearAll() {
+export function clearAll() {
   map.graphicLayer.clear()
 }

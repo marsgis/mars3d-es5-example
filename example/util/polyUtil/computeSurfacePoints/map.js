@@ -1,28 +1,23 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.667593, lng: 117.163634, alt: 5394.7, heading: 358.7, pitch: -55.8 }
   },
   terrain: false
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 let graphicLayer
 let graphic1
 let graphic2
 let graphic3
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -34,7 +29,7 @@ function onMounted(mapInstance) {
   graphic1 = new mars3d.graphic.ModelPrimitive({
     position: point,
     style: {
-      url: "//data.mars3d.cn/gltf/mars/dikuai/c1.gltf"
+      url: "https://data.mars3d.cn/gltf/mars/dikuai/c1.gltf"
     },
     attr: { remark: "c1" }
   })
@@ -43,7 +38,7 @@ function onMounted(mapInstance) {
   graphic2 = new mars3d.graphic.ModelPrimitive({
     position: point,
     style: {
-      url: "//data.mars3d.cn/gltf/mars/dikuai/c2.gltf"
+      url: "https://data.mars3d.cn/gltf/mars/dikuai/c2.gltf"
     },
     attr: { remark: "c2" }
   })
@@ -52,25 +47,22 @@ function onMounted(mapInstance) {
   graphic3 = new mars3d.graphic.ModelPrimitive({
     position: point,
     style: {
-      url: "//data.mars3d.cn/gltf/mars/dikuai/c3.gltf"
+      url: "https://data.mars3d.cn/gltf/mars/dikuai/c3.gltf"
     },
     attr: { remark: "c3" }
   })
   graphicLayer.addGraphic(graphic3)
 }
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function removeAll() {
+export function removeAll() {
   hideTipMarker()
 }
 
-function measureSection() {
+export function measureSection() {
   graphicLayer
     .startDraw({
       type: "polyline",
@@ -88,7 +80,7 @@ function measureSection() {
     })
 }
 
-var formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatDistance = mars3d.MeasureUtil.formatDistance
 
 async function computeStepSurfaceLine(positions) {
   const newPositions = mars3d.PolyUtil.interPolyline({
@@ -179,7 +171,7 @@ async function computeStepSurfaceLine(positions) {
 }
 
 let lineGraphic
-function showTipLine(positions) {
+export function showTipLine(positions) {
   if (lineGraphic) {
     lineGraphic.remove(true)
   }
@@ -205,7 +197,7 @@ let tipGraphic
  * @param {html} inthtml html
  * @returns {void}
  */
-function showTipMarker(point, z, inthtml) {
+export function showTipMarker(point, z, inthtml) {
   const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
@@ -213,7 +205,7 @@ function showTipMarker(point, z, inthtml) {
       name: "当前点",
       position: _position_draw,
       style: {
-        image: "//data.mars3d.cn/img/marker/mark-blue.png",
+        image: "https://data.mars3d.cn/img/marker/mark-blue.png",
         scale: 1,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -226,7 +218,7 @@ function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-function hideTipMarker() {
+export function hideTipMarker() {
   if (!tipGraphic) {
     return
   }

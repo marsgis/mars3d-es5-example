@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.816469, lng: 117.188323, alt: 6109.8, heading: 358.1, pitch: -64.6 }
   },
@@ -11,7 +11,7 @@ var mapOptions = {
   basemaps: [
     // {
     //   name: "光污染图层",
-    //   icon: "//data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
+    //   icon: "https://data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
     //   type: "wms",
     //   url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms",
     //   layers: "PostGIS:VIIRS_2019",
@@ -27,7 +27,7 @@ var mapOptions = {
     // {
     //   // wms也可以换一种xyz的直接写法
     //   name: "光污染图层(XYZ方式)",
-    //   icon: "//data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
+    //   icon: "https://data.mars3d.cn/img/thumbnail/basemap/blackMarble.png",
     //   type: "xyz",
     //   url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms?transparent=true&format=image%2Fpng&service=WMS&version=1.1.1&request=GetMap&styles=&layers=PostGIS%3AVIIRS_2019&bbox={westProjected},{southProjected},{eastProjected},{northProjected}&width={width}&height={height}&srs=EPSG%3A3857",
     //   alpha: 0.6, // 透明度
@@ -35,9 +35,9 @@ var mapOptions = {
     // },
     {
       name: "单张图片",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/offline.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/offline.png",
       type: "image",
-      url: "//data.mars3d.cn/img/map/world/world.jpg",
+      url: "https://data.mars3d.cn/img/map/world/world.jpg",
       show: true
     },
     {
@@ -48,23 +48,15 @@ var mapOptions = {
     }
   ]
 }
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   addTileLayer()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -80,7 +72,7 @@ let tileLayer
 //   }
 // }
 
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -100,7 +92,7 @@ function addTileLayer() {
       diffHeight: 100,
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
-        image: "//data.mars3d.cn/img/textures/fence.png",
+        image: "https://data.mars3d.cn/img/textures/fence.png",
         color: "#ffff00",
         speed: 10, // 速度，建议取值范围1-100
         axisY: true
@@ -140,9 +132,16 @@ function addTileLayer() {
     const imagery = pickImageryHelper(map.scene, event.cartesian)
     console.log("单击的对应瓦片", imagery)
   })
+
+  // map.on(mars3d.EventType.cameraChanged, function (event) {
+  //   const level = map.level
+  //   if (level < tileLayer.options.minimumTerrainLevel || level > tileLayer.options.maximumTerrainLevel) {
+  //     tileLayer.closeHighlight()
+  //   }
+  // })
 }
 
-function addTileLayer2() {
+export function addTileLayer2() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -200,7 +199,7 @@ function addTileLayer2() {
   })
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

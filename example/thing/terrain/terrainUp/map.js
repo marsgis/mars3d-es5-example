@@ -1,45 +1,37 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let terrainUplift
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 0, pitch: -56 }
   }
 }
 
-var eventTabel = new mars3d.BaseClass()
+export const eventTabel = new mars3d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   terrainUplift = new mars3d.thing.TerrainUplift({
     upHeight: 2000, // 抬升的高度
-    image: "//data.mars3d.cn/img/textures/poly-land.png",
-    // image: "//data.mars3d.cn/img/textures/mining.jpg",
-    imageBottom: "//data.mars3d.cn/img/textures/poly-land.png",
+    image: "https://data.mars3d.cn/img/textures/poly-land.png",
+    // image: "https://data.mars3d.cn/img/textures/mining.jpg",
+    imageBottom: "https://data.mars3d.cn/img/textures/poly-land.png",
     diffHeight: 100,
     splitNum: 80 // 井边界插值数
   })
   map.addThing(terrainUplift)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function addTerrainUplift(height) {
+export function addTerrainUplift(height) {
   const areaItem = terrainUplift.addArea(
     [
       [116.334222, 30.899171, 645.46],
@@ -70,7 +62,7 @@ function addTerrainUplift(height) {
 }
 
 // 添加矩形
-async function btnDrawExtent(height) {
+export async function btnDrawExtent(height) {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -88,7 +80,7 @@ async function btnDrawExtent(height) {
   addTableItem(areaItem)
 }
 // 添加多边形
-async function btnDraw(height) {
+export async function btnDraw(height) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -107,21 +99,21 @@ async function btnDraw(height) {
 }
 
 // 清除
-function removeAll() {
+export function removeAll() {
   terrainUplift.clear() // 清除挖地区域
   // table = []
 }
 
-function changeClipHeight(val) {
+export function changeClipHeight(val) {
   // terrainUplift.diffHeight = val
 }
 
-function changeUpHeight(val) {
+export function changeUpHeight(val) {
   terrainUplift.upHeight = val
 }
 
 // 是否挖地
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainUplift.enabled = val
 }
 
@@ -131,17 +123,17 @@ function addTableItem(item) {
 }
 
 // 表格操作
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = terrainUplift.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
-function deletedGraphic(item) {
+export function deletedGraphic(item) {
   const graphic = terrainUplift.getAreaById(item)
   terrainUplift.removeArea(graphic)
 }
 
-function showHideArea(id, selected) {
+export function showHideArea(id, selected) {
   if (selected) {
     terrainUplift.showArea(id)
   } else {
@@ -149,11 +141,11 @@ function showHideArea(id, selected) {
   }
 }
 
-function btnMovingAnimation() {
+export function btnMovingAnimation() {
   terrainUplift.movingAnimation(0, 2000)
   // terrainUplift.movingAnimation()
 }
 
-function btnMovingAnimation2() {
+export function btnMovingAnimation2() {
   terrainUplift.movingAnimation(2000, 0)
 }

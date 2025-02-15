@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayer
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   option = {
     scene: {
       center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
@@ -35,6 +35,7 @@ var mapOptions = function (option) {
     control: {
       baseLayerPicker: false,
       sceneModePicker: false,
+      cubeView: { style: { top: "10px", left: "5px" }, flyCenter: [119.031856, 33.592357, 31] },
       locationBar: {
         fps: true,
         template: "<div>经度:{lng}</div> <div>纬度:{lat}</div><div>方向：{heading}°</div> <div>俯仰角：{pitch}°</div>"
@@ -59,13 +60,8 @@ var mapOptions = function (option) {
 
 const storageName = "layer-tileset-manager-oneself"
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -93,15 +89,12 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function changeColor(color) {
+export function changeColor(color) {
   const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
@@ -117,7 +110,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(url) {
+export function showModel(url) {
   removeLayer()
   if (!url) {
     return
@@ -149,6 +142,6 @@ function showModel(url) {
   })
 }
 
-function flyTo() {
+export function flyTo() {
   tiles3dLayer.flyTo()
 }

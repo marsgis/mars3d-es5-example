@@ -1,28 +1,23 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
-var graphicLayer // 矢量图层对象
-var testGraphicLayer
-var treeGraphicLayer
+export let graphicLayer // 矢量图层对象
+export let testGraphicLayer
+export let treeGraphicLayer
 
-var echartTarget = new mars3d.BaseClass()
+export const echartTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.328067, lng: 116.032025, alt: 1320.6, heading: 121.2, pitch: -19.3 },
     fxaa: true
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -38,7 +33,7 @@ function onMounted(mapInstance) {
     console.log("监听layer，单击了矢量对象", event)
   })
 
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tower-taihu.json" })
+  mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/tower-taihu.json" })
     .then(function (res) {
       showData(res)
     })
@@ -46,7 +41,7 @@ function onMounted(mapInstance) {
       console.log("加载JSON出错", error)
     })
 
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tower-taihu-tree.json" })
+  mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/tower-taihu-tree.json" })
     .then(function (res) {
       showTreeData(res)
     })
@@ -55,11 +50,8 @@ function onMounted(mapInstance) {
     })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -138,7 +130,7 @@ function showData(arrdata) {
     polylinesTB.push(newPoint2) // 图标显示的点
 
     drawWireTowerModel(position, degree, item.scale, item)
-    drawWireTowerJYZModel(newPoint1, degree)// 3个悬垂串模型
+    drawWireTowerJYZModel(newPoint1, degree) // 3个悬垂串模型
     drawWireTowerJYZModel(newPoint2, degree)
     drawWireTowerJYZModel(newPoint3, degree)
 
@@ -196,7 +188,7 @@ function drawWireTowerModel(position, degree, scale, item) {
   const graphic = new mars3d.graphic.ModelPrimitive({
     position,
     style: {
-      url: "//data.mars3d.cn/gltf/mars/tower/tower-500kV.glb",
+      url: "https://data.mars3d.cn/gltf/mars/tower/tower-500kV.glb",
       heading: degree,
       scale: scale,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 4000.0)
@@ -211,7 +203,7 @@ function drawWireTowerJYZModel(position, degree) {
   // const graphic2 = new mars3d.graphic.ModelPrimitive({
   //   position,
   //   style: {
-  //     url: "//data.mars3d.cn/gltf/mars/tower/tower-jyz.glb",
+  //     url: "https://data.mars3d.cn/gltf/mars/tower/tower-jyz.glb",
   //     heading: degree,
   //     pitch: 90, // 模型本身不是竖直，需要加pitch纠正
   //     scale: 1,
@@ -290,7 +282,7 @@ function showTreeData(arrdata) {
     const graphic = new mars3d.graphic.ModelPrimitive({
       position,
       style: {
-        url: "//data.mars3d.cn/gltf/imap/de07d417d587494291daccb7670609fb/gltf/gltf2.gltf",
+        url: "https://data.mars3d.cn/gltf/imap/de07d417d587494291daccb7670609fb/gltf/gltf2.gltf",
         scale: scale,
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 4000.0)
       },
@@ -318,7 +310,7 @@ function showTreeData(arrdata) {
 }
 
 // 批量计算所有树
-async function batchComputing() {
+export async function batchComputing() {
   globalMsg("计算的数据较多，计算中，请稍后……")
 
   setTimeout(() => {
@@ -330,7 +322,7 @@ async function batchComputing() {
 }
 
 // 单个绘制点的计算
-async function drawPoint() {
+export async function drawPoint() {
   const graphic = await testGraphicLayer.startDraw({
     type: "point",
     style: {

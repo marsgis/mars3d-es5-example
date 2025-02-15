@@ -1,24 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export let graphicLayer
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.799033, lng: 117.177563, alt: 4324.03, heading: 0, pitch: -45, roll: 0 },
     fxaa: true
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -26,15 +21,12 @@ function onMounted(mapInstance) {
   showShanghaiDemo()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function removeLayer() {
+export function removeLayer() {
   map.trackedEntity = null
   if (graphicLayer) {
     map.removeLayer(graphicLayer, true)
@@ -51,7 +43,7 @@ function removeLayer() {
 }
 
 // 示例：上海
-function showShanghaiDemo() {
+export function showShanghaiDemo() {
   removeLayer()
 
   // 创建gltf模型，
@@ -62,7 +54,7 @@ function showShanghaiDemo() {
         type: "modelP",
         position: [121.507762, 31.233975, 200],
         style: {
-          url: "//data.mars3d.cn/gltf/mars/shanghai/pudong/scene.gltf",
+          url: "https://data.mars3d.cn/gltf/mars/shanghai/pudong/scene.gltf",
           scale: 520,
           heading: 215
         }
@@ -81,7 +73,7 @@ function showShanghaiDemo() {
 }
 
 // 示例：骨骼动画
-function showDonghuaDemo() {
+export function showDonghuaDemo() {
   removeLayer()
 
   // 创建gltf模型
@@ -92,7 +84,7 @@ function showDonghuaDemo() {
         type: "modelP",
         position: [117.170624, 31.840666, 278.66],
         style: {
-          url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
+          url: "https://data.mars3d.cn/gltf/mars/fengche.gltf",
           scale: 200,
           heading: 270
         }
@@ -101,7 +93,7 @@ function showDonghuaDemo() {
         type: "modelP",
         position: [117.184442, 31.842172, 33.92],
         style: {
-          url: "//data.mars3d.cn/gltf/sample/GroundVehicle/GroundVehicle.glb",
+          url: "https://data.mars3d.cn/gltf/sample/GroundVehicle/GroundVehicle.glb",
           scale: 300
         }
       }
@@ -121,7 +113,7 @@ function showDonghuaDemo() {
 }
 
 // 风力发电机
-function showFenliDemo() {
+export function showFenliDemo() {
   removeLayer()
 
   const positions = [
@@ -157,7 +149,7 @@ function showFenliDemo() {
       type: "modelP",
       position: item,
       style: {
-        url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
+        url: "https://data.mars3d.cn/gltf/mars/fengche.gltf",
         scale: 40,
         heading: 135,
         minimumPixelSize: 30,
@@ -182,7 +174,7 @@ function showFenliDemo() {
 }
 
 // 光伏电场
-function showGuangfu() {
+export function showGuangfu() {
   removeLayer()
 
   // 创建图层
@@ -224,7 +216,7 @@ function showGuangfu() {
       name: "风机",
       position: point,
       style: {
-        url: "//data.mars3d.cn/gltf/mars/taiyang/taiyang.gltf",
+        url: "https://data.mars3d.cn/gltf/mars/taiyang/taiyang.gltf",
         scale: 1,
         heading,
         minimumPixelSize: 30,

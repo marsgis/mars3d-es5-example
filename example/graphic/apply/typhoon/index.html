@@ -186,7 +186,7 @@
 
         //获取台风列表
         mars3d.Util.fetchJson({
-          url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json",
+          url: "https://data.mars3d.cn/file/apidemo/typhoon/list_2020.json",
           data: {
             t: new Date().getTime()
           }
@@ -289,7 +289,7 @@
 
       function getPath(id) {
         return mars3d.Util.fetchJson({
-          url: "//data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json",
+          url: "https://data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json",
           data: {
             t: new Date().getTime()
           }

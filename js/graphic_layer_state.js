@@ -343,7 +343,7 @@ function showEditor(e) {
 
   let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {
-    plotAttr.startEditing(graphic, graphic.coordinates)
+    plotAttr.startEditing(graphic, graphic.coord)
   } else {
     // 左侧没有弹出的修改面板时，弹出widget
     $("#infoview-left").length === 0 &&
@@ -352,7 +352,7 @@ function showEditor(e) {
         uri: "widgets/plotAttr/widget.js",
         name: "属性编辑",
         graphic: graphic,
-        lonlats: graphic.coordinates
+        lonlats: graphic.coord
       })
   }
 }

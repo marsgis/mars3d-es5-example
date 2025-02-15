@@ -25,7 +25,7 @@
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,layer,toastr,jquery.range,font-awesome,bootstrap,layer,haoutil,mars3d"
+      include="jquery,layer,toastr,jquery.range,ztree,font-awesome,bootstrap,layer,haoutil,mars3d"
     ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
@@ -33,7 +33,88 @@
   <body class="dark">
     <div id="mars3dContainer" class="mars3d-container"></div>
 
+    <!-- 面板 -->
+    <div class="infoview" style="overflow: auto; top: 5px; height: calc(100% - 90px)">
+      <ul id="treeOverlays" class="ztree"></ul>
+    </div>
+
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      eventTarget.on("refTree", (e) => {
+        initTree()
+      })
+
+      //===========================树控件处理============================
+      function initTree() {
+        const result = getGraphicsTree({
+          forEach: function (item) {
+            item.key = item.id // 树控件api需要的唯一标识
+            if (item.attr) {
+              item.title = item.attr["高校名称"]
+            } else {
+              item.title = item.name // 树控件api需要的显示文本字段
+            }
+            if (!item.name) {
+              item.name = item.title
+            }
+            item.checked = true
+          },
+          autoGroup: "地区"
+        })
+
+        console.log("图层树信息", result)
+
+        //初始化树
+        let setting = {
+          check: {
+            enable: true
+          },
+          data: {
+            simpleData: {
+              enable: true
+            }
+          },
+          callback: {
+            onCheck: treeOverlays_onCheck,
+            onDblClick: treeOverlays_onDblClick
+          }
+        }
+        $.fn.zTree.init($("#treeOverlays"), setting, result.tree)
+      }
+
+      function treeOverlays_onCheck(e, treeId, chktreeNode) {
+        let zTree = $.fn.zTree.getZTreeObj(treeId)
+
+        //获得所有改变check状态的节点
+        let changedNodes = zTree.getChangeCheckedNodes()
+        if (changedNodes) {
+          for (let i = 0; i < changedNodes.length; i++) {
+            let treeNode = changedNodes[i]
+            treeNode.checkedOld = treeNode.checked
+            let graphic = getGraphicById(treeNode.id)
+            if (graphic == null) {
+              continue
+            }
+            let show = treeNode.checked
+            //处理图层显示隐藏
+            graphic.show = show
+          }
+        }
+      }
+
+      function treeOverlays_onDblClick(event, treeId, treeNode) {
+        if (treeNode == null || treeNode.id == null) {
+          return
+        }
+        let layer = getGraphicById(treeNode.id)
+        if (layer == null) {
+          return
+        }
+        layer.flyTo()
+      }
+    </script>
   </body>
 </html>

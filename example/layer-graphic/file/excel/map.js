@@ -1,24 +1,19 @@
 /* eslint-disable no-undef */
-// import * as mars3d from "mars3d"
-// // import * as XLSX from "xlsx"
+import * as mars3d from "mars3d"
+// import * as XLSX from "xlsx"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -33,29 +28,26 @@ function onMounted(mapInstance) {
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function downloadCsvModel() {
+export function downloadCsvModel() {
   const url = window.currentPath + "data/graphic.csv" // currentPath为当前目录，内置在示例框架中
   window.open(url)
 }
 
-function downloadExcelModel() {
+export function downloadExcelModel() {
   const url = window.currentPath + "data/graphic.xlsx" // currentPath为当前目录，内置在示例框架中
   window.open(url)
 }
 
-function clearData() {
+export function clearData() {
   graphicLayer.clear()
 }
 
-function openFile(file) {
+export function openFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -97,7 +89,7 @@ async function importCsvData(result) {
   }
   addGraphics(arrData)
 }
-function downloadCsvData() {
+export function downloadCsvData() {
   if (graphicLayer.length === 0) {
     globalAlert("当前没有标注任何数据，无需保存！")
     return
@@ -144,7 +136,7 @@ function importExcelData(result) {
   addGraphics(jsonData)
 }
 
-function downloadExcelData() {
+export function downloadExcelData() {
   if (graphicLayer.length === 0) {
     globalAlert("当前没有标注任何数据，无需保存！")
     return
@@ -186,7 +178,7 @@ function addGraphics(points) {
     const graphic = new mars3d.graphic.BillboardPrimitive({
       position: [jd, wd, gd],
       style: {
-        image: "//data.mars3d.cn/img/marker/point-red.png",
+        image: "https://data.mars3d.cn/img/marker/point-red.png",
         scale: 1,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -207,12 +199,12 @@ function addGraphics(points) {
 }
 
 let indexCache = 0
-function startDrawGraphic() {
+export async function startDrawGraphic() {
   const name = "我是手动标绘的" + ++indexCache
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type: "billboardP",
     style: {
-      image: "//data.mars3d.cn/img/marker/point-red.png",
+      image: "https://data.mars3d.cn/img/marker/point-red.png",
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       label: {
@@ -227,4 +219,5 @@ function startDrawGraphic() {
     },
     attr: { 名称: name, 创建时间: mars3d.Util.formatDate(new Date()) }
   })
+  console.log("标绘完成", graphic.toJSON())
 }

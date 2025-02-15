@@ -1,22 +1,17 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let polygonLayer
 let graphicLayer
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载面数据
@@ -26,19 +21,16 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
-function clearGraphicLayer() {
+export function clearGraphicLayer() {
   graphicLayer.clear()
 }
 
 // 绘制线
-async function drawLine() {
+export async function drawLine() {
   clearGraphicLayer()
 
   const graphic = await graphicLayer.startDraw({
@@ -50,6 +42,7 @@ async function drawLine() {
     }
   })
   const clipLine = graphic.toGeoJSON()
+  console.log("标绘完成", clipLine)
   graphic.remove()
 
   clipAllPolygon(clipLine)

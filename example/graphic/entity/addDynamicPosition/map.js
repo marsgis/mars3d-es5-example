@@ -1,23 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     fxaa: true,
     center: { lat: 31.754913, lng: 117.248572, alt: 6220, heading: 357, pitch: -31 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+let intervalNum
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
@@ -37,9 +33,9 @@ function onMounted(mapInstance) {
   // 加一些演示数据
   for (let i = 0; i < 20; i++) {
     const graphic = new mars3d.graphic.ModelEntity({
-      viewFrom: new Cesium.Cartesian3(-500, -500, 200),
+      // viewFrom: new Cesium.Cartesian3(-500, -500, 200),
       style: {
-        url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
+        url: "https://data.mars3d.cn/gltf/mars/qiche.gltf",
         scale: 0.5,
         minimumPixelSize: 20,
 
@@ -65,7 +61,7 @@ function onMounted(mapInstance) {
           distanceDisplayCondition_near: 0
         }
       },
-      // forwardExtrapolationType: Cesium.ExtrapolationType.NONE,
+      // forwardExtrapolationType: Cesium.ExtrapolationType.NONE, // 在最后1个结束时间之后，NONE时不显示，HOLD时显示结束时间对应坐标位置
       attr: { index: i, remark: "Model示例" }
     })
     graphicLayer.addGraphic(graphic)
@@ -77,9 +73,9 @@ function onMounted(mapInstance) {
   }
   for (let i = 0; i < 20; i++) {
     const graphic = new mars3d.graphic.BillboardEntity({
-      viewFrom: new Cesium.Cartesian3(-500, -500, 200),
+      // viewFrom: new Cesium.Cartesian3(-500, -500, 200),
       style: {
-        image: "//data.mars3d.cn/img/marker/mark-blue.png",
+        image: "https://data.mars3d.cn/img/marker/mark-blue.png",
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1)
@@ -110,9 +106,13 @@ function onMounted(mapInstance) {
   // 定时更新动态位置（setInterval为演示）
   const interval = 30
   changePosition(interval)
-  setInterval(() => {
+  intervalNum = setInterval(() => {
     changePosition(interval)
   }, interval * 1000)
+}
+
+export function clear() {
+  intervalNum && clearInterval(intervalNum)
 }
 
 // 改变位置
@@ -121,15 +121,12 @@ function changePosition(time) {
     if (graphic.isPrivate) {
       return
     }
-    graphic.addDynamicPosition(randomPoint(), time) // 按time秒运动至指定位置
+    graphic.addTimePosition(randomPoint(), time) // 按time秒运动至指定位置
   })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 
   graphicLayer.remove()
@@ -146,8 +143,26 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+// 开始绘制
+export async function startDrawGraphic() {
+  const graphic = await graphicLayer.startDraw({
+    type: "billboard",
+    position: {
+      type: "time", // 时序动态坐标
+      speed: 460
+    },
+    style: {
+      image: "https://data.mars3d.cn/img/marker/point-yellow.png",
+      scale: 1,
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+    }
+  })
+  console.log("标绘完成", graphic.toJSON())
+}
+
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -159,9 +174,49 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   let trackedGraphic
   graphicLayer.bindContextMenu([
+    {
+      text: "开始编辑对象",
+      icon: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic || !graphic.hasEdit) {
+          return false
+        }
+        return !graphic.isEditing
+      },
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayer.startEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "停止编辑对象",
+      icon: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic || !graphic.hasEdit) {
+          return false
+        }
+        return graphic.isEditing
+      },
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphic.stopEditing()
+        }
+      }
+    },
     {
       text: "还原编辑(还原到初始)",
       icon: "fa fa-pencil",
@@ -248,18 +303,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {

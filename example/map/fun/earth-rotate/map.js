@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 26.520735, lng: 99.609792, alt: 23891502.7, heading: 93.3, pitch: -80.8, roll: 266.7 },
     clock: {
@@ -12,13 +12,8 @@ var mapOptions = {
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 按shift键+鼠标左键 拖拽 地球到合适区域，通过下面代码获取视角参数，拷贝到mapOptions的center参数中。
@@ -30,22 +25,19 @@ function onMounted(mapInstance) {
   getGeojsonStart()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 let previousTime
 
-function startRotate() {
+export function startRotate() {
   stopRotate()
   previousTime = map.clock.currentTime.secondsOfDay
   map.on(mars3d.EventType.clockTick, map_onClockTick)
 }
-function stopRotate() {
+export function stopRotate() {
   map.off(mars3d.EventType.clockTick, map_onClockTick)
 }
 // 地球旋转
@@ -59,10 +51,10 @@ function map_onClockTick() {
 }
 
 // 加载 演示数据
-function getGeojsonStart() {
+export function getGeojsonStart() {
   startRotate()
   // 获取演示数据并加载
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/100000_full.json" })
+  mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/geojson/areas/100000_full.json" })
     .then(function (json) {
       addDemoGraphics(json)
     })
@@ -87,7 +79,7 @@ function addDemoGraphics(geojson) {
 
   const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
   const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
-    image: "//data.mars3d.cn/img/textures/line-color-yellow.png",
+    image: "https://data.mars3d.cn/img/textures/line-color-yellow.png",
     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
     speed: 9
   })

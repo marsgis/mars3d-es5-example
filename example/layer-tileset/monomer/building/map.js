@@ -1,29 +1,25 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let geoJsonLayerDTH
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
-    center: { lat: 43.821193, lng: 125.143124, alt: 990, heading: 342, pitch: -50 }
+    center: { lat: 43.821193, lng: 125.143124, alt: 990, heading: 342, pitch: -50 },
+    logarithmicDepthBuffer: false // 对数深度缓冲区[当 贴地面 出现 阴影体 时设置下]
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 三维模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "校园",
-    url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
     position: { alt: 279.0 },
     maximumScreenSpaceError: 1
   })
@@ -32,7 +28,7 @@ function onMounted(mapInstance) {
   // 单体化图层
   geoJsonLayerDTH = new mars3d.layer.GeoJsonLayer({
     name: "学校-单体化",
-    url: "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json",
+    url: "https://data.mars3d.cn/file/geojson/dth-xuexiao-fd.json",
     symbol: {
       type: "polygonP",
       styleOptions: {
@@ -79,16 +75,13 @@ function onMounted(mapInstance) {
   map.addLayer(geoJsonLayerDTH)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 是否显示各栋颜色
-function chkShowColor(val) {
+export function chkShowColor(val) {
   geoJsonLayerDTH.closePopup()
 
   if (val) {

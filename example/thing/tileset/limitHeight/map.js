@@ -1,21 +1,16 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let limitHeight
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.794547, lng: 117.21215, alt: 1672, heading: 18, pitch: -33 }
   }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -28,7 +23,7 @@ function onMounted(mapInstance) {
   //   name: "风机",
   //   position: [117.221189, 31.814105, 30],
   //   style: {
-  //     url: "//data.mars3d.cn/gltf/mars/fengche.gltf",
+  //     url: "https://data.mars3d.cn/gltf/mars/fengche.gltf",
   //     colorBlendMode: Cesium.ColorBlendMode.MIX,
   //     scale: 50
   //   }
@@ -39,7 +34,7 @@ function onMounted(mapInstance) {
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "合肥天鹅湖",
     type: "3dtiles",
-    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
+    url: "https://data.mars3d.cn/3dtiles/qx-teh/tileset.json",
     position: { lng: 117.218434, lat: 31.81807, alt: 163 },
     maximumScreenSpaceError: 16,
     maxMemory: 2048, // 最大缓存内存大小(MB)
@@ -70,24 +65,21 @@ function onMounted(mapInstance) {
   // })
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 滑动条
-function currHeight(value) {
+export function currHeight(value) {
   limitHeight.height = value
 }
-function setDiffHeight(value) {
+export function setDiffHeight(value) {
   limitHeight.diffHeight = value
 }
 
 // 绘制矩形
-async function drawExtent() {
+export async function drawExtent() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -104,7 +96,7 @@ async function drawExtent() {
 }
 
 // 绘制面
-async function drawPolygon() {
+export async function drawPolygon() {
   map.graphicLayer.clear()
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -121,7 +113,7 @@ async function drawPolygon() {
   console.log("绘制坐标为", JSON.stringify(mars3d.LngLatArray.toArray(positions))) // 方便测试拷贝坐标
 }
 
-function clear() {
+export function clear() {
   limitHeight.clear()
   map.graphicLayer.clear()
 }

@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 25.845231, lng: 117.57678, alt: 488175, heading: 358, pitch: -42 },
     showSun: false,
@@ -25,19 +25,14 @@ var mapOptions = {
   layers: []
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加 安徽省边界线墙
   const anhuiWall = new mars3d.layer.GeoJsonLayer({
     name: "安徽省边界墙",
-    url: "//data.mars3d.cn/file/geojson/areas/340000.json",
+    url: "https://data.mars3d.cn/file/geojson/areas/340000.json",
     symbol: {
       type: "wallP",
       styleOptions: {
@@ -45,7 +40,7 @@ function onMounted(mapInstance) {
         diffHeight: 15000, // 墙高
         materialType: mars3d.MaterialType.Image2,
         materialOptions: {
-          image: "//data.mars3d.cn/img/textures/fence-top.png",
+          image: "https://data.mars3d.cn/img/textures/fence-top.png",
           color: "rgba(0,255,255,0.6)"
         }
       }
@@ -55,7 +50,7 @@ function onMounted(mapInstance) {
 
   // 安徽省卫星底图
   const tileLayer = new mars3d.layer.XyzLayer({
-    url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
+    url: "https://data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
     minimumLevel: 0,
     maximumLevel: 12,
     rectangle: { xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 }
@@ -63,10 +58,7 @@ function onMounted(mapInstance) {
   map.addLayer(tileLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }

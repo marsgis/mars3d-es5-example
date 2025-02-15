@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let drawLayer
 let measure
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   method: {
     // eslint-disable-next-line no-undef
     lang: CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
@@ -25,8 +25,8 @@ var mapOptions = {
     timeline: true, // 是否显示时间线控件
 
     contextmenu: { hasDefault: true }, // 涉及到多语言的模块：右键菜单
-    compass: { top: "10px", left: "5px" },
-    distanceLegend: { left: "180px", bottom: "30px" },
+    compass: { style: { top: "10px", right: "5px" } },
+    distanceLegend: { style: { left: "10px", bottom: "27px" } },
     locationBar: {
       template:
         "<div>lng:{lng}</div> <div>lat:{lat}</div> <div>alt：{alt} m</div> <div>level：{level}</div><div>heading：{heading}°</div> <div>pitch：{pitch}°</div><div>cameraHeight：{cameraHeight}m</div>"
@@ -38,7 +38,7 @@ var mapOptions = {
       name: "Tianditu Images",
       name_cn: "天地图影像",
       name_en: "Tianditu Images",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
       type: "group",
       layers: [
         { name: "底图", type: "tdt", layer: "img_d" },
@@ -51,7 +51,7 @@ var mapOptions = {
       name: "Tianditu Images EN",
       name_cn: "天地图影像EN",
       name_en: "Tianditu Images EN",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
       type: "group",
       layers: [
         { name: "底图", type: "tdt", layer: "img_d" },
@@ -62,7 +62,7 @@ var mapOptions = {
       name: "Tianditu Electronic map",
       name_cn: "天地图电子",
       name_en: "Tianditu Electronic map",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_vec.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/tdt_vec.png",
       type: "group",
       layers: [
         { name: "底图", type: "tdt", layer: "vec_d" },
@@ -73,7 +73,7 @@ var mapOptions = {
       name: "not map",
       name_cn: "无底图",
       name_en: "not map",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/null.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/null.png",
       type: "grid",
       color: "#ffffff",
       alpha: 0.03,
@@ -82,17 +82,12 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance
-  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
+  // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 涉及到多语言的模块：标绘提示
   drawLayer = new mars3d.layer.GraphicLayer({
@@ -142,15 +137,12 @@ function onMounted(mapInstance) {
   map.addThing(measure)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function toCustomLang() {
+export function toCustomLang() {
   map.basemap = "200" // 英文天地图
   map.options.basemaps.forEach((item) => {
     item.name = item.name_en
@@ -165,7 +157,7 @@ function toCustomLang() {
   map.lang = CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
 }
 
-function toDefaultLange() {
+export function toDefaultLange() {
   map.basemap = "100" // 中文天地图
   map.options.basemaps.forEach((item) => {
     item.name = item.name_cn
@@ -179,26 +171,26 @@ function toDefaultLange() {
   map.lang = mars3d.Lang // 使用默认配置
 }
 
-function distance() {
+export function distance() {
   drawLayer.stopDraw()
   measure.distance()
 }
 
-function area() {
+export function area() {
   drawLayer.stopDraw()
   measure.area()
 }
 
-function height() {
+export function height() {
   drawLayer.stopDraw()
   measure.heightTriangle()
 }
 
-function coordinate() {
+export function coordinate() {
   drawLayer.stopDraw()
   measure.point()
 }
-function angle() {
+export function angle() {
   drawLayer.stopDraw()
   measure.angle()
 }
@@ -206,11 +198,11 @@ function angle() {
 /**
  *开始标绘
  *
- * @startDraw
+ * @export startDraw
  * @param { string } type 矢量数据类型
  * @returns {void} 无
  */
-function startDraw(type) {
+export function startDraw(type) {
   measure.stopDraw()
   drawLayer.startDraw({
     type,

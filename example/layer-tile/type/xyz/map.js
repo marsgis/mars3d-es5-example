@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 29.968111, lng: 106.437663, alt: 8098707, heading: 5, pitch: -88 }
   },
@@ -11,7 +11,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "电子地图",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
       type: "xyz",
       url: "https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
       subdomains: "1234",
@@ -20,15 +20,15 @@ var mapOptions = {
     },
     {
       name: "离线影像地图",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/gaode_img.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_img.png",
       type: "xyz",
-      url: "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
+      url: "https://data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
       minimumLevel: 0,
       maximumLevel: 13
     },
     {
       name: "EPSG4490影像",
-      icon: "//data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
       type: "xyz",
       url: "http://t3.tianditu.gov.cn/img_c/wmts?service=WMTS&version=1.0.0&request=GetTile&tilematrix={z}&layer=img&style=default&tilerow={y}&tilecol={x}&tilematrixset=c&format=tiles&tk=6c99c7793f41fccc4bd595b03711913e",
       crs: "EPSG:4490" // 标识坐标系
@@ -55,34 +55,26 @@ var mapOptions = {
 // {width}:每个图块的宽度（以像素为单位）。
 // {height}: 每个图块的高度（以像素为单位）。
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   addTileLayer()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
 
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.XyzLayer({
-    url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+    url: "https://data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
     minimumLevel: 0,
     maximumLevel: 10,
     rectangle: { xmin: 69.706929, xmax: 136.560941, ymin: 15.831038, ymax: 52.558005 },
@@ -104,7 +96,7 @@ function addTileLayer() {
   // map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

@@ -1,16 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层
 let graphic // 矢量数据
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   bindMapDemo()
@@ -38,7 +33,7 @@ function onMounted(mapInstance) {
   // 为了演示图层上绑定方式
   graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "标绘示例数据",
-    url: "//data.mars3d.cn/file/geojson/mars3d-draw.json"
+    url: "https://data.mars3d.cn/file/geojson/mars3d-draw.json"
   })
   map.addLayer(graphicLayer)
 
@@ -77,11 +72,8 @@ function onMounted(mapInstance) {
   bindGraphicDemo()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
@@ -90,7 +82,7 @@ function rotatePoint_onChangeHandler(event) {
 }
 
 // 在map地图上绑定右键菜单
-function bindMapDefault() {
+export function bindMapDefault() {
   // const defaultContextmenuItems = map.getDefaultContextMenu() // 内置的默认右键菜单获取方法
   // map.bindContextMenu(defaultContextmenuItems) // 可以删减defaultContextmenuItems数组内值
 
@@ -100,7 +92,7 @@ function bindMapDefault() {
 }
 
 // 在map地图上绑定右键菜单
-function bindMapDemo() {
+export function bindMapDemo() {
   window._test_show = function (e) {
     return Cesium.defined(e.cartesian)
   }
@@ -128,7 +120,7 @@ function bindMapDemo() {
     },
     {
       text: "开启深度监测",
-      icon: "//data.mars3d.cn/img/marker/square.png", // 支持base64或url图片
+      icon: "https://data.mars3d.cn/img/marker/square.png", // 支持base64或url图片
       show: function () {
         return !map.scene.globe.depthTestAgainstTerrain
       },
@@ -180,12 +172,12 @@ window.flyToForContextmenuClick = function (event) {
 }
 
 // 解除Map已绑定的右键菜单
-function unBindMapDemo() {
+export function unBindMapDemo() {
   map.unbindContextMenu()
 }
 
 // 在layer图层上绑定右键菜单
-function bindLayerDemo() {
+export function bindLayerDemo() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
@@ -260,12 +252,12 @@ function bindLayerDemo() {
 }
 
 // 解除Map已绑定的右键菜单
-function unBindLayerDemo() {
+export function unBindLayerDemo() {
   graphicLayer.unbindContextMenu()
 }
 
 //  在graphic数据上绑定右键菜单
-function bindGraphicDemo() {
+export function bindGraphicDemo() {
   graphic.bindContextMenu([
     {
       text: "开始编辑对象[graphic绑定的]",
@@ -301,6 +293,6 @@ function bindGraphicDemo() {
 }
 
 // 解除Map已绑定的右键菜单
-function unBindGraphicDemo() {
+export function unBindGraphicDemo() {
   graphic.unbindContextMenu()
 }

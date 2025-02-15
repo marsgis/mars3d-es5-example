@@ -1,15 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measure
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改编辑点样式，比如大小
@@ -42,24 +37,21 @@ function onMounted(mapInstance) {
   addDemoGraphic2(measure.graphicLayer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-function onUnmounted() {
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
+export function onUnmounted() {
   map = null
 }
 
-function onlyVertexPosition(val) {
+export function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-function removeAll() {
+export function removeAll() {
   measure.clear()
 }
 
 // 空间距离
-async function measureLength() {
+export async function measureLength() {
   const graphic = await measure.distance({
     showAddText: true,
     label: {
@@ -81,10 +73,11 @@ async function measureLength() {
     //   clampToGround: false //是否贴地
     // }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 贴地距离
-async function measureSurfaceLength() {
+export async function measureSurfaceLength() {
   const graphic = await measure.distanceSurface({
     showAddText: true,
     exact: false // 是否进行精确计算， 传false时是否快速概略计算方式，该方式计算精度较低，但计算速度快，仅能计算在当前视域内坐标的高度
@@ -95,10 +88,11 @@ async function measureSurfaceLength() {
     //   clampToGround: true //是否贴地
     // }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 水平面积
-async function measureArea() {
+export async function measureArea() {
   const graphic = await measure.area({
     // style: {
     //   color: '#00fff2',
@@ -116,10 +110,12 @@ async function measureArea() {
     const rang = await mars3d.PolyUtil.getHeightRangeByDepth(oldPositions, map.scene)
     graphic.positions = mars3d.PointUtil.setPositionsHeight(oldPositions, rang.maxHeight)
   }
+
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 贴地面积
-async function measureSurfaceeArea() {
+export async function measureSurfaceeArea() {
   const graphic = await measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -127,34 +123,42 @@ async function measureSurfaceeArea() {
     splitNum: 10, // step插值分割的个数
     exact: false // 是否进行精确计算， 传false时是否快速概略计算方式，该方式计算精度较低，但计算速度快，仅能计算在当前视域内坐标的高度
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 // 高度差
-async function measureHeight() {
+export async function measureHeight() {
   const graphic = await measure.height()
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 三角测量
-async function measureTriangleHeight() {
+export async function measureTriangleHeight() {
   const graphic = await measure.heightTriangle()
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 方位角
-async function measureAngle() {
+export async function measureAngle() {
   const graphic = await measure.angle()
+  console.log("标绘完成", graphic.toJSON())
 }
 
 // 坐标测量
-async function measurePoint() {
+export async function measurePoint() {
   const graphic = await measure.point({
-    // popup: function (point, graphic) {
-    //   return `<div class="mars3d-template-title">位置信息</div>
-    //   <div class="mars3d-template-content">
-    //       <div><label>经度</label>${point.lng}</div>
-    //       <div><label>纬度</label>${point.lat}</div>
-    //       <div><label>海拔</label>${point.alt}米</div>
-    //   </div>`
-    // }
+    popupOptions: {
+      pointerEvents: false
+    },
+    popup: function (point, event) {
+      return `<div class="mars3d-template-title">位置信息</div>
+      <div class="mars3d-template-content">
+          <div><label>经度</label>${point.lng}</div>
+          <div><label>纬度</label>${point.lat}</div>
+          <div><label>海拔</label>${point.alt}米</div>
+      </div>`
+    }
   })
+  console.log("标绘完成", graphic.toJSON())
 }
 
 function addDemoGraphic1(graphicLayer) {
@@ -207,7 +211,7 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function openJSON(file) {
+export function openJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -226,7 +230,7 @@ function openJSON(file) {
   }
 }
 
-function saveJSON() {
+export function saveJSON() {
   if (measure.graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
