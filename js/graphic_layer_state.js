@@ -305,41 +305,25 @@ function bindAttributePannel() {
       showEditor(e)
     }
   })
+  const editUpdateFun = mars3d.Util.funDebounce(showEditor, 500)
   // 修改了矢量数据
-  graphicLayer.on(
-    [
-      mars3d.EventType.editStart,
-      mars3d.EventType.editStyle,
-      mars3d.EventType.editAddPoint,
-      mars3d.EventType.editMovePoint,
-      mars3d.EventType.editRemovePoint
-    ],
-    function (e) {
-      showEditor(e)
-    }
-  )
+  graphicLayer.on([mars3d.EventType.click, mars3d.EventType.editStart, mars3d.EventType.editStyle], editUpdateFun)
 
   // 停止编辑
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    setTimeout(() => {
-      if (!graphicLayer.isEditing) {
-        stopEditing()
-      }
-    }, 100)
-  })
+  const removeFun = mars3d.Util.funDebounce(stopEditing, 300)
+  graphicLayer.on(mars3d.EventType.removeGraphic, removeFun)
 }
 
 //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
 let timeTik
-
 function showEditor(e) {
   const graphic = e.graphic
   clearTimeout(timeTik)
 
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true //只处理一次
-  }
+  // if (!graphic._conventStyleJson) {
+  //   graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+  //   graphic._conventStyleJson = true //只处理一次
+  // }
 
   let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {

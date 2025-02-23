@@ -49,10 +49,6 @@
         <li>
           <div class="mp_tree">
             <div id="attr_style_view">
-              <div class="open"><i class="tree_icon">-</i>样式信息</div>
-              <div class="mp_attr">
-                <table id="talbe_style"></table>
-              </div>
             </div>
 
             <div id="attr_stylelabel_view" class="bdt">
@@ -65,18 +61,13 @@
         </li>
       </ul>
 
-      <ul class="mp_tab_ava">
+      <ul class="mp_tab_baseinfo">
         <li>
           <div class="mp_tree">
-            <div id="attr_style_view">
-              <div class="open"><i class="tree_icon">-</i>时序列表</div>
-              <div class="tools-btn">
-                <input id="btn_avali_add" type="button" class="btn btn-primary" value="添加" />
-                <input id="btn_avali_delete"  type="button" class="btn btn-primary" value="清除" />
-              </div>
-
-              <div class="ava-list" id="ava-list">
-                <div id="table-box" class="table-box"></div>
+            <div id="attr_style_baseinfo">
+              <div class="open"><i class="tree_icon">-</i>基础信息</div>
+              <div class="mp_attr">
+                <table id="talbe_baseinfo"></table>
               </div>
             </div>
           </div>
@@ -84,13 +75,14 @@
       </ul>
       <ul class="mp_tab_tit">
         <li id="tab_attr">样式</li>
-        <li id="tab_availability">时序</li>
+        <li id="tab_baseinfo">基础</li>
       </ul>
     </div>
   </div>
 
   <script src="config/material.js"></script>
   <script src="config/style.js"></script>
+  <script src="config/base-info.js"></script>
 
   <script src="js/vew.common.js?time=20250101"></script>
   <script src="js/vew.work.js?time=20250101"></script>
