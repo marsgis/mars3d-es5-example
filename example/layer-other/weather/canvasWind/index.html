@@ -40,8 +40,10 @@
     <div class="infoview">
       <div>
         演示数据：
+        <input type="button" class="btn btn-primary" value="香港" onclick="loadHongkongData()" />
+        <input type="button" class="btn btn-primary" value="新加坡" onclick="loadDongnanData1()" />
+        <input type="button" class="btn btn-primary" value="洋流" onclick="loadDongnanData2()" />
         <input type="button" class="btn btn-primary" value="全球区域" onclick="loadEarthData()" />
-        <input type="button" class="btn btn-primary" value="局部区域" onclick="loadDongnanData()" />
       </div>
       <table class="mars-table">
         <tr>
@@ -70,12 +72,12 @@
             <input id="txt_linewidth" title="线宽度" />
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td class="nametd">线颜色：</td>
           <td>
             <input type="text" id="txtColor" class="form-control" style="width: 100px" value="#4696db" />
           </td>
-        </tr>
+        </tr> -->
       </table>
     </div>
 

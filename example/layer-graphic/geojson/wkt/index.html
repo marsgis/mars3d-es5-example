@@ -25,32 +25,82 @@
     include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,turf,ztree,terraformer,mars3d"></script>
 
   <link href="/css/style.css" rel="stylesheet" />
+
+  <style>
+    .infoview .checkbox {
+      display: inline-block;
+      margin-left: 5px;
+    }
+  </style>
 </head>
 
 <body class="dark">
-
-
   <div id="mars3dContainer" class="mars3d-container"></div>
 
-  <div class="infoview" style="overflow: auto; top: 50px; max-height: 90%">
+  <div class="infoview">
+    图层状态：
+    <div class="checkbox checkbox-primary checkbox-inline">
+      <input id="chkShow" class="styled" type="checkbox" checked />
+      <label for="chkShow"> 显示隐藏 </label>
+    </div>
+    <div class="checkbox checkbox-primary checkbox-inline">
+      <input id="chkPopup" class="styled" type="checkbox" checked />
+      <label for="chkPopup"> Popup绑定 </label>
+    </div>
+    <div class="checkbox checkbox-primary checkbox-inline">
+      <input id="chkTooltip" class="styled" type="checkbox" />
+      <label for="chkTooltip"> Tooltip绑定 </label>
+    </div>
+    <div class="checkbox checkbox-primary checkbox-inline">
+      <input id="chkContextMenu" class="styled" type="checkbox" checked />
+      <label for="chkContextMenu"> 右键菜单绑定 </label>
+    </div>
+  </div>
+
+  <div class="infoview" style="overflow: auto; right: 5px; left: auto; top: 80px; max-height: 88%">
     <ul id="treeOverlays" class="ztree"></ul>
   </div>
 
   <script src="/js/common.js"></script>
+  <script src="/js/layer_state.js"></script>
   <script src="./map.js"></script>
+
   <script type="text/javascript">
     "use script" //开发环境建议开启严格模式
+    function initUI() {
+      //图层管理的相关处理
+      //2.在layer上绑定监听事件
+      initLayerManager()
+    }
 
-    treeEvent.on("tree", (event) => {
-      initTree(event.data, "airportName")
-    })
+    function initLayerManager() {
+      //可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+      $("#chkPopup").change(function () {
+        let val = $(this).is(":checked")
+
+        bindPopup(graphicLayer, val)
+      })
+
+      //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
+      $("#chkTooltip").change(function () {
+        let val = $(this).is(":checked")
+        bindTooltip(graphicLayer, val)
+      })
+
+      $("#chkContextMenu").change(function () {
+        let val = $(this).is(":checked")
+
+        bindRinghtMenu(graphicLayer, val)
+      })
+
+      //显示隐藏
+      $("#chkShow").change(function () {
+        let val = $(this).is(":checked")
+        isShowLayer(graphicLayer, val)
+      })
+    }
     //===========================树控件处理============================
-    let layersObj = {}
-
-    function initTree(arr, nameColum = "name") {
-      if (!arr || arr.length == 0) {
-        return
-      }
+    treeEvent.on("refTree", (event) => {
       //初始化树
       let setting = {
         check: {
@@ -67,36 +117,25 @@
         }
       }
 
-      let zNodes = []
-      let pnode = {
-        id: -1,
-        name: "全部",
-        type: "group",
-        open: false,
-        checked: true,
-        icon: "/lib/jquery/ztree/css/mars/images/folder.png"
-      }
-      zNodes.push(pnode)
+      const showIds = [] // 是显示状态的图层id集合
+      const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
+      const result = getGraphicsTree({
+        forEach: function (item) {
+          item.key = item.id // 树控件api需要的唯一标识
+          item.title = item.name || "未命名" // 树控件api需要的显示文本字段
 
-      for (let i = 0, len = arr.length; i < len; i++) {
-        let item = arr[i]
-        let name = item[nameColum] || "未命名"
-
-        let node = {
-          id: i,
-          pId: pnode.id,
-          name: name,
-          checked: true,
-          icon: "/lib/jquery/ztree/css/mars/images/layer.png"
-        }
-        zNodes.push(node)
-
-        layersObj[i] = item.graphic
-      }
-
+          item.checked = true
+          if (item.group && item.open !== false) {
+            item.open = true
+          }
+        },
+        autoGroup: "类型" // 自动分组处理
+      })
+      console.log("获取到的graphics树", result)
+      // 赋予树控件
       $.fn.zTree.destroy()
-      $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
-    }
+      $.fn.zTree.init($("#treeOverlays"), setting, result.tree)
+    })
 
     function treeOverlays_onCheck(e, treeId) {
       let zTree = $.fn.zTree.getZTreeObj(treeId)
@@ -107,7 +146,8 @@
         for (let i = 0; i < changedNodes.length; i++) {
           let treeNode = changedNodes[i]
           treeNode.checkedOld = treeNode.checked
-          let graphic = layersObj[treeNode.id]
+
+          let graphic = getGraphicById(treeNode.id)
           if (graphic == null) {
             continue
           }
@@ -119,12 +159,12 @@
     }
 
     function treeOverlays_onClick(event, treeId, treeNode) {
-      let graphic = layersObj[treeNode.id]
+      let graphic = getGraphicById(treeNode.id)
       if (graphic == null) {
         return
       }
 
-      map.flyToGraphic(graphic)
+      graphic.flyTo()
     }
   </script>
 </body>

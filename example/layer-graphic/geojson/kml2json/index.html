@@ -30,7 +30,7 @@
     <link href="/css/style.css" rel="stylesheet" />
 
     <!-- Kml2JsonLayer图层封装 -->
-    <script src="./Kml2JsonLayer.js" type="text/javascript" ></script>
+    <script src="./Kml2JsonLayer.js" type="text/javascript"></script>
   </head>
 
   <body class="dark">
@@ -58,13 +58,7 @@
 
       //===========================树控件处理============================
 
-      treeEvent.on("tree", (e) => {
-        initTree(e.treeData)
-      })
-
-      let layersObj = {}
-
-      function initTree(arr, nameColum = "name") {
+      treeEvent.on("refTree", (e) => {
         //初始化树
         let setting = {
           check: {
@@ -81,36 +75,51 @@
           }
         }
 
-        let zNodes = []
-        let pnode = {
-          id: -1,
-          name: "全部",
-          type: "group",
-          open: false,
-          checked: true,
-          icon: "/lib/jquery/ztree/css/mars/images/folder.png"
-        }
-        zNodes.push(pnode)
+        // 重置上一次的树状数据
+        const showIds = [] // 是显示状态的图层id集合
+        const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
+        const result = getGraphicsTree({
+          forEach: function (item) {
+            item.key = item.id // 树控件api需要的唯一标识
+            item.title = item.name || "未命名" // 树控件api需要的显示文本字段
 
-        for (let i = 0, len = arr.length; i < len; i++) {
-          let item = arr[i]
-          let name = item[nameColum] || "未命名"
-
-          let node = {
-            id: i,
-            pId: pnode.id,
-            name: name,
-            checked: true,
-            icon: "/lib/jquery/ztree/css/mars/images/layer.png"
+            item.checked = true
+            if (item.group && item.open !== false) {
+              item.open = true
+            }
+          },
+          // autoGroup: "type"
+          autoGroup: function (item) {
+            const name = item.name
+            if (name) {
+              if (name.indexOf("专线") !== -1 || name.indexOf("合九") !== -1) {
+                return "专线"
+              }
+              if (name.indexOf("高铁") !== -1) {
+                return "高铁"
+              }
+              if (name.indexOf("城际铁路") !== -1) {
+                return "城际铁路"
+              }
+              if (name.indexOf("铁路") !== -1) {
+                return "铁路"
+              }
+              if (name.indexOf("宁西") !== -1) {
+                return "宁西"
+              }
+              if (name.indexOf("合肥轨道") !== -1 || name.indexOf("有轨") !== -1 || name.indexOf("地铁") !== -1) {
+                return "合肥轨道"
+              }
+            }
+            return name || "未知"
           }
-          zNodes.push(node)
+        })
+        console.log("获取到的graphics树", result)
 
-          layersObj[i] = item.graphic
-        }
-
+        // 赋予树控件
         $.fn.zTree.destroy()
-        $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
-      }
+        $.fn.zTree.init($("#treeOverlays"), setting, result.tree)
+      })
 
       function treeOverlays_onCheck(e, treeId) {
         let zTree = $.fn.zTree.getZTreeObj(treeId)
@@ -121,7 +130,8 @@
           for (let i = 0; i < changedNodes.length; i++) {
             let treeNode = changedNodes[i]
             treeNode.checkedOld = treeNode.checked
-            let graphic = layersObj[treeNode.id]
+
+            let graphic = getGraphicById(treeNode.id)
             if (graphic == null) {
               continue
             }
@@ -133,11 +143,11 @@
       }
 
       function treeOverlays_onClick(event, treeId, treeNode) {
-        let graphic = layersObj[treeNode.id]
+        let graphic = getGraphicById(treeNode.id)
         if (graphic == null) {
           return
         }
-        flyToEntity(graphic)
+        graphic.flyTo()
       }
     </script>
   </body>

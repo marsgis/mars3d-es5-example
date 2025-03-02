@@ -52,11 +52,6 @@ function onUnmounted() {
   map = null
 }
 
-// flyTo至目标
-function flyToEntity(entity) {
-  map.flyTo(entity)
-}
-
 function removeLayer() {
   map.trackedEntity = null
   if (graphicLayer) {

@@ -8,14 +8,14 @@ function isShowLayer(layer, val) {
 }
 
 // 绑定popup
-// function bindPopup(layer, enabledPopup) {
-//   // const layer = getManagerLayer()
-//   if (enabledPopup) {
-//     bindLayerPopup(layer)
-//   } else {
-//     layer.unbindPopup()
-//   }
-// }
+function bindPopup(layer, enabledPopup) {
+  // const layer = getManagerLayer()
+  if (enabledPopup) {
+    bindLayerPopup(layer)
+  } else {
+    layer.unbindPopup()
+  }
+}
 
 function bindTooltip(layer, enabledTooltip) {
   // const layer = getManagerLayer()
