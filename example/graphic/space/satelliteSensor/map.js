@@ -209,7 +209,7 @@ function chkUnderground(val) {
 // 类型选择
 function chkSensorType(value) {
   if (satelliteSensor) {
-    if (value === "1") {
+    if (value === 1) {
       satelliteSensor.sensorType = mars3d.graphic.SatelliteSensor.Type.Conic
     } else {
       satelliteSensor.sensorType = mars3d.graphic.SatelliteSensor.Type.Rect

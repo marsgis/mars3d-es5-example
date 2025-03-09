@@ -419,7 +419,7 @@ var plotEdit = {
 
         const realyMaterialType = materialType?.split("-")[0]
         const materialResult = materialTypeOption.data.find((item) => item.value === realyMaterialType)
-        const defval = materialResult.defval ?? {}
+        const defval = materialResult?.defval ?? {}
         const viewMaterialsConfig = [...(window.materialConfig[realyMaterialType] ?? [])]
 
         viewMaterialsConfig.forEach((p) => {

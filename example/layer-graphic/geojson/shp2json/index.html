@@ -54,6 +54,10 @@
           <input id="enabledRightMenu" class="styled" type="checkbox" />
           <label for="enabledRightMenu"> 右键菜单 </label>
         </div>
+        <div id="enabledCluster" class="checkbox checkbox-primary checkbox-inline" style="display: table;margin-left: 74px">
+          <input id="isCluster" class="styled" type="checkbox" />
+          <label for="isCluster"> 是否聚合 </label>
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +92,9 @@
             if (!graphics[0].hasEdit) {
               $("#enabledEdit").hide()
             }
+            if (!graphics[0].hasCluster) {
+              $("#enabledCluster").hide()
+            }
           }
         }
       }, 500)
@@ -98,7 +105,7 @@
         graphicLayer.show = val
       })
 
-      // // 图层交互
+      // 图层交互
       $("#enabledPopup").change(function () {
         let val = $(this).is(":checked")
 
@@ -136,8 +143,12 @@
           graphicLayer.unbindContextMenu(true)
         }
       })
+      $("#isCluster").change(function () {
+        let val = $(this).is(":checked")
+        graphicLayer.clusterEnabled = val
+      })
 
-      // // 数据维护
+      // 数据维护
       $("#hasEdit").change(function () {
         let val = $(this).is(":checked")
         graphicLayer.hasEdit = val

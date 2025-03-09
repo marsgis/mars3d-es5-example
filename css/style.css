@@ -198,6 +198,11 @@ li {
   margin-top: 5px;
 }
 
+.infoview .align-label {
+  margin-left: 75px;
+}
+
+
 .info-tips {
   margin: 5px 10px 20px 10px;
 }

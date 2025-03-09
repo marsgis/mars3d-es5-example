@@ -70,6 +70,8 @@ function onUnmounted() {
 function startPlay() {
   map.clock.currentTime = map.clock.startTime // 设置当前时间 = 开始时间
   map.clock.shouldAnimate = true
+
+  map.control.subtitles.disableAll()
 }
 
 function updateShouldAnimate(value) {

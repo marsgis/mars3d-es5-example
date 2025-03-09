@@ -300,7 +300,7 @@ function bindAttributePannel() {
     })
   }
 
-  const editUpdateFun = mars3d.Util.funDebounce(showEditor, 500)
+  const editUpdateFun = mars3d.Util.funDebounce(startEditGraphic, 500)
   // 修改了矢量数据
   graphicLayer.on([mars3d.EventType.drawCreated, mars3d.EventType.click, mars3d.EventType.editStart, mars3d.EventType.editStyle], editUpdateFun)
 
@@ -312,10 +312,11 @@ function bindAttributePannel() {
 //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
 let timeTik
 function showEditor(e) {
-  let val = $("#hasEdit").is(":checked")
-  if (!val) {
-    return
-  }
+  // 放开后只有选中 是否编辑 才弹出属性面板
+  // let val = $("#hasEdit").is(":checked")
+  // if (!val) {
+  //   return
+  // }
   const graphic = e.graphic
   clearTimeout(timeTik)
 
@@ -337,7 +338,12 @@ function showEditor(e) {
 
 function stopEditing() {
   timeTik = setTimeout(function () {
-    if (es5widget) {
+    if ($("#infoview-left").length > 0) {
+      if (typeof onStopEditor === "function") {
+        onStopEditor() // 触发index.html那边的函数
+      }
+      $("#infoview-left").hide()
+    } else if (es5widget) {
       es5widget.disable("widgets/plotAttr/widget.js")
     }
   }, 200)
@@ -385,7 +391,7 @@ function tableInit(data) {
             }
           },
           "click .edit": function (e, value, row, index) {
-            startEditGraphic(row.id)
+            startEditGraphic(null, row.id)
           }
         },
         formatter: function (value, row, index) {
@@ -411,12 +417,21 @@ function tableInit(data) {
   })
 }
 
-function startEditGraphic(id) {
-  const graphic = graphicLayer.getGraphicById(id)
+function startEditGraphic(e, id) {
+  let graphic
+  if (e?.graphic) {
+    graphic = e.graphic
+  } else {
+    graphic = graphicLayer.getGraphicById(id)
+  }
   // const graphic = getGraphic(row.id)
   // 矢量数据不能处于编辑状态，否则点光源示例点击编辑时会失去光
   // graphic.hasEdit && graphic.startEditing()
   if ($("#infoview-left").length > 0) {
+    if (typeof onStartEditor === "function") {
+      onStartEditor(graphic.id) // 触发index.html那边的函数
+    }
+
     $("#infoview-left").show()
   } else {
     showEditor({ graphic })
@@ -478,7 +493,7 @@ function getTableData(graphicLayer) {
 
   // 当加载矢量只有一条时，自动打开编辑面板
   if (graphicList.length === 1) {
-    startEditGraphic(graphicList[0].id)
+    startEditGraphic(null, graphicList[0].id)
   }
 }
 

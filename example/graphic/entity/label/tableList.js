@@ -64,10 +64,10 @@ function removeTableItem(id) {
 }
 
 function showEditor(graphic) {
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true //只处理一次
-  }
+  // if (!graphic._conventStyleJson) {
+  //   graphic.options.style = graphic.toJSON().style //因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+  //   graphic._conventStyleJson = true //只处理一次
+  // }
 
   let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {
