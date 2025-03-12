@@ -71,14 +71,13 @@ function showEditor(graphic) {
 
   let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
   if (plotAttr && plotAttr.isActivate) {
-    plotAttr.startEditing(graphic, graphic.coord)
+    plotAttr.startEditing(graphic)
   } else {
     es5widget.activate({
       map: map,
       uri: "widgets/plotAttr/widget.js",
       name: "属性编辑",
-      graphic: graphic,
-      lonlats: graphic.coord
+      graphic: graphic
     })
   }
 }

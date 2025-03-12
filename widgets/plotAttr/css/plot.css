@@ -612,7 +612,11 @@ textarea {
 /*local*/
 
 .local {
-  padding: 0 10px 10px 10px;
+  padding: 0;
+}
+
+.local .mp_attr {
+  padding: 10px;
 }
 
 .local .open {

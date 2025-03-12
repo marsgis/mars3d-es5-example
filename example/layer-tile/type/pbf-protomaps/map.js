@@ -1,8 +1,8 @@
 // 矢量瓦片的目前最佳方案：使用 TileServer GL 开源地图服务工具：https://github.com/maptiler/tileserver-gl
 // 它利用 MapLibre GL Native 进行服务器端的矢量图层渲染，将pbf矢量瓦片转为普通瓦片数据后提供通过 WMTS 协议在Mars3D前端进行加载展示。
 
-// // // // // // import * as mars3d from "mars3d"
-// // // // // // import { ArcGISPbfLayer } from "../../../../../public/lib/mars3d/thirdParty/pbf-protomaps/ArcGISPbfLayer.js"
+// import * as mars3d from "mars3d"
+// import { ArcGISPbfLayer } from "../../../../../public/lib/mars3d/thirdParty/pbf-protomaps/ArcGISPbfLayer.js"
 
 var map // mars3d.Map三维地图对象
 
@@ -24,12 +24,7 @@ var mapOptions = {
   ]
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars3d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2023
@@ -41,10 +36,7 @@ function onMounted(mapInstance) {
   )
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
+// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
   map = null
 }

@@ -357,7 +357,7 @@ function addRandomGraphicByCount(count) {
 // 开始绘制
 async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
-    type: "attackArrowYW",
+    type: "fineArrowYW",
     style: {
       color: "#ff0000",
       opacity: 0.6,
@@ -373,7 +373,7 @@ async function startDrawGraphic() {
 // 开始绘制  绘制立体面
 async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
-    type: "fineArrowYW",
+    type: "attackArrowYW",
     style: {
       color: "#ff0000",
       opacity: 0.6,

@@ -22,7 +22,7 @@ function initWidgetView(_thisWidget) {
   plotEdit.initEvent()
 
   let inHtml = ""
-  thisWidget.startEditing(null, null, (graphicOptions, isAloneType) => {
+  thisWidget.startEditing(null, (graphicOptions, isAloneType) => {
     if (isAloneType) {
       const allStyleConfig = window.styleConfig[graphicOptions.type]
 
@@ -107,7 +107,7 @@ var plotEdit = {
   },
   _last_attr: null,
   //选中标号，激活属性面板
-  startEditing: function (attr, latlngs) {
+  startEditing: function (attr) {
     if (!window.styleConfig) {
       return
     }
@@ -117,161 +117,89 @@ var plotEdit = {
         ...attr.attr
       }
     }
-    const parentType = attr.parentType
 
-    this._last_attr = parentType ? { ...this._last_attr, [attr.type]: { ...attr } } : attr
-    const allStyle = attr.style || {}
+    this._last_attr = attr.parentType ? { ...this._last_attr, [attr.type]: { ...attr } } : attr
 
+    let arrFun = []
+    //==============style==================
+    if (this.hasEditSylte) {
+      this.initAlontStyle(attr)
+    }
+    //==============baseinfo==================
+    if (!attr.parentType) {
+      this.initGraphicBaseInfo(attr, arrFun)
+    }
+
+    //执行各方法
+    for (let idx = 0; idx < arrFun.length; idx++) {
+      let item = arrFun[idx]
+      item.fun(item.parname, item.name, item.value, item.edit)
+    }
+
+    window.tab2attr() //切换面板
+  },
+  initAlontStyle: function (attr) {
+    const arrFun = []
     let config = window.styleConfig[attr.type] || window.styleConfig[attr.styleType] || {}
     config.style = config.style || {}
 
-    function getViewShow(cfg, styleOptions) {
-      if (typeof cfg.show === "function") {
-        return cfg.show({ style: attr.style, allStyle, graphicType: attr.type, parentType })
+    const parentType = attr.parentType
+    const allStyle = attr.style || {}
+    const parname = parentType ? `plot_alonestyle_${attr.type}_` : "plot_attr_style_"
+    let inHtml
+
+    if (parentType) {
+      const edit = { type: "radio", label: "是否配置：", name: "show", defval: attr.style.show }
+      const attrName = "show-" + attr.type
+
+      let input = this.getAttrInput(parname, attrName, attr.style.show, edit)
+      if (input.fun) {
+        arrFun.push({
+          parname: parname,
+          name: attrName,
+          value: attr.style.show,
+          edit: { ...edit, graphicType: attr.type, parentType: parentType },
+          fun: input.fun
+        })
       }
-      return true
-    }
-    function getViewDefval(config, styleOptions) {
-      if (typeof config?.defval === "function") {
-        return config.defval(attr.style, attr.type)
-      } else {
-        return config?.defval
-      }
+      inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+    } else {
+      inHtml = `<tr><td class="nametd">标号类型：</td><td>${attr.type}</td></tr>
+      <tr><td class="nametd">样式类型：</td><td>${config.type || "未配置"}</td></tr>`
     }
 
-    if (latlngs) {
-      this._hasHeight = true
-
-      if (attr.style.clampToGround) {
-        this._hasHeight = false
-      } else if (attr.type == "rectangle" || attr.type == "corridor") {
-        this._hasHeight = false
-      }
-
-      this.updateLatlngsHtml(latlngs)
-    }
-
-    let arrFun = []
-    let parname, inHtml
-    //==============style==================
-    if (this.hasEditSylte) {
-      parname = parentType ? "plot_attr_style_alonetype_" : "plot_attr_style_"
-
-      if (parentType) {
-        const edit = { type: "radio", label: "是否配置：", name: "show", defval: attr.style.show }
-        const attrName = "show-" + attr.type
-
-        let input = this.getAttrInput(parname, attrName, attr.style.show, edit)
-        if (input.fun) {
-          arrFun.push({
-            parname: parname,
-            name: attrName,
-            value: attr.style.show,
-            edit: { ...edit, graphicType: attr.type, parentType: parentType },
-            fun: input.fun
-          })
+    if (attr.style?.show ?? true) {
+      for (let idx = 0; idx < config.style.length; idx++) {
+        let edit = { ...config.style[idx], graphicType: attr.type, parentType: attr.parentType }
+        if (!getViewShow(edit, attr.style)) {
+          continue
         }
-        inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
-      } else {
-        inHtml = `<tr><td class="nametd">所在图层：</td><td>${thisWidget.getLayerName() || "默认图层"}</td></tr>
-        <tr><td class="nametd">标号类型：</td><td>${attr.type}</td></tr>
-        <tr><td class="nametd">样式类型：</td><td>${config.type || "未配置"}</td></tr>`
-      }
 
-      if (attr.style.show ?? true) {
-        for (let idx = 0; idx < config.style.length; idx++) {
-          let edit = { ...config.style[idx], graphicType: attr.type, parentType: parentType }
-          if (!getViewShow(edit, attr.style)) {
-            continue
-          }
+        let attrName = edit.name
+        let attrVal = attr.style[attrName] ?? getViewDefval(edit) ?? {}
 
-          let attrName = edit.name
-          let attrVal = attr.style[attrName] ?? getViewDefval(edit) ?? {}
-
-          if (edit?.next) {
-            if (edit.next === "materialType") {
-              attrVal = this._next_materialType_selectd ?? attrVal[edit.next]
-
-              let input = this.getAttrInput(parname, attrName, attrVal, edit)
-
-              if (input.fun) {
-                const name = attrName + "-" + edit.next
-                arrFun.push({ parname: parname, name: name, value: attrVal, edit: edit, fun: input.fun })
-              }
-              inHtml +=
-                '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
-
-              setMaterial(allStyle[edit.name], edit, (maItem, materialOptions) => {
-                let parnamemat = "plot_attr_style_mat"
-                let input = this.getAttrInput(parnamemat, maItem.name, materialOptions[maItem.name], { ...maItem, parent: edit })
-                if (input.fun) {
-                  const name = maItem.name + "-" + edit.next
-                  arrFun.push({
-                    parname: parnamemat,
-                    name: name,
-                    value: materialOptions[maItem.name],
-                    edit: { ...maItem, parent: edit },
-                    fun: input.fun
-                  })
-                }
-                inHtml +=
-                  '<tr  id="' +
-                  parnamemat +
-                  "tr_" +
-                  maItem.name +
-                  '" > <td class="nametd">' +
-                  maItem.label +
-                  "</td>  <td>" +
-                  input.html +
-                  "</td>  </tr>"
-              })
-            } else {
-              if (!attr.style[attrName]) {
-                attr.style[attrName] = {}
-              }
-
-              let val = null
-              if (edit.contant && attr.style[edit.contant]) {
-                val = attr.style[edit.contant]
-              }
-
-              attrVal = attr.style[attrName][edit.next] ?? val ?? getViewDefval(edit)
-
-              let input = this.getAttrInput(parname, attrName, attrVal, edit)
-              if (input.fun) {
-                let name = attrName + "-" + edit.next
-                arrFun.push({ parname: parname, name: name, value: attrVal, edit: edit, fun: input.fun })
-              }
-              inHtml +=
-                '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
-
-              allStyle[attrName][edit.next] = attrVal
-            }
-          } else if (edit.name === "materialType") {
-            attrVal = this._materialType_selectd || attrVal
+        if (edit?.next) {
+          if (edit.next === "materialType") {
+            attrVal = this._next_materialType_selectd ?? attrVal[edit.next]
 
             let input = this.getAttrInput(parname, attrName, attrVal, edit)
+
             if (input.fun) {
-              arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
+              const name = attrName + "-" + edit.next
+              arrFun.push({ parname: parname, name: name, value: attrVal, edit: edit, fun: input.fun })
             }
             inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
 
-            setMaterial(allStyle, edit, (maItem, materialOptions) => {
-              let parnamemat = parentType ? "plot_attr_style_alonetype_mat" : "plot_attr_style_mat"
-              let input = this.getAttrInput(parnamemat, maItem.name, materialOptions[maItem.name], {
-                ...maItem,
-                parent: edit
-              })
+            setMaterial(allStyle[edit.name], edit, (maItem, materialOptions) => {
+              let parnamemat = parname + "mat"
+              let input = this.getAttrInput(parnamemat, maItem.name, materialOptions[maItem.name], { ...maItem, parent: edit })
               if (input.fun) {
-                let name = maItem.name
-                if (edit.next) {
-                  name = name + "-" + edit.next
-                }
+                const name = maItem.name + "-" + edit.next
                 arrFun.push({
                   parname: parnamemat,
                   name: name,
                   value: materialOptions[maItem.name],
-                  edit: { ...maItem, parent: edit },
+                  edit: { ...maItem, parent: edit, graphicType: attr.type },
                   fun: input.fun
                 })
               }
@@ -287,104 +215,107 @@ var plotEdit = {
                 "</td>  </tr>"
             })
           } else {
+            if (!attr.style[attrName]) {
+              attr.style[attrName] = {}
+            }
+
+            let val = null
+            if (edit.contant && attr.style[edit.contant]) {
+              val = attr.style[edit.contant]
+            }
+
+            attrVal = attr.style[attrName][edit.next] ?? val ?? getViewDefval(edit)
+
             let input = this.getAttrInput(parname, attrName, attrVal, edit)
             if (input.fun) {
-              let name = attrName
-              if (edit.next) {
-                name = name + "-" + edit.next
-              }
+              let name = attrName + "-" + edit.next
               arrFun.push({ parname: parname, name: name, value: attrVal, edit: edit, fun: input.fun })
             }
             inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
 
-            allStyle[attrName] = attrVal
+            allStyle[attrName][edit.next] = attrVal
           }
-        }
-      }
-
-      if (parentType) {
-        $(`#talbe_style_alonetype_${attr.type}`).html(inHtml)
-      } else {
-        $("#talbe_style").html(inHtml)
-      }
-
-      //注记属性
-      if (attr.style.label && !parentType) {
-        let configLbl = window.styleConfig["label"] || {}
-
-        parname = "plot_attr_stylelabel_"
-        inHtml = ""
-        for (let idx = 0; idx < configLbl.style.length; idx++) {
-          let edit = configLbl.style[idx]
-          if (!getViewShow(edit, attr.style.label)) {
-            continue
-          }
-
-          let attrName = edit.name
-          let attrVal = attr.style.label[attrName] ?? getViewDefval(edit)
-          attr.style.label[attrName] = attrVal
-          allStyle.label[attrName] = attrVal
+        } else if (edit.name === "materialType") {
+          attrVal = this._materialType_selectd || attrVal
 
           let input = this.getAttrInput(parname, attrName, attrVal, edit)
           if (input.fun) {
             arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
           }
-
           inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+
+          setMaterial(allStyle, edit, (maItem, materialOptions) => {
+            let parnamemat = parname + "mat"
+            let input = this.getAttrInput(parnamemat, maItem.name, materialOptions[maItem.name], {
+              ...maItem,
+              parent: edit
+            })
+            if (input.fun) {
+              let name = maItem.name
+              if (edit.next) {
+                name = name + "-" + edit.next
+              }
+              arrFun.push({
+                parname: parnamemat,
+                name: name,
+                value: materialOptions[maItem.name],
+                edit: { ...maItem, parent: edit, graphicType: attr.type },
+                fun: input.fun
+              })
+            }
+            inHtml +=
+              '<tr  id="' + parnamemat + "tr_" + maItem.name + '" > <td class="nametd">' + maItem.label + "</td>  <td>" + input.html + "</td>  </tr>"
+          })
+        } else {
+          let input = this.getAttrInput(parname, attrName, attrVal, edit)
+          if (input.fun) {
+            let name = attrName
+            if (edit.next) {
+              name = name + "-" + edit.next
+            }
+            arrFun.push({ parname: parname, name: name, value: attrVal, edit: edit, fun: input.fun })
+          }
+          inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+
+          allStyle[attrName] = attrVal
         }
-        $("#talbe_stylelabel").html(inHtml)
-        $("#attr_stylelabel_view").show()
-      } else {
-        $("#attr_stylelabel_view").hide()
-      }
-    }
-    //==============attr==================
-    parname = "plot_attr_attr_"
-    inHtml = ""
-    attr.attr = attr.attr || {}
-
-    let attrcfg = thisWidget.getAttrList()
-
-    let tempKyes = {}
-    for (let idx = 0; idx < attrcfg.length; idx++) {
-      let edit = attrcfg[idx]
-      tempKyes[edit.name] = true
-    }
-    for (let key in attr.attr) {
-      let attrVal = attr.attr[key]
-      if (tempKyes[key]) {
-        continue
-      }
-
-      if (haoutil.isutil.isString(attrVal)) {
-        attrcfg.push({ name: key, label: key, type: "text", defval: "" })
-      } else if (haoutil.isutil.isNumber(attrVal)) {
-        attrcfg.push({ name: key, label: key, type: "number", defval: 0.0 })
-      } else if (typeof attrVal === "boolean") {
-        attrcfg.push({ name: key, label: key, type: "radio", defval: false })
       }
     }
 
-    for (let idx = 0; idx < attrcfg.length; idx++) {
-      let edit = attrcfg[idx]
-      if (edit.type == "hidden") {
-        continue
-      }
-
-      let attrName = edit.name
-      let attrVal = attr.attr[attrName] ?? getViewDefval(edit) ?? ""
-
-      let input = this.getAttrInput(parname, attrName, attrVal, edit)
-      if (input.fun) {
-        arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
-      }
-
-      inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+    if (parentType) {
+      $(`#talbe_style_alonetype_${attr.type}`).html(inHtml)
+    } else {
+      $("#talbe_style").html(inHtml)
     }
 
-    $("#talbe_attr").html(inHtml)
-    if (!parentType) {
-      this.initGraphicBaseInfo(attr, arrFun)
+    //注记属性
+    if (!parentType && attr.style.label) {
+      let configLbl = window.styleConfig["label"] || {}
+
+      const parname = "plot_attr_stylelabel_"
+      inHtml = ""
+      for (let idx = 0; idx < configLbl.style.length; idx++) {
+        let edit = configLbl.style[idx]
+        if (!getViewShow(edit, attr.style.label)) {
+          continue
+        }
+
+        let attrName = edit.name
+        let attrVal = attr.style.label[attrName] ?? getViewDefval(edit)
+        attr.style.label[attrName] = attrVal
+        allStyle.label[attrName] = attrVal
+
+        let input = this.getAttrInput(parname, attrName, attrVal, edit)
+        if (input.fun) {
+          arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
+        }
+
+        inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+      }
+      $("#talbe_stylelabel").html(inHtml)
+      $("#attr_stylelabel_view").show()
+    } else {
+      $("#attr_stylelabel_view").hide()
     }
 
     //执行各方法
@@ -393,7 +324,20 @@ var plotEdit = {
       item.fun(item.parname, item.name, item.value, item.edit)
     }
 
-    window.tab2attr() //切换面板
+    //==============公用方法==================
+    function getViewShow(cfg, styleOptions) {
+      if (typeof cfg.show === "function") {
+        return cfg.show({ style: attr.style, allStyle, graphicType: attr.type, parentType })
+      }
+      return true
+    }
+    function getViewDefval(config, styleOptions) {
+      if (typeof config?.defval === "function") {
+        return config.defval(attr.style, attr.type)
+      } else {
+        return config?.defval
+      }
+    }
 
     function setMaterial(dataRef, materialTypeOption, callback) {
       /**
@@ -423,6 +367,10 @@ var plotEdit = {
         const viewMaterialsConfig = [...(window.materialConfig[realyMaterialType] ?? [])]
 
         viewMaterialsConfig.forEach((p) => {
+          if (!getViewShow(p, attr.style)) {
+            return
+          }
+
           const val = dataRef.materialOptions[p.name]
           // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
           dataRef.materialOptions[p.name] = val ?? dataRef[p.name] ?? defval[p.name] ?? getViewDefval(p, dataRef.materialOptions)
@@ -435,8 +383,6 @@ var plotEdit = {
           if (callback) {
             callback && callback(p, dataRef.materialOptions)
           }
-
-          p.show = getViewShow(p)
         })
 
         return viewMaterialsConfig
@@ -463,185 +409,6 @@ var plotEdit = {
       inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + infoItem.label + "</td>  <td>" + input.html + "</td>  </tr>"
     }
     $("#talbe_baseinfo").html(inHtml)
-  },
-  updateLatlngsHtml: function (latlngs) {
-    $("#plot_latlngs_addheight").val("")
-    $("#plot_latlngs_allheight").val("")
-    $("#view_updateheight").hide()
-
-    //显示坐标信息
-    let inHtml = ""
-    if (!latlngs || latlngs.length == 0) {
-      //
-    } else if (latlngs.length == 1) {
-      let latlng = latlngs[0]
-      let jd = latlng[0]
-      let wd = latlng[1]
-      let height = latlng.length == 3 ? latlng[2] : 0
-
-      inHtml +=
-        ' <div class="mp_attr" style=" margin-top: 10px;"><table>' +
-        ' <tr> <td class="nametd">经度：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="jd" step="0.000001"  value="' +
-        jd +
-        '"></td></tr>' +
-        '<tr>  <td class="nametd">纬度：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="wd" step="0.000001"  value="' +
-        wd +
-        '"></td></tr>'
-      if (this._hasHeight) {
-        inHtml +=
-          '<tr><td class="nametd">高程：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="height" step="0.1" value="' +
-          height +
-          '" oldvalue="' +
-          height +
-          '"></td></tr>'
-      }
-      inHtml += " </table> </div>"
-    } else {
-      if (this._hasHeight) {
-        $("#view_updateheight").show()
-      }
-
-      let delhtml = ""
-
-      if (latlngs.length > thisWidget.getMinPointNum()) {
-        delhtml = '<i class="fa fa-trash-o latlng-del" title="删除点" ></i>'
-      }
-
-      for (let idx = 0; idx < latlngs.length; idx++) {
-        let latlng = latlngs[idx]
-
-        let jd = latlng[0]
-        let wd = latlng[1]
-        let height = latlng.length == 3 ? latlng[2] : 0
-
-        let addthml = ""
-        if (latlngs.length < thisWidget.getMaxPointNum()) {
-          addthml = '<i class="fa  fa-plus-square-o latlng-install" title="插入点" data-index="' + idx + '" ></i>&nbsp;&nbsp;'
-        }
-
-        //
-        inHtml +=
-          '<div><div class="open"><i class="tree_icon">-</i>第' +
-          (idx + 1) +
-          '点 <label style="width:100px;">&nbsp;</label>    ' +
-          addthml +
-          delhtml +
-          ' </div><div class="mp_attr"><table>' +
-          '<tr> <td class="nametd">经度：</td> <td><input  type="number" class="mp_input plot_latlngs" data-type="jd"  step="0.000001" data-index="' +
-          idx +
-          '" value="' +
-          jd +
-          '"></td>  </tr> ' +
-          '<tr>  <td class="nametd">纬度：</td> <td><input  type="number" class="mp_input plot_latlngs" data-type="wd"  step="0.000001" data-index="' +
-          idx +
-          '" value="' +
-          wd +
-          '"></td> </tr> '
-        if (this._hasHeight) {
-          inHtml +=
-            '<tr>  <td class="nametd">高程：</td> <td><input  type="number" step="0.1" class="mp_input plot_latlngs" data-type="height" data-index="' +
-            idx +
-            '" value="' +
-            height +
-            '" oldvalue="' +
-            height +
-            '"></td> </tr> '
-        }
-        inHtml += " </table> </div> </div>"
-      }
-    }
-    $("#view_latlngs").html(inHtml)
-    $("#view_latlngs .open").click(window.changeOpenShowHide)
-
-    let that = this
-    $("#view_latlngs .latlng-del").click(function () {
-      $(this).parent().parent().remove()
-
-      let latlngs = []
-      let withHeight = false
-      $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val()))
-        if ($(this).attr("data-type") === "height") {
-          withHeight = true
-        }
-      })
-
-      //重新修改界面
-      let arr = []
-      if (withHeight) {
-        for (let i = 0; i < latlngs.length; i += 3) {
-          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
-        }
-      } else {
-        for (let i = 0; i < latlngs.length; i += 2) {
-          arr.push([latlngs[i], latlngs[i + 1]])
-        }
-      }
-      that.updateLatlngsHtml(arr)
-      thisWidget.updatePoints2map(arr)
-    })
-    $("#view_latlngs .latlng-install").click(function () {
-      let idx = Number($(this).attr("data-index"))
-
-      let latlngs = []
-      let withHeight = false
-      $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val() || 0))
-        if ($(this).attr("data-type") === "height") {
-          withHeight = true
-        }
-      })
-
-      //重新修改界面
-      let arr = []
-      if (withHeight) {
-        for (let i = 0; i < latlngs.length; i += 3) {
-          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
-        }
-      } else {
-        for (let i = 0; i < latlngs.length; i += 2) {
-          arr.push([latlngs[i], latlngs[i + 1]])
-        }
-      }
-
-      let pt1 = arr[idx]
-      let pt2 = idx == arr.length - 1 ? arr[0] : arr[idx + 1]
-      let jd = Number(((pt1[0] + pt2[0]) / 2).toFixed(6))
-      let wd = Number(((pt1[1] + pt2[1]) / 2).toFixed(6))
-
-      if (withHeight) {
-        let gd = Number(((pt1[2] + pt2[2]) / 2).toFixed(1))
-        arr.splice(idx + 1, 0, [jd, wd, gd])
-      } else {
-        arr.splice(idx + 1, 0, [jd, wd])
-      }
-
-      that.updateLatlngsHtml(arr)
-      thisWidget.updatePoints2map(arr)
-    })
-
-    $(".plot_latlngs").bind("input propertychange", function () {
-      let latlngs = []
-      let withHeight = false
-      $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val()))
-        if ($(this).attr("data-type") === "height") {
-          withHeight = true
-        }
-      })
-
-      let arrPoint = []
-      if (withHeight) {
-        for (let i = 0; i < latlngs.length; i += 3) {
-          arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
-        }
-      } else {
-        for (let i = 0; i < latlngs.length; i += 2) {
-          arrPoint.push([latlngs[i], latlngs[i + 1]])
-        }
-      }
-      thisWidget.updatePoints2map(arrPoint)
-    })
   },
   // //单击地图空白，释放属性面板
   // stopEditing: function () {
@@ -879,6 +646,8 @@ var plotEdit = {
   updateAttr: function (parname, attrName, attrVal, edit) {
     attrName = attrName.split("-")[0]
 
+    // console.log("parname, attrName, attrVal, edit", parname, attrName, attrVal, edit)
+
     switch (parname) {
       default:
         break
@@ -977,12 +746,12 @@ var plotEdit = {
         break
       }
       case "plot_attr_style_mat": {
-        let newStyle = {}
+        let newStyle = this._last_attr.style.materialOptions ?? {}
 
         // 拥有二级菜单
         if (edit?.parent?.next) {
           const parent = edit?.parent
-          newStyle[parent.name] = {}
+          newStyle[parent.name] = this._last_attr.style[parent.name]?.materialOptions ?? {}
           newStyle[parent.name][attrName] = attrVal
 
           if (!this._last_attr.style[parent.name].materialOptions) {
@@ -996,33 +765,61 @@ var plotEdit = {
           this._last_attr.style.materialOptions[attrName] = attrVal
         }
 
-        this.startEditing(this._last_attr)
+        if (edit.type == "radio") {
+          this.startEditing(this._last_attr)
+        }
 
         thisWidget.updateStyle2map({ materialOptions: newStyle })
         break
       }
-      case "plot_attr_style_alonetype_": {
+      case "plot_alonestyle_" + edit.graphicType + "_": {
         const graphicType = edit.graphicType
-        const newOptions = { [graphicType]: {} }
+        const newOptions = {}
 
         if (this._last_attr[graphicType]) {
+          newOptions[attrName] = attrVal
           this._last_attr[graphicType].style[attrName] = attrVal
 
-          newOptions[graphicType][attrName] = attrVal
-          if (edit.type == "radio") {
-            this.startEditing(this._last_attr[graphicType])
+          // 材质类型 materialType 改变时的特殊处理
+          if (attrName === "materialType") {
+            newOptions.materialOptions = {}
+
+            let defStyle //style.js 材质默认值
+            edit.data.forEach((m) => {
+              if (m.value === attrVal) {
+                defStyle = getViewDefval(m) ?? {}
+              }
+            })
+            this._materialType_selectd = attrVal
+
+            attrVal = attrVal.split("-")[0]
+            window.materialConfig[attrVal].forEach((p) => {
+              // 更新时的默认值的取值顺序 1. style.js 材质默认值 2. material.json 的默认值
+              newOptions.materialOptions[p.name] = defStyle[p.name] ?? getViewDefval(p)
+            })
+
+            this._last_attr[graphicType].style.materialOptions = newOptions.materialOptions
+
+            newOptions[attrName] = attrVal
+            this.initAlontStyle(this._last_attr[graphicType])
+          } else if (edit.type == "radio") {
+            this.initAlontStyle(this._last_attr[graphicType])
           }
 
-          thisWidget.updateOptions2map(newOptions)
+          thisWidget.updateOptions2map({ [graphicType]: { ...newOptions } })
         }
         break
       }
-      case "plot_attr_style_alonetype_mat": {
+      case "plot_alonestyle_" + edit.graphicType + "_mat": {
         const graphicType = edit.graphicType
         const newOptions = { [graphicType]: {} }
 
         if (this._last_attr[graphicType]) {
           this._last_attr[graphicType].style.materialOptions[attrName] = attrVal
+
+          if (!newOptions[graphicType].materialOptions) {
+            newOptions[graphicType].materialOptions = {}
+          }
           newOptions[graphicType].materialOptions[attrName] = attrVal
 
           thisWidget.updateOptions2map(newOptions)
@@ -1053,10 +850,11 @@ var plotEdit = {
       }
       case "plot_baseinfo_": {
         let newBaseInfo = {}
+
         this._last_attr[attrName] = attrVal
         newBaseInfo[attrName] = attrVal
 
-        thisWidget.updateOptions2map(newAttr)
+        thisWidget.updateOptions2map(newBaseInfo)
         break
       }
     }

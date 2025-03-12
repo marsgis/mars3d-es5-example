@@ -12,7 +12,7 @@ var mapOptions = {
   basemaps: [
     {
       name: "Ion影像地图",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/bingAerial.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/bing_img.png",
       type: "xyz",
       assetId: 2,
       ionToken: mars3d.Token.ion,
@@ -20,7 +20,7 @@ var mapOptions = {
     },
     {
       name: "Ion电子地图",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/bingmap.png",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/bing_vec.png",
       type: "xyz",
       assetId: 4,
       ionToken: mars3d.Token.ion

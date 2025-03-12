@@ -17,14 +17,16 @@ $(function () {
     }
   })
 
-  $("#tab_attr").click(function () {
+  $("#tab_style").click(function () {
+    $(".mp_tab_style").show()
+
     $(".mp_tab_baseinfo").hide()
-    $(".mp_tab_con").show()
   })
 
   $("#tab_baseinfo").click(function () {
-    $(".mp_tab_con").hide()
     $(".mp_tab_baseinfo").show()
+
+    $(".mp_tab_style").hide()
   })
 
   // mp_tree
@@ -39,7 +41,7 @@ function tab2attr() {
     if (last_attr_tab != null) {
       $("#" + last_attr_tab).click()
     } else {
-      $("#tab_attr").click()
+      $("#tab_style").click()
     }
   })
 }
