@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
 
   showLoading()
 
-  const czml = Cesium.CzmlDataSource.load("//data.mars3d.cn/file/czml/satellite-one.czml")
+  const czml = Cesium.CzmlDataSource.load("https://data.mars3d.cn/file/czml/satellite-one.czml")
   czml
     .then(function (dataSource) {
       hideLoading()

@@ -14,7 +14,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  Cesium.Resource.fetchText({ url: "//data.mars3d.cn/file/apidemo/qianxi-time.txt" })
+  Cesium.Resource.fetchText({ url: "https://data.mars3d.cn/file/apidemo/qianxi-time.txt" })
     .then(function (json) {
       // 创建Mapv
       createMapvLayer(json)
