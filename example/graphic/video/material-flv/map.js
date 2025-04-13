@@ -217,10 +217,18 @@ async function startDrawGraphic2() {
 
 // 播放暂停
 function videoPlay() {
-  videoElement.play()
+  if (synchronizer) {
+    map.clock.shouldAnimate = true
+  } else {
+    videoElement.play()
+  }
 }
 function videoStop() {
-  videoElement.pause()
+  if (synchronizer) {
+    map.clock.shouldAnimate = false
+  } else {
+    videoElement.pause()
+  }
 }
 
 // 在图层绑定Popup弹窗
