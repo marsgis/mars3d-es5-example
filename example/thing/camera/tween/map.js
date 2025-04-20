@@ -1,28 +1,30 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 22.740833, lng: 108.379371, alt: 88.7, heading: 41.6, pitch: -30.4 }
   }
 }
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 
 let roaming
 
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // const tiles3dLayer = new mars3d.layer.TilesetLayer({
-  //   url: "https://data.mars3d.cn/3dtiles/max-ditiezhan/tileset.json",
-  //   maximumScreenSpaceError: 1,
-  //   popup: "all"
-  // })
-  // map.addLayer(tiles3dLayer)
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
+    url: "https://data.mars3d.cn/3dtiles/max-ditiezhan/tileset.json",
+    position: { lat: 22.736443, lng: 108.380053, alt: -1 }, // 原始的
+    // position: { lng: 117.139776, lat: 31.80001, alt: -69 }, // 改为到合肥的
+    maximumScreenSpaceError: 1,
+    popup: "all"
+  })
+  map.addLayer(tiles3dLayer)
 
   const viewPoints = [
     { id: 0, name: "地铁口", lat: 22.7407925, lng: 108.3793365, alt: 89.7, heading: 37.4, pitch: -7.1, duration: 2 },
@@ -55,24 +57,24 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function start() {
+export function start() {
   console.log("开始")
   roaming.start()
 }
 
-function pause() {
+export function pause() {
   console.log("暂停")
   roaming.pause()
 }
-function resume() {
+export function resume() {
   console.log("继续")
   roaming.resume()
 }
-function stop() {
+export function stop() {
   console.log("停止")
   roaming.stop()
 }

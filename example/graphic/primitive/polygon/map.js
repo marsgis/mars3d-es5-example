@@ -1,13 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
+const Cesium = mars3d.Cesium
 
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.61982, lng: 117.230607, alt: 22746, heading: 2, pitch: -49 },
     logarithmicDepthBuffer: false // 对数深度缓冲区[当 贴地面 出现 阴影体 时设置下]
@@ -15,7 +15,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -42,10 +42,11 @@ function onMounted(mapInstance) {
   addDemoGraphic10(graphicLayer)
   addDemoGraphic11(graphicLayer)
   addDemoGraphic12(graphicLayer)
+  addDemoGraphic13(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   graphicLayer.remove()
   graphicLayer = null
@@ -405,8 +406,30 @@ function addDemoGraphic12(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
+function addDemoGraphic13(graphicLayer) {
+  const graphic = new mars3d.graphic.PolygonPrimitive({
+    positions: [
+      [117.308161, 31.907334, 16.9],
+      [117.302609, 31.877667, 12.2],
+      [117.337423, 31.873329, 13.6],
+      [117.340994, 31.902117, 19.7]
+    ],
+    style: {
+      materialType: mars3d.MaterialType.PolyGradient,
+      materialOptions: {
+        color: "#004DFF",
+        isInner: true,
+        alphaPower: 2.6,
+        diffusePower: 1.3
+      }
+    },
+    attr: { remark: "示例13" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -439,7 +462,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "polygonP",
     style: {
@@ -461,7 +484,7 @@ async function startDrawGraphic() {
   console.log("标绘完成", graphic.toJSON())
 }
 // 开始绘制
-async function startDrawGraphic2() {
+export async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
     type: "polygonP",
     style: {
@@ -474,7 +497,7 @@ async function startDrawGraphic2() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -486,7 +509,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

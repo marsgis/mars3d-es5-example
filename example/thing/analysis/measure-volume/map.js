@@ -1,26 +1,26 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measure
 let measureVolume
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 },
     globe: { depthTestAgainstTerrain: true }
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addMeasure()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -119,7 +119,7 @@ function getFixedNum(val) {
 }
 
 // 方量分析
-function analysisMeasure() {
+export function analysisMeasure() {
   // 手动绘制的方式分析
   measure
     .volume({
@@ -134,13 +134,13 @@ function analysisMeasure() {
 }
 
 // 清除
-function clear() {
+export function clear() {
   measure.clear()
   measureVolume = null
   clearInterResult()
 }
 
-function showResult(reslut) {
+export function showResult(reslut) {
   if (reslut && measureVolume && measureVolume.interPolygonObj) {
     showInterResult(measureVolume.interPolygonObj.list)
     return true
@@ -151,13 +151,13 @@ function showResult(reslut) {
 }
 
 // 修改基础高度
-function baseHeight(num) {
+export function baseHeight(num) {
   measureVolume.height = num
   showHeightVal()
 }
 
 // 修改底高
-function txtMinHeight(num) {
+export function txtMinHeight(num) {
   if (num > measureVolume.height) {
     globalMsg("墙底部高度不能高于基准面高")
     return
@@ -166,7 +166,7 @@ function txtMinHeight(num) {
 }
 
 // 修改顶高
-function txtMaxHeight(num) {
+export function txtMaxHeight(num) {
   const maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
   if (num < maxHeight) {
     globalMsg("墙顶部高度不能低于区域内的地表高" + maxHeight)
@@ -180,7 +180,7 @@ function txtMaxHeight(num) {
   measureVolume.maxHeight = num
 }
 
-async function selHeight() {
+export async function selHeight() {
   if (!measureVolume || !measure) {
     globalMsg("请先开始方量分析")
     return

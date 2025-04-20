@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     // 此处参数会覆盖config.json中的对应配置
     center: { lat: 25.987821, lng: 122.076928, alt: 1295307, heading: 327, pitch: -59 }
@@ -12,7 +12,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -30,7 +30,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -64,7 +64,7 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -94,7 +94,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制 相阵控雷达
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "conicSensor",
     style: {
@@ -108,7 +108,7 @@ async function startDrawGraphic() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -120,7 +120,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

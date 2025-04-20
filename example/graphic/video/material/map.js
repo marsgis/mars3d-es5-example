@@ -1,20 +1,20 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 let videoElement
 let videoGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 28.441852, lng: 119.481567, alt: 241, heading: 174, pitch: -35 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `如视频未播放或服务URL访问超时，是因为目前在线演示URL地址已失效，您可以替换代码中url为本地服务后使用。`)
@@ -49,7 +49,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -107,7 +107,7 @@ function playVideo() {
   }
 }
 
-function getGraphic(graphicId) {
+export function getGraphic(graphicId) {
   videoGraphic = graphicLayer.getGraphicById(graphicId)
   return videoGraphic
 }
@@ -151,7 +151,7 @@ function addDemoGraphic2() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -185,7 +185,7 @@ function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     styleType: "video", // 属性编辑框使用
@@ -197,7 +197,7 @@ async function startDrawGraphic() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-async function startDrawGraphic2() {
+export async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
     type: "wall",
     maxPointNum: 2,
@@ -211,12 +211,12 @@ async function startDrawGraphic2() {
 }
 
 // 播放暂停
-function videoPlay() {
+export function videoPlay() {
   if (!map.clock.shouldAnimate) {
     map.clock.shouldAnimate = true
   }
 }
-function videoStop() {
+export function videoStop() {
   if (map.clock.shouldAnimate) {
     map.clock.shouldAnimate = false
   }
@@ -229,14 +229,14 @@ function videoStop() {
  * @param {number} value  范围在0-360°
  * @returns {void}
  */
-function angleChange(value) {
+export function angleChange(value) {
   videoGraphic?.setStyle({
     stRotationDegree: value
   })
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -248,7 +248,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

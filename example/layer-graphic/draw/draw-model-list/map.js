@@ -1,19 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.811646, lng: 117.22232, alt: 842.4, heading: 358.5, pitch: -45 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -45,7 +45,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   if (graphicLayer) {
     graphicLayer.destroy() // 销毁内部会释放所有事件及数据
     graphicLayer = null
@@ -68,7 +68,7 @@ function closeGraphicOptionsWidget(e) {
 }
 
 // 绘制模型
-async function startDrawModel(styleOptions) {
+export async function startDrawModel(styleOptions) {
   const style = mars3d.Util.clone(styleOptions)
 
   const graphic = await graphicLayer.startDraw({
@@ -80,15 +80,15 @@ async function startDrawModel(styleOptions) {
 }
 
 // 深度检测
-function chkTestTerrain(val) {
+export function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
-function onlyVertexPosition(val) {
+export function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
 }
 
@@ -99,7 +99,7 @@ function deleteAll() {
  * @param {FileInfo} file 文件名称
  * @returns {void} 无
  */
-function openGeoJSON(file) {
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -138,7 +138,7 @@ function openGeoJSON(file) {
 }
 
 // 保存文件
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

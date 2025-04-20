@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayer
-var graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 const storageName = "layer-tileset-manager-oneself"
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -37,11 +37,11 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function changeColor(color) {
+export function changeColor(color) {
   const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
@@ -57,7 +57,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(url) {
+export function showModel(url) {
   removeLayer()
   if (!url) {
     return
@@ -89,12 +89,12 @@ function showModel(url) {
   })
 }
 
-function flyTo() {
+export function flyTo() {
   tiles3dLayer.flyTo()
 }
 
 // 开始绘制
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "box",
     style: {
@@ -109,7 +109,7 @@ async function startDrawGraphic() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

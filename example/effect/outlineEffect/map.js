@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.653633, lng: 117.075814, alt: 310, heading: 33, pitch: -29 }
   }
@@ -12,7 +12,7 @@ var mapOptions = {
 let outlineEffect
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加模型
@@ -135,7 +135,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -185,36 +185,36 @@ function processTileFeatures(tile, callback) {
   }
 }
 
-function changeState(val) {
+export function changeState(val) {
   outlineEffect.enabled = val
 }
-function changeWidth(val) {
+export function changeWidth(val) {
   outlineEffect.width = val
 }
 
-function changeColor(val) {
+export function changeColor(val) {
   outlineEffect.color = val
 }
 
-function changeColorHidden(val) {
+export function changeColorHidden(val) {
   outlineEffect.colorHidden = val
 }
 
-function changeShowPlane(val) {
+export function changeShowPlane(val) {
   outlineEffect.showPlane = val
 }
 
-function changePlaneAngle(val) {
+export function changePlaneAngle(val) {
   outlineEffect.planeAngle = val
 }
 
-function changeGlow(val) {
+export function changeGlow(val) {
   outlineEffect.glow = val
 }
-function changeGlowPower(val) {
+export function changeGlowPower(val) {
   outlineEffect.glowPower = val
 }
 
-function changeGlowStrength(val) {
+export function changeGlowStrength(val) {
   outlineEffect.glowStrength = val
 }
