@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     // 此处参数会覆盖config.json中的对应配置
     center: { lat: 5.459746, lng: 68.238291, alt: 36261079, heading: 143, pitch: -89 },
@@ -21,10 +21,10 @@ export const mapOptions = {
   }
 }
 
-export let weixin
+var weixin
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map  map.control.toolbar.container.style.bottom = "55px"// 修改toolbar控件的样式
 
   // 指定时间
@@ -36,7 +36,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -149,16 +149,16 @@ function addGraphicLayer() {
 }
 
 // 定位至卫星
-export function locate() {
+function locate() {
   weixin.flyTo()
 }
 
 // 参考轴系显示与隐藏
-export function chkShowModelMatrix(val) {
+function chkShowModelMatrix(val) {
   weixin.debugAxis = val
 }
 // 凝视目标
-export async function selPoint() {
+async function selPoint() {
   if (weixin.cone.lookAt) {
     weixin.cone.lookAt = null
   } else {
@@ -177,7 +177,7 @@ export async function selPoint() {
 }
 
 // 类型选择
-export function chkSensorType(value) {
+function chkSensorType(value) {
   if (value === "1") {
     weixin.setOptions({
       cone: {
@@ -194,21 +194,21 @@ export function chkSensorType(value) {
 }
 
 // 俯仰角
-export function pitchChange(value) {
+function pitchChange(value) {
   weixin.model.pitch = value
 }
 
 // 左右角
-export function rollChange(value) {
+function rollChange(value) {
   weixin.model.roll = value
 }
 
 // 夹角1
-export function angle1(value) {
+function angle1(value) {
   weixin.cone.angle1 = value
 }
 
 // 夹角2
-export function angle2(value) {
+function angle2(value) {
   weixin.cone.angle2 = value
 }

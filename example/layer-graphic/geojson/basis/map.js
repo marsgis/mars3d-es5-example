@@ -1,18 +1,18 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.402686, lng: 116.303632, alt: 48692, heading: 3, pitch: -43 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // map.on(mars3d.EventType.removeLayer, function (event) {
@@ -23,7 +23,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -42,7 +42,7 @@ function removeLayer() {
 /**
  * 平台通过draw标绘后保存的geojosn数据（已经内置style了，无需配置symbol）
  */
-export function showDraw(isFlyTo) {
+function showDraw(isFlyTo) {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -88,7 +88,7 @@ export function showDraw(isFlyTo) {
 /**
  * 点数据
  */
-export function showPoint() {
+function showPoint() {
   removeLayer()
 
   window._test_button_click = function (attr) {
@@ -172,7 +172,7 @@ export function showPoint() {
 /**
  * 全国省界
  */
-export function showChinaLine() {
+function showChinaLine() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -237,7 +237,7 @@ function simplifyGeoJSON(geojson) {
 /**
  * 显示合肥区域面
  */
-export function showRegion() {
+function showRegion() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -314,7 +314,7 @@ export function showRegion() {
 }
 
 // 规划面
-export function showPlanningSurface() {
+function showPlanningSurface() {
   removeLayer()
 
   map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
@@ -387,18 +387,24 @@ export function showPlanningSurface() {
 /**
  * 立体建筑物
  */
-export function showBuilding() {
+function showBuilding() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "建筑物面",
     url: "https://data.mars3d.cn/file/geojson/buildings-demo.json",
+    // filter: "attr.floors>30", // 筛选数据
     symbol: {
       styleOptions: {
         color: "#0d3685",
         outlineColor: "#0d3685",
         opacity: 0.8
       },
+      // styleFieldOptions: {
+      //   "attr.floors<20": { color: "#ff0000" },
+      //   "attr.floors>20 && attr.floors<30": { color: "#fff000" },
+      //   "attr.floors>30": { color: "#00ffff" }
+      // },
       callback: function (attr, styleOpt) {
         const diffHeight = Number(attr.floors || 1) * Number(attr.flo_height)
         return { height: 0, diffHeight }
@@ -423,7 +429,7 @@ export function showBuilding() {
 /**
  *  分层分户立体建筑物
  */
-export function showFloor() {
+function showFloor() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -466,7 +472,7 @@ export function showFloor() {
 /**
  * 行政区划 ，转为wall显示
  */
-export function showBoundaryWall() {
+function showBoundaryWall() {
   removeLayer()
 
   map.setCameraView({ lat: 30.561661, lng: 117.663884, alt: 113078, heading: 346, pitch: -43 })
@@ -514,7 +520,7 @@ export function showBoundaryWall() {
  * 显示特殊面数据（单体化）
  */
 let tilesetLayer
-export function showMonomer() {
+function showMonomer() {
   removeLayer()
 
   // 三维模型
@@ -568,7 +574,7 @@ export function showMonomer() {
 /**
  * 显示世界各国
  */
-export function showWorld() {
+function showWorld() {
   removeLayer()
 
   map.setCameraView({ lat: 22.564341, lng: 89.44688, alt: 10817167, heading: 0, pitch: -87 })
@@ -611,7 +617,7 @@ export function showWorld() {
 }
 
 // 加载GCJ数据进行纠偏
-export function showGCJ02Data() {
+function showGCJ02Data() {
   removeLayer()
 
   const gcjLayer = new mars3d.layer.GeoJsonLayer({
@@ -657,10 +663,10 @@ export function showGCJ02Data() {
   })
 }
 
-export function getGraphicsTree(options) {
+function getGraphicsTree(options) {
   return graphicLayer.getGraphicsTree(options)
 }
 
-export function getGraphicById(id) {
+function getGraphicById(id) {
   return graphicLayer.getGraphicById(id)
 }

@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 28.437359, lng: 119.478919, alt: 350.5, heading: 26.3, pitch: -21.6 },
     globe: {
@@ -16,7 +16,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.scene.globe.shadows = Cesium.ShadowMode.CAST_ONLY // 地形上分析时，需要加这行代码
@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -55,7 +55,7 @@ function addDemoGraphic1() {
 }
 
 // 添加
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   // 开始绘制
   const graphic = await graphicLayer.startDraw({
     type: "viewDome",
@@ -67,7 +67,7 @@ export async function startDrawGraphic() {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -92,6 +92,6 @@ export function addRandomGraphicByCount(count) {
   graphicLayer.enabledEvent = true // 恢复事件
   return result.points.length
 }
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   return graphicLayer.getGraphicById(graphicId)
 }

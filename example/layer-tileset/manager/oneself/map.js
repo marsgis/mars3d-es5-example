@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
-export let graphicLayer // 矢量图层对象
+var graphicLayer // 矢量图层对象
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 const storageName = "layer-tileset-manager-oneself"
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -37,11 +37,11 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function changeColor(color) {
+function changeColor(color) {
   const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
@@ -57,7 +57,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-export function showModel(url) {
+function showModel(url) {
   removeLayer()
   if (!url) {
     return
@@ -89,12 +89,12 @@ export function showModel(url) {
   })
 }
 
-export function flyTo() {
+function flyTo() {
   tiles3dLayer.flyTo()
 }
 
 // 开始绘制
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "box",
     style: {
@@ -109,7 +109,7 @@ export async function startDrawGraphic() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -148,6 +148,36 @@ export function bindLayerContextMenu() {
         }
         if (graphic) {
           graphic.stopEditing()
+        }
+      }
+    },
+    {
+      text: "复制",
+      icon: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      icon: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
         }
       }
     },

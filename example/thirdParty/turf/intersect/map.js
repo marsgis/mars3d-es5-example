@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 let graphic1
 let graphic2
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.715325, lng: 117.233867, alt: 21228, heading: 2, pitch: -60 }
   },
@@ -14,13 +14,13 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   addEntity()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -67,7 +67,7 @@ function addEntity() {
 
 // 求交
 let intersectGraphic
-export function intersect() {
+function intersect() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null
@@ -99,7 +99,7 @@ export function intersect() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null

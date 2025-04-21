@@ -1,22 +1,22 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 20.772952, lng: 82.609338, alt: 22604251, heading: 0, pitch: -90 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 let moveGraphicObj
 const tiles3dLayerArr = []
 let removeGraphicArr
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型，效果更NB
@@ -384,7 +384,7 @@ const heatMapPoints = [
 ]
 
 // 添加矢量数据
-export function addGraphics() {
+function addGraphics() {
   map.setCameraView({ lat: 18, lng: 126, alt: 800000, heading: 354.2109524366, pitch: -29.3531104185 })
 
   // 后面会移动的矢量数据
@@ -660,7 +660,7 @@ export function addGraphics() {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -706,7 +706,7 @@ const removeGraphic = (graphicArr, canClear) => {
 }
 
 // 第一步 发送信号
-export function firstStep() {
+function firstStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 23.232027, lng: 131.178867, alt: 1126670.6, heading: 343.9, pitch: -39.3 })
   const firstPannel = new mars3d.graphic.DivGraphic({
@@ -773,7 +773,7 @@ export function firstStep() {
 }
 
 // 第二步 传送信号
-export function secondStep() {
+function secondStep() {
   removeGraphic(removeGraphicArr, true)
 
   map.setCameraView({ lat: 40.471932, lng: 123.393843, alt: 873577.9, heading: 237.2, pitch: -45.5 })
@@ -818,7 +818,7 @@ export function secondStep() {
 }
 
 // 第三步 下达指令
-export function thirdStep() {
+function thirdStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 36.976138, lng: 122.494085, alt: 551666.1, heading: 257.4, pitch: -48 })
 
@@ -864,7 +864,7 @@ export function thirdStep() {
 }
 
 // 第四步 准备出发
-export function forthStep() {
+function forthStep() {
   removeGraphic(removeGraphicArr, true)
   map.setCameraView({ lat: 29.097887, lng: 110.576537, alt: 653281.5, heading: 65.1, pitch: -28.3 })
 
@@ -1003,7 +1003,7 @@ export function forthStep() {
 }
 
 // 第五步,添加飞行动画 出发
-export function fifthStep() {
+function fifthStep() {
   removeGraphic(removeGraphicArr)
   map.setCameraView({ lat: 22.221019, lng: 127.76867, alt: 492335.3, heading: 341.9, pitch: -24 })
 
@@ -1022,7 +1022,7 @@ export function fifthStep() {
 }
 
 // 第六步,添加活性炭 处理泄露
-export function sixthStep() {
+function sixthStep() {
   removeGraphic(removeGraphicArr)
   map.setCameraView({ lat: 28.263862, lng: 128.114428, alt: 351171.2, heading: 345.9, pitch: -40.8 })
 
@@ -1053,20 +1053,20 @@ export function sixthStep() {
 }
 
 // 第七步，清除油污范围 完成营救
-export const seventhStep = () => {
+var seventhStep = () => {
   removeGraphic(removeGraphicArr)
 
   graphicLayer.getGraphicById("油污范围").show = false
 }
 
-export const clear = () => {
+var clear = () => {
   graphicLayer.remove()
   tiles3dLayerArr.forEach((layer) => {
     layer.remove()
   })
 }
 
-export const stop = () => {
+var stop = () => {
   removeGraphicArr.push(graphicLayer.getGraphicById("rescuePlane"))
   removeGraphicArr.push(graphicLayer.getGraphicById("rescueIcon"))
   removeGraphicArr.push(graphicLayer.getGraphicById("rescueLine"))

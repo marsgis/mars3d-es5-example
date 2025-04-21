@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tileLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 24.336939, lng: 108.949729, alt: 14990362, heading: 0, pitch: -90 }
   },
@@ -24,21 +24,21 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.basemap = "单张图片 (本地离线)"
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 加载图层
-export function createTileLayer(options) {
+function createTileLayer(options) {
   if (!options.url) {
     globalMsg("请输入图层URL地址！")
     return
@@ -109,7 +109,7 @@ export function createTileLayer(options) {
 }
 
 // 移除并销毁图层
-export function removeLayer() {
+function removeLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
@@ -117,7 +117,7 @@ export function removeLayer() {
 }
 
 // 数据更新
-export function dataUpdate(params) {
+function dataUpdate(params) {
   if (tileLayer) {
     params.flyTo = false
     createTileLayer(params)
@@ -125,7 +125,7 @@ export function dataUpdate(params) {
 }
 
 // 绘制和清除区域
-export async function btnDrawExtent(options) {
+async function btnDrawExtent(options) {
   if (tileLayer) {
     tileLayer.rectangle = null
   }
@@ -145,7 +145,7 @@ export async function btnDrawExtent(options) {
   eventTarget.fire("rectangle", { rectangle })
   createTileLayer(options)
 }
-export function btnClearExtent() {
+function btnClearExtent() {
   map.graphicLayer.clear()
   if (tileLayer) {
     tileLayer.rectangle = null
@@ -155,18 +155,18 @@ export function btnClearExtent() {
 }
 
 // 修改图层的部分值
-export function changeOpacity(val) {
+function changeOpacity(val) {
   if (tileLayer) {
     tileLayer.opacity = val
   }
 }
-export function changeBrightness(val) {
+function changeBrightness(val) {
   if (tileLayer) {
     tileLayer.brightness = val
   }
 }
 
-export function creatHRectangleEntity(item) {
+function creatHRectangleEntity(item) {
   map.graphicLayer.clear()
   const graphic = new mars3d.graphic.RectangleEntity({
     rectangle: Cesium.Rectangle.fromDegrees(item.xmin, item.ymin, item.xmax, item.ymax),
@@ -182,12 +182,12 @@ export function creatHRectangleEntity(item) {
   graphic.flyTo({ scale: 1.5 })
 }
 
-export const saveParams = () => {
+var saveParams = () => {
   const downLayer = tileLayer || map.getLayerById("testTile")
   mars3d.Util.downloadFile("瓦片图层参数.json", JSON.stringify(downLayer.toJSON({ full: true })))
 }
 
-export function removeTileLayer() {
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

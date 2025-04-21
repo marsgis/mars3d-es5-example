@@ -1,20 +1,20 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tilesetLayer
 let tilesetBoxClip
 
-const Cesium = mars3d.Cesium
-export const mapOptions = {
+
+var mapOptions = {
   scene: {
     center: { lat: 31.842844, lng: 117.251112, alt: 125, heading: 6, pitch: -36 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 模型
@@ -29,11 +29,11 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export async function drawExtent() {
+async function drawExtent() {
   tilesetBoxClip.clear()
   map.graphicLayer.clear()
 
@@ -59,7 +59,7 @@ export async function drawExtent() {
 }
 
 // 演示数据
-export function tilesetBoxClipDemo(point) {
+function tilesetBoxClipDemo(point) {
   tilesetBoxClip = new mars3d.thing.TilesetBoxClip({
     layer: tilesetLayer,
     position: point,
@@ -73,34 +73,34 @@ export function tilesetBoxClipDemo(point) {
 }
 
 // 是否显示盒子
-export function showModelMatrix(val) {
+function showModelMatrix(val) {
   tilesetBoxClip.showBox = val
 }
 
 // X长度改变
-export function onChangeDimensionsX(newValue) {
+function onChangeDimensionsX(newValue) {
   tilesetBoxClip.dimensions.x = newValue
   tilesetBoxClip.redraw()
 }
 
 // Y长度改变
-export function onChangeDimensionsY(newValue) {
+function onChangeDimensionsY(newValue) {
   tilesetBoxClip.dimensions.y = newValue
   tilesetBoxClip.redraw()
 }
 
 // Z长度改变
-export function onChangeDimensionsZ(newValue) {
+function onChangeDimensionsZ(newValue) {
   tilesetBoxClip.dimensions.z = newValue
   tilesetBoxClip.redraw()
 }
 
 // 坐标发生改变
-export function onChangePosition(point) {
+function onChangePosition(point) {
   tilesetBoxClip.position = point
 }
 
 // 清除
-export function clear() {
+function clear() {
   tilesetBoxClip.clear()
 }
