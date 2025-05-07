@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lng: 102.5, lat: 35.13135, alt: 14307887.9, heading: 0, pitch: -90 }
   }
@@ -18,7 +18,7 @@ const viewPoints = [
 ]
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -39,15 +39,15 @@ function onMounted(mapInstance) {
   // showCameraRoute(viewPoints) // 显示相机点的位置方向和路线，便于对比查看
 }
 
-function pauseCameraViewList() {
+export function pauseCameraViewList() {
   map.pauseCameraViewList()
 }
 
-function proceedCameraViewList() {
+export function proceedCameraViewList() {
   map.proceedCameraViewList()
 }
 
-function playCameraViewList() {
+export function playCameraViewList() {
   map.setCameraViewList(viewPoints, {
     complete: function () {
       map.fire("complateCameraView")
@@ -56,7 +56,7 @@ function playCameraViewList() {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 

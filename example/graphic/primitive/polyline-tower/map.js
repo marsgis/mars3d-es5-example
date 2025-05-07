@@ -1,15 +1,15 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
-var graphicLayer // 矢量图层对象
-var testGraphicLayer
-var treeGraphicLayer
+export let graphicLayer // 矢量图层对象
+export let testGraphicLayer
+export let treeGraphicLayer
 
-var echartTarget = new mars3d.BaseClass()
+export const echartTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.328067, lng: 116.032025, alt: 1320.6, heading: 121.2, pitch: -19.3 },
     fxaa: true
@@ -17,7 +17,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -51,7 +51,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -310,7 +310,7 @@ function showTreeData(arrdata) {
 }
 
 // 批量计算所有树
-async function batchComputing() {
+export async function batchComputing() {
   globalMsg("计算的数据较多，计算中，请稍后……")
 
   setTimeout(() => {
@@ -322,7 +322,7 @@ async function batchComputing() {
 }
 
 // 单个绘制点的计算
-async function drawPoint() {
+export async function drawPoint() {
   const graphic = await testGraphicLayer.startDraw({
     type: "point",
     style: {

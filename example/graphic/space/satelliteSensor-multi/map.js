@@ -1,6 +1,6 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer
 
 let satelliteSensor
@@ -8,7 +8,7 @@ let satelliteSensor2
 let modelGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 0.072832, lng: 151.409367, alt: 29330818, heading: 10, pitch: -90 },
     globe: { enableLighting: true },
@@ -32,10 +32,10 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -44,13 +44,13 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 初始化创建一个卫星视锥体
 
-function addModelGraphic(sensorParams) {
+export function addModelGraphic(sensorParams) {
   const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
 
   // 加个模型
@@ -110,68 +110,68 @@ function addModelGraphic(sensorParams) {
  * @param {*} z 高度
  * @returns {void}
  */
-function updatePosition(x, y, z) {
+export function updatePosition(x, y, z) {
   const position = Cesium.Cartesian3.fromDegrees(x, y, z)
   modelGraphic.position = position
   satelliteSensor.position = position
   satelliteSensor2.position = position
 }
 
-function locate() {
+export function locate() {
   map.flyToGraphic(modelGraphic, { radius: modelGraphic.height * 2 })
 }
 
 // 方向角改变
-function headingChange(value) {
+export function headingChange(value) {
   modelGraphic.heading = value
   satelliteSensor.heading = value
   satelliteSensor2.heading = satelliteSensor.heading
 }
 
 // 俯仰角
-function pitchChange(value) {
+export function pitchChange(value) {
   modelGraphic.pitch = value
   satelliteSensor.pitch = value
   satelliteSensor2.pitch = -satelliteSensor.pitch
 }
 // 左右角
 
-function rollChange(value) {
+export function rollChange(value) {
   modelGraphic.roll = value
   satelliteSensor.roll = value
   satelliteSensor2.roll = satelliteSensor.roll
 }
 
 // 夹角1
-function angle1(value) {
+export function angle1(value) {
   satelliteSensor.angle1 = value
   satelliteSensor2.angle1 = value
 }
 
 // 夹角2
-function angle2(value) {
+export function angle2(value) {
   satelliteSensor.angle2 = value
   satelliteSensor2.angle2 = value
 }
 
 // 参考轴系显示与隐藏
-function chkShowModelMatrix(val) {
+export function chkShowModelMatrix(val) {
   modelGraphic.debugAxis = val
 }
 
 // 视椎体状态
-function sensorShowHide(val) {
+export function sensorShowHide(val) {
   satelliteSensor.show = val
   satelliteSensor2.show = val
 }
 // 是否与地球相交
-function chkUnderground(val) {
+export function chkUnderground(val) {
   satelliteSensor.rayEllipsoid = val
   satelliteSensor2.rayEllipsoid = val
 }
 
 // 类型选择
-function chkSensorType(value) {
+export function chkSensorType(value) {
   let sensorType
   if (value === "1") {
     sensorType = mars3d.graphic.SatelliteSensor.Type.Conic
@@ -182,16 +182,16 @@ function chkSensorType(value) {
   satelliteSensor2.sensorType = sensorType
 }
 
-function lengthChange(value) {
+export function lengthChange(value) {
   modelGraphic.debugAxisLength = value * 1000
 }
 
-function clearAll() {
+export function clearAll() {
   map.graphicLayer.clear()
 }
 
 // 获取边界值
-function getRegion() {
+export function getRegion() {
   map.graphicLayer.clear()
 
   const coords = satelliteSensor.getAreaCoords() // 导出成像区边界坐标
@@ -216,7 +216,7 @@ function getRegion() {
   })
 }
 
-function getCenter() {
+export function getCenter() {
   map.graphicLayer.clear()
 
   const groundPosition = satelliteSensor.groundPosition

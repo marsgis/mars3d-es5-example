@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.836861, lng: 116.044673, alt: 1395, heading: 14, pitch: -42 }
   },
@@ -17,7 +17,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // map.scene.verticalExaggeration = 2 // 地形夸张
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
@@ -33,25 +33,28 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 function addGraphicLayer() {
+  const pointList = [
+    [116.043233, 30.845286, 392.48],
+    [116.046833, 30.846863, 411.33],
+    [116.052137, 30.848801, 439.45],
+    [116.060838, 30.850918, 442.91],
+    [116.069013, 30.852035, 435.14],
+    [116.18739, 30.854441, 244.53],
+    [116.205214, 30.859332, 300.96]
+  ]
+  // pointList = mars3d.PolyUtil.interLine(pointList, { minDistance: 10 }) // path穿地时，且没有autoSurfaceHeight时可以进行插值
+
   const fixedRoute = new mars3d.graphic.FixedRoute({
     name: "贴地表表面漫游",
     position: {
       type: "time", // 时序动态坐标
       speed: 160,
-      list: [
-        [116.043233, 30.845286, 392.48],
-        [116.046833, 30.846863, 411.33],
-        [116.052137, 30.848801, 439.45],
-        [116.060838, 30.850918, 442.91],
-        [116.069013, 30.852035, 435.14],
-        [116.18739, 30.854441, 244.53],
-        [116.205214, 30.859332, 300.96]
-      ]
+      list: pointList
     },
     clockLoop: false, // 是否循环播放
     camera: {
@@ -71,15 +74,24 @@ function addGraphicLayer() {
       mergeOrientation: true, // 用于设置模型不是标准的方向时的纠偏处理,在orientation基础的方式值上加上设置是heading值
       minimumPixelSize: 50
     },
+    // polyline: {
+    //   color: "rgba(255,0,0,0.5)",
+    //   width: 2,
+    //   showAll: true
+    // },
+    // path: {
+    //   color: "rgba(255,255,0,1.0)",
+    //   width: 4,
+    //   leadTime: 0
+    // }
     polyline: {
-      color: "rgba(255,0,0,0.5)",
-      width: 2,
-      showAll: true
+      color: "rgba(0,255,0,1.0)",
+      width: 2 // 显示已走过的路线
     },
     path: {
-      color: "rgba(255,255,0,1.0)",
-      width: 4,
-      leadTime: 0
+      color: "rgba(255,255,0,0.5)",
+      width: 2,
+      trailTime: 0 // 显示未来的路线
     }
   })
   graphicLayer.addGraphic(fixedRoute)
@@ -203,5 +215,5 @@ function addParticleSystem(property) {
 }
 
 // ui层使用
-var formatDistance = mars3d.MeasureUtil.formatDistance
-var formatTime = mars3d.Util.formatTime
+export const formatDistance = mars3d.MeasureUtil.formatDistance
+export const formatTime = mars3d.Util.formatTime

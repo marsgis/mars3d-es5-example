@@ -1,18 +1,18 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let graphicFrustum
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.841529, lng: 116.389494, alt: 28201.5, heading: 357, pitch: -58.6 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.hasTerrain = false
 
@@ -34,7 +34,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -127,7 +127,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 // 追踪目标点
-async function onClickSelPoint() {
+export async function onClickSelPoint() {
   const graphic = await map.graphicLayer.startDraw({
     type: "point",
     style: {
@@ -141,11 +141,11 @@ async function onClickSelPoint() {
   graphicFrustum.targetPosition = position
 }
 
-function clear() {
+export function clear() {
   map.graphicLayer.clear()
 }
 
-function getRayEarthPositions() {
+export function getRayEarthPositions() {
   map.graphicLayer.clear()
 
   if (graphicFrustum.isDestroy) {
@@ -169,7 +169,7 @@ function getRayEarthPositions() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -202,7 +202,7 @@ function addRandomGraphicByCount(count) {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -214,7 +214,7 @@ function bindLayerPopup() {
 }
 
 // 开始绘制
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "frustum",
     style: {
@@ -230,7 +230,7 @@ async function startDrawGraphic() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

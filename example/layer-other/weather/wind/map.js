@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let windLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: -5.020384, lng: 103.408071, alt: 1600014, heading: 0, pitch: -70.7 },
     scene3DOnly: true
@@ -16,7 +16,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -91,18 +91,18 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 参数调整面板
-function setLayerOptions(options) {
+export function setLayerOptions(options) {
   console.log("setOptions更新了图层", options)
   windLayer.setOptions(options)
 }
 
 // 加载局部数据1
-async function loadHongkongData() {
+export async function loadHongkongData() {
   map.setCameraView({ lat: 19.658703, lng: 114.870135, alt: 357062.4, heading: 341.1, pitch: -52.9 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -121,7 +121,7 @@ async function loadHongkongData() {
 }
 
 // 加载局部数据2
-async function loadDongnanData1() {
+export async function loadDongnanData1() {
   map.setCameraView({ lat: -5.020384, lng: 103.408071, alt: 1600014, heading: 0, pitch: -70.7 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -139,7 +139,7 @@ async function loadDongnanData1() {
 }
 
 // 加载局部数据
-async function loadDongnanData2() {
+export async function loadDongnanData2() {
   map.setCameraView({ lat: -8.188301, lng: 103.011488, alt: 1423712.3, heading: 4.8, pitch: -59.5 }, { duration: 0 })
 
   windLayer.setOptions({
@@ -157,7 +157,7 @@ async function loadDongnanData2() {
 }
 
 // 加载全球数据
-async function loadEarthData() {
+export async function loadEarthData() {
   map.setCameraView({ lat: 15.026094, lng: 112.896676, alt: 13975128, heading: 0, pitch: -89 }, { duration: 0 })
   showLoading()
 

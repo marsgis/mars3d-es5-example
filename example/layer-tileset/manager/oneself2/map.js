@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tiles3dLayer
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   option = {
     scene: {
       center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
@@ -53,7 +53,7 @@ var mapOptions = function (option) {
 const storageName = "layer-tileset-manager-oneself"
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -73,7 +73,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -85,7 +85,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(url) {
+export function showModel(url) {
   removeLayer()
   if (!url) {
     return
@@ -117,6 +117,6 @@ function showModel(url) {
   })
 }
 
-function flyTo() {
+export function flyTo() {
   tiles3dLayer.flyTo()
 }

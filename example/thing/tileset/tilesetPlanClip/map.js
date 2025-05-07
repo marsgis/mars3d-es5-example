@@ -1,8 +1,8 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.841309, lng: 117.250892, alt: 317.3, heading: 2.1, pitch: -39.9 }
   }
@@ -11,7 +11,7 @@ var mapOptions = {
 // let terrainPlanClip
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // // 地形开挖 [如果同步切地形，可以取消注释及后面相关注释]
@@ -58,13 +58,13 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   clear()
   map = null
 }
 
 // 绘制线
-async function drawLine() {
+export async function drawLine() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -91,7 +91,7 @@ async function drawLine() {
 }
 
 // 绘制矩形
-async function drawExtent() {
+export async function drawExtent() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -117,7 +117,7 @@ async function drawExtent() {
 }
 
 // 绘制面
-async function drawPoly() {
+export async function drawPoly() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -141,7 +141,7 @@ async function drawPoly() {
 }
 
 // 绘制面(外切)
-async function drawPoly2() {
+export async function drawPoly2() {
   clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -166,7 +166,7 @@ async function drawPoly2() {
 }
 
 // 更改切换方向
-function clippingType(type) {
+export function clippingType(type) {
   const layers = map.getLayersByAttr("tileset", "type")
   layers.forEach((layer) => {
     if (layer.isAdded) {
@@ -176,7 +176,7 @@ function clippingType(type) {
 }
 
 // 距离
-function rangeDistance(value) {
+export function rangeDistance(value) {
   const layers = map.getLayersByAttr("tileset", "type")
   layers.forEach((layer) => {
     if (layer.isAdded) {
@@ -185,7 +185,7 @@ function rangeDistance(value) {
   })
 }
 
-function rangeAngle1(value) {
+export function rangeAngle1(value) {
   const layers = map.getLayersByAttr("tileset", "type")
   layers.forEach((layer) => {
     if (layer.isAdded) {
@@ -193,7 +193,7 @@ function rangeAngle1(value) {
     }
   })
 }
-function rangeAngle2(value) {
+export function rangeAngle2(value) {
   const layers = map.getLayersByAttr("tileset", "type")
   layers.forEach((layer) => {
     if (layer.isAdded) {
@@ -202,7 +202,7 @@ function rangeAngle2(value) {
   })
 }
 
-function clear() {
+export function clear() {
   const layers = map.getLayersByAttr("tileset", "type")
   layers.forEach((layer) => {
     if (layer.isAdded) {

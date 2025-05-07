@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let weixin
 let graphicLayer
 let graphicTriangle
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     // 此处参数会覆盖config.json中的对应配置
     center: { lat: 5.459746, lng: 68.238291, alt: 36261079, heading: 143, pitch: -89 },
@@ -23,10 +23,10 @@ var mapOptions = {
     compass: { style: { top: "10px", right: "5px" } }
   }
 }
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -38,7 +38,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -72,13 +72,14 @@ function addSatellite() {
       show: false
     },
     path: {
-      color: "#00ff00",
-      opacity: 0.5,
-      width: 1,
-      show: true
+      color: "#5399DD",
+      width: 2
     }
   })
   graphicLayer.addGraphic(weixin)
+
+  // 星下圆
+  // addCricle(weixin)
 
   // 卫星朝向的中线地面点
   const graphic = new mars3d.graphic.PolylineEntity({
@@ -124,7 +125,7 @@ function addSatellite() {
   })
 }
 
-function centerPoint(angle1) {
+export function centerPoint(angle1) {
   if (graphicTriangle) {
     graphicTriangle.show = false
   }
@@ -162,24 +163,117 @@ function centerPoint(angle1) {
 }
 
 // 俯仰角
-function pitchChange(value) {
+export function pitchChange(value) {
   weixin.model.pitch = value
 }
 
 // 左右角
-function rollChange(value) {
+export function rollChange(value) {
   weixin.model.roll = value
 }
 
-function angle(value) {
+export function angle(value) {
   weixin.cone.angle1 = value
   centerPoint(weixin.cone.angle1)
 }
 
-function chkShowModelMatrix(val) {
+export function chkShowModelMatrix(val) {
   weixin.coneShow = val // 显示关闭视锥体
 }
 
-function locate() {
+export function locate() {
   weixin.flyTo()
+}
+
+// 星下圆
+function addCricle(weixing) {
+  let weixingPoint = mars3d.LngLatPoint.fromCartesian(weixing.position)
+
+  // 创建临时圆锥传感器
+  const coneTmp = new mars3d.graphic.SatelliteSensor({
+    position: weixingPoint,
+    style: {
+      sensorType: mars3d.graphic.SatelliteSensor.Type.Conic,
+      angle: 10,
+      color: "rgba(255,255,0,0)"
+    }
+  })
+  // 创建临时圆图层
+  graphicLayer.addGraphic(coneTmp)
+
+  let weixingPosition
+
+  // 延迟绘制圆圈
+  setTimeout(() => {
+    if (graphicLayer.isAdded) {
+      const areaCoords = coneTmp.getAreaCoords({ convex: false })
+      const areaCoordsTemp = []
+      for (const coordinate of areaCoords) {
+        const point = mars3d.LngLatPoint.fromCartesian(coordinate)
+        areaCoordsTemp.push(point)
+      }
+      if (!areaCoords || !isValidMultiPoint(areaCoords)) {
+        // $message(`经纬度数据异常`, "error")
+        return
+      }
+      const coneBottomCircle = new mars3d.graphic.CircleEntity({
+        position: new Cesium.CallbackProperty(() => {
+          const point = mars3d.LngLatPoint.fromCartesian(weixingPosition)
+          return Cesium.Cartesian3.fromDegrees(point.lng, point.lat, 0)
+        }, false),
+        style: {
+          radius: 120000,
+          materialType: mars3d.MaterialType.PolyGradient,
+          materialOptions: { alphaPower: 0.4, diffusePower: 1.6, color: "#dddd00" },
+          outline: true,
+          outlineStyle: {
+            width: 1.5,
+            color: "rgba(255,255,0,1)",
+            granularity: 36000000.0 // 指定椭圆上各点之间的角距离,可以控制圆的平滑度(值越小越平滑)
+          },
+          clampToGround: true
+        }
+      })
+      graphicLayer.addGraphic(coneBottomCircle)
+      graphicLayer.removeGraphic(coneTmp)
+    }
+  }, 200)
+  // 卫星轨迹开始位置
+  weixingPosition = weixing.position
+  weixing.on(mars3d.EventType.change, (event) => {
+    const graphic = event.graphic
+    weixingPosition = graphic.position
+    weixingPoint = mars3d.LngLatPoint.fromCartesian(weixingPosition)
+  })
+}
+function isValidMultiPoint(coordinates) {
+  if (!Array.isArray(coordinates) || coordinates.length === 0) {
+    return false
+  }
+  for (const coordinate of coordinates) {
+    const point = mars3d.LngLatPoint.fromCartesian(coordinate)
+    if (!isValidCoordinate(point.lng, point.lat)) {
+      return false
+    }
+  }
+  return true
+}
+function isValidCoordinate(longitude, latitude) {
+  if (!isValidLongitude(longitude) || !isValidLatitude(latitude)) {
+    return false
+  }
+  try {
+    // 尝试创建一个点
+    turf.point([longitude, latitude])
+    return true // 如果没有错误，说明经纬度有效
+  } catch (error) {
+    // 如果有错误，说明经纬度无效
+    return false
+  }
+}
+function isValidLongitude(longitude) {
+  return typeof longitude === "number" && longitude >= -180 && longitude <= 180
+}
+function isValidLatitude(latitude) {
+  return typeof latitude === "number" && latitude >= -90 && latitude <= 90
 }

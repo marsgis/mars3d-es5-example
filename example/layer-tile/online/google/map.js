@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.675177, lng: 117.323257, alt: 81193, heading: 0, pitch: -79 }
   },
@@ -13,7 +13,8 @@ var mapOptions = {
       name: "谷歌影像",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
       type: "google",
-      layer: "img_d",
+      // layer: "img_d", //内置的URL失效时，可以按下面类似自定义其他URL的谷歌服务
+      url: "https://cbk.8ditu.com/maps/vt?lyrs=s&v=982&gl=cn&x={x}&y={y}&z={z}",
       chinaCRS: mars3d.ChinaCRS.GCJ02,
       show: true
     },
@@ -34,10 +35,10 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify(
@@ -48,14 +49,14 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
 
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -67,7 +68,7 @@ function addTileLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

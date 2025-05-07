@@ -333,12 +333,18 @@
           axis: $("#txt_axis").val() ? $("#txt_axis").val() : undefined,
           proxy: $("#chkProxy").is(":checked") ? "//server.mars3d.cn/proxy/" : undefined, // 代理
           opacity: $("#txt_opacity").val(),
+          highlight: $("#highlightEnable").is(":checked")
+            ? {
+                type: "click",
+                outlineEffect: true,
+                color: "#00FF00"
+              }
+            : false,
+          popup: $("#popupEnable").is(":checked") ? "all" : false,
           show: true
         }
-        const otherData = { highlightEnable: $("#highlightEnable").is(":checked"), popupEnable: $("#popupEnable").is(":checked") }
-
         if (upDate) {
-          updateModel(tilesObject, otherData)
+          setLayerOptions(tilesObject)
         }
       }
 
