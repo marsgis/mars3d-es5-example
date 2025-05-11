@@ -1,16 +1,16 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 25.389914, lng: 119.084961, alt: 1179575, heading: 346, pitch: -60 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.camera.percentageChanged = 0.01
 
@@ -38,40 +38,40 @@ export function onMounted(mapInstance) {
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // **************************** 景点视角演示********************** //
-export function changeView1() {
+function changeView1() {
   map.setCameraView({ lat: 39.904128, lng: 116.391643, alt: 1054, heading: 0, pitch: -39 })
 }
 
-export function changeView2() {
+function changeView2() {
   map.setCameraView({ lat: 28.13059, lng: 86.835138, alt: 7627, heading: 148, pitch: -7 })
 }
 
-export function changeView3() {
+function changeView3() {
   map.setCameraView({ lat: 34.560392, lng: 110.052393, alt: 1724, heading: 171, pitch: -5 })
 }
 
-export function changeView4() {
+function changeView4() {
   map.setCameraView({ lat: 30.83463, lng: 115.86774, alt: 710, heading: 303, pitch: -7 })
 }
 
 // **************************** 相机和视角控制********************** //
-export function mapGetCameraView() {
+function mapGetCameraView() {
   const camera = map.getCameraView()
   globalAlert(JSON.stringify(camera), "当前视角参数")
 }
 
-export function mapSetCameraView() {
+function mapSetCameraView() {
   map.graphicLayer.clear()
 
   map.setCameraView({ lat: 26.8764, lng: 91.148781, alt: 223798, heading: 0, pitch: -45 })
 }
 
-export function mapSetCameraViewList() {
+function mapSetCameraViewList() {
   map.graphicLayer.clear()
 
   // 视角切换（分步执行）, stop设置停留在该视角的时间
@@ -83,13 +83,13 @@ export function mapSetCameraViewList() {
   ])
 }
 
-export function mapFlyHome() {
+function mapFlyHome() {
   map.graphicLayer.clear()
   map.flyHome()
 }
 
 let graphic
-export function mapFlyToGraphic() {
+function mapFlyToGraphic() {
   map.graphicLayer.clear()
 
   if (!graphic || graphic.isDestory) {
@@ -124,7 +124,7 @@ export function mapFlyToGraphic() {
   map.flyToGraphic(graphic, { radius: 10000 })
 }
 
-export function mapFlyToExtent() {
+function mapFlyToExtent() {
   map.graphicLayer.clear()
 
   // const extent = { xmin: 115.779965422, xmax: 123.584853, ymin: 29.097413, ymax: 50.245553 }
@@ -144,7 +144,7 @@ export function mapFlyToExtent() {
   map.graphicLayer.addGraphic(graphic)
 }
 
-export function mapFlyToPositions() {
+function mapFlyToPositions() {
   map.graphicLayer.clear()
 
   const positions = [
@@ -172,7 +172,7 @@ export function mapFlyToPositions() {
   }
 }
 
-export function mapFlyToPoint() {
+function mapFlyToPoint() {
   map.graphicLayer.clear()
 
   const position = [113.939351, 36.068144, 350.9]
@@ -191,6 +191,6 @@ export function mapFlyToPoint() {
   map.graphicLayer.addGraphic(graphic)
 }
 
-export function mapCancelFlyTo() {
+function mapCancelFlyTo() {
   map.cancelFlyTo()
 }

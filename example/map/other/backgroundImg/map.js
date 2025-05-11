@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 36.873519, lng: 106.863496, alt: 19999205, heading: 354, pitch: -89 },
     orderIndependentTranslucency: false,
@@ -22,16 +22,16 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function showImgNone() {
+function showImgNone() {
   map.setOptions({
     scene: {
       backgroundType: "image",
@@ -40,7 +40,7 @@ export function showImgNone() {
   })
 }
 
-export function showImg1() {
+function showImg1() {
   map.setOptions({
     scene: {
       backgroundType: "image",
@@ -49,7 +49,7 @@ export function showImg1() {
   })
 }
 
-export function showImg2() {
+function showImg2() {
   map.setOptions({
     scene: {
       backgroundType: "image",
@@ -58,7 +58,7 @@ export function showImg2() {
   })
 }
 
-export function showImg3() {
+function showImg3() {
   // map.container.style.backgroundImage = "url(//data.mars3d.cn/img/busines/background2.jpg)"
   map.setOptions({
     scene: {
@@ -70,7 +70,7 @@ export function showImg3() {
 
 
 
-export function showColor() {
+function showColor() {
   map.setOptions({
     scene: {
       backgroundType: "color",
@@ -79,7 +79,7 @@ export function showColor() {
   })
 }
 
-export function showSkybox() {
+function showSkybox() {
   map.setOptions({
     scene: {
       backgroundType: "skybox",

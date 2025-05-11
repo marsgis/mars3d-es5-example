@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = function (option) {
+var mapOptions = function (option) {
   option = {
     scene: {
       center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
@@ -61,7 +61,7 @@ export const mapOptions = function (option) {
 const storageName = "layer-tileset-manager-oneself"
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
@@ -90,11 +90,11 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function changeColor(color) {
+function changeColor(color) {
   const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
@@ -110,7 +110,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-export function showModel(url) {
+function showModel(url) {
   removeLayer()
   if (!url) {
     return
@@ -142,6 +142,6 @@ export function showModel(url) {
   })
 }
 
-export function flyTo() {
+function flyTo() {
   tiles3dLayer.flyTo()
 }

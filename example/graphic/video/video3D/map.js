@@ -1,15 +1,15 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 let selectedView
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.843175, lng: 117.205295, alt: 223, heading: 178, pitch: -75 },
     globe: {
@@ -19,7 +19,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("操作提示：", `请鼠标单击地图任意处，浏览器安全机制需要鼠标操作才能自动开始播放视频。`)
@@ -56,17 +56,17 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   selectedView = graphicLayer.getGraphicById(graphicId)
   return selectedView
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -98,7 +98,7 @@ export function addRandomGraphicByCount(count) {
   return result.points.length
 }
 
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   // 开始绘制
   const graphic = await graphicLayer.startDraw({
     type: "video3D",
@@ -112,7 +112,7 @@ export async function startDrawGraphic() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function startDrawGraphic2() {
+async function startDrawGraphic2() {
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
@@ -203,36 +203,36 @@ function addDemoGraphic3() {
   // })
 }
 
-export function onChangeAngle(value) {
+function onChangeAngle(value) {
   if (selectedView) {
     selectedView.angle = value
   }
 }
 
-export function onChangeAngle2(value) {
+function onChangeAngle2(value) {
   if (selectedView) {
     selectedView.angle2 = value
   }
 }
 
-export function onChangeDistance(value) {
+function onChangeDistance(value) {
   if (selectedView) {
     selectedView.distance = value
   }
 }
 
-export function onChangeHeading(value) {
+function onChangeHeading(value) {
   if (selectedView) {
     selectedView.heading = value
   }
 }
-export function onChangeMirror(value) {
+function onChangeMirror(value) {
   if (selectedView) {
     selectedView.flipx = value
   }
 }
 
-export async function onClickSelView() {
+async function onClickSelView() {
   if (!selectedView) {
     return
   }
@@ -244,41 +244,41 @@ export async function onClickSelView() {
   selectedView.targetPosition = point
 }
 
-export function onChangePitch(value) {
+function onChangePitch(value) {
   if (selectedView) {
     selectedView.pitch = value
   }
 }
 
 // 线框是否显示
-export function showFrustum(ckd) {
+function showFrustum(ckd) {
   if (selectedView) {
     selectedView.showFrustum = ckd
   }
 }
 
-export function onChangeOpacity(value) {
+function onChangeOpacity(value) {
   if (selectedView) {
     selectedView.opacity = value
   }
 }
 
 // 播放暂停
-export function playOrpause() {
+function playOrpause() {
   if (selectedView) {
     selectedView.play = !selectedView.play
   }
 }
 
 // 定位至视频位置
-export function locate() {
+function locate() {
   if (selectedView) {
     selectedView.setView()
   }
 }
 
 // 打印参数
-export function printParameters() {
+function printParameters() {
   if (!selectedView) {
     return
   }
@@ -288,7 +288,7 @@ export function printParameters() {
 }
 
 // 视频位置
-export async function selCamera() {
+async function selCamera() {
   if (!selectedView) {
     return
   }
@@ -300,7 +300,7 @@ export async function selCamera() {
   selectedView.position = point
 }
 
-export function draWall() {
+function draWall() {
   map.graphicLayer.startDraw({
     type: "wall",
     style: {

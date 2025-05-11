@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let shadows
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 33.596051, lng: 119.031383, alt: 359, heading: 180, pitch: -43 },
     fxaa: true,
@@ -13,10 +13,10 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `模型上日照阴影可能存在锯齿。`)
@@ -78,11 +78,11 @@ function addTestGrraphic() {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function stopPlay() {
+function stopPlay() {
   if (shadows && shadows.isStart) {
     shadows.pause()
   }
@@ -96,7 +96,7 @@ export function stopPlay() {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-export function startPlay(date, hours, minutes) {
+function startPlay(date, hours, minutes) {
   const currentTime = setShadows(date, hours, minutes)
   const startDate = new Date(date + " 07:00:00")
   const endDate = new Date(date + " 18:00:00")
@@ -113,19 +113,19 @@ export function startPlay(date, hours, minutes) {
  * @param {number} hours 小时
  * @param {number} minutes 分钟
  */
-export function setShadows(date, hours, minutes) {
+function setShadows(date, hours, minutes) {
   const dateTime = new Date(`${date} ${hours}:${minutes}:00`)
   shadows.time = dateTime
 
   return dateTime
 }
 
-export function clearArea() {
+function clearArea() {
   map.graphicLayer.clear()
   shadows.clear()
 }
 
-export async function drawArea(date) {
+async function drawArea(date) {
   globalNotify("已知问题提示", `(1) 不同视角下ShadowMap精度存在差异，分析结果会存在误差，尽量俯视整个区域进行分析。`)
 
   map.graphicLayer.clear()

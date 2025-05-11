@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer
+var map // mars3d.Map三维地图对象
+var graphicLayer
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },
     globe: {
@@ -16,7 +16,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加参考三维模型
@@ -40,7 +40,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -59,7 +59,7 @@ function addDemoGraphic1() {
   viewShed.flyTo({ pitch: -45 })
 }
 
-export function addGraphic() {
+function addGraphic() {
   // map.scene.logarithmicDepthBuffer = true
 
   const viewShed = new mars3d.graphic.SkylineBody({
@@ -75,6 +75,6 @@ export function addGraphic() {
   viewShed.flyTo({ pitch: -45 })
 }
 
-export function clear() {
+function clear() {
   graphicLayer.clear()
 }
