@@ -37,13 +37,14 @@
     <!-- 面板 -->
     <div class="infoview">
       <div class="f-mb">
-        提示： <br />
-        1）点击开启角色控制，在地图上左键点击初始化模型位置<br />
-        2）通过W/S/A/D和鼠标控制人物移动和视角<br />
+          提示：通过W/S/A/D和鼠标控制人物移动和视角<br />
       </div>
       <div>
-        <button class="btn btn-primary" onclick="clickStartController()">开启角色控制</button>
-        <button class="btn btn-primary" onclick="stopController()">关闭角色控制</button>
+        <div class="checkbox checkbox-primary checkbox-inline">
+              <input id="rollControl" class="styled" type="checkbox" checked />
+              <label for="rollControl"> 开启角色控制 </label>
+            </div>
+        <button class="btn btn-primary" onclick="drawPoint()">点选修改位置</button>
       </div>
     </div>
 
@@ -55,15 +56,11 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
-      let canClick = true
-      function clickStartController() {
-        setTimeout(() => {
-          canClick = true
-        }, 500)
-        if (canClick) {
-          startController()
-          canClick = false
-        }
+      function initUI(options) {
+        $("#rollControl").change(function () {
+          let val = $(this).is(":checked")
+          setEnabled(val)
+        })
       }
     </script>
   </body>
