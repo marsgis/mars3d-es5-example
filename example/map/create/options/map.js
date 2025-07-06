@@ -1,4 +1,4 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
 function initMap() {
   // 创建三维地球场景

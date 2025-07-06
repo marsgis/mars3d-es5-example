@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let floodByMaterial
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     showSun: false,
     showMoon: false,
@@ -17,10 +17,10 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 基于地球材质，可以多个区域
@@ -45,12 +45,12 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制矩形
-async function btnDrawExtent(callback, floodColor) {
+export async function btnDrawExtent(callback, floodColor) {
   clearDraw()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -70,7 +70,7 @@ async function btnDrawExtent(callback, floodColor) {
 }
 
 // 绘制多边形
-async function btnDraw(callback, floodColor) {
+export async function btnDraw(callback, floodColor) {
   clearDraw()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -106,7 +106,7 @@ async function updateHeightRange(graphic, positions, callback) {
 }
 
 // 开始分析
-function begin(data) {
+export function begin(data) {
   if (floodByMaterial.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -126,17 +126,17 @@ function begin(data) {
 }
 
 // 高度选择
-function onChangeHeight(height) {
+export function onChangeHeight(height) {
   floodByMaterial.height = height
 }
 
 // 颜色发生改变
-function onChangeColor(color) {
+export function onChangeColor(color) {
   floodByMaterial.color = color
 }
 
 // 自动播放
-function startPlay() {
+export function startPlay() {
   if (floodByMaterial.isStart) {
     floodByMaterial.stop() // 暂停
   } else {
@@ -149,11 +149,11 @@ function startPlay() {
 }
 
 // 是否显示非淹没区域
-function onChangeElse(val) {
+export function onChangeElse(val) {
   floodByMaterial.showElseArea = val
 }
 
-function clearDraw() {
+export function clearDraw() {
   floodByMaterial.clear()
   map.graphicLayer.clear()
 }

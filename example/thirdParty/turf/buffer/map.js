@@ -1,14 +1,14 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
     fxaa: true
   }
 }
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 let pointLayer
 
 const pointStyle = {
@@ -23,7 +23,7 @@ const pointStyle = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   pointLayer = new mars3d.layer.GeoJsonLayer({
@@ -60,11 +60,11 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-async function drawPoint() {
+export async function drawPoint() {
   deleteAll()
 
   const graphic = await graphicLayer.startDraw({
@@ -77,7 +77,7 @@ async function drawPoint() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-async function drawPolyline() {
+export async function drawPolyline() {
   deleteAll()
 
   const graphic = await graphicLayer.startDraw({
@@ -91,7 +91,7 @@ async function drawPolyline() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-async function drawPolygon() {
+export async function drawPolygon() {
   deleteAll()
 
   const graphic = await graphicLayer.startDraw({
@@ -108,7 +108,7 @@ async function drawPolygon() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
   map.graphicLayer.clear()
   lastgeojson = null
@@ -116,7 +116,7 @@ function deleteAll() {
 }
 
 let width
-function radiusChange(val) {
+export function radiusChange(val) {
   width = val * 1000 // km
   if (lastgeojson) {
     updateBuffer()
@@ -174,7 +174,7 @@ function updateSelect(drawGraphic) {
   })
 }
 
-function removeSelect() {
+export function removeSelect() {
   for (let i = 0; i < selectGraphic.length; i++) {
     const graphic = selectGraphic[i]
     graphic.setStyle({

@@ -1,10 +1,10 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let pointLayer
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 90, pitch: -51 },
     fxaa: true
@@ -12,7 +12,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -25,12 +25,12 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制线
-async function drawLine() {
+export async function drawLine() {
   if (pointLayer) {
     pointLayer.clear()
   }
@@ -48,7 +48,7 @@ async function drawLine() {
 }
 
 // 绘制点
-async function drawPoint() {
+export async function drawPoint() {
   pointLayer.clear()
   const graphic = await pointLayer.startDraw({
     type: "point",
@@ -92,7 +92,7 @@ function nearPoint() {
 }
 
 // 清除数据
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   pointLayer.clear()
 }

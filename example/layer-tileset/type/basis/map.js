@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map
+export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: {
       lat: 28.440864,
@@ -35,10 +35,10 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 固定光照方向
@@ -109,7 +109,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -137,18 +137,18 @@ function isPCBroswer() {
 }
 
 // 绑定事件
-function bindTestTerrain(val) {
+export function bindTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
-function bindWireframe(val) {
+export function bindWireframe(val) {
   // 三角网
   tiles3dLayer.tileset.debugWireframe = val
 }
-function bindBoundbox(val) {
+export function bindBoundbox(val) {
   // 包围盒
   tiles3dLayer.tileset.debugShowBoundingVolume = val
 }
-function bindGfirstperson(val) {
+export function bindGfirstperson(val) {
   // 键盘漫游
   map.thing.keyboardRoam.enabled = val
 }
@@ -171,10 +171,10 @@ function removeLayer() {
 /**
  * 倾斜摄影 县城社区
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxShequDemo() {
+export function showQxShequDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -233,10 +233,10 @@ function showQxShequDemo() {
 /**
  * 倾斜摄影 景区文庙
  *
- * @showJzwHefeiDemo 倾斜摄影
+ * @export showJzwHefeiDemo 倾斜摄影
  * @returns {void}
  */
-function showQxSimiaoDemo() {
+export function showQxSimiaoDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -280,7 +280,7 @@ function showQxSimiaoDemo() {
  * 城市白膜建筑物 合肥市区
  * @returns {void}
  */
-function showJzwHefeiDemo() {
+export function showJzwHefeiDemo() {
   removeLayer()
 
   map.basemap = 2017 // 切换到蓝色底图
@@ -324,7 +324,7 @@ function showJzwHefeiDemo() {
 }
 
 // 示例：点云数据 塔杆
-function showPntsGantaDemo() {
+export function showPntsGantaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -360,10 +360,10 @@ function showPntsGantaDemo() {
 /**
  * 人工建模 石化工厂
  *
- * @showMaxShihuaDemo 石化工厂模型
+ * @export showMaxShihuaDemo 石化工厂模型
  * @returns {void}
  */
-function showMaxShihuaDemo() {
+export function showMaxShihuaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -410,10 +410,10 @@ function showMaxShihuaDemo() {
 /**
  * BIM 桥梁
  *
- * @showBimQiaoliangDemo 桥梁模型
+ * @export showBimQiaoliangDemo 桥梁模型
  * @returns {void}
  */
-function showBimQiaoliangDemo() {
+export function showBimQiaoliangDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -470,10 +470,10 @@ function showBimQiaoliangDemo() {
 /**
  * BIM 桥梁
  *
- * @showBimDitiezhanDemo 桥梁模型
+ * @export showBimDitiezhanDemo 桥梁模型
  * @returns {void}
  */
-function showBimDitiezhanDemo() {
+export function showBimDitiezhanDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({

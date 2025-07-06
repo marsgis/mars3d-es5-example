@@ -1,13 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let geoJsonLayer // 矢量图层对象,用于layer绑定展示
 let graphicLayer // 矢量图层对象,用于graphic绑定展示
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   removeDemoLayer()
 }
@@ -42,7 +42,7 @@ function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Tooltip移入信息窗
-function bindMapDemo() {
+export function bindMapDemo() {
   removeDemoLayer()
 
   // 关闭弹窗
@@ -54,7 +54,7 @@ function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Tooltip弹窗
-function bindLayerDemo() {
+export function bindLayerDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -96,7 +96,7 @@ function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义Popup单击弹窗
-function bindLayerDemo2() {
+export function bindLayerDemo2() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -122,7 +122,7 @@ function bindLayerDemo2() {
 }
 
 // 2.在layer图层上绑定Tooltip弹窗
-function bindLayerTemplateDemo() {
+export function bindLayerTemplateDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -157,7 +157,7 @@ function bindLayerTemplateDemo() {
 }
 
 // 3.在graphic数据上绑定Tooltip弹窗
-function bindGraphicDemo1() {
+export function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars3d.graphic.BoxEntity({
@@ -204,7 +204,7 @@ function bindGraphicDemo1() {
 }
 
 // 3.在graphic数据上绑定Tooltip弹窗
-function bindGraphicDemo2() {
+export function bindGraphicDemo2() {
   removeDemoLayer()
 
   const graphic = new mars3d.graphic.BillboardEntity({
@@ -267,7 +267,7 @@ function showXQ() {
   eventTarget.fire("showWebsite", { showHistoryLayer })
 }
 
-function bindGraphicDynamicAttrDemo() {
+export function bindGraphicDynamicAttrDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({

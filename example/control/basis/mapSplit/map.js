@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let mapSplit
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
-    center: { lat: 34.213866, lng: 108.956499, alt: 832, heading: 22, pitch: -35 }
+    center: { lat: 32.160865, lng: 118.65795, alt: 1324.7, heading: 357.2, pitch: -57.4 }
   },
   control: {
     baseLayerPicker: false // 是否显示图层选择控件
@@ -14,7 +14,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   createControl()
@@ -29,11 +29,11 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function createControl() {
+export function createControl() {
   if (mapSplit) {
     return
   }
@@ -43,25 +43,22 @@ function createControl() {
       { name: "天地图电子", type: "tdt", layer: "vec_d" },
       { name: "天地图注记", type: "tdt", layer: "vec_z" },
       {
-        name: "大雁塔left",
+        name: "0918工地模型",
         type: "3dtiles",
-        url: "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
-        position: { alt: -27 },
-        style: {
-          color: {
-            conditions: [["true", "rgba(255,255,0,0.8)"]]
-          }
-        },
+        url: "https://data.mars3d.cn/3dtiles/qx-gongdi-0918/tileset.json",
+        position: { alt: 26.6 },
+        maximumScreenSpaceError: 1,
         popup: "我是left侧模型"
       }
     ],
     rightLayer: [
       { name: "天地图卫星", type: "tdt", layer: "img_d" },
       {
-        name: "大雁塔right",
+        name: "1108工地模型",
         type: "3dtiles",
-        url: "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
-        position: { alt: -27 },
+        url: "https://data.mars3d.cn/3dtiles/qx-gongdi-1108/tileset.json",
+        position: { alt: 26.6 },
+        maximumScreenSpaceError: 1,
         popup: "我是right侧模型"
       }
     ]
@@ -102,14 +99,14 @@ function createControl() {
 
   // 增加2个div文本
   const addHTML = `
-    <div style="position: absolute;top: 20px;left: -335px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 左侧影像：2021年8月卫星遥感影像 </div>
-    <div style="position: absolute;top: 20px;left: 45px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 右侧影像：2022年8月卫星遥感影像 </div>
+    <div style="position: absolute;top: 20px;left: -335px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 左侧影像：2022年9月18日航拍影像 </div>
+    <div style="position: absolute;top: 20px;left: 45px;width: 300px;height: 48px;line-height: 48px;border-radius: 3px;background-color: rgba(0,0,0,.6);font-size: 16px;color: #fff;text-align: center;pointer-events: none;"> 右侧影像：2022年11月8日航拍影像 </div>
   `
   const splitter = mars3d.DomUtil.parseDom(addHTML, true)
   mapSplit.container.appendChild(splitter)
 }
 
-function destroyControl() {
+export function destroyControl() {
   if (mapSplit) {
     map.removeControl(mapSplit)
     mapSplit = null
