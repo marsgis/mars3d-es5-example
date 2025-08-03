@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let routeLayer
 let qRoute
 
@@ -11,17 +11,17 @@ let poiLayer
 let qPoi
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
   }
 }
 
 // 自定义事件
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) 高德的token如果访问失效或超流量了，请您自行申请替换mars3d.Token.updateGaode("key value")。`)
@@ -74,18 +74,18 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 切换服务
-export function changeService(type) {
+function changeService(type) {
   qRoute.setOptions({ service: type })
   qPoi.setOptions({ service: type })
 }
 
 // 起点
-export function startPoint() {
+function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -111,7 +111,7 @@ export function startPoint() {
 }
 
 // 终点
-export function endPoint() {
+function endPoint() {
   showLoading()
   routeLayer.clear()
   poiLayer.clear()
@@ -145,7 +145,7 @@ export function endPoint() {
 }
 
 // 开始分析
-export function btnAnalyse(type, count) {
+function btnAnalyse(type, count) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -163,8 +163,10 @@ function queryRoute(type) {
     points.push([startPoint, [item.lng, item.lat]])
   })
 
+  routeLayer.clear()
+
   qRoute.queryArr({
-    type: Number(type), // GaodeRouteType枚举类型
+    type: type, // GaodeRouteType枚举类型
     points,
     success: function (data) {
       hideLoading()
@@ -253,7 +255,7 @@ function addEndPointEntity(arr) {
 }
 
 let lastRoute
-export function centerAtRoute(id) {
+function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
 
   if (lastRoute) {
@@ -275,7 +277,7 @@ export function centerAtRoute(id) {
 }
 
 // 清除按钮
-export function removeAll() {
+function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null

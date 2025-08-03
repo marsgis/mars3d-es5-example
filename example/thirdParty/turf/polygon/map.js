@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let polygonsLayer
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.771917, lng: 117.373238, alt: 34263, heading: 336, pitch: -69 },
     fxaa: true
@@ -12,7 +12,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -42,12 +42,12 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制面
-export async function drawPolygon() {
+async function drawPolygon() {
   graphicLayer.clear()
   polygonsLayer.clear()
 
@@ -66,7 +66,7 @@ export async function drawPolygon() {
 }
 
 // 旋转面
-export function spinPolygons(angle) {
+function spinPolygons(angle) {
   clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
@@ -88,7 +88,7 @@ export function spinPolygons(angle) {
 }
 
 // 平移面
-export function translationPolygons(offset) {
+function translationPolygons(offset) {
   clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
@@ -110,7 +110,7 @@ export function translationPolygons(offset) {
 }
 
 // 缩放面
-export function zoomPolygons(scale) {
+function zoomPolygons(scale) {
   clearGraphic()
 
   if (scale === 0) {

@@ -1,4 +1,4 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
 const {
   bufferExtent,
@@ -15,24 +15,24 @@ const {
 
 const { CGeometryLayer, CTracingService } = window.QEC // quickearth.cesium.js
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 19.372083, lng: 130.582538, alt: 957153.2, heading: 358.5, pitch: -47.7 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   initDemoData()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 let layer
@@ -171,41 +171,41 @@ const load = async (uiConfig, reloadData = false) => {
   layer = primitive
 }
 
-export const changeLineCount = (lineCount) => {
+var changeLineCount = (lineCount) => {
   uiConfig.lineCount = lineCount
   load(uiConfig)
 }
 
-export const changeTransparent = (transparent) => {
+var changeTransparent = (transparent) => {
   uiConfig.transparent = transparent
   load(uiConfig)
 }
 
-export const changeRange = (range) => {
+var changeRange = (range) => {
   uiConfig.range = range
   load(uiConfig, true)
 }
 
-export const changeUseW = (useW) => {
+var changeUseW = (useW) => {
   uiConfig.useW = useW
   uiConfig.lineCount = Math.max(uiConfig.lineCount, 200)
   uiConfig.density = false
   load(uiConfig, true)
 }
 
-export const changeShininess = (shininess) => {
+var changeShininess = (shininess) => {
   uiConfig.shininess = shininess
   layer?.setDrawOptions({
     shininess
   })
 }
-export const changeSpecular = (specular) => {
+var changeSpecular = (specular) => {
   uiConfig.specular = specular
   layer?.setDrawOptions({
     specular
   })
 }
-export const changeColor = (emission) => {
+var changeColor = (emission) => {
   uiConfig.emission = emission
   layer?.setDrawOptions({
     emission

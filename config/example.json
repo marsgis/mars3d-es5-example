@@ -3517,6 +3517,14 @@
             "hasPannel": true
           },
           {
+            "name": "模型差异对比方量分析",
+            "thumbnail": "thing-analysis-measure-volume-2model.jpg",
+            "main": "thing/analysis/measure-volume-2model",
+            "resources": ["Volume2ModelMeasure.js"],
+            "new":true,
+            "hasPannel": true
+          },
+          {
             "name": "通视分析",
             "thumbnail": "thing-analysis-sightline.jpg",
             "main": "thing/analysis/sightline",

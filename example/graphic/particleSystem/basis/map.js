@@ -1,18 +1,18 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.81456, lng: 117.231868, alt: 275.7, heading: 268.2, pitch: -12.5 }
   }
 }
 
-export let graphicLayer
+var graphicLayer
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -257,7 +257,7 @@ function addDemoGraphic5(graphicLayer) {
 }
 
 // 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
+function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
@@ -293,7 +293,7 @@ export function addRandomGraphicByCount(count) {
 }
 
 // 开始绘制
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "particleSystem",
     style: {
@@ -316,7 +316,7 @@ export async function startDrawGraphic() {
   console.log("标绘完成", graphic.toJSON())
 }
 
-export async function startDrawGraphic2() {
+async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
     type: "particleSystem",
     style: {
@@ -338,19 +338,19 @@ export async function startDrawGraphic2() {
 }
 
 let particleGraphic
-export function getGraphic(graphicId) {
+function getGraphic(graphicId) {
   particleGraphic = graphicLayer.getGraphicById(graphicId)
   return particleGraphic
 }
 
 // 修改样式
-export function setStylyToGraphic(style) {
+function setStylyToGraphic(style) {
   particleGraphic.setStyle(style)
 }
 
 // 修改位置
 let particlePosition
-export async function btnSelectPosition() {
+async function btnSelectPosition() {
   const graphic = await map.graphicLayer.startDraw({
     type: "point"
   })

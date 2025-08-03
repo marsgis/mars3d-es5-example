@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let terrainPlanClip
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.840043, lng: 117.21586, alt: 554, heading: 0, pitch: -59 },
     globe: {
@@ -12,19 +12,19 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function addLayer(height) {
+function addLayer(height) {
   // 管网模型图层
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
@@ -58,27 +58,27 @@ export function addLayer(height) {
 }
 
 // 是否挖地
-export function chkClippingPlanes(val) {
+function chkClippingPlanes(val) {
   terrainPlanClip.enabled = val
 }
 
 // 是否外切割
-export function chkUnionClippingRegions(val) {
+function chkUnionClippingRegions(val) {
   terrainPlanClip.clipOutSide = val
 }
 
 // 是否深度检测
-export function chkTestTerrain(val) {
+function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
 // 改变切割的深度
-export function changeClipHeight(val) {
+function changeClipHeight(val) {
   terrainPlanClip.diffHeight = val
 }
 
 // 添加矩形
-export async function btnDrawExtent() {
+async function btnDrawExtent() {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -97,7 +97,7 @@ export async function btnDrawExtent() {
 }
 
 // 添加多边形
-export async function btnDraw() {
+async function btnDraw() {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -114,12 +114,12 @@ export async function btnDraw() {
   terrainPlanClip.positions = positions
 }
 // 清除
-export function removeAll() {
+function removeAll() {
   terrainPlanClip.clear() // 清除挖地区域
 }
 
 // 绘制线
-export async function drawLine() {
+async function drawLine() {
   terrainPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({

@@ -220,23 +220,25 @@
 
       eventTarget.on("tiles3dLayerLoad", function (event) {
         const tiles3dLayer = event.layer
+        console.log("模型加载完成", tiles3dLayer)
+
         // 取模型中心点信息
-        const locParams = tiles3dLayer.center
+        const locParams = tiles3dLayer.position
 
         if (locParams.alt < -1000 || locParams.alt > 10000) {
           locParams.alt = 0 // 高度异常数据，自动赋值高度为0
         }
 
-        $("#txt_x").val(Number(locParams.lng.toFixed(6)))
-        $("#txt_y").val(Number(locParams.lat.toFixed(6)))
-        $("#txt_z").val(Number(locParams.alt.toFixed(6)))
+        $("#txt_x").val(locParams.lng)
+        $("#txt_y").val(locParams.lat)
+        $("#txt_z").val(locParams.alt)
 
-        $("#txt_maximumScreenSpaceError").slider("setValue", tiles3dLayer.tileset.maximumScreenSpaceError)
+        $("#txt_maximumScreenSpaceError").slider("setValue", tiles3dLayer.maximumScreenSpaceError ?? 16)
 
         if (tiles3dLayer.transform) {
-          $("#txt_rotation_z").val(tiles3dLayer.rotation_z.toFixed(1))
-          $("#txt_rotation_x").val(tiles3dLayer.rotation_x.toFixed(1))
-          $("#txt_rotation_y").val(tiles3dLayer.rotation_y.toFixed(1))
+          $("#txt_rotation_z").val(tiles3dLayer.rotation.z)
+          $("#txt_rotation_x").val(tiles3dLayer.rotation.x)
+          $("#txt_rotation_y").val(tiles3dLayer.rotation.y)
 
           $("#txt_scale").val(tiles3dLayer.scale || 1)
           $("#txt_axis").val(tiles3dLayer.axis)
@@ -261,8 +263,9 @@
       })
 
       eventTarget.on("historyUrl", function (event) {
-        $("#txtModel").val(event.url)
-        showModel(event.url)
+        let url = event.url || "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json"
+        $("#txtModel").val(url)
+        showModel(url)
       })
 
       function initUI(options) {

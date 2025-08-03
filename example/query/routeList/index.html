@@ -38,9 +38,9 @@
         <td>方式</td>
         <td colspan="2">
           <select id="queryType" class="selectpicker form-control">
-            <option value="1" selected="selected">步行路线查询</option>
+            <option value="Walking" selected="selected">步行路线查询</option>
             <!-- <option value="2">骑行路线查询</option> -->
-            <option value="3">驾车路线查询</option>
+            <option value="Driving">驾车路线查询</option>
           </select>
         </td>
       </tr>
@@ -132,11 +132,11 @@
       })
 
       $("#queryType").change(function () {
-        selectWay = Number($("#queryType").val())
+        selectWay = $("#queryType").val()
         dataSource = []
         if (start && count != 0) {
           $("#resultView").show()
-          selectWay = Number($("#queryType").val())
+          selectWay = $("#queryType").val()
           btnAnalyse(selectWay, count)
         }
       })
@@ -159,7 +159,7 @@
       $("#FX").click(function () {
         if (start && count) {
           $("#resultView").show()
-          selectWay = Number($("#queryType").val())
+          selectWay = $("#queryType").val()
         }
         btnAnalyse(selectWay, count)
       })

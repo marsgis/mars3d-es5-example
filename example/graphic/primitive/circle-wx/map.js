@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并)
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 37.290956, lng: 116.757437, alt: 26532614.1, heading: 360, pitch: -90 },
     sceneMode: 2,
@@ -21,7 +21,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 添加矢量图层
@@ -101,22 +101,22 @@ function calculateAngle(height, mapRadius, angleIncrement) {
 }
 
 // 切换为二维视图
-export function to2d() {
+function to2d() {
   map.scene.morphTo2D(0)
 }
 
 // 切换为三维视图
-export function to3d() {
+function to3d() {
   map.scene.morphTo3D(0)
 }
 
 // 切换为2.5D维视图
-export function toGLB() {
+function toGLB() {
   map.scene.morphToColumbusView(0)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   if (graphicLayer) {
     graphicLayer.remove(true) // 销毁内部会释放所有事件及数据
     graphicLayer = null

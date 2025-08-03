@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let shortestPathLayer
 
@@ -9,16 +9,16 @@ let pointQD
 let pointZD
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 34.008117, lng: 109.009385, alt: 1809.8, heading: 224.5, pitch: -45.8 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -30,12 +30,12 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制障碍面
-export async function drawPolygon() {
+async function drawPolygon() {
   if (polygonZAM) {
     polygonZAM.remove()
     polygonZAM = null
@@ -56,7 +56,7 @@ export async function drawPolygon() {
 let computePolygon
 
 // 绘制需要计算路径的面
-export async function drawComputePolygon() {
+async function drawComputePolygon() {
   if (computePolygon) {
     computePolygon.remove()
     computePolygon = null
@@ -78,7 +78,7 @@ export async function drawComputePolygon() {
   })
 }
 // 绘制起点
-export async function startPoint() {
+async function startPoint() {
   if (pointQD) {
     pointQD.remove()
     pointQD = null
@@ -106,7 +106,7 @@ export async function startPoint() {
 }
 
 // 绘制终点
-export async function endPoint() {
+async function endPoint() {
   if (pointZD) {
     pointZD.remove()
     pointZD = null
@@ -134,7 +134,7 @@ export async function endPoint() {
 }
 
 // 计算最短路径
-export function shortestPath() {
+function shortestPath() {
   if (!polygonZAM) {
     globalMsg("请绘制障碍面")
     return
@@ -172,7 +172,7 @@ export function shortestPath() {
   shortestPathLayer.addGraphic(polyonLine)
 }
 
-export async function shortPathByTerrain(options) {
+async function shortPathByTerrain(options) {
   if (!pointQD || !pointZD) {
     globalMsg("请绘制点")
     return
@@ -208,7 +208,7 @@ export async function shortPathByTerrain(options) {
   }
 }
 
-export function clearLayer() {
+function clearLayer() {
   polygonZAM = null
   pointQD = null
   pointZD = null

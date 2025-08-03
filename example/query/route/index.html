@@ -42,9 +42,9 @@
           <td>方式</td>
           <td colspan="2">
             <select id="queryType" class="selectpicker form-control">
-              <option value="1" selected="selected">步行路线查询</option>
+              <option value="Walking" selected="selected">步行路线查询</option>
               <!-- <option value="2">骑行路线查询</option> -->
-              <option value="3">驾车路线查询</option>
+              <option value="Driving">驾车路线查询</option>
             </select>
           </td>
         </tr>
@@ -92,14 +92,14 @@
       let end
       function initUI(options) {
         $("#queryType").change(function () {
-          selectWay = Number($("#queryType").val())
+          selectWay = $("#queryType").val()
           if (start && end) {
             btnAnalyse(selectWay)
           }
         })
 
         $("#startPoint").click(function () {
-          selectWay = Number($("#queryType").val()) //GaodeRouteType枚举类型
+          selectWay = $("#queryType").val() //GaodeRouteType枚举类型
           startPoint(selectWay).then(function (res) {
             start = res
             $("#startIpt").val(start)
@@ -107,7 +107,7 @@
         })
 
         $("#endPoint").click(function () {
-          selectWay = Number($("#queryType").val())
+          selectWay = $("#queryType").val()
           endPoint(selectWay).then(function (res) {
             end = res
             $("#endIpt").val(end)

@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 let tiles3dLayerOutline
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.224168, lng: 121.539945, alt: 1866.8, heading: 298.4, pitch: -27.4 }
   },
@@ -13,7 +13,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -220,7 +220,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -279,15 +279,15 @@ function bindEvent() {
 }
 
 let isPlay
-export function changePlay(value) {
+function changePlay(value) {
   isPlay = value
 }
 
-export function changeOutline(value) {
+function changeOutline(value) {
   tiles3dLayer.customShader.uniforms.u_play.value = value
   tiles3dLayerOutline.customShader.uniforms.u_play.value = value
 }
 
-export function changeHeight(value) {
+function changeHeight(value) {
   tiles3dLayer.customShader.uniforms.u_lerp.value = value
 }
