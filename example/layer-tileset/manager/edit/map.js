@@ -185,7 +185,7 @@ function locate() {
   }
 }
 
-// 保存GeoJSON
+// 保存JSON
 function saveBookmark() {
   const params = tiles3dLayer.toJSON()
 
