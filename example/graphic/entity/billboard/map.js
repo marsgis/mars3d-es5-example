@@ -121,7 +121,7 @@ function initGraphicManager(graphic) {
         }
       }
     }
-  ])
+  ], { mergeMap: true })
 
   // 测试 颜色闪烁
   if (graphic.startFlicker) {
@@ -734,5 +734,5 @@ function bindLayerContextMenu() {
         }
       }
     }
-  ])
+  ], { mergeMap: true })
 }
