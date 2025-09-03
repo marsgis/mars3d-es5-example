@@ -187,9 +187,11 @@
           graphicLayer.unbindContextMenu(true)
         }
       })
-      if (!graphics[0].hasCluster) {
-        $("#enabledCluster").hide()
-      }
+
+      // 这里graphics会报错，先注释
+      // if (!graphics[0].hasCluster) {
+      //   $("#enabledCluster").hide()
+      // }
 
       // 数据维护
       $("#hasEdit").change(function () {

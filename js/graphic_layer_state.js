@@ -321,7 +321,9 @@ function showEditor(e) {
   clearTimeout(timeTik)
 
   let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
-  if (plotAttr && plotAttr.isActivate) {
+  if (graphic._state === "destroy") {
+    // 如果矢量被销毁了，就不展示属性面板
+  } else if (plotAttr && plotAttr.isActivate) {
     plotAttr.startEditing(graphic)
   } else {
     // 左侧没有弹出的修改面板时，弹出widget

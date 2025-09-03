@@ -62,8 +62,8 @@
 
 
     <div>
-      <input type="button" class="btn btn-primary" value="上升动画" onclick="btnMovingAnimation()" />
-      <input type="button" class="btn btn-primary" value="下降动画" onclick="btnMovingAnimation2()" />
+      <input type="button" class="btn btn-primary" value="上升动画" onclick="btnMovingAnimation(upHeight)" />
+      <input type="button" class="btn btn-primary" value="下降动画" onclick="btnMovingAnimation2(upHeight)" />
       <div class="checkbox checkbox-primary checkbox-inline">
         <input id="chkClippingPlanes" class="styled" type="checkbox" checked />
         <label for="chkClippingPlanes"> 是否挖地 </label>
@@ -99,6 +99,7 @@
       addTable(event.tableItem)
     })
 
+    let upHeight = Number($("#upHeight").val())
     function initUI(options) {
       let height = Number($("#txtHeight").val())
       addTerrainUplift(height) // 添加数据
@@ -131,6 +132,7 @@
       // 改变抬升高度
       $("#upHeight").change(function () {
         let num = Number($(this).val())
+        upHeight = num
         changeUpHeight(num)
       })
 

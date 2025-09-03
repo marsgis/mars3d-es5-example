@@ -26,7 +26,7 @@
     include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars3d"></script>
 
   <link href="/css/style.css" rel="stylesheet" />
-  <link href="/css/divGraphic.css" rel="stylesheet" />
+  <link href="/img/div-graphic/divGraphic.css" rel="stylesheet" />
 </head>
 
 <body class="dark">
@@ -63,24 +63,25 @@
     function initUI(options) {
       $("#chkShow").change(function () {
         let val = $(this).is(":checked")
-        isShowLayer(geodePoiLayer, val)
+        isShowLayer(graphicLayer, val)
       })
 
       $("#chkPopup").change(function () {
         let val = $(this).is(":checked")
-        bindPopup(geodePoiLayer, val)
+        bindPopup(graphicLayer, val)
       })
 
       //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
       $("#chkTooltip").change(function () {
-        bindTooltip(geodePoiLayer, val)
+        let val = $(this).is(":checked")
+        bindTooltip(graphicLayer, val)
       })
 
       //可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
       // bindLayerContextMenu(graphicLayer);
       $("#chkContextMenu").change(function () {
         let val = $(this).is(":checked")
-        bindRinghtMenu(geodePoiLayer, val)
+        bindRinghtMenu(graphicLayer, val)
       })
     }
   </script>

@@ -80,6 +80,9 @@ function onMounted(mapInstance) {
 
   const type = mars3d.Util.getRequestByName("data")
   switch (type) {
+    case "ply-xiaoqu":
+      showPlyXiaoquDemo()
+      break
     case "qx-shequ":
       showQxShequDemo()
       break
@@ -168,11 +171,21 @@ function removeLayer() {
   }
 }
 
+function showPlyXiaoquDemo() {
+  removeLayer()
+
+  tiles3dLayer = new mars3d.layer.TilesetLayer({
+    name: "3DGS高斯泼溅",
+    url: "https://data.mars3d.cn/3dtiles/ply-xiaoqu/tileset.json",
+    maximumScreenSpaceError: 1,
+    maxMemory: 1024, // 最大缓存内存大小(MB)
+    flyTo: true
+  })
+  map.addLayer(tiles3dLayer)
+}
+
 /**
  * 倾斜摄影 县城社区
- *
- * @showJzwHefeiDemo 倾斜摄影
- * @returns {void}
  */
 function showQxShequDemo() {
   removeLayer()
@@ -232,9 +245,6 @@ function showQxShequDemo() {
 
 /**
  * 倾斜摄影 景区文庙
- *
- * @showJzwHefeiDemo 倾斜摄影
- * @returns {void}
  */
 function showQxSimiaoDemo() {
   removeLayer()
@@ -278,7 +288,6 @@ function showQxSimiaoDemo() {
 
 /**
  * 城市白膜建筑物 合肥市区
- * @returns {void}
  */
 function showJzwHefeiDemo() {
   removeLayer()

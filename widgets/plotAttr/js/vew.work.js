@@ -674,9 +674,11 @@ var plotEdit = {
           attrVal === false &&
           (type == "plane" ||
             type == "circle" ||
+            type == "circleP" ||
             type == "ellipse" ||
             type == "cylinder" ||
             type == "ellipsoid" ||
+            type == "ellipsoidP" ||
             type == "box" ||
             type == "polylineVolume" ||
             type == "wall" ||
@@ -843,7 +845,9 @@ var plotEdit = {
         break
       }
       case "plot_attr_attr_": {
-        this._last_attr.attr[attrName] = attrVal
+        if (this._last_attr.attr) {
+          this._last_attr.attr[attrName] = attrVal
+        }
         newAttr[attrName] = attrVal
         thisWidget.updateAttr2map(newAttr)
         break

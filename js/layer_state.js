@@ -39,16 +39,18 @@ function bindTooltip(layer, enabledTooltip) {
 function bindRinghtMenu(layer, enabledRightMenu) {
   // const layer = getManagerLayer()
   if (enabledRightMenu) {
-    bindLayerContextMenu(layery)
+    bindLayerContextMenu(layer)
   } else {
     layer.unbindContextMenu(true)
   }
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+function bindLayerPopup(layer) {
   // const graphicLayer = getManagerLayer()
-  graphicLayer.bindPopup(
+  let bindLayer
+  bindLayer = window.graphicLayer ? window.graphicLayer : layer
+  bindLayer.bindPopup(
     (event) => {
       const attr = getAttrForEvent(event)
       attr["类型"] = event.graphic?.type

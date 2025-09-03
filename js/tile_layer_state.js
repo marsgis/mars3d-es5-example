@@ -190,7 +190,7 @@ function addTable() {
 
     //绑定单击事件 定位
     tr.querySelector(".flyTo").addEventListener("click", function (e) {
-      const layer = map.getLayerById(item.key.uuid)
+      const layer = map.getLayerById(item.key.id)
       if (layer) {
         layer.flyTo()
       }
@@ -198,7 +198,7 @@ function addTable() {
 
     // 删除压平数据和压平线
     tr.querySelector(".remove").addEventListener("click", function (e) {
-      const layer = map.getLayerById(item.key.uuid)
+      const layer = map.getLayerById(item.key.id)
       if (layer) {
         layer.remove(true)
         // formState.layerName = "" // 隐藏编辑面板
