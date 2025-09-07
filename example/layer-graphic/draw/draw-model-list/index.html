@@ -216,8 +216,9 @@
     function initSelect(data) {
       gltfListObj = data
 
-      for (let key in data) {
-        let html = `<option value="${key}">${key}(${data[key].length})</option>`
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i]
+        let html = `<option value="${item.name}">${item.name}(${item.children.length})</option>`
         $(".pullDown select").append(html)
       }
 
@@ -232,8 +233,7 @@
 
     //点击下拉列表，切换图片列表
     function changeImgs(index) {
-      let arrName = Object.keys(gltfListObj)
-      let arr = gltfListObj[arrName[index]]
+      let arr = gltfListObj[index].children
 
       gltfItemObj = {}
 
@@ -241,8 +241,8 @@
       for (let i = 0; i < arr.length; i++) {
         let item = arr[i]
 
-        item.image = mars3d.Util.template(item.image, { gltfServerUrl: "https://data.mars3d.cn/gltf" })
-        item.style.url = mars3d.Util.template(item.style.url, { gltfServerUrl: "https://data.mars3d.cn/gltf" })
+        item.image = mars3d.Util.template(item.icon, { mars3d_data: "https://data.mars3d.cn/" })
+        item.style.url = mars3d.Util.template(item.style.url, { mars3d_data: "https://data.mars3d.cn/" })
 
         gltfItemObj[i] = item
 

@@ -277,6 +277,12 @@
           updateDepthTest(val)
         })
 
+        //变换垂直轴
+        $("#txt_axis").change(function () {
+          let val = $(this).val()
+          changetilesObjectData()
+        })
+
         //单击高亮构件
         $("#highlightEnable").change(function () {
           let val = $(this).is(":checked")
