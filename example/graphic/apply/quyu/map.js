@@ -1,12 +1,12 @@
-// import { race } from "core-js/fn/promise"
-// import * as mars3d from "mars3d"
+import { race } from "core-js/fn/promise"
+import * as mars3d from "mars3d"
 
-var map
+export let map
 let graphicLayer
 let terrainClip
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并)
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.682034, lng: 118.386385, alt: 145162.7, heading: 319.7, pitch: -48.4 },
     orderIndependentTranslucency: false,
@@ -37,7 +37,7 @@ const xzqhCode = "340100"
 const wallHeight = 40000 // 墙高
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017
 
@@ -136,7 +136,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 

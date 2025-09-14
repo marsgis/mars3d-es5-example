@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let underground
 
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.840106, lng: 117.216768, alt: 554, heading: 0, pitch: -59 },
     orderIndependentTranslucency: false,
@@ -19,7 +19,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.container.style.backgroundColor = "#546a53" // 背景色
 
@@ -29,7 +29,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -85,7 +85,7 @@ function addLayer() {
 }
 
 // 俯视视角
-function centerAtDX1() {
+export function centerAtDX1() {
   map.setCameraView({
     y: 31.840106,
     x: 117.216768,
@@ -97,7 +97,7 @@ function centerAtDX1() {
 }
 
 // 地下视角1
-function centerAtDX2() {
+export function centerAtDX2() {
   map.setCameraView({
     y: 31.841263,
     x: 117.21538,
@@ -109,7 +109,7 @@ function centerAtDX2() {
 }
 
 // 地下视角2
-function centerAtDX3() {
+export function centerAtDX3() {
   map.setCameraView({
     y: 31.838908,
     x: 117.217486,
@@ -121,11 +121,11 @@ function centerAtDX3() {
 }
 
 // 透明度发生改变
-function opacityChange(value) {
+export function opacityChange(value) {
   underground.alpha = value
 }
 
 // 复选框，是否开启地下模式
-function chkUnderground(value) {
+export function chkUnderground(value) {
   underground.enabled = value
 }

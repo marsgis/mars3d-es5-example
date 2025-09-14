@@ -1,18 +1,18 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.402686, lng: 116.303632, alt: 48692, heading: 3, pitch: -43 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // map.on(mars3d.EventType.removeLayer, function (event) {
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -42,7 +42,7 @@ function removeLayer() {
 /**
  * 平台通过draw标绘后保存的geojosn数据（已经内置style了，无需配置symbol）
  */
-function showDraw(isFlyTo) {
+export function showDraw(isFlyTo) {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -88,7 +88,7 @@ function showDraw(isFlyTo) {
 /**
  * 点数据
  */
-function showPoint() {
+export function showPoint() {
   removeLayer()
 
   window._test_button_click = function (attr) {
@@ -169,7 +169,7 @@ function showPoint() {
   })
 }
 
-function showPointForHeat() {
+export function showPointForHeat() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -212,7 +212,7 @@ function showPointForHeat() {
 /**
  * 全国省界
  */
-function showChinaLine() {
+export function showChinaLine() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -277,7 +277,7 @@ function simplifyGeoJSON(geojson) {
 /**
  * 显示合肥区域面
  */
-function showRegion() {
+export function showRegion() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -354,7 +354,7 @@ function showRegion() {
 }
 
 // 规划面
-function showPlanningSurface() {
+export function showPlanningSurface() {
   removeLayer()
 
   map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
@@ -427,7 +427,7 @@ function showPlanningSurface() {
 /**
  * 立体建筑物
  */
-function showBuilding() {
+export function showBuilding() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -469,7 +469,7 @@ function showBuilding() {
 /**
  *  分层分户立体建筑物
  */
-function showFloor() {
+export function showFloor() {
   removeLayer()
 
   graphicLayer = new mars3d.layer.GeoJsonLayer({
@@ -512,7 +512,7 @@ function showFloor() {
 /**
  * 行政区划 ，转为wall显示
  */
-function showBoundaryWall() {
+export function showBoundaryWall() {
   removeLayer()
 
   map.setCameraView({ lat: 30.561661, lng: 117.663884, alt: 113078, heading: 346, pitch: -43 })
@@ -560,7 +560,7 @@ function showBoundaryWall() {
  * 显示特殊面数据（单体化）
  */
 let tilesetLayer
-function showMonomer() {
+export function showMonomer() {
   removeLayer()
 
   // 三维模型
@@ -614,7 +614,7 @@ function showMonomer() {
 /**
  * 显示世界各国
  */
-function showWorld() {
+export function showWorld() {
   removeLayer()
 
   map.setCameraView({ lat: 22.564341, lng: 89.44688, alt: 10817167, heading: 0, pitch: -87 })
@@ -657,7 +657,7 @@ function showWorld() {
 }
 
 // 加载GCJ数据进行纠偏
-function showGCJ02Data() {
+export function showGCJ02Data() {
   removeLayer()
 
   const gcjLayer = new mars3d.layer.GeoJsonLayer({
@@ -703,10 +703,10 @@ function showGCJ02Data() {
   })
 }
 
-function getGraphicsTree(options) {
+export function getGraphicsTree(options) {
   return graphicLayer.getGraphicsTree(options)
 }
 
-function getGraphicById(id) {
+export function getGraphicById(id) {
   return graphicLayer.getGraphicById(id)
 }

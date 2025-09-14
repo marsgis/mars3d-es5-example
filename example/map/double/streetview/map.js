@@ -1,18 +1,18 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tileLayer
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", "(1) 百度街景目前限制使用，需要自行申请全景地图服务使用权限Key替换 ")
@@ -35,11 +35,11 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-async function chooseStree() {
+export async function chooseStree() {
   if (markerStreet) {
     graphicLayer.removeGraphic(markerStreet, true)
     markerStreet = null
@@ -84,7 +84,7 @@ function creatDom() {
 let typeView = 0
 
 // 3d显示
-function viewTo3d() {
+export function viewTo3d() {
   typeView = 0
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
@@ -96,7 +96,7 @@ function viewTo3d() {
 }
 
 // // 街景显示
-function streetscape() {
+export function streetscape() {
   typeView = 1
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
@@ -106,7 +106,7 @@ function streetscape() {
 }
 
 // 分屏显示
-function splitScreen() {
+export function splitScreen() {
   typeView = 2
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")

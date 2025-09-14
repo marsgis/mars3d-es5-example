@@ -297,10 +297,9 @@
             value: 1
           })
           .on("change", (e) => {
-            let keys = $("#zoomFactor").attr("data-name")
-            if (e && e.value) {
-              setSceneCameraControllerOptions(keys, e.value.newValue)
-            }
+            // let keys = $("#zoomFactor").attr("data-name")
+
+            setSceneCameraControllerOptions("zoomFactor", e.value.newValue)
           })
 
         //变焦时相机位置的最小量级

@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let drawLayer
 let measure
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   method: {
     // eslint-disable-next-line no-undef
     lang: CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
@@ -82,10 +82,10 @@ var mapOptions = {
   ]
 }
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
@@ -138,11 +138,11 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function toCustomLang() {
+export function toCustomLang() {
   map.basemap = "200" // 英文天地图
   map.options.basemaps.forEach((item) => {
     item.name = item.name_en
@@ -157,7 +157,7 @@ function toCustomLang() {
   map.lang = CustomLang // 使用自定义语言配置，配置信息在 ./CustomLang.js
 }
 
-function toDefaultLange() {
+export function toDefaultLange() {
   map.basemap = "100" // 中文天地图
   map.options.basemaps.forEach((item) => {
     item.name = item.name_cn
@@ -171,26 +171,26 @@ function toDefaultLange() {
   map.lang = mars3d.Lang // 使用默认配置
 }
 
-function distance() {
+export function distance() {
   drawLayer.stopDraw()
   measure.distance()
 }
 
-function area() {
+export function area() {
   drawLayer.stopDraw()
   measure.area()
 }
 
-function height() {
+export function height() {
   drawLayer.stopDraw()
   measure.heightTriangle()
 }
 
-function coordinate() {
+export function coordinate() {
   drawLayer.stopDraw()
   measure.point()
 }
-function angle() {
+export function angle() {
   drawLayer.stopDraw()
   measure.angle()
 }
@@ -198,11 +198,11 @@ function angle() {
 /**
  *开始标绘
  *
- * @startDraw
+ * @export startDraw
  * @param { string } type 矢量数据类型
  * @returns {void} 无
  */
-function startDraw(type) {
+export function startDraw(type) {
   measure.stopDraw()
   drawLayer.startDraw({
     type,

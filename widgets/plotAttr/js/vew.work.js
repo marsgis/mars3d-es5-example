@@ -296,7 +296,7 @@ var plotEdit = {
       inHtml = ""
       for (let idx = 0; idx < configLbl.style.length; idx++) {
         let edit = configLbl.style[idx]
-        if (!getViewShow(edit, attr.style.label)) {
+        if (!getViewShow(edit, attr.style.label, true)) {
           continue
         }
 
@@ -325,7 +325,10 @@ var plotEdit = {
     }
 
     //==============公用方法==================
-    function getViewShow(cfg, styleOptions) {
+    function getViewShow(cfg, styleOptions, useStyleOptions = false) {
+      if (useStyleOptions && typeof cfg.show === "function") {
+        return cfg.show({ style: styleOptions, allStyle, graphicType: attr.type, parentType })
+      }
       if (typeof cfg.show === "function") {
         return cfg.show({ style: attr.style, allStyle, graphicType: attr.type, parentType })
       }
@@ -646,7 +649,7 @@ var plotEdit = {
   updateAttr: function (parname, attrName, attrVal, edit) {
     attrName = attrName.split("-")[0]
 
-    // console.log("parname, attrName, attrVal, edit", parname, attrName, attrVal, edit)
+    // console.log({ parname, attrName, attrVal, edit })
 
     switch (parname) {
       default:

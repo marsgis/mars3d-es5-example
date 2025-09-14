@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.857767, lng: 116.347782, alt: 769.8, heading: 355, pitch: -37.1 }
   }
@@ -15,7 +15,7 @@ var mapOptions = {
 let graphic
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphic = new mars3d.graphic.ModelPrimitive({
@@ -36,27 +36,27 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 是否开启特效
-function setDepthOfField(val) {
+export function setDepthOfField(val) {
   graphic.colorCorrection.enabled = val
 }
 // 修改对应参数
-function setBrightness(val) {
+export function setBrightness(val) {
   graphic.colorCorrection.brightness = val
 }
 
-function setContrast(val) {
+export function setContrast(val) {
   graphic.colorCorrection.contrast = val
 }
 
-function setHue(val) {
+export function setHue(val) {
   graphic.colorCorrection.hue = val
 }
 
-function setSaturation(val) {
+export function setSaturation(val) {
   graphic.colorCorrection.saturation = val
 }

@@ -1,13 +1,13 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let tilesetPlanClip // 模型裁剪事件
 let underground
 let terrainClip
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.8503, lng: 117.101008, alt: 308, heading: 291, pitch: -30 },
     baseColor: "rgba(0,0,0.0,0.5)",
@@ -18,10 +18,10 @@ var mapOptions = {
   }
 }
 
-var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加个模型
@@ -55,7 +55,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -76,7 +76,7 @@ function addPlanClipThing(tiles3dLayer) {
 }
 
 // 是否开启地下模式
-function chkUnderground(val, alphaVal) {
+export function chkUnderground(val, alphaVal) {
   // 地下模式
   if (!underground) {
     underground = new mars3d.thing.Underground({
@@ -90,7 +90,7 @@ function chkUnderground(val, alphaVal) {
 }
 
 // 透明度发生改变
-function alphaChange(value) {
+export function alphaChange(value) {
   if (underground) {
     underground.alpha = value
   }
@@ -98,11 +98,11 @@ function alphaChange(value) {
 
 // ==========================================
 // 是否开挖
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainClip.enabled = val
 }
 
-function terrainClips(heightVal) {
+export function terrainClips(heightVal) {
   // 挖地区域
   terrainClip = new mars3d.thing.TerrainClip({
     positions: [
@@ -122,12 +122,12 @@ function terrainClips(heightVal) {
   map.addThing(terrainClip)
 }
 
-function heightChange(num) {
+export function heightChange(num) {
   terrainClip.diffHeight = num
 }
 
 // 绘制矩形
-async function drawExtent() {
+export async function drawExtent() {
   terrainClip.clear() // 清除挖地区域
 
   const graphic = await map.graphicLayer.startDraw({
@@ -148,7 +148,7 @@ async function drawExtent() {
 }
 
 // 绘制多边形
-async function drawPolygon() {
+export async function drawPolygon() {
   terrainClip.clear() // 清除挖地区域
 
   const graphic = await map.graphicLayer.startDraw({
@@ -168,25 +168,25 @@ async function drawPolygon() {
   terrainClip.positions = positions
 }
 
-function clearWJ() {
+export function clearWJ() {
   terrainClip.clear() // 清除挖地区域
 }
 
 //= ========================================
-function distanceChange(value) {
+export function distanceChange(value) {
   tilesetPlanClip.distance = value
 }
 
 // 切顶
-function clipTop() {
+export function clipTop() {
   tilesetPlanClip.clipType = mars3d.ClipType.ZR
 }
 // 起点
-function clipBottom() {
+export function clipBottom() {
   tilesetPlanClip.clipType = mars3d.ClipType.Z
 }
 // 切线
-async function clipLine() {
+export async function clipLine() {
   tilesetPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -205,7 +205,7 @@ async function clipLine() {
 }
 
 // 内切
-async function clipPoly() {
+export async function clipPoly() {
   tilesetPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -223,7 +223,7 @@ async function clipPoly() {
 }
 
 // 外切
-async function clipPoly2() {
+export async function clipPoly2() {
   tilesetPlanClip.clear()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -241,6 +241,6 @@ async function clipPoly2() {
   tilesetPlanClip.positions = positions
 }
 
-function clearClip() {
+export function clearClip() {
   tilesetPlanClip.clear()
 }

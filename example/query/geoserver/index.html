@@ -101,7 +101,7 @@
         eventTarget.on("befortUI", (event) => {
           const dataSource = []
           event.list.forEach((item, index) => {
-            dataSource.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
+            dataSource.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphicId: item.graphicId })
           })
           $table.bootstrapTable("load", dataSource)
           $("#resultView").show()
@@ -156,21 +156,7 @@
             }
           ],
           onClickRow: function (item, $element, field) {
-            let graphic = item.graphic
-            if (graphic == null) {
-              toastr.warning(item.name + " 无经纬度坐标信息！")
-              return
-            }
-
-            graphic.openHighlight()
-
-            graphic.flyTo({
-              radius: 1000, //点数据：radius控制视距距离
-              scale: 1.5, //线面数据：scale控制边界的放大比例
-              complete: () => {
-                graphic.openPopup()
-              }
-            })
+            flyToGraphic(item.graphicId)
           }
         })
       }

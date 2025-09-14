@@ -37,7 +37,7 @@
 <body class="dark">
   <div id="mars3dContainer" class="mars3d-container"></div>
 
-  <div class="infoview">
+  <!-- <div class="infoview">
     <div>
       图层状态：
       <div class="checkbox checkbox-primary checkbox-inline">
@@ -67,7 +67,7 @@
       <input id="onClickClear" type="button" class="btn btn-danger" value="清除" />
     </div>
     <table id="graphicTable"></table>
-  </div>
+  </div> -->
 
   <script src="/js/common.js"></script>
   <script src="./map.js"></script>
@@ -75,65 +75,65 @@
   <script type="text/javascript">
     "use script" //开发环境建议开启严格模式
 
-    function initUI(options) {
-      bindAttributePannel()
+    // function initUI(options) {
+    //   bindAttributePannel()
 
-      setTimeout(() => {
-        if (graphicLayer) {
-          $("#enabledShowHide").attr("checked", graphicLayer.show)
+    //   setTimeout(() => {
+    //     if (graphicLayer) {
+    //       $("#enabledShowHide").attr("checked", graphicLayer.show)
 
-          const graphics = graphicLayer.getGraphics()
-          if (graphics.length > 0) {
-            if (!graphics[0].hasOpacity) {
-              $("#enabledOpacity").hide()
-            }
-            if (!graphics[0].hasEdit) {
-              $("#enabledEdit").hide()
-            }
-            if (!graphics[0].hasCluster) {
-              $("#enabledCluster").hide()
-            }
-          }
-        }
-      }, 500)
+    //       const graphics = graphicLayer.getGraphics()
+    //       if (graphics.length > 0) {
+    //         if (!graphics[0].hasOpacity) {
+    //           $("#enabledOpacity").hide()
+    //         }
+    //         if (!graphics[0].hasEdit) {
+    //           $("#enabledEdit").hide()
+    //         }
+    //         if (!graphics[0].hasCluster) {
+    //           $("#enabledCluster").hide()
+    //         }
+    //       }
+    //     }
+    //   }, 500)
 
-      // 图层状态
-      $("#enabledShowHide").change(function () {
-        let val = $(this).is(":checked")
-        graphicLayer.show = val
-      })
-      // 透明度滑动条
-      $("#opacity")
-        .slider({ min: 0.0, max: 1.0, step: 0.1, value: 1 })
-        .on("change", (e) => {
-          if (e?.value) {
-            graphicLayer.opacity = e.value.newValue
-          }
-        })
-      $("#onClickFlyTo").click(function () {
-        graphicLayer.flyTo()
-      })
+    //   // 图层状态
+    //   $("#enabledShowHide").change(function () {
+    //     let val = $(this).is(":checked")
+    //     graphicLayer.show = val
+    //   })
+    //   // 透明度滑动条
+    //   $("#opacity")
+    //     .slider({ min: 0.0, max: 1.0, step: 0.1, value: 1 })
+    //     .on("change", (e) => {
+    //       if (e?.value) {
+    //         graphicLayer.opacity = e.value.newValue
+    //       }
+    //     })
+    //   $("#onClickFlyTo").click(function () {
+    //     graphicLayer.flyTo()
+    //   })
 
-      // 数据维护
-      $("#showTable").change(function () {
-        let val = $(this).is(":checked")
-        val ? $("#graphicTable").show() : $("#graphicTable").hide()
-      })
+    //   // 数据维护
+    //   $("#showTable").change(function () {
+    //     let val = $(this).is(":checked")
+    //     val ? $("#graphicTable").show() : $("#graphicTable").hide()
+    //   })
 
-      // 数据测试 - 生成和清除
-      $("#onClickClear").click(function () {
-        graphicLayer.clear()
-      })
+    //   // 数据测试 - 生成和清除
+    //   $("#onClickClear").click(function () {
+    //     graphicLayer.clear()
+    //   })
 
-      $("#btnImpFile").click(function () {
-        $("#input_draw_file").click()
-      })
+    //   $("#btnImpFile").click(function () {
+    //     $("#input_draw_file").click()
+    //   })
 
-      $("#input_draw_file").change(function (e) {
-        let file = this.files[0]
-        onClickImpFile(file)
-      })
-    }
+    //   $("#input_draw_file").change(function (e) {
+    //     let file = this.files[0]
+    //     onClickImpFile(file)
+    //   })
+    // }
   </script>
 </body>
 
