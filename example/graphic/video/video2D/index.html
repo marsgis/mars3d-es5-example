@@ -328,7 +328,6 @@
       $("#onClickClear").click(function () {
         graphicLayer.clear()
         $("#infoview-left").hide()
-        dynamicRiver = null
       })
 
       $("#btnImpFile").click(function () {
@@ -445,6 +444,11 @@
       video.opcity = data.opcity
       video.heading = data.heading
     })
+
+    function onStartEditor(id) {
+      // 确定map.js中的selectedView
+      getGraphic(id)
+    }
 
     let lastGraphic
     setTimeout(() => {

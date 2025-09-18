@@ -465,6 +465,11 @@
       })
     }
 
+    function onStartEditor(id) {
+      // 确定map.js中的selectedView
+      getGraphic(id)
+    }
+
     let lastGraphic
     setTimeout(() => {
       graphicLayer.on(mars3d.EventType.click, function (event) {
