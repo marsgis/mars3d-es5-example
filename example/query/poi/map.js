@@ -1,6 +1,6 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 let poiLayer
 let queryPOI
@@ -9,16 +9,16 @@ let resultList = [] // 查询结果
 let lastQueryOptions // 上一次请求参数，用于 下一页使用
 let graphic
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) token如果访问失效或超流量了，请您自行申请替换mars3d.Token.update相关方法`)
@@ -79,15 +79,14 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 切换服务
-export function changeService(type) {
+function changeService(type) {
   queryPOI.setOptions({ service: type })
 }
-
 
 /**
  * 查询
@@ -98,23 +97,22 @@ export function changeService(type) {
  * @param {string} text 关键字
  * @returns {void}
  */
-export function query(radioFanwei, cityShi, text) {
+function query(radioFanwei, cityShi, text) {
   resultList = []
+
+  const queryOptions = {
+    page: 0
+  }
   switch (radioFanwei) {
     case "2": {
       // 当前视角范围
       const extent = map.getExtent()
-      loadData(
-        {
-          page: 0,
-          polygon: [
-            [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax]
-          ],
-          limit: true
-        },
-        text
-      )
+
+      queryOptions.limit = true
+      queryOptions.polygon = [
+        [extent.xmin, extent.ymin],
+        [extent.xmax, extent.ymax]
+      ]
       break
     }
     case "3": // 按范围
@@ -122,31 +120,25 @@ export function query(radioFanwei, cityShi, text) {
         globalMsg("请绘制限定范围！")
         return
       }
-      loadData(
-        {
-          page: 0,
-          graphic: drawGraphic,
-          limit: true
-        },
-        text
-      )
+      queryOptions.limit = true
+      queryOptions.graphic = drawGraphic
       break
     default: {
-      const dmmc = cityShi
-      loadData(
-        {
-          page: 0,
-          city: dmmc,
-          citylimit: true
-        },
-        text
-      )
+      queryOptions.cityShi = cityShi
+      queryOptions.citylimit = true
       break
     }
   }
-}
 
-function loadData(queryOptions, text) {
+  switch (queryPOI.options.service) {
+    case "tdt":
+      queryOptions.level = map.level
+      if (!queryOptions.polygon) {
+        queryOptions.extent = map.getExtent()
+      }
+      break
+  }
+
   if (!text) {
     globalMsg("请输入 名称 关键字筛选数据！")
     return
@@ -177,7 +169,7 @@ function loadData(queryOptions, text) {
   queryPOI.query(lastQueryOptions)
 }
 
-export function clearAll(noClearDraw) {
+function clearAll(noClearDraw) {
   lastQueryOptions = null
   resultList = []
   poiLayer.clear()
@@ -227,7 +219,7 @@ function addDemoGraphics(arr) {
 }
 
 // 框选查询 矩形
-export async function drawRectangle() {
+async function drawRectangle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "rectangle",
@@ -243,7 +235,7 @@ export async function drawRectangle() {
 }
 
 // 框选查询   圆
-export async function drawCircle() {
+async function drawCircle() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "circle",
@@ -259,7 +251,7 @@ export async function drawCircle() {
 }
 
 // 框选查询   多边行
-export async function drawPolygon() {
+async function drawPolygon() {
   clearAll()
   drawGraphic = await map.graphicLayer.startDraw({
     type: "polygon",
@@ -274,7 +266,7 @@ export async function drawPolygon() {
   console.log("多边行：", drawGraphic.toGeoJSON())
 }
 
-export function flyToGraphic(graphic) {
+function flyToGraphic(graphic) {
   graphic.openHighlight()
   graphic.flyTo({
     radius: 1000, // 点数据：radius控制视距距离

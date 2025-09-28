@@ -31,7 +31,7 @@
  
  这是一个基于`原生JS`开发的 Mars3D 功能示例 演示项目。
 
- > 如果您不熟悉原生JS，也可以阅读：[功能示例Vue版](http://mars3d.cn/dev/guide/project/example-vue.html)、[功能示例React版](http://mars3d.cn/dev/guide/project/example-react.html)
+ > 如果您不熟悉原生JS，也可以阅读：[功能示例Vue版](http://mars3d.cn/docs/guide/example-vue/)、[功能示例React版](http://mars3d.cn/docs/guide/example-react/)
 
 
 ## 项目特性 

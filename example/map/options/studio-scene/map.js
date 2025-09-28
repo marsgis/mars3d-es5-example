@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map
+var map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     clock: {
       shouldAnimate: false
@@ -16,11 +16,11 @@ export const mapOptions = {
 
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export async function onMounted(mapInstance) {
+async function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
-export async function loadScene(url, token) {
+async function loadScene(url, token) {
   let mapOptions = await mars3d.Util.fetchJson({ url: url + "?token=" + token })
   mapOptions = replaceUrlTemplateStr(mapOptions)
   console.log("场景参数", mapOptions)

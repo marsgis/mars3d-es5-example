@@ -1,23 +1,24 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
-const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
-Cesium.Ellipsoid.default = ellipsoid
+// const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
+// Cesium.Ellipsoid.default = ellipsoid
+Cesium.Ellipsoid.default = Cesium.Ellipsoid.MARS
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: -3.501681, lng: -45.33971, alt: 18894275, heading: 0, pitch: -90 },
     contextOptions: { webgl: { alpha: true } }, // 允许透明，只能Map初始化传入 [关键代码]
     showSun: false,
     showMoon: false,
     showSkyBox: false,
-    showSkyAtmosphere: false,
-    ellipsoid: ellipsoid,
+    ellipsoid: Cesium.Ellipsoid.MARS,
+    skyAtmosphere: new Cesium.SkyAtmosphere(Cesium.Ellipsoid.MARS),
     globe: {
       showGroundAtmosphere: false,
       enableLighting: false
@@ -78,16 +79,35 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的服务存在异常。`)
+
+  // Adjust the default atmosphere coefficients to be more Mars-like
+  const scene = map.scene
+  scene.skyAtmosphere.atmosphereMieCoefficient = new Cesium.Cartesian3(9.0e-5, 2.0e-5, 1.0e-5)
+  scene.skyAtmosphere.atmosphereRayleighCoefficient = new Cesium.Cartesian3(9.0e-6, 2.0e-6, 1.0e-6)
+  scene.skyAtmosphere.atmosphereRayleighScaleHeight = 9000
+  scene.skyAtmosphere.atmosphereMieScaleHeight = 2700.0
+  scene.skyAtmosphere.saturationShift = -0.1
+  scene.skyAtmosphere.perFragmentAtmosphere = true
+
+  // Adjust postprocess settings for brighter and richer features
+  const bloom = map.scene.postProcessStages.bloom
+  bloom.enabled = true
+  bloom.uniforms.brightness = -0.5
+  bloom.uniforms.stepSize = 1.0
+  bloom.uniforms.sigma = 3.0
+  bloom.uniforms.delta = 1.5
+  scene.highDynamicRange = true
+  map.scene.postProcessStages.exposure = 1.5
 
   openLighting()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let fixedRoute
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.843773, lng: 117.251509, alt: 34, heading: 270, pitch: -11 },
     cameraController: {
@@ -39,14 +39,14 @@ export const mapOptions = {
   ]
 }
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addGraphicLayer()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -89,26 +89,26 @@ function addGraphicLayer() {
   fixedRoute.start() // 启动漫游
 }
 
-export function startFly() {
+function startFly() {
   fixedRoute.start() // 启动漫游
 }
 
-export function stopFly() {
+function stopFly() {
   fixedRoute.stop()
   globalMsg("请鼠标单击地图任意区域后，您再可以键盘按A S D W Q E键控制前后左右, 上下左右键控制旋转, 进行手动漫游。")
 }
 
-export function centerAtDX1() {
+function centerAtDX1() {
   stopFly()
   map.setCameraView({ lat: 31.843703, lng: 117.251038, alt: 33, heading: 50, pitch: -6 })
 }
 
-export function centerAtDX2() {
+function centerAtDX2() {
   stopFly()
   map.setCameraView({ lat: 31.843816, lng: 117.250978, alt: 34, heading: 308, pitch: -8 })
 }
 
-export function centerAtDX3() {
+function centerAtDX3() {
   stopFly()
   map.setCameraView({ lat: 31.843789, lng: 117.251188, alt: 42, heading: 6, pitch: -31 })
 }

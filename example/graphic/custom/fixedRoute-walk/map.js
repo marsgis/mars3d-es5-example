@@ -1,13 +1,13 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
-export let fixedRoute
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
+var fixedRoute
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.824853, lng: 117.221414, alt: 1452, heading: 355, pitch: -54 }
   },
@@ -19,7 +19,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
   map.clock.multiplier = 1
@@ -58,7 +58,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -142,10 +142,10 @@ function addDemoGraphic1() {
 }
 
 // ui层使用
-export function formatDistance(val) {
+function formatDistance(val) {
   return mars3d.MeasureUtil.formatDistance(val, { getLangText })
 }
-export function formatTime(val) {
+function formatTime(val) {
   return mars3d.Util.formatTime(val, { getLangText })
 }
 
@@ -154,7 +154,7 @@ function getLangText(text) {
 }
 
 // 开始绘制
-export async function startDrawGraphic() {
+async function startDrawGraphic() {
   graphicLayer.clear()
 
   fixedRoute = await graphicLayer.startDraw({
@@ -184,7 +184,7 @@ export async function startDrawGraphic() {
   console.log("标绘完成", fixedRoute.toJSON())
 }
 
-export async function clear() {
+async function clear() {
   graphicLayer.clear()
   fixedRoute = null
 }
@@ -246,7 +246,7 @@ function bindPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

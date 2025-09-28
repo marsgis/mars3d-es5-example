@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.2322, lng: 121.44363, alt: 1989, heading: 87, pitch: -25 }
   },
@@ -15,7 +15,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 切换到蓝色底图
 
@@ -39,16 +39,16 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function setStyle1() {
+function setStyle1() {
   tiles3dLayer.customShader = undefined
   tiles3dLayer.style = undefined
 }
 
-export function setStyle2() {
+function setStyle2() {
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
     fragmentShaderText: `
@@ -86,7 +86,7 @@ export function setStyle2() {
   // tiles3dLayer.reload()
 }
 
-export function setStyle3() {
+function setStyle3() {
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
     varyings: {
@@ -129,7 +129,7 @@ export function setStyle3() {
   // tiles3dLayer.reload()
 }
 
-export function selectColor(col) {
+function selectColor(col) {
   tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [["true", `color("${col}")`]]
@@ -137,7 +137,7 @@ export function selectColor(col) {
   })
 }
 
-export function setStyle4() {
+function setStyle4() {
   tiles3dLayer.customShader = new Cesium.CustomShader({
     uniforms: {
       u_envTexture: {

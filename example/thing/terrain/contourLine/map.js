@@ -1,9 +1,9 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let contourLine
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 30.706401, lng: 116.08272, alt: 26859, heading: 5, pitch: -55 },
     showSun: false,
@@ -18,17 +18,17 @@ export const mapOptions = {
   }
 }
 
-export const eventTabel = new mars3d.BaseClass()
+var eventTabel = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addContourLine()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -69,7 +69,7 @@ function addContourLine() {
 }
 
 // 添加矩形
-export async function btnDrawExtent() {
+async function btnDrawExtent() {
   const graphic = await map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -89,7 +89,7 @@ export async function btnDrawExtent() {
 }
 
 // 添加多边形
-export async function btnDraw() {
+async function btnDraw() {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -109,41 +109,41 @@ export async function btnDraw() {
 }
 
 // 清除
-export function clearAll() {
+function clearAll() {
   contourLine.clear()
   table = []
 }
 
 // 滑动条控制
-export function changeWidth(val) {
+function changeWidth(val) {
   if (val) {
     contourLine.width = val
   }
 }
 
-export function changeSpacing(val) {
+function changeSpacing(val) {
   if (val) {
     contourLine.spacing = val
   }
 }
 
 // 改变颜色
-export function changeColor(val) {
+function changeColor(val) {
   contourLine.color = Cesium.Color.fromCssColorString(val)
 }
 
 // 等高线控制
-export function showDengGX(val) {
+function showDengGX(val) {
   contourLine.contourShow = val
 }
 
 // 状态控制
-export function chkClippingPlanes(val) {
+function chkClippingPlanes(val) {
   contourLine.showElseArea = val
 }
 
 // 阴影控制
-export function changeShadingType(val) {
+function changeShadingType(val) {
   contourLine.shadingType = val
 }
 
@@ -154,22 +154,22 @@ function addTableItem(item) {
   const tableItem = { key: item.id, table }
   eventTabel.fire("tableObject", { tableItem })
 }
-export function changeTable(data) {
+function changeTable(data) {
   table = data
 }
 
 // 表格操作
-export function flyToGraphic(item) {
+function flyToGraphic(item) {
   const graphic = contourLine.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
 
-export function deletedGraphic(item) {
+function deletedGraphic(item) {
   const graphic = contourLine.getAreaById(item)
   contourLine.removeArea(graphic)
 }
 
-export function showHideArea(id, selected) {
+function showHideArea(id, selected) {
   if (selected) {
     contourLine.showArea(id)
   } else {

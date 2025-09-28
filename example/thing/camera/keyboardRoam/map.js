@@ -1,11 +1,11 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var map // mars3d.Map三维地图对象
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 let keyboardRoam
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.840726, lng: 117.25174, alt: 206, heading: 357, pitch: -25 },
     cameraController: {
@@ -33,7 +33,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   keyboardRoam = new mars3d.thing.KeyboardRoam({
@@ -72,19 +72,19 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 修改步长
-export function changeSlider(val) {
+function changeSlider(val) {
   if (val) {
     keyboardRoam.moveStep = val
   }
 }
 
 // 室内
-export function centerAtDX1() {
+function centerAtDX1() {
   keyboardRoam.moveStep = 0.1 // 平移步长 (米)。
   keyboardRoam.dirStep = 50 // 相机原地旋转步长，值越大步长越小。
   keyboardRoam.rotateStep = 0.3 // 相机围绕目标点旋转速率，0.3-2.0
@@ -93,7 +93,7 @@ export function centerAtDX1() {
 }
 
 // 室外
-export function centerAtDX2() {
+function centerAtDX2() {
   keyboardRoam.moveStep = 10 // 平移步长 (米)。
   keyboardRoam.dirStep = 25 // 相机原地旋转步长，值越大步长越小。
   keyboardRoam.rotateStep = 1.0 // 相机围绕目标点旋转速率，0.3-2.0
