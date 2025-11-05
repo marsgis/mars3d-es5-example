@@ -252,13 +252,16 @@ function addRandomGraphicByCount(count) {
 
 // 开始绘制
 async function startDrawGraphic() {
+  // map.onlyPickModelPosition = true
   const graphic = await graphicLayer.startDraw({
     type: "pointP",
+    // drawShow: false,
     style: {
       color: "#00ffff",
       pixelSize: 8,
       outlineColor: "#ffffff",
       outlineWidth: 2,
+      // visibleDepth: false,
       label: {
         // 不需要文字时，去掉label配置即可
         text: "可以同时支持文字",
@@ -270,6 +273,7 @@ async function startDrawGraphic() {
       }
     }
   })
+  // map.onlyPickModelPosition = false
   console.log("标绘完成", graphic.toJSON())
 }
 
@@ -290,7 +294,6 @@ async function startDrawGraphic2() {
   })
   console.log("标绘完成", graphic.toJSON())
 }
-
 
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {

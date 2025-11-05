@@ -10,10 +10,13 @@ var mapOptions = {
   }
 }
 
-var colorRamp = new mars3d.ColorRamp({
+const colorRamp = new mars3d.ColorRamp({
   steps: [0, 30],
   colors: ["rgb(33, 113, 181)", "rgb(8, 48, 107)"]
 })
+function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
 
 function onMounted(mapInstance) {
   map = mapInstance // 记录map

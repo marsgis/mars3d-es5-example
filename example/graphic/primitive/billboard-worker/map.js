@@ -98,10 +98,14 @@ function startWorker(strBounds) {
   }
 }
 
-var colorRamp = new mars3d.ColorRamp({
+const colorRamp = new mars3d.ColorRamp({
   steps: [25, 75, 125, 175, 250, 400],
   colors: ["rgb(0, 228, 0)", "rgb(256, 256, 0)", "rgb(256, 126, 0)", "rgb(256, 0, 0)", "rgb(153, 0, 76)", "rgb(126, 0, 35)"]
 })
+function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
+
 
 function createGraphics(currentData) {
   graphicLayer.clear()

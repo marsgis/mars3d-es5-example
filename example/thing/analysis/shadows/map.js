@@ -160,10 +160,14 @@ async function drawArea(date) {
   showRateResult(result)
 }
 
-var colorRamp = new mars3d.ColorRamp({
+const colorRamp = new mars3d.ColorRamp({
   steps: [5, 15, 25, 35, 50, 80],
   colors: ["rgb(0, 228, 0)", "rgb(256, 256, 0)", "rgb(256, 126, 0)", "rgb(256, 0, 0)", "rgb(153, 0, 76)", "rgb(126, 0, 35)"]
 })
+function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
+
 
 function showRateResult(result) {
   console.log("分析结果", result)
