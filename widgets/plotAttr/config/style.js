@@ -609,6 +609,7 @@ const styleConfig = {
           return parentType
         }
       },
+      // { name: "color", label: "颜色", type: "color", defval: "#ffffff" },
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
       { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
       { name: "rotationDegree", label: "旋转角度", type: "number", step: 1, defval: 0.0 },
@@ -1395,7 +1396,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
+        defval: true
       },
       {
         name: "materialType",
@@ -1603,7 +1604,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
+        defval: true
       },
       {
         name: "materialType",
@@ -1910,7 +1911,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
+        defval: true
       },
       {
         name: "materialType",
@@ -2025,7 +2026,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
+        defval: true
       },
       {
         name: "materialType",
@@ -2176,7 +2177,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
+        defval: true
       },
       {
         name: "materialType",
