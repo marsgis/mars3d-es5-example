@@ -609,7 +609,6 @@ const styleConfig = {
           return parentType
         }
       },
-      // { name: "color", label: "颜色", type: "color", defval: "#ffffff" },
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
       { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
       { name: "rotationDegree", label: "旋转角度", type: "number", step: 1, defval: 0.0 },
@@ -1396,7 +1395,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true
+        defval: true,
       },
       {
         name: "materialType",
@@ -1604,7 +1603,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true
+        defval: true,
       },
       {
         name: "materialType",
@@ -1911,7 +1910,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true
+        defval: true,
       },
       {
         name: "materialType",
@@ -2026,7 +2025,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true
+        defval: true,
       },
       {
         name: "materialType",
@@ -2177,7 +2176,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true
+        defval: true,
       },
       {
         name: "materialType",
@@ -2196,7 +2195,23 @@ const styleConfig = {
           return style?.fill !== false && (style?.materialType ? this.data?.some((item) => item.value === style?.materialType) : true)
         }
       },
-
+      {
+        name: "outline",
+        label: "是否边框",
+        type: "radio",
+        defval(style) {
+          return !!style?.outlineWidth || !!style?.outlineColor
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#000000",
+        show({ allStyle }) {
+          return allStyle.outline
+        }
+      },
       {
         name: "distanceDisplayCondition",
         label: "是否按视距显示",
@@ -4840,7 +4855,26 @@ const styleConfig = {
         show({ style }) {
           return !style?.clampToGround && style?.wall
         }
-      }
+      },
+
+      {
+        name: "subCode",
+        label: "子标号编码",
+        type: "textarea",
+        defval: "",
+        show({ style }) {
+          return style?.hasSubCode
+        }
+      },
+      {
+        name: "subColor",
+        label: "子标号颜色",
+        type: "color",
+        defval: "#ff0000",
+        show({ style }) {
+          return style?.hasSubCode
+        }
+      },
     ]
   }
 }
