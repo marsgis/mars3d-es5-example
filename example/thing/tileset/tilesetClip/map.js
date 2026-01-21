@@ -183,6 +183,8 @@ async function btnDraw() {
 
   console.log("绘制坐标为", JSON.stringify(mars3d.LngLatArray.toArray(positions))) // 方便测试拷贝坐标
 
+  // await addPitGraphic(positions)
+
   tilesetLayer.clip.addArea(positions)
 }
 // 清除
@@ -214,3 +216,46 @@ function showHideArea(id, selected) {
     terrainClip.hideArea(id)
   }
 }
+
+
+// 去掉terrainClip的stylePit参数，再按需自行加PitEntity对象。
+// async function addPitGraphic(positions) {
+//   const result = await mars3d.PolyUtil.computeSurfacePoints({
+//     scene: map.scene,
+//     positions: positions.concat(positions[0]),
+//     has3dtiles: true,
+//     hasTerrain: false,
+//     exact: false
+//   })
+//   const positionsNew = result.positions
+
+//   const maximumHeights = []
+//   let minHeight = Number.MAX_VALUE
+//   for (let i = 0, len = positionsNew.length; i < len; i++) {
+//     const point = Cesium.Cartographic.fromCartesian(positionsNew[i])
+//     minHeight = Math.min(minHeight, point.height)
+//     maximumHeights.push(point.height)
+//   }
+
+//   const height = minHeight - 100 // 墙底部的高度
+//   const minimumHeights = Array(positionsNew.length).fill(height)
+
+//   // 开挖部分墙
+//   const downGraphic = new mars3d.graphic.PitEntity({
+//     style: {
+//       diffHeight: 30, // 井的深度
+//       image: "https://data.mars3d.cn/img/textures/poly-stone.jpg",
+//       imageBottom: "https://data.mars3d.cn/img/textures/poly-soil.jpg"
+//     },
+//     // @ts-ignore
+//     data: {
+//       height,
+//       minHeight,
+//       positionsWall: positionsNew,
+//       minimumHeights,
+//       maximumHeights
+//     },
+//     positions
+//   })
+//   map.graphicLayer.addGraphic(downGraphic)
+// }

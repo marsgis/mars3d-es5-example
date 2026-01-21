@@ -138,7 +138,7 @@ function onMounted(mapInstance) {
                   (czm_model * vec4(positionMC,1.0)).xyz ,
                   normalEC);
 
-              // cesiumlab 光圈特效
+              // 光圈特效
               float _baseHeight = 0.0;
               float _heightRange = 20.0;
               float _glowRange = 300.0;

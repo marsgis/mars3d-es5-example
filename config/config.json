@@ -123,8 +123,7 @@
           "type": "tdt",
           "layer": "img_z"
         }
-      ],
-      "show": true
+      ]
     },
     {
       "pid": 10,
@@ -160,7 +159,8 @@
           "type": "gaode",
           "layer": "img_z"
         }
-      ]
+      ],
+      "show": true
     },
     {
       "pid": 10,
