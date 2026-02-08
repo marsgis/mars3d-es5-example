@@ -54,7 +54,12 @@ async function drawCircle() {
   let center = graphic.positionShow
   center = mars3d.PointUtil.addPositionsHeight(center, 1.5) // 加人的身高等因素，略微抬高一些
 
-  const targetPoints = graphic.getOutlinePositions(false, 45)
+  // const targetPoints = graphic.getOutlinePositions(false, 45)
+  const targetPoints = mars3d.PolyUtil.getCircleOuterPositions({
+    position: center,
+    radius: graphic.radius,
+    count: 120
+  })
 
   map.graphicLayer.clear()
   map.scene.globe.depthTestAgainstTerrain = true
@@ -66,6 +71,20 @@ async function drawCircle() {
   }
 
   createPoint(center, true)
+  // for (let i = 0; i < targetPoints.length; i++) {
+  //   const graphic = new mars3d.graphic.PointEntity({
+  //     position: targetPoints[i],
+  //     style: {
+  //       color: "#00ffff",
+  //       pixelSize: 4,
+  //       outlineColor: "#ffffff",
+  //       outlineWidth: 2
+  //     },
+  //     attr: { index: i },
+  //     popup: "all"
+  //   })
+  //   map.graphicLayer.addGraphic(graphic)
+  // }
 
   map.scene.globe.depthTestAgainstTerrain = false
 }

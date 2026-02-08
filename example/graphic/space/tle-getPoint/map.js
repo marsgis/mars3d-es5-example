@@ -219,7 +219,7 @@ function addTimeShading(weixin, options) {
     const position2 = positions[i]
 
     const height = points[i].height // 也可以取position2的高度
-    const shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) * 2 // 根据卫星角度求其带宽度
+    const shadingWidth = height * Math.tan(Cesium.Math.toRadians(options.angle)) // 根据卫星角度求其带宽度
 
     const instance = new Cesium.GeometryInstance({
       geometry: new Cesium.CorridorGeometry({

@@ -105,7 +105,8 @@ function addDemoGraphic3(graphicLayer) {
         specularIntensity: 0.8, // 控制镜面反射强度的数字。
         baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
         blendColor: "#006ab4" // 从水中混合到非水域时使用的rgba颜色对象。
-      }
+      },
+      clampToGround: true
     },
     attr: { remark: "示例PolygonEntity" },
     popup: "示例15-PolygonEntity"

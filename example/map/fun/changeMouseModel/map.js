@@ -33,6 +33,8 @@ function changeMouseModel(val) {
   } else if (val === 2) {
     map.changeMouseModel(true) // 设置鼠标操作习惯,更换中键和右键
   } else {
+    map.changeMouseModel(false)
+
     // 设置平移
     map.scene.screenSpaceCameraController.rotateEventTypes = [Cesium.CameraEventType.MIDDLE_DRAG, Cesium.CameraEventType.PINCH]
     // 设置旋转
