@@ -1,12 +1,12 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 /**
  * 合并属性参数，可覆盖config.json中的对应配置
  * @type {object}
  */
-export const mapOptions = {
+var mapOptions = {
   terrain: false
   // 方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
   // terrain: {
@@ -20,7 +20,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.on(mars3d.EventType.terrainLoadSuccess, function (event) {
@@ -58,11 +58,11 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function radioTerrain(type) {
+function radioTerrain(type) {
   switch (type) {
     case "none": // 无地形
       map.terrainProvider = mars3d.LayerUtil.getNoTerrainProvider()
@@ -150,12 +150,12 @@ export function radioTerrain(type) {
 }
 
 // 可以开启和关闭地形
-export function enabledTerrain(val) {
+function enabledTerrain(val) {
   map.hasTerrain = val
 }
 
 // 是否开启三角网
-export function enabledTerrainSJW(val) {
+function enabledTerrainSJW(val) {
   map.scene.globe._surface.tileProvider._debug.wireframe = val
 }
 

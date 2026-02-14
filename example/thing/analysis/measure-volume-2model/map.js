@@ -1,14 +1,14 @@
-import * as mars3d from "mars3d"
-import Volume2ModelMeasure from "./Volume2ModelMeasure.js"
+// import * as mars3d from "mars3d"
+// import Volume2ModelMeasure from "./Volume2ModelMeasure.js"
 
 let map // mars3d.Map三维地图对象
 
-export let graphicLayer
+var graphicLayer
 
-export let compareTileset
-export let baseTileset
+var compareTileset
+var baseTileset
 
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 32.160865, lng: 118.65795, alt: 1324.7, heading: 357.2, pitch: -57.4 },
     globe: { depthTestAgainstTerrain: true }
@@ -16,7 +16,7 @@ export const mapOptions = {
   layers: []
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 如果模型地址内有“+”符号，可以加下面方法进行自定义处理
 Cesium.Resource.ReplaceUrl = function (url) {
@@ -28,7 +28,7 @@ Cesium.Resource.ReplaceUrl = function (url) {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -51,7 +51,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -82,7 +82,7 @@ async function initTilesets() {
   // await compareTileset.readyPromise
 }
 
-export function addDemoGraphic1() {
+function addDemoGraphic1() {
   graphicLayer.clear()
 
   const graphic = new Volume2ModelMeasure({
@@ -107,7 +107,7 @@ export function addDemoGraphic1() {
 }
 
 // 方量分析
-export async function analysisMeasure() {
+async function analysisMeasure() {
   graphicLayer.clear()
 
   await graphicLayer.startDraw({
@@ -118,6 +118,6 @@ export async function analysisMeasure() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   graphicLayer.clear()
 }

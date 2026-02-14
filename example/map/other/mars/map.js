@@ -1,16 +1,16 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 事件对象，用于抛出事件给面板
-export const eventTarget = new mars3d.BaseClass()
+var eventTarget = new mars3d.BaseClass()
 
 const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
 Cesium.Ellipsoid.default = ellipsoid
 // Cesium.Ellipsoid.default = Cesium.Ellipsoid.MARS
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: -3.501681, lng: -45.33971, alt: 18894275, heading: 0, pitch: -90 },
     contextOptions: { webgl: { alpha: true } }, // 允许透明，只能Map初始化传入 [关键代码]
@@ -80,7 +80,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // https://moon.bao.ac.cn/
@@ -109,7 +109,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

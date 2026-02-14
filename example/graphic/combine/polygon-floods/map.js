@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars3d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.595596, lng: 117.254684, alt: 11357.7, heading: 351.3, pitch: -50.4 }
   }
@@ -14,11 +14,11 @@ const colorRamp = new mars3d.ColorRamp({
   steps: [0, 30],
   colors: ["rgb(33, 113, 181)", "rgb(8, 48, 107)"]
 })
-export function getColorRampInfo() {
+function getColorRampInfo() {
   return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
 }
 
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -40,7 +40,7 @@ export function onMounted(mapInstance) {
   }, 200)
 }
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

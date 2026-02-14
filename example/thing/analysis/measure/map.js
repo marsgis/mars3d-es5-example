@@ -1,10 +1,10 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 let measure
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改编辑点样式，比如大小
@@ -38,21 +38,21 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function onlyVertexPosition(val) {
+function onlyVertexPosition(val) {
   map.onlyVertexPosition = val
 }
 
-export function removeAll() {
+function removeAll() {
   // clearInterResult()
   measure.clear()
 }
 
 // 空间距离
-export async function measureLength() {
+async function measureLength() {
   const graphic = await measure.distance({
     showAddText: true,
     label: {
@@ -78,7 +78,7 @@ export async function measureLength() {
 }
 
 // 贴地距离
-export async function measureSurfaceLength() {
+async function measureSurfaceLength() {
   const graphic = await measure.distanceSurface({
     showAddText: true,
     minDistance: 10,
@@ -148,7 +148,7 @@ export async function measureSurfaceLength() {
 // }
 
 // 水平面积
-export async function measureArea() {
+async function measureArea() {
   const graphic = await measure.area({
     // style: {
     //   color: '#00fff2',
@@ -171,7 +171,7 @@ export async function measureArea() {
 }
 
 // 贴地面积
-export async function measureSurfaceeArea() {
+async function measureSurfaceeArea() {
   const graphic = await measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -182,25 +182,25 @@ export async function measureSurfaceeArea() {
   console.log("标绘完成", graphic.toJSON())
 }
 // 高度差
-export async function measureHeight() {
+async function measureHeight() {
   const graphic = await measure.height()
   console.log("标绘完成", graphic.toJSON())
 }
 
 // 三角测量
-export async function measureTriangleHeight() {
+async function measureTriangleHeight() {
   const graphic = await measure.heightTriangle()
   console.log("标绘完成", graphic.toJSON())
 }
 
 // 方位角
-export async function measureAngle() {
+async function measureAngle() {
   const graphic = await measure.angle()
   console.log("标绘完成", graphic.toJSON())
 }
 
 // 坐标测量
-export async function measurePoint() {
+async function measurePoint() {
   const graphic = await measure.point({
     popupOptions: {
       pointerEvents: false
@@ -267,7 +267,7 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function openJSON(file) {
+function openJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -286,7 +286,7 @@ export function openJSON(file) {
   }
 }
 
-export function saveJSON() {
+function saveJSON() {
   if (measure.graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

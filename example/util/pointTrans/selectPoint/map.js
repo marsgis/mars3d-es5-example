@@ -1,19 +1,19 @@
-import * as mars3d from "mars3d"
+// import * as mars3d from "mars3d"
 
-export let map // mars3d.Map三维地图对象
+var map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   scene: {
     center: { lat: 31.728284, lng: 117.274164, alt: 25061, heading: 358, pitch: -69 },
     fxaa: true
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const point = map.getCenter()
@@ -22,12 +22,12 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 获取默认point点
-export function defultPoint() {
+function defultPoint() {
   const point = map.getCenter()
   point.format()
   return {
@@ -38,13 +38,13 @@ export function defultPoint() {
 }
 
 // 坐标转化的三种方法
-export function marsUtilFormtNum(item, num) {
+function marsUtilFormtNum(item, num) {
   return mars3d.Util.formatNum(item, num)
 }
-export function marsPointTrans(item) {
+function marsPointTrans(item) {
   return mars3d.PointTrans.degree2dms(item)
 }
-export function marsProj4Trans(JD, WD, radio) {
+function marsProj4Trans(JD, WD, radio) {
   if (radio === "2") {
     return mars3d.PointTrans.proj4Trans([JD, WD], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_6)
   } else {
@@ -53,10 +53,10 @@ export function marsProj4Trans(JD, WD, radio) {
 }
 
 // 转换成十进制的方法
-export function marsDms2degree(du, fen, miao) {
+function marsDms2degree(du, fen, miao) {
   return mars3d.PointTrans.dms2degree(du, fen, miao)
 }
-export function marsZONEtoCRS(jd, wd, radio) {
+function marsZONEtoCRS(jd, wd, radio) {
   if (radio === "2") {
     return mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_6, mars3d.CRS.EPSG4326)
   } else {
@@ -65,7 +65,7 @@ export function marsZONEtoCRS(jd, wd, radio) {
 }
 
 // 地图选点
-export function bindMourseClick() {
+function bindMourseClick() {
   map.setCursor(true)
   map.off(mars3d.EventType.click, map_onclick)
   map.once(mars3d.EventType.click, map_onclick)
@@ -81,7 +81,7 @@ function map_onclick (event) {
 }
 
 let pointEntity
-export function updateMarker(hasCenter, jd, wd, alt) {
+function updateMarker(hasCenter, jd, wd, alt) {
   const position = [jd, wd, alt]
 
   if (pointEntity == null) {
