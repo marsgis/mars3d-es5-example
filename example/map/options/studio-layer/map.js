@@ -1,13 +1,19 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map
+export let map
+
+export const mapOptions = {
+  scene: {
+    center: { lat: 1.678553, lng: 111.406293, alt: 12228212.3, heading: 0, pitch: -90 }
+  }
+}
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-async function onMounted(mapInstance) {
+export async function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
-async function loadLayer(url, token) {
+export async function loadLayer(url, token) {
   let layerOptions = await mars3d.Util.fetchJson({ url: url + "?token=" + token })
   layerOptions = replaceUrlTemplateStr(layerOptions, token)
   layerOptions.show = true // 避免默认隐藏
@@ -35,7 +41,7 @@ function replaceUrlTemplateStr(oldStr, token) {
 }
 
 // 对url前缀做统一处理
-function getFullUrl(oldUrl, token) {
+export function getFullUrl(oldUrl, token) {
   if (!oldUrl) {
     return
   }

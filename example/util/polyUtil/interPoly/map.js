@@ -1,25 +1,25 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.841762, lng: 116.26537, alt: 3281, heading: 39, pitch: -63 }
   }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
 
   clearInterResult()
@@ -32,7 +32,7 @@ function removeAll() {
  * @param {number} val 步长
  * @returns {void}
  */
-async function interPolygon(val) {
+export async function interPolygon(val) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -123,7 +123,7 @@ function showInterPolygonResult(list) {
   interGraphicLayer.addGraphic(primitiveLine)
 }
 
-async function interPolygonGrid(val) {
+export async function interPolygonGrid(val) {
   clearInterResult()
 
   const graphic = await map.graphicLayer.startDraw({
@@ -158,7 +158,7 @@ async function interPolygonGrid(val) {
  * @param {number} val 步长
  * @returns {void}
  */
-async function interPolygonByDepth(val) {
+export async function interPolygonByDepth(val) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -227,7 +227,7 @@ function showInterPolygonByDepthResult(resultInter) {
 }
 
 // 线插值
-async function interPolyline(val) {
+export async function interPolyline(val) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -249,7 +249,7 @@ async function interPolyline(val) {
 }
 
 // 高度等分
-async function interLine(val) {
+export async function interLine(val) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -267,7 +267,7 @@ async function interLine(val) {
   showInterLineResult(arrLine)
 }
 
-async function interLineByDepth(val) {
+export async function interLineByDepth(val) {
   const graphic = await map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -355,7 +355,7 @@ function showInterLineResult(list) {
   })
 }
 
-async function getOffsetLine(offset) {
+export async function getOffsetLine(offset) {
   map.graphicLayer.clear()
 
   const graphic = await map.graphicLayer.startDraw({

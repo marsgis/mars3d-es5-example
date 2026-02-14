@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.77185, lng: 117.235049, alt: 18176, heading: 0, pitch: -69 }
   }
@@ -11,7 +11,7 @@ var mapOptions = {
 let mapSplit
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = "高德电子"
 
@@ -22,13 +22,13 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -47,14 +47,14 @@ function addTileLayer() {
   mapSplit.setLayerSplitDirection(tileLayer, Cesium.SplitDirection.RIGHT) // 对模型分屏卷帘
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
   }
 }
 
-function setFilterColor(color) {
+export function setFilterColor(color) {
   if (tileLayer) {
     tileLayer.layer.filterColor = Cesium.Color.fromCssColorString(color)
   }

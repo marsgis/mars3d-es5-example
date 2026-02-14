@@ -1,12 +1,12 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.687558, lng: 117.19754, alt: 31239.5, heading: 354.1, pitch: -67.4 }
   },
@@ -19,7 +19,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -49,7 +49,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -307,7 +307,7 @@ function getOffsetPostions(positions) {
 }
 
 // 开始绘制
-async function startDrawGraphic() {
+export async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "billboard",
     position: {
@@ -326,7 +326,7 @@ async function startDrawGraphic() {
 }
 
 // 开始绘制
-async function startDrawGraphic2() {
+export async function startDrawGraphic2() {
   const graphic = await graphicLayer.startDraw({
     type: "fixedRoute",
     showStop: true,
@@ -354,7 +354,7 @@ async function startDrawGraphic2() {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
     attr["类型"] = event.graphic.type
@@ -366,7 +366,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

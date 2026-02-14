@@ -1,9 +1,9 @@
-// import * as mars3d from "mars3d"
+import * as mars3d from "mars3d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 30.931953, lng: 117.352307, alt: 207201, heading: 0, pitch: -64 }
   },
@@ -121,14 +121,14 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   addTileLayer()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -143,7 +143,7 @@ function onUnmounted() {
 
 // 叠加的图层
 let arcGisLayer
-function addTileLayer() {
+export function addTileLayer() {
   removeTileLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -185,7 +185,7 @@ function addTileLayer() {
   })
 }
 
-function removeTileLayer() {
+export function removeTileLayer() {
   if (arcGisLayer) {
     map.removeLayer(arcGisLayer, true)
     arcGisLayer = null
@@ -193,7 +193,7 @@ function removeTileLayer() {
 }
 
 // 特别的自定义参数的加载方式。
-// function addTileLayer2() {
+// export function addTileLayer2() {
 //   arcGisLayer = new mars3d.layer.XyzLayer({
 //     url: "http://218.94.6.92:6080/arcgis/rest/services/jssl_vector_map_2023/MapServer/tile/{custom_z}/{y}/{x}",
 //     // minimumLevel: 4,

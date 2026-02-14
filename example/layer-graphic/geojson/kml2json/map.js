@@ -1,11 +1,11 @@
-// import * as mars3d from "mars3d"
-// import { Kml2JsonLayer } from "./Kml2JsonLayer.js"
+import * as mars3d from "mars3d"
+import { Kml2JsonLayer } from "./Kml2JsonLayer.js"
 
-var map // mars3d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   scene: {
     center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
   },
@@ -39,16 +39,16 @@ var mapOptions = {
   ]
 }
 
-var treeEvent = new mars3d.BaseClass()
+export const treeEvent = new mars3d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   shoRailway()
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -61,7 +61,7 @@ function removeLayer() {
 }
 
 // 示例：
-function shoRailway() {
+export function shoRailway() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -112,7 +112,7 @@ function shoRailway() {
 }
 
 // 示例：
-function showExpressway() {
+export function showExpressway() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -133,7 +133,7 @@ function showExpressway() {
 }
 
 // 示例：
-function showSafetyNotice() {
+export function showSafetyNotice() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -180,7 +180,7 @@ function showSafetyNotice() {
 }
 
 // 示例：
-function showMeteorological() {
+export function showMeteorological() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -203,7 +203,7 @@ function showMeteorological() {
 }
 
 // 示例：
-function showGDP() {
+export function showGDP() {
   removeLayer()
 
   graphicLayer = new Kml2JsonLayer({
@@ -243,10 +243,10 @@ function showGDP() {
   })
 }
 
-function getGraphicsTree(options) {
+export function getGraphicsTree(options) {
   return graphicLayer.getGraphicsTree(options)
 }
 
-function getGraphicById(id) {
+export function getGraphicById(id) {
   return graphicLayer.getGraphicById(id)
 }
