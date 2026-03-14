@@ -34,7 +34,7 @@ const materialConfig = {
     { name: "image", label: "图片", type: "label", defval: "https://data.mars3d.cn/img/textures/fence.png" },
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "speed", label: "速度", type: "number", min: 0, max: 999, step: 1, defval: 10 },
-
+    { name: "bgColor", label: "背景颜色", type: "color", defval: "rgba(0,0,0,0)" },
     {
       name: "repeat_x",
       label: "X重复数量",

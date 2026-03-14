@@ -1280,6 +1280,15 @@ const styleConfig = {
         max: 1,
         step: 0.01
       },
+      {
+        name: "lightColor",
+        label: "明暗程度",
+        type: "slider",
+        defval: 1.0,
+        min: 0.1,
+        max: 10.0,
+        step: 0.1
+      },
 
       {
         name: "silhouette",
@@ -1346,6 +1355,7 @@ const styleConfig = {
           return graphicType.endsWith("P")
         }
       },
+
       {
         name: "clampToGround",
         label: "是否贴地",

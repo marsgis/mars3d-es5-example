@@ -22,6 +22,8 @@ function onMounted(mapInstance) {
   // map.scene.verticalExaggeration = 2 // 地形夸张
   // map.control.toolbar.container.style.bottom = "55px" // 修改toolbar控件的样式
 
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
+
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -72,7 +74,8 @@ function addGraphicLayer() {
       url: "https://data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
       heading: 90,
       mergeOrientation: true, // 用于设置模型不是标准的方向时的纠偏处理,在orientation基础的方式值上加上设置是heading值
-      minimumPixelSize: 50
+      minimumPixelSize: 50,
+      lightColor: 6 // 解决模型发暗，直接把光增强lightColor倍 (建议同时打开map.fixedLight = true)
     },
     // polyline: {
     //   color: "rgba(255,0,0,0.5)",

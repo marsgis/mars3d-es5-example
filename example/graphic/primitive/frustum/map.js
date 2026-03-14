@@ -114,8 +114,8 @@ function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.FrustumPrimitive({
     position: [116.303349, 31.070789, 7000],
     style: {
-      angle: 10,
-      angle2: 0.01,
+      angle: 0.01,
+      angle2: 10,
       length: 7000,
       heading: 70,
       pitch: -180, // 俯视
@@ -218,12 +218,14 @@ async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "frustum",
     style: {
-      angle: 10,
-      angle2: 5,
+      angle: 5, // 垂直角
+      angle2: 10, // 水平角
       length: 1000,
+      pitch: 90,
 
       color: "#00ffff",
-      opacity: 0.7
+      opacity: 0.7,
+      outline: true
     }
   })
   console.log("标绘完成", graphic.toJSON())

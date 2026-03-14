@@ -58,6 +58,9 @@ function addDemoGraphic1() {
       scanPlaneMode: "vertical", // 扫描面模式 垂直vertical/水平horizontal
       scanPlaneRate: 3, // 扫描速率,
       depthTest: true
+
+      // showIntersection: false,  //如果无地形时且高度为0材质异常打开注释
+      // showThroughEllipsoid: true
     }
   })
   graphicLayer.addGraphic(rectangularSensor)

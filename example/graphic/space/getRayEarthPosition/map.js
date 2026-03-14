@@ -136,14 +136,14 @@ function centerPoint(angle1) {
       const hpr = new Cesium.HeadingPitchRoll(
         Cesium.Math.toRadians(weixin.heading),
         Cesium.Math.toRadians(weixin.pitch),
-        Cesium.Math.toRadians(weixin.roll + angle1)
+        Cesium.Math.toRadians(weixin.roll + angle1 / 2)
       )
       const ptLeft = mars3d.PointUtil.getRayEarthPosition(pt1, hpr, true)
 
       const hdr2 = new Cesium.HeadingPitchRoll(
         Cesium.Math.toRadians(weixin.heading),
         Cesium.Math.toRadians(weixin.pitch),
-        Cesium.Math.toRadians(weixin.roll - angle1)
+        Cesium.Math.toRadians(weixin.roll - angle1 / 2)
       )
       const ptRight = mars3d.PointUtil.getRayEarthPosition(pt1, hdr2, true)
 

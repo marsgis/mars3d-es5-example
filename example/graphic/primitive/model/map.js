@@ -55,6 +55,7 @@ function addDemoGraphic1(graphicLayer) {
       scale: 20,
       minimumPixelSize: 50,
       heading: 90,
+      lightColor: 6, // 解决模型发暗，直接把光增强lightColor倍 (建议同时打开map.fixedLight = true)
 
       distanceDisplayCondition: true,
       distanceDisplayCondition_near: 0,
