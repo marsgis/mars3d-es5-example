@@ -389,7 +389,7 @@ function addDemoGraphic11(data) {
       attr: item.attr
     })
     graphicLayer.addGraphic(graphic)
-    graphic.bindTooltip("合肥欢迎您 - 火星科技")
+    graphic.bindTooltip("合肥欢迎您")
   }
 }
 

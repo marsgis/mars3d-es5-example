@@ -52,7 +52,7 @@ function addDemoGraphic1(graphicLayer) {
       image: "https://data.mars3d.cn/img/textures/poly-stone.jpg",
       imageBottom: "https://data.mars3d.cn/img/textures/poly-soil.jpg",
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars3D平台",
         font_size: 18,
         color: "#ffffff",
         distanceDisplayCondition: true,

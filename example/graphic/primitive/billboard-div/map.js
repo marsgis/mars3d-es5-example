@@ -189,7 +189,7 @@ function addRandomGraphicByCount(count) {
     const graphic = new mars3d.graphic.DivBillboardPrimitive({
       position,
       style: {
-        html: '<div class="marsImgPanel1"><div class="title">火星科技</div></div>',
+        html: '<div class="marsImgPanel1"><div class="title">欢迎使用Mars3D平台</div></div>',
         horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       },

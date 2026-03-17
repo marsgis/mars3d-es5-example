@@ -46,7 +46,7 @@ function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     position: new mars3d.LngLatPoint(116.308659, 30.914005, 429.94),
     style: {
-      text: "合肥火星科技有限公司",
+      text: "安徽省合肥市蜀山区",
       font_size: 46, // 字号放大一倍
       scale: 0.5, // scale传0.5
       font_family: "楷体",
@@ -193,7 +193,7 @@ function addDemoGraphic4(graphicLayer) {
     name: "根据视距显示文字",
     position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
     style: {
-      text: "火星科技Mars3D平台",
+      text: "欢迎使用Mars3D平台",
       font_size: 20,
       font_family: "宋体",
       color: "#ffffff",
@@ -251,7 +251,7 @@ async function startDrawGraphic() {
   const graphic = await graphicLayer.startDraw({
     type: "label",
     style: {
-      text: "火星科技Mars3D平台",
+      text: "欢迎使用Mars3D平台",
       color: "#0081c2",
       font_size: 27,
       outline: true,

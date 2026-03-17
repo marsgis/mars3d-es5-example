@@ -487,7 +487,7 @@ function workDgx3End() {
     { lat: 36.064736, lng: 113.935567, alt: 1276.68, heading: 52.4, pitch: -44.5, roll: 0, duration: 3 },
     {
       complete() {
-        startRotatePoint(new Cesium.Cartesian3.fromDegrees(113.942685, 36.07012, 461.53))
+        startRotatePoint(Cesium.Cartesian3.fromDegrees(113.942685, 36.07012, 461.53))
       }
     }
   )

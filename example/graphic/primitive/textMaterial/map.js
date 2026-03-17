@@ -80,7 +80,7 @@ function addDemoGraphic2(graphicLayer) {
       diffHeight: 5,
       materialType: mars3d.MaterialType.Text,
       materialOptions: {
-        text: "火星科技",
+        text: "欢迎使用Mars3D平台",
         font_size: 70,
         color: "#3388cc",
         // stroke: true,
@@ -140,7 +140,7 @@ function addDemoGraphic4(graphicLayer) {
     style: {
       materialType: mars3d.MaterialType.Text,
       materialOptions: {
-        text: "火星科技\nMars3D平台",
+        text: "欢迎使用\nMars3D平台",
         font_size: 70,
         color: new Cesium.Color(1.0, 1.0, 0.0, 1.0),
         stroke: true,

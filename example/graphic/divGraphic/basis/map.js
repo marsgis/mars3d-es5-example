@@ -80,7 +80,7 @@ function addDemoGraphic2(graphicLayer) {
     position: [116.510732, 31.403786, 176.4],
     style: {
       html: `<div class="marsBlueGradientPnl">
-              <div>合肥火星科技有限公司</div>
+              <div>安徽省合肥市蜀山区</div>
           </div>`,
       offsetY: -60,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -175,7 +175,7 @@ function addDemoGraphic6(graphicLayer) {
   const graphic = new mars3d.graphic.DivBoderLabel({
     position: [116.460722, 31.140888, 781],
     style: {
-      text: "火星科技Mars3D平台",
+      text: "欢迎使用Mars3D平台",
       font_size: 15,
       font_family: "微软雅黑",
       color: "#ccc",

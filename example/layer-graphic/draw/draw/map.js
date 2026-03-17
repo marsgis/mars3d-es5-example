@@ -238,7 +238,7 @@ async function drawLabel() {
   const graphic = await graphicLayer.startDraw({
     type: isEntityGraphic ? "label" : "labelP",
     style: {
-      text: "火星科技三维地球",
+      text: "欢迎使用Mars3D平台",
       color: "#0081c2",
       font_size: 50,
       outline: true,

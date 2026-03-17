@@ -91,7 +91,7 @@ function addGraphic_06(graphicLayer) {
   const graphic = new mars3d.graphic.DivBoderLabel({
     position: [116.460722, 31.140888, 781],
     style: {
-      text: "火星科技Mars3D平台",
+      text: "欢迎使用Mars3D平台",
       font_size: 15,
       font_family: "微软雅黑",
       color: "#ccc",

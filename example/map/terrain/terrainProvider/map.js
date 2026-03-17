@@ -171,7 +171,7 @@ function getTerrainProviderViewModelsArr() {
     }),
     new Cesium.ProviderViewModel({
       name: "中国地形",
-      tooltip: "由 火星科技 提供的中国国内地形",
+      tooltip: "由 Mars3D平台 提供的中国国内地形",
       iconUrl: "https://data.mars3d.cn/img/thumbnail/basemap/TerrainSTK.png",
       creationFunction: function () {
         return mars3d.LayerUtil.createTerrainProvider({
@@ -181,7 +181,7 @@ function getTerrainProviderViewModelsArr() {
     }),
     new Cesium.ProviderViewModel({
       name: "ArcGIS地形",
-      tooltip: "由 火星科技 提供的中国国内地形",
+      tooltip: "由 Mars3D平台 提供的中国国内地形",
       iconUrl: "https://data.mars3d.cn/img/thumbnail/basemap/TerrainSTK.png",
       creationFunction: function () {
         return mars3d.LayerUtil.createTerrainProvider({

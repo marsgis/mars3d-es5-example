@@ -87,7 +87,7 @@ function onMounted(mapInstance) {
   for (let i = 0; i < 3; i++) {
     const graphic = new mars3d.graphic.DivUpLabel({
       style: {
-        text: "火星科技",
+        text: "欢迎使用Mars3D平台",
         color: "#fff",
         font_size: 13,
         font_family: "微软雅黑",

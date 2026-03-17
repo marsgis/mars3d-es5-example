@@ -79,7 +79,7 @@ function addDemoGraphic2(graphicLayer) {
     position: [116.266763, 30.9272, 905.9],
     style: {
       html: `<div class="marsBlueGradientPnl">
-              <div>合肥火星科技有限公司</div>
+              <div>安徽省合肥市蜀山区</div>
           </div>`,
       scale: 10,
       heading: -80,

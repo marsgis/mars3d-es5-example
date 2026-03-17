@@ -300,7 +300,7 @@ function getEchartsOption() {
 
     backgroundColor: "rgba(17, 19, 42, 0.4)",
     title: {
-      text: "火星科技物流运输图",
+      text: "Mars3D物流运输图",
       left: "center",
       textStyle: {
         color: "#fff"

@@ -129,7 +129,7 @@ function openLighting() {
     const difference = Cesium.JulianDate.secondsDifference(currentTime, startTime)
     longitude = 0 - difference / 246.6
     latitude = 0 - 25.19 * Math.sin((6.28 / (687 * 24 * 3600)) * difference)
-    direction = new Cesium.Cartesian3.fromDegrees(longitude, latitude, 2.29e11)
+    direction = Cesium.Cartesian3.fromDegrees(longitude, latitude, 2.29e11)
     map.scene.light = new Cesium.DirectionalLight({
       color: new Cesium.Color(1.0, 1.0, 1.0, 0.5),
       direction: direction

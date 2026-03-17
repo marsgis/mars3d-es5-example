@@ -654,7 +654,7 @@ async function startDrawGraphic() {
         }
       },
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars3D平台",
         font_size: 18,
         color: "#ffffff",
         distanceDisplayCondition: true,

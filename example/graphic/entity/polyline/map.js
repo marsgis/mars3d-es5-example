@@ -279,7 +279,7 @@ function addDemoGraphic5(graphicLayer) {
 
   const labelArr = addSplitLabel({
     positions: graphic.positionsShow,
-    text: "合肥火星科技有限公司",
+    text: "欢迎使用Mars3D平台",
     step: 200
   })
 

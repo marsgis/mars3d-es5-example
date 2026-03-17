@@ -49,7 +49,7 @@ function addDemoGraphic1(graphicLayer) {
     style: {
       color: Cesium.Color.CYAN.withAlpha(0.4),
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars3D平台",
         font_size: 18,
         color: "#ffffff",
         distanceDisplayCondition: true,
@@ -263,7 +263,7 @@ async function startDrawGraphic() {
       outlineWidth: 3,
       outlineColor: "#ffffff",
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars3D平台",
         font_size: 18,
         color: "#ffffff",
         distanceDisplayCondition: true,

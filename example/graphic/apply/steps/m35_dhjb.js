@@ -677,7 +677,7 @@ function initEditorJS(map) {
         { y: 36.064736, x: 113.935567, z: 1276.68, heading: 52.4, pitch: -44.5, roll: 0, duration: 3 },
         {
           complete: function () {
-            JB.startRotatePoint(new Cesium.Cartesian3.fromDegrees(113.942685, 36.07012, 461.53))
+            JB.startRotatePoint(Cesium.Cartesian3.fromDegrees(113.942685, 36.07012, 461.53))
           }
         }
       )
