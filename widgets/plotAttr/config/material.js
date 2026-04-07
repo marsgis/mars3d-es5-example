@@ -311,20 +311,6 @@ const materialConfig = {
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "speed", label: "速度", type: "number", min: 0, step: 1, defval: 10 }
   ],
-  CircleScan: [
-    {
-      name: "image",
-      label: "图片",
-      type: "dataSelect",
-      props: {
-        dataType: "img",
-        bizType: "matfile",
-        purpose: "texture"
-      },
-      defval: "https://data.mars3d.cn/img/textures/circle-scan.png"
-    },
-    { name: "color", label: "颜色", type: "color", defval: "#3388ff" }
-  ],
   CircleWave: [
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "count", label: "数量", type: "number", step: 1, defval: 1 },

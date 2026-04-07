@@ -38,6 +38,9 @@ function onMounted(mapInstance) {
     speed: 2
   })
   graphicLayer.addGraphic(runModel)
+
+  // runModel.on("changeHeading", function(event) {
+  // })
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）

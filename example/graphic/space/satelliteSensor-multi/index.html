@@ -19,7 +19,7 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
-    <title>卫星侦察视锥体 示例 | Mars3D | 三维地图 </title>
+    <title>卫星侦察视锥体 示例 | Mars3D | 三维地图</title>
 
     <!--第三方lib-->
     <script
@@ -33,8 +33,6 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
 
     <!-- 面板 -->
@@ -246,7 +244,7 @@
 
         $("#chkShowCone").change(function () {
           let val = $(this).is(":checked")
-
+          sensorShowHide(val)
           if (val) {
             $(".coneEntityAttr").show()
           } else {

@@ -313,7 +313,7 @@ function addRandomGraphicByCount(count) {
     const position = result.points[j]
     const index = j + 1
 
-    const graphic = new mars3d.graphic.CylinderEntity({
+    const graphic = new mars3d.graphic.CylinderPrimitive({
       position,
       style: {
         length: result.radius * 2,

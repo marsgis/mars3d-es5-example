@@ -199,6 +199,23 @@ async function measureAngle() {
   console.log("标绘完成", graphic.toJSON())
 }
 
+function getDegreeMinuteSecondData(lngLat) {
+  const jdDms = mars3d.PointTrans.degree2dms(lngLat.lng)
+  const wdDms = mars3d.PointTrans.degree2dms(lngLat.lat)
+  return {
+    jdDms,
+    wdDms
+  }
+}
+
+function getZoonData(lngLat) {
+  const data = mars3d.PointTrans.proj4Trans([lngLat.lng, lngLat.lat], mars3d.CRS.EPSG4326, mars3d.CRS.CGCS2000_GK_Zone_3)
+  return {
+    gk6X: mars3d.Util.formatNum(data[0], 1),
+    gk6Y: mars3d.Util.formatNum(data[1], 1)
+  }
+}
+
 // 坐标测量
 async function measurePoint() {
   const graphic = await measure.point({
@@ -206,10 +223,15 @@ async function measurePoint() {
       pointerEvents: false
     },
     popup: function (point, event) {
+      const { jdDms, wdDms } = getDegreeMinuteSecondData({ lng: point.lng, lat: point.lat })
+      const { gk6X, gk6Y } = getZoonData({ lng: point.lng, lat: point.lat })
+
       return `<div class="mars3d-template-title">位置信息</div>
       <div class="mars3d-template-content">
-          <div><label>经度</label>${point.lng}</div>
-          <div><label>纬度</label>${point.lat}</div>
+          <div><label>经度</label>${point.lng} &nbsp ${jdDms.degree}° ${jdDms.minute}′ ${jdDms.second}″</div>
+          <div><label>纬度</label>${point.lat} &nbsp ${wdDms.degree}° ${wdDms.minute}′ ${wdDms.second}″</div>
+          <div><label>横坐标</label>${gk6X}</div>
+          <div><label>纵坐标</label>${gk6Y}</div>
           <div><label>海拔</label>${point.alt}米</div>
       </div>`
     }

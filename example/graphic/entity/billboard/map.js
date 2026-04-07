@@ -263,7 +263,12 @@ function addDemoGraphic6(graphicLayer) {
       image: "https://data.mars3d.cn/img/marker/mark-red.png",
       scale: 1,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      bounce: {
+        step: 2,
+        maxHeight: 90,
+        autoStop: false
+      }
     },
     attr: { remark: "示例6" }
   })

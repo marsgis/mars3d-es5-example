@@ -110,6 +110,6 @@ function destroyControl() {
   if (mapSplit) {
     map.removeControl(mapSplit)
     mapSplit = null
-    map.basemap = "ArcGIS影像"
+    map.basemap = "天地图电子"
   }
 }

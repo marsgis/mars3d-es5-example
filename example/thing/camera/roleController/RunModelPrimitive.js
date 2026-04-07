@@ -93,10 +93,12 @@ class RunModelPrimitive extends mars3d.graphic.ModelPrimitive {
     if (this._flag.moveUp) {
       if (this._flag.moveLeft) {
         this.heading -= this._radian
+        this.fire("changeHeading")
       }
 
       if (this._flag.moveRight) {
         this.heading += this._radian
+        this.fire("changeHeading")
       }
       this.move(true)
     }
@@ -104,20 +106,24 @@ class RunModelPrimitive extends mars3d.graphic.ModelPrimitive {
     if (this._flag.moveDown) {
       if (this._flag.moveLeft) {
         this.heading -= this._radian
+        this.fire("changeHeading")
       }
 
       if (this._flag.moveRight) {
         this.heading += this._radian
+        this.fire("changeHeading")
       }
       this.move(false)
     }
 
     if (this._flag.moveLeft && !this._flag.moveDown && !this._flag.moveUp && !this._flag.moveRight) {
       this.heading -= this._radian
+      this.fire("changeHeading")
     }
 
     if (this._flag.moveRight && !this._flag.moveDown && !this._flag.moveUp && !this._flag.moveLeft) {
       this.heading += this._radian
+      this.fire("changeHeading")
     }
   }
 

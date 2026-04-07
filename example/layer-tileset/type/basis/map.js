@@ -185,7 +185,8 @@ function showPlyXiaoquDemo() {
   })
   map.addLayer(tiles3dLayer)
 
-  globalMsg("如果没有加载出来的话，使用mars3d-cesium1.132.0 版本试试")
+  // https://gitee.com/marsgis/mars3d/issues/IHTSM9?from=project-issue
+  globalMsg("因为cesium版本的问题，没加载出来的话，使用mars3d-cesium1.132.0 或者最新版试试")
 }
 
 /**

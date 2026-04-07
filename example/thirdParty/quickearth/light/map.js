@@ -21,7 +21,7 @@ function onUnmounted() {
   map = null
 }
 
-let layer
+let quickLayer
 async function initDemoData() {
   globalMsg("数据加载中...")
   showLoading()
@@ -76,20 +76,20 @@ async function initDemoData() {
 
   // API文档： https://qeapi.dev.91weather.com/classes/CPixelLayer.html
   // 或查看 public\lib\mars3d\thirdParty\quickearth\quickearth.cesium.d.ts文件
-  layer = new CPixelLayer({
+  quickLayer = new CPixelLayer({
     debugShowPerformance: true,
     name: "格点降水渐变填色"
   })
     .setDrawOptions(style)
     .setDataSource(provider)
-  map.scene.primitives.add(layer)
+  map.scene.primitives.add(quickLayer)
 
   globalMsg("数据加载完成")
   hideLoading()
 }
 
 function changeScale(scale) {
-  layer?.setDrawOptions({
+  quickLayer?.setDrawOptions({
     extrudeScale: scale
   })
 }

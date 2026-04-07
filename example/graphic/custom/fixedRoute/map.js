@@ -408,7 +408,8 @@ function addRandomGraphicByCount(count) {
       polyline: {
         color: "#ffff00",
         width: 2,
-        showAll: true
+        showAll: true,
+        clampToGround: true
       },
       attr: { index: j + 1 }
     })

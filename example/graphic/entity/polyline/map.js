@@ -47,6 +47,7 @@ function onMounted(mapInstance) {
   addDemoGraphic18(graphicLayer)
   addDemoGraphic19(graphicLayer)
   addDemoGraphic20(graphicLayer)
+  addDemoGraphic21(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -756,6 +757,133 @@ function addDemoGraphic20(graphicLayer) {
   //   ],
   //   6
   // )
+}
+
+function addDemoGraphic21(graphicLayer) {
+  const DaoHangLineType = "DaoHangLineType" // 材质类型名
+  mars3d.MaterialUtil.register(DaoHangLineType, {
+    fabric: {
+      type: "DaoHangLineType",
+      uniforms: {
+        color1: new Cesium.Color(1.0, 1.0, 1.0, 1.0),
+        color2: new Cesium.Color(0.0, 1.0, 0.0, 1.0),
+        whiteLength: 10.0,
+        greenLength: 40.0,
+        lineWidth: 0.45
+      },
+      source: `
+uniform vec4 color1;
+uniform vec4 color2;
+uniform float whiteLength;
+uniform float greenLength;
+uniform float lineWidth;
+in float v_polylineAngle;
+
+mat2 rotate(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat2(c, s, -s, c);
+}
+
+czm_material czm_getMaterial(czm_materialInput materialInput)
+{
+    czm_material material = czm_getDefaultMaterial(materialInput);
+
+    vec2 pos = rotate(v_polylineAngle) * gl_FragCoord.xy;
+    float totalLength = whiteLength + greenLength;
+    float pixelPos = fract(pos.x / (totalLength * czm_pixelRatio));
+    float ratio = whiteLength / totalLength;
+
+    float perpendicular = materialInput.st.t * 2.0 - 1.0;
+
+    float arrowLengthRatio = 0.8;
+    float arrowWidthRatio = 0.9;
+
+    vec4 finalColor = color2;
+
+    if (pixelPos < ratio) {
+        float normalizedPos = pixelPos / ratio;
+        float arrowStart = 1.0 - arrowLengthRatio;
+
+        if (normalizedPos >= arrowStart) {
+            float arrowNormalizedPos = (normalizedPos - arrowStart) / arrowLengthRatio;
+
+            float edgePos = arrowWidthRatio * arrowNormalizedPos;
+            float leftLineCenter = -edgePos;
+            float rightLineCenter = edgePos;
+
+            float distToLeftLine = abs(perpendicular - leftLineCenter);
+            float distToRightLine = abs(perpendicular - rightLineCenter);
+
+            float halfWidth = lineWidth * (1.0 - arrowNormalizedPos * 0.5);
+
+            if (distToLeftLine < halfWidth || distToRightLine < halfWidth) {
+                finalColor = color1;
+            }
+        }
+    }
+
+    material.emission = finalColor.rgb;
+    material.alpha = finalColor.a;
+    return material;
+}
+`
+    },
+    translucent: true
+  })
+
+  /**
+   * 自定义属性材质，用于Entity对象
+   */
+  class DaoHangLineMaterialProperty extends mars3d.material.BaseMaterialProperty {
+    // 材质名称
+    getType(time) {
+      return DaoHangLineType
+    }
+
+    // 更新属性
+    getValue(time, result = {}) {
+      result.color1 = this.options.color1 ?? Cesium.Color.WHITE
+      result.color2 = this.options.color2 ?? Cesium.Color.fromCssColorString("#0aed8b")
+      result.whiteLength = this.options.whiteLength ?? 10.0
+      result.greenLength = this.options.greenLength ?? 40.0
+      result.lineWidth = this.options.lineWidth ?? 0.9
+
+      return result
+    }
+  }
+  mars3d.MaterialUtil.registerPropertyClass(DaoHangLineType, DaoHangLineMaterialProperty)
+
+  const graphic = new mars3d.graphic.PolylineEntity({
+    positions: [
+      [117.33243, 31.869577, 17.1],
+      [117.309668, 31.869599, 13.8],
+      [117.282577, 31.8634, 23],
+      [117.271963, 31.863873, 20.8],
+      [117.245295, 31.854941, 24.6],
+      [117.23004, 31.853285, 25.8],
+      [117.210402, 31.85877, 28.8],
+      [117.175788, 31.85347, 32.2],
+      [117.135123, 31.852797, 46.7],
+      [117.128672, 31.852785, 49],
+      [117.128357, 31.842487, 43.5],
+      [117.139967, 31.842463, 41.3],
+      [117.139335, 31.837205, 38.9]
+    ],
+    style: {
+      materialType: DaoHangLineType,
+      materialOptions: {
+        color1: Cesium.Color.WHITE,
+        color2: Cesium.Color.fromCssColorString("#0aed8b"),
+        whiteLength: 10.0,
+        greenLength: 40.0,
+        lineWidth: 0.45
+      },
+      width: 5
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
 }
 
 // 生成演示数据(测试数据量)

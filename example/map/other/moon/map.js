@@ -12,7 +12,7 @@ Cesium.Ellipsoid.default = Cesium.Ellipsoid.MOON
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   scene: {
-    center: { lat: 19.163909, lng: 140.299388, alt: 6005484, heading: 0, pitch: -90 },
+    center: { lat: 19.163909, lng: 140.299388, alt: 4139723, heading: 0, pitch: -90 },
     contextOptions: { webgl: { alpha: true } }, // 允许透明，只能Map初始化传入 [关键代码]
     showSun: false,
     showMoon: false,
@@ -90,7 +90,7 @@ var mapOptions = {
 function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-   // https://moon.bao.ac.cn/
+  // https://moon.bao.ac.cn/
   globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的 http://moon.bao.ac.cn 服务存在异常。`)
 }
 

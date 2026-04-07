@@ -1422,7 +1422,6 @@ const styleConfig = {
           { label: "棋盘", value: "Checkerboard" },
 
           { label: "放大扩散线", value: "ScanLine" },
-          { label: "半径扫描", value: "CircleScan" },
           { label: "波纹扩散", value: "CircleWave" },
           { label: "雷达线", value: "RadarLine" },
           { label: "波纹雷达扫描", value: "RadarWave" }
@@ -1629,7 +1628,6 @@ const styleConfig = {
           { label: "棋盘", value: "Checkerboard" },
 
           { label: "放大扩散线", value: "ScanLine" },
-          { label: "半径扫描", value: "CircleScan" },
           { label: "波纹扩散", value: "CircleWave" },
           { label: "雷达线", value: "RadarLine" },
           { label: "波纹雷达扫描", value: "RadarWave" }
@@ -1891,6 +1889,48 @@ const styleConfig = {
         defval: "#ffffff",
         show({ allStyle }) {
           return allStyle.outline
+        }
+      }
+    ]
+  },
+
+  hollowCylinder: {
+    name: "中空圆柱体",
+    primitive: true,
+    style: [
+      { name: "radius", label: "半径", type: "number", step: 1, defval: 10 },
+      { name: "thicknes", label: "壁厚", type: "number", step: 1, defval: 1 },
+      { name: "diffHeight", label: "高度", type: "number", step: 1, defval: 0 },
+
+
+
+      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+
+      {
+        name: "materialType",
+        label: "填充材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", defval: { color: "#FFFFFF" } },
+          { label: "随机色", value: "RandomColor" },
+          // { label: "波纹扩散", value: "CircleWave" },
+          // { label: "条纹扩散", value: "CylinderWave" }
+        ],
+        show({ style }) {
+          return style?.fill !== false && (style?.materialType ? this.data?.some((item) => item.value === style?.materialType) : true)
+        }
+      },
+      { name: "slices", label: "边线边数", type: "number", step: 1, defval: 64 },
+      {
+        name: "hasShadows",
+        label: "是否阴影",
+        type: "radio",
+        defval: false,
+        show({ style }) {
+          return !style?.clampToGround
         }
       }
     ]

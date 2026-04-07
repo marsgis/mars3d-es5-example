@@ -18,7 +18,7 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
-    <title>危化品扩散效果 | Mars3D | 三维地图 </title>
+    <title>危化品扩散效果 | Mars3D | 三维地图</title>
 
     <!--第三方lib-->
     <script
@@ -32,10 +32,7 @@
   </head>
 
   <body class="dark">
-
-
     <div id="mars3dContainer" class="mars3d-container"></div>
-
 
     <!-- 面板 -->
     <div class="infoview">
@@ -65,19 +62,19 @@
 
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
-      let redSphere = true
-      let yellowSphere = false
+      let redShow = false
+      let yellowShow = false
       function initUI(options) {
         $("#chk_redSphere").change(function () {
           let val = $(this).is(":checked")
-          redSphere = val
-          createEllipsoid(redSphere, yellowSphere)
+          redShow = val
+          createEllipsoid(redShow, yellowShow)
         })
 
         $("#chk_yellowSphere").change(function () {
           let val = $(this).is(":checked")
-          yellowSphere = val
-          createEllipsoid(redSphere, yellowSphere)
+          yellowShow = val
+          createEllipsoid(redShow, yellowShow)
         })
       }
     </script>

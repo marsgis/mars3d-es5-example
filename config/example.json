@@ -2136,6 +2136,13 @@
             "hasPannel": true
           },
           {
+            "name": "中空圆柱体",
+            "thumbnail": "graphic-primitive-hollowCylinder.jpg",
+            "main": "graphic/primitive/hollowCylinder",
+            "api": "HollowCylinder.html",
+            "hasPannel": true
+          },
+          {
             "name": "四棱锥体",
             "thumbnail": "graphic-primitive-frustum.jpg",
             "main": "graphic/primitive/frustum",
