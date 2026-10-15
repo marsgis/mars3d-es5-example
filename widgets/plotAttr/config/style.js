@@ -1287,7 +1287,11 @@ const styleConfig = {
         defval: 1.0,
         min: 0.1,
         max: 10.0,
-        step: 0.1
+        step: 0.1,
+        show({ graphicType }) {
+          // entity支持Cesium.Color不支持亮度数值，primiate支持
+          return graphicType.endsWith("P")
+        }
       },
 
       {
