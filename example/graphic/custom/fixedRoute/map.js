@@ -365,7 +365,9 @@ async function startAll() {
     if (!graphic || graphic.isPrivate) {
       return
     }
-    graphic.start && graphic.start()
+    if (typeof graphic.start === "function") {
+      graphic.start()
+    }
   })
 }
 async function stopAll() {
@@ -373,7 +375,9 @@ async function stopAll() {
     if (!graphic || graphic.isPrivate) {
       return
     }
-    graphic.stop && graphic.stop()
+    if (typeof graphic.stop === "function") {
+      graphic.stop()
+    }
   })
 }
 

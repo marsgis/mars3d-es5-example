@@ -3,6 +3,7 @@
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
+let textTimer
 
 var mapOptions = {
   scene: {
@@ -32,7 +33,7 @@ function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 随机更新文本
-  setInterval(() => {
+  textTimer = setInterval(() => {
     graphicLayer.eachGraphic((graphic) => {
       graphic.text = random(0, 100) // 更新文本
     })
@@ -44,6 +45,11 @@ function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
   map = null
+
+  if (textTimer) {
+    clearInterval(textTimer)
+    textTimer = null
+  }
 
   graphicLayer.remove()
   graphicLayer = null

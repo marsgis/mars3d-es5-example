@@ -2,6 +2,7 @@
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
+let updatePathTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -40,6 +41,11 @@ function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
   map = null
+
+  if (updatePathTimer) {
+    clearInterval(updatePathTimer)
+    updatePathTimer = null
+  }
 }
 
 const colors = [
@@ -193,7 +199,7 @@ function createPath() {
   getPathList(beginTime, endTime)
 
   // 定时更新
-  setInterval(() => {
+  updatePathTimer = setInterval(() => {
     updatePath()
   }, timeStep * 1000)
 }

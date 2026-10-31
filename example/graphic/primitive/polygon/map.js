@@ -3,6 +3,7 @@
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
+let heightTimer
 
 var eventTarget = new mars3d.BaseClass()
 
@@ -49,6 +50,12 @@ function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
   map = null
+
+  if (heightTimer) {
+    clearInterval(heightTimer)
+    heightTimer = null
+  }
+
   graphicLayer.remove()
   graphicLayer = null
 }
@@ -142,7 +149,7 @@ function addDemoGraphic3(graphicLayer) {
 
   // 演示：平滑移动高度
   let height = 0
-  setInterval(() => {
+  heightTimer = setInterval(() => {
     if (height > 10000 || graphic.isDestroy) {
       return
     }

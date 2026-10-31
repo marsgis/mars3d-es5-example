@@ -50,6 +50,11 @@ function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "警车",
     position: [116.346929, 30.861947, 401.34],
+    matrixMove: {
+      rotateEnabled: true,
+      radius: 200,
+      scaleEnabled: false
+    },
     style: {
       url: "https://data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
       scale: 20,

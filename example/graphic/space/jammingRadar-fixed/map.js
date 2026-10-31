@@ -11,6 +11,7 @@ var mapOptions = {
 
 var graphicLayer
 var radarJamming
+let dsq
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 function onMounted(mapInstance) {
@@ -25,6 +26,11 @@ function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
   map = null
+
+  if (dsq) {
+    clearInterval(dsq)
+    dsq = null
+  }
 }
 
 function addDemoGraphic1(graphicLayer) {
@@ -60,7 +66,7 @@ function addDemoGraphic1(graphicLayer) {
   })
 
   // 测试动态更新位置
-  const dsq = setInterval(() => {
+  dsq = setInterval(() => {
     jammer.position[0] += 0.05
     if (radarJamming.isDestroy || jammer.position[0] > 119) {
       clearInterval(dsq)

@@ -158,7 +158,9 @@ async function getBuildingHeight() {
 // 取消绘制
 function quitDraw(id) {
   const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
-  quitGraphic && geoJsonLayerDTH.removeGraphic(quitGraphic)
+  if (quitGraphic) {
+    geoJsonLayerDTH.removeGraphic(quitGraphic)
+  }
 }
 
 // 颜色

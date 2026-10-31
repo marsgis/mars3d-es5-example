@@ -2,6 +2,7 @@
 
 var map // mars3d.Map三维地图对象
 var graphicLayer // 矢量图层对象
+let intervalId
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -30,7 +31,7 @@ function onMounted(mapInstance) {
   })
 
   let progressValue = 0 // 当前进度
-  const intervalId = setInterval(() => {
+  intervalId = setInterval(() => {
     progressValue++
     if (progressValue <= 180) {
       loadAndRenderGeoJSON(progressValue)
@@ -42,6 +43,11 @@ function onMounted(mapInstance) {
 
 function onUnmounted() {
   map = null
+
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
 }
 
 const floods = []

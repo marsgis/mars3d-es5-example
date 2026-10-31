@@ -37,7 +37,8 @@
     <link rel="stylesheet" href="./lib/marsgis-editor/editor.css" />
 
     <script src="./lib/include-lib.js" libpath="./lib/" include="jquery,layer,haoutil"></script>
-    <script src="./lib/require/require.js"></script>
+    <!-- 静态页加载器：自动加载 monaco 与 editor.iife.js，无需手写 RequireJS 配置 -->
+    <script src="./lib/marsgis-editor/editor.loader.js"></script>
   </head>
 
   <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
@@ -45,11 +46,9 @@
 
     <!-- <script type="module"> -->
     <script>
-      require.config({ paths: { vs: "./lib/monaco-editor" } })
-
-      require(["vs/editor/editor.main"], function (monaco) {
-        require(["./lib/marsgis-editor/editor.iife.js"], function () {
-          const marsEditor = new MarsgisEditor.Editor({
+      MarsgisEditorLoader.load()
+        .then(({ Editor }) => {
+          const marsEditor = new Editor({
             baseUrl: "/",
             code: getQueryString("code"),
             configLibs: window.configLibs,
@@ -65,7 +64,9 @@
             exampleKey: getQueryString("key")
           })
         })
-      })
+        .catch((err) => {
+          console.error("编辑器加载失败", err)
+        })
       function runScript(script) {
         const newScript = document.createElement("script")
         newScript.innerHTML = script
